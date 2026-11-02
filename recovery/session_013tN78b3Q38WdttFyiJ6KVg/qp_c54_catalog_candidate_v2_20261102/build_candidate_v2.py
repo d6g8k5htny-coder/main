@@ -11,7 +11,8 @@ brace are unchanged. Appended keys:
   proposed_quarantines_federation tranche-6 rows (and any federation tranche-7 row): repositories outside the catalog's
                                   mathematical scope
   proposed_pinning_amendments     PINNING_AMENDMENT rows of any tranche, each with target_record (tranche 2) or target_records
-  proposed_byte_pins              the mechanical pinning sweep (41 pins for 14 adopted records)
+  proposed_byte_pins              the mechanical pinning sweep (41 pins for 14 adopted records); a pin whose record, path and
+                                  blob an amendment also binds carries subsumed_by
   proposed_closed_candidates      tranche-5 groups whose own receipts bind the current bytes, and the 28 P15 rows landed by #740
   held_by_other_lane              tranche-5 groups another lane holds (no proposal)
   a3_advice                       the final A3 verdicts for QP-C54-T2-008, -016 and -029, the boundary and the executed-replay
@@ -137,7 +138,8 @@ def main(staging_path, rec_dir, output):
     closed += [dict(x, tranche='t5', candidate_kind='OWN_RECEIPT_GROUP') for x in src['t5']['closed_candidates']]
     held += [dict(x, tranche='t5') for x in src['t5']['held_by_other_lane']]
     acct += [dict(x, tranche='t5', classification='NOT_OBLIGATION') for x in src['t5']['not_obligations']]
-    fed += src['t6']['records']
+    for r in src['t6']['records']:
+        route(r)
     acct += [dict(x, tranche='t6') for x in src['t6']['other_items']]
     for r in src['t7']['records']:
         route(r)
@@ -157,11 +159,19 @@ def main(staging_path, rec_dir, output):
                 {'record': x['t6_record'], 'repository': x['t6_repository'], 'commit': x['t6_commit'],
                  'shared_paths': sorted(f['path'] for f in x['shared_files'] if any(e.get('record') == m for e in f['main']))})
     closed += [dict(x, tranche='p15', candidate_kind='HOSTED_GATE_DECLARATION') for x in src['p15']['rows']]
+    # A byte pin whose record, path and blob an amendment also binds is subsumed by that amendment (adopting the amendment makes
+    # the pin redundant); the pin keeps its own bytes and commit.
+    pins = []
+    for pin in src['pins']['pins']:
+        subs = sorted(a['id'] for a in amend
+                      if pin['record'] in ([a['target_record']] if 'target_record' in a else []) + list(a.get('target_records') or [])
+                      and any(f['path'] == pin['path'] and f['git_blob'] == pin['git_blob'] for f in a['source_binding']['files']))
+        pins.append(dict(pin, subsumed_by=subs) if subs else pin)
     candidate = dict(staging)
     candidate['proposed_quarantines'] = new
     candidate['proposed_quarantines_federation'] = fed
     candidate['proposed_pinning_amendments'] = amend
-    candidate['proposed_byte_pins'] = src['pins']['pins']
+    candidate['proposed_byte_pins'] = pins
     candidate['proposed_closed_candidates'] = closed
     candidate['held_by_other_lane'] = held
     candidate['a3_advice'] = {'final': a3_final, 'boundary': src['a3']['boundary'], 'notes': a3_notes,
@@ -173,16 +183,22 @@ def main(staging_path, rec_dir, output):
                               'no existing record. Adopting a proposed_quarantines row means moving it into quarantines with '
                               'proposal_status ADOPTED; a pinning amendment or byte pin adds its binding to the target record; a '
                               'closed candidate needs the kernel-index lane\'s receipt before it can be CLOSED; federation rows '
-                              'need the catalog\'s mathematical scope to be widened first. claim_overlaps fields name existing '
-                              'records that already hold part of a row\'s claim; the composer narrows such a row on adoption. '
-                              'Every choice is a composer decision. Scientific effect NONE.'),
+                              'need the catalog\'s mathematical scope to be widened first. A byte pin with subsumed_by is made '
+                              'redundant by adopting the named amendment. claim_overlaps entries are typed by relation: '
+                              'HOLDS_TRANSCRIBED_PART, HOLDS_SAME_IDENTITY, HOLDS_SAME_CLAIM_SUMMARY and PRIMARY_FOR_TRANSCRIBED_PART '
+                              'name another record that holds part of the row\'s claim, so the row is narrowed on adoption; '
+                              'TRANSCRIBED_BY marks the row itself as primary, with no narrowing; CLOSED_DECLARATION names a CLOSED '
+                              'kernel declaration that proves part of the claim, possibly through an interface; '
+                              'INSIDE_ADOPTED_ENGINEERING_REGION records a location overlap only, the claim not being held; '
+                              'SAME_CLAIM_AS_PROPOSAL asks the composer to merge two proposals; ADOPTION_NOTE is a note to the '
+                              'composer. Every choice is a composer decision. Scientific effect NONE.'),
         'author': 'session_013tN78b3Q38WdttFyiJ6KVg ("Claude 54"), Anthropic Claude',
         'independence': INDEPENDENCE,
         'sources': [{'key': k, 'path': SOURCES[k], 'sha256': sha256(paths[k])} for k in SOURCES],
         'missing_sources': [],
         'staging_catalog_sha256': sha256(staging_path),
         'counts': {'proposed_quarantines': len(new), 'proposed_quarantines_federation': len(fed),
-                   'proposed_pinning_amendments': len(amend), 'proposed_byte_pins': len(src['pins']['pins']),
+                   'proposed_pinning_amendments': len(amend), 'proposed_byte_pins': len(pins),
                    'proposed_closed_candidates': len(closed), 'held_by_other_lane': len(held),
                    'accounting_dispositions': len(acct)},
     }

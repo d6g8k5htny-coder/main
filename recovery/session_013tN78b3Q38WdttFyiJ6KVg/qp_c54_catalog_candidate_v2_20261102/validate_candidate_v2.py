@@ -47,9 +47,13 @@ def main(staging_path, cand_path, rec_dir, clones_path):
         return None
 
     def member(repo, commit, archive, name):
-        # Archive members are named OUTER or OUTER!INNER (one level of nesting), as tranche 7 names them.
+        # Archive members are named OUTER or OUTER!INNER (one level of nesting), as tranche 7 names them. A plain .gz has one
+        # member, named after the archive without .gz.
         got = blob(repo, commit, archive)
         if got is None:
+            return None
+        if archive.lower().endswith('.gz') and not re.search(r'\.(tgz|tar\.gz)$', archive, re.I) and \
+                name != archive.rsplit('/', 1)[-1][:-3]:
             return None
         try:
             outer, _, inner = name.partition('!')
@@ -194,11 +198,20 @@ def main(staging_path, cand_path, rec_dir, clones_path):
         text = adopted.get(pin['record'], '')
         title = adopted_title.get(pin['record'], '')
         directory, _, name = pin['path'].rpartition('/')
-        # The target must name the full path, or name the file by its bare name in its title while naming its directory as a path.
-        if not text or not (pin['path'] in text or (re.search(rf'(?<![\w./-]){re.escape(name)}(?![\w-])', title) and directory + '/' in text)):
+        # The target must name the full path (in a mention that is not negated, as in 'NOT in'), or name the file by its bare name
+        # in its title while naming its directory as a path.
+        full = [m.start() for m in re.finditer(re.escape(pin['path']), text)]
+        positive = [i for i in full if not re.search(r'\bnot\s+(?:in|under|part of)\b[^.;]{0,40}$', text[max(0, i - 60):i], re.I)]
+        if not text or not (positive or (re.search(rf'(?<![\w./-]){re.escape(name)}(?![\w-])', title) and directory + '/' in text)):
             p.append(f'{pin["id"]}: target {pin["record"]} missing or does not name the file')
+        for sid in pin.get('subsumed_by') or []:
+            a = next((x for x in amend if x['id'] == sid), None)
+            tg = ([a['target_record']] if a and 'target_record' in a else []) + list((a or {}).get('target_records') or [])
+            if not a or pin['record'] not in tg or not any(f['path'] == pin['path'] and f['git_blob'] == pin['git_blob']
+                                                           for f in a['source_binding']['files']):
+                p.append(f'{pin["id"]}: subsumed_by {sid} does not bind this record, path and blob')
     for a in amend:
-        targets = [a['target_record']] if 'target_record' in a else a.get('target_records', [])
+        targets = ([a['target_record']] if 'target_record' in a else []) + list(a.get('target_records') or [])
         if not targets or any(t not in adopted for t in targets):
             p.append(f'{a["id"]}: pinning target(s) {targets} not adopted')
     check(f'{len(cand["proposed_byte_pins"])} byte pins and {len(amend)} pinning amendments target adopted records', p)
@@ -213,6 +226,9 @@ def main(staging_path, cand_path, rec_dir, clones_path):
             p.append(f'{r["id"]}: source digest mismatch')
             continue
         lines = got[1].decode().split('\n')
+        if not isinstance(r['line'], int) or not 1 <= r['line'] <= len(lines):
+            p.append(f'{r["id"]}: line {r["line"]} outside the file')
+            continue
         stack = []
         for ln in lines[:r['line'] - 1]:
             m = re.match(r'\s*namespace\s+([\w.]+)', ln)
@@ -221,7 +237,7 @@ def main(staging_path, cand_path, rec_dir, clones_path):
             m = re.match(r'\s*end\s+([\w.]+)\s*$', ln)
             if m and stack and stack[-1] == m.group(1):
                 stack.pop()
-        m = re.match(r'\s*theorem\s+([\w.]+)\b', lines[r['line'] - 1])
+        m = re.match(r"\s*theorem\s+([\w.']+)", lines[r['line'] - 1])
         if not m or '.'.join(stack + [m.group(1)]) != r['declaration']:
             p.append(f'{r["id"]}: line {r["line"]} is not theorem {r["declaration"]}')
     check('P15 closed candidates: each fully qualified declaration is the theorem at its line in the bound source', p)
@@ -260,7 +276,8 @@ def main(staging_path, cand_path, rec_dir, clones_path):
         p.append(f'unexpected unparsed adopted locations {sorted(set(unparsed))}')
     for key in ('proposed_quarantines', 'proposed_quarantines_federation'):
         for r in cand[key]:
-            allowed = {o['record'] for o in r.get('claim_overlaps') or [] if o.get('relation') == 'INSIDE_ADOPTED_ENGINEERING_REGION'}
+            allowed = {o['record'] for o in r.get('claim_overlaps') or [] if o.get('relation') == 'INSIDE_ADOPTED_ENGINEERING_REGION'} \
+                if key == 'proposed_quarantines_federation' else set()
             for loc in r['location']:
                 full, _, rest = loc.partition('@')
                 path = rest.partition(':')[2].partition('#')[0]
@@ -314,9 +331,15 @@ def main(staging_path, cand_path, rec_dir, clones_path):
     errata = json.load(open(os.path.join(rec_dir, 'qp_c54_errata_20261102/errata.json')))['items']
     all_rows = quarantines + amend + cand['held_by_other_lane'] + cand['accounting_dispositions']
     tagged = {}
+    item_ids = {it['id'] for it in errata}
     for r in all_rows:
         for e in r.get('errata_applied') or []:
             tagged.setdefault(e, []).append(r)
+            if e not in item_ids:
+                p.append(f'{r.get("id", r.get("object"))}: errata_applied tag {e} is no errata item')
+    for k in cand['a3_advice']['notes']:
+        if k not in cand['a3_advice']['final']:
+            p.append(f'a3 note under unaudited id {k}')
     for it in errata:
         t = it['target']
         if 'a3' in t:
@@ -332,6 +355,11 @@ def main(staging_path, cand_path, rec_dir, clones_path):
             ids_ = set(t.get('records') or [t['record']])
             if {r.get('id') for r in rows_} != ids_:
                 p.append(f'{it["id"]}: tagged rows {[r.get("id") for r in rows_]} differ from its target')
+        if 'section' in t:
+            for r in rows_:
+                where_ = r.get('object') == t['object'] or (r.get('location') and r['location'][0].split(':', 1)[1] == t['object'])
+                if r.get('tranche') != t['tranche'] or not where_:
+                    p.append(f'{it["id"]}: tagged row {r.get("object")} is not its section target {t["object"]}')
         for r in rows_:
             v = r
             for part in it['field'].split('.'):

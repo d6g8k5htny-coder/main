@@ -1,0 +1,447 @@
+{
+ "stage": "fidelity:t7-batch1",
+ "note": "The fidelity pass of batch 1, extracted from the workflow journal; the workflow returned only the final stage of each pipeline.",
+ "verdicts": [
+  {
+   "object": "audits/formal_enforcement/2026-09-27/Main188_landed_formal_36358139870.zip",
+   "ok": true,
+   "problems": [],
+   "items": [
+    {
+     "object": "audits/formal_enforcement/2026-09-27/Main188_landed_formal_36358139870.zip",
+     "item_id": "m188-axiom-type-audit",
+     "files": [
+      "receipt/Audit.lean",
+      "receipt/Types.lean"
+     ],
+     "classification": "REVIEW_OF",
+     "refers_to": [
+      "main:formal/UniversalLaw/Side24/Ledger.lean",
+      "main:formal/UniversalLaw/Side24/ConeMoments.lean",
+      "main:formal/UniversalLaw/Side24/Endpoints.lean"
+     ],
+     "classification_reason": "These are audit scripts over named existing declarations and state no result of their own. receipt/Audit.lean:1 imports UniversalLaw, and lines 2-32 issue `#print axioms` for 31 named UniversalLaw.Side24 declarations. receipt/Types.lean:2 sets pp.explicit, and lines 3-33 `#check` the same 31 names in the same order. The names resolve to main tree declarations at d2b0216e, unchanged from 3592abbd (commit.txt:1). Audit.lean:2-18 (pairing_sum_six ... density_comparison_below_reported) map to formal/UniversalLaw/Side24/Ledger.lean:38-140; for example Audit.lean:2 maps to Ledger.lean:38 `theorem pairing_sum_six`. Audit.lean:19-28 (conditional_third_derivative_variance ... hessian_block_eigenvalues) map to ConeMoments.lean:26-83. Audit.lean:29-32 (d2_endpoints_adjacent ... endpoints_in_unit_tenth) map to Endpoints.lean:31-40. Their outputs in this archive (receipt/axioms.log, receipt/elaborated-types.log) are byte copies already resolved mechanically. run-lean.log:18-50 lists an empty axiom set for each of the 31 names. Members read: both in full.",
+     "title": "Main188 #print axioms / #check audit scripts over the 31 Side24 targets",
+     "statements": [],
+     "hypotheses": "n/a",
+     "dependencies": "n/a",
+     "finite_checks": "n/a",
+     "floating_point": "n/a",
+     "source_self_limits": "n/a",
+     "exact_boundary": "n/a",
+     "layer_a_status": "n/a",
+     "blocking_reason": "n/a",
+     "attempted": "n/a",
+     "resumption_cost": "n/a"
+    },
+    {
+     "object": "audits/formal_enforcement/2026-09-27/Main188_landed_formal_36358139870.zip",
+     "item_id": "m188-ledger-falsified-copies",
+     "files": [
+      "receipt/false_covariance_bound.lean",
+      "receipt/false_eigenvalue_third.lean",
+      "receipt/false_exp_partial_sum.lean",
+      "receipt/false_exponent_bound_d3.lean",
+      "receipt/wrong_image_constant.lean"
+     ],
+     "classification": "COPY_OR_EXPOSITION_OF",
+     "refers_to": [
+      "main:formal/UniversalLaw/Side24/Ledger.lean"
+     ],
+     "classification_reason": "Five deliberately falsified copies of main:formal/UniversalLaw/Side24/Ledger.lean, used as negative controls. run-lean.log:73-84 lists each one as REJECTED_BY_LEAN. Each member is 7025 bytes. Each is byte-identical to Ledger.lean (the same at d2b0216e and at 3592abbd, commit.txt:1) except on the lines named here. (1) false_covariance_bound.lean:97 changes covariance_relative_bound (Ledger.lean:96-97) from `60 * imageConstant < 10 ^ 17` to `60 * imageConstant < 10 ^ 15`. (2) false_eigenvalue_third.lean:114 changes smaller_eigenvalue_exceeds_third (Ledger.lean:114) from `58 * 9 < 23 ^ 2` to `58 * 9 < 22 ^ 2`. (3) false_exp_partial_sum.lean:90 changes exp_taylor_partial_sum_gt_ten (Ledger.lean:89-90) from `10 * (125 ^ 20 * fact 20) < expTaylorNumerator` to `11 * (125 ^ 20 * fact 20) < expTaylorNumerator`. (4) false_exponent_bound_d3.lean:125 changes exponent_bounds (Ledger.lean:124-125) from `2 * sixA d + sixB d < 78` to `2 * sixA d + sixB d < 77`. (5) wrong_image_constant.lean:74-75 changes image_constant_value and its doc comment (Ledger.lean:74-75) from 21175738586478 to 21175738586479. Each mutated proposition exists to be rejected. The matching .log members record Lean's `decide` reporting it false. There is no content beyond the source and these falsifications. Members read in full, by diff against the tree source.",
+     "title": "Main188 falsified copies of Side24 Ledger.lean (five negative controls)",
+     "statements": [],
+     "hypotheses": "n/a",
+     "dependencies": "n/a",
+     "finite_checks": "n/a",
+     "floating_point": "n/a",
+     "source_self_limits": "n/a",
+     "exact_boundary": "n/a",
+     "layer_a_status": "n/a",
+     "blocking_reason": "n/a",
+     "attempted": "n/a",
+     "resumption_cost": "n/a"
+    },
+    {
+     "object": "audits/formal_enforcement/2026-09-27/Main188_landed_formal_36358139870.zip",
+     "item_id": "m188-endpoints-falsified-copy",
+     "files": [
+      "receipt/false_endpoint_adjacency.lean"
+     ],
+     "classification": "COPY_OR_EXPOSITION_OF",
+     "refers_to": [
+      "main:formal/UniversalLaw/Side24/Endpoints.lean"
+     ],
+     "classification_reason": "A deliberately falsified copy of main:formal/UniversalLaw/Side24/Endpoints.lean, used as a negative control. run-lean.log:77 lists false_endpoint_adjacency as REJECTED_BY_LEAN. The 1940-byte member is byte-identical to Endpoints.lean (the same at d2b0216e and 3592abbd) except line 31. There, d2_endpoints_adjacent changes from `d2Lower < d2Upper ∧ d2Upper = d2Lower + 1` to `d2Lower < d2Upper ∧ d2Upper = d2Lower + 2`, which asserts a two-step gap instead of adjacency on the 10^-20 grid. receipt/false_endpoint_adjacency.log:1-3 records the rejection. Read in full by diff.",
+     "title": "Main188 falsified copy of Side24 Endpoints.lean (d2 adjacency mutated)",
+     "statements": [],
+     "hypotheses": "n/a",
+     "dependencies": "n/a",
+     "finite_checks": "n/a",
+     "floating_point": "n/a",
+     "source_self_limits": "n/a",
+     "exact_boundary": "n/a",
+     "layer_a_status": "n/a",
+     "blocking_reason": "n/a",
+     "attempted": "n/a",
+     "resumption_cost": "n/a"
+    },
+    {
+     "object": "audits/formal_enforcement/2026-09-27/Main188_landed_formal_36358139870.zip",
+     "item_id": "m188-conemoments-falsified-copy",
+     "files": [
+      "receipt/false_trace_variance.lean"
+     ],
+     "classification": "COPY_OR_EXPOSITION_OF",
+     "refers_to": [
+      "main:formal/UniversalLaw/Side24/ConeMoments.lean"
+     ],
+     "classification_reason": "A deliberately falsified copy of main:formal/UniversalLaw/Side24/ConeMoments.lean, used as a negative control. run-lean.log:80 lists false_trace_variance as REJECTED_BY_LEAN. The 4409-byte member is byte-identical to ConeMoments.lean (the same at d2b0216e and 3592abbd) except line 49. There, inside trace_and_traceless_variances (ConeMoments.lean:48-51), the conjunct `20 * 3 = 5 * 12` becomes `20 * 3 = 6 * 12`. The source conjunct encodes Var s = 20/12 = 5/3; the mutant encodes 6/3. receipt/false_trace_variance.log:1-3 records Lean's `decide` reporting the mutated conjunction false. Read in full by diff.",
+     "title": "Main188 falsified copy of Side24 ConeMoments.lean (trace variance mutated)",
+     "statements": [],
+     "hypotheses": "n/a",
+     "dependencies": "n/a",
+     "finite_checks": "n/a",
+     "floating_point": "n/a",
+     "source_self_limits": "n/a",
+     "exact_boundary": "n/a",
+     "layer_a_status": "n/a",
+     "blocking_reason": "n/a",
+     "attempted": "n/a",
+     "resumption_cost": "n/a"
+    },
+    {
+     "object": "audits/formal_enforcement/2026-09-27/Main188_landed_formal_36358139870.zip",
+     "item_id": "m188-guard-probes",
+     "files": [
+      "receipt/custom_imported.lean",
+      "receipt/native.lean",
+      "receipt/sorry.lean"
+     ],
+     "classification": "NOT_OBLIGATION",
+     "refers_to": [],
+     "classification_reason": "Gate-probe fixtures, not mathematical claims of the project. receipt/custom_imported.lean:2-4 declares `axiom hiddenPremise : False` and derives `injected : False` from it. receipt/sorry.lean:2 states `injected : False` by `sorry`. receipt/native.lean:2 states `(2 : Nat) + 2 = 4` by `native_decide`. Each one injects a forbidden mechanism (a custom axiom, sorry, native_decide) that the axiom gate must refuse. run-lean.log:74, :81 and :82 list custom_imported, native and sorry as REJECTED_BY_AXIOM_GATE, and receipt/sorry.log:2 shows the sorryAx dependency. The `False` statements exist to be rejected as A1/A2 controls and are not presented as closed. 2 + 2 = 4 is only a trivial carrier for the native_decide probe. Read in full.",
+     "title": "Main188 axiom-gate probe fixtures (custom axiom, native_decide, sorry)",
+     "statements": [],
+     "hypotheses": "n/a",
+     "dependencies": "n/a",
+     "finite_checks": "n/a",
+     "floating_point": "n/a",
+     "source_self_limits": "n/a",
+     "exact_boundary": "n/a",
+     "layer_a_status": "n/a",
+     "blocking_reason": "n/a",
+     "attempted": "n/a",
+     "resumption_cost": "n/a"
+    },
+    {
+     "object": "audits/formal_enforcement/2026-09-27/Main188_landed_formal_36358139870.zip",
+     "item_id": "m188-ci-logs",
+     "files": [
+      "commit.txt",
+      "receipt/build.log",
+      "receipt/false_covariance_bound.log",
+      "receipt/false_eigenvalue_third.log",
+      "receipt/false_endpoint_adjacency.log",
+      "receipt/false_exp_partial_sum.log",
+      "receipt/false_exponent_bound_d3.log",
+      "receipt/false_trace_variance.log",
+      "receipt/sorry.log",
+      "receipt/wrong_image_constant.log",
+      "run-lean.log",
+      "tests-normal.log",
+      "tests-optimized.log"
+     ],
+     "classification": "NOT_OBLIGATION",
+     "refers_to": [],
+     "classification_reason": "CI execution logs and a commit pointer, with no mathematical claim of their own. commit.txt:1 names main commit 3592abbd, the PR #188 merge. receipt/build.log:1-5 is lake build output. Seven negative-control logs (receipt/false_covariance_bound.log, false_eigenvalue_third.log, false_endpoint_adjacency.log, false_exp_partial_sum.log, false_exponent_bound_d3.log, false_trace_variance.log, wrong_image_constant.log; each lines 1-3) record Lean's `decide` reporting the propositions of the falsified copies false. They refute only the deliberately mutated statements. receipt/sorry.log:1-2 records the sorry warning and sorryAx dependency of the probe. run-lean.log:1-15 lists step exit codes. run-lean.log:16-91 is a receipt JSON with alignment_status PENDING_INDEPENDENT_REVIEW (:17) and scientific_effect NONE (:88). It matches the tree file audits/formal_enforcement/2026-09-27/Main188_receipt.json (T4 item fe-receipts, NOT_OBLIGATION) except the build.log digest on line 57. tests-normal.log and tests-optimized.log (lines 1-49) are unittest output of tests.test_formal_gate, 43 tests OK. The two are identical except the timing on line 47. All members read in full.",
+     "title": "Main188 formal-run logs, receipt log and test logs",
+     "statements": [],
+     "hypotheses": "n/a",
+     "dependencies": "n/a",
+     "finite_checks": "n/a",
+     "floating_point": "n/a",
+     "source_self_limits": "n/a",
+     "exact_boundary": "n/a",
+     "layer_a_status": "n/a",
+     "blocking_reason": "n/a",
+     "attempted": "n/a",
+     "resumption_cost": "n/a"
+    }
+   ]
+  },
+  {
+   "object": "audits/formal_enforcement/2026-09-27/Math96_landed_formal_36359933550.zip",
+   "ok": false,
+   "problems": [
+    {
+     "field": "items[m96-axiom-type-audit].classification_reason",
+     "issue": "States 'elaborated-types.log (292 lines)'. The member has 291 newline-terminated lines. Line 292 in show_member's numbering is only the empty string after the final newline. Corrected to 291."
+    },
+    {
+     "field": "items[m96-axiom-type-audit].classification_reason",
+     "issue": "Minor imprecision: 'Types.lean:2-15 `#check` the same 13'. Types.lean:2 is `set_option pp.explicit true`, and the 13 `#check` lines are 3-15. Reworded to match the Main188 item's form."
+    }
+   ],
+   "items": [
+    {
+     "object": "audits/formal_enforcement/2026-09-27/Math96_landed_formal_36359933550.zip",
+     "item_id": "m96-axiom-type-audit",
+     "files": [
+      "Audit.lean",
+      "Types.lean",
+      "axioms.log",
+      "elaborated-types.log"
+     ],
+     "classification": "REVIEW_OF",
+     "refers_to": [
+      "Math-:formal/ResearchFormalCoreR1/AlgebraV2.lean",
+      "Math-:formal/ResearchFormalCoreR1/ProbabilityCompanionsV2.lean"
+     ],
+     "classification_reason": "Audit scripts and their outputs over 13 named existing Math- declarations; they state no result of their own. Audit.lean:1 imports ResearchFormalCoreR1, and lines 2-14 `#print axioms` the 13 names. Types.lean:2 sets pp.explicit, and lines 3-15 `#check` the same 13 names. axioms.log:1-13 reports each name depending on [propext, Classical.choice, Quot.sound]. elaborated-types.log (291 lines) prints the elaborated types of exactly those 13 names, with headers at lines 1, 11, 90, 127, 158, 166, 184, 199, 229, 252, 263, 271 and 279. The names resolve in Math- at 22e79e84, the PR #96 merge and the checked_commit at line 70 of the tree copy audits/formal_enforcement/2026-09-27/Math96_receipt.json. Both source files are unchanged (same blobs) at the Math- tip c88c34b2. Audit.lean:2-7 (ec005_fold_gap ... ec014_contact_power) map to formal/ResearchFormalCoreR1/AlgebraV2.lean:11-46; for example Audit.lean:2 maps to AlgebraV2.lean:11 `theorem ec005_fold_gap`. Audit.lean:8-14 (p02_lm008_r2_cancel ... p02_lm009_palm_r4_to_r3) map to formal/ResearchFormalCoreR1/ProbabilityCompanionsV2.lean:10-79. Read: Audit.lean, Types.lean and axioms.log in full; elaborated-types.log lines 1-40 and its 13 header lines.",
+     "title": "Math96 axiom/type audit of the 13 ResearchFormalCoreR1 targets with outputs",
+     "statements": [],
+     "hypotheses": "n/a",
+     "dependencies": "n/a",
+     "finite_checks": "n/a",
+     "floating_point": "n/a",
+     "source_self_limits": "n/a",
+     "exact_boundary": "n/a",
+     "layer_a_status": "n/a",
+     "blocking_reason": "n/a",
+     "attempted": "n/a",
+     "resumption_cost": "n/a"
+    },
+    {
+     "object": "audits/formal_enforcement/2026-09-27/Math96_landed_formal_36359933550.zip",
+     "item_id": "m96-ci-logs",
+     "files": [
+      "build.log",
+      "false_fold.log",
+      "false_power.log",
+      "sorry.log"
+     ],
+     "classification": "NOT_OBLIGATION",
+     "refers_to": [],
+     "classification_reason": "CI logs with no mathematical claim of their own. build.log:1-16 is lake build output: unused-variable linter warnings at ProbabilityCompanionsV2.lean:22, then 'Build completed successfully (8927 jobs).'. false_fold.log:1-2 and false_power.log:1-2 record Lean leaving the goal `False` unsolved for the falsified probes false_fold.lean and false_power.lean. Those probes are byte copies, already resolved, of Math-:frontiers/determinant_moment_20261025/evidence/final/false_fold.lean.txt and false_power.lean.txt, so the logs record the rejection of deliberately false inputs. sorry.log:1-2 records the sorry warning and sorryAx dependency of the sorry probe. Read in full.",
+     "title": "Math96 build and negative-control logs",
+     "statements": [],
+     "hypotheses": "n/a",
+     "dependencies": "n/a",
+     "finite_checks": "n/a",
+     "floating_point": "n/a",
+     "source_self_limits": "n/a",
+     "exact_boundary": "n/a",
+     "layer_a_status": "n/a",
+     "blocking_reason": "n/a",
+     "attempted": "n/a",
+     "resumption_cost": "n/a"
+    }
+   ]
+  },
+  {
+   "object": "docs/site/evidence/side24-main-3b39/verified-execution.zip",
+   "ok": true,
+   "problems": [],
+   "items": [
+    {
+     "object": "docs/site/evidence/side24-main-3b39/verified-execution.zip",
+     "item_id": "s24-ci-logs",
+     "files": [
+      "commit.txt",
+      "receipt/build.log",
+      "receipt/required-check-binding.json",
+      "run-lean.log",
+      "tests-normal.log",
+      "tests-optimized.log"
+     ],
+     "classification": "NOT_OBLIGATION",
+     "refers_to": [],
+     "classification_reason": "The CI execution record of main formal run 40246431034 at commit 3b39c42d (commit.txt:1; receipt/required-check-binding.json:2-6 binds the commit, run and receipt digest). receipt/build.log:1-5 is lake build output. run-lean.log:1-91 has the same structure as the Main188 run-lean.log. It differs only at :51 checked_commit, :57 build.log digest, :72 manifest_sha256 and :90 workflow_run_id, and it carries alignment_status PENDING_INDEPENDENT_REVIEW (:17) and scientific_effect NONE (:88). tests-normal.log and tests-optimized.log report 43 tests of tests.test_formal_gate OK (:47-49) and differ from the Main188 logs only in timing. formal/UniversalLaw/Side24 is unchanged between 3b39c42d and d2b0216e. No mathematical claim of their own. All six read in full, with diffs against the Main188 members.",
+     "title": "Side24 site evidence: formal-run logs, binding and test logs",
+     "statements": [],
+     "hypotheses": "n/a",
+     "dependencies": "n/a",
+     "finite_checks": "n/a",
+     "floating_point": "n/a",
+     "source_self_limits": "n/a",
+     "exact_boundary": "n/a",
+     "layer_a_status": "n/a",
+     "blocking_reason": "n/a",
+     "attempted": "n/a",
+     "resumption_cost": "n/a"
+    }
+   ]
+  },
+  {
+   "object": "cbz/evidence/formal-lifecycle-db642-20261029/completion/evidence.zip",
+   "ok": false,
+   "problems": [
+    {
+     "field": "items[ev-formal-run-logs].classification_reason",
+     "issue": "States 'hosted-main706/formal-job.log (885 lines)' and that lines 860-885 were read. The member has 884 newline-terminated lines. Line 885 in show_member's numbering is only the empty string after the final newline. Corrected to 884 lines and 860-884."
+    },
+    {
+     "field": "items[ev-source-history-bundle].classification_reason",
+     "issue": "The quotation from main:cbz/evidence/formal-lifecycle-db642-20261029/completion/README.md:11 is not verbatim. The source text has no spaces in 'atd846' and 'verified1,551,882byte' (checked byte-wise). The draft inserted spaces inside a quotation. Corrected to the exact source text."
+    },
+    {
+     "field": "items[ev-source-history-bundle].classification_reason",
+     "issue": "Minor imprecision: the tree-equality claim cites RESTORE.json:7-17. The tree/native_commit/native_pr/native_tree_equal fields are RESTORE.json:7-10, and 12-18 is the bundle block. Cited precisely in the correction."
+    }
+   ],
+   "items": [
+    {
+     "object": "cbz/evidence/formal-lifecycle-db642-20261029/completion/evidence.zip",
+     "item_id": "ev-ledger-falsified-copy",
+     "files": [
+      "hosted-main706/formal.zip!receipt/wrong_image_constant.lean"
+     ],
+     "classification": "COPY_OR_EXPOSITION_OF",
+     "refers_to": [
+      "main:formal/UniversalLaw/Side24/Ledger.lean"
+     ],
+     "classification_reason": "A deliberately falsified copy of main:formal/UniversalLaw/Side24/Ledger.lean. It is the wrong_image_constant negative control of formal run 40951015303: hosted-main706/formal.zip!run-lean.log:10 shows 'wrong_image_constant: exit 1' and :138 shows REJECTED_BY_LEAN. The 7025-byte member differs from Ledger.lean at d2b0216e only at line 75, where image_constant_value `imageConstant = 21175738586478` becomes `imageConstant = 21175738586479`. Unlike the Main188 copy, its doc comment at line 74 keeps the source value 21175738586478. Read in full by diff.",
+     "title": "PR706 run falsified copy of Side24 Ledger.lean (image constant mutated)",
+     "statements": [],
+     "hypotheses": "n/a",
+     "dependencies": "n/a",
+     "finite_checks": "n/a",
+     "floating_point": "n/a",
+     "source_self_limits": "n/a",
+     "exact_boundary": "n/a",
+     "layer_a_status": "n/a",
+     "blocking_reason": "n/a",
+     "attempted": "n/a",
+     "resumption_cost": "n/a"
+    },
+    {
+     "object": "cbz/evidence/formal-lifecycle-db642-20261029/completion/evidence.zip",
+     "item_id": "ev-inventory-tool",
+     "files": [
+      "hosted-main706/formal.zip!receipt/Inventory.lean"
+     ],
+     "classification": "NOT_OBLIGATION",
+     "refers_to": [],
+     "classification_reason": "A Lean metaprogram (tool code), not a mathematical statement. Inventory.lean:1-3 imports UniversalLaw and Lean. :5-37 define a name encoder and an axiom-closure collector over ConstantInfo. :39-68 print MODULE/EXTRA/INV/AXIOMS/CLOSURE records for every constant of the package. :70 runs it on `UniversalLaw`. It declares no theorem. Its output is the compiled-inventory.log copy (already resolved), summarised at hosted-main706/formal.zip!run-lean.log:54-94. As part of a certifying tool it falls under A8 engineering qualification, not a proof obligation. Read in full.",
+     "title": "PR706 run compiled-inventory Lean metaprogram",
+     "statements": [],
+     "hypotheses": "n/a",
+     "dependencies": "n/a",
+     "finite_checks": "n/a",
+     "floating_point": "n/a",
+     "source_self_limits": "n/a",
+     "exact_boundary": "n/a",
+     "layer_a_status": "n/a",
+     "blocking_reason": "n/a",
+     "attempted": "n/a",
+     "resumption_cost": "n/a"
+    },
+    {
+     "object": "cbz/evidence/formal-lifecycle-db642-20261029/completion/evidence.zip",
+     "item_id": "ev-formal-run-logs",
+     "files": [
+      "hosted-main706/formal-job.log",
+      "hosted-main706/formal.zip!commit.txt",
+      "hosted-main706/formal.zip!receipt/build.log",
+      "hosted-main706/formal.zip!receipt/receipt.json",
+      "hosted-main706/formal.zip!receipt/required-check-binding.json",
+      "hosted-main706/formal.zip!run-lean.log",
+      "hosted-main706/formal.zip!tests-normal.log",
+      "hosted-main706/formal.zip!tests-optimized.log"
+     ],
+     "classification": "NOT_OBLIGATION",
+     "refers_to": [],
+     "classification_reason": "CI execution logs and receipts of main formal run 40951015303 on the PR #706 tested merge 25a464f5. formal.zip!commit.txt:1 names 25a464f5. formal.zip!receipt/build.log:1-5 is lake build output. formal.zip!receipt/required-check-binding.json:2-6 binds the commit, run and receipt digest. formal.zip!run-lean.log:1-17 gives step exit codes, and :18-147 is the receipt JSON: alignment_status PENDING_INDEPENDENT_REVIEW at :19, compiled_inventory at :54-94, negative_controls at :128-139, scientific_effect NONE at :143. formal.zip!receipt/receipt.json is identical to run-lean.log:18-147. formal.zip!tests-normal.log and tests-optimized.log are unittest output, 147 tests OK (:151, :153), differing only in timing. hosted-main706/formal-job.log (884 lines) is the decoded GitHub Actions job log of the same run. It contains masked credential fields and is named only. No mathematical claim of their own. Read: all in full except formal-job.log (step headers, plus lines 1-40, 700-720 and 860-884) and tests-normal.log (lines 1-10 and 151-153, plus a diff against tests-optimized.log).",
+     "title": "PR706 hosted formal run: job log, receipt, binding and test logs",
+     "statements": [],
+     "hypotheses": "n/a",
+     "dependencies": "n/a",
+     "finite_checks": "n/a",
+     "floating_point": "n/a",
+     "source_self_limits": "n/a",
+     "exact_boundary": "n/a",
+     "layer_a_status": "n/a",
+     "blocking_reason": "n/a",
+     "attempted": "n/a",
+     "resumption_cost": "n/a"
+    },
+    {
+     "object": "cbz/evidence/formal-lifecycle-db642-20261029/completion/evidence.zip",
+     "item_id": "ev-native-metadata",
+     "files": [
+      "hosted-main706/math532-successor-workflows.json",
+      "hosted-main706/native-observation.json",
+      "hosted-main706/native-reviews.json",
+      "hosted-main706/tested-merge.json",
+      "foundation-preflight.json",
+      "published-source.json",
+      "ready-transition.md",
+      "math531-composition-observation.json"
+     ],
+     "classification": "NOT_OBLIGATION",
+     "refers_to": [],
+     "classification_reason": "GitHub-native metadata snapshots and transition notes for main PR #706 and Math- PR #532, with no mathematical content. hosted-main706/math532-successor-workflows.json:4 gives the scope 'Native workflow metadata only; 16 successes and intentionally unqualified determinant failure. No replay or acceptance promotion.', and :5-176 list 17 Math- workflow runs by name, status and conclusion. hosted-main706/native-reviews.json:1-44 is one PR review record; its body at :26 gives the verdict PASS_SCOPED_ENGINEERING / CURRENTNESS_BOUNDARY with scientific effect NONE. foundation-preflight.json:16 gives the scope 'Read-only merge preflight; not integration or executed qualification', with merge-tree output at :5-18 and path lists at :19-40. published-source.json:1-18 records the PR 706 head, tree and parents. ready-transition.md:1-2 records the ready transition and says 'no new test replay or mathematical/federation claim'. math531-composition-observation.json:6 gives the scope 'Read-only blob/mode comparison; not code review, executed test or admission verdict', with 36 path rows at :7-224. hosted-main706/native-observation.json (workflow run, artifact, PR and job records) and hosted-main706/tested-merge.json (the commit object of 25a464f5) contain e-mail addresses or a commit signature and are named only. Read: all in full except native-observation.json (its key structure and the first 600 characters of each non-run key).",
+     "title": "PR706 / Math532 native metadata, preflight, publication and transition records",
+     "statements": [],
+     "hypotheses": "n/a",
+     "dependencies": "n/a",
+     "finite_checks": "n/a",
+     "floating_point": "n/a",
+     "source_self_limits": "n/a",
+     "exact_boundary": "n/a",
+     "layer_a_status": "n/a",
+     "blocking_reason": "n/a",
+     "attempted": "n/a",
+     "resumption_cost": "n/a"
+    },
+    {
+     "object": "cbz/evidence/formal-lifecycle-db642-20261029/completion/evidence.zip",
+     "item_id": "ev-recovery-ignored-artifacts",
+     "files": [
+      "math-composition-recovery/bundle-verification.log",
+      "math-composition-recovery/ignored-artifacts.zip!frontiers/determinant_moment_20261025/.lake/formal-evidence/authoritative-gate.log",
+      "math-composition-recovery/ignored-artifacts.zip!frontiers/determinant_moment_20261025/tests/__pycache__/run_cbz_mutations.cpython-312.pyc"
+     ],
+     "classification": "NOT_OBLIGATION",
+     "refers_to": [],
+     "classification_reason": "Recovery evidence for the retired local Math- composition worktree; no mathematical claim. math-composition-recovery/bundle-verification.log:1-8 is `git bundle verify` output: one tag ref, three prerequisite commits, then 'is okay'. The authoritative-gate.log member (line 1) is a single FORMAL_GATE_FAIL line, CBZ_COMPILED_INVENTORY_UNQUALIFIED, recording an engineering refusal of the determinant package gate. The run_cbz_mutations.cpython-312.pyc member is compiled CPython 3.12 bytecode. It is binary and was not run. Its printable strings in show_member --raw output include the module docstring 'Portable five-case CBZ engineering mutation gate. No Lean execution is performed.' and mutation markers such as 'MUTANT: forbidden package closure suppressed'. The tree copy of RETIREMENT.json (main:cbz/evidence/formal-lifecycle-db642-20261029/completion/RESTORE.json:19-36) lists both ignored members with byte counts and digests. Read: the two text members in full; the .pyc through its printable strings only.",
+     "title": "Math composition recovery: bundle check log and two preserved ignored artifacts",
+     "statements": [],
+     "hypotheses": "n/a",
+     "dependencies": "n/a",
+     "finite_checks": "n/a",
+     "floating_point": "n/a",
+     "source_self_limits": "n/a",
+     "exact_boundary": "n/a",
+     "layer_a_status": "n/a",
+     "blocking_reason": "n/a",
+     "attempted": "n/a",
+     "resumption_cost": "n/a"
+    },
+    {
+     "object": "cbz/evidence/formal-lifecycle-db642-20261029/completion/evidence.zip",
+     "item_id": "ev-source-history-bundle",
+     "files": [
+      "math-composition-recovery/source-history.bundle"
+     ],
+     "classification": "NOT_OBLIGATION",
+     "refers_to": [],
+     "classification_reason": "A git bundle (binary packfile) that preserves the local history of the retired Math- branch codex/cbz-packet-compose-db642-20261029: engineering source custody, not a statement. show_member lines 1-5 give the bundle header: '# v2 git bundle', then the prerequisites e877242c (Math- PR #520 merge), 74565f01 (Math- '#528: require compiled determinant admission and quarantine unqualified evidence') and 8151f592 (Math- PR #312 'enforce formal admission and receipt binding'), all three ancestors of the Math- tip c88c34b2, then the tag ref pre-cbz-phase2-db642-math-composition-20261029 at f16664df, which is absent from the Math- clone. The tree copy RESTORE.json:7-10 states that its tree equals native commit d846ecb5 of Math- PR #532 (native_tree_equal true), and :12-18 records the bundle's bytes, digest and native prerequisite e877. main:cbz/evidence/formal-lifecycle-db642-20261029/completion/README.md:11 says 'The Math source tree is fully published atd846; its local history is additionally preserved by the verified1,551,882byte source bundle' (spacing as in the source). Math-:cbz/evidence/math-pr-dispositions/DISPOSITIONS.md:221-229 (at c88c34b2) describes #532, 'Bind complete packet source declarations and verify mutation failure phases', with 36 changed paths and 'Layer A signals: {}'. math531-composition-observation.json:7-224 lists those 36 paths: workflow files, tools/lean_packet_admission*, admission tests, cbz/evidence/source-admission-db642-20261029/*, a docs/superpowers plan and spec, and README/manifest/gate/test files of frontiers/cap_first_exit_lean_20261002 and frontiers/determinant_moment_20261025. Limit: the pack data is binary and the permitted reader decodes it lossily. The objects inside it were not read, including any changed frontier README text and the nested evidence.zip and source-history.bundle paths. The d846 delivery blobs listed in math531-composition-observation.json are absent from the local Math- clone. This classification rests on the header and the descriptions cited above.",
+     "title": "Math- PR532 local source-history git bundle (pack contents not decoded)",
+     "statements": [],
+     "hypotheses": "n/a",
+     "dependencies": "n/a",
+     "finite_checks": "n/a",
+     "floating_point": "n/a",
+     "source_self_limits": "n/a",
+     "exact_boundary": "n/a",
+     "layer_a_status": "n/a",
+     "blocking_reason": "n/a",
+     "attempted": "n/a",
+     "resumption_cost": "n/a"
+    }
+   ]
+  }
+ ]
+}

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Turn archive_inventory.json into tranche-7 objects and batches. An object is one archive, or for large archives one archive
 member directory. Each object lists its distinct non-copy members (first occurrence of each Git blob across all archives) to
-classify, and, separately, its members that are copies (of a main or Math- tree file, or of a member listed in another object).
+classify, and, separately, its members that are copies (of a main or Math- tree file, or of a member listed in this or another
+object). resolve_t6.py then moves members that equal a tranche-6 binding at the same path and commit to the copies.
 Usage: python3 -I -B t7_objects.py INVENTORY OUT_DIR"""
 import json, os, sys
 inv_p, out_dir = sys.argv[1:3]

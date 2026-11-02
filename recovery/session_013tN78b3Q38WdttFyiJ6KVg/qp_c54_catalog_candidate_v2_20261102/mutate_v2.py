@@ -43,6 +43,16 @@ M = {
  'reconciliation lists overlap': ('reconciled federation', lambda c: (lambda rec: rec['federation_only_files'].append(dict(rec['shared_files'][0])))(first(c, 'proposed_quarantines_federation', lambda r: 'reconciliation' in r)['reconciliation'])),
  'erratum value altered': ('errata items', lambda c: first(c, 'proposed_quarantines', lambda r: 'E-T2-N4' in (r.get('errata_applied') or [])).__setitem__('floating_point', 'NONE altered')),
  'erratum tag dropped': ('errata items', lambda c: first(c, 'proposed_pinning_amendments', lambda r: 'E-R-T5-003-KIND' in (r.get('errata_applied') or [])).__setitem__('errata_applied', [])),
+ 'section erratum moved to a sibling row': ('errata items', lambda c: (lambda src, dst: (dst.__setitem__('errata_applied', ['E-T2-N2']), src.__setitem__('errata_applied', [])))(
+     first(c, 'accounting_dispositions', lambda r: 'E-T2-N2' in (r.get('errata_applied') or [])),
+     first(c, 'accounting_dispositions', lambda r: r.get('tranche') == 't2' and 'E-T2-N2' not in (r.get('errata_applied') or [])))),
+ 'bogus errata tag': ('errata items', lambda c: c['proposed_quarantines'][0].__setitem__('errata_applied', (c['proposed_quarantines'][0].get('errata_applied') or []) + ['E-NOT-AN-ITEM'])),
+ 'amendment with both target forms': ('byte pins', lambda c: first(c, 'proposed_pinning_amendments', lambda r: 'target_records' in r).update({'target_record': 'Q-1161', 'target_records': ['Q-NOPE']})),
+ 'P15 line negative': ('P15', lambda c: first(c, 'proposed_closed_candidates', lambda r: r.get('candidate_kind') == 'HOSTED_GATE_DECLARATION').__setitem__('line', -30)),
+ 'main row self-declares an engineering region': ('no proposal sits', lambda c: first(c, 'proposed_quarantines', lambda r: r['id'].startswith('QP-C54-T4')).update({'location': ['d6g8k5htny-coder/main@d2b0216e15d545c47f25b6a9265dd3298971e9fe:tests/test_living_project_validation.py'], 'claim_overlaps': [{'record': 'Q-9002', 'relation': 'INSIDE_ADOPTED_ENGINEERING_REGION', 'note': 'x'}]})),
+ 'pin to a negated mention': ('byte pins', lambda c: c['proposed_byte_pins'][1].update({'record': 'Q-1143', 'path': 'formal/manifest.json', 'git_blob': '894b030e383eaf1f6fbf608b69a9176396848589', 'bytes': 14855, 'sha256': 'ba7d11e43574e39da3c759e0501399a6dcd1b7da32b157a4a6b01f5c133b3062', 'commit': '8151f592918a845bf19eb8eafaf8444540a32734', 'repository': 'd6g8k5htny-coder/Math-'})),
+ 'gz member renamed': ('archive-member bindings', lambda c: first(c, 'accounting_dispositions', lambda r: (r.get('source_binding') or {}).get('files') and r['source_binding']['files'][0]['path'].endswith('.json.gz') and r['source_binding'].get('members'))['source_binding']['members'][0].__setitem__('member', 'no/such/member.json')),
+ 'pin subsumed_by wrong': ('byte pins', lambda c: first(c, 'proposed_byte_pins', lambda r: r.get('subsumed_by')).__setitem__('subsumed_by', ['QP-C54-T4-027'])),
 }
 ok = 0
 with tempfile.TemporaryDirectory() as d:

@@ -4271,12 +4271,6 @@
     ],
     "members": [
      {
-      "member": "portable/CONFLICTING_PR_NOTES.md",
-      "bytes": 10154,
-      "sha256": "3e0147519ce5c9487c5cbb92294a1169ddcacc31e03804bde020773ef2cfe520",
-      "git_blob": "5736de92addd5d41233ececfb524d5456ea86bda"
-     },
-     {
       "member": "portable/LAND.md",
       "bytes": 44449,
       "sha256": "27b71013caa92f4e5c7315c19094925447f0f5a3de7fe855b4a46a8114b2243b",
@@ -4287,12 +4281,6 @@
       "bytes": 25558,
       "sha256": "29bfeed668db35c60806c21ce783b8fdf6f9f7fcf0dd10c8dc9c0f2852eb0361",
       "git_blob": "1cc16c2f8a06d2449f406ac9d94d73c774f35175"
-     },
-     {
-      "member": "portable/RELAUNCH_WITH_MAIN_SCOPE.md",
-      "bytes": 6748,
-      "sha256": "2eb9358094e35d0abbf06a165eba1dbf2b6e7aeb71a8f531cee3183b9bfbb448",
-      "git_blob": "8d4d735c2381af7753dcab57c3da14afeb666481"
      }
     ]
    },
@@ -4417,487 +4405,10 @@
       "git_blob": "d95ea23d92e48880baf1952e522e11731d8cca5e"
      },
      {
-      "member": "portable/EXPECTED_POST_ALIGNMENT.json",
-      "bytes": 1028,
-      "sha256": "c3cd94aa78fb2a5b48e9c24434be15faeec3040ace4b8646ebf1cee187c733d5",
-      "git_blob": "1c77b7f64e4503096e0887c1a1e8b912ae258463"
-     },
-     {
-      "member": "portable/OBJECTIVE_EVIDENCE_83.json",
-      "bytes": 6716,
-      "sha256": "381f786c39ce3d2a6431f92aaa80b127f182d597f3329d2780659dffb09ca5a6",
-      "git_blob": "2f4d3ab6ed4edc0fd5dffd05dbd82ae81222444e"
-     },
-     {
       "member": "portable/PATH_C_STATUS.json",
       "bytes": 1435,
       "sha256": "e1cb452cdfb042cfd8356ede97ed4e96264df0f43d68fc2bbe583a7e786023a9",
       "git_blob": "f68abc78457beef0918ababf047c1e4d39c174fc"
-     }
-    ]
-   },
-   "verification": {
-    "ok": false,
-    "problems_fixed": [
-     {
-      "field": "items[portable-runbooks].classification_reason",
-      "issue": "The reason says RELAUNCH_WITH_MAIN_SCOPE.md contains device-flow login codes. It does not. A full read (146 lines) and a pattern grep found no login code, e-mail address or token value. At line 44 it only points to GH_DEVICE_LOGIN.md for the code. Of the four members, only LAND.md and OWNER_ONE_LINERS.md carry codes. The classification is unchanged."
-     },
-     {
-      "field": "items[portable-token-searches].classification_reason",
-      "issue": "The reason claims a keyword grep found no mathematical term and that the logs concern credentials only. Both are inaccurate. Most of the 21 logs carry lemma_closed=false and goal_complete flags. BATCH70_TOKEN_SEARCH.json:30-42 copies the batch-70 research-stack audit counts (13 open premises, 1 open lemma, 3 open prizes, 16 open questions), and lines 43-61 record Path C and window state. These are copied status counts, not claims, so the classification is unchanged."
-     },
-     {
-      "field": "items[portable-rebase-reports].classification_reason",
-      "issue": "The reason gives PATH_C_REBASE_RESOLUTION_NOTES_68.json a lean_frontier field. That member (74 lines, read in full) has no such field. The lean_frontier test-slice count is in PATH_C_REBASE_CONFLICT_REPORT_67.json:126, outside the stated read range 1-80 of that 137-line member. Also, the never-touch list in RESOLUTION_NOTES_68 is at lines 28-35 and the ours/theirs note at line 36, partly outside the cited lines 1-30. The classification is unchanged."
-     },
-     {
-      "field": "items[portable-research-stack-audits].classification_reason",
-      "issue": "Privacy rule: the reason reports a value (the tip 10c077e0) from BATCH149_BRIEF.json:12-13. That member carries device-flow login codes (4 code-pattern lines), so it may be named only. A code-free replacement exists: BATCH144_HUNT.json:7 and BATCH157_HUNT.json:7 record hardening tip 10c077e for the batches before and after 149."
-     },
-     {
-      "field": "items[portable-research-stack-audits].refers_to",
-      "issue": "d6g8k5htny-coder/main@1c6e74b...:README.md is not a reviewed object. BATCH70:27-36 records the default tip only as NO_PACKET, and lists README.md, AGENTS.md and history/ only as tip-shape evidence. The script's NO_PACKET branch (scripts/audit_research_stack_open.py:63-78) reads nothing. Listing README.md but not AGENTS.md is also inconsistent. It is removed from refers_to."
-     },
-     {
-      "field": "items[portable-research-stack-audits].classification_reason",
-      "issue": "The reason says no numerical bound appears. That is overstated. The copied open-question rows include register prose that names mathematical targets: BATCH237:699 names a rate, and BATCH237:715 and 731 name losses and a uniform constant. A field comparison shows these rows are verbatim copies of registers/json/open_questions.json at 12005013. They are not results of the audit. The classification is unchanged."
-     },
-     {
-      "field": "items[portable-patches].classification_reason",
-      "issue": "The reason says 'all 19 .patch files'. There are 20: 0001-0019 plus 0005-pre17. Also, 0007 is a plain unified diff with no git diff headers. Its ---/+++ lines (1-2 and 58-59) name tests/test_inventable_jetmod_probes.py and tests/test_inventable_jetmod_instrumentation_status.py. Every touched path still lies in the stated set, so the classification is unchanged."
-     }
-    ]
-   }
-  },
-  {
-   "object": "docs/trial-portable-main-fixes.tgz!portable",
-   "item_id": "portable-restore-plans",
-   "classification": "NOT_OBLIGATION",
-   "title": "Default-branch restore plans (batches 53b-125)",
-   "reason": "These are per-batch JSON restore plans for the default-branch face of d6g8k5htny-coder/main, produced by scripts/refresh_restore_plan.py. RESTORE_PLAN_53b.json:1-45 records the default-tip SHA, the PR #32 revert that caused misalignment, Path B patch validity, a write probe returning 403, and the Path C base tip. RESTORE_PLAN_77.json:117-127 is a table of pytest pass/fail counts per test slice; its lean_frontier entry at line 123 is a test pass count, not a Lean claim. A keyword grep over all 27 members (theorem, lemma, bound, inequality, proof, enclosure, interval, constant, sorry, axiom, Lean, counterexample, erratum) found only the owner-mandate string, PR states and test counts. These are plans and logs with no mathematical claim. Read: RESTORE_PLAN_53b.json lines 1-45, RESTORE_PLAN_77.json lines 117-127, and the keyword grep over all 27.",
-   "refers_to": [],
-   "source_binding": {
-    "repository": "d6g8k5htny-coder/trial",
-    "commit": "3738c859d519d2dbf1e388fe48fe0ae60c9487a3",
-    "files": [
-     {
-      "path": "docs/trial-portable-main-fixes.tgz",
-      "git_blob": "7b7b6c1436aa332756a8da570da820821315cae2",
-      "bytes": 258535,
-      "sha256": "7a9362ddb7668ec4770d3011daa20cbfa30cfa452cf491e2254282fc2ae0a133"
-     }
-    ],
-    "members": [
-     {
-      "member": "portable/RESTORE_PLAN_125.json",
-      "bytes": 8125,
-      "sha256": "04cbbc749502820cdd4f236b3f6ff60c8bb00ffd33542f26a74724af6eb95e6a",
-      "git_blob": "9e8ef4151b7faf63739b80b9aef7e3cfe2c5d4b1"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_53b.json",
-      "bytes": 1818,
-      "sha256": "f91c899bc94155a0aba9fd6e0e8c96ced3058372ce4a38fdf52ce70ce4de5d90",
-      "git_blob": "f716fa1be9ae5f220fe0f49cd9e967680a059a1f"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_54.json",
-      "bytes": 3036,
-      "sha256": "1ad28161a3d11f5a22caae71cd5645301262d8e569c318a1aadcc3cc554a5ecf",
-      "git_blob": "10a60b717a9b5ea87f1975867a4f0d85b839db98"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_55.json",
-      "bytes": 3426,
-      "sha256": "afb882b2df978604ec0108e650d607df6ecff7830312df225da98ed25e9a71c8",
-      "git_blob": "c16fc01ae3551675bfc1ae4a47ad262662757846"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_56.json",
-      "bytes": 3717,
-      "sha256": "23c27d6c0d7cf0b39f6b1618d1d6027f2baf5621c4284195e0efc946d10aab3c",
-      "git_blob": "3285bbee962364d05c652922eb910efe8b39e95f"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_57.json",
-      "bytes": 5961,
-      "sha256": "c108e21407ff847ea1f59de77eb66bea17862fa020cdf1e7c7027b4b8839e3a5",
-      "git_blob": "6f0a54cc8a54d0c4ef5eb9df60e0ab36c01de328"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_58.json",
-      "bytes": 5464,
-      "sha256": "ec22862c2662d472951d70476486b79c4383f6447fedbc7171f7c1ab2cd37b54",
-      "git_blob": "84c0a4e21db8fcc050e5ea4c2d42a190af9236c0"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_59.json",
-      "bytes": 5637,
-      "sha256": "6b884de906f274afa1da757ff25b19b87e66f24184dc0ad162a86e2738b098ec",
-      "git_blob": "e94d062e279d69f4174cc7da53fb1067e4bd2274"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_60.json",
-      "bytes": 6515,
-      "sha256": "0ab88ccebcc2122c6a4af3c4c61c29540abd7de69269b9dafb8ad9efa1e875a4",
-      "git_blob": "7d832d72e6d0ec7acd8849d6471527b845f13390"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_61.json",
-      "bytes": 6280,
-      "sha256": "e54ba06a40471ae2b8349490a98266d2f78420ae9b4b8375960703186cb1c483",
-      "git_blob": "c576f7a29a87002a28f2f1012179cba8e79f0bc5"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_62.json",
-      "bytes": 6820,
-      "sha256": "114d1806417b7f5b63c9bf061610b553360079541366e75d1cf9dc58c6395c98",
-      "git_blob": "449d837138e2e791b3da06d056c435cd5d36bd22"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_63.json",
-      "bytes": 6820,
-      "sha256": "59a98b40af75f9e14171d56d4b92852ecd1e783da8383453b6980c6deafdc0ce",
-      "git_blob": "dc2d1e0ac93e8e4df9d8760b8de041b52ca632f3"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_64.json",
-      "bytes": 6820,
-      "sha256": "49dba843f3c34c41c478b447dce698d579621badb67bf976b14d49c4ae9a728a",
-      "git_blob": "e9e1dacda87649231f3b837856d903396682f4c0"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_65.json",
-      "bytes": 6911,
-      "sha256": "f6b7a35bdc9be6c6776163a52e75a20da93ed12c052df1ef18daf29ce97f9b1c",
-      "git_blob": "7ac79831cb91dbf9e16455132b312d1900a69d0e"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_66.json",
-      "bytes": 6914,
-      "sha256": "f925928ce8fdf8a7c7e8999a356dac523470c115468d04d495aa1b2260f46454",
-      "git_blob": "4f19d2226a7690418378bf36a1304b7f176f22fe"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_67.json",
-      "bytes": 7563,
-      "sha256": "1cdc1db7cefe515a8b0fdf808beae678ec3d7dfbedd29176b7010b12b2a69705",
-      "git_blob": "c85dcc2ac6d214d2b5b367e2503e0b3e6e0a1dee"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_68.json",
-      "bytes": 7757,
-      "sha256": "d05ef0033a37262a9601850dd112e10f4711d3e9fa24eed7bcfcbd83fd461794",
-      "git_blob": "d5ee26c173af5884279b5121a0798af02545d09b"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_69.json",
-      "bytes": 8632,
-      "sha256": "e8cd2864b54d754fac41c7d1a95ab4746478d1e580a43dd2cc0a55cb2f5d3463",
-      "git_blob": "be52190e94f2a4f9af31ef654971f9e66384fca6"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_70.json",
-      "bytes": 8121,
-      "sha256": "7bcf55a2df62217e90d888909e156bd91cc8e3e4da8add1dac454632c3ec7914",
-      "git_blob": "7c4656699db8678ad096c2684c2230644d2745a8"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_71.json",
-      "bytes": 8121,
-      "sha256": "c5340070bf7c4555652828521f562258d07f3d244e775dfdc21704018930742b",
-      "git_blob": "f9f081497218f4223ab02d306d30ab5a143d98b9"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_72.json",
-      "bytes": 8121,
-      "sha256": "cbc1e06357b1716e140179f5ed71d6d77c16e4ae94530c8413982d3dea22602e",
-      "git_blob": "6945b700f9eb7de6e2402ccb44ef7bb8b8e6db5b"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_73.json",
-      "bytes": 8121,
-      "sha256": "d27ebfa1885f4e77a1fb674a9106a1f2640686e296c39421865a2dfbea699b57",
-      "git_blob": "1e37a16a5bf93260aae790e6a41f456c3931ec5a"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_74.json",
-      "bytes": 8121,
-      "sha256": "5c487c941120fdad3ea92d4c530ad1610ebbd41f2c354accee5335b6a4c12671",
-      "git_blob": "732762238847f2127944a3dd9313a7c8cdbe208f"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_76.json",
-      "bytes": 8572,
-      "sha256": "bd88ba62df52a48f2e66e06ae064aa589d7f5153736bfa18b94ca87e2a344444",
-      "git_blob": "a35ba5b1ee831a87da1cd00ef06eacd146c9c855"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_77.json",
-      "bytes": 9185,
-      "sha256": "68d32af2c4f2f7e0f5ee82426aeb79ce02ae9b640e1ddc57dca0d48a2838e286",
-      "git_blob": "5ad54d123fbfe20557e41a6888ba6d44c06c783f"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_80.json",
-      "bytes": 8584,
-      "sha256": "e2ff2dcf36f889bf07c952196dbb63431e99ece288f3d80d6a4aa924e0235b19",
-      "git_blob": "e18c99ac98168b7ea7219956c6ef78f9f50c581f"
-     },
-     {
-      "member": "portable/RESTORE_PLAN_86.json",
-      "bytes": 7479,
-      "sha256": "dee9feaf2fedf4234397cc53fe43e66e80a581838fefed56f2555a38162f6e87",
-      "git_blob": "bfd67bfbb9f1701e2a355d1160e8ea2157265e58"
-     }
-    ]
-   },
-   "verification": {
-    "ok": false,
-    "problems_fixed": [
-     {
-      "field": "items[portable-runbooks].classification_reason",
-      "issue": "The reason says RELAUNCH_WITH_MAIN_SCOPE.md contains device-flow login codes. It does not. A full read (146 lines) and a pattern grep found no login code, e-mail address or token value. At line 44 it only points to GH_DEVICE_LOGIN.md for the code. Of the four members, only LAND.md and OWNER_ONE_LINERS.md carry codes. The classification is unchanged."
-     },
-     {
-      "field": "items[portable-token-searches].classification_reason",
-      "issue": "The reason claims a keyword grep found no mathematical term and that the logs concern credentials only. Both are inaccurate. Most of the 21 logs carry lemma_closed=false and goal_complete flags. BATCH70_TOKEN_SEARCH.json:30-42 copies the batch-70 research-stack audit counts (13 open premises, 1 open lemma, 3 open prizes, 16 open questions), and lines 43-61 record Path C and window state. These are copied status counts, not claims, so the classification is unchanged."
-     },
-     {
-      "field": "items[portable-rebase-reports].classification_reason",
-      "issue": "The reason gives PATH_C_REBASE_RESOLUTION_NOTES_68.json a lean_frontier field. That member (74 lines, read in full) has no such field. The lean_frontier test-slice count is in PATH_C_REBASE_CONFLICT_REPORT_67.json:126, outside the stated read range 1-80 of that 137-line member. Also, the never-touch list in RESOLUTION_NOTES_68 is at lines 28-35 and the ours/theirs note at line 36, partly outside the cited lines 1-30. The classification is unchanged."
-     },
-     {
-      "field": "items[portable-research-stack-audits].classification_reason",
-      "issue": "Privacy rule: the reason reports a value (the tip 10c077e0) from BATCH149_BRIEF.json:12-13. That member carries device-flow login codes (4 code-pattern lines), so it may be named only. A code-free replacement exists: BATCH144_HUNT.json:7 and BATCH157_HUNT.json:7 record hardening tip 10c077e for the batches before and after 149."
-     },
-     {
-      "field": "items[portable-research-stack-audits].refers_to",
-      "issue": "d6g8k5htny-coder/main@1c6e74b...:README.md is not a reviewed object. BATCH70:27-36 records the default tip only as NO_PACKET, and lists README.md, AGENTS.md and history/ only as tip-shape evidence. The script's NO_PACKET branch (scripts/audit_research_stack_open.py:63-78) reads nothing. Listing README.md but not AGENTS.md is also inconsistent. It is removed from refers_to."
-     },
-     {
-      "field": "items[portable-research-stack-audits].classification_reason",
-      "issue": "The reason says no numerical bound appears. That is overstated. The copied open-question rows include register prose that names mathematical targets: BATCH237:699 names a rate, and BATCH237:715 and 731 name losses and a uniform constant. A field comparison shows these rows are verbatim copies of registers/json/open_questions.json at 12005013. They are not results of the audit. The classification is unchanged."
-     },
-     {
-      "field": "items[portable-patches].classification_reason",
-      "issue": "The reason says 'all 19 .patch files'. There are 20: 0001-0019 plus 0005-pre17. Also, 0007 is a plain unified diff with no git diff headers. Its ---/+++ lines (1-2 and 58-59) name tests/test_inventable_jetmod_probes.py and tests/test_inventable_jetmod_instrumentation_status.py. Every touched path still lies in the stated set, so the classification is unchanged."
-     }
-    ]
-   }
-  },
-  {
-   "object": "docs/trial-portable-main-fixes.tgz!portable",
-   "item_id": "portable-token-searches",
-   "classification": "NOT_OBLIGATION",
-   "title": "Credential and write-probe search logs",
-   "reason": "These are credential and write-vector probe logs.\n- BATCH58_TOKEN_SEARCH.json:1-45 records which token environment variables were set (values redacted to NOT_SET, kind or length), the gh auth kind, SSH key absence, and HTTP status codes for write probes against d6g8k5htny-coder/main.\n- BATCH73_TOKEN_SEARCH.json (read in full, 16 lines) is a short redacted version of the same.\n- Besides credential state, most of the 21 carry lemma_closed=false and goal_complete flags.\n- BATCH70_TOKEN_SEARCH.json:30-42 copies the batch-70 research-stack audit counts (13 open premises, 1 open lemma, 3 open prizes, 16 open questions) with that audit's tool and artifact names. Lines 43-61 record Path C and window state. These are status counts copied from portable/BATCH70_RESEARCH_STACK_AUDIT.json, not claims.\nA pattern grep over all 21 found no token value, e-mail address or login code. None of them makes a mathematical claim. Read: BATCH58 lines 1-45, BATCH70 lines 28-62, BATCH73 in full, and keyword and secret-pattern greps over all 21.",
-   "refers_to": [],
-   "source_binding": {
-    "repository": "d6g8k5htny-coder/trial",
-    "commit": "3738c859d519d2dbf1e388fe48fe0ae60c9487a3",
-    "files": [
-     {
-      "path": "docs/trial-portable-main-fixes.tgz",
-      "git_blob": "7b7b6c1436aa332756a8da570da820821315cae2",
-      "bytes": 258535,
-      "sha256": "7a9362ddb7668ec4770d3011daa20cbfa30cfa452cf491e2254282fc2ae0a133"
-     }
-    ],
-    "members": [
-     {
-      "member": "portable/BATCH58_TOKEN_SEARCH.json",
-      "bytes": 1777,
-      "sha256": "388ad1a210e578dd70601554c4bc89f69ffae69dad3874665cc56203c96e144b",
-      "git_blob": "b91ed016faa0342ff45e87fd620b4aeff3488bc8"
-     },
-     {
-      "member": "portable/BATCH59_TOKEN_SEARCH.json",
-      "bytes": 1601,
-      "sha256": "22dc3bc2de8232af8af7818f104935a0628cc36b8d6c24a30275860bcafb23a5",
-      "git_blob": "caa64460cbe6044cc818e97ed5ef346fedae40fb"
-     },
-     {
-      "member": "portable/BATCH60_TOKEN_SEARCH.json",
-      "bytes": 1716,
-      "sha256": "d9007299567abf86465243b7512c0220a320abe0e0a0f39652920f59f3753fc4",
-      "git_blob": "740c19888eb5c85937d57e4490302f2d10dab320"
-     },
-     {
-      "member": "portable/BATCH61_TOKEN_SEARCH.json",
-      "bytes": 1736,
-      "sha256": "a644acfb7733b0328792a7e9c01d1a4ebabdb09a58816c37631288cefae0681a",
-      "git_blob": "380e348d77f2bceec59feba946517e0042d8c31f"
-     },
-     {
-      "member": "portable/BATCH62_TOKEN_SEARCH.json",
-      "bytes": 1899,
-      "sha256": "25da1d700f4a8fb1bf593fa9e10fe3cd35dba3dfce462ddf34a786f73c1f23f5",
-      "git_blob": "ace44572973ecccf41afb2d7829ffd930c3fa8c5"
-     },
-     {
-      "member": "portable/BATCH63_TOKEN_SEARCH.json",
-      "bytes": 1968,
-      "sha256": "07cb3096930cdd41ae51224be38975b543e2055feebd85aaa39d0f3ae339d498",
-      "git_blob": "a1ad3606c3a0373cd237b186136a00278daf3c4b"
-     },
-     {
-      "member": "portable/BATCH64_TOKEN_SEARCH.json",
-      "bytes": 2108,
-      "sha256": "eb6d25ea7de05d12ada256e26edbd05939983a620c9873687bf6031f3270ddb9",
-      "git_blob": "50c0d531ff53bf823019965a8aea7de931662d8a"
-     },
-     {
-      "member": "portable/BATCH65_TOKEN_SEARCH.json",
-      "bytes": 2092,
-      "sha256": "2e7ff525fc71410b13678b4f50b080f6bbd6c16811b6a9413811475131a7f841",
-      "git_blob": "cca4d51d273a5c1ee31c5559b0d183dd5e23390c"
-     },
-     {
-      "member": "portable/BATCH66_TOKEN_SEARCH.json",
-      "bytes": 2150,
-      "sha256": "4e30561faa2eac8d8c6738d3ba2be77403b3f62807bea0cc913baf5c82ca10e3",
-      "git_blob": "d44085eb893dc5903efc24e2bf61e484d033a793"
-     },
-     {
-      "member": "portable/BATCH67_TOKEN_SEARCH.json",
-      "bytes": 1936,
-      "sha256": "f5fe4be2e5e68e6f3b5644d8ed7ea7cba3ddb264385cad82999aa690200b7b7d",
-      "git_blob": "4b2c6c5e657f7bf76795fc0fca123d28a81685ec"
-     },
-     {
-      "member": "portable/BATCH68_TOKEN_SEARCH.json",
-      "bytes": 2040,
-      "sha256": "616d898ec3b902f10d5ee417c19961d172482c87b8d3316869c292666ee3d6d5",
-      "git_blob": "91b98b4e3e49636fb6a729bcca713cd80d7ac160"
-     },
-     {
-      "member": "portable/BATCH69_TOKEN_SEARCH.json",
-      "bytes": 1954,
-      "sha256": "4bc46582733892a2a83d01c36a4e00fdde56832b879afa7aa8a4d9000a66806e",
-      "git_blob": "927005bca9965d008d5b7ffb999ee1643a4b09dd"
-     },
-     {
-      "member": "portable/BATCH70_TOKEN_SEARCH.json",
-      "bytes": 2211,
-      "sha256": "3317e7a26ca82ca2965359091749591b97beb4c29cd1476dc3a73dd44502a7ad",
-      "git_blob": "de9d26be0b1fa3b3930917d214f8cb6edf37f6d7"
-     },
-     {
-      "member": "portable/BATCH71_TOKEN_SEARCH.json",
-      "bytes": 1846,
-      "sha256": "be9d532f0536761d9c01f747b481c934a4adf24d90a254578379dcd5ad3236a5",
-      "git_blob": "11923a93cfdc7e67201d084fa8f7b49ec43bedff"
-     },
-     {
-      "member": "portable/BATCH72_TOKEN_SEARCH.json",
-      "bytes": 1884,
-      "sha256": "18540fe378f536282b2e6977ff592e16399c0909fadc87650ee012506aa284fa",
-      "git_blob": "5a5c71959a0f34a2a3dc39c7ed01e73047cfedf5"
-     },
-     {
-      "member": "portable/BATCH73_TOKEN_SEARCH.json",
-      "bytes": 633,
-      "sha256": "743ed5846df7cfbebebd8b48c2b96427d172d1bb12f493708b1110f7d6df4643",
-      "git_blob": "869c804845b991a74a83e490246c764bf805b99b"
-     },
-     {
-      "member": "portable/BATCH74_TOKEN_SEARCH.json",
-      "bytes": 600,
-      "sha256": "3be79e22d30c664c935d9cbf0022e56927aa35db98e4e377c6b11ef19b67ea6f",
-      "git_blob": "e14f10a65c0a1e8687d1e536980c6abeb9517309"
-     },
-     {
-      "member": "portable/BATCH76_TOKEN_SEARCH.json",
-      "bytes": 611,
-      "sha256": "d4e861acf6c5d0b08262d2d239f8706e10036ff9b32f4c847919360ff2c9c128",
-      "git_blob": "f234673616d9f6d13cb5a6e6e2d4b935e10b41f9"
-     },
-     {
-      "member": "portable/BATCH77_TOKEN_SEARCH.json",
-      "bytes": 619,
-      "sha256": "301d6303f5e5635051dee74eebe910921467fc017699ddc8054e7bfcf6b8a497",
-      "git_blob": "0a6ba4a7c37d93deac021f1e186f33cfea3c8ab3"
-     },
-     {
-      "member": "portable/BATCH80_TOKEN_SEARCH.json",
-      "bytes": 1584,
-      "sha256": "b0974b4cbd0d37aa5f769aa231899773d90a7a08e214deee08db54b5935da738",
-      "git_blob": "59bca213b3f08c2835237683c845bedaf7ffbb8b"
-     },
-     {
-      "member": "portable/BATCH86_TOKEN_SEARCH.json",
-      "bytes": 1347,
-      "sha256": "210c4f9ef00a9764693f9f080ce9dc51730194299c584f8f5601f56f94cb94bb",
-      "git_blob": "5369ea088b3fffc0ee77c1cd784fe4097e5e5a21"
-     }
-    ]
-   },
-   "verification": {
-    "ok": false,
-    "problems_fixed": [
-     {
-      "field": "items[portable-runbooks].classification_reason",
-      "issue": "The reason says RELAUNCH_WITH_MAIN_SCOPE.md contains device-flow login codes. It does not. A full read (146 lines) and a pattern grep found no login code, e-mail address or token value. At line 44 it only points to GH_DEVICE_LOGIN.md for the code. Of the four members, only LAND.md and OWNER_ONE_LINERS.md carry codes. The classification is unchanged."
-     },
-     {
-      "field": "items[portable-token-searches].classification_reason",
-      "issue": "The reason claims a keyword grep found no mathematical term and that the logs concern credentials only. Both are inaccurate. Most of the 21 logs carry lemma_closed=false and goal_complete flags. BATCH70_TOKEN_SEARCH.json:30-42 copies the batch-70 research-stack audit counts (13 open premises, 1 open lemma, 3 open prizes, 16 open questions), and lines 43-61 record Path C and window state. These are copied status counts, not claims, so the classification is unchanged."
-     },
-     {
-      "field": "items[portable-rebase-reports].classification_reason",
-      "issue": "The reason gives PATH_C_REBASE_RESOLUTION_NOTES_68.json a lean_frontier field. That member (74 lines, read in full) has no such field. The lean_frontier test-slice count is in PATH_C_REBASE_CONFLICT_REPORT_67.json:126, outside the stated read range 1-80 of that 137-line member. Also, the never-touch list in RESOLUTION_NOTES_68 is at lines 28-35 and the ours/theirs note at line 36, partly outside the cited lines 1-30. The classification is unchanged."
-     },
-     {
-      "field": "items[portable-research-stack-audits].classification_reason",
-      "issue": "Privacy rule: the reason reports a value (the tip 10c077e0) from BATCH149_BRIEF.json:12-13. That member carries device-flow login codes (4 code-pattern lines), so it may be named only. A code-free replacement exists: BATCH144_HUNT.json:7 and BATCH157_HUNT.json:7 record hardening tip 10c077e for the batches before and after 149."
-     },
-     {
-      "field": "items[portable-research-stack-audits].refers_to",
-      "issue": "d6g8k5htny-coder/main@1c6e74b...:README.md is not a reviewed object. BATCH70:27-36 records the default tip only as NO_PACKET, and lists README.md, AGENTS.md and history/ only as tip-shape evidence. The script's NO_PACKET branch (scripts/audit_research_stack_open.py:63-78) reads nothing. Listing README.md but not AGENTS.md is also inconsistent. It is removed from refers_to."
-     },
-     {
-      "field": "items[portable-research-stack-audits].classification_reason",
-      "issue": "The reason says no numerical bound appears. That is overstated. The copied open-question rows include register prose that names mathematical targets: BATCH237:699 names a rate, and BATCH237:715 and 731 name losses and a uniform constant. A field comparison shows these rows are verbatim copies of registers/json/open_questions.json at 12005013. They are not results of the audit. The classification is unchanged."
-     },
-     {
-      "field": "items[portable-patches].classification_reason",
-      "issue": "The reason says 'all 19 .patch files'. There are 20: 0001-0019 plus 0005-pre17. Also, 0007 is a plain unified diff with no git diff headers. Its ---/+++ lines (1-2 and 58-59) name tests/test_inventable_jetmod_probes.py and tests/test_inventable_jetmod_instrumentation_status.py. Every touched path still lies in the stated set, so the classification is unchanged."
-     }
-    ]
-   }
-  },
-  {
-   "object": "docs/trial-portable-main-fixes.tgz!portable",
-   "item_id": "portable-rebase-reports",
-   "classification": "NOT_OBLIGATION",
-   "title": "Path C rebase conflict report and resolution notes",
-   "reason": "These are git rebase conflict reports for the Path C engineering stack.\nPATH_C_REBASE_CONFLICT_REPORT_67.json (137 lines, read in full) records:\n- the hardening and default tips and the merge base (lines 10-21);\n- Path C shape checks (lines 22-37);\n- three conflicting paths (.github/workflows/ci.yml, .github/workflows/research.yml, engine/bridge/README.md) with marker counts (lines 38-90);\n- an engineering-hunt block of pytest pass counts per test slice (lines 99-135). Its lean_frontier entry at line 126 is a test-slice pass count.\nPATH_C_REBASE_RESOLUTION_NOTES_68.json (74 lines, read in full) gives:\n- a list of status files never to touch (lines 28-35);\n- an ours/theirs note (line 36) and per-path resolutions (lines 40-70);\n- the advice not to rebase (line 38).\nIt has no lean_frontier field. Neither member holds a mathematical claim.",
-   "refers_to": [],
-   "source_binding": {
-    "repository": "d6g8k5htny-coder/trial",
-    "commit": "3738c859d519d2dbf1e388fe48fe0ae60c9487a3",
-    "files": [
-     {
-      "path": "docs/trial-portable-main-fixes.tgz",
-      "git_blob": "7b7b6c1436aa332756a8da570da820821315cae2",
-      "bytes": 258535,
-      "sha256": "7a9362ddb7668ec4770d3011daa20cbfa30cfa452cf491e2254282fc2ae0a133"
-     }
-    ],
-    "members": [
-     {
-      "member": "portable/PATH_C_REBASE_CONFLICT_REPORT_67.json",
-      "bytes": 6118,
-      "sha256": "67c5ea433ba962cf2d89114054586ce4a1efce51ee98bf8ca572921848f208a3",
-      "git_blob": "5a21364c43075f149fcb2c2976528b7d8ba61067"
-     },
-     {
-      "member": "portable/PATH_C_REBASE_RESOLUTION_NOTES_68.json",
-      "bytes": 2808,
-      "sha256": "8c018375fa79e5a4677cccc5ff766e6e740a8fb01812c219ced0cd84d1882174",
-      "git_blob": "5f48e60f354d6eaa991ed6d6c644cb5225d3a391"
      }
     ]
    },
@@ -4964,936 +4475,10 @@
     ],
     "members": [
      {
-      "member": "portable/BATCH132_RESEARCH_STACK_AUDIT.json",
-      "bytes": 36239,
-      "sha256": "406f53fad3f6366a75efb20af140fec76bd7e91fc0c5b080692e76bc0fd45d57",
-      "git_blob": "062d62bb2fe1f60a259a1304728170bd9c2c4d1a"
-     },
-     {
-      "member": "portable/BATCH149_RESEARCH_STACK_AUDIT.json",
-      "bytes": 34086,
-      "sha256": "82ee3fd6afc172c31edeabf94095fdd7d3a228985531f4f6ad81cc14fb88ae59",
-      "git_blob": "1a349cc8946b5d69a27ce42580a735466c620e53"
-     },
-     {
-      "member": "portable/BATCH165_RESEARCH_STACK_AUDIT.json",
-      "bytes": 34337,
-      "sha256": "ef4f640daf6084b0d2c285f4b2561f54891b5617405feb6b5fb5fec8e3631572",
-      "git_blob": "56d2a28fdd320bb1aeda99e470b6057455235b05"
-     },
-     {
-      "member": "portable/BATCH232_RESEARCH_STACK_AUDIT.json",
-      "bytes": 640,
-      "sha256": "c976b9041044444de98c9f4976b094f54750cd1b03b539286ed978f89f708fd8",
-      "git_blob": "ffd145510fa14fc2b0cb7c4cf37745027652746d"
-     },
-     {
-      "member": "portable/BATCH233_RESEARCH_STACK_AUDIT.json",
-      "bytes": 34570,
-      "sha256": "8941ad8d3a2e02a2a8d4895eba2e24ed73ca4fd8c34d8e4c83561ec345bf18b7",
-      "git_blob": "5d71d0c60dad1ecdf97ad37bddb52c3d8b486ec8"
-     },
-     {
-      "member": "portable/BATCH237_RESEARCH_STACK_AUDIT.json",
-      "bytes": 34149,
-      "sha256": "540aebcca541d318c68bee16b9cfe417d0aa4e01446157568472800eefdd0928",
-      "git_blob": "d12ea870101d2ac01eda0324bc232ce9bb51a8e7"
-     },
-     {
-      "member": "portable/BATCH70_RESEARCH_STACK_AUDIT.json",
-      "bytes": 21260,
-      "sha256": "556e6e136b810acdd96a761c6880cb6c6ca0486114f62b7cf282710cee5da94f",
-      "git_blob": "59eb07edf715cb2e2cd4b3da677b452f65d02352"
-     },
-     {
       "member": "portable/STATUS_GUARD_SNAPSHOT.json",
       "bytes": 11292,
       "sha256": "3433edac0970227ede3f8a7fe5010c92190941ed6bc21dd8a1486bbd4ea5ceb1",
       "git_blob": "28a8e45de0c12799d0247edf24a7fd8775cd4c1c"
-     }
-    ]
-   },
-   "verification": {
-    "ok": false,
-    "problems_fixed": [
-     {
-      "field": "items[portable-runbooks].classification_reason",
-      "issue": "The reason says RELAUNCH_WITH_MAIN_SCOPE.md contains device-flow login codes. It does not. A full read (146 lines) and a pattern grep found no login code, e-mail address or token value. At line 44 it only points to GH_DEVICE_LOGIN.md for the code. Of the four members, only LAND.md and OWNER_ONE_LINERS.md carry codes. The classification is unchanged."
-     },
-     {
-      "field": "items[portable-token-searches].classification_reason",
-      "issue": "The reason claims a keyword grep found no mathematical term and that the logs concern credentials only. Both are inaccurate. Most of the 21 logs carry lemma_closed=false and goal_complete flags. BATCH70_TOKEN_SEARCH.json:30-42 copies the batch-70 research-stack audit counts (13 open premises, 1 open lemma, 3 open prizes, 16 open questions), and lines 43-61 record Path C and window state. These are copied status counts, not claims, so the classification is unchanged."
-     },
-     {
-      "field": "items[portable-rebase-reports].classification_reason",
-      "issue": "The reason gives PATH_C_REBASE_RESOLUTION_NOTES_68.json a lean_frontier field. That member (74 lines, read in full) has no such field. The lean_frontier test-slice count is in PATH_C_REBASE_CONFLICT_REPORT_67.json:126, outside the stated read range 1-80 of that 137-line member. Also, the never-touch list in RESOLUTION_NOTES_68 is at lines 28-35 and the ours/theirs note at line 36, partly outside the cited lines 1-30. The classification is unchanged."
-     },
-     {
-      "field": "items[portable-research-stack-audits].classification_reason",
-      "issue": "Privacy rule: the reason reports a value (the tip 10c077e0) from BATCH149_BRIEF.json:12-13. That member carries device-flow login codes (4 code-pattern lines), so it may be named only. A code-free replacement exists: BATCH144_HUNT.json:7 and BATCH157_HUNT.json:7 record hardening tip 10c077e for the batches before and after 149."
-     },
-     {
-      "field": "items[portable-research-stack-audits].refers_to",
-      "issue": "d6g8k5htny-coder/main@1c6e74b...:README.md is not a reviewed object. BATCH70:27-36 records the default tip only as NO_PACKET, and lists README.md, AGENTS.md and history/ only as tip-shape evidence. The script's NO_PACKET branch (scripts/audit_research_stack_open.py:63-78) reads nothing. Listing README.md but not AGENTS.md is also inconsistent. It is removed from refers_to."
-     },
-     {
-      "field": "items[portable-research-stack-audits].classification_reason",
-      "issue": "The reason says no numerical bound appears. That is overstated. The copied open-question rows include register prose that names mathematical targets: BATCH237:699 names a rate, and BATCH237:715 and 731 name losses and a uniform constant. A field comparison shows these rows are verbatim copies of registers/json/open_questions.json at 12005013. They are not results of the audit. The classification is unchanged."
-     },
-     {
-      "field": "items[portable-patches].classification_reason",
-      "issue": "The reason says 'all 19 .patch files'. There are 20: 0001-0019 plus 0005-pre17. Also, 0007 is a plain unified diff with no git diff headers. Its ---/+++ lines (1-2 and 58-59) name tests/test_inventable_jetmod_probes.py and tests/test_inventable_jetmod_instrumentation_status.py. Every touched path still lies in the stated set, so the classification is unchanged."
-     }
-    ]
-   }
-  },
-  {
-   "object": "docs/trial-portable-main-fixes.tgz!portable",
-   "item_id": "portable-batch-briefs",
-   "classification": "NOT_OBLIGATION",
-   "title": "Per-batch campaign briefs (batches 68-239)",
-   "reason": "These are per-batch work-log summaries of the trial agent's main-alignment and Path C campaign. BATCH68_BRIEF.json (read in full, 20 lines) records tips, writability flags and the concrete work files. BATCH210_BRIEF.json (read in full, 102 lines) records tip SHAs, write and token state, device-auth renewal, apply stack, release tag, research_counts copied from the status audit, and updated artifacts. BATCH239_BRIEF.json (read in full, 62 lines) records PR merges, the patch 0019 cut and the release tag. BATCH149_BRIEF.json lines 12-17 record the tip. A keyword grep over all 113 members, with the lemma_closed and D3-LEMMA-RN-UNIF tokens removed, found only hunt results, tip notes, auth-timer settings and CI fixes. The briefs carry no theorem, bound or numerical claim. Many carry device-flow login codes, so nothing is quoted.",
-   "refers_to": [],
-   "source_binding": {
-    "repository": "d6g8k5htny-coder/trial",
-    "commit": "3738c859d519d2dbf1e388fe48fe0ae60c9487a3",
-    "files": [
-     {
-      "path": "docs/trial-portable-main-fixes.tgz",
-      "git_blob": "7b7b6c1436aa332756a8da570da820821315cae2",
-      "bytes": 258535,
-      "sha256": "7a9362ddb7668ec4770d3011daa20cbfa30cfa452cf491e2254282fc2ae0a133"
-     }
-    ],
-    "members": [
-     {
-      "member": "portable/BATCH100_BRIEF.json",
-      "bytes": 956,
-      "sha256": "8b6a363b9ce8700eba038f8684fcf5598ec6a0cea2d9252b3a253253849d0f1f",
-      "git_blob": "7a8d9af692ed7cc8cadca8a8382403d23ea6aafb"
-     },
-     {
-      "member": "portable/BATCH101_BRIEF.json",
-      "bytes": 683,
-      "sha256": "0603f817b34e327755a37680d31df0777c0b87b3a062b35062d82bcf0ad3ba42",
-      "git_blob": "31f4f89191c6a9fead5463e1640b2d30cdb77d5c"
-     },
-     {
-      "member": "portable/BATCH102_BRIEF.json",
-      "bytes": 715,
-      "sha256": "f573ce3d2540c24b20d2a6cf568fe5ed9dbc697d323413d333e547c4830337c5",
-      "git_blob": "37b73347b5de8cf19c9e387b6282bd8b6ba7fbd5"
-     },
-     {
-      "member": "portable/BATCH103_BRIEF.json",
-      "bytes": 852,
-      "sha256": "dde07a11758086f3a88ee1b8aa08893cb3787817ed66017fbbb78265cec7e377",
-      "git_blob": "967002bd549e08737213436684eac435f2017c18"
-     },
-     {
-      "member": "portable/BATCH104_BRIEF.json",
-      "bytes": 557,
-      "sha256": "744bb3cbcbfc94a2427e378d1bac8d76d4e03b4d2bdff032d1f23523876b7f29",
-      "git_blob": "526b3533067c8bb76004574da7900553ae6cf78e"
-     },
-     {
-      "member": "portable/BATCH105_BRIEF.json",
-      "bytes": 561,
-      "sha256": "b3332a863e31ba75b5e5e1cef0772351a5c3206cabfb65081a6aa8111cca641b",
-      "git_blob": "c950fa8064c8b9840595c3ef77fd9395a4b8bbff"
-     },
-     {
-      "member": "portable/BATCH106_BRIEF.json",
-      "bytes": 558,
-      "sha256": "24f621ba2697bb4edccfcdd8d68277e8ecb9015630cd047bccc0f7762e89b744",
-      "git_blob": "2f7d40c69af55490322f7879effaa7de974e82cf"
-     },
-     {
-      "member": "portable/BATCH107_BRIEF.json",
-      "bytes": 570,
-      "sha256": "4e6a9b2227a5ab8716f1a95559c98b015a73d975ade9747dd779dfea3536574c",
-      "git_blob": "5c96058c2a43550984570ad30498d798f2c16485"
-     },
-     {
-      "member": "portable/BATCH108_BRIEF.json",
-      "bytes": 561,
-      "sha256": "a3763f4ece946f5087dd6308c72b7c6d622a353b095d23730080a284cef978db",
-      "git_blob": "69a9bcc2526ce2bd66c8e1a7ff4277c38e91695f"
-     },
-     {
-      "member": "portable/BATCH109_BRIEF.json",
-      "bytes": 533,
-      "sha256": "c552efa42dc01285b2ec655bfe6dcc642ebdcb81406a11850e3a7ec9efcff379",
-      "git_blob": "c6247f66b5b7b38013d9d54ac6fecbce3c4b2917"
-     },
-     {
-      "member": "portable/BATCH110_BRIEF.json",
-      "bytes": 532,
-      "sha256": "b0552a69419273248e23ffc3689679431fc667937ee12a617268d31f1e6ec245",
-      "git_blob": "7b64c9ce4fb7a7b41db3007717d38bf0a0b2d54f"
-     },
-     {
-      "member": "portable/BATCH111_BRIEF.json",
-      "bytes": 533,
-      "sha256": "6b8bf1ef33bf344015cc04218c94151baa4d1a93ba2a5b4923299ae13d5fef2d",
-      "git_blob": "f949a57741d2ec34ed819fd18f0f12eaefd0fbcd"
-     },
-     {
-      "member": "portable/BATCH112_BRIEF.json",
-      "bytes": 532,
-      "sha256": "c06893d24a73dd8e5bd5b0b9e85ee6de63bdec171f11afd24496c7e0367da075",
-      "git_blob": "d39a5a323e5d46b51b3b66d898b1dc77168bfc39"
-     },
-     {
-      "member": "portable/BATCH113_BRIEF.json",
-      "bytes": 631,
-      "sha256": "4ea790b614db0d670ee11fed7bc947efd4793e8c1472d9f47960fb48bdfc250e",
-      "git_blob": "4265d114b3a30c5a09bf8c38d314f8532f5b8d72"
-     },
-     {
-      "member": "portable/BATCH114_BRIEF.json",
-      "bytes": 501,
-      "sha256": "54405314dfe5fb655eb75ea19ea943c43894a342e352c9103eea08073a3617d9",
-      "git_blob": "e436ef1c997b0fcf1442eeeeb926d40cadafb193"
-     },
-     {
-      "member": "portable/BATCH115_BRIEF.json",
-      "bytes": 622,
-      "sha256": "5fd8ba59cdbbb8d98f65adff4f7d6645eb6c71cff4c09988cd40ba0a0d55194d",
-      "git_blob": "8b24d4a998d9d97e068ad19d9ccd4e21bc1ef558"
-     },
-     {
-      "member": "portable/BATCH116_BRIEF.json",
-      "bytes": 625,
-      "sha256": "04325b0196f6983cf03dfed51032df4ae56d6a2c3ff1f3f2fc78363cbe35b752",
-      "git_blob": "1ce3bb2f91e478a2c570fa3040abbf9548575c04"
-     },
-     {
-      "member": "portable/BATCH117_BRIEF.json",
-      "bytes": 654,
-      "sha256": "c0a236c1895cf35ee60a912df748a17605d658cea0f4f5dd80dde0ffedecee6b",
-      "git_blob": "918316f6dc485d1f4a9faae972d159a4f2157a6c"
-     },
-     {
-      "member": "portable/BATCH118_BRIEF.json",
-      "bytes": 534,
-      "sha256": "6c8ddb2fcfd7b708133f5d96fc258ff476edd03b427e81d11a99f72bc896c904",
-      "git_blob": "27fc080ce44c08ec227bbedebe7a871003a820e7"
-     },
-     {
-      "member": "portable/BATCH119_BRIEF.json",
-      "bytes": 534,
-      "sha256": "30cd80ff262b07ef937e13c1ba8a2e27c16bcde281c3178e6477df4065b5103a",
-      "git_blob": "669e65cae9f6b358cdd547fb96f089739098c97a"
-     },
-     {
-      "member": "portable/BATCH120_BRIEF.json",
-      "bytes": 533,
-      "sha256": "578ac7e980dbc917f54f194ce3be4cd06202e584a0eee40773fd4914e79c8a30",
-      "git_blob": "9f1da53700a1a4b1f2d6635996daa23f70ce7026"
-     },
-     {
-      "member": "portable/BATCH121_BRIEF.json",
-      "bytes": 660,
-      "sha256": "b3c2ab2749f9fdc03feecdcfec26fced56c96e3d8a33609519347d48ac77476a",
-      "git_blob": "db4474e1aab6ac842a435e3da968d1f0914ddfaa"
-     },
-     {
-      "member": "portable/BATCH122_BRIEF.json",
-      "bytes": 534,
-      "sha256": "93ceb752bb33621a1f283a1b894eb696e62483f4b22a90ebcbb1c3cd0284d6c8",
-      "git_blob": "026f1b4dad2f246722d0ee40d76dbdf9f7a152d0"
-     },
-     {
-      "member": "portable/BATCH123_BRIEF.json",
-      "bytes": 533,
-      "sha256": "c03dff9034fe613cc3276b83a642910e137f0d31fbb343490cc92b3cd165e9a9",
-      "git_blob": "89309ed7d93d9cb3d137ee6c67e74558b9177277"
-     },
-     {
-      "member": "portable/BATCH124_BRIEF.json",
-      "bytes": 665,
-      "sha256": "0907207ef227a610d5d735419269246fe95c0581f4e27cc2becfda3db77e3902",
-      "git_blob": "13ca19c68de0ab8816f4c25c61b7715cf9772488"
-     },
-     {
-      "member": "portable/BATCH125_BRIEF.json",
-      "bytes": 749,
-      "sha256": "4f75f35dcdbc2055c9d77abcb4f6ffe953be9a9c26ab54500418111053b9a46a",
-      "git_blob": "df5142b8fabeac313b6b900eebcbc21ec53f8fd7"
-     },
-     {
-      "member": "portable/BATCH126_BRIEF.json",
-      "bytes": 756,
-      "sha256": "671959ceacc51aca104f1d796c1ddd85a3313e3bb548ef02d9a403854bfc8b2e",
-      "git_blob": "24887cd8208587847ac97eca711c666b0e087ea5"
-     },
-     {
-      "member": "portable/BATCH127_BRIEF.json",
-      "bytes": 590,
-      "sha256": "27afa65d638f56658747bf7ff2caa5ebef1febd2fae5306527bfd5d934925c2d",
-      "git_blob": "eec01b502e54f90c83c5d799e162a702cb71d032"
-     },
-     {
-      "member": "portable/BATCH129_BRIEF.json",
-      "bytes": 841,
-      "sha256": "2ade40787677a70b662aac917ced024971908628b0ce08980c7509a25d5463d4",
-      "git_blob": "edaeb4e0fd07a1a95e8d6952b39449b3cb1223bb"
-     },
-     {
-      "member": "portable/BATCH132_BRIEF.json",
-      "bytes": 1424,
-      "sha256": "ffadc136c0e248ac708381a6bcf48d650d55a162b5a5a28db505b6c0d7a9ac19",
-      "git_blob": "395f5fc84094a89179d8cd239f36f78c96ac2c92"
-     },
-     {
-      "member": "portable/BATCH134_BRIEF.json",
-      "bytes": 958,
-      "sha256": "ee8e847f836a33505ae3d5d258e6936df5733ff974cb2ea24654d6b753f7d2db",
-      "git_blob": "3c14f128d21adad60c3605d83ea358b0f81a5626"
-     },
-     {
-      "member": "portable/BATCH137_BRIEF.json",
-      "bytes": 1653,
-      "sha256": "9bbe2c174a3efa9acb0019d8c805844ee157cebea30c4f74a357fa87b2641f16",
-      "git_blob": "e1e341a17b5e8500cf5a814478b0069f92af1b90"
-     },
-     {
-      "member": "portable/BATCH138_BRIEF.json",
-      "bytes": 1371,
-      "sha256": "ea1d1ee544876b7f71348687cc91196a218bc8b970b4d3f8b84f4c660130fccc",
-      "git_blob": "8f1253b4cf60058b9656333ac7c57daa228f61b0"
-     },
-     {
-      "member": "portable/BATCH139_BRIEF.json",
-      "bytes": 1932,
-      "sha256": "7a0e35ebdcb067450d83ade0e5617510e4a7ca90f7aeed1db9e6bc7400b9ee5e",
-      "git_blob": "db0432253988f261bd27bb26b2620ac20d997daa"
-     },
-     {
-      "member": "portable/BATCH140_BRIEF.json",
-      "bytes": 1911,
-      "sha256": "fb3a28b8313c11d92c7db4af0a609bf65fac1d055fda9eacf7e581b6bf8a24b7",
-      "git_blob": "cac4def8b73a100c6c8abcfaac37ec05bcad2ff7"
-     },
-     {
-      "member": "portable/BATCH141_BRIEF.json",
-      "bytes": 2022,
-      "sha256": "f76f493601d1dd0cb734efc1305117d7add6d3c9e275026c8df50a157fe34780",
-      "git_blob": "ea2efd27f1f5049555efc14ed24e157b95e3bde1"
-     },
-     {
-      "member": "portable/BATCH142_BRIEF.json",
-      "bytes": 2274,
-      "sha256": "adaf459377d39fe5112b42214e8bcbac6a5e05397460fccd98d59e30fa4c516e",
-      "git_blob": "af4da85491f7ec73010f91e03fca99e7325141bb"
-     },
-     {
-      "member": "portable/BATCH144_BRIEF.json",
-      "bytes": 1998,
-      "sha256": "094dc3c754300d538f24387be347691491aef6d7309c70c6c806f901488e89cb",
-      "git_blob": "65eede031548b6aeb9dc6918e15ad0952a5f3782"
-     },
-     {
-      "member": "portable/BATCH147_BRIEF.json",
-      "bytes": 2398,
-      "sha256": "df4f7bf4e2bc1efc98d435694adcd3525f987b635c2d5506387c1d132c8c2d60",
-      "git_blob": "a7445978b806768d68317bffc8a231f20a6687cb"
-     },
-     {
-      "member": "portable/BATCH149_BRIEF.json",
-      "bytes": 3041,
-      "sha256": "bea0ec550b30899be8fcd16e52de28260a443ad987129eb9aaceb1833eff2482",
-      "git_blob": "264224bd5195378f3fe1da5b37f7d8e08cd8c3ba"
-     },
-     {
-      "member": "portable/BATCH151_BRIEF.json",
-      "bytes": 2292,
-      "sha256": "28e9ba7ecc90dfaf4eb55bc2e754a71e0f985ee1a3df5352bea97954a96d5e91",
-      "git_blob": "80cdd829060d0a9c48f6a1cc2c6ee7121a23c1d9"
-     },
-     {
-      "member": "portable/BATCH153_BRIEF.json",
-      "bytes": 2682,
-      "sha256": "206ccfcefd5ae92d716f9d53bc8c44de7dcbbdaa98f4ac53a069109728678aad",
-      "git_blob": "2ef77d7269150b3c1760a2d8b3ec4003bfb6873b"
-     },
-     {
-      "member": "portable/BATCH155_BRIEF.json",
-      "bytes": 3200,
-      "sha256": "f0505d33c173f9260ceedad4606688486fcd42e4cb7784769444c9893593ba5d",
-      "git_blob": "908175a22bbf3eb918b0ff877215cdb486044c1b"
-     },
-     {
-      "member": "portable/BATCH157_BRIEF.json",
-      "bytes": 2448,
-      "sha256": "31490873ecc47535b64aee544df931f6b9a990fbc5e133a5b3d83dddfd77da1f",
-      "git_blob": "e9af9c670d6abb2edec03e236b27aceb3bcc78aa"
-     },
-     {
-      "member": "portable/BATCH160_BRIEF.json",
-      "bytes": 2618,
-      "sha256": "c935aea4f861eeaad1aace738f5ea79d0c967baaec54c69df9d7b6e6ecf6102b",
-      "git_blob": "fd4117df8dfcf9a5a00dc31920dc2c5ebde4cbe2"
-     },
-     {
-      "member": "portable/BATCH162_BRIEF.json",
-      "bytes": 3273,
-      "sha256": "1c50f03c2bad7d42311f7d5eb18b986815780f90375794f0b1524c7e8979d30d",
-      "git_blob": "49dd237bc49731c727e3f3468f29c7c86ad63265"
-     },
-     {
-      "member": "portable/BATCH164_BRIEF.json",
-      "bytes": 2539,
-      "sha256": "016fd79751eaa4d770529d7f55b77e315aadac4f88d8acb81e5b28907782b93e",
-      "git_blob": "b7972a732a7df9c40ee3f0e1d28a3a878d94774d"
-     },
-     {
-      "member": "portable/BATCH165_BRIEF.json",
-      "bytes": 2869,
-      "sha256": "bc3bdec1dad6eda1ad9626231ddd85ab43df89492238533c0ea2847d4c93fecd",
-      "git_blob": "2ace792e4472ea1d4e5565a27ac89764b6c06d25"
-     },
-     {
-      "member": "portable/BATCH168_BRIEF.json",
-      "bytes": 3186,
-      "sha256": "ca404554a81496c444f147da90707ee2710c343954763ea2f533c3626b7f8604",
-      "git_blob": "f746a1a780ed0fa4aa2be19079a8b7941d0af004"
-     },
-     {
-      "member": "portable/BATCH169_BRIEF.json",
-      "bytes": 3475,
-      "sha256": "0712bc6728554c459102a49da71e70c4ab5ce5c86b8aa0b3a2db2fac0e398880",
-      "git_blob": "2c7c67f86ae414fca05e7c72e4736afc7bb165d2"
-     },
-     {
-      "member": "portable/BATCH170_BRIEF.json",
-      "bytes": 3397,
-      "sha256": "7e5ab88b52bcbc3ca7533484b80b0faf127c348bdf49c3aa128d3b34cd9216ba",
-      "git_blob": "15cdc4063aeae4005e2f4a592ce0373a63550e30"
-     },
-     {
-      "member": "portable/BATCH172_BRIEF.json",
-      "bytes": 2974,
-      "sha256": "108e5f8cb98fb82bd9e1ceeec253e022542e8b3fd0f3ef804f7763718b5c760e",
-      "git_blob": "17519352d57ac4fa2f1405f0f3fe9007f9e6ed86"
-     },
-     {
-      "member": "portable/BATCH173_BRIEF.json",
-      "bytes": 2809,
-      "sha256": "cedd9b8e3aeed7d9c4875147bf136cfa4f2b2f76cbda254f00803cd8718d54a7",
-      "git_blob": "67fd731fca031897a6a40a7687b81dd8fadc7ccf"
-     },
-     {
-      "member": "portable/BATCH176_BRIEF.json",
-      "bytes": 2997,
-      "sha256": "2bcbec4c320214e2831428b8f8b3faef1083f7d7e4ed7964dde7da2c23130982",
-      "git_blob": "679d72683f7276ee26f5c3fd2943f1f98229f34d"
-     },
-     {
-      "member": "portable/BATCH178_BRIEF.json",
-      "bytes": 3289,
-      "sha256": "2c9f37b762d943c958bae9d0c3c27b599c13adbe78e6e954510fa3c57f2acbcc",
-      "git_blob": "b3c0ca9eccf06a4a296172d3d46d1df6342c4108"
-     },
-     {
-      "member": "portable/BATCH179_BRIEF.json",
-      "bytes": 3706,
-      "sha256": "dbc1f8cde5eaf605221b20706cf7199c85681804e83a0a66a6b32e93faa426ac",
-      "git_blob": "4415db64b824ae444e418aa1dc6119c9fd07dac3"
-     },
-     {
-      "member": "portable/BATCH180_BRIEF.json",
-      "bytes": 4203,
-      "sha256": "b6aa890d230a9c7075bc4288280e6fc87aa6385feec88259ace3f0106b21461a",
-      "git_blob": "bc729183320a32784ed47d30a923ed28822874ca"
-     },
-     {
-      "member": "portable/BATCH183_BRIEF.json",
-      "bytes": 3487,
-      "sha256": "b31e7940cb413a186693e23af55f84137e242f01c9d0bf30d330d92939cbbfa2",
-      "git_blob": "d68d62333165160ef4b0e3b4ffa04c8f1217eb82"
-     },
-     {
-      "member": "portable/BATCH185_BRIEF.json",
-      "bytes": 4324,
-      "sha256": "eec3a5bcfa64fa4d07c291421472bea9bdeaea0fc2a913f4c1331c86e59f3ffc",
-      "git_blob": "7a6538b4d0391175c29be11d5f7450afd98ccb4a"
-     },
-     {
-      "member": "portable/BATCH188_BRIEF.json",
-      "bytes": 3055,
-      "sha256": "aea7c702f64f94177206a7aa4bb2b4101cbc186b321b20d55a01b1c7a8d8d6de",
-      "git_blob": "9ecfae4836258d749bd5e09074925efaf5b13409"
-     },
-     {
-      "member": "portable/BATCH190_BRIEF.json",
-      "bytes": 3426,
-      "sha256": "2e6874369451444e7d913584aeeeb71cf0e87462f09699bb0d053118c10ca48c",
-      "git_blob": "174441be459e7331a2a6ebf039e46c552bf6d116"
-     },
-     {
-      "member": "portable/BATCH192_BRIEF.json",
-      "bytes": 3459,
-      "sha256": "5828538758ad0ebd9f66db9ec370077f06f582b08162551ee4ffa5e51b714e40",
-      "git_blob": "73f8b1736765bd5488f227fe9ccf5cee5ceba026"
-     },
-     {
-      "member": "portable/BATCH194_BRIEF.json",
-      "bytes": 3635,
-      "sha256": "f0b18a2b58920997a00bf98f61d6aef08fd79de927a9b779a80bad436a1bc1da",
-      "git_blob": "62b77f3bf13e05e4b5ea1a92f3f6da2fab589734"
-     },
-     {
-      "member": "portable/BATCH195_BRIEF.json",
-      "bytes": 3885,
-      "sha256": "6583d245be05e7254114e32f6d6cb20d71520eba481401ff185c5da42d5f8cdc",
-      "git_blob": "efebf162fe8ef639362aac1d0b719a3c48effafc"
-     },
-     {
-      "member": "portable/BATCH199_BRIEF.json",
-      "bytes": 4191,
-      "sha256": "dc9fb970055c00d20c27acd18b3b31c4080e0f42ae864f08de9896039dc1caf3",
-      "git_blob": "73e5797ad5281e71a99c1af2fb7e3e2a7847f07c"
-     },
-     {
-      "member": "portable/BATCH202_BRIEF.json",
-      "bytes": 4326,
-      "sha256": "9c416fd638c2f0e78b160764e24704fc9cf04b08f3d43db1a6667e97eb671838",
-      "git_blob": "8ef655b2f3a1926d81da90cf20a142f710dc8a52"
-     },
-     {
-      "member": "portable/BATCH207_BRIEF.json",
-      "bytes": 4551,
-      "sha256": "4289e1c87bd1d41f51bda1c18bb2dc520b4d6dab197fe1c64360d983fb3680e1",
-      "git_blob": "5ef3f5db80d7a72017c2cd7e4ca93c0a9a2124bc"
-     },
-     {
-      "member": "portable/BATCH210_BRIEF.json",
-      "bytes": 3853,
-      "sha256": "32222632d5b447b6cc5107a367db2eb769705fbca4217ca6a873c492bab79e1c",
-      "git_blob": "9a2c91b78395e6c6d515863cba2a64aaa4c1c4e7"
-     },
-     {
-      "member": "portable/BATCH212_BRIEF.json",
-      "bytes": 1562,
-      "sha256": "9638cb74aea54b7d3e037b569593f2b440aa77428e237ce5f6fd33df65362ad8",
-      "git_blob": "29bcc382bc92aa2984fd454caee1eed4882b651b"
-     },
-     {
-      "member": "portable/BATCH216_BRIEF.json",
-      "bytes": 1832,
-      "sha256": "ff95383046a13b6b22215b00431c95305f983f1cbbb8dd8f86eb58acf5a5f2db",
-      "git_blob": "aacbbca641efc1f7cb8688b2787535f01e2c4728"
-     },
-     {
-      "member": "portable/BATCH217_BRIEF.json",
-      "bytes": 2537,
-      "sha256": "1a00e4e5b9132bffee617c6182e187db34ba9a9fa94015b3d624bd2378c9acbd",
-      "git_blob": "6a2f02e061f4a3fa1a5a40208dd6ff7c0839c937"
-     },
-     {
-      "member": "portable/BATCH218_BRIEF.json",
-      "bytes": 3370,
-      "sha256": "ab5b2439cc1d546b70cecda33ab30e3d1b27defdfca6d11831c5b1f64e9cbca9",
-      "git_blob": "9fd4bbf649b1e6095ab771aabb8f60d66563dcd9"
-     },
-     {
-      "member": "portable/BATCH219_BRIEF.json",
-      "bytes": 3324,
-      "sha256": "6e7b63c19825d6b645ef521467cfa6c97583dd421a440b512e138f4939ac68a7",
-      "git_blob": "4b3c655186f78197358c439de96f5b93a3b7738c"
-     },
-     {
-      "member": "portable/BATCH223_BRIEF.json",
-      "bytes": 3439,
-      "sha256": "1842933525c096e94ef39e2867c785be2e1ffb36b79c91d697fff5f39b46f9f9",
-      "git_blob": "ae0aa50f8f986e44dcc31ba610ad7d7e7911f3f3"
-     },
-     {
-      "member": "portable/BATCH224_BRIEF.json",
-      "bytes": 4432,
-      "sha256": "82dfd44eacd58c86cce7c52e2d434b94c5f857f005e337db0b1d593f6ae02955",
-      "git_blob": "c04830d55938faf71513601df717640a62a02047"
-     },
-     {
-      "member": "portable/BATCH226_BRIEF.json",
-      "bytes": 3076,
-      "sha256": "aac1e1c8668c12eaeeb2138f8f0a03956169eb05286f9ce0bf657c4fdde90f5a",
-      "git_blob": "21396510d759ffe13f7b9c61b64fa11b935a962d"
-     },
-     {
-      "member": "portable/BATCH227_BRIEF.json",
-      "bytes": 3515,
-      "sha256": "72c75746d4875454dc851254b68b47c977a605a4f53db159b80467ae767bff3d",
-      "git_blob": "bb47d10a695e2ffa1f33e346731ace8395191431"
-     },
-     {
-      "member": "portable/BATCH230_BRIEF.json",
-      "bytes": 1841,
-      "sha256": "0cb933d2d10abe66cc8655911331dfa3ec5925edcaee7423e5ee681e6ffada19",
-      "git_blob": "97609fb1c4bb647b49d160653620c37482e6c27a"
-     },
-     {
-      "member": "portable/BATCH231_BRIEF.json",
-      "bytes": 1548,
-      "sha256": "84a05f5ef8ff72cabe56204962e9bcffed4e7d48d31dfa5406338d343e4a69e6",
-      "git_blob": "a3987d93d146b1314a4757449fbf61784f8af58d"
-     },
-     {
-      "member": "portable/BATCH232_BRIEF.json",
-      "bytes": 1759,
-      "sha256": "8cb2443ccbe05832bc1443933c9cf0beaeabb5a42c6a8f14623ea459a611e8cc",
-      "git_blob": "5436640658ef38ed29459acbb7ce64b54debc598"
-     },
-     {
-      "member": "portable/BATCH233_BRIEF.json",
-      "bytes": 1924,
-      "sha256": "c465bd211bbd56074c74276b52bf6f559a08a1f4f22352aa728f8ca517b14aa7",
-      "git_blob": "acd6d746a1f758349078525295946fabb7c8305d"
-     },
-     {
-      "member": "portable/BATCH234_BRIEF.json",
-      "bytes": 2114,
-      "sha256": "259116761f8793d0f3c75c8a3e8be662b6f55efaa380055b1eedcca2c180de80",
-      "git_blob": "46c133f20dad09113b27a5a7480c7f2dd874f1e6"
-     },
-     {
-      "member": "portable/BATCH235_BRIEF.json",
-      "bytes": 2413,
-      "sha256": "3860b9097095edca9881759dfdad1eb01627d904516b83707c0c8b04e701aeb5",
-      "git_blob": "7208de3cc541281b761bfa4d37a5ef22a27d844d"
-     },
-     {
-      "member": "portable/BATCH236_BRIEF.json",
-      "bytes": 2810,
-      "sha256": "1b5cb9b873497cf35739e82a91a9168d6ed2a74650535405b6641720e5a7935d",
-      "git_blob": "026a77e929f20feeed3b51587b609fe659c04ae3"
-     },
-     {
-      "member": "portable/BATCH237_BRIEF.json",
-      "bytes": 2208,
-      "sha256": "cef40434c60a19e88898d8bacfe50da4319740ab15404a37f68a814bb2025422",
-      "git_blob": "8230fffbe326524d95e93ee411b247b9074fb96a"
-     },
-     {
-      "member": "portable/BATCH238_BRIEF.json",
-      "bytes": 1658,
-      "sha256": "c5625bf9f6d3c1db41f5a7ff9a36acec84c51ed9a520a9b34759db2eeea3ad48",
-      "git_blob": "d83ac21c8e007641e22419291d340e66d841f6ea"
-     },
-     {
-      "member": "portable/BATCH239_BRIEF.json",
-      "bytes": 2046,
-      "sha256": "f623d783649dcc86841c7bddeab3ef0abec3f48905cce648b88f83ad1142c7bd",
-      "git_blob": "afde4e1f4782f28b5adb19741a01eb4e195fa2d0"
-     },
-     {
-      "member": "portable/BATCH68_BRIEF.json",
-      "bytes": 523,
-      "sha256": "a0032d5180e2f60bc784905c5dbdb7c6d8fa7e4dfe4a7d2202dccc14146a17d2",
-      "git_blob": "749adf156335ecda47719c56bdf54a289a5262bb"
-     },
-     {
-      "member": "portable/BATCH69_BRIEF.json",
-      "bytes": 601,
-      "sha256": "3f1ea5c39fc91adb0b7bcb6326a7a0fefff111caccdd1c6f776d5ca601c0a30f",
-      "git_blob": "5880b74d19b99a1a15329a6ec763c2b6e6a81319"
-     },
-     {
-      "member": "portable/BATCH70_BRIEF.json",
-      "bytes": 903,
-      "sha256": "795120d3cec42d58a18c5bc847bbc1cfc13e3b6cba5e4bc904674a2c994c5c16",
-      "git_blob": "b253da49a530de2fbfcc0eece2873cf5034b106a"
-     },
-     {
-      "member": "portable/BATCH71_BRIEF.json",
-      "bytes": 1674,
-      "sha256": "0b6a808a2ef62969f415ebb7af99d1a21108b31455ff751d12f5e62ce5b24123",
-      "git_blob": "758d5bef68cbb362c9742e6aae8c7cf549ab2b72"
-     },
-     {
-      "member": "portable/BATCH72_BRIEF.json",
-      "bytes": 1487,
-      "sha256": "2eddb32504a973e891b0618c551ab4eb0bba508fdb6a5ce53a9505c860076466",
-      "git_blob": "fc431fc57c2433e3e3aabee11c30e5e9522e25ca"
-     },
-     {
-      "member": "portable/BATCH73_BRIEF.json",
-      "bytes": 1466,
-      "sha256": "7fce93e618e961acbf62e7d5900830d39e528adf4fa4554935bd84b3d2e1f20e",
-      "git_blob": "0e2f1c7dd8394c2b3288e6c74ad55645922b4e4a"
-     },
-     {
-      "member": "portable/BATCH74_BRIEF.json",
-      "bytes": 1702,
-      "sha256": "8799aebe47ca36ae99a61e79509052f2cdad122f2a50ab3282191b65556b1eab",
-      "git_blob": "cbc9ddfc10f80918ce52af7261fbf7fef004c729"
-     },
-     {
-      "member": "portable/BATCH76_BRIEF.json",
-      "bytes": 1774,
-      "sha256": "364d5d8920dc2a3f2d27801f753a2b5c5b580fef0b1e27b3ba622073a383b708",
-      "git_blob": "21478d598fca059fca2ef0fd515c9ff7f94d8cb1"
-     },
-     {
-      "member": "portable/BATCH77_BRIEF.json",
-      "bytes": 2202,
-      "sha256": "e6233ca9e198872f24c31cc48b31cf76253eb0b0ed9706f2c0241fc51ccefe39",
-      "git_blob": "4d19415c22d49423a76a927da52e2f827be07ce9"
-     },
-     {
-      "member": "portable/BATCH80_BRIEF.json",
-      "bytes": 1954,
-      "sha256": "016501d1e0cbe08b38bba48551325f50a9b048596a7b2b57328ab1aef8cc58a5",
-      "git_blob": "36e8253f9592a795153f82d3af8184116a647b2d"
-     },
-     {
-      "member": "portable/BATCH81_BRIEF.json",
-      "bytes": 559,
-      "sha256": "3eeb1ee3c38317562a031f10dee017f509a624d617c645ec6015d831c0cd1edd",
-      "git_blob": "b755756a0d91818dcf36613ceb125bc355b898c5"
-     },
-     {
-      "member": "portable/BATCH82_BRIEF.json",
-      "bytes": 948,
-      "sha256": "595ca9c889da6df0a2c6ca8dfeaa660e8ba7aa0662b1da70c27b74e6d484dd8a",
-      "git_blob": "95bca1b5b78f4f0079837a48ef7f04642544b8cb"
-     },
-     {
-      "member": "portable/BATCH83_BRIEF.json",
-      "bytes": 819,
-      "sha256": "ed0586d6211293127c1ed2a9dcdedb9a41278e242cac964204cc2073d1f310dc",
-      "git_blob": "9d4b97f7baae0b5fb3eeb8e7d83be3ebc2947f43"
-     },
-     {
-      "member": "portable/BATCH84_BRIEF.json",
-      "bytes": 1211,
-      "sha256": "e4a82cb9e4b4dd11edcb478d505d6030f89a6d688b8ecfd82042c50598364d8d",
-      "git_blob": "5261b82a11731209e573888611a1a8fa6302d3ad"
-     },
-     {
-      "member": "portable/BATCH86_BRIEF.json",
-      "bytes": 1219,
-      "sha256": "be882c70929565c8be438826d7cab26ad2bbacf4d2ce76bc9dbfa31ac4787c6f",
-      "git_blob": "6c87c1fe5f33faa03dd522c2c729798331662c15"
-     },
-     {
-      "member": "portable/BATCH87_BRIEF.json",
-      "bytes": 787,
-      "sha256": "8343a0dcfdef47a34df870ee13b7b913c2f30dc08cdb8f7269a4b5fe990b9c07",
-      "git_blob": "cdf65447193fd41c43c5331791aca9fcd7a447cf"
-     },
-     {
-      "member": "portable/BATCH88_BRIEF.json",
-      "bytes": 743,
-      "sha256": "3f534f657bc2e13ef2015d0c9b5f3cf7721e060d1e2f51e0f4fa9c23538db3b4",
-      "git_blob": "f57d93fccd605c2ceac638218d11721edc48fcd5"
-     },
-     {
-      "member": "portable/BATCH89_BRIEF.json",
-      "bytes": 686,
-      "sha256": "d230a9ae3efdf585d4c17c6c3fb6548e14c04233d9780a9fc82199ee5a4c1a8c",
-      "git_blob": "046fd8edbd6648d570414134cbe039d37cfc08b4"
-     },
-     {
-      "member": "portable/BATCH91_BRIEF.json",
-      "bytes": 634,
-      "sha256": "4662f6850d747eecedec4a59d9cae7399f5e94253253f9a07d4808a2b451b74d",
-      "git_blob": "6d77cb48411e0d7a3ff5cf675314423514fc5692"
-     },
-     {
-      "member": "portable/BATCH92_BRIEF.json",
-      "bytes": 1032,
-      "sha256": "e8f3ed8bbb5a02948852f4ccd593a86317932265ebee19e86492bd42022f0b01",
-      "git_blob": "ba55607ea65f144e6c5a45851b87e7dc0a0f1eb1"
-     },
-     {
-      "member": "portable/BATCH93_BRIEF.json",
-      "bytes": 833,
-      "sha256": "058d79231d7ee77658919f9691c175f2444b0ee6866bee62a1e1c4ecb75c0b64",
-      "git_blob": "f87f61e163ff8c462b51ac6d0b800b8e9019d90c"
-     },
-     {
-      "member": "portable/BATCH95_BRIEF.json",
-      "bytes": 794,
-      "sha256": "54556206ffdcacc80c295bfa6e6936cd34371d15ceab4b186239761f7975826e",
-      "git_blob": "cdf3cb1933044a623322771dce85f43613bc8f7f"
-     },
-     {
-      "member": "portable/BATCH96_BRIEF.json",
-      "bytes": 647,
-      "sha256": "c7475b1029902afc6bc9b65c7f3df81552483956136314479d4ff645d831f441",
-      "git_blob": "f7ffaa61778ccd5fa5789465d7ddc9eef6890929"
-     },
-     {
-      "member": "portable/BATCH97_BRIEF.json",
-      "bytes": 607,
-      "sha256": "d580bf58975e10fc894e1b5e27b534faca667b1af09d728259cfa0dcec48b2c1",
-      "git_blob": "3a7b7cba45e0e3596a919d1baeab6be95aa5d425"
-     },
-     {
-      "member": "portable/BATCH98_BRIEF.json",
-      "bytes": 918,
-      "sha256": "fe3d48c7125c1f1f5154272d4669b116cc04b9678a724a539d1dc8e1ca9e3701",
-      "git_blob": "985bebebd6e50a555b554ccc7d2c7a2b0fcd6418"
-     },
-     {
-      "member": "portable/BATCH99_BRIEF.json",
-      "bytes": 697,
-      "sha256": "ad70833a6d8a38acc4c553d67ed2fec1542b27a181bc1b11c9aba954270e4aab",
-      "git_blob": "d83c739fc34b463c1d432ad429166a9c8878bdb3"
-     }
-    ]
-   },
-   "verification": {
-    "ok": false,
-    "problems_fixed": [
-     {
-      "field": "items[portable-runbooks].classification_reason",
-      "issue": "The reason says RELAUNCH_WITH_MAIN_SCOPE.md contains device-flow login codes. It does not. A full read (146 lines) and a pattern grep found no login code, e-mail address or token value. At line 44 it only points to GH_DEVICE_LOGIN.md for the code. Of the four members, only LAND.md and OWNER_ONE_LINERS.md carry codes. The classification is unchanged."
-     },
-     {
-      "field": "items[portable-token-searches].classification_reason",
-      "issue": "The reason claims a keyword grep found no mathematical term and that the logs concern credentials only. Both are inaccurate. Most of the 21 logs carry lemma_closed=false and goal_complete flags. BATCH70_TOKEN_SEARCH.json:30-42 copies the batch-70 research-stack audit counts (13 open premises, 1 open lemma, 3 open prizes, 16 open questions), and lines 43-61 record Path C and window state. These are copied status counts, not claims, so the classification is unchanged."
-     },
-     {
-      "field": "items[portable-rebase-reports].classification_reason",
-      "issue": "The reason gives PATH_C_REBASE_RESOLUTION_NOTES_68.json a lean_frontier field. That member (74 lines, read in full) has no such field. The lean_frontier test-slice count is in PATH_C_REBASE_CONFLICT_REPORT_67.json:126, outside the stated read range 1-80 of that 137-line member. Also, the never-touch list in RESOLUTION_NOTES_68 is at lines 28-35 and the ours/theirs note at line 36, partly outside the cited lines 1-30. The classification is unchanged."
-     },
-     {
-      "field": "items[portable-research-stack-audits].classification_reason",
-      "issue": "Privacy rule: the reason reports a value (the tip 10c077e0) from BATCH149_BRIEF.json:12-13. That member carries device-flow login codes (4 code-pattern lines), so it may be named only. A code-free replacement exists: BATCH144_HUNT.json:7 and BATCH157_HUNT.json:7 record hardening tip 10c077e for the batches before and after 149."
-     },
-     {
-      "field": "items[portable-research-stack-audits].refers_to",
-      "issue": "d6g8k5htny-coder/main@1c6e74b...:README.md is not a reviewed object. BATCH70:27-36 records the default tip only as NO_PACKET, and lists README.md, AGENTS.md and history/ only as tip-shape evidence. The script's NO_PACKET branch (scripts/audit_research_stack_open.py:63-78) reads nothing. Listing README.md but not AGENTS.md is also inconsistent. It is removed from refers_to."
-     },
-     {
-      "field": "items[portable-research-stack-audits].classification_reason",
-      "issue": "The reason says no numerical bound appears. That is overstated. The copied open-question rows include register prose that names mathematical targets: BATCH237:699 names a rate, and BATCH237:715 and 731 name losses and a uniform constant. A field comparison shows these rows are verbatim copies of registers/json/open_questions.json at 12005013. They are not results of the audit. The classification is unchanged."
-     },
-     {
-      "field": "items[portable-patches].classification_reason",
-      "issue": "The reason says 'all 19 .patch files'. There are 20: 0001-0019 plus 0005-pre17. Also, 0007 is a plain unified diff with no git diff headers. Its ---/+++ lines (1-2 and 58-59) name tests/test_inventable_jetmod_probes.py and tests/test_inventable_jetmod_instrumentation_status.py. Every touched path still lies in the stated set, so the classification is unchanged."
-     }
-    ]
-   }
-  },
-  {
-   "object": "docs/trial-portable-main-fixes.tgz!portable",
-   "item_id": "portable-batch-hunts",
-   "classification": "NOT_OBLIGATION",
-   "title": "ResourceWarning / bare-open hunt logs",
-   "reason": "These are code-hygiene hunt logs recording searches for ResourceWarning, bare open() and bare-except defects on the hardening tip after the patch stack is applied. BATCH190_HUNT.json (read in full, 36 lines) records the tip, apply stack, pytest pass and warning counts per slice, and known baseline test failures on the clean tip. BATCH126_HUNT.json (read in full, 17 lines) records pytest collection and pass counts and a zero ResourceWarning count. A keyword grep over all 16 found no mathematical term beyond the math_status flag summary. They are CI and test logs with no mathematical claim.",
-   "refers_to": [],
-   "source_binding": {
-    "repository": "d6g8k5htny-coder/trial",
-    "commit": "3738c859d519d2dbf1e388fe48fe0ae60c9487a3",
-    "files": [
-     {
-      "path": "docs/trial-portable-main-fixes.tgz",
-      "git_blob": "7b7b6c1436aa332756a8da570da820821315cae2",
-      "bytes": 258535,
-      "sha256": "7a9362ddb7668ec4770d3011daa20cbfa30cfa452cf491e2254282fc2ae0a133"
-     }
-    ],
-    "members": [
-     {
-      "member": "portable/BATCH126_HUNT.json",
-      "bytes": 600,
-      "sha256": "a2b029a54eb2fd0f2b3e095a9ab0bb1ca93e1b128e6728723bce3759247217f3",
-      "git_blob": "e492554ee116d6873c23e30ad5371754366fc44f"
-     },
-     {
-      "member": "portable/BATCH134_HUNT.json",
-      "bytes": 808,
-      "sha256": "e7fc25f7b295ed170bfc88bba98fcef64bd6cb419b36692754848af8ed60b396",
-      "git_blob": "abafb02dc58e797615afc860808dffbe4231350e"
-     },
-     {
-      "member": "portable/BATCH142_HUNT.json",
-      "bytes": 1048,
-      "sha256": "2484039739c772791bdd6b0ce442138679924a4c770873eaee858a8905fe7ed6",
-      "git_blob": "5905314a1b7300c0b930dc472b65882f1aecb0d4"
-     },
-     {
-      "member": "portable/BATCH144_HUNT.json",
-      "bytes": 1582,
-      "sha256": "58a8d2acabff117a9cf7416e50952630eb1c44992c8c6d3a4974c4b1ef333d0d",
-      "git_blob": "d8dd4be5c1ee3b73a0b5d732aac8405178318a9e"
-     },
-     {
-      "member": "portable/BATCH157_HUNT.json",
-      "bytes": 975,
-      "sha256": "f6c96e665dd2fc30a3cf6edbf9158ba83902a4d27b3347d8b9a65e72a150735a",
-      "git_blob": "29793d8b5994d2e2e6708c7a5bee3dddcff7a2d2"
-     },
-     {
-      "member": "portable/BATCH162_HUNT.json",
-      "bytes": 675,
-      "sha256": "bdbfcc21e83d2b98cbb94ed69ff8e44c2b75379b5a7ba178f12a1c93f09ef5a3",
-      "git_blob": "0f114880d3d6b7782dc39e1c5d31039061ba0c80"
-     },
-     {
-      "member": "portable/BATCH170_HUNT.json",
-      "bytes": 687,
-      "sha256": "ac7c0bef4289525322f25561a68b88354a4f97b11860ee48e54609a684f07de4",
-      "git_blob": "b867b06f1f56a323822c4f7b9b384e6502563273"
-     },
-     {
-      "member": "portable/BATCH172_HUNT.json",
-      "bytes": 977,
-      "sha256": "5f06498135baf18969239c98d313ea9a3cf4ec4238ec544a9ad4e9c0230c098e",
-      "git_blob": "fbb3ea55d96c48fb9d119d17f55bf29ce6841501"
-     },
-     {
-      "member": "portable/BATCH183_HUNT.json",
-      "bytes": 828,
-      "sha256": "d9264e87a942f5369172450d4c4fa255990d09c5ea8bd71c13e8f7be10058595",
-      "git_blob": "997e87f5d207f6ebd1fb5ef18b24c2eeb46cdddf"
-     },
-     {
-      "member": "portable/BATCH190_HUNT.json",
-      "bytes": 1492,
-      "sha256": "2829ed13cfc0dd963f1bd70fd19840a9d1dfdd28c106dc13feb0f132d328d16c",
-      "git_blob": "36a13255baec7f1c60f168f79e7980fd430f3ca2"
-     },
-     {
-      "member": "portable/BATCH207_HUNT.json",
-      "bytes": 1290,
-      "sha256": "c025254d9d68ce425ebaad224209d60e9e298d20453f1a9015cc47ee244ad3aa",
-      "git_blob": "0a502201914e88645c673121439f456fb8fc5e0f"
-     },
-     {
-      "member": "portable/BATCH210_HUNT.json",
-      "bytes": 1572,
-      "sha256": "0ade42e484398fab212fbf774d0d5325cfd8043cd16c08a84ff871387bab4818",
-      "git_blob": "0977440285bf739c928bb692c95197859d0c07b1"
-     },
-     {
-      "member": "portable/BATCH232_HUNT.json",
-      "bytes": 1575,
-      "sha256": "2e89ed90e3c664ac1ca26a17fced01f873700f3228f9977970f49de50da1aff2",
-      "git_blob": "014ee7ea2db0fa164d1ae70d77f051989db03bcd"
-     },
-     {
-      "member": "portable/BATCH233_HUNT.json",
-      "bytes": 1780,
-      "sha256": "1a55f77a289729804d2798e22d031661ddb7e8808e3980745bee75fdde0ad23c",
-      "git_blob": "f7a59389c28a3c7b12f284c3318cc9c39b53053c"
-     },
-     {
-      "member": "portable/BATCH234_HUNT.json",
-      "bytes": 1312,
-      "sha256": "47cbe5f48c3ccc03ddd53601b9349162d6e9c8d12ccdac510bded606388a89ab",
-      "git_blob": "df3d60dad79342d4e241378804d58325e60dd25a"
-     },
-     {
-      "member": "portable/BATCH237_HUNT.json",
-      "bytes": 1523,
-      "sha256": "7c998e61976154f0318e7eecc4755aa8bcb5102dd4acca8aa06b73ca60f9d8b5",
-      "git_blob": "c7a372643b7c6f5905ab89f00be4f017507d3fd7"
      }
     ]
    },
@@ -5955,24 +4540,6 @@
       "bytes": 7503,
       "sha256": "38d5191053922ff41ebe19e6ad112d3a15c15fc9ca168d10e241db3439e59640",
       "git_blob": "7f9a43ed7284b4c781ed79a26423f55a59c335c0"
-     },
-     {
-      "member": "portable/main-default-branch/AGENTS.md",
-      "bytes": 1124,
-      "sha256": "13e3c9113a2684991681f5f6f61486a0df4d30965e7620ba3b0744f7e11b80c6",
-      "git_blob": "2436f08d29510bd334af2dfdb221096666d29c0c"
-     },
-     {
-      "member": "portable/main-default-branch/APPLY.md",
-      "bytes": 3752,
-      "sha256": "9731afbe5c6c7b7e24dde516adbeb4d022d9731b07b732c6ada6581410b9f64a",
-      "git_blob": "1681f3d8c3cdc2d5e7f56df72173cc1d09185ed4"
-     },
-     {
-      "member": "portable/main-default-branch/README.md",
-      "bytes": 1944,
-      "sha256": "7629a5fb1a4bea5711686c06c778aa71c93c3c858d2177e2865f7bd70737df15",
-      "git_blob": "32d26903d5870545491f35a601213c45d84032b2"
      }
     ]
    },
@@ -6114,12 +4681,6 @@
      }
     ],
     "members": [
-     {
-      "member": "portable/pr2-landing/CHECKLIST.md",
-      "bytes": 3871,
-      "sha256": "6a50b9c4e23b98b303cd6e737fb57394227d2cfa500b5dc782f0cb9c6795338b",
-      "git_blob": "233811fed5fb7c8a0de3480ea5c3139a9274e1ca"
-     },
      {
       "member": "portable/pr2-landing/VERIFY_AFTER_MERGE.sh",
       "bytes": 4867,
@@ -6308,22 +4869,10 @@
       "git_blob": "3cc526f7a67d239c75dca79c1f2d12c0b2acbd5b"
      },
      {
-      "member": "portable/patches/COMPATIBILITY.md",
-      "bytes": 21709,
-      "sha256": "50615d22811e1b32d214186a0925d94ce22e68b664d58ecffc358e28a452fa96",
-      "git_blob": "d45d88eaa0b2108785e65a0f4f74833a2fd2e9bc"
-     },
-     {
       "member": "portable/patches/MANIFEST.json",
       "bytes": 9132,
       "sha256": "95529c795957b02c3ee3dd96455eb86d3b9111badd714c85b8266a9f4861ba24",
       "git_blob": "bab9803d5e46b2973f2771ecb686757fe5e6b316"
-     },
-     {
-      "member": "portable/patches/README.md",
-      "bytes": 5980,
-      "sha256": "35059a699830ada90888d7d779963bbe93f459d56d9517fc4788cf33cf7c5939",
-      "git_blob": "3047900e9c15504213f762576a85b8e5a36766b8"
      },
      {
       "member": "portable/patches/apply_all.sh",
@@ -6405,28 +4954,10 @@
       "git_blob": "484bf8a1bb1261ee58509f6d7d527e0c513ee0dd"
      },
      {
-      "member": "scripts/audit_local_tree.py",
-      "bytes": 3179,
-      "sha256": "bc6e719a00c0e6ce554c21442a7daf7c58437f868c8c1b6fa0a1dcc509364c32",
-      "git_blob": "824b257d3cc8dcff6b46d6a8b4d347b4a77d64c5"
-     },
-     {
       "member": "scripts/audit_main_alignment.py",
       "bytes": 3635,
       "sha256": "5791f6490039000af0eb44f9e61294ab8246567722456036c636b237be2ec38b",
       "git_blob": "721fed19144701289577f30476c2113e3e4979e9"
-     },
-     {
-      "member": "scripts/audit_research_stack_open.py",
-      "bytes": 10967,
-      "sha256": "a19f719f1bc412606b69ba1f0045ae4972f024160255c50ff1e9f90f3be2ba40",
-      "git_blob": "9d09b97b21b1319c7c02800975fc8da0510bd34f"
-     },
-     {
-      "member": "scripts/check_autonomous_window.py",
-      "bytes": 6038,
-      "sha256": "43997cfa464b4371f3e34392327879c7cafdba296b871b89701fd06a9704cce3",
-      "git_blob": "514ea2e93eac6edaae103a8ac2d3e33ce34bffb4"
      },
      {
       "member": "scripts/dispatch_land_path_c.sh",
@@ -6549,12 +5080,6 @@
       "git_blob": "e54bda1cbe9a59341b04fc18d4ee3338c0c705ca"
      },
      {
-      "member": "scripts/watch_main_alignment.py",
-      "bytes": 4529,
-      "sha256": "e04a626b44a5975b8c7b423038f64878d7cf99b8ecd5e935c5d0925bb6263bdc",
-      "git_blob": "159e65f15a662456acba0ddbdece4b524ba4cfb3"
-     },
-     {
       "member": "scripts/when_writable_land.py",
       "bytes": 57218,
       "sha256": "3b86a3ffcb649d290e730233517dffd15a3808fdf8c05e1f7986db78f647c8a3",
@@ -6578,7 +5103,7 @@
   {
    "object": "audits/formal_enforcement/2026-09-27/Main188_landed_formal_36358139870.zip",
    "classification": "MECHANICAL_COPY",
-   "reason": "Each listed member is byte-identical (same Git blob) to the named main or Math- tree file or to a member classified in another tranche-7 object, or is a nested archive whose members are listed individually; its disposition is that of its original.",
+   "reason": "Each listed member is byte-identical (same Git blob) to what its copy_of names: a main or Math- tree file, a file a tranche-6 row binds at the same path and commit, or a member classified in this or another tranche-7 object; or it is a nested archive whose members are listed individually. Its disposition is that of its original.",
    "source_binding": {
     "repository": "d6g8k5htny-coder/main",
     "commit": "d2b0216e15d545c47f25b6a9265dd3298971e9fe",
@@ -6653,7 +5178,7 @@
   {
    "object": "audits/formal_enforcement/2026-09-27/Math96_landed_downstream_36359933550.zip",
    "classification": "MECHANICAL_COPY",
-   "reason": "Each listed member is byte-identical (same Git blob) to the named main or Math- tree file or to a member classified in another tranche-7 object, or is a nested archive whose members are listed individually; its disposition is that of its original.",
+   "reason": "Each listed member is byte-identical (same Git blob) to what its copy_of names: a main or Math- tree file, a file a tranche-6 row binds at the same path and commit, or a member classified in this or another tranche-7 object; or it is a nested archive whose members are listed individually. Its disposition is that of its original.",
    "source_binding": {
     "repository": "d6g8k5htny-coder/main",
     "commit": "d2b0216e15d545c47f25b6a9265dd3298971e9fe",
@@ -11257,7 +9782,7 @@
   {
    "object": "audits/formal_enforcement/2026-09-27/Math96_landed_formal_36359933550.zip",
    "classification": "MECHANICAL_COPY",
-   "reason": "Each listed member is byte-identical (same Git blob) to the named main or Math- tree file or to a member classified in another tranche-7 object, or is a nested archive whose members are listed individually; its disposition is that of its original.",
+   "reason": "Each listed member is byte-identical (same Git blob) to what its copy_of names: a main or Math- tree file, a file a tranche-6 row binds at the same path and commit, or a member classified in this or another tranche-7 object; or it is a nested archive whose members are listed individually. Its disposition is that of its original.",
    "source_binding": {
     "repository": "d6g8k5htny-coder/main",
     "commit": "d2b0216e15d545c47f25b6a9265dd3298971e9fe",
@@ -11353,7 +9878,7 @@
   {
    "object": "cbz/evidence/formal-lifecycle-db642-20261029/completion/evidence.zip",
    "classification": "MECHANICAL_COPY",
-   "reason": "Each listed member is byte-identical (same Git blob) to the named main or Math- tree file or to a member classified in another tranche-7 object, or is a nested archive whose members are listed individually; its disposition is that of its original.",
+   "reason": "Each listed member is byte-identical (same Git blob) to what its copy_of names: a main or Math- tree file, a file a tranche-6 row binds at the same path and commit, or a member classified in this or another tranche-7 object; or it is a nested archive whose members are listed individually. Its disposition is that of its original.",
    "source_binding": {
     "repository": "d6g8k5htny-coder/main",
     "commit": "d2b0216e15d545c47f25b6a9265dd3298971e9fe",
@@ -11673,7 +10198,7 @@
   {
    "object": "cbz/evidence/formal-lifecycle-db642-20261029/raw-evidence.zip",
    "classification": "MECHANICAL_COPY",
-   "reason": "Each listed member is byte-identical (same Git blob) to the named main or Math- tree file or to a member classified in another tranche-7 object, or is a nested archive whose members are listed individually; its disposition is that of its original.",
+   "reason": "Each listed member is byte-identical (same Git blob) to what its copy_of names: a main or Math- tree file, a file a tranche-6 row binds at the same path and commit, or a member classified in this or another tranche-7 object; or it is a nested archive whose members are listed individually. Its disposition is that of its original.",
    "source_binding": {
     "repository": "d6g8k5htny-coder/main",
     "commit": "d2b0216e15d545c47f25b6a9265dd3298971e9fe",
@@ -13519,7 +12044,7 @@
   {
    "object": "docs/reports/atlas-evidence-accessibility-20261026/qualified-observation-5596.json.gz",
    "classification": "MECHANICAL_COPY",
-   "reason": "Each listed member is byte-identical (same Git blob) to the named main or Math- tree file or to a member classified in another tranche-7 object, or is a nested archive whose members are listed individually; its disposition is that of its original.",
+   "reason": "Each listed member is byte-identical (same Git blob) to what its copy_of names: a main or Math- tree file, a file a tranche-6 row binds at the same path and commit, or a member classified in this or another tranche-7 object; or it is a nested archive whose members are listed individually. Its disposition is that of its original.",
    "source_binding": {
     "repository": "d6g8k5htny-coder/main",
     "commit": "d2b0216e15d545c47f25b6a9265dd3298971e9fe",
@@ -13537,7 +12062,7 @@
   {
    "object": "docs/site/evidence/side24-main-3b39/verified-execution.zip",
    "classification": "MECHANICAL_COPY",
-   "reason": "Each listed member is byte-identical (same Git blob) to the named main or Math- tree file or to a member classified in another tranche-7 object, or is a nested archive whose members are listed individually; its disposition is that of its original.",
+   "reason": "Each listed member is byte-identical (same Git blob) to what its copy_of names: a main or Math- tree file, a file a tranche-6 row binds at the same path and commit, or a member classified in this or another tranche-7 object; or it is a nested archive whose members are listed individually. Its disposition is that of its original.",
    "source_binding": {
     "repository": "d6g8k5htny-coder/main",
     "commit": "d2b0216e15d545c47f25b6a9265dd3298971e9fe",
@@ -13745,7 +12270,7 @@
   {
    "object": "docs/site/snapshots/38ac44c585feb2f9a480d8e54ad1a7fe56ad35aff19e2eab929861ea81974644/archive.zip",
    "classification": "MECHANICAL_COPY",
-   "reason": "Each listed member is byte-identical (same Git blob) to the named main or Math- tree file or to a member classified in another tranche-7 object, or is a nested archive whose members are listed individually; its disposition is that of its original.",
+   "reason": "Each listed member is byte-identical (same Git blob) to what its copy_of names: a main or Math- tree file, a file a tranche-6 row binds at the same path and commit, or a member classified in this or another tranche-7 object; or it is a nested archive whose members are listed individually. Its disposition is that of its original.",
    "source_binding": {
     "repository": "d6g8k5htny-coder/main",
     "commit": "d2b0216e15d545c47f25b6a9265dd3298971e9fe",
@@ -13778,7 +12303,7 @@
   {
    "object": "docs/site/snapshots/7c583e28878d2bf2c94bf37325820bd5eb1e7f3f557e8a78dd27881a27f6548c/archive.zip",
    "classification": "MECHANICAL_COPY",
-   "reason": "Each listed member is byte-identical (same Git blob) to the named main or Math- tree file or to a member classified in another tranche-7 object, or is a nested archive whose members are listed individually; its disposition is that of its original.",
+   "reason": "Each listed member is byte-identical (same Git blob) to what its copy_of names: a main or Math- tree file, a file a tranche-6 row binds at the same path and commit, or a member classified in this or another tranche-7 object; or it is a nested archive whose members are listed individually. Its disposition is that of its original.",
    "source_binding": {
     "repository": "d6g8k5htny-coder/main",
     "commit": "d2b0216e15d545c47f25b6a9265dd3298971e9fe",
@@ -13811,7 +12336,7 @@
   {
    "object": "docs/trial-portable-main-fixes.tgz!portable",
    "classification": "MECHANICAL_COPY",
-   "reason": "Each listed member is byte-identical (same Git blob) to the named main or Math- tree file or to a member classified in another tranche-7 object, or is a nested archive whose members are listed individually; its disposition is that of its original.",
+   "reason": "Each listed member is byte-identical (same Git blob) to what its copy_of names: a main or Math- tree file, a file a tranche-6 row binds at the same path and commit, or a member classified in this or another tranche-7 object; or it is a nested archive whose members are listed individually. Its disposition is that of its original.",
    "source_binding": {
     "repository": "d6g8k5htny-coder/trial",
     "commit": "3738c859d519d2dbf1e388fe48fe0ae60c9487a3",
@@ -13823,13 +12348,1386 @@
       "sha256": "7a9362ddb7668ec4770d3011daa20cbfa30cfa452cf491e2254282fc2ae0a133"
      }
     ],
-    "members": []
+    "members": [
+     {
+      "member": "portable/RELAUNCH_WITH_MAIN_SCOPE.md",
+      "bytes": 6748,
+      "sha256": "2eb9358094e35d0abbf06a165eba1dbf2b6e7aeb71a8f531cee3183b9bfbb448",
+      "git_blob": "8d4d735c2381af7753dcab57c3da14afeb666481",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/CONFLICTING_PR_NOTES.md",
+      "bytes": 10154,
+      "sha256": "3e0147519ce5c9487c5cbb92294a1169ddcacc31e03804bde020773ef2cfe520",
+      "git_blob": "5736de92addd5d41233ececfb524d5456ea86bda",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/EXPECTED_POST_ALIGNMENT.json",
+      "bytes": 1028,
+      "sha256": "c3cd94aa78fb2a5b48e9c24434be15faeec3040ace4b8646ebf1cee187c733d5",
+      "git_blob": "1c77b7f64e4503096e0887c1a1e8b912ae258463",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_125.json",
+      "bytes": 8125,
+      "sha256": "04cbbc749502820cdd4f236b3f6ff60c8bb00ffd33542f26a74724af6eb95e6a",
+      "git_blob": "9e8ef4151b7faf63739b80b9aef7e3cfe2c5d4b1",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_53b.json",
+      "bytes": 1818,
+      "sha256": "f91c899bc94155a0aba9fd6e0e8c96ced3058372ce4a38fdf52ce70ce4de5d90",
+      "git_blob": "f716fa1be9ae5f220fe0f49cd9e967680a059a1f",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_54.json",
+      "bytes": 3036,
+      "sha256": "1ad28161a3d11f5a22caae71cd5645301262d8e569c318a1aadcc3cc554a5ecf",
+      "git_blob": "10a60b717a9b5ea87f1975867a4f0d85b839db98",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_55.json",
+      "bytes": 3426,
+      "sha256": "afb882b2df978604ec0108e650d607df6ecff7830312df225da98ed25e9a71c8",
+      "git_blob": "c16fc01ae3551675bfc1ae4a47ad262662757846",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_56.json",
+      "bytes": 3717,
+      "sha256": "23c27d6c0d7cf0b39f6b1618d1d6027f2baf5621c4284195e0efc946d10aab3c",
+      "git_blob": "3285bbee962364d05c652922eb910efe8b39e95f",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_57.json",
+      "bytes": 5961,
+      "sha256": "c108e21407ff847ea1f59de77eb66bea17862fa020cdf1e7c7027b4b8839e3a5",
+      "git_blob": "6f0a54cc8a54d0c4ef5eb9df60e0ab36c01de328",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_58.json",
+      "bytes": 5464,
+      "sha256": "ec22862c2662d472951d70476486b79c4383f6447fedbc7171f7c1ab2cd37b54",
+      "git_blob": "84c0a4e21db8fcc050e5ea4c2d42a190af9236c0",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_59.json",
+      "bytes": 5637,
+      "sha256": "6b884de906f274afa1da757ff25b19b87e66f24184dc0ad162a86e2738b098ec",
+      "git_blob": "e94d062e279d69f4174cc7da53fb1067e4bd2274",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_60.json",
+      "bytes": 6515,
+      "sha256": "0ab88ccebcc2122c6a4af3c4c61c29540abd7de69269b9dafb8ad9efa1e875a4",
+      "git_blob": "7d832d72e6d0ec7acd8849d6471527b845f13390",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_61.json",
+      "bytes": 6280,
+      "sha256": "e54ba06a40471ae2b8349490a98266d2f78420ae9b4b8375960703186cb1c483",
+      "git_blob": "c576f7a29a87002a28f2f1012179cba8e79f0bc5",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_62.json",
+      "bytes": 6820,
+      "sha256": "114d1806417b7f5b63c9bf061610b553360079541366e75d1cf9dc58c6395c98",
+      "git_blob": "449d837138e2e791b3da06d056c435cd5d36bd22",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_63.json",
+      "bytes": 6820,
+      "sha256": "59a98b40af75f9e14171d56d4b92852ecd1e783da8383453b6980c6deafdc0ce",
+      "git_blob": "dc2d1e0ac93e8e4df9d8760b8de041b52ca632f3",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_64.json",
+      "bytes": 6820,
+      "sha256": "49dba843f3c34c41c478b447dce698d579621badb67bf976b14d49c4ae9a728a",
+      "git_blob": "e9e1dacda87649231f3b837856d903396682f4c0",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_65.json",
+      "bytes": 6911,
+      "sha256": "f6b7a35bdc9be6c6776163a52e75a20da93ed12c052df1ef18daf29ce97f9b1c",
+      "git_blob": "7ac79831cb91dbf9e16455132b312d1900a69d0e",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_66.json",
+      "bytes": 6914,
+      "sha256": "f925928ce8fdf8a7c7e8999a356dac523470c115468d04d495aa1b2260f46454",
+      "git_blob": "4f19d2226a7690418378bf36a1304b7f176f22fe",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_67.json",
+      "bytes": 7563,
+      "sha256": "1cdc1db7cefe515a8b0fdf808beae678ec3d7dfbedd29176b7010b12b2a69705",
+      "git_blob": "c85dcc2ac6d214d2b5b367e2503e0b3e6e0a1dee",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_68.json",
+      "bytes": 7757,
+      "sha256": "d05ef0033a37262a9601850dd112e10f4711d3e9fa24eed7bcfcbd83fd461794",
+      "git_blob": "d5ee26c173af5884279b5121a0798af02545d09b",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_69.json",
+      "bytes": 8632,
+      "sha256": "e8cd2864b54d754fac41c7d1a95ab4746478d1e580a43dd2cc0a55cb2f5d3463",
+      "git_blob": "be52190e94f2a4f9af31ef654971f9e66384fca6",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_70.json",
+      "bytes": 8121,
+      "sha256": "7bcf55a2df62217e90d888909e156bd91cc8e3e4da8add1dac454632c3ec7914",
+      "git_blob": "7c4656699db8678ad096c2684c2230644d2745a8",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_71.json",
+      "bytes": 8121,
+      "sha256": "c5340070bf7c4555652828521f562258d07f3d244e775dfdc21704018930742b",
+      "git_blob": "f9f081497218f4223ab02d306d30ab5a143d98b9",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_72.json",
+      "bytes": 8121,
+      "sha256": "cbc1e06357b1716e140179f5ed71d6d77c16e4ae94530c8413982d3dea22602e",
+      "git_blob": "6945b700f9eb7de6e2402ccb44ef7bb8b8e6db5b",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_73.json",
+      "bytes": 8121,
+      "sha256": "d27ebfa1885f4e77a1fb674a9106a1f2640686e296c39421865a2dfbea699b57",
+      "git_blob": "1e37a16a5bf93260aae790e6a41f456c3931ec5a",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_74.json",
+      "bytes": 8121,
+      "sha256": "5c487c941120fdad3ea92d4c530ad1610ebbd41f2c354accee5335b6a4c12671",
+      "git_blob": "732762238847f2127944a3dd9313a7c8cdbe208f",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_76.json",
+      "bytes": 8572,
+      "sha256": "bd88ba62df52a48f2e66e06ae064aa589d7f5153736bfa18b94ca87e2a344444",
+      "git_blob": "a35ba5b1ee831a87da1cd00ef06eacd146c9c855",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_77.json",
+      "bytes": 9185,
+      "sha256": "68d32af2c4f2f7e0f5ee82426aeb79ce02ae9b640e1ddc57dca0d48a2838e286",
+      "git_blob": "5ad54d123fbfe20557e41a6888ba6d44c06c783f",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_80.json",
+      "bytes": 8584,
+      "sha256": "e2ff2dcf36f889bf07c952196dbb63431e99ece288f3d80d6a4aa924e0235b19",
+      "git_blob": "e18c99ac98168b7ea7219956c6ef78f9f50c581f",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/RESTORE_PLAN_86.json",
+      "bytes": 7479,
+      "sha256": "dee9feaf2fedf4234397cc53fe43e66e80a581838fefed56f2555a38162f6e87",
+      "git_blob": "bfd67bfbb9f1701e2a355d1160e8ea2157265e58",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH58_TOKEN_SEARCH.json",
+      "bytes": 1777,
+      "sha256": "388ad1a210e578dd70601554c4bc89f69ffae69dad3874665cc56203c96e144b",
+      "git_blob": "b91ed016faa0342ff45e87fd620b4aeff3488bc8",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH59_TOKEN_SEARCH.json",
+      "bytes": 1601,
+      "sha256": "22dc3bc2de8232af8af7818f104935a0628cc36b8d6c24a30275860bcafb23a5",
+      "git_blob": "caa64460cbe6044cc818e97ed5ef346fedae40fb",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH60_TOKEN_SEARCH.json",
+      "bytes": 1716,
+      "sha256": "d9007299567abf86465243b7512c0220a320abe0e0a0f39652920f59f3753fc4",
+      "git_blob": "740c19888eb5c85937d57e4490302f2d10dab320",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH61_TOKEN_SEARCH.json",
+      "bytes": 1736,
+      "sha256": "a644acfb7733b0328792a7e9c01d1a4ebabdb09a58816c37631288cefae0681a",
+      "git_blob": "380e348d77f2bceec59feba946517e0042d8c31f",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH62_TOKEN_SEARCH.json",
+      "bytes": 1899,
+      "sha256": "25da1d700f4a8fb1bf593fa9e10fe3cd35dba3dfce462ddf34a786f73c1f23f5",
+      "git_blob": "ace44572973ecccf41afb2d7829ffd930c3fa8c5",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH63_TOKEN_SEARCH.json",
+      "bytes": 1968,
+      "sha256": "07cb3096930cdd41ae51224be38975b543e2055feebd85aaa39d0f3ae339d498",
+      "git_blob": "a1ad3606c3a0373cd237b186136a00278daf3c4b",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH64_TOKEN_SEARCH.json",
+      "bytes": 2108,
+      "sha256": "eb6d25ea7de05d12ada256e26edbd05939983a620c9873687bf6031f3270ddb9",
+      "git_blob": "50c0d531ff53bf823019965a8aea7de931662d8a",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH65_TOKEN_SEARCH.json",
+      "bytes": 2092,
+      "sha256": "2e7ff525fc71410b13678b4f50b080f6bbd6c16811b6a9413811475131a7f841",
+      "git_blob": "cca4d51d273a5c1ee31c5559b0d183dd5e23390c",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH66_TOKEN_SEARCH.json",
+      "bytes": 2150,
+      "sha256": "4e30561faa2eac8d8c6738d3ba2be77403b3f62807bea0cc913baf5c82ca10e3",
+      "git_blob": "d44085eb893dc5903efc24e2bf61e484d033a793",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH67_TOKEN_SEARCH.json",
+      "bytes": 1936,
+      "sha256": "f5fe4be2e5e68e6f3b5644d8ed7ea7cba3ddb264385cad82999aa690200b7b7d",
+      "git_blob": "4b2c6c5e657f7bf76795fc0fca123d28a81685ec",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH68_TOKEN_SEARCH.json",
+      "bytes": 2040,
+      "sha256": "616d898ec3b902f10d5ee417c19961d172482c87b8d3316869c292666ee3d6d5",
+      "git_blob": "91b98b4e3e49636fb6a729bcca713cd80d7ac160",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH69_TOKEN_SEARCH.json",
+      "bytes": 1954,
+      "sha256": "4bc46582733892a2a83d01c36a4e00fdde56832b879afa7aa8a4d9000a66806e",
+      "git_blob": "927005bca9965d008d5b7ffb999ee1643a4b09dd",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH70_TOKEN_SEARCH.json",
+      "bytes": 2211,
+      "sha256": "3317e7a26ca82ca2965359091749591b97beb4c29cd1476dc3a73dd44502a7ad",
+      "git_blob": "de9d26be0b1fa3b3930917d214f8cb6edf37f6d7",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH71_TOKEN_SEARCH.json",
+      "bytes": 1846,
+      "sha256": "be9d532f0536761d9c01f747b481c934a4adf24d90a254578379dcd5ad3236a5",
+      "git_blob": "11923a93cfdc7e67201d084fa8f7b49ec43bedff",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH72_TOKEN_SEARCH.json",
+      "bytes": 1884,
+      "sha256": "18540fe378f536282b2e6977ff592e16399c0909fadc87650ee012506aa284fa",
+      "git_blob": "5a5c71959a0f34a2a3dc39c7ed01e73047cfedf5",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH73_TOKEN_SEARCH.json",
+      "bytes": 633,
+      "sha256": "743ed5846df7cfbebebd8b48c2b96427d172d1bb12f493708b1110f7d6df4643",
+      "git_blob": "869c804845b991a74a83e490246c764bf805b99b",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH74_TOKEN_SEARCH.json",
+      "bytes": 600,
+      "sha256": "3be79e22d30c664c935d9cbf0022e56927aa35db98e4e377c6b11ef19b67ea6f",
+      "git_blob": "e14f10a65c0a1e8687d1e536980c6abeb9517309",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH76_TOKEN_SEARCH.json",
+      "bytes": 611,
+      "sha256": "d4e861acf6c5d0b08262d2d239f8706e10036ff9b32f4c847919360ff2c9c128",
+      "git_blob": "f234673616d9f6d13cb5a6e6e2d4b935e10b41f9",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH77_TOKEN_SEARCH.json",
+      "bytes": 619,
+      "sha256": "301d6303f5e5635051dee74eebe910921467fc017699ddc8054e7bfcf6b8a497",
+      "git_blob": "0a6ba4a7c37d93deac021f1e186f33cfea3c8ab3",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH80_TOKEN_SEARCH.json",
+      "bytes": 1584,
+      "sha256": "b0974b4cbd0d37aa5f769aa231899773d90a7a08e214deee08db54b5935da738",
+      "git_blob": "59bca213b3f08c2835237683c845bedaf7ffbb8b",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH86_TOKEN_SEARCH.json",
+      "bytes": 1347,
+      "sha256": "210c4f9ef00a9764693f9f080ce9dc51730194299c584f8f5601f56f94cb94bb",
+      "git_blob": "5369ea088b3fffc0ee77c1cd784fe4097e5e5a21",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/PATH_C_REBASE_CONFLICT_REPORT_67.json",
+      "bytes": 6118,
+      "sha256": "67c5ea433ba962cf2d89114054586ce4a1efce51ee98bf8ca572921848f208a3",
+      "git_blob": "5a21364c43075f149fcb2c2976528b7d8ba61067",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/PATH_C_REBASE_RESOLUTION_NOTES_68.json",
+      "bytes": 2808,
+      "sha256": "8c018375fa79e5a4677cccc5ff766e6e740a8fb01812c219ced0cd84d1882174",
+      "git_blob": "5f48e60f354d6eaa991ed6d6c644cb5225d3a391",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH132_RESEARCH_STACK_AUDIT.json",
+      "bytes": 36239,
+      "sha256": "406f53fad3f6366a75efb20af140fec76bd7e91fc0c5b080692e76bc0fd45d57",
+      "git_blob": "062d62bb2fe1f60a259a1304728170bd9c2c4d1a",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH149_RESEARCH_STACK_AUDIT.json",
+      "bytes": 34086,
+      "sha256": "82ee3fd6afc172c31edeabf94095fdd7d3a228985531f4f6ad81cc14fb88ae59",
+      "git_blob": "1a349cc8946b5d69a27ce42580a735466c620e53",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH165_RESEARCH_STACK_AUDIT.json",
+      "bytes": 34337,
+      "sha256": "ef4f640daf6084b0d2c285f4b2561f54891b5617405feb6b5fb5fec8e3631572",
+      "git_blob": "56d2a28fdd320bb1aeda99e470b6057455235b05",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH232_RESEARCH_STACK_AUDIT.json",
+      "bytes": 640,
+      "sha256": "c976b9041044444de98c9f4976b094f54750cd1b03b539286ed978f89f708fd8",
+      "git_blob": "ffd145510fa14fc2b0cb7c4cf37745027652746d",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH233_RESEARCH_STACK_AUDIT.json",
+      "bytes": 34570,
+      "sha256": "8941ad8d3a2e02a2a8d4895eba2e24ed73ca4fd8c34d8e4c83561ec345bf18b7",
+      "git_blob": "5d71d0c60dad1ecdf97ad37bddb52c3d8b486ec8",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH237_RESEARCH_STACK_AUDIT.json",
+      "bytes": 34149,
+      "sha256": "540aebcca541d318c68bee16b9cfe417d0aa4e01446157568472800eefdd0928",
+      "git_blob": "d12ea870101d2ac01eda0324bc232ce9bb51a8e7",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH70_RESEARCH_STACK_AUDIT.json",
+      "bytes": 21260,
+      "sha256": "556e6e136b810acdd96a761c6880cb6c6ca0486114f62b7cf282710cee5da94f",
+      "git_blob": "59eb07edf715cb2e2cd4b3da677b452f65d02352",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/OBJECTIVE_EVIDENCE_83.json",
+      "bytes": 6716,
+      "sha256": "381f786c39ce3d2a6431f92aaa80b127f182d597f3329d2780659dffb09ca5a6",
+      "git_blob": "2f4d3ab6ed4edc0fd5dffd05dbd82ae81222444e",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH100_BRIEF.json",
+      "bytes": 956,
+      "sha256": "8b6a363b9ce8700eba038f8684fcf5598ec6a0cea2d9252b3a253253849d0f1f",
+      "git_blob": "7a8d9af692ed7cc8cadca8a8382403d23ea6aafb",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH101_BRIEF.json",
+      "bytes": 683,
+      "sha256": "0603f817b34e327755a37680d31df0777c0b87b3a062b35062d82bcf0ad3ba42",
+      "git_blob": "31f4f89191c6a9fead5463e1640b2d30cdb77d5c",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH102_BRIEF.json",
+      "bytes": 715,
+      "sha256": "f573ce3d2540c24b20d2a6cf568fe5ed9dbc697d323413d333e547c4830337c5",
+      "git_blob": "37b73347b5de8cf19c9e387b6282bd8b6ba7fbd5",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH103_BRIEF.json",
+      "bytes": 852,
+      "sha256": "dde07a11758086f3a88ee1b8aa08893cb3787817ed66017fbbb78265cec7e377",
+      "git_blob": "967002bd549e08737213436684eac435f2017c18",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH104_BRIEF.json",
+      "bytes": 557,
+      "sha256": "744bb3cbcbfc94a2427e378d1bac8d76d4e03b4d2bdff032d1f23523876b7f29",
+      "git_blob": "526b3533067c8bb76004574da7900553ae6cf78e",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH105_BRIEF.json",
+      "bytes": 561,
+      "sha256": "b3332a863e31ba75b5e5e1cef0772351a5c3206cabfb65081a6aa8111cca641b",
+      "git_blob": "c950fa8064c8b9840595c3ef77fd9395a4b8bbff",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH106_BRIEF.json",
+      "bytes": 558,
+      "sha256": "24f621ba2697bb4edccfcdd8d68277e8ecb9015630cd047bccc0f7762e89b744",
+      "git_blob": "2f7d40c69af55490322f7879effaa7de974e82cf",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH107_BRIEF.json",
+      "bytes": 570,
+      "sha256": "4e6a9b2227a5ab8716f1a95559c98b015a73d975ade9747dd779dfea3536574c",
+      "git_blob": "5c96058c2a43550984570ad30498d798f2c16485",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH108_BRIEF.json",
+      "bytes": 561,
+      "sha256": "a3763f4ece946f5087dd6308c72b7c6d622a353b095d23730080a284cef978db",
+      "git_blob": "69a9bcc2526ce2bd66c8e1a7ff4277c38e91695f",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH109_BRIEF.json",
+      "bytes": 533,
+      "sha256": "c552efa42dc01285b2ec655bfe6dcc642ebdcb81406a11850e3a7ec9efcff379",
+      "git_blob": "c6247f66b5b7b38013d9d54ac6fecbce3c4b2917",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH110_BRIEF.json",
+      "bytes": 532,
+      "sha256": "b0552a69419273248e23ffc3689679431fc667937ee12a617268d31f1e6ec245",
+      "git_blob": "7b64c9ce4fb7a7b41db3007717d38bf0a0b2d54f",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH111_BRIEF.json",
+      "bytes": 533,
+      "sha256": "6b8bf1ef33bf344015cc04218c94151baa4d1a93ba2a5b4923299ae13d5fef2d",
+      "git_blob": "f949a57741d2ec34ed819fd18f0f12eaefd0fbcd",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH112_BRIEF.json",
+      "bytes": 532,
+      "sha256": "c06893d24a73dd8e5bd5b0b9e85ee6de63bdec171f11afd24496c7e0367da075",
+      "git_blob": "d39a5a323e5d46b51b3b66d898b1dc77168bfc39",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH113_BRIEF.json",
+      "bytes": 631,
+      "sha256": "4ea790b614db0d670ee11fed7bc947efd4793e8c1472d9f47960fb48bdfc250e",
+      "git_blob": "4265d114b3a30c5a09bf8c38d314f8532f5b8d72",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH114_BRIEF.json",
+      "bytes": 501,
+      "sha256": "54405314dfe5fb655eb75ea19ea943c43894a342e352c9103eea08073a3617d9",
+      "git_blob": "e436ef1c997b0fcf1442eeeeb926d40cadafb193",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH115_BRIEF.json",
+      "bytes": 622,
+      "sha256": "5fd8ba59cdbbb8d98f65adff4f7d6645eb6c71cff4c09988cd40ba0a0d55194d",
+      "git_blob": "8b24d4a998d9d97e068ad19d9ccd4e21bc1ef558",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH116_BRIEF.json",
+      "bytes": 625,
+      "sha256": "04325b0196f6983cf03dfed51032df4ae56d6a2c3ff1f3f2fc78363cbe35b752",
+      "git_blob": "1ce3bb2f91e478a2c570fa3040abbf9548575c04",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH117_BRIEF.json",
+      "bytes": 654,
+      "sha256": "c0a236c1895cf35ee60a912df748a17605d658cea0f4f5dd80dde0ffedecee6b",
+      "git_blob": "918316f6dc485d1f4a9faae972d159a4f2157a6c",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH118_BRIEF.json",
+      "bytes": 534,
+      "sha256": "6c8ddb2fcfd7b708133f5d96fc258ff476edd03b427e81d11a99f72bc896c904",
+      "git_blob": "27fc080ce44c08ec227bbedebe7a871003a820e7",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH119_BRIEF.json",
+      "bytes": 534,
+      "sha256": "30cd80ff262b07ef937e13c1ba8a2e27c16bcde281c3178e6477df4065b5103a",
+      "git_blob": "669e65cae9f6b358cdd547fb96f089739098c97a",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH120_BRIEF.json",
+      "bytes": 533,
+      "sha256": "578ac7e980dbc917f54f194ce3be4cd06202e584a0eee40773fd4914e79c8a30",
+      "git_blob": "9f1da53700a1a4b1f2d6635996daa23f70ce7026",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH121_BRIEF.json",
+      "bytes": 660,
+      "sha256": "b3c2ab2749f9fdc03feecdcfec26fced56c96e3d8a33609519347d48ac77476a",
+      "git_blob": "db4474e1aab6ac842a435e3da968d1f0914ddfaa",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH122_BRIEF.json",
+      "bytes": 534,
+      "sha256": "93ceb752bb33621a1f283a1b894eb696e62483f4b22a90ebcbb1c3cd0284d6c8",
+      "git_blob": "026f1b4dad2f246722d0ee40d76dbdf9f7a152d0",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH123_BRIEF.json",
+      "bytes": 533,
+      "sha256": "c03dff9034fe613cc3276b83a642910e137f0d31fbb343490cc92b3cd165e9a9",
+      "git_blob": "89309ed7d93d9cb3d137ee6c67e74558b9177277",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH124_BRIEF.json",
+      "bytes": 665,
+      "sha256": "0907207ef227a610d5d735419269246fe95c0581f4e27cc2becfda3db77e3902",
+      "git_blob": "13ca19c68de0ab8816f4c25c61b7715cf9772488",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH125_BRIEF.json",
+      "bytes": 749,
+      "sha256": "4f75f35dcdbc2055c9d77abcb4f6ffe953be9a9c26ab54500418111053b9a46a",
+      "git_blob": "df5142b8fabeac313b6b900eebcbc21ec53f8fd7",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH126_BRIEF.json",
+      "bytes": 756,
+      "sha256": "671959ceacc51aca104f1d796c1ddd85a3313e3bb548ef02d9a403854bfc8b2e",
+      "git_blob": "24887cd8208587847ac97eca711c666b0e087ea5",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH127_BRIEF.json",
+      "bytes": 590,
+      "sha256": "27afa65d638f56658747bf7ff2caa5ebef1febd2fae5306527bfd5d934925c2d",
+      "git_blob": "eec01b502e54f90c83c5d799e162a702cb71d032",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH129_BRIEF.json",
+      "bytes": 841,
+      "sha256": "2ade40787677a70b662aac917ced024971908628b0ce08980c7509a25d5463d4",
+      "git_blob": "edaeb4e0fd07a1a95e8d6952b39449b3cb1223bb",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH132_BRIEF.json",
+      "bytes": 1424,
+      "sha256": "ffadc136c0e248ac708381a6bcf48d650d55a162b5a5a28db505b6c0d7a9ac19",
+      "git_blob": "395f5fc84094a89179d8cd239f36f78c96ac2c92",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH134_BRIEF.json",
+      "bytes": 958,
+      "sha256": "ee8e847f836a33505ae3d5d258e6936df5733ff974cb2ea24654d6b753f7d2db",
+      "git_blob": "3c14f128d21adad60c3605d83ea358b0f81a5626",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH137_BRIEF.json",
+      "bytes": 1653,
+      "sha256": "9bbe2c174a3efa9acb0019d8c805844ee157cebea30c4f74a357fa87b2641f16",
+      "git_blob": "e1e341a17b5e8500cf5a814478b0069f92af1b90",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH138_BRIEF.json",
+      "bytes": 1371,
+      "sha256": "ea1d1ee544876b7f71348687cc91196a218bc8b970b4d3f8b84f4c660130fccc",
+      "git_blob": "8f1253b4cf60058b9656333ac7c57daa228f61b0",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH139_BRIEF.json",
+      "bytes": 1932,
+      "sha256": "7a0e35ebdcb067450d83ade0e5617510e4a7ca90f7aeed1db9e6bc7400b9ee5e",
+      "git_blob": "db0432253988f261bd27bb26b2620ac20d997daa",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH140_BRIEF.json",
+      "bytes": 1911,
+      "sha256": "fb3a28b8313c11d92c7db4af0a609bf65fac1d055fda9eacf7e581b6bf8a24b7",
+      "git_blob": "cac4def8b73a100c6c8abcfaac37ec05bcad2ff7",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH141_BRIEF.json",
+      "bytes": 2022,
+      "sha256": "f76f493601d1dd0cb734efc1305117d7add6d3c9e275026c8df50a157fe34780",
+      "git_blob": "ea2efd27f1f5049555efc14ed24e157b95e3bde1",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH142_BRIEF.json",
+      "bytes": 2274,
+      "sha256": "adaf459377d39fe5112b42214e8bcbac6a5e05397460fccd98d59e30fa4c516e",
+      "git_blob": "af4da85491f7ec73010f91e03fca99e7325141bb",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH144_BRIEF.json",
+      "bytes": 1998,
+      "sha256": "094dc3c754300d538f24387be347691491aef6d7309c70c6c806f901488e89cb",
+      "git_blob": "65eede031548b6aeb9dc6918e15ad0952a5f3782",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH147_BRIEF.json",
+      "bytes": 2398,
+      "sha256": "df4f7bf4e2bc1efc98d435694adcd3525f987b635c2d5506387c1d132c8c2d60",
+      "git_blob": "a7445978b806768d68317bffc8a231f20a6687cb",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH149_BRIEF.json",
+      "bytes": 3041,
+      "sha256": "bea0ec550b30899be8fcd16e52de28260a443ad987129eb9aaceb1833eff2482",
+      "git_blob": "264224bd5195378f3fe1da5b37f7d8e08cd8c3ba",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH151_BRIEF.json",
+      "bytes": 2292,
+      "sha256": "28e9ba7ecc90dfaf4eb55bc2e754a71e0f985ee1a3df5352bea97954a96d5e91",
+      "git_blob": "80cdd829060d0a9c48f6a1cc2c6ee7121a23c1d9",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH153_BRIEF.json",
+      "bytes": 2682,
+      "sha256": "206ccfcefd5ae92d716f9d53bc8c44de7dcbbdaa98f4ac53a069109728678aad",
+      "git_blob": "2ef77d7269150b3c1760a2d8b3ec4003bfb6873b",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH155_BRIEF.json",
+      "bytes": 3200,
+      "sha256": "f0505d33c173f9260ceedad4606688486fcd42e4cb7784769444c9893593ba5d",
+      "git_blob": "908175a22bbf3eb918b0ff877215cdb486044c1b",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH157_BRIEF.json",
+      "bytes": 2448,
+      "sha256": "31490873ecc47535b64aee544df931f6b9a990fbc5e133a5b3d83dddfd77da1f",
+      "git_blob": "e9af9c670d6abb2edec03e236b27aceb3bcc78aa",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH160_BRIEF.json",
+      "bytes": 2618,
+      "sha256": "c935aea4f861eeaad1aace738f5ea79d0c967baaec54c69df9d7b6e6ecf6102b",
+      "git_blob": "fd4117df8dfcf9a5a00dc31920dc2c5ebde4cbe2",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH162_BRIEF.json",
+      "bytes": 3273,
+      "sha256": "1c50f03c2bad7d42311f7d5eb18b986815780f90375794f0b1524c7e8979d30d",
+      "git_blob": "49dd237bc49731c727e3f3468f29c7c86ad63265",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH164_BRIEF.json",
+      "bytes": 2539,
+      "sha256": "016fd79751eaa4d770529d7f55b77e315aadac4f88d8acb81e5b28907782b93e",
+      "git_blob": "b7972a732a7df9c40ee3f0e1d28a3a878d94774d",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH165_BRIEF.json",
+      "bytes": 2869,
+      "sha256": "bc3bdec1dad6eda1ad9626231ddd85ab43df89492238533c0ea2847d4c93fecd",
+      "git_blob": "2ace792e4472ea1d4e5565a27ac89764b6c06d25",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH168_BRIEF.json",
+      "bytes": 3186,
+      "sha256": "ca404554a81496c444f147da90707ee2710c343954763ea2f533c3626b7f8604",
+      "git_blob": "f746a1a780ed0fa4aa2be19079a8b7941d0af004",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH169_BRIEF.json",
+      "bytes": 3475,
+      "sha256": "0712bc6728554c459102a49da71e70c4ab5ce5c86b8aa0b3a2db2fac0e398880",
+      "git_blob": "2c7c67f86ae414fca05e7c72e4736afc7bb165d2",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH170_BRIEF.json",
+      "bytes": 3397,
+      "sha256": "7e5ab88b52bcbc3ca7533484b80b0faf127c348bdf49c3aa128d3b34cd9216ba",
+      "git_blob": "15cdc4063aeae4005e2f4a592ce0373a63550e30",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH172_BRIEF.json",
+      "bytes": 2974,
+      "sha256": "108e5f8cb98fb82bd9e1ceeec253e022542e8b3fd0f3ef804f7763718b5c760e",
+      "git_blob": "17519352d57ac4fa2f1405f0f3fe9007f9e6ed86",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH173_BRIEF.json",
+      "bytes": 2809,
+      "sha256": "cedd9b8e3aeed7d9c4875147bf136cfa4f2b2f76cbda254f00803cd8718d54a7",
+      "git_blob": "67fd731fca031897a6a40a7687b81dd8fadc7ccf",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH176_BRIEF.json",
+      "bytes": 2997,
+      "sha256": "2bcbec4c320214e2831428b8f8b3faef1083f7d7e4ed7964dde7da2c23130982",
+      "git_blob": "679d72683f7276ee26f5c3fd2943f1f98229f34d",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH178_BRIEF.json",
+      "bytes": 3289,
+      "sha256": "2c9f37b762d943c958bae9d0c3c27b599c13adbe78e6e954510fa3c57f2acbcc",
+      "git_blob": "b3c0ca9eccf06a4a296172d3d46d1df6342c4108",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH179_BRIEF.json",
+      "bytes": 3706,
+      "sha256": "dbc1f8cde5eaf605221b20706cf7199c85681804e83a0a66a6b32e93faa426ac",
+      "git_blob": "4415db64b824ae444e418aa1dc6119c9fd07dac3",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH180_BRIEF.json",
+      "bytes": 4203,
+      "sha256": "b6aa890d230a9c7075bc4288280e6fc87aa6385feec88259ace3f0106b21461a",
+      "git_blob": "bc729183320a32784ed47d30a923ed28822874ca",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH183_BRIEF.json",
+      "bytes": 3487,
+      "sha256": "b31e7940cb413a186693e23af55f84137e242f01c9d0bf30d330d92939cbbfa2",
+      "git_blob": "d68d62333165160ef4b0e3b4ffa04c8f1217eb82",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH185_BRIEF.json",
+      "bytes": 4324,
+      "sha256": "eec3a5bcfa64fa4d07c291421472bea9bdeaea0fc2a913f4c1331c86e59f3ffc",
+      "git_blob": "7a6538b4d0391175c29be11d5f7450afd98ccb4a",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH188_BRIEF.json",
+      "bytes": 3055,
+      "sha256": "aea7c702f64f94177206a7aa4bb2b4101cbc186b321b20d55a01b1c7a8d8d6de",
+      "git_blob": "9ecfae4836258d749bd5e09074925efaf5b13409",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH190_BRIEF.json",
+      "bytes": 3426,
+      "sha256": "2e6874369451444e7d913584aeeeb71cf0e87462f09699bb0d053118c10ca48c",
+      "git_blob": "174441be459e7331a2a6ebf039e46c552bf6d116",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH192_BRIEF.json",
+      "bytes": 3459,
+      "sha256": "5828538758ad0ebd9f66db9ec370077f06f582b08162551ee4ffa5e51b714e40",
+      "git_blob": "73f8b1736765bd5488f227fe9ccf5cee5ceba026",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH194_BRIEF.json",
+      "bytes": 3635,
+      "sha256": "f0b18a2b58920997a00bf98f61d6aef08fd79de927a9b779a80bad436a1bc1da",
+      "git_blob": "62b77f3bf13e05e4b5ea1a92f3f6da2fab589734",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH195_BRIEF.json",
+      "bytes": 3885,
+      "sha256": "6583d245be05e7254114e32f6d6cb20d71520eba481401ff185c5da42d5f8cdc",
+      "git_blob": "efebf162fe8ef639362aac1d0b719a3c48effafc",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH199_BRIEF.json",
+      "bytes": 4191,
+      "sha256": "dc9fb970055c00d20c27acd18b3b31c4080e0f42ae864f08de9896039dc1caf3",
+      "git_blob": "73e5797ad5281e71a99c1af2fb7e3e2a7847f07c",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH202_BRIEF.json",
+      "bytes": 4326,
+      "sha256": "9c416fd638c2f0e78b160764e24704fc9cf04b08f3d43db1a6667e97eb671838",
+      "git_blob": "8ef655b2f3a1926d81da90cf20a142f710dc8a52",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH207_BRIEF.json",
+      "bytes": 4551,
+      "sha256": "4289e1c87bd1d41f51bda1c18bb2dc520b4d6dab197fe1c64360d983fb3680e1",
+      "git_blob": "5ef3f5db80d7a72017c2cd7e4ca93c0a9a2124bc",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH210_BRIEF.json",
+      "bytes": 3853,
+      "sha256": "32222632d5b447b6cc5107a367db2eb769705fbca4217ca6a873c492bab79e1c",
+      "git_blob": "9a2c91b78395e6c6d515863cba2a64aaa4c1c4e7",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH212_BRIEF.json",
+      "bytes": 1562,
+      "sha256": "9638cb74aea54b7d3e037b569593f2b440aa77428e237ce5f6fd33df65362ad8",
+      "git_blob": "29bcc382bc92aa2984fd454caee1eed4882b651b",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH216_BRIEF.json",
+      "bytes": 1832,
+      "sha256": "ff95383046a13b6b22215b00431c95305f983f1cbbb8dd8f86eb58acf5a5f2db",
+      "git_blob": "aacbbca641efc1f7cb8688b2787535f01e2c4728",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH217_BRIEF.json",
+      "bytes": 2537,
+      "sha256": "1a00e4e5b9132bffee617c6182e187db34ba9a9fa94015b3d624bd2378c9acbd",
+      "git_blob": "6a2f02e061f4a3fa1a5a40208dd6ff7c0839c937",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH218_BRIEF.json",
+      "bytes": 3370,
+      "sha256": "ab5b2439cc1d546b70cecda33ab30e3d1b27defdfca6d11831c5b1f64e9cbca9",
+      "git_blob": "9fd4bbf649b1e6095ab771aabb8f60d66563dcd9",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH219_BRIEF.json",
+      "bytes": 3324,
+      "sha256": "6e7b63c19825d6b645ef521467cfa6c97583dd421a440b512e138f4939ac68a7",
+      "git_blob": "4b3c655186f78197358c439de96f5b93a3b7738c",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH223_BRIEF.json",
+      "bytes": 3439,
+      "sha256": "1842933525c096e94ef39e2867c785be2e1ffb36b79c91d697fff5f39b46f9f9",
+      "git_blob": "ae0aa50f8f986e44dcc31ba610ad7d7e7911f3f3",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH224_BRIEF.json",
+      "bytes": 4432,
+      "sha256": "82dfd44eacd58c86cce7c52e2d434b94c5f857f005e337db0b1d593f6ae02955",
+      "git_blob": "c04830d55938faf71513601df717640a62a02047",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH226_BRIEF.json",
+      "bytes": 3076,
+      "sha256": "aac1e1c8668c12eaeeb2138f8f0a03956169eb05286f9ce0bf657c4fdde90f5a",
+      "git_blob": "21396510d759ffe13f7b9c61b64fa11b935a962d",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH227_BRIEF.json",
+      "bytes": 3515,
+      "sha256": "72c75746d4875454dc851254b68b47c977a605a4f53db159b80467ae767bff3d",
+      "git_blob": "bb47d10a695e2ffa1f33e346731ace8395191431",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH230_BRIEF.json",
+      "bytes": 1841,
+      "sha256": "0cb933d2d10abe66cc8655911331dfa3ec5925edcaee7423e5ee681e6ffada19",
+      "git_blob": "97609fb1c4bb647b49d160653620c37482e6c27a",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH231_BRIEF.json",
+      "bytes": 1548,
+      "sha256": "84a05f5ef8ff72cabe56204962e9bcffed4e7d48d31dfa5406338d343e4a69e6",
+      "git_blob": "a3987d93d146b1314a4757449fbf61784f8af58d",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH232_BRIEF.json",
+      "bytes": 1759,
+      "sha256": "8cb2443ccbe05832bc1443933c9cf0beaeabb5a42c6a8f14623ea459a611e8cc",
+      "git_blob": "5436640658ef38ed29459acbb7ce64b54debc598",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH233_BRIEF.json",
+      "bytes": 1924,
+      "sha256": "c465bd211bbd56074c74276b52bf6f559a08a1f4f22352aa728f8ca517b14aa7",
+      "git_blob": "acd6d746a1f758349078525295946fabb7c8305d",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH234_BRIEF.json",
+      "bytes": 2114,
+      "sha256": "259116761f8793d0f3c75c8a3e8be662b6f55efaa380055b1eedcca2c180de80",
+      "git_blob": "46c133f20dad09113b27a5a7480c7f2dd874f1e6",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH235_BRIEF.json",
+      "bytes": 2413,
+      "sha256": "3860b9097095edca9881759dfdad1eb01627d904516b83707c0c8b04e701aeb5",
+      "git_blob": "7208de3cc541281b761bfa4d37a5ef22a27d844d",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH236_BRIEF.json",
+      "bytes": 2810,
+      "sha256": "1b5cb9b873497cf35739e82a91a9168d6ed2a74650535405b6641720e5a7935d",
+      "git_blob": "026a77e929f20feeed3b51587b609fe659c04ae3",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH237_BRIEF.json",
+      "bytes": 2208,
+      "sha256": "cef40434c60a19e88898d8bacfe50da4319740ab15404a37f68a814bb2025422",
+      "git_blob": "8230fffbe326524d95e93ee411b247b9074fb96a",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH238_BRIEF.json",
+      "bytes": 1658,
+      "sha256": "c5625bf9f6d3c1db41f5a7ff9a36acec84c51ed9a520a9b34759db2eeea3ad48",
+      "git_blob": "d83ac21c8e007641e22419291d340e66d841f6ea",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH239_BRIEF.json",
+      "bytes": 2046,
+      "sha256": "f623d783649dcc86841c7bddeab3ef0abec3f48905cce648b88f83ad1142c7bd",
+      "git_blob": "afde4e1f4782f28b5adb19741a01eb4e195fa2d0",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH68_BRIEF.json",
+      "bytes": 523,
+      "sha256": "a0032d5180e2f60bc784905c5dbdb7c6d8fa7e4dfe4a7d2202dccc14146a17d2",
+      "git_blob": "749adf156335ecda47719c56bdf54a289a5262bb",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH69_BRIEF.json",
+      "bytes": 601,
+      "sha256": "3f1ea5c39fc91adb0b7bcb6326a7a0fefff111caccdd1c6f776d5ca601c0a30f",
+      "git_blob": "5880b74d19b99a1a15329a6ec763c2b6e6a81319",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH70_BRIEF.json",
+      "bytes": 903,
+      "sha256": "795120d3cec42d58a18c5bc847bbc1cfc13e3b6cba5e4bc904674a2c994c5c16",
+      "git_blob": "b253da49a530de2fbfcc0eece2873cf5034b106a",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH71_BRIEF.json",
+      "bytes": 1674,
+      "sha256": "0b6a808a2ef62969f415ebb7af99d1a21108b31455ff751d12f5e62ce5b24123",
+      "git_blob": "758d5bef68cbb362c9742e6aae8c7cf549ab2b72",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH72_BRIEF.json",
+      "bytes": 1487,
+      "sha256": "2eddb32504a973e891b0618c551ab4eb0bba508fdb6a5ce53a9505c860076466",
+      "git_blob": "fc431fc57c2433e3e3aabee11c30e5e9522e25ca",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH73_BRIEF.json",
+      "bytes": 1466,
+      "sha256": "7fce93e618e961acbf62e7d5900830d39e528adf4fa4554935bd84b3d2e1f20e",
+      "git_blob": "0e2f1c7dd8394c2b3288e6c74ad55645922b4e4a",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH74_BRIEF.json",
+      "bytes": 1702,
+      "sha256": "8799aebe47ca36ae99a61e79509052f2cdad122f2a50ab3282191b65556b1eab",
+      "git_blob": "cbc9ddfc10f80918ce52af7261fbf7fef004c729",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH76_BRIEF.json",
+      "bytes": 1774,
+      "sha256": "364d5d8920dc2a3f2d27801f753a2b5c5b580fef0b1e27b3ba622073a383b708",
+      "git_blob": "21478d598fca059fca2ef0fd515c9ff7f94d8cb1",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH77_BRIEF.json",
+      "bytes": 2202,
+      "sha256": "e6233ca9e198872f24c31cc48b31cf76253eb0b0ed9706f2c0241fc51ccefe39",
+      "git_blob": "4d19415c22d49423a76a927da52e2f827be07ce9",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH80_BRIEF.json",
+      "bytes": 1954,
+      "sha256": "016501d1e0cbe08b38bba48551325f50a9b048596a7b2b57328ab1aef8cc58a5",
+      "git_blob": "36e8253f9592a795153f82d3af8184116a647b2d",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH81_BRIEF.json",
+      "bytes": 559,
+      "sha256": "3eeb1ee3c38317562a031f10dee017f509a624d617c645ec6015d831c0cd1edd",
+      "git_blob": "b755756a0d91818dcf36613ceb125bc355b898c5",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH82_BRIEF.json",
+      "bytes": 948,
+      "sha256": "595ca9c889da6df0a2c6ca8dfeaa660e8ba7aa0662b1da70c27b74e6d484dd8a",
+      "git_blob": "95bca1b5b78f4f0079837a48ef7f04642544b8cb",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH83_BRIEF.json",
+      "bytes": 819,
+      "sha256": "ed0586d6211293127c1ed2a9dcdedb9a41278e242cac964204cc2073d1f310dc",
+      "git_blob": "9d4b97f7baae0b5fb3eeb8e7d83be3ebc2947f43",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH84_BRIEF.json",
+      "bytes": 1211,
+      "sha256": "e4a82cb9e4b4dd11edcb478d505d6030f89a6d688b8ecfd82042c50598364d8d",
+      "git_blob": "5261b82a11731209e573888611a1a8fa6302d3ad",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH86_BRIEF.json",
+      "bytes": 1219,
+      "sha256": "be882c70929565c8be438826d7cab26ad2bbacf4d2ce76bc9dbfa31ac4787c6f",
+      "git_blob": "6c87c1fe5f33faa03dd522c2c729798331662c15",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH87_BRIEF.json",
+      "bytes": 787,
+      "sha256": "8343a0dcfdef47a34df870ee13b7b913c2f30dc08cdb8f7269a4b5fe990b9c07",
+      "git_blob": "cdf65447193fd41c43c5331791aca9fcd7a447cf",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH88_BRIEF.json",
+      "bytes": 743,
+      "sha256": "3f534f657bc2e13ef2015d0c9b5f3cf7721e060d1e2f51e0f4fa9c23538db3b4",
+      "git_blob": "f57d93fccd605c2ceac638218d11721edc48fcd5",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH89_BRIEF.json",
+      "bytes": 686,
+      "sha256": "d230a9ae3efdf585d4c17c6c3fb6548e14c04233d9780a9fc82199ee5a4c1a8c",
+      "git_blob": "046fd8edbd6648d570414134cbe039d37cfc08b4",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH91_BRIEF.json",
+      "bytes": 634,
+      "sha256": "4662f6850d747eecedec4a59d9cae7399f5e94253253f9a07d4808a2b451b74d",
+      "git_blob": "6d77cb48411e0d7a3ff5cf675314423514fc5692",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH92_BRIEF.json",
+      "bytes": 1032,
+      "sha256": "e8f3ed8bbb5a02948852f4ccd593a86317932265ebee19e86492bd42022f0b01",
+      "git_blob": "ba55607ea65f144e6c5a45851b87e7dc0a0f1eb1",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH93_BRIEF.json",
+      "bytes": 833,
+      "sha256": "058d79231d7ee77658919f9691c175f2444b0ee6866bee62a1e1c4ecb75c0b64",
+      "git_blob": "f87f61e163ff8c462b51ac6d0b800b8e9019d90c",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH95_BRIEF.json",
+      "bytes": 794,
+      "sha256": "54556206ffdcacc80c295bfa6e6936cd34371d15ceab4b186239761f7975826e",
+      "git_blob": "cdf3cb1933044a623322771dce85f43613bc8f7f",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH96_BRIEF.json",
+      "bytes": 647,
+      "sha256": "c7475b1029902afc6bc9b65c7f3df81552483956136314479d4ff645d831f441",
+      "git_blob": "f7ffaa61778ccd5fa5789465d7ddc9eef6890929",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH97_BRIEF.json",
+      "bytes": 607,
+      "sha256": "d580bf58975e10fc894e1b5e27b534faca667b1af09d728259cfa0dcec48b2c1",
+      "git_blob": "3a7b7cba45e0e3596a919d1baeab6be95aa5d425",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH98_BRIEF.json",
+      "bytes": 918,
+      "sha256": "fe3d48c7125c1f1f5154272d4669b116cc04b9678a724a539d1dc8e1ca9e3701",
+      "git_blob": "985bebebd6e50a555b554ccc7d2c7a2b0fcd6418",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH99_BRIEF.json",
+      "bytes": 697,
+      "sha256": "ad70833a6d8a38acc4c553d67ed2fec1542b27a181bc1b11c9aba954270e4aab",
+      "git_blob": "d83c739fc34b463c1d432ad429166a9c8878bdb3",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH126_HUNT.json",
+      "bytes": 600,
+      "sha256": "a2b029a54eb2fd0f2b3e095a9ab0bb1ca93e1b128e6728723bce3759247217f3",
+      "git_blob": "e492554ee116d6873c23e30ad5371754366fc44f",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH134_HUNT.json",
+      "bytes": 808,
+      "sha256": "e7fc25f7b295ed170bfc88bba98fcef64bd6cb419b36692754848af8ed60b396",
+      "git_blob": "abafb02dc58e797615afc860808dffbe4231350e",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH142_HUNT.json",
+      "bytes": 1048,
+      "sha256": "2484039739c772791bdd6b0ce442138679924a4c770873eaee858a8905fe7ed6",
+      "git_blob": "5905314a1b7300c0b930dc472b65882f1aecb0d4",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH144_HUNT.json",
+      "bytes": 1582,
+      "sha256": "58a8d2acabff117a9cf7416e50952630eb1c44992c8c6d3a4974c4b1ef333d0d",
+      "git_blob": "d8dd4be5c1ee3b73a0b5d732aac8405178318a9e",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH157_HUNT.json",
+      "bytes": 975,
+      "sha256": "f6c96e665dd2fc30a3cf6edbf9158ba83902a4d27b3347d8b9a65e72a150735a",
+      "git_blob": "29793d8b5994d2e2e6708c7a5bee3dddcff7a2d2",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH162_HUNT.json",
+      "bytes": 675,
+      "sha256": "bdbfcc21e83d2b98cbb94ed69ff8e44c2b75379b5a7ba178f12a1c93f09ef5a3",
+      "git_blob": "0f114880d3d6b7782dc39e1c5d31039061ba0c80",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH170_HUNT.json",
+      "bytes": 687,
+      "sha256": "ac7c0bef4289525322f25561a68b88354a4f97b11860ee48e54609a684f07de4",
+      "git_blob": "b867b06f1f56a323822c4f7b9b384e6502563273",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH172_HUNT.json",
+      "bytes": 977,
+      "sha256": "5f06498135baf18969239c98d313ea9a3cf4ec4238ec544a9ad4e9c0230c098e",
+      "git_blob": "fbb3ea55d96c48fb9d119d17f55bf29ce6841501",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH183_HUNT.json",
+      "bytes": 828,
+      "sha256": "d9264e87a942f5369172450d4c4fa255990d09c5ea8bd71c13e8f7be10058595",
+      "git_blob": "997e87f5d207f6ebd1fb5ef18b24c2eeb46cdddf",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH190_HUNT.json",
+      "bytes": 1492,
+      "sha256": "2829ed13cfc0dd963f1bd70fd19840a9d1dfdd28c106dc13feb0f132d328d16c",
+      "git_blob": "36a13255baec7f1c60f168f79e7980fd430f3ca2",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH207_HUNT.json",
+      "bytes": 1290,
+      "sha256": "c025254d9d68ce425ebaad224209d60e9e298d20453f1a9015cc47ee244ad3aa",
+      "git_blob": "0a502201914e88645c673121439f456fb8fc5e0f",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH210_HUNT.json",
+      "bytes": 1572,
+      "sha256": "0ade42e484398fab212fbf774d0d5325cfd8043cd16c08a84ff871387bab4818",
+      "git_blob": "0977440285bf739c928bb692c95197859d0c07b1",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH232_HUNT.json",
+      "bytes": 1575,
+      "sha256": "2e89ed90e3c664ac1ca26a17fced01f873700f3228f9977970f49de50da1aff2",
+      "git_blob": "014ee7ea2db0fa164d1ae70d77f051989db03bcd",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH233_HUNT.json",
+      "bytes": 1780,
+      "sha256": "1a55f77a289729804d2798e22d031661ddb7e8808e3980745bee75fdde0ad23c",
+      "git_blob": "f7a59389c28a3c7b12f284c3318cc9c39b53053c",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH234_HUNT.json",
+      "bytes": 1312,
+      "sha256": "47cbe5f48c3ccc03ddd53601b9349162d6e9c8d12ccdac510bded606388a89ab",
+      "git_blob": "df3d60dad79342d4e241378804d58325e60dd25a",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/BATCH237_HUNT.json",
+      "bytes": 1523,
+      "sha256": "7c998e61976154f0318e7eecc4755aa8bcb5102dd4acca8aa06b73ca60f9d8b5",
+      "git_blob": "c7a372643b7c6f5905ab89f00be4f017507d3fd7",
+      "copy_of": "tranche-6 trial:portable#portable-loop-receipts"
+     },
+     {
+      "member": "portable/main-default-branch/AGENTS.md",
+      "bytes": 1124,
+      "sha256": "13e3c9113a2684991681f5f6f61486a0df4d30965e7620ba3b0744f7e11b80c6",
+      "git_blob": "2436f08d29510bd334af2dfdb221096666d29c0c",
+      "copy_of": "tranche-6 trial:portable/main-default-branch#default-branch-notice"
+     },
+     {
+      "member": "portable/main-default-branch/APPLY.md",
+      "bytes": 3752,
+      "sha256": "9731afbe5c6c7b7e24dde516adbeb4d022d9731b07b732c6ada6581410b9f64a",
+      "git_blob": "1681f3d8c3cdc2d5e7f56df72173cc1d09185ed4",
+      "copy_of": "tranche-6 trial:portable/main-default-branch#default-branch-notice"
+     },
+     {
+      "member": "portable/main-default-branch/README.md",
+      "bytes": 1944,
+      "sha256": "7629a5fb1a4bea5711686c06c778aa71c93c3c858d2177e2865f7bd70737df15",
+      "git_blob": "32d26903d5870545491f35a601213c45d84032b2",
+      "copy_of": "tranche-6 trial:portable/main-default-branch#default-branch-notice"
+     },
+     {
+      "member": "portable/pr2-landing/CHECKLIST.md",
+      "bytes": 3871,
+      "sha256": "6a50b9c4e23b98b303cd6e737fb57394227d2cfa500b5dc782f0cb9c6795338b",
+      "git_blob": "233811fed5fb7c8a0de3480ea5c3139a9274e1ca",
+      "copy_of": "tranche-6 trial:portable/pr2-landing#pr2-landing-checklist"
+     },
+     {
+      "member": "portable/patches/COMPATIBILITY.md",
+      "bytes": 21709,
+      "sha256": "50615d22811e1b32d214186a0925d94ce22e68b664d58ecffc358e28a452fa96",
+      "git_blob": "d45d88eaa0b2108785e65a0f4f74833a2fd2e9bc",
+      "copy_of": "tranche-6 trial:portable/patches#engineering-patches-docs"
+     },
+     {
+      "member": "portable/patches/README.md",
+      "bytes": 5980,
+      "sha256": "35059a699830ada90888d7d779963bbe93f459d56d9517fc4788cf33cf7c5939",
+      "git_blob": "3047900e9c15504213f762576a85b8e5a36766b8",
+      "copy_of": "tranche-6 trial:portable/patches#engineering-patches-docs"
+     }
+    ]
    }
   },
   {
    "object": "docs/trial-portable-main-fixes.tgz!scripts",
    "classification": "MECHANICAL_COPY",
-   "reason": "Each listed member is byte-identical (same Git blob) to the named main or Math- tree file or to a member classified in another tranche-7 object, or is a nested archive whose members are listed individually; its disposition is that of its original.",
+   "reason": "Each listed member is byte-identical (same Git blob) to what its copy_of names: a main or Math- tree file, a file a tranche-6 row binds at the same path and commit, or a member classified in this or another tranche-7 object; or it is a nested archive whose members are listed individually. Its disposition is that of its original.",
    "source_binding": {
     "repository": "d6g8k5htny-coder/trial",
     "commit": "3738c859d519d2dbf1e388fe48fe0ae60c9487a3",
@@ -13841,7 +13739,36 @@
       "sha256": "7a9362ddb7668ec4770d3011daa20cbfa30cfa452cf491e2254282fc2ae0a133"
      }
     ],
-    "members": []
+    "members": [
+     {
+      "member": "scripts/audit_local_tree.py",
+      "bytes": 3179,
+      "sha256": "bc6e719a00c0e6ce554c21442a7daf7c58437f868c8c1b6fa0a1dcc509364c32",
+      "git_blob": "824b257d3cc8dcff6b46d6a8b4d347b4a77d64c5",
+      "copy_of": "tranche-6 trial:scripts#trial-scripts"
+     },
+     {
+      "member": "scripts/audit_research_stack_open.py",
+      "bytes": 10967,
+      "sha256": "a19f719f1bc412606b69ba1f0045ae4972f024160255c50ff1e9f90f3be2ba40",
+      "git_blob": "9d09b97b21b1319c7c02800975fc8da0510bd34f",
+      "copy_of": "tranche-6 trial:scripts#trial-scripts"
+     },
+     {
+      "member": "scripts/watch_main_alignment.py",
+      "bytes": 4529,
+      "sha256": "e04a626b44a5975b8c7b423038f64878d7cf99b8ecd5e935c5d0925bb6263bdc",
+      "git_blob": "159e65f15a662456acba0ddbdece4b524ba4cfb3",
+      "copy_of": "tranche-6 trial:scripts#trial-scripts"
+     },
+     {
+      "member": "scripts/check_autonomous_window.py",
+      "bytes": 6038,
+      "sha256": "43997cfa464b4371f3e34392327879c7cafdba296b871b89701fd06a9704cce3",
+      "git_blob": "514ea2e93eac6edaae103a8ac2d3e33ce34bffb4",
+      "copy_of": "tranche-6 trial:scripts#trial-scripts"
+     }
+    ]
    }
   }
  ]

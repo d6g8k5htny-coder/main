@@ -16,10 +16,18 @@ repositories hold none.
 - A member is marked `copy_of` when its blob equals a file in main's or Math-'s tree. The disposed-location lookup uses
   catalog candidate v2 as built at `76eceeee` (SHA-256 `75ee024f…`).
 
-`t7_objects.py` turns the archives into 11 objects in 5 batches (`facts/abatch1.json`–`abatch5.json`).
-- Each object lists its members to classify: the first occurrence of each distinct blob, **696** in all.
-- Its other entries are resolved mechanically (**1,009**): byte copies of a main or Math- tree file, copies of a member listed in
-  another object, or the 2 nested archives.
+`t7_objects.py` turns the archives into 11 objects in 5 batches (`facts/abatch1.json`–`abatch5.json`, as the workflow saw them).
+- Each object lists its members to classify: the first occurrence of each distinct blob, 696 in all.
+- Its other entries are resolved mechanically (1,009): byte copies of a main or Math- tree file, copies of a member listed in this
+  or another object, or the 2 nested archives.
+
+*Correction after the run (my second same-family review, finding t7-1).* 200 members of trial's `.tgz` are byte-identical, at the
+same path, to files that tranche-6 rows bind in trial's tree at the same commit. Seven of them, the research-stack audits, had
+received a different class here (REVIEW_OF) than in tranche 6 (NOT_OBLIGATION).
+- `resolve_t6.py` (output `facts_resolved/`) moves those 200 members to the copies, with `copy_of` naming the tranche-6 row.
+- `restrict_verdicts.py` (output `verdicts_resolved_t7.json`) restricts the verified items to the members that remain. Five trial
+  items are dropped because every member is now a copy; classifications and reasons are unchanged.
+- **Final counts: 496 classified members in 48 items, and 1,209 mechanical copies.**
 
 `show_member.py` prints one member from memory. It was the agents' only way to read members.
 
@@ -28,8 +36,10 @@ repositories hold none.
 1. Workflow `workflow_t7.js`:
    - batch 1, the formal-gate receipts, gets a draft, a fidelity pass and a Layer A pass;
    - batches 2–5 get a draft and an adversarial screen that searches every member for mathematical claims.
-   - 11 agents fixed **34 problems** (fidelity 5, Layer A 10, screens 19).
-2. `verdicts_verified_t7.json` is the workflow's return value. It equals the final-stage results in the journal.
+   - Six verifier passes (of the 11 agents) fixed **34 problems**: fidelity 5, Layer A 10 and screens 19.
+2. `verdicts_verified_t7.json` is the workflow's return value. It equals the final-stage results in the journal. The workflow
+   returned only the last stage of each pipeline, so the fidelity pass of batch 1, with its 5 problems, is kept separately in
+   `verdicts_fidelity_t7.json`. A row's `problems_fixed` lists the final-stage problems only.
 3. `assemble_t7.py` re-reads every archive and checks mechanically:
    - the archive's blob and SHA-256 equal the facts;
    - every member's bytes, SHA-256 and blob, recomputed from the archive, equal the facts;
@@ -37,27 +47,29 @@ repositories hold none.
    - OBLIGATION statements are verbatim at their lines of the member;
    - REVIEW and COPY items name their targets.
 
-   Every row binds the archive file and lists each member it covers, with that member's bytes, SHA-256 and blob. Rerunning the
-   assembler on the retained verdicts reproduces `records_verified_t7.json` byte for byte.
+   Every row binds the archive file and lists each member it covers, with that member's bytes, SHA-256 and blob. Running the
+   assembler on `facts_resolved/` and `verdicts_resolved_t7.json` reproduces `records_verified_t7.json` byte for byte.
 4. Manual checks (`manual_checks_output.txt`, using `../qp_c54_t4_main_20261102/manual_checks.py`):
    - no our-voice overclaim;
    - no e-mail address, token, signed link or login code in the output. The two device-code-shaped strings are the words
      `HARD-GATE` and `LOGQ-TAIL`.
-   - Members that contain a login code or an e-mail address (trial `GH_DEVICE_LOGIN.md`, `LAND.md` and `OWNER_ONE_LINERS.md`,
-     and a commit-identity capture in the lifecycle evidence) are named and never quoted.
+   - Members that contain a login code or an e-mail address are named and never quoted.
+     - Login codes: trial `GH_DEVICE_LOGIN.md`, `LAND.md`, `OWNER_ONE_LINERS.md`, `PATH_C_STATUS.json` and 75 batch briefs.
+     - E-mail addresses: `native-observation.json` and `tested-merge.json` in the lifecycle evidence, a commit-identity capture,
+       and four trial patches. There is also a synthetic `.invalid` address in the downstream gate's `test_transition_contract.py`.
 
 ## Result (`records_verified_t7.json`)
 
-**0 obligations.** 53 items and 1,009 mechanical copies:
+**0 obligations.** 48 items and 1,209 mechanical copies:
 
 | Class | Items | Examples |
 |---|---|---|
 | REVIEW_OF | 3 | The `#print axioms` / `#check` audit scripts over the 31 Side24 targets (Main188) and the 13 ResearchFormalCoreR1 targets (Math96); the mechanical OPEN-status inventories in trial's research-stack audits |
 | COPY_OR_EXPOSITION_OF | 8 | **Lean negative controls:** falsified copies of CLOSED `formal/UniversalLaw/Side24` files, each naming the changed declaration and the receipt line where Lean rejects it. For example, `wrong_image_constant.lean` changes `image_constant_value` from 21175738586478 to 21175738586479. Also the site snapshots' mathematical node pages, which render graph records, and the frozen atlas observation payload. |
-| NOT_OBLIGATION | 42 | CI and build logs, axiom-gate probe fixtures (custom axiom, `native_decide`, `sorry`), gate mutants and their logs, lifecycle raw evidence, site index pages, trial's landing runbooks, restore plans, batch briefs and patch stack |
+| NOT_OBLIGATION | 37 | CI and build logs, axiom-gate probe fixtures (custom axiom, `native_decide`, `sorry`), gate mutants and their logs, lifecycle raw evidence, site index pages, trial's landing runbooks, snapshots and patch stack (its restore plans, batch briefs, token searches and hunts are copies of tranche-6 bindings) |
 
 The trial `.tgz` is one archive split into two objects (`portable/` and `scripts/`). Each object has one row in
-`mechanical_copies`, listing its copied members with `copy_of`.
+`mechanical_copies`, listing its copied members with `copy_of`, including those that resolve to tranche-6 rows.
 
 ## Limits
 
@@ -68,6 +80,8 @@ The trial `.tgz` is one archive split into two objects (`portable/` and `scripts
 - **Reproduce:**
   1. `python3 -I -B archive_inventory.py CLONES_JSON CANDIDATE_V2 OUT`;
   2. `python3 -I -B t7_objects.py OUT FACTS_DIR`;
-  3. `python3 -I -B assemble_t7.py CLONES_JSON facts verdicts_verified_t7.json OUT2`.
+  3. `python3 -I -B resolve_t6.py facts ../qp_c54_t6_federation_20261102/records_verified_t6.json FACTS2`;
+  4. `python3 -I -B restrict_verdicts.py FACTS2 verdicts_verified_t7.json VERDICTS2`;
+  5. `python3 -I -B assemble_t7.py CLONES_JSON FACTS2 VERDICTS2 OUT2`.
 
   `CLONES_JSON` is `../qp_c54_catalog_candidate_v2_20261102/clones.json`.

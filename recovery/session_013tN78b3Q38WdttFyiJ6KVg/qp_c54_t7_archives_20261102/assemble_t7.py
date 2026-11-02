@@ -83,9 +83,9 @@ def main(clones_path, facts_dir, verdicts_path, output):
             if (len(b), hashlib.sha256(b).hexdigest(), blob_id(b)) != (m['bytes'], m['sha256'], m['git_blob']):
                 problems.append(f'{obj}: member {m["member"]} differs from the facts')
         copies.append({'object': obj, 'classification': 'MECHANICAL_COPY', 'reason': (
-            'Each listed member is byte-identical (same Git blob) to the named main or Math- tree file or to a member classified '
-            'in another tranche-7 object, or is a nested archive whose members are listed individually; its disposition is that '
-            'of its original.'),
+            'Each listed member is byte-identical (same Git blob) to what its copy_of names: a main or Math- tree file, a file a '
+            'tranche-6 row binds at the same path and commit, or a member classified in this or another tranche-7 object; or it is '
+            'a nested archive whose members are listed individually. Its disposition is that of its original.'),
             'source_binding': {'repository': fact['repository'], 'commit': fact['commit'], 'files': [archive_binding],
                                'members': [{k: c[k] for k in ('member', 'bytes', 'sha256', 'git_blob', 'copy_of')} |
                                            ({'copy_disposed_location': c['copy_disposed_location']} if c.get('copy_disposed_location') else {})

@@ -1,7 +1,7 @@
 {
  "schema": "claude54.errata.v2",
  "created": "2026-11-02",
- "boundary": "Corrections to retained tranche rows. Items E-* without R come from different-family checks (Grok Bot agents on main#738); items E-R-* come from Claude 54's own same-family adversarial review of catalog candidate v2, each reproduced by an independent refuter. Each item sets one field of one retained row or of a listed set of rows; the retained tranche files stay as verified, and build_candidate_v2.py applies these items and marks every touched row with errata_applied.",
+ "boundary": "Corrections to retained tranche rows. Items E-* without R come from different-family checks (Grok Bot agents on main#738); items E-R-* come from Claude 54's own same-family adversarial reviews of catalog candidate v2 (rounds 1 and 2), each reproduced by an independent refuter. Each item sets one field of one retained row or of a listed set of rows; the retained tranche files stay as verified, and build_candidate_v2.py applies these items and marks every touched row with errata_applied.",
  "items": [
   {
    "id": "E-T2-N2",
@@ -194,7 +194,7 @@
   },
   {
    "id": "E-R-OVL-T4-021",
-   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-005, reproduced by its independent refuter",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-005, reproduced by its independent refuter; adoption note completed by Claude 54 same-family adversarial review, round 2 (workflow wf_26ea8588-f37), finding errata-012, reproduced by its independent refuter",
    "target": {
     "tranche": "t4",
     "record": "QP-C54-T4-021"
@@ -214,14 +214,14 @@
     {
      "record": null,
      "relation": "ADOPTION_NOTE",
-     "note": "On adoption, narrow this row's boundary to the content its classification_reason names as added: Lemma parent-generic(b), the derivations written out in drafts 6-7 and the proof of Proposition parent-push (supp_s0_status.tex:52-58)."
+     "note": "On adoption, narrow this row's boundary to the content its classification_reason and supp_s0_status.tex:52-58 name as added or changed: Lemma parent-generic(b), the derivations written out in drafts 6-7, the proof of Proposition parent-push, Lemma parent-majorant(c) for every b in R (supp_s12_parent.tex:565; the parent states it for b, k > 0) and the several-functionals wording of Lemma parent-jetrank (s0_status:56)."
     }
    ],
    "reason": "The row's exact_boundary lists the transcribed parent theorems, which adopted records already hold."
   },
   {
    "id": "E-R-OVL-T4-018",
-   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-006 and semantics-008, reproduced by its independent refuter",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-006 and semantics-008, reproduced by its independent refuter; citations corrected by Claude 54 same-family adversarial review, round 2 (workflow wf_26ea8588-f37), finding errata-008, reproduced by its independent refuter",
    "target": {
     "tranche": "t4",
     "record": "QP-C54-T4-018"
@@ -231,19 +231,19 @@
     {
      "record": "QP-C54-T2-029",
      "relation": "PRIMARY_FOR_TRANSCRIBED_PART",
-     "note": "The Gaussian-kernel enclosures of c_1, I^cand and c_1/c_(d,ref) for d = 1, 2, 3 (supp_s9_cusp.tex:314-347 and 398-415) transcribe Math-@19a55750 frontiers/cusp_coefficient_certified_20261001/NOTE.md:26-51 digit for digit; that packet's row is primary for them."
+     "note": "The tables of c_1, I^cand and I^cand - c_1 for d = 1, 2, 3 and of c_1/c_(d,ref) for d = 2, 3 (supp_s9_cusp.tex:321-337) transcribe Math-@19a55750 frontiers/cusp_coefficient_certified_20261001/NOTE.md:26-41; the unrounded enclosures at s9:340-345 are that packet's RESULTS.json values; s9:347 is NOTE.md:67-68; and Corollary cor:cusp-torus (s9:398-415) restates the packet's Corollary S (NOTE.md:43-56). That packet's row is primary for these."
     },
     {
      "record": "Q-2016",
      "relation": "HOLDS_TRANSCRIBED_PART",
-     "note": "The enclosure 0.07340691930603427103 < c_{2,24} < 0.07340691930603427104 is adopted Q-2016's (main@81acc060 formal/sources/side24_v1/PROOF.md:25)."
+     "note": "The enclosures c_{3,24} in [0.04177593184059834334, 0.04177593184059834335] and c_{2,24} in [0.07340691930603427103, 0.07340691930603427104] quoted at s9:403 and s9:411 are adopted Q-2016's (main@81acc060 formal/sources/side24_v1/PROOF.md:25-26); the Math- packet itself consumes them from coefficients/side24_v1/ENCLOSURE.json (NOTE.md:53-54)."
     }
    ],
    "reason": "Cross-reference added; no row is removed."
   },
   {
    "id": "E-R-OVL-T4-020",
-   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-006 and semantics-008, reproduced by its independent refuter",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-006 and semantics-008, reproduced by its independent refuter; citations corrected by Claude 54 same-family adversarial review, round 2 (workflow wf_26ea8588-f37), finding errata-008, reproduced by its independent refuter",
    "target": {
     "tranche": "t4",
     "record": "QP-C54-T4-020"
@@ -253,19 +253,29 @@
     {
      "record": "QP-C54-T2-008",
      "relation": "PRIMARY_FOR_TRANSCRIBED_PART",
-     "note": "The closed forms of c[K_ref] and c_2[K_ref], the kappa/omega ratio and their interval enclosures (supp_s11_ctwo.tex:103-143) transcribe Math-@19a55750 frontiers/c2_exact_20261001/NOTE.md:32-50; that packet's row is primary for them."
+     "note": "The closed forms of c[K_ref] and c_2[K_ref], the ratio (eq:ctwo-ratio) and their interval tables in supplement section S11 transcribe Math-@19a55750 frontiers/c2_exact_20261001/NOTE.md:32-50; that packet's row is primary for them."
     },
     {
      "record": "Q-2016",
      "relation": "HOLDS_TRANSCRIBED_PART",
      "note": "The enclosure 0.04177593184059834334 < c_{3,24} < 0.04177593184059834335 (supp_s11:420-426, a quotation of the main text's Theorem 2.3(iii)) is adopted Q-2016's (formal/sources/side24_v1/PROOF.md:26)."
+    },
+    {
+     "record": "Q-10041",
+     "relation": "HOLDS_TRANSCRIBED_PART",
+     "note": "D_1 = 4/3 and D_2 = 29/6 - sqrt 6 in the closed form of c[K_ref] (supp_s11:121) are adopted Q-10041's (legacy D3-03) and Q-1001's source identities; D_2's value is also CLOSED as K-SPEC-045 and K-MAIN-024."
+    },
+    {
+     "record": "Q-1001",
+     "relation": "HOLDS_TRANSCRIBED_PART",
+     "note": "See the Q-10041 entry."
     }
    ],
    "reason": "Cross-reference added; no row is removed."
   },
   {
    "id": "E-R-OVL-T4-012",
-   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-008, reproduced by its independent refuter",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-008, reproduced by its independent refuter; CLOSED entries added by Claude 54 same-family adversarial review, round 2 (workflow wf_26ea8588-f37), finding errata-001, reproduced by its independent refuter",
    "target": {
     "tranche": "t4",
     "record": "QP-C54-T4-012"
@@ -281,6 +291,26 @@
      "record": "Q-1001",
      "relation": "HOLDS_TRANSCRIBED_PART",
      "note": "See the Q-10041 entry."
+    },
+    {
+     "record": "K-SPEC-075",
+     "relation": "CLOSED_DECLARATION",
+     "note": "CLOSED UniversalLaw.Proofs.Side24ConeMoment.coneMomentD2Identity (Math-@8151f592 specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24ConeMoment.lean:458) proves, for every inhabitant I : ConeMomentInterface, that the integral of coneIntegrand(I.s, I.x, I.y) equals (1/2)(25/3 - 20/3 + 8 - 8 sqrt(3/8)), with (s, x, y) of law N(0, 5/3) x N(0, 1) x N(0, 1). Its own docstring says no inhabitant is constructed and that the alignment of the interface with the source's objects is PENDING_INDEPENDENT_REVIEW."
+    },
+    {
+     "record": "K-SPEC-045",
+     "relation": "CLOSED_DECLARATION",
+     "note": "CLOSED UniversalLaw.Proofs.Side24Elementary.coneMomentD2Algebra (Side24Elementary.lean:159): that value equals coneMomentD2 = 29/6 - sqrt 6. On main the same algebra is K-MAIN-024, UniversalLaw.Side24.cone_moment_m2_algebra."
+    },
+    {
+     "record": "K-MAIN-024",
+     "relation": "CLOSED_DECLARATION",
+     "note": "See the K-SPEC-045 entry."
+    },
+    {
+     "record": null,
+     "relation": "ADOPTION_NOTE",
+     "note": "The CLOSED theorem is stated in the (s, x, y) form. The supplement's GOE_2 + sqrt(2/3) Z I_2 parametrization (supp_s3:372-377) is a reparametrization of the same matrix law that the composer should confirm before narrowing."
     }
    ],
    "reason": "Cross-reference added; no row is removed."
@@ -321,7 +351,7 @@
   },
   {
    "id": "E-R-OVL-T6-005",
-   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-009, reproduced by its independent refuter",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-009, reproduced by its independent refuter; CLOSED entries added by Claude 54 same-family adversarial review, round 2 (workflow wf_26ea8588-f37), finding errata-001, reproduced by its independent refuter",
    "target": {
     "tranche": "t6",
     "record": "QP-C54-T6-005"
@@ -339,22 +369,37 @@
      "note": "See the Q-10041 entry."
     },
     {
+     "record": "K-SPEC-075",
+     "relation": "CLOSED_DECLARATION",
+     "note": "CLOSED UniversalLaw.Proofs.Side24ConeMoment.coneMomentD2Identity (Math-@8151f592 specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24ConeMoment.lean:458) proves, for every inhabitant I : ConeMomentInterface, that the integral of coneIntegrand(I.s, I.x, I.y) equals (1/2)(25/3 - 20/3 + 8 - 8 sqrt(3/8)), with (s, x, y) of law N(0, 5/3) x N(0, 1) x N(0, 1). Its own docstring says no inhabitant is constructed and that the alignment of the interface with the source's objects is PENDING_INDEPENDENT_REVIEW."
+    },
+    {
+     "record": "K-SPEC-045",
+     "relation": "CLOSED_DECLARATION",
+     "note": "CLOSED UniversalLaw.Proofs.Side24Elementary.coneMomentD2Algebra (Side24Elementary.lean:159): that value equals coneMomentD2 = 29/6 - sqrt 6. On main the same algebra is K-MAIN-024, UniversalLaw.Side24.cone_moment_m2_algebra."
+    },
+    {
+     "record": "K-MAIN-024",
+     "relation": "CLOSED_DECLARATION",
+     "note": "See the K-SPEC-045 entry."
+    },
+    {
      "record": null,
      "relation": "ADOPTION_NOTE",
-     "note": "The sandbox probe is then a Monte Carlo check of an identity held elsewhere; the composer may reclassify it COPY_OR_EXPOSITION_OF, or narrow it to its own unstated label."
+     "note": "The probe is a Monte Carlo check of an identity that adopted records hold and that is a CLOSED literal theorem for every ConeMomentInterface inhabitant. What remains open is an inhabitant for this law and the interface alignment. The composer may reclassify the probe COPY_OR_EXPOSITION_OF, or narrow it to its own unstated label on 29/6."
     }
    ],
    "reason": "The row claimed the constant had no other source."
   },
   {
    "id": "E-R-T6-005-REASON",
-   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-009, reproduced by its independent refuter",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-009, reproduced by its independent refuter; corrected by Claude 54 same-family adversarial review, round 2 (workflow wf_26ea8588-f37), finding errata-001, reproduced by its independent refuter",
    "target": {
     "tranche": "t6",
     "record": "QP-C54-T6-005"
    },
    "field": "classification_reason",
-   "value": "The source records 29/6 - sqrt(6) as the code constant 'reference' (cone_probe.py:23), the value against which it compares the Monte Carlo mean of the random variable defined at cone_probe.py:15-18. It thereby asserts a closed form for that variable's expectation, an exact expectation identity. It also labels 29/6 as 'incorrect_untruncated_half_moment'. The sandbox item names no source for the constant, but the same identity, with the same setup and the same remark on 29/6, is stated in Math-@760340e9 coefficients/side24_v1/PROOF.md:59-75 and held by adopted Q-10041 and Q-1001 (see claim_overlaps); it is not CLOSED. OBSERVATION.json:2-9 records one Monte Carlo estimate against it, labelled '\"certified\": false'. Being exploratory and numerical does not remove the claimed constant.",
+   "value": "The source records 29/6 - sqrt(6) as the code constant 'reference' (cone_probe.py:23), the value against which it compares the Monte Carlo mean of the random variable defined at cone_probe.py:15-18. It thereby asserts a closed form for that variable's expectation, an exact expectation identity. It also labels 29/6 as 'incorrect_untruncated_half_moment'. The sandbox item names no source for the constant, but the same identity, with the same setup and the same remark on 29/6, is stated in Math-@760340e9 coefficients/side24_v1/PROOF.md:59-75 and held by adopted Q-10041 and Q-1001. It is also the CLOSED literal theorem K-SPEC-075 (coneMomentD2Identity) with K-SPEC-045 (coneMomentD2Algebra; K-MAIN-024 on main) for every inhabitant of ConeMomentInterface; no inhabitant is constructed, and the alignment of that interface with this probe's variable is pending independent review (see claim_overlaps). OBSERVATION.json:2-9 records one Monte Carlo estimate against the constant, labelled '\"certified\": false'.",
    "reason": "Corrects the sentence 'The constant belongs to this item: no other object is named as its source', which is false for the identity."
   },
   {
@@ -390,6 +435,131 @@
     }
    ],
    "reason": "The row sits under Q-9001's location."
+  },
+  {
+   "id": "E-R-T6-005-BLOCKING",
+   "source": "Claude 54 same-family adversarial review, round 2 (workflow wf_26ea8588-f37), finding errata-001, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t6",
+    "record": "QP-C54-T6-005"
+   },
+   "field": "blocking_reason",
+   "value": "The identity is kernel-checked only through an interface: K-SPEC-075 with K-SPEC-045 proves it for every inhabitant of ConeMomentInterface, but no inhabitant is constructed and the interface's alignment with this probe's variable (cone_probe.py:15-18) is pending independent review. The item itself writes no derivation: the conditioning on r2, the symmetry factor from s < 0, the Gaussian moments and the exp(-s^2/2) transform are all absent. The companion value 29/6 is asserted only through a label. The Monte Carlo estimate is floating-point and statistical, so it cannot establish an exact identity.",
+   "reason": "The row said no literal kernel declaration of the identity exists, which is false: K-SPEC-075 and K-SPEC-045 are CLOSED."
+  },
+  {
+   "id": "E-R-T6-005-RESUMPTION",
+   "source": "Claude 54 same-family adversarial review, round 2 (workflow wf_26ea8588-f37), finding errata-001, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t6",
+    "record": "QP-C54-T6-005"
+   },
+   "field": "resumption_cost",
+   "value": "Low: the identity is already a CLOSED literal theorem for every ConeMomentInterface inhabitant (K-SPEC-075, K-SPEC-045). What remains is an inhabitant of the interface for this law and the alignment review of the interface's objects.",
+   "reason": "The row's 'moderate to high for a Lean kernel proof' ignored the CLOSED declarations."
+  },
+  {
+   "id": "E-R-OVL-T5-001",
+   "source": "Claude 54 same-family adversarial review, round 2 (workflow wf_26ea8588-f37), finding errata-005, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t5",
+    "record": "QP-C54-T5-001"
+   },
+   "field": "claim_overlaps",
+   "value": [
+    {
+     "record": "Q-3007",
+     "relation": "HOLDS_SAME_CLAIM_SUMMARY",
+     "note": "Adopted Q-3007 (location Math-@8151f592 companions/torus_filtration_20261011/README.md, blob 0611e858, unchanged at 3b11bff6) restates at summary level what this row's 7 Lean modules establish (README:83-90: quotient and descent, path lifting, closed-superlevel component and H0 maps, the strict-clearance cut, the singularH0/coproduct comparison and the Field adapter). No CLOSED declaration covers these modules."
+    },
+    {
+     "record": null,
+     "relation": "ADOPTION_NOTE",
+     "note": "Kept as a new record, unlike QP-C54-T5-003: Q-3007 is a README-located summary record, not a REGISTER existing_lean_package claim for these bytes. The composer may instead bind these bytes into Q-3007, keeping this row's declaration list and its kernel-replay release condition."
+    }
+   ],
+   "reason": "A claim-level overlap with an adopted record, found in round 2 (the round-1 refuter had not counted it)."
+  },
+  {
+   "id": "E-R-OVL-T4-023",
+   "source": "Claude 54 same-family adversarial review, round 2 (workflow wf_26ea8588-f37), finding errata-006, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t4",
+    "record": "QP-C54-T4-023"
+   },
+   "field": "claim_overlaps",
+   "value": [
+    {
+     "record": "Q-1014",
+     "relation": "HOLDS_TRANSCRIBED_PART",
+     "note": "Item (a), the written-out cap statement (docs/research-translation/20260930/PERSISTENCE_BRIDGE.md:66-85 at main d2b0216e), is the d = 2 case of MARKED_CYLINDER_CAP_PROOF.md section 1, which adopted Q-1014 holds ('deterministic separating-cap theorem')."
+    },
+    {
+     "record": "Q-10013",
+     "relation": "HOLDS_TRANSCRIBED_PART",
+     "note": "Adopted legacy Q-10013 (D1-CAP-ELDER) carries the same equations."
+    },
+    {
+     "record": null,
+     "relation": "ADOPTION_NOTE",
+     "note": "On adoption, keep the torus-embedding condition and items (b)-(d), which these records do not hold."
+    }
+   ],
+   "reason": "Same treatment as QP-C54-T4-021 for the same theorem."
+  },
+  {
+   "id": "E-R-OVL-T4-010",
+   "source": "Claude 54 same-family adversarial review, round 2 (workflow wf_26ea8588-f37), finding errata-007, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t4",
+    "record": "QP-C54-T4-010"
+   },
+   "field": "claim_overlaps",
+   "value": [
+    {
+     "record": "Q-1011",
+     "relation": "HOLDS_TRANSCRIBED_PART",
+     "note": "s6_literature.tex:17 says (2.1) and (2.9) are the case d = 3, L = 24 of Theorem C and (15.2) of the parent record, and (3.13) is its Theorem A (also s3_proof.tex:175-176). Adopted Q-1011 holds Theorems A, B and C of that parent for every fixed torus and dimension."
+    },
+    {
+     "record": "Q-1048",
+     "relation": "HOLDS_TRANSCRIBED_PART",
+     "note": "(3.13a) is sourced (appA_records.tex:12) to ELDER_LOWER_AND_DENSITY_GAP.md, which adopted Q-1048 holds."
+    },
+    {
+     "record": "Q-1076",
+     "relation": "HOLDS_TRANSCRIBED_PART",
+     "note": "...and to elder_dimension_lift_20260928, which adopted Q-1076 holds."
+    },
+    {
+     "record": null,
+     "relation": "ADOPTION_NOTE",
+     "note": "On adoption, keep the side-24-specific content that s6_literature.tex:17 lists and the row's own proofs and changes."
+    }
+   ],
+   "reason": "Same treatment as QP-C54-T4-021 for the same parent theorems."
+  },
+  {
+   "id": "E-R-OVL-T4-015",
+   "source": "Claude 54 same-family adversarial review, round 2 (workflow wf_26ea8588-f37), finding errata-007, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t4",
+    "record": "QP-C54-T4-015"
+   },
+   "field": "claim_overlaps",
+   "value": [
+    {
+     "record": "Q-1011",
+     "relation": "HOLDS_TRANSCRIBED_PART",
+     "note": "cor:limit-coefficient (supp_s6:198-206) is Theorem C of the parent (nu_eld(ell) ~ c_{d,L} ell^(-1/3) for every fixed torus and dimension) at d = 3, L = 24, which adopted Q-1011 holds."
+    },
+    {
+     "record": null,
+     "relation": "ADOPTION_NOTE",
+     "note": "On adoption, keep the section's own limit-interchange argument and the side-24 selection."
+    }
+   ],
+   "reason": "Same treatment as QP-C54-T4-021 for the same parent theorem."
   }
  ]
 }

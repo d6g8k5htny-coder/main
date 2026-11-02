@@ -14,8 +14,9 @@ marked `copy_of` when its Git blob equals a file at a disposed main or Math- loc
 `objects.py` (output `objects.json`) turns the uncovered directories into **76 objects** (1,367 files). *Correction:*
 `main_dirs.py` parses `git ls-tree` without `-z`, so the two census-type paths that contain U+2014 were dropped. Both sit in
 `audits/dropbox_import/2026-09-27/files/Github/`. They are classified by hand in the scope addendum below. An independent
-census with `ls-tree -z` (`../qp_c54_t8_math_residual_20261102/math_dirs.py`), run against catalog candidate v2, finds no
-other unbound census-type file on main outside the engineering directories, apart from CSV data and manifests.
+census with `ls-tree -z` (`../qp_c54_t8_math_residual_20261102/math_dirs.py`, output `main_dirs_check.json` there), run against
+the earlier v2 build `75ee024f…`, finds on main outside the engineering directories only CSV data and manifests unbound (19 files in
+8 directories). The two files above count as covered there at packet level, which is why they needed hand rows.
 - 72 are TO_CLASSIFY;
 - 4 are resolved mechanically: `formal/UniversalLaw/Side24` (every Lean file is CLOSED), `formal/sources/p15_v1` and
   `reviews/lb_rate_thm023_landing_20260926` (every file disposed or a copy), and `formal/UniversalLaw/P15` (main#740's lane).
@@ -30,7 +31,8 @@ other unbound census-type file on main outside the engineering directories, apar
      for mathematical claims.
    - 22 agents ran. The verifiers fixed **268 problems**: 146 by fidelity, 115 by Layer A and 7 by the screens.
 2. `verdicts_verified_t4.json` is the workflow's return value. Parsed as JSON, it equals the final-stage results recorded
-   in the workflow journal.
+   in the workflow journal. The workflow returned only the last stage of each pipeline, so the six fidelity passes (146
+   problems) are kept separately in `verdicts_fidelity_t4.json`. A record's `problems_fixed` lists the final-stage problems only.
 3. `assemble_t4.py` checks mechanically:
    - every object appears exactly once, and its items partition its file list;
    - item ids are unique within an object;

@@ -14,6 +14,7 @@ ROWS = [{
                'numbers, so the notebook states no mathematics of its own.'),
     'refers_to': [{'ref': 'Math-@9d7b6802424fb4715b31999066aafca8ee2f3cca:coefficients/side24_v1/ENCLOSURE.json',
                    'dispositions': ['ADOPTED:Q-1170']}],
+    'method': 'read by hand (all six cells); no agent',
 }, {
     'object': 'audits/dropbox_import/2026-09-27', 'item_id': 'drive-manifest-part01-txt', 'classification': 'NOT_OBLIGATION',
     'title': 'Condensed Drive manifest, part 01 of 13 (text export): file-title index',
@@ -24,6 +25,7 @@ ROWS = [{
                'it is additive with canonical impact NONE. Every later line is a flag, a folder and a file title. File titles that '
                'name theorems or lemmas are titles only; the file states no mathematics of its own.'),
     'refers_to': [],
+    'method': 'read by hand (all 115 lines); no agent',
 }, {
     'object': 'audits/dropbox_import/2026-09-27', 'item_id': 'verified-duplicate-log-txt', 'classification': 'NOT_OBLIGATION',
     'title': 'Verified duplicate log for the 02_GAUSSIAN_TRANSVERSALITY same-name set (text export): custody record',
@@ -34,6 +36,7 @@ ROWS = [{
                'and were renamed and kept, with no deletion (sections 1-4), plus a reopening rule (section 6). It is a custody record '
                'with no mathematical claim; the Drive ids it lists are not quoted here.'),
     'refers_to': [],
+    'method': 'read by hand (all 90 lines); no agent',
 }]
 main_clone, out = sys.argv[1:3]
 rows = []
@@ -43,9 +46,9 @@ for r in ROWS:
         data = subprocess.run(['git', '-C', main_clone, 'cat-file', 'blob', f'{REF}:{p}'], capture_output=True, check=True).stdout
         blob = subprocess.run(['git', '-C', main_clone, 'rev-parse', f'{REF}:{p}'], capture_output=True, text=True, check=True).stdout.strip()
         files.append({'path': p, 'git_blob': blob, 'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()})
-    row = {k: v for k, v in r.items() if k != 'files'}
+    row = {k: v for k, v in r.items() if k not in ('files', 'method')}
     row['source_binding'] = {'repository': 'd6g8k5htny-coder/main', 'commit': REF, 'files': files}
-    row['verification'] = {'ok': True, 'problems_fixed': [], 'method': 'read by hand (all six cells); no agent'}
+    row['verification'] = {'ok': True, 'problems_fixed': [], 'method': r['method']}
     rows.append(row)
 with open(out, 'x') as f:
     json.dump({'schema': 'claude54.t4-scope-addendum.v1', 'main_ref': REF,
