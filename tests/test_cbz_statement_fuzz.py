@@ -709,6 +709,27 @@ class FiniteModelTests(unittest.TestCase):
         self.assertEqual(r.status, 'UNSUPPORTED')
         self.assertIn('infinite mass', r.detail)
 
+    def test_structural_predicates_hold_only_for_model_carried_values(self):
+        # census findings (4 Nov): `Measurable (sourceA L)` with sourceA : ℝ → ℝ → ℝ was CORROBORATED and
+        # `Integrable (fun z => |z| ^ 8) (gaussianReal 0 1)` was PASS; neither is a model statement
+        defs = FM.replace('end FM', 'noncomputable def sourceA (L : ℝ) : ℝ → ℝ := fun x => L * x\nend FM')
+        for b, t in (('{L : ℝ} (hL : L ≠ 0)', 'Measurable (sourceA L)'),
+                     ('', 'Integrable (fun z : ℝ => |z| ^ 8) (gaussianReal 0 1)'),
+                     ('(μ : Measure Ω)', 'Integrable (fun z : ℝ => |z| ^ 8) μ ∧ MeasurableSet (Set.univ : Set Ω)')):
+            with self.subTest(t=t):
+                module = sf.parse_module(defs + f'\ntheorem t {b} : {t} := by sorry\n')
+                r = sf.evaluate_theorem(module, module.theorems[-1])
+                self.assertEqual(r.status, 'UNSUPPORTED')
+                self.assertIn('structural predicate', r.detail)
+        # as a hypothesis, a structural predicate on a non-model value is not assumed either
+        module = sf.parse_module(defs + '\ntheorem t (L : ℝ) (h : Measurable (sourceA L)) : L = L := by sorry\n')
+        r = sf.evaluate_theorem(module, module.theorems[-1])
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('outside the finite model', r.detail)
+        # a function-valued definition applied to its extra argument is evaluated; unapplied it is not carried
+        module = sf.parse_module(defs + '\ntheorem t (L x : ℝ) : sourceA L x = L * x := by sorry\n')
+        self.assertEqual(sf.evaluate_theorem(module, module.theorems[-1]).status, 'CORROBORATED')
+
     def test_quantifier_over_all_subsets_is_enumerated(self):
         r = self.ev('(μ : Measure Ω)', '∀ A : Set Ω, MeasurableSet A → (μ A).toReal ≤ (μ Set.univ).toReal')
         self.assertEqual(r.status, 'CORROBORATED')
@@ -737,6 +758,42 @@ class FiniteModelTests(unittest.TestCase):
         self.assertEqual(report['killed'], report['mutants'])
         self.assertGreaterEqual(report['mutants'], 1)
         self.assertTrue(report['harness_ok'])
+
+
+class CensusModeTests(unittest.TestCase):
+    """`--lean-dir`: every theorem under a directory is a target, copies are deduplicated, reasons are classified."""
+
+    def test_census_counts_dedups_and_classifies(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d)
+            (root / 'A').mkdir()
+            (root / 'A' / 'One.lean').write_text(
+                'import Mathlib\nnamespace A\n@[simp] theorem a : 1 + 1 = 2 := by decide\n'
+                'theorem b (x : ℝ) : x ^ 2 ≥ 0 := by positivity\n'
+                'theorem c (μ : MeasureTheory.Measure Ω) (f : Ω → ℝ) : True := trivial\n'
+                'theorem d (p : ℕ × ℕ × ℕ) : p.2.1 = p.2.1 := rfl\n'
+                'theorem e (x₀ : ℝ) : x₀ + 0 = x₀ := by simp\n'
+                'theorem f : ∃ n : ℕ, n = 0 := ⟨0, rfl⟩\nend A\n')
+            (root / 'A' / 'Copy.lean').write_text((root / 'A' / 'One.lean').read_text())      # byte-identical copy
+            (root / 'raw').mkdir()
+            (root / 'raw' / 'Snapshot.lean').write_text('theorem z : 1 = 2 := sorry\n')
+            report = sf.check_lean_dir(root, exclude=('raw',))
+            self.assertEqual(report['files'], 2)
+            self.assertEqual(report['files_evaluated'], 1)
+            self.assertEqual(report['copies'], {'A/One.lean': 'A/Copy.lean'})      # sorted: Copy is read first
+            self.assertEqual(report['targets'], 6)
+            self.assertEqual(report['status_counts'], {'PASS': 1, 'CORROBORATED': 2, 'UNSUPPORTED': 3})
+            self.assertEqual(report['per_target']['A/Copy.lean::A.a']['status'], 'PASS')         # attribute-prefixed
+            self.assertEqual(report['per_target']['A/Copy.lean::A.e']['status'], 'CORROBORATED') # subscript identifier
+            self.assertEqual(report['unsupported_reasons'],
+                             {'binder outside the interpreter': 2, 'existential quantifier': 1})
+            self.assertEqual(report['exit_code'], 1)
+            self.assertEqual(sf.main(['--lean-dir', str(root), '--exclude', 'raw']), 1)
+
+    def test_a_parser_exception_fails_one_declaration_not_the_module(self):
+        m = sf.parse_module('theorem a : 1 = 1 := rfl\ntheorem b : [1 2 := rfl\ntheorem c : 2 = 2 := rfl\n')
+        self.assertEqual([t.name for t in m.theorems], ['a', 'b', 'c'])
+        self.assertEqual([sf.evaluate_theorem(m, t).status for t in m.theorems], ['PASS', 'UNSUPPORTED', 'PASS'])
 
 
 if __name__ == '__main__':

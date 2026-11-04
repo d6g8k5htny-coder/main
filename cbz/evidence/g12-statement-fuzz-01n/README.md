@@ -273,6 +273,21 @@ recognised and is reported Infeasible/UNSUPPORTED rather than guessed (`ExactRea
 (real-indexed family). **Zero FAIL on 56 kernel-proved statements** remains the soundness check of the
 reader; the class-1 kills (every negated conclusion refuted on the models) show the evaluation has content.
 
+## Census of every Lean declaration in Math- (4 November 2026; `census_math_dfa9b30a_20261104/`)
+
+The tool gained a census mode, `--lean-dir <dir> [--exclude <substring>]…`: every `theorem`/`lemma` in every
+`.lean` file under a directory is a target with no manifest, byte-identical files are evaluated once,
+definitions and carriers are shared across the group, and UNSUPPORTED reasons are classified. Run over the
+16 Lean groups of Math- at `dfa9b30a` (3,782 declarations; raw evidence snapshots excluded): **7 PASS ·
+128 CORROBORATED · 0 FAIL · 3,647 UNSUPPORTED** — see [CENSUS.md](census_math_dfa9b30a_20261104/CENSUS.md)
+for the per-group table, the reason classes, the forty binder types the interpreter does not model, the
+list of decided statements and the reproduce commands. The first run found two reader defects
+(structural predicates on arguments the finite model does not carry were taken as true: `Measurable
+(sourceA L)` for a function on ℝ, `Integrable … (gaussianReal 0 1)`), fixed with regression tests before
+the receipts were taken. Parser repairs that the corpus forced: attribute-prefixed declarations
+(`@[simp] theorem …` on one line), Unicode subscript identifiers (`x₀`), nested projections (`p.2.1`),
+multi-token ascription types, and a parser exception now fails one declaration instead of its module.
+
 **Proposed registration amendment (for Root; the landed GOVERNANCE.md section of #741 governs until
 amended):** the coverage row for Math- `formal/` at `19a55750` becomes `63 | 3 PASS | 56 CORROBORATED |
 4 UNSUPPORTED`; the sentence "The tool does not cover Mathlib real analysis, binders before the colon or
@@ -285,8 +300,14 @@ inside a statement remain explicitly unsupported; no registered statement uses `
 interval backend is pending."; the test count becomes 78; and the gate
 mapping gains: "For a statement with sampled binders, CORROBORATED at the same source cut as the kernel
 receipt is the applicable empirical validation (recorded with seed, sample count and the report's
-SHA-256); it is admitted evidence, not an exact check, and is marked as such." The B-007 statute is
-unchanged: a `PROOF_INDEX` row needs PASS or, for sampled statements, CORROBORATED — never UNSUPPORTED.
+SHA-256); it is admitted evidence, not an exact check, and is marked as such." The B-007 statute
+becomes: a `PROOF_INDEX` row carries `G12: PASS | CORROBORATED | not applicable (<construct>)`, taken from the
+registered run or the census at the row's source cut; PASS or CORROBORATED is the applicable empirical
+validation, *not applicable* names the construct the interpreter does not model (a structure, a function
+on ℝ, an existential, a family) and is never written for a statement the interpreter reaches, and
+UNSUPPORTED is never upgraded or left silent. The census shows the CLOSED-track Gaussian-field packages
+have no reachable declaration at all; their rows read *not applicable* throughout, and the index should
+say so rather than let the addendum rule be read as satisfied.
 
 ## Proposed gate row and registry entries (for Root; B-003)
 

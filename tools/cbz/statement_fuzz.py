@@ -52,8 +52,11 @@ arithmetic Int/Rat/Real, following the maximal-type rule of Lean's `binop%` elab
 Usage:
     python3 tools/cbz/statement_fuzz.py --package formal [--json report.json] [--selftest]
                                         [--seed 1] [--samples 64] [--admit-corroborated]
+    python3 tools/cbz/statement_fuzz.py --lean-dir <dir> [--exclude <substring>]… [--json report.json]
 Exit 0 only when every registered target is PASS — or PASS/CORROBORATED with --admit-corroborated —
-(and, with --selftest, every required mutant is killed and the harness control passes).
+(and, with --selftest, every required mutant is killed and the harness control passes). The census mode
+`--lean-dir` takes every theorem under a directory as a target without a manifest (coverage evidence, not a
+gate): byte-identical files are evaluated once and UNSUPPORTED reasons are classified.
 """
 from __future__ import annotations
 
@@ -81,6 +84,7 @@ class Token:
     col: int
 
 
+_ASCII_DIGITS = set('0123456789')
 _MULTI_OPS = ('<=', '>=', '!=', '->', ':=', '=>', '/\\', '\\/', '<->', '||', '&&', '..', '⁻¹')
 _SINGLE = set('+-*/%^=<>()[],:|.{}!∀∃∧∨¬→↔≤≥≠∈∉λ√∫∂ᵐ•⊆≪∩∪ᶜ∅')
 _IDENT_START = re.compile(r'[A-Za-z_α-ωΑ-Ωℕℤℚℝℂ«]')
@@ -124,14 +128,16 @@ def tokenize(text: str) -> list:
             while j < n and text[j] != '"':
                 j += 2 if text[j] == '\\' else 1
             toks.append(Token('str', text[i:j + 1], line, col)); advance(j + 1 - i); continue
-        if ch.isdigit():
+        if ch in _ASCII_DIGITS:             # not str.isdigit(): subscript digits such as `₀` are identifier chars
             j = i
-            while j < n and (text[j].isdigit() or text[j] == '_'):
+            while j < n and (text[j] in _ASCII_DIGITS or text[j] == '_'):
                 j += 1
-            # a scientific literal `1.5` (Lean `OfScientific`): exact decimal, kept as a Fraction downstream
-            if j + 1 < n and text[j] == '.' and text[j + 1].isdigit():
+            # a scientific literal `1.5` (Lean `OfScientific`): exact decimal, kept as a Fraction downstream —
+            # but not after a projection dot (`p.2.1` is two projections)
+            after_dot = bool(toks) and toks[-1].value == '.' and toks[-1].kind == 'op'
+            if not after_dot and j + 1 < n and text[j] == '.' and text[j + 1] in _ASCII_DIGITS:
                 j += 1
-                while j < n and text[j].isdigit():
+                while j < n and text[j] in _ASCII_DIGITS:
                     j += 1
             toks.append(Token('num', text[i:j].replace('_', ''), line, col)); advance(j - i); continue
         if _IDENT_START.match(ch):
@@ -446,7 +452,8 @@ class Parser:
                 nxt = self.peek(1)
                 if nxt.kind == 'num':
                     self.i += 2
-                    atom = Proj(atom, int(nxt.value))
+                    for part in nxt.value.split('.'):
+                        atom = Proj(atom, int(part))
                     continue
                 if nxt.kind == 'ident':
                     self.i += 2
@@ -498,9 +505,11 @@ class Parser:
             e = self.parse_expr(0)
             if self.at(':'):
                 self.eat(':')
-                typ = self.eat().value
+                parts = []
+                while not self.at(')'):
+                    parts.append(self.eat().value)
                 self.eat(')')
-                return Ascribe(e, typ)
+                return Ascribe(e, ' '.join(parts))
             if self.at(','):
                 items = [e]
                 while self.at(','):
@@ -564,8 +573,28 @@ _DECL_KEYWORDS = {'theorem', 'lemma', 'def', 'abbrev', 'example', 'instance', 's
 
 
 def _split_declarations(toks):
-    starts = [k for k, t in enumerate(toks) if t.col == 0 and ((t.kind == 'ident' and t.value in _DECL_KEYWORDS)
-                                                               or t.value == '@')]
+    """Declaration starts: a declaration keyword at column 0, or one that follows an attribute group
+    `@[simp] theorem …` whose bracket opens at column 0 on the same line (the tokenizer drops `@`)."""
+    starts = []
+    for k, t in enumerate(toks):
+        if t.kind != 'ident' or t.value not in _DECL_KEYWORDS:
+            continue
+        if t.col == 0:
+            starts.append(k)
+            continue
+        if k > 0 and toks[k - 1].value == ']':
+            j = k - 1
+            depth = 0
+            while j >= 0:
+                if toks[j].value == ']':
+                    depth += 1
+                elif toks[j].value == '[':
+                    depth -= 1
+                    if depth == 0:
+                        break
+                j -= 1
+            if j >= 0 and toks[j].col <= 1 and toks[j].line == t.line:     # `@` at column 0 is dropped
+                starts.append(j)
     starts.append(len(toks))
     return [(starts[k], starts[k + 1]) for k in range(len(starts) - 1)]
 
@@ -621,8 +650,11 @@ def parse_module(source: str) -> Module:
     namespace, defs, theorems = '', {}, []
     point_types = set()
     for start, end in _split_declarations(toks):
-        kw = toks[start].value
         k = start
+        if toks[k].value == '[':
+            close = _matching(toks, k, end)
+            k = close + 1 if close != -1 else k
+        kw = toks[k].value if k < end else toks[start].value
         while k < end and toks[k].value in ('noncomputable', 'private', 'protected'):
             k += 1
         kw = toks[k].value if k < end else kw
@@ -653,7 +685,7 @@ def parse_module(source: str) -> Module:
             if assign != -1 and (bar == -1 or assign < bar):
                 try:
                     body = Parser(toks, assign + 1, end).parse_expr(0)
-                except (SyntaxError, Unsupported):
+                except (SyntaxError, Unsupported, ValueError, IndexError, RecursionError):
                     body = None
                 defs[name] = Def(name, params, result_type, body, [])
             elif bar != -1:
@@ -668,10 +700,10 @@ def parse_module(source: str) -> Module:
                         pats = _split_patterns(toks[b0 + 1:arrow])
                         try:
                             expr = Parser(toks, arrow + 1, b1).parse_expr(0)
-                        except (SyntaxError, Unsupported):
+                        except (SyntaxError, Unsupported, ValueError, IndexError, RecursionError):
                             expr = None
                         clauses.append((pats, expr))
-                except (Unsupported, SyntaxError, IndexError):
+                except (Unsupported, SyntaxError, IndexError, ValueError, RecursionError):
                     clauses = []
                 defs[name] = Def(name, params, result_type, None, clauses)
             continue
@@ -687,7 +719,10 @@ def parse_module(source: str) -> Module:
             text = ' '.join(t.value for t in toks[colon + 1:assign])
             if binder_text:
                 text = f'{binder_text} : {text}'
-            binders, binder_error = _parse_theorem_binders(toks, k + 2, colon, defs, point_types)
+            try:
+                binders, binder_error = _parse_theorem_binders(toks, k + 2, colon, defs, point_types)
+            except (SyntaxError, Unsupported, ValueError, IndexError, RecursionError) as e:
+                binders, binder_error = [], f'unparsed binders: {type(e).__name__}: {e}'
             if binder_error:
                 theorems.append(Theorem(full, None, binder_error, text, binders))
                 continue
@@ -699,8 +734,8 @@ def parse_module(source: str) -> Module:
                 theorems.append(Theorem(full, _desugar(stmt), None, text, binders))
             except Unsupported as e:
                 theorems.append(Theorem(full, None, f'unsupported syntax: {e}', text, binders))
-            except SyntaxError as e:
-                theorems.append(Theorem(full, None, f'unparsed statement: {e}', text, binders))
+            except (SyntaxError, ValueError, IndexError, RecursionError) as e:
+                theorems.append(Theorem(full, None, f'unparsed statement: {type(e).__name__}: {e}', text, binders))
             continue
     return Module(namespace, defs, theorems, point_types)
 
@@ -1184,6 +1219,9 @@ class Evaluator:
                 return 'Rat'
             if node.type in _REAL_TYPES:
                 return 'Real'
+            kind = _kind_of_type(node.type, self.module.point_types)
+            if kind is not None:
+                return kind
             raise Unsupported(f'ascription to {node.type}')
         if isinstance(node, Num):
             # a scientific literal (`1.5`) takes the field type of its context; alone, Lean would default it to
@@ -1235,6 +1273,8 @@ class Evaluator:
                     rt = self._type_name(d.result_type)
                     if rt == 'Measure' and len(node.args) == len(d.params) + 1:
                         return 'ENNReal'                      # a defined measure applied to a set
+                    if not d.clauses and '→' in d.result_type and len(node.args) == len(d.params):
+                        return 'Function'                     # a function value, not carried
                     return rt
                 if fn.name == 'Real.sqrt':
                     return 'Real'
@@ -1600,6 +1640,25 @@ class Evaluator:
         if dtyp == 'Measure' and not d.clauses and len(args) == len(d.params) + 1:
             measure = self.apply(App(fn, list(args[:-1])), env, 'Measure')
             return self.measure_apply(measure, args[-1], env)
+        if not d.clauses and d.result_type and '→' in d.result_type:
+            # `def f (L : ℝ) : ℝ → ℝ := fun x => …`: the result is a function; extra arguments are applied to it
+            arity = d.result_type.count('→')
+            if len(args) == len(d.params):
+                raise Unsupported(f'{name} is a function value the interpreter does not carry')
+            if len(args) == len(d.params) + arity:
+                if d.body is None:
+                    raise Unsupported(f'definition {name} has an unparsed body')
+                local = {}
+                for (pname, ptype), a in zip(d.params, args[:len(d.params)]):
+                    pt = self._type_name(ptype)
+                    local[pname] = Bound(self.num(a, env, pt), pt)
+                fn_value = d.body
+                if not isinstance(fn_value, Lambda):
+                    raise Unsupported(f'{name} returns a function that is not a lambda')
+                arg_types = [t.strip() for t in d.result_type.split('→')[:-1]]
+                vals = [self.num(a, env, self._type_name(at)) for a, at in zip(args[len(d.params):], arg_types)]
+                return self.call_values(Closure(fn_value.params, fn_value.body, local), vals, dtyp)
+            raise Unsupported(f'{name} applied to {len(args)} arguments')
         if d.clauses:
             n_lead = len(d.params)
             n_pats = len(d.clauses[0][0])
@@ -1724,13 +1783,28 @@ class Evaluator:
                 raise Unsupported('IsFiniteMeasure of a non-measure')
             return not any(w.inf for w in m.weights)
         if name in _STRUCTURAL_PREDICATES:
-            measures = []
-            for a in node.args:            # the arguments must at least be values the model carries
+            # true only for values the finite model carries: a table, a subset, a lambda on the carrier, a model
+            # measure; exponents such as the 2 of `MemLp f 2 μ` are numerals. Anything else (a function on ℝ,
+            # `gaussianReal 0 1`, a structure) is outside the model and the predicate is not decided.
+            measures, carried = [], False
+            for a in node.args:
+                if isinstance(a, Lambda):
+                    carried = True
+                    continue
                 t = self.arith_type(a, env)
-                if t not in ('Measure', 'Set', 'Func', 'Nat', 'Real', 'ENNReal') and not isinstance(a, Lambda):
-                    raise Unsupported(f'{name} of a {t}')
-                if t == 'Measure':
-                    measures.append(self.num(a, env, 'Measure'))
+                if t in ('Measure', 'Set', 'Func'):
+                    carried = True
+                    if t == 'Measure':
+                        measures.append(self.num(a, env, 'Measure'))
+                    elif t == 'Func':
+                        if not isinstance(self.num(a, env, 'Func'), Func):
+                            raise Unsupported(f'{name} of a function value the model does not carry')
+                    continue
+                if isinstance(a, Num) or (isinstance(a, Var) and a.name in env and env[a.name].type in ('Nat', 'Int', 'Rat', 'Real', 'ENNReal')):
+                    continue
+                raise Unsupported(f'{name} of a value outside the finite model ({t})')
+            if not carried:
+                raise Unsupported(f'{name} with no model-carried argument')
             # a derived measure (`c • μ` with c = ∞) may carry a point of infinite mass: finiteness is then false
             # and integrability is not automatic, so nothing is assumed there (a8, 743/5729046258 N2)
             infinite = any(isinstance(m, Meas) and any(w.inf for w in m.weights) for m in measures)
@@ -1926,7 +2000,7 @@ def _ediv(a: int, b: int) -> int:
 
 def _max_type(a, b):
     order = {'Sci': -2, 'Bool': -1, 'Nat': 0, 'Int': 1, 'Rat': 2, 'Real': 3, 'ENNReal': 4, 'Point': 5, 'Set': 6,
-             'Func': 7, 'Measure': 8, 'Prop': 9}
+             'Func': 7, 'Measure': 8, 'Function': 9, 'Prop': 10}
     if 'Prop' in (a, b):
         raise Unsupported('arithmetic on propositions')
     return a if order[a] >= order[b] else b
@@ -2437,6 +2511,11 @@ def evaluate_theorem(module: Module, thm: Theorem, seed: int = 1, samples: int =
     satisfies the hypotheses (possibly vacuous: A5)."""
     if thm.statement is None:
         return EvalResult('UNSUPPORTED', thm.error or 'no statement', 0, False, [], [])
+    structural = _structural_conclusion(thm.statement)
+    if structural:
+        return EvalResult('UNSUPPORTED', f'conclusion is a structural predicate {structural}: trivial on finite discrete '
+                          'models (every set is measurable, every function measurable and integrable), so sampling '
+                          'has no content here', 0, False, [], [])
     if thm.binders:
         return _evaluate_sampled(module, thm, seed, samples)
     ev = Evaluator(module)
@@ -2600,6 +2679,16 @@ def _split_conjuncts(node):
     return [node]
 
 
+def _structural_conclusion(stmt):
+    """The sorted predicate names when every conjunct of the conclusion is a structural predicate
+    (measurability, integrability, …), else None. Such a conclusion has no sampled content on any model."""
+    conjuncts = _split_conjuncts(stmt)
+    if conjuncts and all(isinstance(c, App) and isinstance(c.fn, Var) and c.fn.name in _STRUCTURAL_PREDICATES
+                         for c in conjuncts):
+        return sorted({c.fn.name for c in conjuncts})
+    return None
+
+
 def _boundary_candidates(var: str, typ: str, hyps: list, ev: Evaluator, env: dict, var_names: set) -> list:
     """Exact values at and next to the boundaries that the hypotheses give ``var`` once every other
     variable they mention is assigned: `c ≤ x`, `x < c`, `x = c`, `x ≠ c`, `|x - e| ≤ c` (and `|e - x|`)."""
@@ -2660,13 +2749,6 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
     seen = set()
     probes = []
     model = any(t in _MODEL_KINDS for _, t in variables)
-    if model:
-        conjuncts = _split_conjuncts(thm.statement)
-        if all(isinstance(c, App) and isinstance(c.fn, Var) and c.fn.name in _STRUCTURAL_PREDICATES for c in conjuncts):
-            names = sorted({c.fn.name for c in conjuncts})
-            return EvalResult('UNSUPPORTED', f'conclusion is a structural predicate {names}: trivial on finite discrete '
-                              'models (every set is measurable, every function measurable and integrable), so sampling '
-                              'has no content here', 0, False, [], [])
     probability = {h.args[0].name for h in hyps if isinstance(h, App) and isinstance(h.fn, Var)
                    and h.fn.name == 'IsProbabilityMeasure' and len(h.args) == 1 and isinstance(h.args[0], Var)}
     try:
@@ -2817,6 +2899,9 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
         detail = (f'holds on {accepted} sampled instances satisfying the hypotheses ({rejected} draws rejected by the '
                   f'hypotheses, {infeasible} infeasible, seed {seed}): sampling is admitted evidence of the statement, '
                   'not a proof of it')
+        if accepted * 4 < samples:
+            detail += f' — WEAK: only {accepted} instances, the hypotheses are hard to hit by sampling'
+            sampling['weak'] = True
         return EvalResult('CORROBORATED', detail, accepted, False, probes, ev.values_seen, sampling)
     except Unsupported as e:
         return EvalResult('UNSUPPORTED', str(e), 0, False, [], ev.values_seen)
@@ -3050,9 +3135,84 @@ def check_package(root, selftest=False, seed=1, samples=64, admit_corroborated=F
                      'exact witness. UNSUPPORTED is fail-closed.')}
 
 
+def check_lean_dir(root, exclude=(), seed=1, samples=64):
+    """Census mode: every `theorem`/`lemma` in every `.lean` file under ``root`` (recursively, sorted; paths
+    containing any ``exclude`` substring skipped; byte-identical files evaluated once and recorded as copies) is
+    a target, with definitions and carrier types shared across the group as in a package. The report has the
+    shape of ``check_package`` plus a histogram of UNSUPPORTED reasons; the exit code is 0 only when every target
+    PASSes (there is no manifest to register against, so this mode is coverage evidence, never a gate)."""
+    root = pathlib.Path(root)
+    files = sorted(p for p in root.rglob('*.lean') if not any(x in str(p.relative_to(root)) for x in exclude))
+    modules, hashes, copies, seen_hash = {}, {}, {}, {}
+    for p in files:
+        rel = str(p.relative_to(root))
+        h = _sha256(p)
+        hashes[rel] = h
+        if h in seen_hash:
+            copies[rel] = seen_hash[h]
+            continue
+        seen_hash[h] = rel
+        modules[rel] = parse_module(p.read_text(encoding='utf-8', errors='replace'))
+    shared_defs, shared_points = {}, set()
+    for m in modules.values():
+        for name, d in m.defs.items():
+            shared_defs.setdefault(name, d)
+        shared_points |= m.point_types
+    for m in modules.values():
+        m.defs = shared_defs
+        m.point_types = shared_points
+    per_target, counts, reasons = {}, {}, {}
+    for rel, module in modules.items():
+        for thm in module.theorems:
+            res = evaluate_theorem(module, thm, seed, samples)
+            key = f'{rel}::{thm.name}'
+            per_target[key] = {'module': rel, 'name': thm.name, 'status': res.status, 'detail': res.detail,
+                               'instances': res.instances, 'vacuous': res.vacuous,
+                               'float_free': not any(isinstance(v, float) for v in res.values)}
+            if res.sampling is not None:
+                per_target[key]['sampling'] = res.sampling
+            counts[res.status] = counts.get(res.status, 0) + 1
+            if res.status == 'UNSUPPORTED':
+                reason = _reason_class(res.detail)
+                reasons[reason] = reasons.get(reason, 0) + 1
+    return {'lean_dir': str(root), 'files': len(files), 'files_evaluated': len(modules), 'copies': copies,
+            'file_sha256': hashes, 'targets': len(per_target), 'status_counts': counts,
+            'unsupported_reasons': dict(sorted(reasons.items(), key=lambda kv: -kv[1])), 'per_target': per_target,
+            'sampling': {'seed': seed, 'samples': samples},
+            'exit_code': 0 if counts and set(counts) == {'PASS'} else 1,
+            'note': ('G12 census: coverage of the empirical statement check over every declaration in a directory, '
+                     'with no manifest. PASS/CORROBORATED/FAIL/UNSUPPORTED as in a package check; UNSUPPORTED reasons '
+                     'are classified. Not a gate and not kernel evidence.')}
+
+
+def _reason_class(detail: str) -> str:
+    """A short class for an UNSUPPORTED detail, for the census histogram."""
+    d = detail
+    for needle, cls in (('binder', 'binder outside the interpreter'), ('instance binder', 'binder outside the interpreter'),
+                        ('hypothesis', 'hypothesis outside the interpreter'), ('existential', 'existential quantifier'),
+                        ('unbounded quantifier', 'unbounded quantifier inside the statement'),
+                        ('quantifier over', 'quantifier over an unsupported type'),
+                        ('notation', 'Mathlib notation'), ('unparsed statement', 'unparsed statement'),
+                        ('malformed theorem', 'malformed or term-mode theorem'), ('structural predicate', 'structural conclusion'),
+                        ('transcendental', 'transcendental function'), ('nested radical', 'nested radical'),
+                        ('unknown name', 'unknown name'), ('unknown function', 'unknown function'),
+                        ('result type', 'definition result type outside the interpreter'),
+                        ('no sample', 'no sample satisfied the hypotheses'), ('evaluation error', 'evaluation error'),
+                        ('exceeds', 'resource cap'), ('ascription to', 'ascription to an unsupported type'),
+                        ('scientific literal', 'scientific literal'), ('definition', 'definition outside the interpreter'),
+                        ('application of', 'application outside the interpreter'), ('proposition', 'proposition outside the interpreter')):
+        if needle in d:
+            return cls
+    return 'other'
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
-    ap.add_argument('--package', required=True, help='formal package root containing manifest.json')
+    group = ap.add_mutually_exclusive_group(required=True)
+    group.add_argument('--package', help='formal package root containing manifest.json')
+    group.add_argument('--lean-dir', help='census mode: every theorem in every .lean file under this directory')
+    ap.add_argument('--exclude', action='append', default=[],
+                    help='census mode: skip files whose relative path contains this substring (repeatable)')
     ap.add_argument('--json', help='write the full report here')
     ap.add_argument('--selftest', action='store_true', help='also run the mutation self-test per module')
     ap.add_argument('--seed', type=int, default=1, help='seed of the deterministic sampler for binders before the colon')
@@ -3060,6 +3220,18 @@ def main(argv=None):
     ap.add_argument('--admit-corroborated', action='store_true',
                     help='exit 0 when every target is PASS or CORROBORATED (default: PASS only, the registered contract)')
     a = ap.parse_args(argv)
+    if a.lean_dir:
+        report = check_lean_dir(a.lean_dir, exclude=a.exclude, seed=a.seed, samples=a.samples)
+        if a.json:
+            pathlib.Path(a.json).write_text(json.dumps(report, indent=1, default=str) + '\n')
+        summary = {k: report[k] for k in ('lean_dir', 'files', 'files_evaluated', 'targets', 'status_counts',
+                                          'unsupported_reasons', 'sampling', 'exit_code')}
+        summary['copies'] = len(report['copies'])
+        print(json.dumps(summary, indent=1))
+        for name, r in report['per_target'].items():
+            if r['status'] != 'PASS':
+                print(f"{r['status']}: {name}: {r['detail'][:200]}")
+        return report['exit_code']
     report = check_package(a.package, selftest=a.selftest, seed=a.seed, samples=a.samples,
                            admit_corroborated=a.admit_corroborated)
     if a.json:
