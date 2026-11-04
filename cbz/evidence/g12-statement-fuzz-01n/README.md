@@ -288,6 +288,29 @@ the receipts were taken. Parser repairs that the corpus forced: attribute-prefix
 (`@[simp] theorem …` on one line), Unicode subscript identifiers (`x₀`), nested projections (`p.2.1`),
 multi-token ascription types, and a parser exception now fails one declaration instead of its module.
 
+**Review repairs (4 November; Codex's review of #752, findings 4471516437 · 4471516451 · 4471516464; receipts
+`*_r4*` and the census re-taken).** Three defects of the reader, each confirmed with a reproduction before
+it was fixed, each covered by a regression test (`NameResolutionTests`): (1) a function returned by a
+definition bound its parameters at the codomain type (`def f : ℕ → ℝ := fun n => if n - 1 = 0 then 1 else 0`
+made `f 0 = 1` FAIL and accepted `f 0 = 0`) — parameters now take the domain types of the declared arrow
+type, an explicit binder type wins, and arrow types split at bracket depth 0 only; (2) a group's
+definitions were pooled by short name, first module wins (`A.f`/`B.f` collapsed, verdicts depending on file
+order) — definitions are kept by Lean-qualified name, `namespace`/`section`/`end`/`open` are tracked as
+scopes, a statement resolves a name from its namespace outward and through its `open`s, in its own module
+first and then across the group only when exactly one definition (up to identical text) carries the name,
+otherwise UNSUPPORTED "ambiguous definition"; (3) the splitter saw declaration keywords at column 0 only —
+indented declarations and `open … in` / `set_option … in` prefixes now start declarations, and a
+`theorem`/`lemma` keyword the splitter still cannot separate becomes an UNSUPPORTED target "declaration not
+reached by the parser", so a census accounts for every declaration. Measured exposure of the landed
+receipts: none — no decided statement depended on a collision, a returned function or an unreached
+declaration — and the re-run changed **0 of 3,782** census verdicts and **0** package verdicts
+(`main_formal_ec6962ff_r4.json`, `math_formal_19a55750_r4.json` equal r3 per target); 695 census targets now
+carry their Lean-qualified names, which is what lets every record of the #695 index bind by exact name
+(see [CENSUS.md](census_math_dfa9b30a_20261104/CENSUS.md), "Per-record annotation"). The suite is **85
+tests** (normal, `-O`, `-W error`); the module-level `defs` of a parsed file are now keyed by qualified name
+(`Demo.fact`), and the test fixtures that append a theorem after a closed namespace write the `open … in`
+prefix Lean itself would need.
+
 **Proposed registration amendment (for Root; the landed GOVERNANCE.md section of #741 governs until
 amended):** the coverage row for Math- `formal/` at `19a55750` becomes `63 | 3 PASS | 56 CORROBORATED |
 4 UNSUPPORTED`; the sentence "The tool does not cover Mathlib real analysis, binders before the colon or
@@ -297,7 +320,7 @@ exactly in ℚ(√d₁, …, √dₖ), and samples measure-theoretic statements 
 rational weights, tables, subsets); a sampled statement is CORROBORATED or FAIL, never PASS. Structural
 conclusions, real-indexed families, nested radicals, transcendental functions and unbounded quantifiers
 inside a statement remain explicitly unsupported; no registered statement uses `Real.exp`/`log`, so no
-interval backend is pending."; the test count becomes 78; and the gate
+interval backend is pending."; the test count becomes 85; and the gate
 mapping gains: "For a statement with sampled binders, CORROBORATED at the same source cut as the kernel
 receipt is the applicable empirical validation (recorded with seed, sample count and the report's
 SHA-256); it is admitted evidence, not an exact check, and is marked as such." The B-007 statute

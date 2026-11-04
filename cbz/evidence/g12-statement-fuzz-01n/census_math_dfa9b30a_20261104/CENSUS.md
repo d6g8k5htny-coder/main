@@ -2,11 +2,13 @@
 
 Unit `CBZ0-G12-CENSUS-01N-20261104`. Performer: Anthropic Claude, Claude Code session `session_01NMeKEismAyeqgdB4sy2NJU` (Claude01N). Credit 0. Scientific effect NONE.
 
-**What this is.** The empirical statement check (`tools/cbz/statement_fuzz.py` as landed by main#726, #742 and #743, plus the census mode and the reader repairs of this PR) run in `--lean-dir` mode over every `.lean` file of every Lean group in Math- at `dfa9b30a27ea8f8ee647bb067549fa53c7d06ef6` (the tip after Math-#536), so that every `theorem`/`lemma` is a target whether or not a manifest registers it. Raw evidence snapshots (`/raw`, `raw-` directories: 1,739 files of producer runs) are excluded; byte-identical files within a group are evaluated once. The owner's addendum rule — no closure marked CLOSED without the empirical layer — needs this picture before the index is written: per declaration, the layer either **applies** (PASS / CORROBORATED / FAIL) or **does not** (UNSUPPORTED, with the construct named). Nothing here is kernel evidence or a CLOSED decision.
+**What this is.** The empirical statement check (`tools/cbz/statement_fuzz.py` as landed by main#726, #742 and #743, plus the census mode, the reader repairs and the review repairs of this PR) run in `--lean-dir` mode over every `.lean` file of every Lean group in Math- at `dfa9b30a27ea8f8ee647bb067549fa53c7d06ef6` (the tip after Math-#536), so that every `theorem`/`lemma` is a target whether or not a manifest registers it. Raw evidence snapshots (`/raw`, `raw-` directories: 1,739 files of producer runs) are excluded; byte-identical files within a group are evaluated once. The owner's addendum rule — no closure marked CLOSED without the empirical layer — needs this picture before the index is written: per declaration, the layer either **applies** (PASS / CORROBORATED / FAIL) or **does not** (UNSUPPORTED, with the construct named). Nothing here is kernel evidence or a CLOSED decision.
 
 **Totals.** 3782 declarations in 16 groups: **7 PASS · 128 CORROBORATED · 0 FAIL · 3647 UNSUPPORTED**; 2 of the corroborations are marked WEAK (fewer than a quarter of the requested instances satisfied their hypotheses — `W3Scratch.srcE_sq` with `c ^ 2 + s ^ 2 = 1` is hit at four points only). Zero FAIL across the 135 decided statements, kernel-proved groups included, is the reader-soundness check; every UNSUPPORTED names what stopped it.
 
 **Two reader defects this census found, fixed before these receipts were taken.** The first run corroborated `Measurable (sourceA L)` (with `sourceA : ℝ → ℝ → ℝ` a function on the reals) and passed `Integrable (fun z => |z| ^ 8) (gaussianReal 0 1)`: structural predicates whose arguments the finite model does not carry were taken as true. Now a conclusion that is only a structural predicate is UNSUPPORTED for every statement (not only when a model binder is present), a structural predicate holds only for a table, a subset, a lambda on the carrier or a model measure, and a function-valued definition is applied to its extra arguments or reported as a value the interpreter does not carry. 42 verdicts of the first run were withdrawn to UNSUPPORTED by these repairs; regression tests cover both cases.
+
+**Three reader defects Codex's review of #752 found (752/4471516437, 4471516451, 4471516464), fixed before these receipts were taken.** (1) A function returned by a definition (`def f : ℕ → ℝ := fun n => …`) bound its parameters at the codomain type, so `n - 1` was real subtraction where Lean truncates; parameters now take the domain types of the arrow type (an explicit binder type wins) and arrow types are split at bracket depth 0 only (`Set (Fin d → ℤ)` is not a function type). (2) A group's definitions were pooled by short name, first module wins; they are now kept by Lean-qualified name and resolved from the statement's namespace outward and through its `open`s — the module's own first, then the group's when exactly one definition (up to identical text) carries the name, UNSUPPORTED "ambiguous definition" otherwise. `namespace`/`section`/`end` are tracked as scopes, so declaration names are the ones Lean gives them. (3) The splitter recognised declaration keywords at column 0 only; it now also starts a declaration at a keyword that opens its line at any indentation or follows the `in` of an `open … in` / `set_option … in` prefix, and any `theorem`/`lemma` keyword it still cannot separate (a declaration beginning mid-line) is recorded as an UNSUPPORTED target "declaration not reached by the parser", so every declaration in a file is accounted for. Exposure in this corpus, measured with the tool as it was: 11 short-name collisions across modules (10 in `source_derivative_gaussian`, 1 in `lean_statements`) touched **no** decided statement; **no** decided statement applied a returned function; **no** declaration was unreached. Re-running everything: **0 of 3,782 verdicts changed**; 695 targets carry their proper qualified names (the cap packet's `CapHyp.*` are `CapFirstExit.CapHyp.*`, which is why every one of the 367 records of the #695 index now binds by exact name, below); 14 UNSUPPORTED reasons are more specific (a definition written with its namespace prefix is now found and its unmodelled result type named, instead of "unknown function"). The 12 groups without such names are byte-identical to the first run.
 
 | Group | Disposition context (from the hub, 1–4 Nov) | Lean files | Declarations | PASS | CORROBORATED | FAIL | UNSUPPORTED |
 |---|---|---:|---:|---:|---:|---:|---:|
@@ -34,15 +36,15 @@ Unit `CBZ0-G12-CENSUS-01N-20261104`. Performer: Anthropic Claude, Claude Code se
 | binder outside the interpreter | 2604 |
 | proposition outside the interpreter | 205 |
 | unparsed statement | 135 |
-| unknown function | 95 |
-| unknown name | 93 |
+| unknown name | 94 |
 | Mathlib notation | 92 |
 | existential quantifier | 91 |
+| definition result type outside the interpreter | 85 |
+| unknown function | 82 |
 | structural conclusion | 77 |
-| definition result type outside the interpreter | 76 |
 | transcendental function | 49 |
-| definition outside the interpreter | 42 |
-| other | 37 |
+| definition outside the interpreter | 43 |
+| other | 39 |
 | hypothesis outside the interpreter | 31 |
 | unbounded quantifier inside the statement | 13 |
 | ascription to an unsupported type | 4 |
@@ -196,13 +198,13 @@ Every PASS/CORROBORATED statement by group (the receipt JSON has detail, seed an
 - CORROBORATED: `ResearchFormalCoreR1.gm8_sqrt_pow`
 
 **`specifications/lean_statement_proofs_20261011`**
-- CORROBORATED: `Aux.quarter_pow_identity`
-- CORROBORATED: `Aux.quarter_ratio_le`
-- CORROBORATED: `Aux.dc_assemble_lower`
-- CORROBORATED: `Aux.dc_assemble_upper`
-- CORROBORATED: `Aux.cm_quad_pos`
-- CORROBORATED: `Aux.pow_succ_le`
-- PASS: `Aux.sqrt_three_eighths`
+- CORROBORATED: `UniversalLaw.Proofs.P15Budget.Aux.quarter_pow_identity`
+- CORROBORATED: `UniversalLaw.Proofs.P15Budget.Aux.quarter_ratio_le`
+- CORROBORATED: `UniversalLaw.Proofs.Side24Analysis.Aux.dc_assemble_lower`
+- CORROBORATED: `UniversalLaw.Proofs.Side24Analysis.Aux.dc_assemble_upper`
+- CORROBORATED: `UniversalLaw.Proofs.Side24ConeMoment.Aux.cm_quad_pos`
+- CORROBORATED: `UniversalLaw.Proofs.Side24Elementary.Aux.pow_succ_le`
+- PASS: `UniversalLaw.Proofs.Side24Elementary.Aux.sqrt_three_eighths`
 
 **`frontiers/determinant_moment_20261025`**
 - CORROBORATED: `ResearchFormalCoreR1.ec005_fold_gap`
@@ -246,11 +248,11 @@ Every PASS/CORROBORATED statement by group (the receipt JSON has detail, seed an
 - CORROBORATED: `D2MomentBridge.square_gap_integral`
 
 **`frontiers/cap_first_exit_lean_20261002`**
-- CORROBORATED: `CapHyp.sp_curved_side_constants`
-- CORROBORATED: `CapHyp.l12_constants`
-- CORROBORATED: `CapHyp.l9_arith`
-- PASS: `CapHyp.toy_f_M`
-- PASS: `CapHyp.toy_f_S`
+- CORROBORATED: `CapFirstExit.sp_curved_side_constants`
+- CORROBORATED: `CapFirstExit.l12_constants`
+- CORROBORATED: `CapFirstExit.l9_arith`
+- PASS: `CapFirstExit.toy_f_M`
+- PASS: `CapFirstExit.toy_f_S`
 
 ## Reproduce
 
@@ -259,6 +261,21 @@ mkdir -p /tmp/g12-census/math && git -C <Math- clone> archive dfa9b30a27ea8f8ee6
 bash cbz/evidence/g12-statement-fuzz-01n/census_math_dfa9b30a_20261104/run_census.sh      # from a main checkout; about 12 s
 ```
 Each `<group>.json` is the full report (`per_target` with detail, `copies`, `file_sha256` of every Lean file read, `unsupported_reasons`); each `.stdout.txt` is the CLI summary with every non-PASS line. `SHA256SUMS` binds them. Seeds and sample counts are the defaults (1, 64); the run is deterministic.
+
+## Per-record annotation of the literal kernel index (main#695)
+
+`g12_annotations_literal_index_82d9e480.json` binds each of the **367** CLOSED records of `cbz/evidence/kernel/all-closed-declarations.json` (main#695 at `82d9e480`) to a target of this census or of the main `formal/` receipt `main_formal_ec6962ff_r4.json`, by the sha256 of the source file the record names **and** the declaration's qualified name — every record binds (0 unbound): **34 PASS · 69 CORROBORATED · 264 not applicable · 0 FAIL**.
+
+| Index family | PASS | CORROBORATED | not applicable |
+|---|---:|---:|---:|
+| `Math-:c297` | 0 | 0 | 13 |
+| `Math-:formal` | 3 | 56 | 4 |
+| `Math-:frontiers/determinant_moment_20261025` | 0 | 13 | 53 |
+| `Math-:smooth` | 0 | 0 | 116 |
+| `Math-:spec` | 0 | 0 | 78 |
+| `main:formal` | 31 | 0 | 0 |
+
+The 264 *not applicable* records name their construct: binder outside the interpreter 156, unknown name 57, proposition outside the interpreter 16, unparsed statement 11, structural conclusion 9, definition outside the interpreter 5, definition result type outside the interpreter 5, unbounded quantifier inside the statement 5. Each record carries the receipt file and its sha256, the target key, instances, and for sampled verdicts the seed and accepted/rejected/infeasible counts; the proposed row text is `G12: PASS | CORROBORATED | not applicable (<construct>)`. This is an annotation for Root's index, not a CLOSED decision.
 
 ## What the census says for the index (proposal, for Root)
 

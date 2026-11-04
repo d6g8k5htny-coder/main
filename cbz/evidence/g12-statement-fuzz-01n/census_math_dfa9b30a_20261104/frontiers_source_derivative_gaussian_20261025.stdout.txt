@@ -12,16 +12,16 @@
   "proposition outside the interpreter": 119,
   "existential quantifier": 77,
   "unparsed statement": 72,
+  "definition result type outside the interpreter": 64,
   "structural conclusion": 57,
-  "definition result type outside the interpreter": 56,
   "Mathlib notation": 36,
+  "other": 27,
   "hypothesis outside the interpreter": 26,
-  "other": 25,
   "definition outside the interpreter": 19,
-  "unknown function": 16,
   "unbounded quantifier inside the statement": 7,
   "transcendental function": 7,
-  "unknown name": 6,
+  "unknown name": 7,
+  "unknown function": 5,
   "ascription to an unsupported type": 4,
   "application outside the interpreter": 3
  },
@@ -122,8 +122,8 @@ UNSUPPORTED: SourceActualFiniteSuperlevelComponents.lean::I4SourceActualFiniteSu
 UNSUPPORTED: SourceActualFiniteSuperlevelComponents.lean::I4SourceActualFiniteSuperlevelComponents.fixture_fieldBounds: binder ( q : I4Torus.SourceTorus 2 2 ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceActualFiniteSuperlevelComponents.lean::I4SourceActualFiniteSuperlevelComponents.coordinate_max_zero: unparsed statement: SyntaxError: trailing tokens from ')'
 UNSUPPORTED: SourceActualFiniteSuperlevelComponents.lean::I4SourceActualFiniteSuperlevelComponents.fixture_maxLevel: unsupported syntax: brace term that is not a set-builder
-UNSUPPORTED: SourceActualFiniteSuperlevelComponents.lean::I4SourceActualFiniteSuperlevelComponents.fixture_emptyLevel: unknown function TorusFiltration.superlevel_set
-UNSUPPORTED: SourceActualFiniteSuperlevelComponents.lean::I4SourceActualFiniteSuperlevelComponents.fixture_wholeLevel: unknown function TorusFiltration.superlevel_set
+UNSUPPORTED: SourceActualFiniteSuperlevelComponents.lean::I4SourceActualFiniteSuperlevelComponents.fixture_emptyLevel: TorusFiltration.superlevel_set applied to 2 of 0 arguments
+UNSUPPORTED: SourceActualFiniteSuperlevelComponents.lean::I4SourceActualFiniteSuperlevelComponents.fixture_wholeLevel: TorusFiltration.superlevel_set applied to 2 of 0 arguments
 UNSUPPORTED: SourceActualFiniteSuperlevelComponents.lean::I4SourceActualFiniteSuperlevelComponents.fixture_whole_nonempty: proposition of form App
 UNSUPPORTED: SourceActualFiniteSuperlevelComponents.lean::I4SourceActualFiniteSuperlevelComponents.fixture_maxLocalTopology: proposition of form App
 UNSUPPORTED: SourceActualFiniteSuperlevelComponents.lean::I4SourceActualFiniteSuperlevelComponents.fixture_emptyLocalTopology: proposition of form App
@@ -139,10 +139,10 @@ UNSUPPORTED: SourceActualFoldCandidate.lean::I4SourceActualFoldCandidate.actual_
 UNSUPPORTED: SourceActualFoldCandidate.lean::I4SourceActualFoldCandidate.actual_rawPins_heights: binder ( sample : SmoothSample 2 L ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceActualFoldCandidate.lean::I4SourceActualFoldCandidate.actual_torus_lifetime_pullback: binder ( sample : SmoothSample 2 L ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceActualFoldCandidate.lean::I4SourceActualFoldCandidate.interface_values_eq_actual: binder ( sample : SmoothSample 2 L ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
-UNSUPPORTED: SourceActualFoldCandidate.lean::I4SourceActualFoldCandidate.coordinates_endpointLiftM: unknown function I4LifetimeField.coordinates
-UNSUPPORTED: SourceActualFoldCandidate.lean::I4SourceActualFoldCandidate.coordinates_endpointLiftS: unknown function I4LifetimeField.coordinates
-UNSUPPORTED: SourceActualFoldCandidate.lean::I4SourceActualFoldCandidate.torusProjection_endpointLiftM: unknown function I4Torus.torusProjection
-UNSUPPORTED: SourceActualFoldCandidate.lean::I4SourceActualFoldCandidate.torusProjection_endpointLiftS: unknown function I4Torus.torusProjection
+UNSUPPORTED: SourceActualFoldCandidate.lean::I4SourceActualFoldCandidate.coordinates_endpointLiftM: result type E d ≃ L [ ℝ ] ( Fin d → ℝ )
+UNSUPPORTED: SourceActualFoldCandidate.lean::I4SourceActualFoldCandidate.coordinates_endpointLiftS: result type E d ≃ L [ ℝ ] ( Fin d → ℝ )
+UNSUPPORTED: SourceActualFoldCandidate.lean::I4SourceActualFoldCandidate.torusProjection_endpointLiftM: result type SourceTorus d L
+UNSUPPORTED: SourceActualFoldCandidate.lean::I4SourceActualFoldCandidate.torusProjection_endpointLiftS: result type SourceTorus d L
 UNSUPPORTED: SourceActualFoldCandidate.lean::I4SourceActualFoldCandidate.endpointLiftM_apply: binder ( i : Fin 2 ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceActualFoldCandidate.lean::I4SourceActualFoldCandidate.endpointLiftS_apply: binder ( i : Fin 2 ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceActualFoldCandidate.lean::I4SourceActualFoldCandidate.endpoint_lifts_sub_norm: unsupported syntax: notation '‖'
@@ -321,12 +321,12 @@ UNSUPPORTED: SourceActualRegularLocalCollar.lean::I4SourceActualRegularLocalColl
 UNSUPPORTED: SourceActualRegularLocalCollar.lean::I4SourceActualRegularLocalCollar.fixture_actual_formula: binder ( Y : E2 ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceActualRegularLocalCollar.lean::I4SourceActualRegularLocalCollar.actualSource_quotient_regular_local_collar: binder ( ω : I4SmoothCarrier.SmoothSample 2 L ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceActualRegularLocalCollar.lean::I4SourceActualRegularLocalCollar.fixture_derivative_apply: binder ( Y V : E2 ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
-UNSUPPORTED: SourceActualRegularLocalCollar.lean::I4SourceActualRegularLocalCollar.fixture_regularX_value: unknown function I4LifetimeField.actualField
-UNSUPPORTED: SourceActualRegularLocalCollar.lean::I4SourceActualRegularLocalCollar.fixture_regularY_value: unknown function I4LifetimeField.actualField
+UNSUPPORTED: SourceActualRegularLocalCollar.lean::I4SourceActualRegularLocalCollar.fixture_regularX_value: result type SmoothSample d L
+UNSUPPORTED: SourceActualRegularLocalCollar.lean::I4SourceActualRegularLocalCollar.fixture_regularY_value: result type SmoothSample d L
 UNSUPPORTED: SourceActualRegularLocalCollar.lean::I4SourceActualRegularLocalCollar.fixture_regularX_derivative: application of a non-name
 UNSUPPORTED: SourceActualRegularLocalCollar.lean::I4SourceActualRegularLocalCollar.fixture_regularY_derivative: application of a non-name
 UNSUPPORTED: SourceActualRegularLocalCollar.lean::I4SourceActualRegularLocalCollar.fixture_seam_phase: transcendental Real.sin is outside the exact algebraic backend
-UNSUPPORTED: SourceActualRegularLocalCollar.lean::I4SourceActualRegularLocalCollar.fixture_seam_value: unknown function I4LifetimeField.actualField
+UNSUPPORTED: SourceActualRegularLocalCollar.lean::I4SourceActualRegularLocalCollar.fixture_seam_value: result type SmoothSample d L
 UNSUPPORTED: SourceActualRegularLocalCollar.lean::I4SourceActualRegularLocalCollar.fixture_seam_derivative: application of a non-name
 UNSUPPORTED: SourceActualRegularLocalCollar.lean::I4SourceActualRegularLocalCollar.fixture_seam_quotient: result type Torus2 L
 UNSUPPORTED: SourceActualRegularLocalCollar.lean::I4SourceActualRegularLocalCollar.smallO_isOpen: binder ( X : E2 ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
@@ -362,7 +362,7 @@ UNSUPPORTED: SourceActualSaddleUppercuts.lean::I4SourceActualSaddleUppercuts.act
 UNSUPPORTED: SourceActualSaddleUppercuts.lean::I4SourceActualSaddleUppercuts.fixture_scalarSeries_finitePairing: binder ( v : ι → ₀ ℝ ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceActualSaddleUppercuts.lean::I4SourceActualSaddleUppercuts.fixture_source: binder ( u : Fin 2 → ℝ ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceActualSaddleUppercuts.lean::I4SourceActualSaddleUppercuts.fixture_field: binder ( u : Fin 2 → ℝ ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
-UNSUPPORTED: SourceActualSaddleUppercuts.lean::I4SourceActualSaddleUppercuts.fixture_actual: unknown function I4LifetimeField.actualField
+UNSUPPORTED: SourceActualSaddleUppercuts.lean::I4SourceActualSaddleUppercuts.fixture_actual: I4LifetimeField.actualField applied to 3 of 4 arguments
 UNSUPPORTED: SourceActualSaddleUppercuts.lean::I4SourceActualSaddleUppercuts.trig_deriv: binder ( X : UniversalLaw.Spec.Lifetime.E 2 ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceActualSaddleUppercuts.lean::I4SourceActualSaddleUppercuts.trig_hessian: binder ( X v w : UniversalLaw.Spec.Lifetime.E 2 ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceActualSaddleUppercuts.lean::I4SourceActualSaddleUppercuts.point_coords: result type UniversalLaw.Spec.Lifetime.E 2 → L [ ℝ ] ℝ
@@ -1158,7 +1158,7 @@ UNSUPPORTED: SourceGapConditionalMorseDistinct.lean::I4SourceGapConditionalMorse
 UNSUPPORTED: SourceGapConditionalMorseDistinct.lean::I4SourceGapConditionalMorseDistinct.actual_lattice_translate_control: binder ( ω : SmoothSample 2 L ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceGapConditionalMorseDistinct.lean::I4SourceGapConditionalMorseDistinct.positive_discriminant_det: binder ( ω : SmoothSample 2 L ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceGapConditionalMorseDistinct.lean::I4SourceGapConditionalMorseDistinct.sourceDet_projection: binder ( ω : SmoothSample 2 L ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
-UNSUPPORTED: SourceGapConditionalMorseDistinct.lean::I4SourceGapConditionalMorseDistinct.small_pins_separate: unknown function I4Torus.torusProjection
+UNSUPPORTED: SourceGapConditionalMorseDistinct.lean::I4SourceGapConditionalMorseDistinct.small_pins_separate: result type SourceTorus d L
 UNSUPPORTED: SourceGapConditionalMorseDistinct.lean::I4SourceGapConditionalMorseDistinct.endpoint_determinants: hypothesis ( hsep : I4Torus.torusProjection 2 L ( endpointM r ) ≠ I4Torus.torusProjection 2 L ( endpointS r ) ) mentions undeclared names ['I4Torus.torusProjection', 'endpointM', 'endpointS']
 UNSUPPORTED: SourceGapConditionalMorseDistinct.lean::I4SourceGapConditionalMorseDistinct.critical_values_distinct: binder ( ω : SmoothSample 2 L ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceGapConditionalMorseDistinct.lean::I4SourceGapConditionalMorseDistinct.rawKernel_gap_morseDistinct: binder ( hG : IsUnit ( I4SourceEndpointRegression.sourcePinCovarianceAt L r ) ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
@@ -2161,7 +2161,7 @@ UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.finite_product_summable: bin
 UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.productBound_summable: proposition of form App
 UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.productDecay_eq_exp: binder ( k : Fin d → ℤ ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.frequency_l1_le_product: binder ( v : Fin d → ℝ ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
-UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.sourceA_pos: sourceA applied to 1 of 2 arguments
+UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.sourceA_pos: unknown name π
 UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.sourceWeight_eq_physical: binder ( k : Fin d → ℤ ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.sourceWeight_summable: proposition of form App
 UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.sourceZ_pos: definition sourceZ has an unparsed body

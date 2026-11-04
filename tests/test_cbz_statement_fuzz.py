@@ -8,6 +8,7 @@ The harness evaluates core-Lean arithmetic *statements* independently of Lean, i
 import json
 import os
 import pathlib
+import re
 import sys
 import tempfile
 import unittest
@@ -16,6 +17,13 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools' / 'cbz'))
 
 import statement_fuzz as sf  # noqa: E402
+
+
+def after(fixture, *decls):
+    """Declarations appended after a fixture whose namespace is closed. Lean resolves a short name written there
+    only through `open NS in`, and so does the tool (752/4471516451): the prefix is part of the Lean text."""
+    opens = ''.join(f'open {ns} in\n' for ns in dict.fromkeys(re.findall(r'^namespace (\S+)', fixture, re.M)))
+    return fixture + '\n' + '\n'.join(opens + d for d in decls) + '\n'
 
 
 LEDGER = '''
@@ -70,7 +78,7 @@ class TokenizerTests(unittest.TestCase):
 
 class EvaluationTests(unittest.TestCase):
     def ev(self, text, defs=''):
-        module = sf.parse_module(defs + f'\ntheorem t : {text} := by decide\n')
+        module = sf.parse_module(after(defs, f'theorem t : {text} := by decide'))
         return sf.evaluate_theorem(module, module.theorems[-1])   # the appended theorem
 
     def test_true_and_false_closed_identities(self):
@@ -182,7 +190,7 @@ end P
 
 class P15ConstructTests(unittest.TestCase):
     def ev(self, text):
-        module = sf.parse_module(P15 + f'\ntheorem t : {text} := by decide\n')
+        module = sf.parse_module(after(P15, f'theorem t : {text} := by decide'))
         return sf.evaluate_theorem(module, module.theorems[-1])
 
     def test_bool_pairs_filter_and_list_equality(self):
@@ -226,8 +234,9 @@ class ModuleTests(unittest.TestCase):
         self.assertEqual([t.name for t in m.theorems],
                          ['Demo.pairing_sum_six', 'Demo.pairing_sum_le_six', 'Demo.odd_block_eigenvalues',
                           'Demo.exponent_bounds', 'Demo.image_constant_value'])
-        self.assertEqual(sorted(m.defs), ['fact', 'imageConstant', 'pairingSum', 'sixA', 'sixB'])
-        self.assertEqual(m.namespace, 'Demo')
+        self.assertEqual(sorted(m.defs), ['Demo.fact', 'Demo.imageConstant', 'Demo.pairingSum', 'Demo.sixA', 'Demo.sixB'])
+        self.assertEqual(m.namespace, '')                         # `end Demo` closes the scope
+        self.assertEqual({t.namespace for t in m.theorems}, {'Demo'})
 
     def test_check_module_evaluates_every_theorem(self):
         results = sf.check_module(LEDGER)
@@ -361,7 +370,7 @@ class RealBinderTests(unittest.TestCase):
     division and sqrt, hypothesis filtering, pathological boundary values, interval-decided sqrt."""
 
     def ev(self, binders, text, defs='', seed=1, samples=64):
-        module = sf.parse_module(defs + f'\ntheorem t {binders} : {text} := by sorry\n')
+        module = sf.parse_module(after(defs, f'theorem t {binders} : {text} := by sorry'))
         return sf.evaluate_theorem(module, module.theorems[-1], seed=seed, samples=samples)
 
     def test_true_real_identity_is_corroborated_with_sample_counts(self):
@@ -438,8 +447,8 @@ class RealBinderTests(unittest.TestCase):
         self.assertEqual((a.status, a.instances, a.detail), (b.status, b.instances, b.detail))
 
     def test_mutation_contract_applies_to_sampled_statements(self):
-        module = sf.parse_module(D2 + '\ntheorem t (m2 m4 : ℝ) : d2DetV m2 m4 0 = m2 ^ 2 * m4 := by ring\n'
-                                 '\ntheorem u (r : ℝ) (hr0 : 0 ≤ r) (hr1 : r ≤ 1) : r ^ 4 ≤ r ^ 3 := by nlinarith\n')
+        module = sf.parse_module(after(D2, 'theorem t (m2 m4 : ℝ) : d2DetV m2 m4 0 = m2 ^ 2 * m4 := by ring',
+                                       'theorem u (r : ℝ) (hr0 : 0 ≤ r) (hr1 : r ≤ 1) : r ^ 4 ≤ r ^ 3 := by nlinarith'))
         report = sf.mutation_selftest(module)
         self.assertTrue(report['control_passed'])
         self.assertEqual(report['killed'], report['mutants'])
@@ -452,7 +461,7 @@ class ExactRealAlgebraTests(unittest.TestCase):
     """Closed statements over ℝ are decided exactly in ℚ(√d₁, …, √dₖ): never a float, never an approximation."""
 
     def ev(self, text, defs=''):
-        module = sf.parse_module(defs + f'\ntheorem t : {text} := by norm_num\n')
+        module = sf.parse_module(after(defs, f'theorem t : {text} := by norm_num'))
         return sf.evaluate_theorem(module, module.theorems[-1])
 
     def test_quadratic_identities_and_inverses_are_exact(self):
@@ -509,7 +518,7 @@ class ExactRealAlgebraTests(unittest.TestCase):
 
 class SampledBinderSemanticsTests(unittest.TestCase):
     def ev(self, binders, text, defs='', seed=1, samples=64):
-        module = sf.parse_module(defs + f'\ntheorem t {binders} : {text} := by sorry\n')
+        module = sf.parse_module(after(defs, f'theorem t {binders} : {text} := by sorry'))
         return sf.evaluate_theorem(module, module.theorems[-1], seed=seed, samples=samples)
 
     def test_nat_and_int_binders_are_sampled_with_lean_semantics(self):
@@ -628,7 +637,7 @@ class FiniteModelTests(unittest.TestCase):
     null points; measurability and integrability are automatic; measure equality and ≪ are pointwise."""
 
     def ev(self, binders, text, seed=1, samples=64):
-        module = sf.parse_module(FM + f'\ntheorem t {binders} : {text} := by sorry\n')
+        module = sf.parse_module(after(FM, f'theorem t {binders} : {text} := by sorry'))
         return sf.evaluate_theorem(module, module.theorems[-1], seed=seed, samples=samples)
 
     MARKOV = ('(μ : Measure Ω) [IsFiniteMeasure μ] (Y : Ω → ℝ) (A : Set Ω) (hY : Integrable Y μ) (hY0 : 0 ≤ᵐ[μ] Y) '
@@ -717,17 +726,17 @@ class FiniteModelTests(unittest.TestCase):
                      ('', 'Integrable (fun z : ℝ => |z| ^ 8) (gaussianReal 0 1)'),
                      ('(μ : Measure Ω)', 'Integrable (fun z : ℝ => |z| ^ 8) μ ∧ MeasurableSet (Set.univ : Set Ω)')):
             with self.subTest(t=t):
-                module = sf.parse_module(defs + f'\ntheorem t {b} : {t} := by sorry\n')
+                module = sf.parse_module(after(defs, f'theorem t {b} : {t} := by sorry'))
                 r = sf.evaluate_theorem(module, module.theorems[-1])
                 self.assertEqual(r.status, 'UNSUPPORTED')
                 self.assertIn('structural predicate', r.detail)
         # as a hypothesis, a structural predicate on a non-model value is not assumed either
-        module = sf.parse_module(defs + '\ntheorem t (L : ℝ) (h : Measurable (sourceA L)) : L = L := by sorry\n')
+        module = sf.parse_module(after(defs, 'theorem t (L : ℝ) (h : Measurable (sourceA L)) : L = L := by sorry'))
         r = sf.evaluate_theorem(module, module.theorems[-1])
         self.assertEqual(r.status, 'UNSUPPORTED')
         self.assertIn('outside the finite model', r.detail)
         # a function-valued definition applied to its extra argument is evaluated; unapplied it is not carried
-        module = sf.parse_module(defs + '\ntheorem t (L x : ℝ) : sourceA L x = L * x := by sorry\n')
+        module = sf.parse_module(after(defs, 'theorem t (L x : ℝ) : sourceA L x = L * x := by sorry'))
         self.assertEqual(sf.evaluate_theorem(module, module.theorems[-1]).status, 'CORROBORATED')
 
     def test_quantifier_over_all_subsets_is_enumerated(self):
@@ -752,7 +761,7 @@ class FiniteModelTests(unittest.TestCase):
         self.assertFalse(any(isinstance(v, float) for v in a.values))
 
     def test_mutation_contract_holds_on_finite_model_statements(self):
-        module = sf.parse_module(FM + '\ntheorem t ' + self.MARKOV + ' : (μ A).toReal ≤ (∫ x, Y x ∂μ) / a := by sorry\n')
+        module = sf.parse_module(after(FM, 'theorem t ' + self.MARKOV + ' : (μ A).toReal ≤ (∫ x, Y x ∂μ) / a := by sorry'))
         report = sf.mutation_selftest(module)
         self.assertTrue(report['control_passed'])
         self.assertEqual(report['killed'], report['mutants'])
@@ -794,6 +803,89 @@ class CensusModeTests(unittest.TestCase):
         m = sf.parse_module('theorem a : 1 = 1 := rfl\ntheorem b : [1 2 := rfl\ntheorem c : 2 = 2 := rfl\n')
         self.assertEqual([t.name for t in m.theorems], ['a', 'b', 'c'])
         self.assertEqual([sf.evaluate_theorem(m, t).status for t in m.theorems], ['PASS', 'UNSUPPORTED', 'PASS'])
+
+
+class NameResolutionTests(unittest.TestCase):
+    """Codex's #752 findings (4471516437, 4471516451, 4471516464): a returned function's parameters take their
+    domain types; definitions are resolved by qualified name from the statement's namespace outward, ambiguity
+    fail-closed; every declaration in a file is a target."""
+
+    def test_returned_function_parameters_take_their_domain_types(self):
+        src = ('def f : ℕ → ℝ := fun n => if n - 1 = 0 then 1 else 0\n'
+               'def g (c : ℝ) : ℕ → ℝ := fun n => c + n\n'
+               'def h : ℕ → ℝ := fun (n : ℕ) => (n - 1 : ℝ)\n'
+               'def k : (ℕ → ℕ) → ℕ := fun f => f 0\n'
+               'theorem a : f 0 = 1 := by simp [f]\n'          # ℕ: 0 - 1 = 0
+               'theorem b : f 0 = 0 := by simp [f]\n'          # false (only true under real subtraction)
+               'theorem c : f 2 = 0 := by simp [f]\n'
+               'theorem d : g (1 / 2) 3 = 7 / 2 := by norm_num [g]\n'
+               'theorem e : h 0 = -1 := by simp [h]\n'         # the ascription casts n to ℝ before subtracting
+               'theorem m : k (fun x => x + 1) = 1 := rfl\n')
+        m = sf.parse_module(src)
+        got = {t.name: sf.evaluate_theorem(m, t) for t in m.theorems}
+        self.assertEqual({n: r.status for n, r in got.items()},
+                         {'a': 'PASS', 'b': 'FAIL', 'c': 'PASS', 'd': 'PASS', 'e': 'PASS', 'm': 'UNSUPPORTED'})
+        self.assertEqual(sf._arrow_parts('Set ( Fin d → ℤ )'), ['Set ( Fin d → ℤ )'])
+        self.assertEqual(sf._arrow_parts('( Fin d → ℝ ) → L [ ℝ ] ℝ'), ['( Fin d → ℝ )', 'L [ ℝ ] ℝ'])
+        self.assertEqual(sf._arrow_parts('ℝ → ℝ → ℝ'), ['ℝ', 'ℝ', 'ℝ'])
+
+    def test_definitions_resolve_from_the_namespace_outward(self):
+        src = ('namespace A\ndef f : ℕ := 1\nnamespace B\ndef f : ℕ := 3\ntheorem t : f = 3 := rfl\nend B\n'
+               'theorem u : B.f = 3 ∧ f = 1 := by decide\nend A\n'
+               'namespace C\ndef f : ℕ := 2\ntheorem t : f = 2 := rfl\nend C\n'
+               'theorem s : A.f + C.f = 3 := rfl\n'
+               'theorem r : f = 1 := sorry\n'
+               'section S\nopen A\ntheorem v : f = 1 := rfl\nend S\n'
+               'theorem w : f = 1 := sorry\n'
+               'open C in theorem x : f = 2 := rfl\n')
+        m = sf.parse_module(src)
+        self.assertEqual([t.name for t in m.theorems], ['A.B.t', 'A.u', 'C.t', 's', 'r', 'v', 'w', 'x'])
+        self.assertEqual(sorted(m.defs), ['A.B.f', 'A.f', 'C.f'])
+        status = {t.name: sf.evaluate_theorem(m, t) for t in m.theorems}
+        self.assertEqual({n: r.status for n, r in status.items()},
+                         {'A.B.t': 'PASS', 'A.u': 'PASS', 'C.t': 'PASS', 's': 'PASS', 'r': 'UNSUPPORTED',
+                          'v': 'PASS', 'w': 'UNSUPPORTED', 'x': 'PASS'})
+        self.assertIn('unknown name f', status['r'].detail)        # no `open`: the root sees no `f`
+        self.assertIn('unknown name f', status['w'].detail)        # the section's `open A` ended with the section
+
+    def test_group_definitions_are_shared_by_qualified_name_and_ambiguity_is_fail_closed(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d)
+            (root / 'A.lean').write_text('namespace A\ndef f : ℕ := 1\ntheorem t : f = 1 := rfl\nend A\n')
+            (root / 'B.lean').write_text('namespace B\ndef f : ℕ := 2\ntheorem t : f = 2 := rfl\nend B\n')
+            (root / 'C.lean').write_text('theorem u : A.f + B.f = 3 := rfl\n')         # another module's definitions
+            (root / 'D.lean').write_text('def g : ℕ := 1\ndef h : ℕ := 5\n')
+            (root / 'E.lean').write_text('def g : ℕ := 2\ndef h : ℕ := 5\n')           # g differs, h is identical
+            (root / 'F.lean').write_text('theorem w : g = 1 := sorry\ntheorem x : h = 5 := rfl\n')
+            report = sf.check_lean_dir(root)
+            per = {k.split('::')[1]: v for k, v in report['per_target'].items()}
+            self.assertEqual({k: v['status'] for k, v in per.items()},
+                             {'A.t': 'PASS', 'B.t': 'PASS', 'u': 'PASS', 'w': 'UNSUPPORTED', 'x': 'PASS'})
+            self.assertIn('ambiguous definition g', per['w']['detail'])
+            self.assertIn("['D.lean', 'E.lean']", per['w']['detail'])
+
+    def test_indented_prefixed_and_mid_line_declarations_are_all_targets(self):
+        src = ('namespace N\n'
+               '  theorem good : 1 = 1 := rfl\n'
+               '  theorem bad : 1 = 2 := by sorry\n'
+               '  @[simp] theorem s : 2 = 2 := rfl\n'
+               'end N\n'
+               'open Nat in theorem pre : 1 = 1 := rfl\n'
+               'set_option maxHeartbeats 400000 in\n'
+               'theorem heavy : 3 = 3 := rfl\n'
+               'theorem a : 1 = 1 := rfl theorem b : 1 = 2 := rfl\n')
+        m = sf.parse_module(src)
+        got = {t.name: sf.evaluate_theorem(m, t) for t in m.theorems}
+        self.assertEqual({n: r.status for n, r in got.items()},
+                         {'N.good': 'PASS', 'N.bad': 'FAIL', 'N.s': 'PASS', 'pre': 'PASS', 'heavy': 'PASS',
+                          'a': 'PASS', 'b': 'UNSUPPORTED'})
+        self.assertIn('not reached by the parser', got['b'].detail)
+        with tempfile.TemporaryDirectory() as d:
+            (pathlib.Path(d) / 'N.lean').write_text(src)
+            report = sf.check_lean_dir(d)
+            self.assertEqual(report['targets'], 7)
+            self.assertEqual(report['status_counts'], {'PASS': 5, 'FAIL': 1, 'UNSUPPORTED': 1})
+            self.assertEqual(report['unsupported_reasons'], {'declaration not reached by the parser': 1})
 
 
 if __name__ == '__main__':

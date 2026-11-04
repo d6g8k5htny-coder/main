@@ -205,6 +205,7 @@ class ListLit:
 class Lambda:
     params: list
     body: object
+    types: list | None = None     # explicit binder types `fun (n : ℕ) => …` (None per parameter when absent)
 
 @dataclasses.dataclass
 class Tuple:
@@ -390,25 +391,43 @@ class Parser:
         return Integral(var, domain, body, measure)
 
     def parse_lambda(self):
+        """`fun x y => e`, `fun (x : T) => e`, `fun x : T => e`: the binder types are kept (Codex 752/4471516437 —
+        a returned function's parameters take their domain types, never the codomain's)."""
         self.eat()
-        params = []
+        params, types = [], []
         while not self.at('=>'):
             t = self.eat()
             if t.value == '(':
-                params.append(self.eat().value)
+                names = []
+                while not self.at(':') and not self.at(')'):
+                    nt = self.eat()
+                    if nt.kind != 'ident':
+                        raise Unsupported(f'lambda binder pattern {nt.value!r}')
+                    names.append(nt.value)
+                typ = None
                 if self.at(':'):
                     self.eat(':')
+                    parts = []
                     while not self.at(')'):
-                        self.eat()
+                        parts.append(self.eat().value)
+                    typ = ' '.join(parts)
                 self.eat(')')
+                params.extend(names)
+                types.extend([typ] * len(names))
             else:
+                if t.kind != 'ident':
+                    raise Unsupported(f'lambda binder pattern {t.value!r}')
                 params.append(t.value)
+                typ = None
                 if self.at(':'):
                     self.eat(':')
+                    parts = []
                     while not self.at('=>'):
-                        self.eat()
+                        parts.append(self.eat().value)
+                    typ = ' '.join(parts)
+                types.append(typ)
         self.eat('=>')
-        return Lambda(params, self.parse_expr(0))
+        return Lambda(params, self.parse_expr(0), types if any(t is not None for t in types) else None)
 
     def parse_application(self):
         head = self.parse_atom()
@@ -558,11 +577,89 @@ class Theorem:
     error: str | None = None
     text: str = ''
     binders: list = dataclasses.field(default_factory=list)
+    namespace: str = ''     # the namespace the declaration sits in: names in its statement resolve from here outward
+    opens: tuple = ()       # namespaces `open`ed in its scope
+
+
+class DefTable:
+    """Definitions by qualified name, resolved the way Lean resolves an identifier written in a statement: from
+    the statement's namespace outward (`f` inside `namespace A.B` → `A.B.f`, `A.f`, `f`), then through the
+    `open`ed namespaces, in the module itself first and then in the other modules of the group when exactly one
+    definition (up to identical text) carries the name. A name defined differently in two other modules is
+    ambiguous: using it raises Unsupported, never a silent pick (Codex 752/4471516451)."""
+
+    def __init__(self, local=None, shared=None):
+        self.local = dict(local or {})            # qualified name → Def, this module
+        self.shared = dict(shared or {})          # qualified name → [(module, Def)], the whole group
+
+    @staticmethod
+    def candidates(name, namespace='', opens=()):
+        parts = namespace.split('.') if namespace else []
+        out = ['.'.join(parts[:k] + [name]) for k in range(len(parts), 0, -1)] + [name]
+        out += [f'{o}.{name}' for o in opens]
+        return out
+
+    def resolve(self, name, namespace='', opens=()):
+        """The definition ``name`` denotes from ``namespace`` (None when there is none); Unsupported when the
+        group defines it in incompatible ways."""
+        for c in self.candidates(name, namespace, opens):      # innermost namespace first, then `open`s
+            if c in self.local:                                  # the module's own definition under this name
+                return self.local[c]
+            if c in self.shared:
+                distinct = []
+                for mod, d in self.shared[c]:
+                    if not any(d == e for _, e in distinct):
+                        distinct.append((mod, d))
+                if len(distinct) == 1:
+                    return distinct[0][1]
+                mods = sorted(m for m, _ in distinct)
+                raise Unsupported(f'ambiguous definition {name}: {c} is defined differently in {mods}')
+        return None
+
+    def get(self, name, default=None):
+        """Namespace-agnostic lookup (parser-time helpers): the module's own definition under the exact name."""
+        return self.local.get(name, default)
+
+    def __contains__(self, name):
+        return name in self.local or name in self.shared
+
+    def __iter__(self):
+        return iter(self.local)
+
+    def __len__(self):
+        return len(self.local)
+
+    def items(self):
+        return self.local.items()
+
+    def keys(self):
+        return self.local.keys()
+
+    def denotes(self, name, namespace='', opens=()):
+        """Whether ``name``, written in ``namespace``, denotes a definition (ambiguity counts as denoting)."""
+        try:
+            return self.resolve(name, namespace, opens) is not None
+        except Unsupported:
+            return True
+
+
+def share_definitions(modules):
+    """Package / census: a group's modules import one another, so every module sees the group's definitions
+    (resolved by qualified name, ambiguity fail-closed) and carrier types."""
+    shared, points = {}, set()
+    for rel, m in modules.items():
+        for q, d in m.defs.items():
+            shared.setdefault(q, []).append((rel, d))
+        points |= m.point_types
+    for m in modules.values():
+        m.defs = DefTable(m.defs.local, shared)
+        m.point_types = points
+
 
 @dataclasses.dataclass
 class Module:
     namespace: str
-    defs: dict
+    defs: DefTable
     theorems: list
     point_types: set = dataclasses.field(default_factory=set)   # `variable {Ω : Type*}`: finite-model carriers
 
@@ -572,14 +669,31 @@ _DECL_KEYWORDS = {'theorem', 'lemma', 'def', 'abbrev', 'example', 'instance', 's
                   'noncomputable', 'private', 'protected', 'attribute', 'macro', 'syntax', 'notation', 'axiom'}
 
 
+_INDENTED_DECL_KEYWORDS = {'theorem', 'lemma', 'def', 'abbrev', 'example', 'instance', 'structure', 'inductive',
+                           'axiom', 'namespace', 'section', 'end', 'private', 'protected', 'noncomputable'}
+_DECL_START_KEYWORDS = {'theorem', 'lemma', 'def', 'abbrev', 'example', 'instance', 'structure', 'inductive', 'axiom',
+                        'private', 'protected', 'noncomputable'}
+
+
 def _split_declarations(toks):
-    """Declaration starts: a declaration keyword at column 0, or one that follows an attribute group
-    `@[simp] theorem …` whose bracket opens at column 0 on the same line (the tokenizer drops `@`)."""
+    """Declaration starts (Codex 752/4471516464 — a declaration the splitter misses is a target the census would
+    silently drop): a declaration keyword at column 0; a declaration keyword that is the first token on its line at
+    any indentation (declarations inside an indented `namespace`/`section`/`mutual` block — `open … in` and
+    `set_option … in` are left out of this rule because they also occur as tactics); a declaration keyword right
+    after the `in` of such a prefix on the same line (`open Real in theorem t …`); or one that follows an attribute
+    group `@[simp] theorem …` whose bracket opens the line (the tokenizer drops `@`)."""
     starts = []
     for k, t in enumerate(toks):
         if t.kind != 'ident' or t.value not in _DECL_KEYWORDS:
             continue
         if t.col == 0:
+            starts.append(k)
+            continue
+        first_on_line = k == 0 or toks[k - 1].line != t.line
+        if first_on_line and t.value in _INDENTED_DECL_KEYWORDS:
+            starts.append(k)
+            continue
+        if k > 0 and toks[k - 1].value == 'in' and t.value in _DECL_START_KEYWORDS:
             starts.append(k)
             continue
         if k > 0 and toks[k - 1].value == ']':
@@ -593,9 +707,9 @@ def _split_declarations(toks):
                     if depth == 0:
                         break
                 j -= 1
-            if j >= 0 and toks[j].col <= 1 and toks[j].line == t.line:     # `@` at column 0 is dropped
-                starts.append(j)
-    starts.append(len(toks))
+            if j >= 0 and toks[j].line == t.line and (toks[j].col <= 1 or j == 0 or toks[j - 1].line != toks[j].line):
+                starts.append(j)                                             # `@` is dropped: `[` opens the line
+    starts = sorted(set(starts)) + [len(toks)]
     return [(starts[k], starts[k + 1]) for k in range(len(starts) - 1)]
 
 
@@ -645,11 +759,30 @@ def _parse_binders(toks, start, end):
     return params, k
 
 
+def _qualify(namespace: str, name: str) -> str:
+    if name.startswith('_root_.'):
+        return name[len('_root_.'):]
+    return f'{namespace}.{name}' if namespace else name
+
+
 def parse_module(source: str) -> Module:
+    """Definitions (by qualified name) and theorems of one Lean file. Scopes are tracked: `namespace A.B` /
+    `section` push, `end` pops, so a declaration's full name and the namespace its statement resolves from are
+    the ones Lean gives it. Every `theorem`/`lemma` keyword the splitter did not reach (a declaration
+    mid-line after another one) is still recorded, as an UNSUPPORTED target, so a census accounts for every
+    declaration in the file (Codex 752/4471516464)."""
     toks = tokenize(source)
-    namespace, defs, theorems = '', {}, []
+    defs, theorems = {}, []
     point_types = set()
+    scopes = []                      # [(kind, name)], kind in ('namespace', 'section')
+    opens = [()]                     # `open` namespaces per scope depth
+    pending_opens = ()               # `open X in` applies to the next declaration only
+
+    def namespace_of(stack):
+        return '.'.join(nm for kind, nm in stack if kind == 'namespace' and nm)
+
     for start, end in _split_declarations(toks):
+        namespace = namespace_of(scopes)
         k = start
         if toks[k].value == '[':
             close = _matching(toks, k, end)
@@ -658,9 +791,42 @@ def parse_module(source: str) -> Module:
         while k < end and toks[k].value in ('noncomputable', 'private', 'protected'):
             k += 1
         kw = toks[k].value if k < end else kw
+        decl_keyword_at = k
+        # a second `theorem`/`lemma` keyword inside this range (Lean accepts declarations mid-line) is a
+        # declaration the splitter could not separate: account for it, fail-closed
+        for j in range(decl_keyword_at + 1, end):
+            tj = toks[j]
+            if tj.kind == 'ident' and tj.value in ('theorem', 'lemma') and j + 1 < end and toks[j + 1].kind == 'ident' \
+                    and _find(toks, ':', j + 2, end) != -1:
+                theorems.append(Theorem(_qualify(namespace, toks[j + 1].value), None,
+                                        f'declaration not reached by the parser: `{tj.value} {toks[j + 1].value}` '
+                                        f'begins mid-line at line {tj.line}', '', [], namespace, tuple(opens[-1])))
         if kw == 'namespace':
-            namespace = toks[k + 1].value
+            scopes.append(('namespace', toks[k + 1].value if k + 1 < end else ''))
+            opens.append(opens[-1])
             continue
+        if kw == 'section':
+            scopes.append(('section', toks[k + 1].value if k + 1 < end and toks[k + 1].kind == 'ident' else None))
+            opens.append(opens[-1])
+            continue
+        if kw == 'end':
+            if scopes:
+                scopes.pop()
+            if len(opens) > 1:
+                opens.pop()
+            continue
+        if kw == 'open':
+            names = tuple(t.value for t in toks[k + 1:end]
+                          if t.kind == 'ident' and t.value not in ('scoped', 'in', 'hiding', 'renaming'))
+            if toks[end - 1].value == 'in':
+                pending_opens = pending_opens + names
+            else:
+                opens[-1] = tuple(opens[-1]) + names
+            continue
+        if kw == 'set_option':           # `set_option … in` is a prefix too: it does not consume a pending `open … in`
+            continue
+        scope = tuple(opens[-1]) + pending_opens
+        pending_opens = ()
         if kw == 'variable':
             # `variable {Ω : Type*} [MeasurableSpace Ω]`: a type variable becomes a finite-model carrier
             j = k + 1
@@ -687,7 +853,7 @@ def parse_module(source: str) -> Module:
                     body = Parser(toks, assign + 1, end).parse_expr(0)
                 except (SyntaxError, Unsupported, ValueError, IndexError, RecursionError):
                     body = None
-                defs[name] = Def(name, params, result_type, body, [])
+                defs[_qualify(namespace, name)] = Def(_qualify(namespace, name), params, result_type, body, [])
             elif bar != -1:
                 clauses = []
                 bars = [m for m in range(j, end) if toks[m].value == '|' and toks[m].col <= 2]
@@ -705,39 +871,41 @@ def parse_module(source: str) -> Module:
                         clauses.append((pats, expr))
                 except (Unsupported, SyntaxError, IndexError, ValueError, RecursionError):
                     clauses = []
-                defs[name] = Def(name, params, result_type, None, clauses)
+                defs[_qualify(namespace, name)] = Def(_qualify(namespace, name), params, result_type, None, clauses)
             continue
         if kw in ('theorem', 'lemma'):
             name = toks[k + 1].value
             colon = _find(toks, ':', k + 2, end)
             assign = _find(toks, ':=', k + 2, end)
-            full = f'{namespace}.{name}' if namespace else name
+            full = _qualify(namespace, name)
             if colon == -1 or assign == -1 or assign < colon:
-                theorems.append(Theorem(full, None, 'malformed theorem'))
+                theorems.append(Theorem(full, None, 'malformed theorem', '', [], namespace, scope))
                 continue
             binder_text = ' '.join(t.value for t in toks[k + 2:colon])
             text = ' '.join(t.value for t in toks[colon + 1:assign])
             if binder_text:
                 text = f'{binder_text} : {text}'
             try:
-                binders, binder_error = _parse_theorem_binders(toks, k + 2, colon, defs, point_types)
+                binders, binder_error = _parse_theorem_binders(toks, k + 2, colon, DefTable(defs), point_types,
+                                                               namespace, scope)
             except (SyntaxError, Unsupported, ValueError, IndexError, RecursionError) as e:
                 binders, binder_error = [], f'unparsed binders: {type(e).__name__}: {e}'
             if binder_error:
-                theorems.append(Theorem(full, None, binder_error, text, binders))
+                theorems.append(Theorem(full, None, binder_error, text, binders, namespace, scope))
                 continue
             try:
                 parser = Parser(toks, colon + 1, assign)
                 stmt = parser.parse_expr(0)
                 if parser.i != assign:
                     raise SyntaxError(f'trailing tokens from {toks[parser.i].value!r}')
-                theorems.append(Theorem(full, _desugar(stmt), None, text, binders))
+                theorems.append(Theorem(full, _desugar(stmt), None, text, binders, namespace, scope))
             except Unsupported as e:
-                theorems.append(Theorem(full, None, f'unsupported syntax: {e}', text, binders))
+                theorems.append(Theorem(full, None, f'unsupported syntax: {e}', text, binders, namespace, scope))
             except (SyntaxError, ValueError, IndexError, RecursionError) as e:
-                theorems.append(Theorem(full, None, f'unparsed statement: {type(e).__name__}: {e}', text, binders))
+                theorems.append(Theorem(full, None, f'unparsed statement: {type(e).__name__}: {e}', text, binders,
+                                        namespace, scope))
             continue
-    return Module(namespace, defs, theorems, point_types)
+    return Module(namespace_of(scopes), DefTable(defs), theorems, point_types)
 
 
 def _split_patterns(toks):
@@ -790,13 +958,30 @@ _BUILTIN_NAMES = {'true', 'false', 'True', 'False', 'abs', 'min', 'max', 'Real.s
 _MODEL_KINDS = ('Measure', 'Func', 'Set')     # binder kinds sampled as finite discrete models
 
 
+def _arrow_parts(t: str) -> list:
+    """The components of an arrow type at bracket depth 0: `ℝ → ℝ → ℝ` → ['ℝ', 'ℝ', 'ℝ'];
+    `Set ( Fin d → ℤ )` → ['Set ( Fin d → ℤ )'] (an arrow inside brackets is not a function type)."""
+    parts, cur, depth = [], [], 0
+    for ch in t:
+        if ch in '([{':
+            depth += 1
+        elif ch in ')]}':
+            depth -= 1
+        if ch == '→' and depth == 0:
+            parts.append(''.join(cur).strip()); cur = []
+        else:
+            cur.append(ch)
+    parts.append(''.join(cur).strip())
+    return parts
+
+
 def _kind_of_type(t: str, point_types) -> str | None:
     """The interpreter's kind for a Lean type written as a string: a numeric type ('Nat', 'Int', 'Rat', 'Real'),
     'ENNReal', 'Bool', 'Point' (a finite-model carrier Ω), 'Measure' (`Measure Ω`), 'Set' (`Set Ω`), 'Func'
     (`Ω → ℝ`, a table on the carrier), or None when the type is outside the interpreter (`ℝ → Measure Ω`,
     `Fin n → ℝ`, `Ω → Ω`, structures)."""
     t = t.strip()
-    parts = [x.strip() for x in t.split('→')]
+    parts = _arrow_parts(t)
     if len(parts) == 2 and parts[0] in point_types:
         return 'Func' if parts[1] in _SAMPLED_TYPE_TOKENS or parts[1] in ('ENNReal', 'ℝ≥0∞') else None
     if len(parts) >= 2:
@@ -817,7 +1002,7 @@ def _kind_of_type(t: str, point_types) -> str | None:
     return None
 
 
-def _parse_theorem_binders(toks, start, end, defs, point_types=frozenset()):
+def _parse_theorem_binders(toks, start, end, defs, point_types=frozenset(), namespace='', opens=()):
     """Binder groups between the theorem name and its colon → ([Binder], error or None).
 
     `(x y : ℝ)` / `{x : ℕ}` with a sampled numeric type declare variables; `(h : p)` whose type parses as a
@@ -885,8 +1070,15 @@ def _parse_theorem_binders(toks, start, end, defs, point_types=frozenset()):
         except (SyntaxError, Unsupported):
             node = None
         if node is not None and _is_prop_shape(node):
-            known = declared | set(defs) | _BUILTIN_NAMES | _TRANSCENDENTAL | point_types
-            unknown = sorted(v for v in _free_vars(node) if v not in known and v.split('.')[0] not in known)
+            known = declared | _BUILTIN_NAMES | _TRANSCENDENTAL | point_types
+
+            def is_known(v):
+                if v in known or v.split('.')[0] in known:
+                    return True
+                if isinstance(defs, DefTable):
+                    return defs.denotes(v, namespace, opens)
+                return v in defs
+            unknown = sorted(v for v in _free_vars(node) if not is_known(v))
             if not unknown:
                 node = _desugar(node)
                 for nm in names:
@@ -1052,8 +1244,12 @@ class Infeasible(Unsupported):
 
 
 class Closure:
-    def __init__(self, params, body, env):
+    """A lambda with its environment. ``types`` are the interpreter type names of the parameters when they are
+    known (explicit binder types, or the domain of the arrow type a definition declares); a parameter without
+    one is bound at the type the call site evaluates at."""
+    def __init__(self, params, body, env, types=None):
         self.params, self.body, self.env = params, body, env
+        self.types = list(types) if types else [None] * len(params)
 
 
 # --------------------------------------------------------------------------------------------
@@ -1194,14 +1390,25 @@ class Bound:
 
 
 class Evaluator:
-    def __init__(self, module: Module):
+    def __init__(self, module: Module, namespace: str = '', opens=()):
         self.module = module
+        self.namespace, self.opens = namespace, tuple(opens)
         self.values_seen = []
         self.instances = 0
         self.vacuous = False
         self.failures = []
         self.probes = []
         self.model_n = None          # the carrier size of the current finite model, when one is in force
+
+    def defn(self, name):
+        """The definition a name written in the statement denotes (None if none; Unsupported if ambiguous)."""
+        defs = self.module.defs
+        if isinstance(defs, DefTable):
+            return defs.resolve(name, self.namespace, self.opens)
+        return defs.get(name)
+
+    def has_def(self, name):
+        return self.defn(name) is not None
 
     def points(self):
         if self.model_n is None:
@@ -1233,7 +1440,7 @@ class Evaluator:
                 return v.type if isinstance(v, Bound) else 'Nat'
             if node.name in ('Set.univ', '∅'):
                 return 'Set'
-            d = self.module.defs.get(node.name)
+            d = self.defn(node.name)
             if d is not None and d.result_type:
                 return self._type_name(d.result_type)
             return 'Nat'
@@ -1268,12 +1475,12 @@ class Evaluator:
                         return 'ENNReal'                      # `μ A`
                     if b.type == 'Func':
                         return b.value.codomain if isinstance(b.value, Func) else 'Real'
-                d = self.module.defs.get(fn.name)
+                d = self.defn(fn.name)
                 if d is not None and d.result_type:
                     rt = self._type_name(d.result_type)
                     if rt == 'Measure' and len(node.args) == len(d.params) + 1:
                         return 'ENNReal'                      # a defined measure applied to a set
-                    if not d.clauses and '→' in d.result_type and len(node.args) == len(d.params):
+                    if not d.clauses and len(_arrow_parts(d.result_type)) > 1 and len(node.args) == len(d.params):
                         return 'Function'                     # a function value, not carried
                     return rt
                 if fn.name == 'Real.sqrt':
@@ -1305,7 +1512,7 @@ class Evaluator:
         kind = _kind_of_type(t, self.module.point_types)
         if kind is not None:
             return kind
-        last = t.split('→')[-1].strip()
+        last = _arrow_parts(t)[-1]
         if last in _INT_TYPES:
             return 'Int'
         if last in _RAT_TYPES:
@@ -1342,7 +1549,7 @@ class Evaluator:
         if isinstance(node, SetBuilder):
             return frozenset(i for i in self.points() if self.prop(node.body, {**env, node.var: Bound(i, 'Point')}))
         if isinstance(node, Lambda) and typ == 'Func':
-            return self.materialize(Closure(node.params, node.body, env))
+            return self.materialize(Closure(node.params, node.body, env, node.types))
         if isinstance(node, Ascribe):
             # `(e : T)` elaborates e at T (Lean pushes the expected type to the leaves: `(n - 1 : ℝ)` is real
             # subtraction of ↑n, `((n - 1 : ℕ) : ℝ)` casts a truncated Nat); the value is then used at typ
@@ -1360,9 +1567,9 @@ class Evaluator:
                 return self._rec(v.value if isinstance(v, Bound) else v)
             if '.' in node.name and not node.name.startswith('.'):
                 recv, method = node.name.rsplit('.', 1)
-                if (recv in env or recv in self.module.defs) and method in _LIST_METHODS:
+                if (recv in env or self.has_def(recv)) and method in _LIST_METHODS:
                     return self._rec(self.apply(App(Var('.' + method), [Var(recv)]), env, typ))
-            d = self.module.defs.get(node.name)
+            d = self.defn(node.name)
             if d is not None:
                 if d.params or d.clauses:
                     raise Unsupported(f'definition {node.name} used without arguments')
@@ -1508,13 +1715,13 @@ class Evaluator:
         fn = node.fn
         args = node.args
         if isinstance(fn, Lambda):
-            return self.call_closure(Closure(fn.params, fn.body, env), args, env, typ)
+            return self.call_closure(Closure(fn.params, fn.body, env, fn.types), args, env, typ)
         if not isinstance(fn, Var):
             raise Unsupported('application of a non-name')
         name = fn.name
         if '.' in name and not name.startswith('.'):
             recv, method = name.rsplit('.', 1)
-            if (recv in env or recv in self.module.defs) and method in _LIST_METHODS:
+            if (recv in env or self.has_def(recv)) and method in _LIST_METHODS:
                 return self.apply(App(Var('.' + method), [Var(recv)] + list(args)), env, typ)
         if name in env and isinstance(env[name], Closure):
             return self.call_closure(env[name], args, env, typ)
@@ -1633,16 +1840,16 @@ class Evaluator:
             return max(0, self.num(args[0], env, 'Int'))
         if name == 'Int.ofNat' and len(args) == 1:
             return self.num(args[0], env, 'Nat')
-        d = self.module.defs.get(name)
+        d = self.defn(name)
         if d is None:
             raise Unsupported(f'unknown function {name}')
         dtyp = self._type_name(d.result_type) if d.result_type else typ
         if dtyp == 'Measure' and not d.clauses and len(args) == len(d.params) + 1:
             measure = self.apply(App(fn, list(args[:-1])), env, 'Measure')
             return self.measure_apply(measure, args[-1], env)
-        if not d.clauses and d.result_type and '→' in d.result_type:
+        if not d.clauses and d.result_type and len(_arrow_parts(d.result_type)) > 1:
             # `def f (L : ℝ) : ℝ → ℝ := fun x => …`: the result is a function; extra arguments are applied to it
-            arity = d.result_type.count('→')
+            arity = len(_arrow_parts(d.result_type)) - 1
             if len(args) == len(d.params):
                 raise Unsupported(f'{name} is a function value the interpreter does not carry')
             if len(args) == len(d.params) + arity:
@@ -1655,9 +1862,13 @@ class Evaluator:
                 fn_value = d.body
                 if not isinstance(fn_value, Lambda):
                     raise Unsupported(f'{name} returns a function that is not a lambda')
-                arg_types = [t.strip() for t in d.result_type.split('→')[:-1]]
-                vals = [self.num(a, env, self._type_name(at)) for a, at in zip(args[len(d.params):], arg_types)]
-                return self.call_values(Closure(fn_value.params, fn_value.body, local), vals, dtyp)
+                arg_types = _arrow_parts(d.result_type)[:-1]
+                if len(fn_value.params) != arity:
+                    raise Unsupported(f'{name} returns a lambda of {len(fn_value.params)} parameters for an arrow type of {arity}')
+                # the lambda's parameters take the domain types (an explicit binder type wins), the body the codomain
+                types = [lt if lt is not None else at for lt, at in zip(fn_value.types or [None] * arity, arg_types)]
+                vals = [self.num(a, env, self._type_name(at)) for a, at in zip(args[len(d.params):], types)]
+                return self.call_values(Closure(fn_value.params, fn_value.body, local, types), vals, dtyp)
             raise Unsupported(f'{name} applied to {len(args)} arguments')
         if d.clauses:
             n_lead = len(d.params)
@@ -1668,7 +1879,7 @@ class Evaluator:
             for (pname, ptype), a in zip(d.params, args[:n_lead]):
                 pt = self._type_name(ptype)
                 local[pname] = Bound(self.num(a, env, pt), pt)
-            arrow_types = [t.strip() for t in (d.result_type or '').split('→')[:-1]] if d.result_type else []
+            arrow_types = _arrow_parts(d.result_type)[:-1] if d.result_type else []
             vals = []
             for k, a in enumerate(args[n_lead:]):
                 at = self._type_name(arrow_types[k]) if k < len(arrow_types) else 'Nat'
@@ -1757,7 +1968,7 @@ class Evaluator:
                 and env[node.name].type == 'Func':
             return env[node.name].value.table[i]
         if isinstance(node, Lambda):
-            return self.func_apply(self.materialize(Closure(node.params, node.body, env)), Num(i), env)
+            return self.func_apply(self.materialize(Closure(node.params, node.body, env, node.types)), Num(i), env)
         t = self.arith_type(node, env)
         if t == 'Func':
             f = self.num(node, env, 'Func')
@@ -1830,29 +2041,38 @@ class Evaluator:
 
     def _closure(self, f, env):
         if isinstance(f, Lambda):
-            return Closure(f.params, f.body, env)
+            return Closure(f.params, f.body, env, f.types)
         if isinstance(f, Var) and f.name in _BUILTIN_BINARY:
             return _BUILTIN_BINARY[f.name]
         if isinstance(f, Var) and f.name in env and isinstance(env[f.name], Closure):
             return env[f.name]
-        if isinstance(f, Var) and f.name in self.module.defs:
-            d = self.module.defs[f.name]
+        if isinstance(f, Var) and self.has_def(f.name):
+            d = self.defn(f.name)
             if d.body is not None and d.params:
-                return Closure([p for p, _ in d.params], d.body, {})
+                return Closure([p for p, _ in d.params], d.body, {}, [pt for _, pt in d.params])
         raise Unsupported('higher-order argument is not a lambda')
 
     def call_closure(self, closure, arg_nodes, env, typ):
-        vals = [self.num(a, env, typ) for a in arg_nodes]
+        types = self._param_types(closure, len(arg_nodes), typ)
+        vals = [self.num(a, env, t) for a, t in zip(arg_nodes, types)]
         return self.call_values(closure, vals, typ)
 
+    def _param_types(self, closure, n, typ):
+        """The type each parameter is bound at: its declared type when the closure carries one, else ``typ``."""
+        if callable(closure) and not isinstance(closure, Closure):
+            return [typ] * n
+        return [self._type_name(t) if t is not None else typ for t in closure.types[:n]] + [typ] * (n - len(closure.types))
+
     def call_values(self, closure, vals, typ):
+        """Apply ``closure`` to evaluated ``vals`` and evaluate its body at ``typ``. Parameters are bound at their
+        own types (Codex 752/4471516437): `def f : ℕ → ℝ := fun n => …` binds `n : ℕ`, so `n - 1` truncates."""
         if callable(closure) and not isinstance(closure, Closure):
             return closure(*vals)
         if len(vals) != len(closure.params):
             raise Unsupported('lambda arity mismatch')
         local = dict(closure.env)
-        for p, v in zip(closure.params, vals):
-            local[p] = Bound(v, typ)
+        for p, v, t in zip(closure.params, vals, self._param_types(closure, len(vals), typ)):
+            local[p] = Bound(v, t)
         return self.num(closure.body, local, typ)
 
     # ---- bounded universal quantification
@@ -2518,7 +2738,7 @@ def evaluate_theorem(module: Module, thm: Theorem, seed: int = 1, samples: int =
                           'has no content here', 0, False, [], [])
     if thm.binders:
         return _evaluate_sampled(module, thm, seed, samples)
-    ev = Evaluator(module)
+    ev = Evaluator(module, thm.namespace, thm.opens)
     try:
         ok = ev.prop(thm.statement, {})
         quantified = ev.instances > 0 or ev.vacuous
@@ -2743,7 +2963,7 @@ def _boundary_candidates(var: str, typ: str, hyps: list, ev: Evaluator, env: dic
 def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> EvalResult:
     variables = [(b.name, b.type) for b in thm.binders if b.kind == 'var']
     hyps = [b.type for b in thm.binders if b.kind == 'hyp']
-    ev = Evaluator(module)
+    ev = Evaluator(module, thm.namespace, thm.opens)
     rng = random.Random(seed)
     accepted, rejected, infeasible, draws = 0, 0, 0, 0
     seen = set()
@@ -2951,7 +3171,7 @@ def required_mutants(stmt, typing=None):
 
 def _static_typing(module: Module, thm: Theorem):
     """A best-effort type oracle for mutant generation: the theorem's binders as placeholder values."""
-    ev = Evaluator(module)
+    ev = Evaluator(module, thm.namespace, thm.opens)
     env = {}
     for b in thm.binders:
         if b.kind == 'var':
@@ -3059,14 +3279,7 @@ def check_package(root, selftest=False, seed=1, samples=64, admit_corroborated=F
         module_hashes[rel] = _sha256(p)
         modules[rel] = parse_module(p.read_text(encoding='utf-8'))
     # a package's modules import one another: definitions and carrier types are visible package-wide
-    shared_defs, shared_points = {}, set()
-    for m in modules.values():
-        for name, d in m.defs.items():
-            shared_defs.setdefault(name, d)
-        shared_points |= m.point_types
-    for m in modules.values():
-        m.defs = shared_defs
-        m.point_types = shared_points
+    share_definitions(modules)
     per_target = {}
     counts = {}
     selftests = {}
@@ -3153,14 +3366,7 @@ def check_lean_dir(root, exclude=(), seed=1, samples=64):
             continue
         seen_hash[h] = rel
         modules[rel] = parse_module(p.read_text(encoding='utf-8', errors='replace'))
-    shared_defs, shared_points = {}, set()
-    for m in modules.values():
-        for name, d in m.defs.items():
-            shared_defs.setdefault(name, d)
-        shared_points |= m.point_types
-    for m in modules.values():
-        m.defs = shared_defs
-        m.point_types = shared_points
+    share_definitions(modules)
     per_target, counts, reasons = {}, {}, {}
     for rel, module in modules.items():
         for thm in module.theorems:
@@ -3188,7 +3394,9 @@ def check_lean_dir(root, exclude=(), seed=1, samples=64):
 def _reason_class(detail: str) -> str:
     """A short class for an UNSUPPORTED detail, for the census histogram."""
     d = detail
-    for needle, cls in (('binder', 'binder outside the interpreter'), ('instance binder', 'binder outside the interpreter'),
+    for needle, cls in (('not reached by the parser', 'declaration not reached by the parser'),
+                        ('ambiguous definition', 'ambiguous definition across modules'),
+                        ('binder', 'binder outside the interpreter'), ('instance binder', 'binder outside the interpreter'),
                         ('hypothesis', 'hypothesis outside the interpreter'), ('existential', 'existential quantifier'),
                         ('unbounded quantifier', 'unbounded quantifier inside the statement'),
                         ('quantifier over', 'quantifier over an unsupported type'),
