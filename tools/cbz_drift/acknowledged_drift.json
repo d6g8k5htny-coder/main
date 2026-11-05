@@ -1,0 +1,19 @@
+{
+  "schema": "cbz.drift.ack.v1",
+  "acknowledged": [
+    {
+      "name": "CapFirstExit.frontier_image_subset",
+      "interfaces_sha256": [
+        "f5c08a64f33954585a9ffb261b3178f7364101b8166802fc1141af080f1bb6a6",
+        "cf341f363a8153d09902f2be07070c5c0078318789791837b2922b46c03c8a2d"
+      ],
+      "reason": "Deliberate single-theorem extraction. The copy in Math- frontiers/source_derivative_gaussian_20261025/inputs/elder/ReusedCompactFrontier.lean keeps the statement and proof byte-identical to frontiers/cap_first_exit_lean_20261002/CapFirstExit.lean lines 359-369 and drops only the unused `open unitInterval` (its narrow import, Mathlib.Topology.Separation.Hausdorff, does not provide that namespace). Recorded as successor_context_delta in COMPACT_FRONTIER_INPUT_BINDING.json, with a strict compile receipt. Lexical equality of the statement only; elaborated equality is not established here (B-006).",
+      "evidence": [
+        "d6g8k5htny-coder/Math-@ce4b43c5:frontiers/source_derivative_gaussian_20261025/COMPACT_FRONTIER_INPUT_BINDING.json",
+        "d6g8k5htny-coder/Math-@ce4b43c5:frontiers/source_derivative_gaussian_20261025/compact-frontier-input-evidence/strict-01.json",
+        "https://github.com/d6g8k5htny-coder/main/issues/738#issuecomment-6669319293"
+      ],
+      "added": "2026-11-05"
+    }
+  ]
+}

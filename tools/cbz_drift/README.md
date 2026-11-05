@@ -55,6 +55,7 @@ lag a moving tip (INFO).**
 | `LEAN-DRIFT` | BLOCK | one fully qualified Lean declaration has different interfaces in two crawled locations |
 | `LEAN-SYNTAX` | BLOCK | a Lean file cannot be lexed, or its `namespace`/`section`/`end` do not balance |
 | `LEAN-EVIDENCE` | INFO | Lean files under an evidence directory (a path segment `evidence` or `*-evidence`) are frozen copies — sealed checker inputs, snapshots of earlier commits, mutation controls — and are counted but not compared |
+| `LEAN-DRIFT-ACK` | INFO | a `LEAN-DRIFT` whose exact set of interfaces (SHA-256 of `kind\0interface`) is a reviewed entry in `acknowledged_drift.json`, with its reason and evidence. Any other change to either copy no longer matches and blocks again; a malformed file is `MALFORMED` (BLOCK) |
 | `LAKE-DEP` | INFO | a lake dependency on a crawled repository pins a present, different full commit id (any other rev, such as an absent, empty, short or floating one like a branch or tag, is `PIN-MISSING`; a git package with no repository URL, a package that is neither git nor path, and a `packages` value that is not a list are `MALFORMED`) |
 | `PIN-DIVERGENT` | INFO | two reached repositories pin one repository differently; the first in breadth-first order is read |
 | `FETCH-FAILED` | BLOCK | `--fetch` could not refresh a repository, so its tips are not current |

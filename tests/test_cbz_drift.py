@@ -248,6 +248,39 @@ class LeanDriftTests(FedCase):
         rep = self.drift(LEAN_A.replace('namespace Fed\n', 'namespace Fed\nvariable (k : Nat)\n'))
         self.assertEqual(sorted(f['name'] for f in rep['findings'] if f['code'] == 'LEAN-DRIFT'), ['Fed.S', 'Fed.f', 'Fed.t'])
 
+    def write_ack(self, entries):
+        path = pathlib.Path(self.tmp.name) / 'ack.json'
+        path.write_text(json.dumps({'schema': 'cbz.drift.ack.v1', 'acknowledged': entries}))
+        return str(path)
+
+    def test_acknowledged_drift_is_info_and_any_change_blocks_again(self):
+        rep = self.drift(LEAN_A.replace('n + 0 = n', '0 + n = n'))
+        drift = [f for f in rep['findings'] if f['code'] == 'LEAN-DRIFT'][0]
+        ack = self.write_ack([{'name': 'Fed.t', 'interfaces_sha256': [v['sha256'] for v in drift['variants']],
+                               'reason': 'reviewed'}])
+        rep = self.fed.crawl(ack_path=ack)
+        self.assertEqual(codes(rep, 'BLOCK'), [])
+        self.assertEqual([(f['name'], f['level'], f['acknowledged']) for f in rep['findings']
+                          if f['code'] == 'LEAN-DRIFT-ACK'], [('Fed.t', 'INFO', 'reviewed')])
+        # any further change to either copy no longer matches the reviewed set
+        self.drift(LEAN_A.replace('n + 0 = n', 'n * 1 = n'))
+        self.assertEqual(codes(self.fed.crawl(ack_path=ack), 'BLOCK'), ['LEAN-DRIFT'])
+
+    def test_acknowledgement_for_another_name_does_not_apply(self):
+        rep = self.drift(LEAN_A.replace('n + 0 = n', '0 + n = n'))
+        drift = [f for f in rep['findings'] if f['code'] == 'LEAN-DRIFT'][0]
+        ack = self.write_ack([{'name': 'Fed.other', 'interfaces_sha256': [v['sha256'] for v in drift['variants']],
+                               'reason': 'reviewed'}])
+        self.assertEqual(codes(self.fed.crawl(ack_path=ack), 'BLOCK'), ['LEAN-DRIFT'])
+
+    def test_malformed_acknowledgements_block(self):
+        self.fed.build()
+        for entries in ([{'name': 'Fed.t', 'interfaces_sha256': ['x' * 64, 'y' * 64], 'reason': 'r'}],
+                        [{'name': 'Fed.t', 'interfaces_sha256': ['a' * 64, 'b' * 64], 'reason': ' '}],
+                        [{'name': 'Fed.t', 'interfaces_sha256': ['a' * 64], 'reason': 'r'}]):
+            with self.subTest(entries=entries):
+                self.assertIn('MALFORMED', codes(self.fed.crawl(ack_path=self.write_ack(entries)), 'BLOCK'))
+
     def test_lean_syntax_error_blocks(self):
         rep = self.drift(LEAN_A + '\n/- never closed\n')
         self.assertIn('LEAN-SYNTAX', codes(rep, 'BLOCK'))
@@ -737,7 +770,7 @@ MUTANTS = [
      'LeanDriftTests.test_changed_definition_value_blocks'),
     ('kind ignored', "variants.setdefault((l['kind'], l['interface']), [])", "variants.setdefault(('', l['interface']), [])",
      'crawl.py', 'LeanDriftTests.test_changed_kind_blocks'),
-    ('drift downgraded', "self.add(BLOCK, 'LEAN-DRIFT'", "self.add(INFO, 'LEAN-DRIFT'", 'crawl.py',
+    ('drift downgraded', "self.add(INFO if acked else BLOCK,", "self.add(INFO if acked else INFO,", 'crawl.py',
      'LeanDriftTests.test_changed_theorem_statement_blocks'),
     ('private compared', "                    if d['private']:\n                        continue\n", "", 'crawl.py',
      'LeanDriftTests.test_private_names_are_not_compared'),
@@ -859,6 +892,12 @@ MUTANTS = [
     ('case-sensitive identity', "        return ('%s/%s' % (m.group(1), m.group(2))).lower()", "        return '%s/%s' % (m.group(1), m.group(2))", 'crawl.py',
      'TopologyTests.test_identity_normalization'),
     ('exit ignores blocks', "    return 1 if rep['blocking'] else 0", "    return 0", 'crawl.py', 'CleanFederationTests.test_cli_exit_status'),
+    ('ack matched by name only', "acked = ack is not None and ack[0] == frozenset(interface_digest(k, i) for k, i in variants)",
+     "acked = ack is not None", 'crawl.py', 'LeanDriftTests.test_acknowledged_drift_is_info_and_any_change_blocks_again'),
+    ('ack ignored', "self.add(INFO if acked else BLOCK, 'LEAN-DRIFT-ACK' if acked else 'LEAN-DRIFT',",
+     "self.add(BLOCK, 'LEAN-DRIFT',", 'crawl.py', 'LeanDriftTests.test_acknowledged_drift_is_info_and_any_change_blocks_again'),
+    ('malformed ack accepted', "            raise ValueError('malformed acknowledgement %.160r' % (entry,))", "            continue",
+     'crawl.py', 'LeanDriftTests.test_malformed_acknowledgements_block'),
     ('evidence copies compared', "                if EVIDENCE_SEGMENT.search(path):", "                if False:", 'crawl.py',
      'LeanDriftTests.test_evidence_copies_are_counted_not_compared'),
     ('every evidence-like name skipped', "EVIDENCE_SEGMENT = re.compile(r'(^|/)([^/]*-)?evidence(/|$)')",

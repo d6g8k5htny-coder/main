@@ -29,6 +29,8 @@ commit, different Lean toolchains); it never fails the run.
   INPUT-MISSING   a declared canonical input is absent at its selected ref         BLOCK
   LEAN-DRIFT      one fully qualified Lean declaration has different interfaces     BLOCK
                   in two crawled locations (see lean_decls for the exact domain)
+  LEAN-DRIFT-ACK  the same, but the exact set of interfaces is a reviewed entry in   INFO
+                  acknowledged_drift.json; any other change to either copy blocks
   LEAN-SYNTAX     a Lean file could not be lexed or its scopes do not balance       BLOCK
   LEAN-EVIDENCE   Lean files under an evidence directory are frozen copies, not     INFO
                   compared (sealed checker inputs, snapshots, mutation controls)
@@ -69,6 +71,35 @@ BLOCK, INFO = 'BLOCK', 'INFO'
 # formal-evidence/) holds frozen copies: sealed checker inputs, snapshots of earlier commits and mutation
 # controls. They are deliberately different from the live sources, so they are not compared.
 EVIDENCE_SEGMENT = re.compile(r'(^|/)([^/]*-)?evidence(/|$)')
+# Reviewed drift acknowledgements. Each entry names one declaration and the exact set of its interfaces,
+# as SHA-256 of "kind\0interface". A drift whose variants are exactly that set is reported as INFO
+# LEAN-DRIFT-ACK with the recorded reason; any other change to either copy no longer matches and blocks.
+ACK_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'acknowledged_drift.json')
+
+
+def interface_digest(kind, interface):
+    return hashlib.sha256(('%s\0%s' % (kind, interface)).encode('utf-8')).hexdigest()
+
+
+def load_acknowledgements(path):
+    """Return {name: (frozenset of interface digests, reason)}. Raise ValueError on a malformed file."""
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding='utf-8') as fh:
+        doc = json.load(fh)
+    if not isinstance(doc, dict) or doc.get('schema') != 'cbz.drift.ack.v1' or not isinstance(doc.get('acknowledged'), list):
+        raise ValueError('expected schema cbz.drift.ack.v1 with an acknowledged list')
+    acks = {}
+    for entry in doc['acknowledged']:
+        name, digests, reason = (entry.get('name'), entry.get('interfaces_sha256'), entry.get('reason')) \
+            if isinstance(entry, dict) else (None, None, None)
+        if not (isinstance(name, str) and isinstance(reason, str) and reason.strip() and isinstance(digests, list)
+                and len(set(digests)) >= 2 and all(isinstance(d, str) and re.fullmatch(r'[0-9a-f]{64}', d) for d in digests)):
+            raise ValueError('malformed acknowledgement %.160r' % (entry,))
+        if name in acks:
+            raise ValueError('two acknowledgements for %s' % name)
+        acks[name] = (frozenset(digests), reason)
+    return acks
 
 
 class CrawlError(RuntimeError):
@@ -196,8 +227,9 @@ def parse_gitmodules(text):
 
 
 class Crawl:
-    def __init__(self, local, at='pins', overrides=None, fetch=False, clone_into=None):
+    def __init__(self, local, at='pins', overrides=None, fetch=False, clone_into=None, ack_path=ACK_PATH):
         self.local, self.at, self.overrides, self.fetch = local, at, dict(overrides or {}), fetch
+        self.ack_path = ack_path
         self.clone_into, self.urls = clone_into, {}
         self.findings, self.repos, self.refs = [], {}, {}
         self.pins, self.optional, self.edges = {}, set(), []
@@ -582,6 +614,11 @@ class Crawl:
             yield key, self.repos[key], self.ref_for(key, self.repos[key])
 
     def check_lean(self):
+        try:
+            acks = load_acknowledgements(self.ack_path)
+        except (OSError, ValueError) as exc:
+            self.add(BLOCK, 'MALFORMED', 'drift acknowledgements %s: %s' % (self.ack_path, exc))
+            acks = {}
         decls = collections.defaultdict(list)
         packages = {}
         for key, repo, ref in list(self.crawled()):
@@ -628,9 +665,15 @@ class Crawl:
             for l in locs:
                 variants.setdefault((l['kind'], l['interface']), []).append(l)
             if len(variants) > 1:
-                self.add(BLOCK, 'LEAN-DRIFT', '%s has %d different interfaces across %d locations' % (name, len(variants), len(locs)),
-                         name=name, variants=[{'kind': k, 'interface': i, 'locations': ['%s@%s:%s:%d' % (
-                             l['repo'], l['ref'][:12], l['path'], l['line']) for l in ls]} for (k, i), ls in variants.items()])
+                ack = acks.get(name)
+                acked = ack is not None and ack[0] == frozenset(interface_digest(k, i) for k, i in variants)
+                detail = {'acknowledged': ack[1]} if acked else {}
+                self.add(INFO if acked else BLOCK, 'LEAN-DRIFT-ACK' if acked else 'LEAN-DRIFT',
+                         '%s has %d different interfaces across %d locations' % (name, len(variants), len(locs)),
+                         name=name, variants=[{'kind': k, 'interface': i, 'sha256': interface_digest(k, i),
+                                               'locations': ['%s@%s:%s:%d' % (
+                             l['repo'], l['ref'][:12], l['path'], l['line']) for l in ls]} for (k, i), ls in variants.items()],
+                         **detail)
         self.stats['lean_shared_names'] = shared
         for (a, b) in sorted({tuple(sorted((x, y))) for x, ys in coupled.items() for y in ys}):
             if packages.get(a) != packages.get(b):
@@ -651,9 +694,9 @@ class Crawl:
         }
 
 
-def run(seed, search, at='pins', seed_ref=None, overrides=None, fetch=False, clone_into=None):
+def run(seed, search, at='pins', seed_ref=None, overrides=None, fetch=False, clone_into=None, ack_path=ACK_PATH):
     local = find_local_repos(search)
-    c = Crawl(local, at=at, overrides=overrides, fetch=fetch, clone_into=clone_into)
+    c = Crawl(local, at=at, overrides=overrides, fetch=fetch, clone_into=clone_into, ack_path=ack_path)
     c.seed(repo_key(seed) if '/' in seed else _match_name(seed, local), seed_ref)
     c.close_graph()
     c.check_pins()
