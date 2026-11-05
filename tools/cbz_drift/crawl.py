@@ -33,7 +33,7 @@ commit, different Lean toolchains); it never fails the run.
   LEAN-EVIDENCE   Lean files under an evidence directory are frozen copies, not     INFO
                   compared (sealed checker inputs, snapshots, mutation controls)
   LEAN-EXEMPT     a LEAN-DRIFT matched a reviewed exemption exactly (every          INFO
-                  location's repository, path and interface SHA-256)
+                  location's repository, path, declaration kind and interface SHA-256)
   EXEMPT-UNUSED   a reviewed exemption matched no drift this run (it is stale)      INFO
   LAKE-DEP        a lake dependency on a crawled repository pins another rev        INFO
   PIN-DIVERGENT   two reached repositories pin one repository differently           INFO
@@ -52,10 +52,11 @@ candidate head against the rest of the federation).
 
 Reviewed exemptions. `reviewed_exemptions.json` beside this file (or `--exemptions FILE`)
 lists LEAN-DRIFT findings that a review has accepted. An entry names one declaration and
-the complete set of its locations, each as repository, path and the SHA-256 of the
-interface the crawl computes there. A drift is exempt only when its location set equals an
-entry's exactly; any change to either interface, or a new or removed location, blocks
-again. Comments, whitespace and proof bodies are outside the interface, so they do not.
+the complete set of its locations, each as repository, path, declaration kind (theorem,
+def, axiom, ...) and the SHA-256 of the interface the crawl computes there. A drift is exempt
+only when its location set equals an entry's exactly; any change to either interface or
+kind, or a new or removed location, blocks again. The kind is bound separately because
+theorem and axiom both keep only the header as their interface. Comments, whitespace and proof bodies are outside the interface, so they do not.
 A malformed exemptions file is a BLOCK. The list lives with the tool, not in a crawled
 repository, so a crawled repository cannot exempt itself.
 
@@ -238,12 +239,13 @@ class Crawl:
             ok = (isinstance(ent, dict) and all(isinstance(ent.get(k), str) and ent.get(k) for k in ('id', 'name', 'rationale'))
                   and isinstance(locs, list) and len(locs) >= 2
                   and all(isinstance(l, dict) and isinstance(l.get('repository'), str) and isinstance(l.get('path'), str)
+                          and isinstance(l.get('kind'), str) and l.get('kind')
                           and re.fullmatch(r'[0-9a-f]{64}', str(l.get('interface_sha256', ''))) for l in locs))
             if not ok or ent['id'] in seen:
                 self.exemption_errors.append('exemption %r is malformed or duplicated' % (ent.get('id') if isinstance(ent, dict) else ent))
                 continue
             seen.add(ent['id'])
-            key = frozenset((repo_key(l['repository']), l['path'], l['interface_sha256']) for l in locs)
+            key = frozenset((repo_key(l['repository']), l['path'], l['kind'], l['interface_sha256']) for l in locs)
             if len(key) != len(locs):
                 self.exemption_errors.append('exemption %r lists a location twice' % ent['id'])
                 continue
@@ -670,7 +672,8 @@ class Crawl:
             for l in locs:
                 variants.setdefault((l['kind'], l['interface']), []).append(l)
             if len(variants) > 1:
-                key = frozenset((l['repo'], l['path'], hashlib.sha256(l['interface'].encode('utf-8')).hexdigest()) for l in locs)
+                key = frozenset((l['repo'], l['path'], l['kind'], hashlib.sha256(l['interface'].encode('utf-8')).hexdigest())
+                                for l in locs)
                 ex = next((e for e in self.exemptions if e['name'] == name and e['key'] == key), None)
                 detail = [{'kind': k, 'interface': i, 'interface_sha256': hashlib.sha256(i.encode('utf-8')).hexdigest(),
                            'locations': ['%s@%s:%s:%d' % (l['repo'], l['ref'][:12], l['path'], l['line']) for l in ls]}
