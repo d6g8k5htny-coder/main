@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "cdadf04d90a348f934fdde11d2e567e85e59e9dfa4adaf9cc9caa8699c6437e8"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "a967d5c6a9514b1383aec3583775f1d9c26935f9631f89ec256162542976e6a1"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -402,6 +402,46 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/dead.py"]["referenced"])
 
+    def test_wrapper_rebinding_invalidates_forwarding(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_wrapper.py": (
+                "import subprocess, unittest\n"
+                "class Wrapper(unittest.TestCase):\n"
+                "    def test_wrapper(self):\n"
+                "        def launch(arguments):\n"
+                "            arguments = ['echo', 'hello']\n"
+                "            return subprocess.run(arguments)\n"
+                "        launch(['python3', 'tools/unused.py'])\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_local_path_shadows_do_not_inherit_module_values(self):
+        tree = {
+            "tools/parameter.py": "x = 1\n",
+            "tools/assignment.py": "x = 1\n",
+            "tools/README.md": "tools/parameter.py tools/assignment.py\n",
+            "tests/test_shadows.py": (
+                "import runpy, unittest\n"
+                "PARAMETER = 'tools/parameter.py'\n"
+                "ASSIGNMENT = 'tools/assignment.py'\n"
+                "def load_parameter(PARAMETER):\n"
+                "    runpy.run_path(PARAMETER)\n"
+                "def load_assignment():\n"
+                "    ASSIGNMENT = input()\n"
+                "    runpy.run_path(ASSIGNMENT)\n"
+                "class Shadows(unittest.TestCase):\n"
+                "    def test_shadows(self):\n"
+                "        load_parameter('other.py')\n"
+                "        load_assignment()\n"
+            ),
+        }
+        self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
+            "tools/assignment.py": False, "tools/parameter.py": False,
+        })
+
     def test_function_local_process_import_is_trusted(self):
         tree = {
             "tools/worker.py": "x = 1\n",
@@ -455,6 +495,29 @@ class ToolChecks(unittest.TestCase):
         report = self.tools(tree)
         self.assertEqual({path: item["referenced"] for path, item in report.items()}, {
             "tools/decoy.mjs": False, "tools/fake.mjs": False, "tools/live.mjs": True,
+        })
+
+    def test_js_quoted_and_property_names_do_not_credit_bindings(self):
+        tree = {
+            "tools/live.mjs": "export const live = true;\n",
+            "tools/quoted.mjs": "export const quoted = true;\n",
+            "tools/property.mjs": "export const property = true;\n",
+            "tools/key.mjs": "export const key = true;\n",
+            "tools/README.md": (
+                "tools/live.mjs tools/quoted.mjs tools/property.mjs tools/key.mjs\n"
+            ),
+            "tests/expressions.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const live=new URL('../tools/live.mjs',import.meta.url);\n"
+                "const quoted=new URL('../tools/quoted.mjs',import.meta.url);\n"
+                "const property=new URL('../tools/property.mjs',import.meta.url);\n"
+                "const key=new URL('../tools/key.mjs',import.meta.url);\n"
+                "spawnSync(process.execPath,[live, 'quoted', holder.property, {key: 'value'}]);\n"
+            ),
+        }
+        self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
+            "tools/key.mjs": False, "tools/live.mjs": True,
+            "tools/property.mjs": False, "tools/quoted.mjs": False,
         })
 
     def test_tests_and_init_files_are_not_tools(self):
@@ -773,7 +836,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 99)
+        self.assertEqual(len(cases), 102)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

@@ -312,13 +312,13 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("spec loader path ignored", "census",
-     "            if call_name == \"importlib.util.spec_from_file_location\" and len(node.args) >= 2:\n                value = _python_static_value(node.args[1], local, module_bindings, source_path,\n                                             active_imports, shadowed)\n                references.update(_tool_values(value, tools))",
-     "            if call_name == \"importlib.util.spec_from_file_location\" and len(node.args) >= 2:\n                value = _python_static_value(node.args[1], local, module_bindings, source_path,\n                                             active_imports, shadowed)\n                references.update(())",
+     "            if call_name == \"importlib.util.spec_from_file_location\" and len(node.args) >= 2:\n                value = _python_static_value(node.args[1], local, module_bindings, source_path,\n                                             active_imports, static_shadowed)\n                references.update(_tool_values(value, tools))",
+     "            if call_name == \"importlib.util.spec_from_file_location\" and len(node.args) >= 2:\n                value = _python_static_value(node.args[1], local, module_bindings, source_path,\n                                             active_imports, static_shadowed)\n                references.update(())",
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("runpy path ignored", "census",
-     "            if call_name == \"runpy.run_path\" and node.args:\n                value = _python_static_value(node.args[0], local, module_bindings, source_path,\n                                             active_imports, shadowed)\n                references.update(_tool_values(value, tools))",
-     "            if call_name == \"runpy.run_path\" and node.args:\n                value = _python_static_value(node.args[0], local, module_bindings, source_path,\n                                             active_imports, shadowed)\n                references.update(())",
+     "            if call_name == \"runpy.run_path\" and node.args:\n                value = _python_static_value(node.args[0], local, module_bindings, source_path,\n                                             active_imports, static_shadowed)\n                references.update(_tool_values(value, tools))",
+     "            if call_name == \"runpy.run_path\" and node.args:\n                value = _python_static_value(node.args[0], local, module_bindings, source_path,\n                                             active_imports, static_shadowed)\n                references.update(())",
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("subprocess path list ignored", "census",
@@ -357,8 +357,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("nonprocess wrapper accepted", "census",
-     "                    and _resolved_import_name(node.func, active_imports, active_shadowed) in process_calls \\\n                    and isinstance(node.args[0], ast.Name) and node.args[0].id in parameters:",
-     "                    and True \\\n                    and isinstance(node.args[0], ast.Name) and node.args[0].id in parameters:",
+     "                    and _resolved_import_name(node.func, active_imports, active_shadowed) in process_calls \\\n                    and isinstance(node.args[0], ast.Name) and node.args[0].id in parameters \\\n                    and node.args[0].id not in rebound:",
+     "                    and True \\\n                    and isinstance(node.args[0], ast.Name) and node.args[0].id in parameters \\\n                    and node.args[0].id not in rebound:",
      "tests.test_g11_census.ToolChecks.test_path_values_need_reachable_execution_not_mentions",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("sibling with_name path ignored", "census",
@@ -421,6 +421,21 @@ NEW_MUTATIONS = [
      "                bind(element, target_value)",
      "tests.test_g11_census.ToolChecks.test_destructured_paths_bind_corresponding_values",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
+    ("rebound wrapper parameter still forwarded", "census",
+     "                    and node.args[0].id not in rebound:",
+     "                    and True:",
+     "tests.test_g11_census.ToolChecks.test_wrapper_rebinding_invalidates_forwarding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("local static shadow inherits module value", "census",
+     "        if node.id in scope_shadowed:\n            return None",
+     "        if False:\n            return None",
+     "tests.test_g11_census.ToolChecks.test_local_path_shadows_do_not_inherit_module_values",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("JavaScript quoted and property names credited", "census",
+     "        identifiers = _js_expression_identifiers(arguments)",
+     "        identifiers = set(bindings)",
+     "tests.test_g11_census.ToolChecks.test_js_quoted_and_property_names_do_not_credit_bindings",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -523,6 +538,9 @@ EXPECTED_MUTATION_NAMES = (
     "function-local process import ignored",
     "JavaScript same-line mention accepted outside call arguments",
     "destructured path values rebound as aggregate",
+    "rebound wrapper parameter still forwarded",
+    "local static shadow inherits module value",
+    "JavaScript quoted and property names credited",
 )
 
 
@@ -701,7 +719,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 48
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 51
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

@@ -758,14 +758,16 @@ def _reachable_python_nodes(tree, mode):
 
 def _python_static_value(node, local, module, source_path, imports, scope_shadowed=()):
     """Resolve only path/command values whose bytes are explicit in the AST."""
-    bindings = dict(module)
-    bindings.update(local)
     if isinstance(node, ast.Constant) and isinstance(node.value, str):
         return node.value
     if isinstance(node, ast.Name):
         if node.id == "__file__":
             return source_path
-        return bindings.get(node.id)
+        if node.id in local:
+            return local[node.id]
+        if node.id in scope_shadowed:
+            return None
+        return module.get(node.id)
     if isinstance(node, ast.Attribute):
         if _resolved_import_name(node, imports, scope_shadowed) == "sys.executable":
             return "<python>"
@@ -910,6 +912,7 @@ def _python_execution_wrappers(tree, imports):
     def wrapper_positions(function):
         parameters = [arg.arg for arg in (*function.args.posonlyargs, *function.args.args)]
         positions = set()
+        rebound = set()
         shadowed = _scope_bindings(function)
         local_imports = _empty_import_bindings()
 
@@ -930,12 +933,20 @@ def _python_execution_wrappers(tree, imports):
                 return
             if isinstance(node, (ast.For, ast.AsyncFor, ast.While)):
                 return
+            targets = []
+            if isinstance(node, ast.Assign):
+                targets = node.targets
+            elif isinstance(node, (ast.AnnAssign, ast.AugAssign)):
+                targets = [node.target]
+            for target in targets:
+                rebound.update(_target_names(target))
             _update_local_import_bindings(node, local_imports)
             active_imports, active_shadowed = _combined_import_bindings(
                 imports, local_imports, shadowed)
             if isinstance(node, ast.Call) and node.args \
                     and _resolved_import_name(node.func, active_imports, active_shadowed) in process_calls \
-                    and isinstance(node.args[0], ast.Name) and node.args[0].id in parameters:
+                    and isinstance(node.args[0], ast.Name) and node.args[0].id in parameters \
+                    and node.args[0].id not in rebound:
                 positions.add(parameters.index(node.args[0].id))
             for child in ast.iter_child_nodes(node):
                 visit(child)
@@ -974,12 +985,14 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
         local_imports = scope_imports.setdefault(scope, _empty_import_bindings())
         if scope is not None:
             _update_local_import_bindings(node, local_imports)
-        active_imports, shadowed = _combined_import_bindings(
+        active_imports, _ = _combined_import_bindings(
             imports, local_imports, scope_shadowed.get(scope, set()))
+        locally_imported = set(local_imports["modules"]) | set(local_imports["symbols"])
+        static_shadowed = scope_shadowed.get(scope, set()) - locally_imported
         if isinstance(node, (ast.Assign, ast.AnnAssign)):
             value_node = node.value
             value = _python_static_value(value_node, local, module_bindings, source_path,
-                                         active_imports, shadowed)
+                                         active_imports, static_shadowed)
             _bind_python_value(node, value, local, module_bindings, scope)
         if isinstance(node, ast.Import):
             for alias in node.names:
@@ -997,22 +1010,22 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     if path:
                         references.add(path)
         elif isinstance(node, ast.Call):
-            call_name = _resolved_import_name(node.func, active_imports, shadowed)
+            call_name = _resolved_import_name(node.func, active_imports, static_shadowed)
             if isinstance(node.func, ast.Name):
                 positions = wrappers.get((scope, node.func.id), wrappers.get((None, node.func.id), ()))
                 for position in positions:
                     if position < len(node.args):
                         value = _python_static_value(node.args[position], local, module_bindings,
-                                                     source_path, active_imports, shadowed)
+                                                     source_path, active_imports, static_shadowed)
                         references.update(_tool_values(value, tools))
             if call_name == "importlib.util.spec_from_file_location" and len(node.args) >= 2:
                 value = _python_static_value(node.args[1], local, module_bindings, source_path,
-                                             active_imports, shadowed)
+                                             active_imports, static_shadowed)
                 references.update(_tool_values(value, tools))
                 continue
             if call_name == "runpy.run_path" and node.args:
                 value = _python_static_value(node.args[0], local, module_bindings, source_path,
-                                             active_imports, shadowed)
+                                             active_imports, static_shadowed)
                 references.update(_tool_values(value, tools))
                 continue
             if call_name in {"subprocess.run", "subprocess.call", "subprocess.Popen",
@@ -1020,7 +1033,7 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                              "runpy.run_path"}:
                 for arg in node.args:
                     value = _python_static_value(arg, local, module_bindings, source_path,
-                                                 active_imports, shadowed)
+                                                 active_imports, static_shadowed)
                     if isinstance(value, list):
                         references.update(_command_tool_values(value, tools))
                         continue
@@ -1138,10 +1151,43 @@ def js_tool_references(text, source_path, tools):
             if parts and parts[0] in allowed_child_calls:
                 child_names.add(parts[-1])
     for arguments in _js_call_arguments(visible, child_names):
+        identifiers = _js_expression_identifiers(arguments)
         for name, target in bindings.items():
-            if re.search(r"\b" + re.escape(name) + r"\b", arguments):
+            if name in identifiers:
                 references.add(target)
     return references
+
+
+def _js_expression_identifiers(text):
+    """Return identifiers used as expressions, excluding strings and property names."""
+    masked = []
+    quote = None
+    escaped = False
+    for char in text:
+        if quote:
+            masked.append("\n" if char == "\n" else " ")
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == quote:
+                quote = None
+            continue
+        if char in {'"', "'", "`"}:
+            quote = char
+            masked.append(" ")
+        else:
+            masked.append(char)
+    visible = "".join(masked)
+    identifiers = set()
+    pattern = re.compile(r"(?<![\w$])([A-Za-z_$][\w$]*)(?![\w$])")
+    for match in pattern.finditer(visible):
+        before = visible[:match.start()].rstrip()
+        after = visible[match.end():].lstrip()
+        if (before and before[-1] == ".") or (after and after[0] == ":"):
+            continue
+        identifiers.add(match.group(1))
+    return identifiers
 
 
 def _js_call_arguments(text, names):
