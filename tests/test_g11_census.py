@@ -17,7 +17,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "333f981944fbd08389c9fb384d6cd0dbf89fff4e40514ca67b123a0057be5d77"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "40f85351368a8648ec220cc993631372d94c0776daa72d63bd46bb96ae34959f"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -156,6 +156,11 @@ class Markers(unittest.TestCase):
 
 
 class Workflows(unittest.TestCase):
+    def test_job_defaults_run_mapping_is_not_a_step(self):
+        text = ("jobs:\n  test:\n    defaults:\n      run:\n        shell: bash\n"
+                "    steps:\n      - run: make test\n")
+        self.assertEqual(g11.noop_steps(text), [])
+
     def test_noop_steps(self):
         text = ("jobs:\n  a:\n    steps:\n"
                 "      - run: true\n"
@@ -542,7 +547,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 75)
+        self.assertEqual(len(cases), 76)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

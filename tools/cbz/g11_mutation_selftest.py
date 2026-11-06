@@ -301,6 +301,11 @@ NEW_MUTATIONS = [
      'and any(_base_name(base) == "TestCase"',
      "tests.test_g11_census.ReviewResidualControls.test_tool_reachability_and_heredoc_boundaries",
      'self.assertFalse(decoy["tools"]["tools/runner.py"]["referenced"])'),
+    ("workflow defaults accepted as steps", "census",
+     "        if not _is_step_run(lines, index):\n            continue",
+     "        if False:\n            continue",
+     "tests.test_g11_census.Workflows.test_job_defaults_run_mapping_is_not_a_step",
+     "self.assertEqual(g11.noop_steps(text), [])"),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -379,6 +384,7 @@ EXPECTED_MUTATION_NAMES = (
     "hostile Python environment survives",
     "in-scope tracked symlink silently skipped",
     "decoy TestCase base credited",
+    "workflow defaults accepted as steps",
 )
 
 
@@ -557,7 +563,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 38
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 39
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

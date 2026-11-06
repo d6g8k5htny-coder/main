@@ -455,11 +455,42 @@ def _strip_shell_comment(line):
     return line if at < 0 else line[:at]
 
 
+def _is_step_run(lines, index):
+    line = lines[index]
+    indent = len(line) - len(line.lstrip())
+    list_run = line.lstrip().startswith("- ")
+    parents = []
+    limit = indent
+    for prior in reversed(lines[:index]):
+        stripped = prior.lstrip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        prior_indent = len(prior) - len(stripped)
+        if prior_indent >= limit:
+            continue
+        list_item = stripped.startswith("- ")
+        content = stripped[2:].lstrip() if list_item else stripped
+        key = re.match(r"^([A-Za-z0-9_-]+):", content)
+        if key:
+            parents.append((key.group(1), list_item))
+            limit = prior_indent
+    if list_run and not parents:
+        return True
+    try:
+        steps_at = next(i for i, (key, _) in enumerate(parents) if key == "steps")
+    except StopIteration:
+        return False
+    return list_run or (steps_at > 0 and parents[0][1])
+
+
 def _workflow_commands(text):
     found, lines = [], text.splitlines()
-    for number, line in enumerate(lines, 1):
+    for index, line in enumerate(lines):
+        number = index + 1
         m = re.match(r"^(\s*)(?:-\s+)?run:\s*(.*?)\s*$", line)
         if not m:
+            continue
+        if not _is_step_run(lines, index):
             continue
         value = m.group(2).strip()
         if value.startswith("#"):
