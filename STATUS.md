@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has native source parent
-`4c1b7abad6d03852dc7c7abf1e642fcb0b416936`; its isolated work began from the
+`a104a29af571b760738c50ebfc5b07ad7a1b6d98`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,14 +37,14 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `4c1b7abad6d03852dc7c7abf1e642fcb0b416936` (tree
-`783078253d459f052c30766235352871f1a959be`) passed 61/61 tests and killed
-113/113 designated mutants in both modes. Its byte-identical normal/optimized
+native source `a104a29af571b760738c50ebfc5b07ad7a1b6d98` (tree
+`157ae0ce007c182883b2bfb0a796ba0e3c967c67`) passed 64/64 tests and killed
+116/116 designated mutants in both modes. Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`4570a88f28c101140a1f9b2113151326b251dd0ef75cd8dbb5424f2c812dcafc`,
-56,304 bytes each)
-contain zero production findings and retain exactly 28 no-current-exercise
-browser-tool candidates; both census runs exit 1. The former 20 active
+`dccbf430bd9aae6686b52f322657b0c5d21277949f9ee253661f28cf69160caf`,
+56,295 bytes each)
+contain zero production findings and retain exactly 29 no-current-exercise
+tool candidates; both census runs exit 1. The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
 interpreter command payloads, same-line JavaScript decoys or unreachable code.
 Absolute-parent traversal now stops at the filesystem root and reachable
@@ -61,9 +61,14 @@ left-to-right short-circuit order, a local callee cannot inherit a same-named
 module wrapper, and quoted JavaScript call text is not a call. Position-preserved
 dynamic suffixes after an already proven tool path, resolved starred command
 elements, `unittest` lifecycle methods and trusted loader-wrapper paths are now
-recognized with dedicated negative controls. These repairs restored the exact
-28-browser-tool residue after an intermediate sound census exposed eight more
-unproven execution paths; no intermediate result is rebound as a passing gate.
+recognized with dedicated negative controls. Three final-head review findings
+are also repaired: class methods cannot register as same-named module wrappers;
+known conditional commands select only their taken branch while unknown
+alternatives earn credit only when every branch selects the same tool; and an
+intervening JavaScript assignment invalidates a prior URL binding. The stricter
+source newly exposes `tools/atlas_formal_source_bridge.py`, so the earlier
+28-tool report remains historical rather than being rebound to this 29-tool
+result. No intermediate result is rebound as a passing gate.
 
 ## Current verification boundary
 

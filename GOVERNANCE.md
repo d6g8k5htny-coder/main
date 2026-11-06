@@ -126,19 +126,19 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`4c1b7abad6d03852dc7c7abf1e642fcb0b416936` (tree
-`783078253d459f052c30766235352871f1a959be`) extends the existing bounded
+`a104a29af571b760738c50ebfc5b07ad7a1b6d98` (tree
+`157ae0ce007c182883b2bfb0a796ba0e3c967c67`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 61/61 controls and killed 113/113 designated
+The exact source commit passed 64/64 controls and killed 116/116 designated
 mutants in each mode. Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`4570a88f28c101140a1f9b2113151326b251dd0ef75cd8dbb5424f2c812dcafc`,
-56,304 bytes each):
-zero production findings and 28 retained browser-tool candidates, so both
+`dccbf430bd9aae6686b52f322657b0c5d21277949f9ee253661f28cf69160caf`,
+56,295 bytes each):
+zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
 interpreter command-mode payload arguments and unreachable wrapper bodies,
 binds JavaScript references only inside the selected child-process call,
@@ -160,7 +160,12 @@ prefix. Boolean `or` uses left-to-right short-circuit semantics; local callees
 cannot inherit module wrappers; quoted JavaScript call text is masked; resolved
 starred command elements, `unittest` lifecycle methods and trusted
 `spec_from_file_location`/`run_path` wrappers are recognized. These are bounded
-static facts, not runtime or scientific certification.
+static facts, not runtime or scientific certification. Class methods remain
+separate from bare module wrappers; statically known conditional expressions
+select one branch, while unknown alternatives earn only intersection evidence;
+and a JavaScript URL binding loses provenance after an intervening assignment.
+The stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the
+earlier 28-tool result remains historical and is not rebound.
 
 ### Empirical statement check for core-Lean arithmetic skeletons: bounded registration
 

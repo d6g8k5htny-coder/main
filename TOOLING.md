@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`4c1b7abad6d03852dc7c7abf1e642fcb0b416936`, based on Main default
+`a104a29af571b760738c50ebfc5b07ad7a1b6d98`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,16 +263,16 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`4c1b7abad6d03852dc7c7abf1e642fcb0b416936` (tree
-`783078253d459f052c30766235352871f1a959be`) recognizes explicit local path
+`a104a29af571b760738c50ebfc5b07ad7a1b6d98` (tree
+`157ae0ce007c182883b2bfb0a796ba0e3c967c67`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-61/61 controls and 113/113 designated mutations passed in both modes. The exact
+64/64 controls and 116/116 designated mutations passed in both modes. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`4570a88f28c101140a1f9b2113151326b251dd0ef75cd8dbb5424f2c812dcafc`,
-56,304 bytes each),
-with zero production findings and exactly 28 historical one-shot browser
-tools still unexercised; both runs exited 1. Adverse controls refuse mere path
+`dccbf430bd9aae6686b52f322657b0c5d21277949f9ee253661f28cf69160caf`,
+56,295 bytes each),
+with zero production findings and exactly 29 no-current-exercise tool
+candidates; both runs exited 1. Adverse controls refuse mere path
 mentions, fake same-named APIs, interpreter command-mode arguments, unreachable
 helpers, arbitrary unknown branches and JavaScript same-line decoys outside the
 selected child-process call. Filesystem-root traversal terminates and reachable
@@ -288,9 +288,14 @@ prefix refuses attribution while a dynamic suffix after a proven tool does not
 erase the proven prefix. Boolean `or` is left-to-right, local callees cannot
 inherit module wrappers, quoted JavaScript calls remain data, and resolved
 starred elements, `unittest` lifecycle methods and trusted loader wrappers are
-recognized. Static evidence is not runtime
-proof. Exact dormant dispositions and the final orchestrator remain unfinished;
-G11 is FAIL.
+recognized. Class methods do not register as bare module wrappers. A known
+conditional expression selects only its taken command branch; unknown
+alternatives receive evidence only from the intersection of every branch. An
+intervening JavaScript assignment invalidates an earlier URL binding. The
+stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the former
+28-tool result remains historical and is not rebound. Static evidence is not
+runtime proof. Exact dormant dispositions and the final orchestrator remain
+unfinished; G11 is FAIL.
 
 ## Missing final orchestrator
 
