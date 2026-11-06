@@ -1,0 +1,106 @@
+{
+ "lean_dir": "<git archive dfa9b30a>/reviews/w3_side24_source_proposal_20261008",
+ "files": 3,
+ "files_evaluated": 3,
+ "targets": 77,
+ "status_counts": {
+  "UNSUPPORTED": 70,
+  "CORROBORATED": 7
+ },
+ "unsupported_reasons": {
+  "unknown function": 19,
+  "Mathlib notation": 12,
+  "definition outside the interpreter": 12,
+  "unparsed statement": 8,
+  "binder outside the interpreter": 7,
+  "existential quantifier": 3,
+  "proposition outside the interpreter": 3,
+  "transcendental function": 2,
+  "hypothesis outside the interpreter": 2,
+  "other": 1,
+  "unknown name": 1
+ },
+ "sampling": {
+  "seed": 1,
+  "samples": 64
+ },
+ "exit_code": 1,
+ "copies": 0
+}
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.d2Alpha_eq_src: unknown function d2Alpha
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.d2Gamma_eq_src: unknown function d2Gamma
+CORROBORATED: W3Scratch/D2SchurLinks.lean::W3Scratch.srcE_sq: holds on 4 sampled instances satisfying the hypotheses (1008 draws rejected by the hypotheses, 0 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it — WEAK: only 4 i
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.d2DetV_eq_alpha_gamma_q: unknown function d2DetV
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.d2DetV_eq_srcDet: unknown function d2DetV
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.d2DetV_eq_alpha_gamma_e: unknown function d2DetV
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.d2DetV_eq_det_varV: unparsed statement: SyntaxError: trailing tokens from '!'
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.d2DetV_eq_note_linear: unknown function d2DetV
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.d2DetV_eq_alpha_gamma_e_needs_unit: unknown function d2DetV
+CORROBORATED: W3Scratch/D2SchurLinks.lean::W3Scratch.srcQ_mem_Icc: holds on 4 sampled instances satisfying the hypotheses (1008 draws rejected by the hypotheses, 0 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it — WEAK: only 4 i
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.exists_unit_of_mem_Icc: unsupported syntax: existential quantifier
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.unit_q_range: unsupported syntax: existential quantifier
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.unit_q_image: unsupported syntax: notation "'"
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.srcQTheta_eq: transcendental Real.cos is outside the exact algebraic backend
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.srcQTheta_range: unknown function Set.range
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.d2_schur_endpoint_isLeast: unsupported syntax: notation "'"
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.d2_schur_endpoint_sInf: unsupported syntax: notation "'"
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.d2_schur_min_over_unit_directions: unparsed statement: SyntaxError: trailing tokens from '{'
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.d2_schur_min_over_angles: unparsed statement: SyntaxError: expected ')', got fun
+CORROBORATED: W3Scratch/D2SchurLinks.lean::W3Scratch.moments_of_cumulants: holds on 64 sampled instances satisfying the hypotheses (0 draws rejected by the hypotheses, 0 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it
+CORROBORATED: W3Scratch/D2SchurLinks.lean::W3Scratch.cumulants_of_moments: holds on 64 sampled instances satisfying the hypotheses (0 draws rejected by the hypotheses, 0 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it
+CORROBORATED: W3Scratch/D2SchurLinks.lean::W3Scratch.gaussian_cumulants_iff: holds on 64 sampled instances satisfying the hypotheses (0 draws rejected by the hypotheses, 0 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it
+CORROBORATED: W3Scratch/D2SchurLinks.lean::W3Scratch.k4_sq_div: holds on 64 sampled instances satisfying the hypotheses (0 draws rejected by the hypotheses, 0 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.d2Tau_eq_srcTau: unknown function d2Tau
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.d2Schur_eq_srcSchur: unknown function d2Schur
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.d2Numerator_eq_comment: unknown function d2Numerator
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.src_delta_cumulant: unknown function d2Delta
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.restrict_all_q: binder { P : ℝ → Prop } is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.note_section2_every_direction: unknown function d2DetV
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.gaussian_control_on_Icc: unknown function Set.Icc
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.positivity_every_direction: hypothesis ( hΔ : 0 < d2Delta m2 m4 m6 ) mentions undeclared names ['d2Delta']
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.lagrange_weighted: unsupported syntax: notation '∑'
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.double_sum_pos: binder ( F : ι → ι → ℝ ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.finite_law_moment_hyps: binder ( hsum : ∑ i , p i = 1 ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
+UNSUPPORTED: W3Scratch/D2SchurLinks.lean::W3Scratch.finite_law_positivity_every_direction: binder ( hsum : ∑ i , p i = 1 ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
+UNSUPPORTED: W3Scratch/Side24Law.lean::W3Scratch.Side24.residual4_tsum: binder ( hs : ∀ n : ℕ , Summable fun i => w i * a i ^ n ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
+UNSUPPORTED: W3Scratch/Side24Law.lean::W3Scratch.Side24.residual6_tsum: binder ( hs : ∀ n : ℕ , Summable fun i => w i * a i ^ n ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
+CORROBORATED: W3Scratch/Side24Law.lean::W3Scratch.Side24.sq_pos_of_ne: holds on 64 sampled instances satisfying the hypotheses (1 draws rejected by the hypotheses, 0 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it
+UNSUPPORTED: W3Scratch/Side24Law.lean::W3Scratch.Side24.countable_law_moment_hyps: hypothesis ( hw : ∀ i , 0 ≤ w i ) mentions undeclared names ['w']
+UNSUPPORTED: W3Scratch/Side24Law.lean::W3Scratch.Side24.weight_pos: transcendental Real.exp is outside the exact algebraic backend
+UNSUPPORTED: W3Scratch/Side24Law.lean::W3Scratch.Side24.summable_weight_mul_atom_pow: unparsed statement: SyntaxError: trailing tokens from 'fun'
+UNSUPPORTED: W3Scratch/Side24Law.lean::W3Scratch.Side24.summable_sixth: unparsed statement: SyntaxError: trailing tokens from 'fun'
+UNSUPPORTED: W3Scratch/Side24Law.lean::W3Scratch.Side24.dualZ_pos: definition rawSum has an unparsed body
+UNSUPPORTED: W3Scratch/Side24Law.lean::W3Scratch.Side24.dual_normalized: unsupported syntax: notation '∑'
+UNSUPPORTED: W3Scratch/Side24Law.lean::W3Scratch.Side24.dual_odd_moment_zero: definition rawSum has an unparsed body
+UNSUPPORTED: W3Scratch/Side24Law.lean::W3Scratch.Side24.dual_moment_hyps: lawMoment applied to 3 of 1 arguments
+UNSUPPORTED: W3Scratch/Side24Law.lean::W3Scratch.Side24.dual_positivity_every_direction: unknown function d2DetV
+UNSUPPORTED: W3Scratch/Side24Law.lean::W3Scratch.Side24.imageSum_zero: definition imageSum has an unparsed body
+UNSUPPORTED: W3Scratch/Side24Law.lean::W3Scratch.Side24.theta_zero_eq_dual: definition theta has an unparsed body
+UNSUPPORTED: W3Scratch/Side24Law.lean::W3Scratch.Side24.theta_term_iteratedDeriv: unknown function iteratedDeriv
+UNSUPPORTED: W3Scratch/Side24Law.lean::W3Scratch.Side24.imageSum_even_eq_tsum_termwise: unsupported syntax: notation '∑'
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.theta_eq_cos_series: unsupported syntax: notation '∑'
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.contDiff_gauss: unsupported syntax: notation '∞'
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.hasDerivAt_iterate_deriv_gauss: proposition of form App
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.poly_exp_bound: binder ( p : Polynomial ℤ ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.abs_sub_sq_le: unknown name π
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.iterate_deriv_gauss_bound: unsupported syntax: existential quantifier
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.summable_majorant: unparsed statement: SyntaxError: trailing tokens from 'fun'
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.summable_thetaD_terms: unparsed statement: SyntaxError: trailing tokens from 'fun'
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.hasDerivAt_thetaD: proposition of form App
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.summable_abs_weight_mul_atom_pow: unparsed statement: SyntaxError: trailing tokens from 'fun'
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.cosD_term_bound: unsupported syntax: notation '‖'
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.hasDerivAt_cosD: proposition of form App
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.thetaD_zero: definition thetaD has an unparsed body
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.cosD_zero: unsupported syntax: notation '∑'
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.iteratedDeriv_theta: unknown function iteratedDeriv
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.iteratedDeriv_theta_termwise: unsupported syntax: notation '∑'
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.iteratedDeriv_cos_series: unsupported syntax: notation '∑'
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.thetaD_eq_cosD: definition thetaD has an unparsed body
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.imageSum_even_eq_thetaD: definition imageSum has an unparsed body
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.iteratedDeriv_theta_zero_even: unknown function iteratedDeriv
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.cosD_even_zero: definition cosD has an unparsed body
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.imageSum_even_eq: definition imageSum has an unparsed body
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.imageMoment_even_eq_dualMoment: definition imageSum has an unparsed body
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.imageMoment_eq_dualMoment: definition imageSum has an unparsed body
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.image_moment_hyps: definition imageSum has an unparsed body
+UNSUPPORTED: W3Scratch/Side24Poisson.lean::W3Scratch.Side24.image_positivity_every_direction: unknown function d2DetV
