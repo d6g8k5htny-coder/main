@@ -1118,9 +1118,11 @@ def _python_execution_wrappers(tree, imports):
         for statement in body:
             if isinstance(statement, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 positions = wrapper_positions(statement)
+                key = (containing_scope, statement.name)
                 if positions:
-                    wrappers[(containing_scope, statement.name)] = (
-                        positions, statement.lineno)
+                    wrappers[key] = (positions, statement.lineno)
+                else:
+                    wrappers.pop(key, None)
                 register(statement.body, id(statement))
             elif isinstance(statement, ast.ClassDef):
                 register(statement.body, id(statement))
@@ -1165,6 +1167,12 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                           if isinstance(node, ast.AugAssign) else node.value)
             value = _python_static_value(value_node, local, module_bindings, source_path,
                                          active_imports, static_shadowed)
+            if isinstance(node, ast.AugAssign) and isinstance(node.target, ast.Name):
+                destination = module_bindings if scope is None else local
+                prior = destination.get(node.target.id, module_bindings.get(node.target.id))
+                if isinstance(prior, list) and isinstance(value, list):
+                    prior[:] = value
+                    value = prior
             _bind_python_value(node, value, local, module_bindings, scope)
         if isinstance(node, ast.Import):
             for alias in node.names:
@@ -1339,6 +1347,8 @@ def js_tool_references(text, source_path, tools):
             if parts and parts[0] in allowed_child_calls:
                 child_names.add(parts[-1])
     for call_start, callee, arguments in _js_call_arguments(visible, child_names):
+        if not _js_call_is_reachable(visible, call_start):
+            continue
         if _js_parameter_shadows(visible, call_start, callee):
             continue
         if _js_local_declaration_shadows(visible, call_start, callee):
@@ -1583,6 +1593,47 @@ def _js_function_scope_key(text, position):
     containing = [(open_brace, close_brace) for _start, _end, open_brace, close_brace in scopes
                   if open_brace < position < close_brace]
     return max(containing, key=lambda item: item[0]) if containing else None
+
+
+def _js_call_is_reachable(text, position):
+    """Bound child-process calls to literal-live blocks and invoked helpers."""
+    searchable, scopes = _js_function_scopes(text)
+
+    def in_literal_false_block(candidate):
+        pattern = re.compile(r"\bif\s*\(\s*false\s*\)\s*\{")
+        for match in pattern.finditer(searchable):
+            open_brace = match.end() - 1
+            close_brace = _js_matching_delimiter(searchable, open_brace, "{", "}")
+            if close_brace is not None and open_brace < candidate < close_brace:
+                return True
+        return False
+
+    if in_literal_false_block(position):
+        return False
+    containing = sorted(
+        (scope for scope in scopes if scope[2] < position < scope[3]),
+        key=lambda item: item[2], reverse=True)
+    for param_start, _param_end, open_brace, close_brace in containing:
+        header = re.search(
+            r"\bfunction\s+([A-Za-z_$][\w$]*)\s*\($", searchable[:param_start])
+        if header is None:
+            return False
+        name = header.group(1)
+        calls = re.compile(
+            r"(?<![\w$.])" + re.escape(name) + r"(?![\w$])\s*\(")
+        invoked = False
+        for call in calls.finditer(searchable):
+            if call.start() == header.start(1):
+                continue
+            if open_brace < call.start() < close_brace:
+                continue
+            if in_literal_false_block(call.start()):
+                continue
+            invoked = True
+            break
+        if not invoked:
+            return False
+    return True
 
 
 def _js_parameter_shadows(text, position, name):

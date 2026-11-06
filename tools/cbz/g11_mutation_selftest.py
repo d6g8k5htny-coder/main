@@ -596,6 +596,21 @@ NEW_MUTATIONS = [
      "                call_line = node.lineno",
      "tests.test_g11_census.ToolChecks.test_deferred_caller_sees_wrapper_defined_before_invocation",
      'self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])'),
+    ("later nonforwarding wrapper definition retains registration", "census",
+     "                else:\n                    wrappers.pop(key, None)",
+     "                elif False:\n                    wrappers.pop(key, None)",
+     "tests.test_g11_census.ToolChecks.test_later_nonforwarding_wrapper_definition_replaces_registration",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("list augmented assignment breaks alias identity", "census",
+     "                if isinstance(prior, list) and isinstance(value, list):\n                    prior[:] = value\n                    value = prior",
+     "                if False:\n                    prior[:] = value\n                    value = prior",
+     "tests.test_g11_census.ToolChecks.test_list_augmented_assignment_preserves_alias_identity",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("JavaScript unreachable child-process call accepted", "census",
+     "        if not _js_call_is_reachable(visible, call_start):\n            continue",
+     "        if False:\n            continue",
+     "tests.test_g11_census.ToolChecks.test_js_unreachable_child_process_calls_are_not_references",
+     'self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()},'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -733,6 +748,9 @@ EXPECTED_MUTATION_NAMES = (
     "JavaScript enclosing declaration shadow ignored",
     "wrapper traversal continues after return",
     "deferred wrapper availability uses source line",
+    "later nonforwarding wrapper definition retains registration",
+    "list augmented assignment breaks alias identity",
+    "JavaScript unreachable child-process call accepted",
 )
 
 
@@ -911,7 +929,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 82
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 85
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
