@@ -916,6 +916,13 @@ def _bind_python_value(node, value, local, module, scope):
             while isinstance(root, (ast.Subscript, ast.Attribute)):
                 root = root.value
             if isinstance(root, ast.Name):
+                prior = destination.get(root.id, module.get(root.id))
+                if isinstance(prior, list):
+                    environments = (destination,) if destination is module else (destination, module)
+                    for environment in environments:
+                        for name, bound in list(environment.items()):
+                            if bound is prior:
+                                environment[name] = _UNRESOLVED_STATIC
                 destination[root.id] = _UNRESOLVED_STATIC
             return
         if isinstance(target, (ast.Tuple, ast.List)):
@@ -951,16 +958,40 @@ def _command_tool_values(value, tools):
     if not isinstance(value, list) or not value:
         return _tool_values(value, tools)
     first = value[0]
-    interpreters = {"<python>", "python", "python3", "python3.11", "bash", "sh"}
+    python_interpreters = {"<python>", "python", "python3", "python3.11"}
+    shell_interpreters = {"bash", "sh"}
+    interpreters = python_interpreters | shell_interpreters
     if first not in interpreters:
         return _tool_values(first, tools)
     arguments = value[1:]
+    if first in python_interpreters:
+        terminating_options = {"-", "-c", "-m"}
+        operand_options = {"-W", "-X", "--check-hash-based-pycs"}
+        attached_options = ("-W", "-X")
+    else:
+        terminating_options = {"-c", "-s"}
+        operand_options = {"-O", "+O", "-o", "+o", "--init-file", "--rcfile"}
+        attached_options = ()
+    consume_operand = False
+    parsing_options = True
     for token in arguments:
         if not isinstance(token, str):
             return set()
-        if token in {"-c", "-m"}:
+        if consume_operand:
+            consume_operand = False
+            continue
+        if parsing_options and token == "--":
+            parsing_options = False
+            continue
+        if parsing_options and token in terminating_options:
             return set()
-        if token.startswith("-"):
+        if parsing_options and token in operand_options:
+            consume_operand = True
+            continue
+        if parsing_options and any(token.startswith(option) and token != option
+                                   for option in attached_options):
+            continue
+        if parsing_options and token.startswith(("-", "+")):
             continue
         path = _tool_for_token(token, tools)
         return {path} if path else set()
@@ -1239,6 +1270,8 @@ def js_tool_references(text, source_path, tools):
             continue
         identifiers = _js_expression_identifiers(arguments)
         for name, declarations in bindings.items():
+            if _js_parameter_shadows(visible, call_start, name):
+                continue
             available = [declaration for declaration in declarations
                          if declaration[0] <= call_start]
             if name not in identifiers or not available:
