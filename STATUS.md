@@ -46,9 +46,11 @@ not full AST/type/theorem synchronization. New gating tools require documented
 commands and self-verification before admission; unavailable or unsupported
 coverage remains explicit. No documented command here runs all G0-G11 yet.
 
-The empirical statement check for core-Lean arithmetic skeletons is a registered
-bounded component on `main` ([PR #726](https://github.com/d6g8k5htny-coder/main/pull/726),
-merged `d0d384b18a409ed51061458287dde22816782210`). From a checkout, run:
+The empirical statement check (G12) is a registered bounded component on `main`
+([PR #726](https://github.com/d6g8k5htny-coder/main/pull/726) `d0d384b1`, extended by
+[#742](https://github.com/d6g8k5htny-coder/main/pull/742), [#743](https://github.com/d6g8k5htny-coder/main/pull/743)
+and [#752](https://github.com/d6g8k5htny-coder/main/pull/752), merged `a7295bf20741c111da06d72faa846536ff76fa1c`).
+From a checkout, run:
 
 ```
 python3 -B -S -m unittest tests.test_cbz_statement_fuzz -v
@@ -56,13 +58,17 @@ python3 -B -O -S -m unittest tests.test_cbz_statement_fuzz -v
 python3 -B -S tools/cbz/statement_fuzz.py --package formal --selftest --json report.json
 ```
 
-It evaluates every registered Lean statement of a formal package independently in exact
-arithmetic with Lean-core semantics and grades itself by a mutation contract; the
+It reads every registered Lean statement of a formal package (and, in census mode `--lean-dir`, every
+declaration of a directory) independently of Lean in exact arithmetic with Lean's conventions, samples binders
+before the colon at exact pathological values and on finite discrete models, grades itself by a mutation
+contract, and reports PASS / CORROBORATED / FAIL / UNSUPPORTED fail-closed; the
 [registration](GOVERNANCE.md#empirical-statement-check-for-core-lean-arithmetic-skeletons-bounded-registration)
-records commands, hosted self-verification and limits. At [registration #741](https://github.com/d6g8k5htny-coder/main/pull/741): main `formal/` 31/31
-PASS; the Math- core's 63 real-analysis statements are UNSUPPORTED, which is the honest
-coverage at that source cut, not a pass. A PASS is statement-level evidence
-only: not kernel evidence, not scientific acceptance, not the common G0-G11 run.
+records commands, hosted self-verification, limits and the row field
+`G12: PASS | CORROBORATED | not applicable (<construct>)`. At `a7295bf2`: main `formal/` 59/59 PASS; Math-
+`formal/` 3 PASS · 56 CORROBORATED · 4 UNSUPPORTED (named); every Lean declaration of Math- at `dfa9b30a`
+(3,782): 7 · 128 · 0 · 3,647, each UNSUPPORTED classified by construct. CORROBORATED is admitted evidence,
+never a proof; a PASS is statement-level evidence only: not kernel evidence, not scientific acceptance, not
+the common G0-G11 run.
 
 The finite MomentTail component is a registered bounded candidate in
 [Math PR #545](https://github.com/d6g8k5htny-coder/Math-/pull/545), exact source
