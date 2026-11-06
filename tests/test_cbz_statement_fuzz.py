@@ -847,8 +847,28 @@ class CensusModeTests(unittest.TestCase):
             self.assertEqual(report['defs_from']['dirs'], [str(root / 'spec')])
             self.assertEqual(report['defs_from']['files'], 2)
             self.assertEqual(report['defs_from']['files_pooled'], 1)                                     # Other.lean is byte-identical to Copy.lean
-            self.assertEqual(report['defs_from']['byte_identical_to_group'], {'spec/Spec/Other.lean': 'Proofs/Copy.lean'})
-            self.assertEqual(set(report['defs_from']['file_sha256']), {'spec/Spec/P15.lean', 'spec/Spec/Other.lean'})
+            self.assertEqual(report['defs_from']['byte_identical_to_group'], {'<defs-from 1:spec>/Spec/Other.lean': 'Proofs/Copy.lean'})
+            self.assertEqual(set(report['defs_from']['file_sha256']), {'<defs-from 1:spec>/Spec/P15.lean', '<defs-from 1:spec>/Spec/Other.lean'})
+            # P3 (01SHCrxv, 759/6680798254): a group subdirectory named like the dependency root, with the same relative
+            # path, must not overwrite the pooled dependency file — the pool keys carry a prefix no group path can produce
+            (root / 'proofs' / 'spec' / 'Spec').mkdir(parents=True)
+            (root / 'proofs' / 'spec' / 'Spec' / 'P15.lean').write_text(
+                'import Mathlib\nnamespace Spec.P15\ndef phi (p : ℝ) : ℝ := p + p\nend Spec.P15\n')
+            collided = sf.check_lean_dir(root / 'proofs', defs_from=(root / 'spec',))
+            self.assertEqual(collided['defs_from']['files_pooled'], 1)            # P15 (Other is the byte-identical copy)
+            self.assertEqual(collided['files_evaluated'], 3)                      # the group's own spec/Spec/P15.lean is a module
+            self.assertEqual(collided['per_target']['Proofs/P15Elementary.lean::Proofs.phi_two']['status'], 'UNSUPPORTED')  # ambiguous now
+            self.assertIn('ambiguous', collided['per_target']['Proofs/P15Elementary.lean::Proofs.phi_two']['detail'])
+            # two dependency roots with the same basename are kept apart too
+            (root / 'other' / 'spec' / 'Spec').mkdir(parents=True)
+            (root / 'other' / 'spec' / 'Spec' / 'P15.lean').write_text(
+                'import Mathlib\nnamespace Spec.P15\ndef phi (p : ℝ) : ℝ := p * 3\nend Spec.P15\n')
+            (root / 'proofs' / 'spec' / 'Spec' / 'P15.lean').unlink()
+            two = sf.check_lean_dir(root / 'proofs', defs_from=(root / 'spec', root / 'other' / 'spec'))
+            self.assertEqual(two['defs_from']['files_pooled'], 2)
+            self.assertEqual(sorted(two['defs_from']['file_sha256']), ['<defs-from 1:spec>/Spec/Other.lean', '<defs-from 1:spec>/Spec/P15.lean',
+                                                                      '<defs-from 2:spec>/Spec/P15.lean'])
+            self.assertIn('ambiguous', two['per_target']['Proofs/P15Elementary.lean::Proofs.phi_two']['detail'])
             self.assertEqual(report['unresolved_imports'], {'Spec.Missing': ['Proofs/P15Elementary.lean']})
             # a name defined differently in the dependency and in another group module is ambiguous, fail-closed
             (root / 'proofs' / 'Proofs' / 'Shadow.lean').write_text(

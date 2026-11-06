@@ -519,7 +519,10 @@ the `pairingSum` monotonicity and bounds, the W3 scratch links `d2DetV_eq_*`, `d
 companions' `schur_no_upper`, `schur_from_lower_inputs`, `residual_integral_eq_delta`, `zero_atom_counterexample`. Tests 105 →
 **107** (`CensusModeTests`: the dependency pool with a Lake-style layout — resolution, shadowing by the module's own definition,
 byte-identical skip, import accounting, the ambiguity rule across dependency and group; the big-operator and work caps with a
-`pairingSum` fixture). Package receipts are unchanged (the caps change no package verdict).
+`pairingSum` fixture). Package receipts are unchanged (the caps change no package verdict). Review (01SHCrxv, 759/6680798254, PASS): pooled
+dependency files are keyed `<defs-from i:name>/<path>`, a prefix no group path can produce, so a group subdirectory named
+like a dependency root, or two dependency roots with the same basename, can no longer collide and overwrite a pooled file
+(P3, latent — zero collisions in the census configuration); the collision cases are tests now.
 
 ## Proposed gate row and registry entries (for Root; B-003)
 

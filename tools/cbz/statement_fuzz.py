@@ -5256,12 +5256,16 @@ def check_lean_dir(root, exclude=(), seed=1, samples=64, defs_from=()):
         seen_hash[h] = rel
         sources[rel] = p.read_text(encoding='utf-8', errors='replace')
         modules[rel] = parse_module(sources[rel])
-    # definitions imported from dependency directories: pooled, never targets
+    # definitions imported from dependency directories: pooled, never targets. Pool keys carry a prefix no group path
+    # can produce (`<defs-from i:name>/…`), so a group subdirectory named like a dependency root, or two dependency
+    # roots with the same basename, cannot collide and silently overwrite a pooled file (01SHCrxv, 759/6680798254 P3)
     imported, imported_hashes, imported_skipped = {}, {}, {}
-    for d in defs_from:
+    for i, d in enumerate(defs_from, 1):
         droot = pathlib.Path(d)
         for p in sorted(q for q in droot.rglob('*.lean') if not any(x in str(q.relative_to(droot)) for x in exclude)):
-            rel = f'{droot.name}/{p.relative_to(droot)}'
+            rel = f'<defs-from {i}:{droot.name}>/{p.relative_to(droot)}'
+            if rel in imported_hashes or rel in hashes:
+                raise AssertionError(f'pool key collision: {rel}')      # pragma: no cover - the prefix makes this impossible
             h = _sha256(p)
             imported_hashes[rel] = h
             if h in seen_hash:
@@ -5269,10 +5273,12 @@ def check_lean_dir(root, exclude=(), seed=1, samples=64, defs_from=()):
                 continue
             seen_hash[h] = rel
             imported[rel] = parse_module(p.read_text(encoding='utf-8', errors='replace'))
-    share_definitions({**imported, **modules})
+    pool = {**imported, **modules}
+    assert len(pool) == len(imported) + len(modules)
+    share_definitions(pool)
     # import accounting: every `import` of a target module names a group file, a dependency file or a library
     module_names = {rel[:-5].replace('/', '.') for rel in list(hashes)} | \
-                   {rel.split('/', 1)[1][:-5].replace('/', '.') for rel in list(imported_hashes) if '/' in rel}
+                   {rel.split('>/', 1)[1][:-5].replace('/', '.') for rel in list(imported_hashes)}
     unresolved = {}
     for rel, src in sources.items():
         for name in _imports(src):
