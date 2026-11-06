@@ -10,15 +10,19 @@ Its mathematical statements, source cuts and review limits are preserved.
 
 ## Current maintenance snapshot — 6 November 2026
 
-The current default revisions observed sequentially are Main
-`04989724b5142f8eea8d41946d0367d0372d845a`, Math-
-`f532c3e2d91a0c7679a37c733741660917a9b21b` and Workspace
-`ed9a1e0106d616bc3a1eabb213fe4605f9e30813`. A fresh organization-visible
-search found zero open pull requests. The available local checkout root was
-observed with 14/14 clean checkouts, zero stashes, valid HEADs and no missing
-registered worktree paths. That is a bounded observation, not a perpetual or
-all-host guarantee. The exact remote census still contains 2,049 non-default
-branches requiring explicit integration, archival or dormant disposition.
+The Main default for this status is the revision containing this file; its
+source parent was `c4db7562640817ab5f23119571030851b964472c`.
+The sequentially observed Math- and Workspace defaults are
+`f532c3e2d91a0c7679a37c733741660917a9b21b` and
+`ed9a1e0106d616bc3a1eabb213fe4605f9e30813`. The Workspace pin still names
+the earlier Main `04989724b5142f8eea8d41946d0367d0372d845a`; strict-current
+pin agreement is therefore not claimed until a guarded Workspace refresh
+lands. Open-PR counts are dynamic and must be read from native refs rather
+than inferred from this file. The 12:04 UTC local checkout observation found
+14/14 clean checkouts, zero stashes, valid HEADs and no missing registered
+worktree paths; later isolated worktrees are outside that instant. The exact
+remote census still contains 2,049 non-default branches requiring explicit
+integration, archival or dormant disposition.
 
 The five canonical reading surfaces are this file,
 [PROOF_INDEX.md](PROOF_INDEX.md), [GOVERNANCE.md](GOVERNANCE.md),
@@ -28,6 +32,12 @@ orchestrator; and the baseline ledger marks every unawarded criterion. The
 latest durable v78 receipt is
 [Main #684 comment 6684436967](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6684436967).
 Neither that checkpoint nor this documentation repair establishes CBZ-0.
+Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
+39/39 tests and 76/76 designated mutants passing in both modes. Its fresh
+whole-tree census remains red on 55 tool documentation/exercise findings.
+Eleven active tools are registered in [TOOLING.md](TOOLING.md); 20 active
+static-attribution gaps and 28 no-current-exercise browser-tool candidates
+remain explicit residue. No final G11 or combined G0–G11 pass is claimed.
 
 ## Current verification boundary
 
