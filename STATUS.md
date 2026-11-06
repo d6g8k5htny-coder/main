@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has native source parent
-`5460251fa9dbfa9066cbb59d43539e74955c7a93`; its isolated work began from the
+`8cd0ddf850db11afc6a30bb808e05db7f19f6e72`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,11 +37,11 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `5460251fa9dbfa9066cbb59d43539e74955c7a93` (tree
-`e0e3f3fb71695f662798e903a4b39d0d30bff5d8`) passed 71/71 tests and killed
-123/123 designated mutants in both modes. Its byte-identical normal/optimized
+native source `8cd0ddf850db11afc6a30bb808e05db7f19f6e72` (tree
+`4202e7f69a53211355d97e426a67786c4cc19eea`) passed 74/74 tests and killed
+126/126 designated mutants in both modes. Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`257a4871ca18342d81134c16811609f4d0fbcbaabe67922a1e8cdfb50cfa2e10`,
+`897656f8f7931e95a61f54894e8b6e13f0fc144760116afb17b00da5bb4d00f0`,
 56,065 bytes each)
 contain zero production findings and retain exactly 29 no-current-exercise
 tool candidates; both census runs exit 1. The former 20 active
@@ -77,7 +77,12 @@ interpreter mode switches are interpreted only before the selected script;
 element or slice writes invalidate wrapper forwarding as well as direct static
 bindings; a helper-local invalidation cannot fall back to a same-named module
 binding; and identifiers in JavaScript default initializers are references,
-not parameter bindings. No intermediate result is rebound as a passing gate.
+not parameter bindings. Three subsequent review findings are repaired as well:
+recognized interpreter options consume their operands before script selection;
+an element write invalidates every resolved identity alias of the command list;
+and a function parameter shadowing a JavaScript URL binding blocks that stale
+module binding inside the function. No intermediate result is rebound as a
+passing gate.
 
 ## Current verification boundary
 

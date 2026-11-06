@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`5460251fa9dbfa9066cbb59d43539e74955c7a93`, based on Main default
+`8cd0ddf850db11afc6a30bb808e05db7f19f6e72`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,13 +263,13 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`5460251fa9dbfa9066cbb59d43539e74955c7a93` (tree
-`e0e3f3fb71695f662798e903a4b39d0d30bff5d8`) recognizes explicit local path
+`8cd0ddf850db11afc6a30bb808e05db7f19f6e72` (tree
+`4202e7f69a53211355d97e426a67786c4cc19eea`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-71/71 controls and 123/123 designated mutations passed in both modes. The exact
+74/74 controls and 126/126 designated mutations passed in both modes. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`257a4871ca18342d81134c16811609f4d0fbcbaabe67922a1e8cdfb50cfa2e10`,
+`897656f8f7931e95a61f54894e8b6e13f0fc144760116afb17b00da5bb4d00f0`,
 56,065 bytes each),
 with zero production findings and exactly 29 no-current-exercise tool
 candidates; both runs exited 1. Adverse controls refuse mere path
@@ -299,7 +299,10 @@ that function. Interpreter mode switches are interpreted only before the
 selected script; wrapper element writes invalidate forwarding; helper-local
 invalidations remain unresolved instead of inheriting module bindings; and
 JavaScript default initializer references do not shadow their imported
-callees. The
+callees. Recognized interpreter options consume their operands before script
+selection, command-list element writes invalidate every resolved identity
+alias, and a function parameter shadows a same-named JavaScript URL binding
+within that function. The
 stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the former
 28-tool result remains historical and is not rebound. Static evidence is not
 runtime proof. Exact dormant dispositions and the final orchestrator remain

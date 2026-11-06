@@ -126,17 +126,17 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`5460251fa9dbfa9066cbb59d43539e74955c7a93` (tree
-`e0e3f3fb71695f662798e903a4b39d0d30bff5d8`) extends the existing bounded
+`8cd0ddf850db11afc6a30bb808e05db7f19f6e72` (tree
+`4202e7f69a53211355d97e426a67786c4cc19eea`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 71/71 controls and killed 123/123 designated
+The exact source commit passed 74/74 controls and killed 126/126 designated
 mutants in each mode. Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`257a4871ca18342d81134c16811609f4d0fbcbaabe67922a1e8cdfb50cfa2e10`,
+`897656f8f7931e95a61f54894e8b6e13f0fc144760116afb17b00da5bb4d00f0`,
 56,065 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
@@ -172,6 +172,10 @@ before script selection, so later `-c`/`-m` tokens remain program arguments.
 Element and slice writes invalidate wrapper forwarding as well as direct
 aggregates; helper-local invalidation cannot fall back to a module binding;
 and JavaScript default initializer references are not parameter bindings.
+Recognized interpreter options consume their operands before script selection;
+element writes invalidate every identity alias of a resolved command list; and
+a function parameter shadowing a JavaScript URL binding blocks the outer
+binding inside that function.
 The stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the
 earlier 28-tool result remains historical and is not rebound.
 
