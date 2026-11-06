@@ -51,6 +51,33 @@ PRODUCTION = {"tooling", "site"}
 _UNRESOLVED_STATIC = object()
 
 
+class _StaticAlternatives(tuple):
+    """Resolved mutually exclusive values whose active branch is not statically known."""
+
+
+def _static_alternatives(values):
+    distinct = []
+    for value in values:
+        if not any(value == prior for prior in distinct):
+            distinct.append(value)
+    return distinct[0] if len(distinct) == 1 else _StaticAlternatives(distinct)
+
+
+def _static_add(left, right):
+    left_values = left if isinstance(left, _StaticAlternatives) else (left,)
+    right_values = right if isinstance(right, _StaticAlternatives) else (right,)
+    results = []
+    for left_value in left_values:
+        for right_value in right_values:
+            if isinstance(left_value, list) and isinstance(right_value, list):
+                results.append(left_value + right_value)
+            elif isinstance(left_value, str) and isinstance(right_value, str):
+                results.append(left_value + right_value)
+            else:
+                return None
+    return _static_alternatives(results)
+
+
 def area(path):
     name = path.rsplit("/", 1)[-1]
     if (path.startswith("tests/") or "/tests/" in path or name == "conftest.py"
@@ -800,17 +827,20 @@ def _python_static_value(node, local, module, source_path, imports, scope_shadow
     if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
         left = _python_static_value(node.left, local, module, source_path, imports, scope_shadowed)
         right = _python_static_value(node.right, local, module, source_path, imports, scope_shadowed)
-        if isinstance(left, list) and isinstance(right, list):
-            return left + right
-        if isinstance(left, str) and isinstance(right, str):
-            return left + right
-        return None
+        return _static_add(left, right)
     if isinstance(node, ast.IfExp):
-        body = _python_static_value(node.body, local, module, source_path, imports, scope_shadowed)
-        other = _python_static_value(node.orelse, local, module, source_path, imports, scope_shadowed)
-        if isinstance(body, list) and isinstance(other, list):
-            return body + [value for value in other if value not in body]
-        return body if body == other else None
+        truth = _literal_bool(node.test)
+        if truth is not None:
+            selected = node.body if truth else node.orelse
+            return _python_static_value(selected, local, module, source_path, imports,
+                                        scope_shadowed)
+        body = _python_static_value(node.body, local, module, source_path, imports,
+                                    scope_shadowed)
+        other = _python_static_value(node.orelse, local, module, source_path, imports,
+                                     scope_shadowed)
+        if body is None or other is None:
+            return None
+        return _static_alternatives((body, other))
     if isinstance(node, (ast.List, ast.Tuple)):
         values = []
         for element in node.elts:
@@ -894,11 +924,17 @@ def _bind_python_value(node, value, local, module, scope):
 
 
 def _tool_values(value, tools):
+    if isinstance(value, _StaticAlternatives):
+        choices = [_tool_values(choice, tools) for choice in value]
+        return set.intersection(*choices) if choices else set()
     values = value if isinstance(value, list) else [value]
     return {_tool_for_token(item, tools) for item in values if isinstance(item, str)} - {None}
 
 
 def _command_tool_values(value, tools):
+    if isinstance(value, _StaticAlternatives):
+        choices = [_command_tool_values(choice, tools) for choice in value]
+        return set.intersection(*choices) if choices else set()
     if not isinstance(value, list) or not value:
         return _tool_values(value, tools)
     first = value[0]
@@ -982,7 +1018,7 @@ def _python_execution_wrappers(tree, imports):
                     wrappers[(containing_scope, statement.name)] = positions
                 register(statement.body, id(statement))
             elif isinstance(statement, ast.ClassDef):
-                register(statement.body, containing_scope)
+                register(statement.body, id(statement))
 
     register(tree.body)
     return wrappers
@@ -1057,7 +1093,7 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                 for arg in node.args:
                     value = _python_static_value(arg, local, module_bindings, source_path,
                                                  active_imports, static_shadowed)
-                    if isinstance(value, list):
+                    if isinstance(value, (list, _StaticAlternatives)):
                         references.update(_command_tool_values(value, tools))
                         continue
                     if isinstance(arg, (ast.List, ast.Tuple)):
@@ -1165,7 +1201,7 @@ def js_tool_references(text, source_path, tools):
             continue
         target = posixpath.normpath(posixpath.join(posixpath.dirname(source_path), specifier))
         if target in tools:
-            bindings[match.group(1)] = target
+            bindings.setdefault(match.group(1), []).append((match.end(), target))
     child_names = set()
     named_import = re.compile(
         r"\bimport\s*\{([^}]*)\}\s*from\s*['\"](?:node:)?child_process['\"]")
@@ -1175,10 +1211,18 @@ def js_tool_references(text, source_path, tools):
             parts = re.split(r"\s+as\s+", item.strip())
             if parts and parts[0] in allowed_child_calls:
                 child_names.add(parts[-1])
-    for arguments in _js_call_arguments(visible, child_names):
+    for call_start, arguments in _js_call_arguments(visible, child_names):
         identifiers = _js_expression_identifiers(arguments)
-        for name, target in bindings.items():
-            if name in identifiers:
+        for name, declarations in bindings.items():
+            available = [declaration for declaration in declarations
+                         if declaration[0] <= call_start]
+            if name not in identifiers or not available:
+                continue
+            declaration_end, target = available[-1]
+            assignment = re.compile(
+                r"(?<![\w$.])" + re.escape(name) +
+                r"(?![\w$])\s*(?:=(?!=|>)|\+\+|--|(?:\+|-|\*|/|%|&|\||\^|<<|>>)\s*=)")
+            if not assignment.search(visible[declaration_end:call_start]):
                 references.add(target)
     return references
 
@@ -1260,7 +1304,7 @@ def _js_call_arguments(text, names):
             elif char == ")":
                 depth -= 1
                 if depth == 0:
-                    arguments.append(text[start:index])
+                    arguments.append((match.start(), text[start:index]))
                     break
     return arguments
 

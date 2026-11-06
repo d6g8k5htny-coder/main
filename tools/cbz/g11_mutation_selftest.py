@@ -322,8 +322,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("subprocess path list ignored", "census",
-     "                    if isinstance(value, list):\n                        references.update(_command_tool_values(value, tools))\n                        continue",
-     "                    if isinstance(value, list):\n                        references.update(())\n                        continue",
+     "                    if isinstance(value, (list, _StaticAlternatives)):\n                        references.update(_command_tool_values(value, tools))\n                        continue",
+     "                    if isinstance(value, (list, _StaticAlternatives)):\n                        references.update(())\n                        continue",
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("environment path default ignored", "census",
@@ -337,8 +337,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("concatenated command lists ignored", "census",
-     "        if isinstance(left, list) and isinstance(right, list):\n            return left + right",
-     "        if isinstance(left, list) and isinstance(right, list):\n            return None",
+     "            if isinstance(left_value, list) and isinstance(right_value, list):\n                results.append(left_value + right_value)",
+     "            if isinstance(left_value, list) and isinstance(right_value, list):\n                return None",
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("lazy-load none guard ignored", "census",
@@ -367,8 +367,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_sibling_tool_path_execution_is_a_reference",
      "self.assertTrue(report[\"tools/family/worker.py\"][\"referenced\"])"),
     ("JavaScript URL tool binding ignored", "census",
-     "        if target in tools:\n            bindings[match.group(1)] = target",
-     "        if False:\n            bindings[match.group(1)] = target",
+     "        if target in tools:\n            bindings.setdefault(match.group(1), []).append((match.end(), target))",
+     "        if False:\n            bindings.setdefault(match.group(1), []).append((match.end(), target))",
      "tests.test_g11_census.ToolChecks.test_js_url_child_process_execution_is_a_reference",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("JavaScript URL mention accepted without child process", "census",
@@ -412,8 +412,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_function_local_process_import_is_trusted",
      "self.assertTrue(self.tools(tree)[\"tools/worker.py\"][\"referenced\"])"),
     ("JavaScript same-line mention accepted outside call arguments", "census",
-     "    for arguments in _js_call_arguments(visible, child_names):",
-     "    for arguments in visible.splitlines():",
+     "    for call_start, arguments in _js_call_arguments(visible, child_names):",
+     "    for arguments in visible.splitlines():\n        call_start = len(visible)",
      "tests.test_g11_census.ToolChecks.test_js_url_child_process_execution_is_a_reference",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("destructured path values rebound as aggregate", "census",
@@ -490,6 +490,21 @@ NEW_MUTATIONS = [
      "    path_calls = {\"importlib.util.spec_from_file_location\": 1, \"runpy.run_path\": 0}",
      "    path_calls = {\"runpy.run_path\": 0}",
      "tests.test_g11_census.ToolChecks.test_import_loader_wrapper_forwards_a_proven_tool_path",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("class method registered as module wrapper", "census",
+     "            elif isinstance(statement, ast.ClassDef):\n                register(statement.body, id(statement))",
+     "            elif isinstance(statement, ast.ClassDef):\n                register(statement.body, containing_scope)",
+     "tests.test_g11_census.ToolChecks.test_class_methods_do_not_register_as_module_wrappers",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("conditional command alternatives merged", "census",
+     "        if truth is not None:\n            selected = node.body if truth else node.orelse\n            return _python_static_value(selected, local, module, source_path, imports,\n                                        scope_shadowed)",
+     "        if truth is not None:\n            body = _python_static_value(node.body, local, module, source_path, imports, scope_shadowed)\n            other = _python_static_value(node.orelse, local, module, source_path, imports, scope_shadowed)\n            if isinstance(body, list) and isinstance(other, list):\n                return body + [value for value in other if value not in body]",
+     "tests.test_g11_census.ToolChecks.test_conditional_command_lists_select_only_the_taken_branch",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("reassigned JavaScript URL binding retains stale path", "census",
+     "            if not assignment.search(visible[declaration_end:call_start]):\n                references.add(target)",
+     "            if True:\n                references.add(target)",
+     "tests.test_g11_census.ToolChecks.test_js_reassigned_url_binding_does_not_keep_its_old_path",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
 
 ]
@@ -607,6 +622,9 @@ EXPECTED_MUTATION_NAMES = (
     "dynamic command suffix discards proven prefix",
     "unittest lifecycle methods ignored",
     "import loader wrapper forwarding ignored",
+    "class method registered as module wrapper",
+    "conditional command alternatives merged",
+    "reassigned JavaScript URL binding retains stale path",
 )
 
 
@@ -785,7 +803,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 61
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 64
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

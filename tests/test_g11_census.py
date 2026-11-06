@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "980c52145fe0d6d4963ed4c31f869a2e48c4b2c439a796b76aa9c05ffda131c3"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "48401cca825773344b98d8a4bdbacb545a3f009d1ab4bee732f9043e499ac90a"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -553,6 +553,48 @@ class ToolChecks(unittest.TestCase):
             "tools/dead.py": False, "tools/live.py": True,
         })
 
+    def test_class_methods_do_not_register_as_module_wrappers(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/unused.py\n",
+            "tests/test_wrapper.py": (
+                "import subprocess, unittest\n"
+                "def launch(arguments):\n"
+                "    return print(arguments)\n"
+                "class Dormant:\n"
+                "    @staticmethod\n"
+                "    def launch(arguments):\n"
+                "        return subprocess.run(arguments)\n"
+                "class Wrapper(unittest.TestCase):\n"
+                "    def test_wrapper(self):\n"
+                "        subprocess.run(['python3', 'tools/live.py'])\n"
+                "        launch(['python3', 'tools/unused.py'])\n"
+            ),
+        }
+        self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
+            "tools/live.py": True, "tools/unused.py": False,
+        })
+
+    def test_conditional_command_lists_select_only_the_taken_branch(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/unused.py\n",
+            "tests/test_commands.py": (
+                "import subprocess, unittest\n"
+                "LIVE = ['tools/live.py'] if True else ['echo']\n"
+                "UNUSED = ['tools/unused.py'] if False else ['echo']\n"
+                "class Commands(unittest.TestCase):\n"
+                "    def test_commands(self):\n"
+                "        subprocess.run(LIVE)\n"
+                "        subprocess.run(UNUSED)\n"
+            ),
+        }
+        self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
+            "tools/live.py": True, "tools/unused.py": False,
+        })
+
     def test_local_callee_shadows_do_not_inherit_module_wrappers(self):
         tree = {
             "tools/live.py": "x = 1\n",
@@ -720,6 +762,23 @@ class ToolChecks(unittest.TestCase):
                 "const unused=new URL('../tools/unused.mjs',import.meta.url);\n"
                 "spawnSync(process.execPath,[live]);\n"
                 "console.log('spawnSync(unused)');\n"
+            ),
+        }
+        self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
+            "tools/live.mjs": True, "tools/unused.mjs": False,
+        })
+
+    def test_js_reassigned_url_binding_does_not_keep_its_old_path(self):
+        tree = {
+            "tools/live.mjs": "export const live = true;\n",
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/live.mjs tools/unused.mjs\n",
+            "tests/reassigned.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "let script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "script='other.mjs';\n"
+                "const live=new URL('../tools/live.mjs',import.meta.url);\n"
+                "spawnSync(process.execPath,[script, live]);\n"
             ),
         }
         self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
@@ -1042,7 +1101,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 113)
+        self.assertEqual(len(cases), 116)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:
