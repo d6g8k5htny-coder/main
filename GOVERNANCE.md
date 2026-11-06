@@ -126,19 +126,19 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`bded45423363ec21f524e0338a077ab8d7dc2d72` (tree
-`f0dd308edb2bee184d5b3f687fb100c573466c48`) extends the existing bounded
+`8445a70df54da54246ef67002fb64896e918ebaa` (tree
+`eecc7e5bf60c0cd0923fe91b7be76187b06df185`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 105/105 controls and killed 156/156 designated
+The exact source commit passed 107/107 controls and killed 158/158 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`d4cab4976fb9b491bdfdc6b5350ad2318273fcbeac340ad4178791a86698dc19`.
+`afb6cf9452ccdb1facae9701af18ee822185bce625a2ab379c51a344855699ae`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`dd8beda3f81d634959a5245b4cbc935992d58df3c0bfb61b36ed68b47ab9d0c4`,
+`8580d6f8e4ccc9ca888f996d36372688d369555b0202439a2c55fe24df9e8c31`,
 56,078 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
@@ -234,6 +234,11 @@ Python call arguments retain the value observed at each evaluation point while
 later in-place aggregate mutation invalidates shared provenance. Assignment
 RHS expressions execute before their targets replace active helper bindings.
 Both bounded rules have dedicated adverse controls and designated mutants.
+List and tuple elements retain the static values observed in left-to-right
+evaluation order before later element effects can rebind their source names.
+JavaScript declarations in a containing module-level lexical block shadow a
+same-named imported child-process callee. Both bounded rules have dedicated
+adverse controls and designated mutants.
 The stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the
 earlier 28-tool result remains historical and is not rebound.
 
