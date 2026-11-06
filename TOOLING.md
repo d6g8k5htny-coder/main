@@ -92,6 +92,26 @@ complete a CBZ gate or the final G0–G11 matrix.
 - **Scope:** this validates the documented Python replay tool. It neither
   authenticates a historical execution nor performs a Lean kernel replay.
 
+## Current-tree G11 finding retained
+
+An additional candidate-tree census was run after the documentation controls:
+
+```sh
+python3 -B -S tools/cbz/g11_census.py --rev HEAD --json /tmp/g11.json
+python3 -B -S -O tools/cbz/g11_census.py --rev HEAD --json /tmp/g11-opt.json
+```
+
+Both modes produced byte-identical reports (SHA-256
+`3c640935ccbf343c459373f19c95c6698100e7c393a9f7db9f804d182e04f6cf`)
+and exited nonzero with seven `noop` findings. Every finding points at a YAML
+`defaults: run:` mapping rather than a workflow step command: architecture
+runtime acquisition, formal verification, release snapshot, site-graph
+projection, ST contract pilot, universality controls and workspace landing.
+This is retained as an unresolved parser/scope discrepancy, not converted to
+green and not silently exempted. Until source-aware repair and adverse tests
+distinguish default run configuration from step execution, the current-tree
+G11 census is FAIL and cannot support G11 admission.
+
 ## Missing final orchestrator
 
 No documented command in the current default runs G0 through G11 over one
