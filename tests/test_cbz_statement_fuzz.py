@@ -848,6 +848,32 @@ class NameResolutionTests(unittest.TestCase):
         self.assertIn('unknown name f', status['r'].detail)        # no `open`: the root sees no `f`
         self.assertIn('unknown name f', status['w'].detail)        # the section's `open A` ended with the section
 
+    def test_definition_bodies_resolve_in_their_declaration_scope(self):
+        src = ('namespace Shared\ndef y : ℕ := 4\nend Shared\n'
+               'namespace A\ndef x : ℕ := 1\n'
+               'def f (n : ℕ) : ℕ := x + n\n'
+               'def g : ℕ → ℕ := fun n => x + n\n'
+               'def h : ℕ → ℕ\n  | 0 => x\n  | n + 1 => x + n + 1\n'
+               'open Shared in def opened : ℕ := y\n'
+               'end A\n'
+               'namespace B\ndef x : ℕ := 2\n'
+               'theorem f_true : A.f 0 = 1 := rfl\n'
+               'theorem f_false : A.f 0 = 2 := by decide\n'
+               'theorem g_true : A.g 0 = 1 := rfl\n'
+               'theorem g_false : A.g 0 = 2 := by decide\n'
+               'theorem h_true : A.h 0 = 1 := rfl\n'
+               'theorem h_false : A.h 0 = 2 := by decide\n'
+               'theorem opened_true : A.opened = 4 := rfl\n'
+               'theorem opened_false : A.opened = 2 := by decide\n'
+               'end B\n')
+        m = sf.parse_module(src)
+        got = {t.name: sf.evaluate_theorem(m, t) for t in m.theorems}
+        self.assertEqual({n: r.status for n, r in got.items()},
+                         {'B.f_true': 'PASS', 'B.f_false': 'FAIL',
+                          'B.g_true': 'PASS', 'B.g_false': 'FAIL',
+                          'B.h_true': 'PASS', 'B.h_false': 'FAIL',
+                          'B.opened_true': 'PASS', 'B.opened_false': 'FAIL'})
+
     def test_group_definitions_are_shared_by_qualified_name_and_ambiguity_is_fail_closed(self):
         with tempfile.TemporaryDirectory() as d:
             root = pathlib.Path(d)

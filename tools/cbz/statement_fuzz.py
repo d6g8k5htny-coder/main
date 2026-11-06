@@ -61,6 +61,7 @@ gate): byte-identical files are evaluated once and UNSUPPORTED reasons are class
 from __future__ import annotations
 
 import argparse
+import contextlib
 import dataclasses
 import hashlib
 import json
@@ -560,6 +561,8 @@ class Def:
     result_type: str | None
     body: object | None     # expression, or None when pattern-matching
     clauses: list           # [(patterns, expr)] for pattern-matching defs
+    namespace: str = ''     # names in the body resolve from the declaration's namespace, not the caller's
+    opens: tuple = ()       # namespaces `open`ed where the definition was declared
 
 @dataclasses.dataclass
 class Binder:
@@ -853,7 +856,8 @@ def parse_module(source: str) -> Module:
                     body = Parser(toks, assign + 1, end).parse_expr(0)
                 except (SyntaxError, Unsupported, ValueError, IndexError, RecursionError):
                     body = None
-                defs[_qualify(namespace, name)] = Def(_qualify(namespace, name), params, result_type, body, [])
+                defs[_qualify(namespace, name)] = Def(_qualify(namespace, name), params, result_type, body, [],
+                                                      namespace, scope)
             elif bar != -1:
                 clauses = []
                 bars = [m for m in range(j, end) if toks[m].value == '|' and toks[m].col <= 2]
@@ -871,7 +875,8 @@ def parse_module(source: str) -> Module:
                         clauses.append((pats, expr))
                 except (Unsupported, SyntaxError, IndexError, ValueError, RecursionError):
                     clauses = []
-                defs[_qualify(namespace, name)] = Def(_qualify(namespace, name), params, result_type, None, clauses)
+                defs[_qualify(namespace, name)] = Def(_qualify(namespace, name), params, result_type, None, clauses,
+                                                      namespace, scope)
             continue
         if kw in ('theorem', 'lemma'):
             name = toks[k + 1].value
@@ -1247,9 +1252,10 @@ class Closure:
     """A lambda with its environment. ``types`` are the interpreter type names of the parameters when they are
     known (explicit binder types, or the domain of the arrow type a definition declares); a parameter without
     one is bound at the type the call site evaluates at."""
-    def __init__(self, params, body, env, types=None):
+    def __init__(self, params, body, env, types=None, namespace='', opens=()):
         self.params, self.body, self.env = params, body, env
         self.types = list(types) if types else [None] * len(params)
+        self.namespace, self.opens = namespace, tuple(opens)
 
 
 # --------------------------------------------------------------------------------------------
@@ -1410,6 +1416,16 @@ class Evaluator:
     def has_def(self, name):
         return self.defn(name) is not None
 
+    @contextlib.contextmanager
+    def declaration_scope(self, namespace, opens):
+        """Resolve names in a definition or closure where it was declared, restoring the caller afterward."""
+        previous = self.namespace, self.opens
+        self.namespace, self.opens = namespace, tuple(opens)
+        try:
+            yield
+        finally:
+            self.namespace, self.opens = previous
+
     def points(self):
         if self.model_n is None:
             raise Unsupported('a measure, set or function value without a finite model in force')
@@ -1549,7 +1565,7 @@ class Evaluator:
         if isinstance(node, SetBuilder):
             return frozenset(i for i in self.points() if self.prop(node.body, {**env, node.var: Bound(i, 'Point')}))
         if isinstance(node, Lambda) and typ == 'Func':
-            return self.materialize(Closure(node.params, node.body, env, node.types))
+            return self.materialize(Closure(node.params, node.body, env, node.types, self.namespace, self.opens))
         if isinstance(node, Ascribe):
             # `(e : T)` elaborates e at T (Lean pushes the expected type to the leaves: `(n - 1 : ℝ)` is real
             # subtraction of ↑n, `((n - 1 : ℕ) : ℝ)` casts a truncated Nat); the value is then used at typ
@@ -1576,7 +1592,8 @@ class Evaluator:
                 if d.body is None:
                     raise Unsupported(f'definition {node.name} has an unparsed body')
                 dtyp = self._type_name(d.result_type) if d.result_type else typ
-                return self._rec(self.num(d.body, {}, dtyp))
+                with self.declaration_scope(d.namespace, d.opens):
+                    return self._rec(self.num(d.body, {}, dtyp))
             raise Unsupported(f'unknown name {node.name}')
         if isinstance(node, Neg):
             if typ == 'Nat':
@@ -1715,7 +1732,8 @@ class Evaluator:
         fn = node.fn
         args = node.args
         if isinstance(fn, Lambda):
-            return self.call_closure(Closure(fn.params, fn.body, env, fn.types), args, env, typ)
+            return self.call_closure(Closure(fn.params, fn.body, env, fn.types, self.namespace, self.opens),
+                                     args, env, typ)
         if not isinstance(fn, Var):
             raise Unsupported('application of a non-name')
         name = fn.name
@@ -1868,7 +1886,8 @@ class Evaluator:
                 # the lambda's parameters take the domain types (an explicit binder type wins), the body the codomain
                 types = [lt if lt is not None else at for lt, at in zip(fn_value.types or [None] * arity, arg_types)]
                 vals = [self.num(a, env, self._type_name(at)) for a, at in zip(args[len(d.params):], types)]
-                return self.call_values(Closure(fn_value.params, fn_value.body, local, types), vals, dtyp)
+                return self.call_values(Closure(fn_value.params, fn_value.body, local, types,
+                                                d.namespace, d.opens), vals, dtyp)
             raise Unsupported(f'{name} applied to {len(args)} arguments')
         if d.clauses:
             n_lead = len(d.params)
@@ -1893,7 +1912,8 @@ class Evaluator:
                 scope = dict(local)
                 for b, (_, at) in zip(bindings, vals):
                     scope.update({k: Bound(val, at) for k, val in b.items()})
-                return self.num(expr, scope, dtyp)
+                with self.declaration_scope(d.namespace, d.opens):
+                    return self.num(expr, scope, dtyp)
             raise Unsupported(f'no clause of {name} matches {[v for v, _ in vals]}')
         if d.body is None:
             raise Unsupported(f'definition {name} has an unparsed body')
@@ -1903,7 +1923,8 @@ class Evaluator:
         for (pname, ptype), a in zip(d.params, args):
             pt = self._type_name(ptype)
             local[pname] = Bound(self.num(a, env, pt), pt)
-        return self.num(d.body, local, dtyp)
+        with self.declaration_scope(d.namespace, d.opens):
+            return self.num(d.body, local, dtyp)
 
     # ---- finite models
     def integral(self, node: Integral, env):
@@ -1953,13 +1974,14 @@ class Evaluator:
         if len(closure.params) != 1:
             raise Unsupported('a function of several arguments on the carrier')
         table, codomain = [], 'Real'
-        for i in self.points():
-            scope = dict(closure.env)
-            scope[closure.params[0]] = Bound(i, 'Point')
-            codomain = self.arith_type(closure.body, scope)
-            if codomain in ('Prop', 'Measure', 'Set', 'Func'):
-                raise Unsupported('a function on the carrier with a non-numeric codomain')
-            table.append(self.num(closure.body, scope, codomain if codomain != 'Nat' else 'Real'))
+        with self.declaration_scope(closure.namespace, closure.opens):
+            for i in self.points():
+                scope = dict(closure.env)
+                scope[closure.params[0]] = Bound(i, 'Point')
+                codomain = self.arith_type(closure.body, scope)
+                if codomain in ('Prop', 'Measure', 'Set', 'Func'):
+                    raise Unsupported('a function on the carrier with a non-numeric codomain')
+                table.append(self.num(closure.body, scope, codomain if codomain != 'Nat' else 'Real'))
         return Func(tuple(table), codomain if codomain != 'Nat' else 'Real')
 
     def at_point(self, node, env, i, typ='Real'):
@@ -1968,7 +1990,8 @@ class Evaluator:
                 and env[node.name].type == 'Func':
             return env[node.name].value.table[i]
         if isinstance(node, Lambda):
-            return self.func_apply(self.materialize(Closure(node.params, node.body, env, node.types)), Num(i), env)
+            return self.func_apply(self.materialize(Closure(node.params, node.body, env, node.types,
+                                                            self.namespace, self.opens)), Num(i), env)
         t = self.arith_type(node, env)
         if t == 'Func':
             f = self.num(node, env, 'Func')
@@ -2041,7 +2064,7 @@ class Evaluator:
 
     def _closure(self, f, env):
         if isinstance(f, Lambda):
-            return Closure(f.params, f.body, env, f.types)
+            return Closure(f.params, f.body, env, f.types, self.namespace, self.opens)
         if isinstance(f, Var) and f.name in _BUILTIN_BINARY:
             return _BUILTIN_BINARY[f.name]
         if isinstance(f, Var) and f.name in env and isinstance(env[f.name], Closure):
@@ -2049,7 +2072,8 @@ class Evaluator:
         if isinstance(f, Var) and self.has_def(f.name):
             d = self.defn(f.name)
             if d.body is not None and d.params:
-                return Closure([p for p, _ in d.params], d.body, {}, [pt for _, pt in d.params])
+                return Closure([p for p, _ in d.params], d.body, {}, [pt for _, pt in d.params],
+                               d.namespace, d.opens)
         raise Unsupported('higher-order argument is not a lambda')
 
     def call_closure(self, closure, arg_nodes, env, typ):
@@ -2073,7 +2097,8 @@ class Evaluator:
         local = dict(closure.env)
         for p, v, t in zip(closure.params, vals, self._param_types(closure, len(vals), typ)):
             local[p] = Bound(v, t)
-        return self.num(closure.body, local, typ)
+        with self.declaration_scope(closure.namespace, closure.opens):
+            return self.num(closure.body, local, typ)
 
     # ---- bounded universal quantification
     def forall(self, node: 'Forall', env) -> bool:
