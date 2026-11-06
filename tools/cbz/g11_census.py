@@ -738,6 +738,11 @@ def _reachable_python_nodes(tree, mode):
                 test_classes.add(statement.name)
 
     nodes, queue, visited = [], [], set()
+    active_functions = {}
+    function_scope_bindings = {
+        id(node): _scope_bindings(node) for node in ast.walk(tree)
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+    }
 
     def execute(function, owner, activation_line):
         identity = (id(function), owner, activation_line)
@@ -757,6 +762,8 @@ def _reachable_python_nodes(tree, mode):
             for default in node.args.kw_defaults:
                 if default is not None:
                     visit(default, owner, scope, activation_line)
+            if owner is None:
+                active_functions[(scope, node.name)] = node
             if (mode == "tests" and owner in test_classes
                     and (node.name.startswith("test_")
                          or node.name in {"setUp", "tearDown", "setUpClass", "tearDownClass"})):
@@ -817,18 +824,43 @@ def _reachable_python_nodes(tree, mode):
                 visit(node.test, owner, scope, activation_line)
             return
 
-        execution_line = (getattr(node, "lineno", 0)
-                          if activation_line is None else activation_line)
-        nodes.append((node, scope, execution_line))
+        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign, ast.Delete)):
+            targets = (node.targets if isinstance(node, (ast.Assign, ast.Delete))
+                       else [node.target])
+            for target in targets:
+                for name in _target_names(target):
+                    active_functions.pop((scope, name), None)
+
         if isinstance(node, ast.Call):
+            # Python evaluates the callee and every argument before invoking
+            # the enclosing call. Helper effects in those expressions must be
+            # visible to process attribution at the call itself.
+            visit(node.func, owner, scope, activation_line)
+            for argument in node.args:
+                visit(argument, owner, scope, activation_line)
+            for keyword in node.keywords:
+                visit(keyword.value, owner, scope, activation_line)
+            execution_line = (getattr(node, "lineno", 0)
+                              if activation_line is None else activation_line)
+            nodes.append((node, scope, execution_line))
             target = node.func
-            if isinstance(target, ast.Name) and target.id in functions:
-                execute(functions[target.id], None, execution_line)
+            if isinstance(target, ast.Name):
+                function = active_functions.get((scope, target.id))
+                if (function is None and scope is not None
+                        and target.id not in function_scope_bindings.get(scope, set())):
+                    function = active_functions.get((None, target.id))
+                if function is not None:
+                    execute(function, None, execution_line)
             elif (isinstance(target, ast.Attribute) and isinstance(target.value, ast.Name)
                   and target.value.id in {"self", "cls"} and owner):
                 method = methods.get((owner, target.attr))
                 if method:
                     execute(method, owner, execution_line)
+            return
+
+        execution_line = (getattr(node, "lineno", 0)
+                          if activation_line is None else activation_line)
+        nodes.append((node, scope, execution_line))
         for child in ast.iter_child_nodes(node):
             visit(child, owner, scope, activation_line)
 
@@ -1442,7 +1474,8 @@ def js_tool_references(text, source_path, tools):
             if parts and parts[0] in allowed_child_calls:
                 child_names.add(parts[-1])
     for call_start, callee, arguments in _js_call_arguments(visible, child_names):
-        if not _js_call_is_reachable(visible, call_start):
+        activation_points = _js_call_activation_points(visible, call_start)
+        if not activation_points:
             continue
         if _js_parameter_shadows(visible, call_start, callee):
             continue
@@ -1458,11 +1491,14 @@ def js_tool_references(text, source_path, tools):
                          and (declaration[2] is None or declaration[2] == call_scope)]
             if name not in identifiers or not available:
                 continue
-            declaration_end, target, _scope = available[-1]
+            declaration_end, target, declaration_scope = available[-1]
             assignment = re.compile(
                 r"(?<![\w$.])" + re.escape(name) +
                 r"(?![\w$])\s*(?:=(?!=|>)|\+\+|--|(?:\+|-|\*|/|%|&|\||\^|<<|>>)\s*=)")
-            if not assignment.search(visible[declaration_end:call_start]):
+            cutoffs = ({call_start} if declaration_scope is not None
+                       else activation_points)
+            if any(not assignment.search(visible[declaration_end:cutoff])
+                   for cutoff in cutoffs if cutoff >= declaration_end):
                 references.add(target)
     return references
 
@@ -1690,8 +1726,8 @@ def _js_function_scope_key(text, position):
     return max(containing, key=lambda item: item[0]) if containing else None
 
 
-def _js_call_is_reachable(text, position):
-    """Bound child-process calls to literal-live blocks and invoked helpers."""
+def _js_call_activation_points(text, position):
+    """Return module-root activation points for one reachable process call."""
     searchable, scopes = _js_function_scopes(text)
     trusted_test_names = set()
     for match in re.finditer(
@@ -1753,26 +1789,28 @@ def _js_call_is_reachable(text, position):
 
     def reachable(candidate, seen, binding_guards=()):
         if in_literal_false_block(candidate):
-            return False
+            return set()
         function = containing_named_function(candidate)
         if function is None:
-            return all(binding_active(*guard, candidate) for guard in binding_guards)
+            return ({candidate} if all(binding_active(*guard, candidate)
+                                       for guard in binding_guards) else set())
         if not function:
-            return False
+            return set()
         if len(function) == 5:
             _kind, call_start, open_brace, close_brace, name = function
             identity = (name, open_brace, close_brace)
             if identity in seen:
-                return False
+                return set()
             return reachable(call_start, seen | {identity}, binding_guards)
         name, definition_start, open_brace, close_brace = function
         identity = (name, open_brace, close_brace)
         if identity in seen:
-            return False
+            return set()
         definition_scope = _js_function_scope_key(searchable, definition_start)
         guard = (name, close_brace + 1, definition_scope)
         calls = re.compile(
             r"(?<![\w$.])" + re.escape(name) + r"(?![\w$])\s*\(")
+        activations = set()
         for call in calls.finditer(searchable):
             if call.start() == definition_start:
                 continue
@@ -1781,11 +1819,16 @@ def _js_call_is_reachable(text, position):
             if _js_helper_call_shadowed(
                     searchable, call.start(), name, definition_start):
                 continue
-            if reachable(call.start(), seen | {identity}, binding_guards + (guard,)):
-                return True
-        return False
+            activations.update(reachable(
+                call.start(), seen | {identity}, binding_guards + (guard,)))
+        return activations
 
     return reachable(position, set())
+
+
+def _js_call_is_reachable(text, position):
+    """Bound child-process calls to literal-live blocks and invoked helpers."""
+    return bool(_js_call_activation_points(text, position))
 
 
 def _js_parameter_shadows(text, position, name):

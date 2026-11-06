@@ -502,7 +502,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_conditional_command_lists_select_only_the_taken_branch",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("reassigned JavaScript URL binding retains stale path", "census",
-     "            if not assignment.search(visible[declaration_end:call_start]):\n                references.add(target)",
+     "            if any(not assignment.search(visible[declaration_end:cutoff])\n                   for cutoff in cutoffs if cutoff >= declaration_end):\n                references.add(target)",
      "            if True:\n                references.add(target)",
      "tests.test_g11_census.ToolChecks.test_js_reassigned_url_binding_does_not_keep_its_old_path",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
@@ -607,18 +607,18 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_list_augmented_assignment_preserves_alias_identity",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript unreachable child-process call accepted", "census",
-     "        if not _js_call_is_reachable(visible, call_start):\n            continue",
-     "        if False:\n            continue",
+     "        activation_points = _js_call_activation_points(visible, call_start)\n        if not activation_points:\n            continue",
+     "        activation_points = {call_start}\n        if not activation_points:\n            continue",
      "tests.test_g11_census.ToolChecks.test_js_unreachable_child_process_calls_are_not_references",
      'self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()},'),
     ("deferred caller uses final module binding", "census",
-     "                execute(functions[target.id], None, execution_line)",
-     "                execute(functions[target.id], None, float(\"inf\"))",
+     "                    execute(function, None, execution_line)",
+     "                    execute(function, None, float(\"inf\"))",
      "tests.test_g11_census.ToolChecks.test_deferred_caller_uses_module_value_at_invocation",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript uncalled helper chain accepted", "census",
-     "            if reachable(call.start(), seen | {identity}, binding_guards + (guard,)):",
-     "            if True:",
+     "            activations.update(reachable(\n                call.start(), seen | {identity}, binding_guards + (guard,)))",
+     "            activations.add(call.start())",
      "tests.test_g11_census.ToolChecks.test_js_uncalled_helper_chain_is_not_reachable",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("node test callback root ignored", "census",
@@ -633,7 +633,7 @@ NEW_MUTATIONS = [
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("node test registration reachability ignored", "census",
      "            return reachable(call_start, seen | {identity}, binding_guards)",
-     "            return True",
+     "            return {call_start}",
      "tests.test_g11_census.ToolChecks.test_js_node_test_registration_must_be_reachable",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("node test registrar shadow ignored", "census",
@@ -647,8 +647,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_none_guard_branch_calls_use_isolated_bindings",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("nested helper effects deferred", "census",
-     "                execute(functions[target.id], None, execution_line)",
-     "                queue.append((functions[target.id], None, execution_line))",
+     "                    execute(function, None, execution_line)",
+     "                    queue.append((function, None, execution_line))",
      "tests.test_g11_census.ToolChecks.test_nested_helper_effects_precede_caller_continuation",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("global assignment stored in helper local binding", "census",
@@ -662,8 +662,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_command_element_delete_invalidates_aggregate_and_aliases",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript helper rebinding ignored", "census",
-     "            return all(binding_active(*guard, candidate) for guard in binding_guards)",
-     "            return True",
+     "            return ({candidate} if all(binding_active(*guard, candidate)\n                                       for guard in binding_guards) else set())",
+     "            return {candidate}",
      "tests.test_g11_census.ToolChecks.test_js_rebound_helper_is_not_reachable",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("wrapper element deletion retains forwarding", "census",
@@ -680,6 +680,21 @@ NEW_MUTATIONS = [
      "            if _js_helper_call_shadowed(\n                    searchable, call.start(), name, definition_start):\n                continue",
      "            if False:\n                continue",
      "tests.test_g11_census.ToolChecks.test_js_lexically_shadowed_helper_is_not_reachable",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("keyword argument helper effects deferred", "census",
+     "            for argument in node.args:\n                visit(argument, owner, scope, activation_line)\n            for keyword in node.keywords:\n                visit(keyword.value, owner, scope, activation_line)",
+     "            for argument in node.args:\n                visit(argument, owner, scope, activation_line)\n            for keyword in ():\n                visit(keyword.value, owner, scope, activation_line)",
+     "tests.test_g11_census.ToolChecks.test_call_argument_helper_effects_precede_process_attribution",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("reassigned Python helper identity ignored", "census",
+     "                function = active_functions.get((scope, target.id))",
+     "                function = functions.get(target.id)",
+     "tests.test_g11_census.ToolChecks.test_reassigned_python_helper_is_not_executed",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("JavaScript deferred binding checked at definition", "census",
+     "            cutoffs = ({call_start} if declaration_scope is not None\n                       else activation_points)",
+     "            cutoffs = {call_start}",
+     "tests.test_g11_census.ToolChecks.test_js_deferred_helper_uses_activation_time_url_binding",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
@@ -835,6 +850,9 @@ EXPECTED_MUTATION_NAMES = (
     "wrapper element deletion retains forwarding",
     "declared global remains a local static shadow",
     "JavaScript lexical helper shadow ignored",
+    "keyword argument helper effects deferred",
+    "reassigned Python helper identity ignored",
+    "JavaScript deferred binding checked at definition",
 )
 
 
@@ -1013,7 +1031,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 100
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 103
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

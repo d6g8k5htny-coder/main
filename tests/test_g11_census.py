@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "f6de27b4f13e27b4187d6c2ef9bf1d7ebbd3f96f905f5b4f266b1a71fabc011e"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "cfacfa031f57b075a44cae3e0c741786a0a906c82ec74d9948bab70c7b04fbde"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -673,6 +673,37 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])
 
+    def test_call_argument_helper_effects_precede_process_attribution(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_argument_effect.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "def change():\n"
+                "    command.clear()\n"
+                "    command.extend(['echo'])\n"
+                "    return False\n"
+                "subprocess.run(command, check=change())\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_reassigned_python_helper_is_not_executed(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_helper_reassignment.py": (
+                "import runpy\n"
+                "script = 'tools/unused.py'\n"
+                "def launch():\n"
+                "    runpy.run_path(script)\n"
+                "launch = print\n"
+                "launch()\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
     def test_wrapper_rebinding_invalidates_forwarding(self):
         tree = {
             "tools/unused.py": "x = 1\n",
@@ -1319,6 +1350,20 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
+    def test_js_deferred_helper_uses_activation_time_url_binding(self):
+        tree = {
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/deferred-binding.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "let script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "function exercise() { spawnSync('echo',[script]); }\n"
+                "script = 'other.mjs';\n"
+                "exercise();\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
     def test_js_node_test_callback_is_a_reachable_root(self):
         tree = {
             "tools/live.mjs": "export const live = true;\n",
@@ -1686,7 +1731,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 151)
+        self.assertEqual(len(cases), 154)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:
