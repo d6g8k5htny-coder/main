@@ -2,8 +2,9 @@
 
 **State: component registry; the final federation toolchain is incomplete.**
 
-This file lists runnable mission-relevant tools present at Main revision
-`04989724b5142f8eea8d41946d0367d0372d845a`. Each entry states purpose,
+This file lists runnable mission-relevant tools present in the Main revision
+that contains this file. Its source parent was
+`c4db7562640817ab5f23119571030851b964472c`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
 
@@ -81,6 +82,154 @@ complete a CBZ gate or the final G0–G11 matrix.
   not kernel proof or scientific acceptance. G12 is registered context, not a
   replacement for the required final G0–G11 pass.
 
+## Additional active bounded tools
+
+### Architecture producer identity binding
+
+- **Purpose:** bind producer output to current commit, repository, run,
+  attempt, receipt and artifact identity strings.
+- **Command:** in the hosted ephemeral runner,
+  `python3 -B -S tools/architecture_check_binding.py --expected-commit "$GITHUB_SHA" --expected-repository "$GITHUB_REPOSITORY" --expected-run-id "$GITHUB_RUN_ID" --expected-run-attempt "$GITHUB_RUN_ATTEMPT" < producer-input.json > producer-binding.json`.
+- **Verification:** `tests/test_architecture_binding.py`, run in both modes by
+  `.github/workflows/research-architecture.yml`.
+- **Scope:** validates identity strings from at most 64 KiB of stdin. It does
+  not validate archive bytes, receipt contents, mathematics or scientific
+  status.
+
+### Current inventory acquisition projection
+
+- **Purpose:** produce deterministic, all-or-nothing current
+  content-association annotations without mutating the supplied inventory.
+- **Command:** import `project_current_acquisitions` from
+  `tools/current_inventory_acquisition.py`; there is no standalone CLI.
+- **Verification:** `tests/test_current_inventory_acquisition.py`, included
+  in both `test_current_site*.py` modes by
+  `.github/workflows/current-site.yml`.
+- **Scope:** accepts only the registered Main and Math- repositories and
+  complete-file byte counts no greater than 16 MiB. It does not perform
+  scientific review, applicability, acceptance or graph binding.
+
+### Current-site publication custody
+
+- **Purpose:** retain prepared and observed Pages receipts on the fixed
+  `codex/site-publication-receipts` metadata-only branch.
+- **Commands:** `.github/workflows/current-site.yml` runs
+  `python3 -B -S tools/current_site_publication.py restore`, then
+  `package`, `prepare` and `observe` with the workflow's bounded paths.
+- **Verification:** `tests/test_current_site_publication.py`, included in
+  both `test_current_site*.py` workflow modes.
+- **Scope:** requires Main, `refs/heads/main`, the tested checkout and a push,
+  schedule or dispatch context. It does not execute downloaded code, change
+  the source branch or force-update a ref. Receipt members are bounded as
+  declared by the tool.
+
+### Dependency source bindings
+
+- **Purpose:** record the pinned Math- path, blob, byte and digest identities
+  behind dependency-atlas node fingerprints.
+- **Command:**
+  `python3 -B -S tools/dependency_source_bindings.py --math /path/to/Math- --check`.
+- **Verification:** `tests/test_dependency_source_binding.py`.
+- **Scope:** read-only Git plumbing against the Math- checkout pinned by
+  `docs/site/dependency-source/PROVENANCE.json`. Digest agreement is byte
+  identity only, never proof validity, independent review or scientific
+  acceptance. Omitting `--check` writes the configured fixture.
+
+### Formal source/execution context binding
+
+- **Purpose:** bind an unchanged successful formal receipt and its log digests
+  to separate Math- source and Main execution repositories.
+- **Command:** the hosted replay runs
+  `python3 -B -S ../operations/tools/formal_execution_context.py --source . --operations ../operations --expected-commit 867d9e34b60186ff46ab5b3ecf8ad5ba6a5cc8b4 --run-id "$GITHUB_RUN_ID"`.
+- **Verification:** `tests/test_formal_execution_context.py`, run in both
+  modes by `.github/workflows/release-snapshot.yml`.
+- **Scope:** accepts only Math- as source and Main as execution repository,
+  requires a kernel-checked receipt and writes a separate execution context.
+  It is custody, not independent alignment or scientific acceptance.
+
+### Periodic H0 pilot custody
+
+- **Purpose:** retain bounded raw output, source identity and failure state for
+  the hosted periodic H0 pilot without scientific promotion.
+- **Commands:** `.github/workflows/periodic-h0-pilot.yml` runs
+  `python -B -S tools/periodic_pilot_custody.py init`, `run`, and under
+  `always()`, `seal`.
+- **Verification:** `tests/test_periodic_pilot_custody.py` in both modes and
+  `tests/test_periodic_pilot_custody_oserror.py`.
+- **Scope:** requires the declared hosted-pilot context and enforces the
+  source/output/log bounds in the tool. Runner identity is claimed, not a
+  native API attestation; this is custody, not archive readback, independent
+  review or a theorem verdict.
+
+### Site-graph output capture
+
+- **Purpose:** retain bounded original stdout/stderr prefixes and observed byte
+  counts and hashes for the hosted site-graph control lane.
+- **Command:** `.github/workflows/site-graph-projection.yml` runs
+  `python3 -B -S tools/site_graph_capture.py --mode "$CONTROL_MODE" --output "$RUNNER_TEMP/site-graph-projection"`
+  in normal and optimized modes.
+- **Verification:** `tests/test_site_graph_capture.py`; the child suite is
+  `test_site_graph*.py`.
+- **Scope:** trusted hosted-runner argv only, with the documented time, stream,
+  aggregate, metadata and package bounds. It is output custody, not a sandbox
+  or cumulative-emission guarantee; overflow, timeout or incomplete
+  collection is refused even when the child exits zero.
+
+### Current-site native registry APIs
+
+- **Purpose:** validate and construct native registries and current bundles
+  from already admitted bytes and immutable metadata.
+- **Command:** use `validate_native_registry`,
+  `admit_current_native_bundle`, `build_native_registry` or
+  `validate_native_progress` from
+  `tools/current_site_native_registry.py`; no standalone CLI is present.
+- **Verification:** `tests/test_current_site_native_registry.py` and
+  `tests/test_current_site_native_base.py`, run in isolated normal and
+  optimized modes by their two named hosted controls.
+- **Scope:** does not acquire artifacts, rerun archive admission, establish
+  custody, publish, restore files or confer scientific authority. Refusals are
+  `ValueError`; registry limits are documented by the module.
+
+### Google Drive identifier scan
+
+- **Purpose:** locally scan added range text, in-range commit messages and
+  patches, and an optional pull-request body for Drive-shaped identifiers.
+- **Commands:** `python -B tools/privacy/drive_id_scan.py --base BASE --head HEAD`;
+  optionally add `--body pr.txt`, or use `--body -` for stdin.
+- **Verification:** `tests/test_drive_id_scan.py`.
+- **Scope:** local reviewer tool `OPPRIV-SCAN-01`, not a required check. It
+  changes no workflow or settings and has no scientific effect. Matches are
+  redacted to four characters; exits 0, 1 and 2 mean clean, hit and invocation
+  or Git failure respectively.
+
+### Semantic-memory Task1 fixture control
+
+- **Purpose:** produce Task1 structural reports, verify one report or perform
+  the frozen benchmark admission.
+- **Command:**
+  `python3 -I -B -S tools/semantic_memory_experiment.py prepare-report --fixtures experiments/semantic_memory/fixtures`;
+  the other admitted modes are `verify-report` and `admit-benchmark`.
+- **Verification:** `tests/test_semantic_memory_benchmark.py`, run in isolated
+  normal and optimized modes by
+  `.github/workflows/semantic-memory-experiment.yml`.
+- **Scope:** Task1 synthetic fixtures only, not semantic retrieval or
+  installation. It loads only the adjacent reviewed benchmark module, with
+  the source and output limits declared in the wrapper.
+
+### Native unittest timing probe
+
+- **Purpose:** run native `unittest` while writing an ordered, flushed JSONL
+  sidecar of invocation, per-test timing and native outcomes.
+- **Command:**
+  `python -B -S tools/unittest_timing_probe.py NEW_JOURNAL discover ...`;
+  the journal must not already exist and remaining arguments are native
+  `unittest` arguments.
+- **Verification:** `tests/test_architecture_unittest_timing_probe.py`,
+  included in both `test_architecture_*.py` hosted modes.
+- **Scope:** adds no timeout, retry, filter, signal handler or scientific
+  verdict. Flush is not `fsync`; this is a trusted-process diagnostic, not
+  hostile-test containment or attestation.
+
 ## Restored bounded replay controls
 
 - **Purpose:** rerun the retained Python validator and three registered mutants
@@ -92,25 +241,34 @@ complete a CBZ gate or the final G0–G11 matrix.
 - **Scope:** this validates the documented Python replay tool. It neither
   authenticates a historical execution nor performs a Lean kernel replay.
 
-## Current-tree G11 finding retained
+## Current-tree G11 residue retained
 
-An additional candidate-tree census was run after the documentation controls:
+The workflow-scope defect recorded by the preceding canonical-surface change
+was repaired and merged normally as Main #762,
+`c4db7562640817ab5f23119571030851b964472c`. Its exact-head controls passed
+39/39 in both modes and killed 76/76 designated mutants in both modes,
+including a new adverse control that removes the step-scope guard.
+
+A current-tree census was then run in both modes:
 
 ```sh
 python3 -B -S tools/cbz/g11_census.py --rev HEAD --json /tmp/g11.json
 python3 -B -S -O tools/cbz/g11_census.py --rev HEAD --json /tmp/g11-opt.json
 ```
 
-Both modes produced byte-identical reports (SHA-256
-`3c640935ccbf343c459373f19c95c6698100e7c393a9f7db9f804d182e04f6cf`)
-and exited nonzero with seven `noop` findings. Every finding points at a YAML
-`defaults: run:` mapping rather than a workflow step command: architecture
-runtime acquisition, formal verification, release snapshot, site-graph
-projection, ST contract pilot, universality controls and workspace landing.
-This is retained as an unresolved parser/scope discrepancy, not converted to
-green and not silently exempted. Until source-aware repair and adverse tests
-distinguish default run configuration from step execution, the current-tree
-G11 census is FAIL and cannot support G11 admission.
+At #762's qualified head, both modes produced byte-identical reports
+(SHA-256
+`86b7139fc1c2d308c1746132e1d3dd070fc6c393c4e0ba9a1aa0223d35c6feb2`).
+The seven false `defaults.run` findings are absent. The census still exits
+nonzero with 55 tool documentation or static-exercise findings. Read-only
+classification found seven documentation-only gaps, 20 active tools whose
+real test/workflow execution is outside the current static attribution model,
+and 28 historical one-shot browser tools with no current exercise detected.
+The registrations above close the 11 missing documentation entries, but do
+not manufacture exercise evidence for the four active attribution gaps.
+Attribution repair and exact dormant-tool quarantine remain separate adverse-
+tested work. Until those dispositions and a fresh final census pass, G11 is
+FAIL and cannot support G11 admission.
 
 ## Missing final orchestrator
 
