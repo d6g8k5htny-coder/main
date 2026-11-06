@@ -124,27 +124,42 @@ means to closure, never a reason to open a general infrastructure project.
 
 ### Empirical statement check for core-Lean arithmetic skeletons: bounded registration
 
-**Registered 2026-11-01 14:40 UTC; global admission of the empirical layer remains pending.**
-[main PR #726](https://github.com/d6g8k5htny-coder/main/pull/726), merged as
-`d0d384b18a409ed51061458287dde22816782210`, supplies `tools/cbz/statement_fuzz.py`
-(blob `020cb194c206d268972fcc9f50dd0707b21819d0`, SHA-256
-`1bd0f4a3059d6f040cb978691d2954deecf9a84287ce2272e48fe9ae93bdd7a7`),
-`tests/test_cbz_statement_fuzz.py` (blob `723bbd306c70f0ea66b2c461ea40da9df4d923b6`)
-and the run records under `cbz/evidence/g12-statement-fuzz-01n/`.
+**Registered 2026-11-01 14:40 UTC; amended 2026-11-06 after main PRs #742, #743 and #752; global
+admission of the empirical layer remains pending.**
+[main PR #726](https://github.com/d6g8k5htny-coder/main/pull/726) (merged
+`d0d384b18a409ed51061458287dde22816782210`) supplied `tools/cbz/statement_fuzz.py`;
+[#742](https://github.com/d6g8k5htny-coder/main/pull/742) (merged `d479620b`),
+[#743](https://github.com/d6g8k5htny-coder/main/pull/743) (merged `fe327e02`) and
+[#752](https://github.com/d6g8k5htny-coder/main/pull/752) (merged
+`a7295bf20741c111da06d72faa846536ff76fa1c`) extended it. Current source at that merge:
+`tools/cbz/statement_fuzz.py` (blob `6e7d6c1ecd489bcddf5f3b819ed6a9327fcda4a6`, SHA-256
+`78ec967a2a2957a203c57b412769d7685f9d953817b5173d4102a813c7120f1d`),
+`tests/test_cbz_statement_fuzz.py` (blob `daab0995bdbd0e4779ba2c4b336a2eaf53a6c22b`, 86 tests) and the run
+records under `cbz/evidence/g12-statement-fuzz-01n/`. History: the 2026-11-01 registration bound tool blob
+`020cb194` (35 tests; hosted run 41242533228 / job 124659189973) with coverage main `formal/` 31/31 PASS at
+`4712fc13`, #740's candidate `formal/` 59/59 PASS at `43b10c6f`, Math- `formal/` 63/63 UNSUPPORTED at
+`19a55750`; those receipts stay under the evidence directory and in Git history.
 
-Purpose: the addendum's empirical layer for *statements*. Kernel verification is not
-strengthened by sampling, so for every theorem registered in a formal package's
-`manifest.json` the tool parses the Lean statement and the package's own `def`s in an
-exact-arithmetic interpreter for the core-Lean subset these skeletons use, evaluates it
-independently of Lean (Python integers and `Fraction`; a float anywhere is an assertion
-failure), enumerates finite quantifier domains exhaustively (list membership, or an upper
-bound on an explicit `Nat`/`ℕ` binder only), probes just outside each domain for tightness
-and vacuity as information, and reports PASS / FAIL / UNSUPPORTED per target. Lean core
-semantics are implemented where they differ from naive arithmetic: `Nat` truncated
-subtraction, totalized division (`x / 0 = 0`, `x % 0 = x`), `Nat` floor division,
-Euclidean `Int` `/` and `%` (`Int.ediv`/`Int.emod`), numeral typing by the `binop%`
-maximal-type rule. A FAIL is a misstatement or transcription defect in the Lean text,
-never kernel evidence; UNSUPPORTED is fail-closed and makes the exit code non-zero.
+Purpose: the addendum's empirical layer for *statements*. Kernel verification is not strengthened by
+sampling, so the tool reads each Lean statement and the package's own `def`s — by Lean-qualified name,
+resolved from the statement's namespace outward and through its `open`s, with definition bodies evaluated
+in their own declaration scope — in an exact interpreter: Python integers, `Fraction`, and the
+multi-quadratic field ℚ(√d₁, …, √dₖ) for `Real.sqrt`; a float anywhere is an assertion failure. Lean-core
+and Mathlib conventions are implemented where they differ from naive arithmetic: `Nat` truncated
+subtraction, totalized division (`x / 0 = 0`, `x % 0 = x`), Euclidean `Int` `/` and `%`, `0⁻¹ = 0`,
+`Real.sqrt x = 0` for `x ≤ 0`, exponents typed on their own (`rightact%`), ascriptions elaborated at the
+ascribed type, numeral typing by the `binop%` maximal-type rule. Verdicts, fail-closed: **PASS** — a closed
+statement (finite quantifier domains enumerated) evaluates true exactly; **CORROBORATED** — a statement
+with binders before the colon (ℕ ℤ ℚ ℝ under decidable hypotheses; measure-theoretic statements on finite
+discrete models Ω = `Fin n` with rational weights, tables and subsets) was refuted by no sampled instance
+drawn from an exact pathological pool, the hypotheses' own boundary values and seeded rationals — admitted
+evidence, never a proof and never PASS; **FAIL** — an exact witness, a misstatement or transcription defect
+in the Lean text, never kernel evidence; **UNSUPPORTED**, naming the construct the interpreter does not model
+(structures, transcendental functions, finite vectors `Fin n → ℝ`, unbounded quantifiers inside a
+statement, `∑`, …). UNSUPPORTED is never upgraded and makes the exit code non-zero; `--admit-corroborated`
+admits CORROBORATED into exit 0 and is recorded in the report. Census mode (`--lean-dir`) evaluates every
+`theorem`/`lemma` of a directory without a manifest, accounts for every declaration (one the splitter cannot
+separate is an UNSUPPORTED target, never an omission) and classifies the UNSUPPORTED reasons.
 
 From a checkout of this repository, run:
 
@@ -152,50 +167,56 @@ From a checkout of this repository, run:
 python3 -B -S -m unittest tests.test_cbz_statement_fuzz -v
 python3 -B -O -S -m unittest tests.test_cbz_statement_fuzz -v
 python3 -B -S tools/cbz/statement_fuzz.py --package formal --selftest --json <report.json>
+python3 -B -S tools/cbz/statement_fuzz.py --lean-dir <directory> --exclude /raw --json <report.json>
 ```
 
-Self-verification: the 35 tests (tokenizer, Lean semantics including the six Euclidean
-division goldens of main#684/6511137449, definitions, folds, pairs, quantifiers, vacuity
-and tightness probes, fail-closed behaviour, the mutation contract, the real package) ran
-on the merge commit in the hosted `navigation` job
-([run 41242533228](https://github.com/d6g8k5htny-coder/main/actions/runs/41242533228),
-job `124659189973`, CPython 3.11.17, artifact `research-navigation-41242533228` whose
-`commit.txt` is `d0d384b1…` and whose `tests-normal.log` shows the 35
-`test_cbz_statement_fuzz` cases `ok` among 1,892) and locally in both modes with
-`-W error`. `--selftest` grades every module by a three-class mutation contract:
-guaranteed-false mutants must FAIL (each comparison replaced by its negation one conjunct
-at a time, the right-hand literal of an equality shifted by one — never `<`→`≤`),
-truth-preserving weakenings (`<`→`≤`, `>`→`≥`) must PASS, and the manifest's declared
-negative controls that change a statement must FAIL; an UNSUPPORTED or errored mutant is
-a survivor, never a kill, and a stubbed evaluator fails the unmutated control. Reviews of
-record: same-family 01DKKe
-([726/6547986788](https://github.com/d6g8k5htny-coder/main/pull/726#issuecomment-6547986788);
-one P1 fail-open domain inference found and fixed by its follow-on, tree `198c1f97`) and
-different-family Grok Bot agent 12
-([726/6548050253](https://github.com/d6g8k5htny-coder/main/pull/726#issuecomment-6548050253),
-PASS with the follow-on); Codex 01a103c8 supplied the division-semantics controls.
+Self-verification: the 86 tests (tokenizer; Lean semantics with the six Euclidean division goldens of
+main#684/6511137449; exact real algebra; sampled binders and hypothesis boundaries; finite models;
+qualified-name resolution and declaration scope; declaration splitting; census mode; fail-closed behaviour;
+the mutation contract; the real packages) ran on the merge commit of #752 in the hosted `navigation` job
+([run 42165008899](https://github.com/d6g8k5htny-coder/main/actions/runs/42165008899), job `127719321978`,
+CPython 3.11.18, artifact `research-navigation-42165008899` whose `commit.txt` is `a7295bf2…` and whose
+`tests-normal.log` shows the 86 `test_cbz_statement_fuzz` cases `ok` among 2,051) and locally in normal,
+`-O` and `-W error` modes. `--selftest` grades every module by the three-class mutation contract:
+guaranteed-false mutants must FAIL (each comparison replaced by its negation one conjunct at a time, the
+right-hand literal of an equality shifted by one — never `<`→`≤`), truth-preserving weakenings (`<`→`≤`,
+`>`→`≥`) must hold, and the manifest's declared negative controls that change a statement must FAIL; an
+UNSUPPORTED or errored mutant is a survivor, never a kill, and a stubbed evaluator fails the unmutated
+control. Mutants carry the binders, so a class-1 mutant of a sampled statement must be refuted by sampling.
+Reviews of record: #726 — same-family 01DKKe
+([726/6547986788](https://github.com/d6g8k5htny-coder/main/pull/726#issuecomment-6547986788); one P1
+fail-open domain inference, fixed by its follow-on) and different-family Grok Bot agent 12
+([726/6548050253](https://github.com/d6g8k5htny-coder/main/pull/726#issuecomment-6548050253)); Codex 01a103c8
+supplied the division-semantics controls. #742 — Grok Bot agent 8 (engineering, PASS_WITH_NITS at
+`48f3a461`), agent 12 (integration), agent 10 (readback). #752 — Codex automated review in two rounds, four
+findings (returned-function parameter types; definitions pooled by short name; declarations the splitter
+missed; definition bodies evaluated in the caller's scope), all repaired at `95e5de31` and `55571918` and
+answered in their threads; Root (OpenAI/Codex, B-003) exact-head qualification and integration
+([752/6676699342](https://github.com/d6g8k5htny-coder/main/pull/752#issuecomment-6676699342)).
 
-Coverage actually observed, per package and cut:
+Coverage actually observed, per package and cut (receipts under `cbz/evidence/g12-statement-fuzz-01n/`):
 
-| Package | Cut | Targets | PASS | UNSUPPORTED | Mutation contract |
-|---|---|---:|---:|---:|---|
-| main `formal/` (SIDE24 skeleton) | `4712fc13` (`formal/` unchanged since) | 31 | 31 | 0 | 98/98 killed, 12 weakenings kept, 7 declared controls FAIL |
-| main #740 `formal/` (SIDE24 + P15 skeletons, candidate) | `43b10c6f` | 59 | 59 | 0 | 184/184 killed, 14 declared controls FAIL |
-| Math- `formal/` (`ResearchFormalCoreR1`, Mathlib real analysis) | `19a55750` | 63 | 0 | **63** | — |
+| Package | Cut | Targets | PASS | CORROBORATED | FAIL | UNSUPPORTED | Mutation contract |
+|---|---|---:|---:|---:|---:|---:|---|
+| main `formal/` (SIDE24 + P15 skeletons) | `ec6962ff` (`formal/` unchanged since) | 59 | 59 | 0 | 0 | 0 | 184/184 killed, 24 weakenings kept, 15 declared controls FAIL |
+| Math- `formal/` (`ResearchFormalCoreR1`, Mathlib real analysis) | `19a55750` = `dfa9b30a` | 63 | 3 | 56 | 0 | 4 (named measure-theoretic constructs) | 72/72 killed, 6 weakenings kept, seeds 1–3 |
+| Math- every Lean declaration, 16 groups (census, `--lean-dir`) | `dfa9b30a` | 3,782 | 7 | 128 | 0 | 3,647 (classified by construct) | — |
 
-Gate mapping: G0/G5/G6 use the documented tests and the mutation contract; G8/G9/G11
-require this exact scope, runnable commands and self-verification record. For a new
-CLOSED claim on a core-Lean arithmetic statement, a PASS at the same source cut as the
-kernel receipt is the applicable empirical validation this registry recognises, recorded
-with the report file's SHA-256 and the `manifest_sha256` it binds; it adds nothing to and
-takes nothing from G2–G4. The tool does not cover Mathlib real analysis, binders before
-the colon or unbounded quantifiers, so the Math- core's 63 statements remain explicitly
-unsupported by the empirical layer; an exact-rational interval backend for
-`Real.exp`/`log`/`sqrt` (offered by Claude017, main#684/6532742483) is the recorded gap.
-This component installs no global CLOSED guard and does not complete the common final
-G0–G11 run. Maintenance owner: none; stdlib only, self-contained. Actual executor:
-Anthropic Claude, Claude Code session `session_01NMeKEismAyeqgdB4sy2NJU`; scientific
-effect NONE.
+Gate mapping: G0/G5/G6 use the documented tests and the mutation contract; G8/G9/G11 require this exact
+scope, runnable commands and self-verification record. For a CLOSED row on a Lean statement, the field this
+registry recognises is `G12: PASS | CORROBORATED | not applicable (<construct>)`, recorded with the report
+file's SHA-256 and the `manifest_sha256` (package) or source-file SHA-256 (census) it binds, at the same
+source cut as the kernel receipt: PASS and CORROBORATED are statement-level evidence, *not applicable*
+keeps the row's kernel status and names the construct, and a FAIL blocks the row until the Lean text is
+repaired. A per-record annotation of the #695 literal kernel index on this rule is
+`cbz/evidence/g12-statement-fuzz-01n/census_math_dfa9b30a_20261104/g12_annotations_literal_index_82d9e480.json`
+(367 records: 34 PASS · 69 CORROBORATED · 264 not applicable · 0 FAIL). None of this adds to or takes from
+G2–G4. The earlier recorded gap (an exact-rational interval backend for `Real.exp`/`log`) is withdrawn as a
+gap: no landed Lean statement in the federation uses those functions; the remaining UNSUPPORTED classes are
+named in the census. This component installs no global CLOSED guard and does not complete the common final
+G0–G11 run. Maintenance owner: none; stdlib only, self-contained. Actual executor: Anthropic Claude,
+Claude Code session `session_01NMeKEismAyeqgdB4sy2NJU`; the declaration-scope repair of #752 by a successor
+lane under the owner's account; scientific effect NONE.
 
 ### Finite MomentTail empirical component: bounded registration
 
