@@ -713,33 +713,33 @@ def _reachable_python_nodes(tree, mode):
 
     nodes, queue, visited = [], [], set()
 
-    def visit(node, owner=None, scope=None):
+    def visit(node, owner=None, scope=None, activation_line=None):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             # A definition is not a call: only decorators/defaults execute here.
             for decorator in node.decorator_list:
-                visit(decorator, owner, scope)
+                visit(decorator, owner, scope, activation_line)
             for default in node.args.defaults:
-                visit(default, owner, scope)
+                visit(default, owner, scope, activation_line)
             for default in node.args.kw_defaults:
                 if default is not None:
-                    visit(default, owner, scope)
+                    visit(default, owner, scope, activation_line)
             if (mode == "tests" and owner in test_classes
                     and (node.name.startswith("test_")
                          or node.name in {"setUp", "tearDown", "setUpClass", "tearDownClass"})):
-                queue.append((node, owner))
+                queue.append((node, owner, float("inf")))
             return
         if isinstance(node, ast.ClassDef):
             for decorator in node.decorator_list:
-                visit(decorator, owner, scope)
+                visit(decorator, owner, scope, activation_line)
             for base in node.bases:
-                visit(base, owner, scope)
+                visit(base, owner, scope, activation_line)
             for keyword in node.keywords:
-                visit(keyword.value, owner, scope)
+                visit(keyword.value, owner, scope, activation_line)
             for statement in node.body:
-                visit(statement, node.name, scope)
+                visit(statement, node.name, scope, activation_line)
             return
         if isinstance(node, ast.If):
-            visit(node.test, owner, scope)
+            visit(node.test, owner, scope, activation_line)
             if _is_main_guard(node.test):
                 branch = node.body if mode == "script" else node.orelse
             else:
@@ -751,38 +751,40 @@ def _reachable_python_nodes(tree, mode):
                 else:
                     branch = node.body if truth else node.orelse
             for statement in branch:
-                visit(statement, owner, scope)
+                visit(statement, owner, scope, activation_line)
             return
         if isinstance(node, (ast.For, ast.AsyncFor, ast.While)):
             if isinstance(node, (ast.For, ast.AsyncFor)):
-                visit(node.iter, owner, scope)
+                visit(node.iter, owner, scope, activation_line)
             else:
-                visit(node.test, owner, scope)
+                visit(node.test, owner, scope, activation_line)
             return
 
-        nodes.append((node, scope))
+        execution_line = (getattr(node, "lineno", 0)
+                          if activation_line is None else activation_line)
+        nodes.append((node, scope, execution_line))
         if isinstance(node, ast.Call):
             target = node.func
             if isinstance(target, ast.Name) and target.id in functions:
-                queue.append((functions[target.id], None))
+                queue.append((functions[target.id], None, execution_line))
             elif (isinstance(target, ast.Attribute) and isinstance(target.value, ast.Name)
                   and target.value.id in {"self", "cls"} and owner):
                 method = methods.get((owner, target.attr))
                 if method:
-                    queue.append((method, owner))
+                    queue.append((method, owner, execution_line))
         for child in ast.iter_child_nodes(node):
-            visit(child, owner, scope)
+            visit(child, owner, scope, activation_line)
 
     for statement in tree.body:
         visit(statement)
     while queue:
-        function, owner = queue.pop()
-        identity = (id(function), owner)
+        function, owner, activation_line = queue.pop()
+        identity = (id(function), owner, activation_line)
         if identity in visited:
             continue
         visited.add(identity)
         for statement in function.body:
-            visit(statement, owner, id(function))
+            visit(statement, owner, id(function), activation_line)
     return nodes
 
 
@@ -1060,6 +1062,12 @@ def _python_execution_wrappers(tree, imports):
                     and target.id not in parameters):
                 aliases[target.id] = aliases[value.id]
 
+        def visit_body(body):
+            for statement in body:
+                if visit(statement):
+                    return True
+            return False
+
         def visit(node):
             if node is not function and isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef,
                                                           ast.ClassDef, ast.Lambda)):
@@ -1068,15 +1076,15 @@ def _python_execution_wrappers(tree, imports):
                 truth = _literal_bool(node.test)
                 if truth is None:
                     if not _is_none_guard(node.test):
-                        return
-                    branch = [*node.body, *node.orelse]
-                else:
-                    branch = node.body if truth else node.orelse
-                for statement in branch:
-                    visit(statement)
-                return
+                        return False
+                    body_terminates = visit_body(node.body)
+                    other_terminates = visit_body(node.orelse)
+                    return bool(node.body and node.orelse
+                                and body_terminates and other_terminates)
+                branch = node.body if truth else node.orelse
+                return visit_body(branch)
             if isinstance(node, (ast.For, ast.AsyncFor, ast.While)):
-                return
+                return False
             if isinstance(node, ast.Assign):
                 for target in node.targets:
                     update_target(target, node.value)
@@ -1101,9 +1109,9 @@ def _python_execution_wrappers(tree, imports):
                         positions.add(parameters.index(parameter))
             for child in ast.iter_child_nodes(node):
                 visit(child)
+            return isinstance(node, (ast.Return, ast.Raise))
 
-        for statement in function.body:
-            visit(statement)
+        visit_body(function.body)
         return positions
 
     def register(body, containing_scope=None):
@@ -1132,8 +1140,18 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
     scope_shadowed = {id(node): _scope_bindings(node) for node in ast.walk(tree)
                       if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
     module_bindings, scope_bindings, scope_imports = {}, {}, {}
-    inactive_wrappers = set()
-    for node, scope in _reachable_python_nodes(tree, mode):
+    reachable_nodes = _reachable_python_nodes(tree, mode)
+    wrapper_reassignments = {}
+    for node, scope, _execution_line in reachable_nodes:
+        if not isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
+            continue
+        targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+        for target in targets:
+            for name in _target_names(target):
+                key = (scope, name)
+                if key in wrappers:
+                    wrapper_reassignments.setdefault(key, []).append(node.lineno)
+    for node, scope, execution_line in reachable_nodes:
         local = scope_bindings.setdefault(scope, {}) if scope is not None else module_bindings
         local_imports = scope_imports.setdefault(scope, _empty_import_bindings())
         if scope is not None:
@@ -1143,13 +1161,6 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
         locally_imported = set(local_imports["modules"]) | set(local_imports["symbols"])
         static_shadowed = scope_shadowed.get(scope, set()) - locally_imported
         if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
-            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
-            for target in targets:
-                for name in _target_names(target):
-                    key = (scope, name)
-                    wrapper = wrappers.get(key)
-                    if wrapper is not None and node.lineno > wrapper[1]:
-                        inactive_wrappers.add(key)
             value_node = (ast.BinOp(left=node.target, op=node.op, right=node.value)
                           if isinstance(node, ast.AugAssign) else node.value)
             value = _python_static_value(value_node, local, module_bindings, source_path,
@@ -1181,9 +1192,12 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                 if wrapper is None and node.func.id not in static_shadowed:
                     key = (None, node.func.id)
                     wrapper = wrappers.get(key)
+                call_line = node.lineno if key[0] is not None else execution_line
+                reassigned = (wrapper is not None and any(
+                    wrapper[1] < line < call_line
+                    for line in wrapper_reassignments.get(key, ())))
                 positions = (wrapper[0] if wrapper is not None
-                             and key not in inactive_wrappers
-                             and node.lineno > wrapper[1] else ())
+                             and not reassigned and call_line > wrapper[1] else ())
                 for position in positions:
                     if position < len(node.args):
                         value = _python_static_value(node.args[position], local, module_bindings,

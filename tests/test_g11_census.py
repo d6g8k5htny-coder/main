@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "e7058a48c706a27f4f2343435b54ed23db1640a8f0623635e253e35c95be52b5"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "da7b29fec4b75b47999f93473705a2f0701a3a797a6c4901cd7ad2150931b127"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -526,6 +526,35 @@ class ToolChecks(unittest.TestCase):
             ),
         }
         self.assertFalse(self.tools(tree)["tools/dead.py"]["referenced"])
+
+    def test_wrapper_process_call_after_return_is_unreachable(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_wrapper_return.py": (
+                "import subprocess\n"
+                "def launch(command):\n"
+                "    return print(command)\n"
+                "    subprocess.run(command)\n"
+                "launch(['python3', 'tools/unused.py'])\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_deferred_caller_sees_wrapper_defined_before_invocation(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/README.md": "tools/live.py\n",
+            "tests/test_deferred_wrapper.py": (
+                "import subprocess\n"
+                "def exercise():\n"
+                "    launch(['python3', 'tools/live.py'])\n"
+                "def launch(command):\n"
+                "    return subprocess.run(command)\n"
+                "exercise()\n"
+            ),
+        }
+        self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])
 
     def test_wrapper_rebinding_invalidates_forwarding(self):
         tree = {
@@ -1373,7 +1402,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 132)
+        self.assertEqual(len(cases), 134)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:
