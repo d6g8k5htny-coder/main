@@ -126,20 +126,20 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`f3b950cfe1b2428f5204448bc3ec52d4eda5d3ff` (tree
-`71a277529c646a952a6cdad7ae8962e885358c49`) extends the existing bounded
+`42c7b0bb649e8300db71b82aee16b065a3479782` (tree
+`aedec4194814efb6bbbce52d4cac9db3270c0ddc`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 88/88 controls and killed 140/140 designated
+The exact source commit passed 91/91 controls and killed 143/143 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`d9d444881a03129236467119be6231e219392e668de56e6cd16d06564b523d7e`.
+`6f9ebd7c35004bd1982796e079ec0d21fc2aa694752b14fe4614d6154d417fa0`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`1c9068c5b63833cfadefe0d7c2b885fdfaca375c816a0ea5a74e0cc3012ec71f`,
-56,065 bytes each):
+`fd459f47de4c3ad0f46db1f392cd22ba5900d2999a9c51838f49aa98901e3b56`,
+56,078 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
 interpreter command-mode payload arguments and unreachable wrapper bodies,
@@ -206,6 +206,12 @@ are roots only when passed to the imported `node:test` identity. That explicit
 positive rule restores the actual `tools/museum_conditionals.mjs` test path
 without admitting arbitrary callback APIs. The intermediate 30-tool census is
 preserved as a diagnostic rather than rebound.
+At Python branch joins, bindings written under the supported `is None` guard
+are invalidated rather than combining mutually exclusive states. A
+`node:test` callback root is admitted only when the registration call is
+itself reachable from module execution, and only when the registrar still
+resolves to the unshadowed imported identity. These bounded rules have
+dedicated adverse controls and designated mutants.
 The stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the
 earlier 28-tool result remains historical and is not rebound.
 

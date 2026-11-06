@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`f3b950cfe1b2428f5204448bc3ec52d4eda5d3ff`, based on Main default
+`42c7b0bb649e8300db71b82aee16b065a3479782`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,16 +263,16 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`f3b950cfe1b2428f5204448bc3ec52d4eda5d3ff` (tree
-`71a277529c646a952a6cdad7ae8962e885358c49`) recognizes explicit local path
+`42c7b0bb649e8300db71b82aee16b065a3479782` (tree
+`aedec4194814efb6bbbce52d4cac9db3270c0ddc`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-88/88 controls and 140/140 designated mutations passed in both modes; the
+91/91 controls and 143/143 designated mutations passed in both modes; the
 sealed mutation-inventory SHA-256 is
-`d9d444881a03129236467119be6231e219392e668de56e6cd16d06564b523d7e`. The exact
+`6f9ebd7c35004bd1982796e079ec0d21fc2aa694752b14fe4614d6154d417fa0`. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`1c9068c5b63833cfadefe0d7c2b885fdfaca375c816a0ea5a74e0cc3012ec71f`,
-56,065 bytes each),
+`fd459f47de4c3ad0f46db1f392cd22ba5900d2999a9c51838f49aa98901e3b56`,
+56,078 bytes each),
 with zero production findings and exactly 29 no-current-exercise tool
 candidates; both runs exited 1. Adverse controls refuse mere path
 mentions, fake same-named APIs, interpreter command-mode arguments, unreachable
@@ -324,6 +324,11 @@ Only callbacks passed to an imported `node:test` identity are recognized as
 test roots; this restores the actual museum-conditional test path while an
 arbitrary callback API remains untrusted. The temporary 30-tool result remains
 historical. The
+scanner also invalidates branch-written bindings at a supported `is None`
+join rather than combining mutually exclusive states. An imported `node:test`
+callback root requires both a reachable registration call and an unshadowed
+registrar identity; helper-local or nested registrations without a reachable
+module chain remain untrusted. The
 stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the former
 28-tool result remains historical and is not rebound. Static evidence is not
 runtime proof. Exact dormant dispositions and the final orchestrator remain
