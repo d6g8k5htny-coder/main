@@ -126,19 +126,19 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`be372434d492936a67e604b6de69c622b8c46e52` (tree
-`0820e26cd6aed7e5de6736fb2900cf9850d5d217`) extends the existing bounded
+`feedcf1a919c3ff9155f4ee2b1f1cfa99e4f43a9` (tree
+`cfa06a5da5f6829b5e109dc448af934e891c662a`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 77/77 controls and killed 129/129 designated
+The exact source commit passed 80/80 controls and killed 132/132 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`149f9c89c3acd928760e0e61e6a0fc9c98a33ea808640a928f20d33e5a2e4395`.
+`e7058a48c706a27f4f2343435b54ed23db1640a8f0623635e253e35c95be52b5`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`66c469a927c571360d8057181412f26c38fc97a2015cbd3f863914a9670823ab`,
+`3ee15e98f68672bbfb32cb423288e2b9b3f6f4c877641e3db7fa32d505a8fd9d`,
 56,065 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
@@ -184,6 +184,10 @@ JavaScript declaration shadows a named child-process import throughout that
 function, and a function-local `new URL` declaration is visible only inside its
 own function. The recognized mutator methods and function parser are explicit
 bounded rules, not a claim of complete Python or JavaScript semantics.
+Writes through aliases of wrapper parameters invalidate their shared
+forwarding provenance. Reassignment of a wrapper name invalidates the recorded
+wrapper before subsequent attribution. JavaScript callee resolution checks
+declarations in every containing function, not only the innermost scope.
 The stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the
 earlier 28-tool result remains historical and is not rebound.
 

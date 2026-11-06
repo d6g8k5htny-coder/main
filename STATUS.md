@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has native source parent
-`be372434d492936a67e604b6de69c622b8c46e52`; its isolated work began from the
+`feedcf1a919c3ff9155f4ee2b1f1cfa99e4f43a9`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,13 +37,13 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `be372434d492936a67e604b6de69c622b8c46e52` (tree
-`0820e26cd6aed7e5de6736fb2900cf9850d5d217`) passed 77/77 tests and killed
-129/129 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `149f9c89c3acd928760e0e61e6a0fc9c98a33ea808640a928f20d33e5a2e4395`.
+native source `feedcf1a919c3ff9155f4ee2b1f1cfa99e4f43a9` (tree
+`cfa06a5da5f6829b5e109dc448af934e891c662a`) passed 80/80 tests and killed
+132/132 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `e7058a48c706a27f4f2343435b54ed23db1640a8f0623635e253e35c95be52b5`.
 Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`66c469a927c571360d8057181412f26c38fc97a2015cbd3f863914a9670823ab`,
+`3ee15e98f68672bbfb32cb423288e2b9b3f6f4c877641e3db7fa32d505a8fd9d`,
 56,065 bytes each)
 contain zero production findings and retain exactly 29 no-current-exercise
 tool candidates; both census runs exit 1. The former 20 active
@@ -91,6 +91,14 @@ shadows a same-named child-process import across its function scope; and a
 function-local `new URL` binding cannot escape to an outer call. The supported
 Python mutator set is finite and documented; this remains bounded static
 analysis rather than general Python or JavaScript execution.
+Three later exact-head findings are also repaired: a write through an alias of
+a wrapper parameter invalidates the shared forwarding proof; reassignment of a
+registered wrapper binding prevents later calls from inheriting the original
+function's evidence; and a JavaScript declaration in any enclosing function
+shadows a same-named child-process import for nested calls. Each counterexample
+was reproduced red and has a dedicated control and designated mutant. The
+current review-defect total is 35; exact-head review remains required before
+integration.
 
 ## Current verification boundary
 
