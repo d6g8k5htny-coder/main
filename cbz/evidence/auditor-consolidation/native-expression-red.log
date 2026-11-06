@@ -1,0 +1,341 @@
+FFFFFFFFFFFFFFFFFFFFF
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { native := (true) })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { kernel := false, native := (true) })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { cfg with native := (true) })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { native := false || true })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { kernel := false, native := false || true })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { cfg with native := false || true })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { native := if true then true else false })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { kernel := false, native := if true then true else false })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { cfg with native := if true then true else false })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { native := (false) })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { kernel := false, native := (false) })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { cfg with native := (false) })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { native := Bool.not false })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { kernel := false, native := Bool.not false })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { cfg with native := Bool.not false })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { native := flag })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { kernel := false, native := flag })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { cfg with native := flag })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { native := false /- comment -/ || true })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { kernel := false, native := false /- comment -/ || true })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+======================================================================
+FAIL: test_unknown_native_field_expression_fails_closed (tests.test_cbz_auditor_hardening.LexicalUnion.test_unknown_native_field_expression_fails_closed) (src='by decide (config := { cfg with native := false /- comment -/ || true })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 50, in test_unknown_native_field_expression_fails_closed
+    with self.subTest(src=src): self.assertEqual(kinds(src),['native'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['native']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'native'
+
+- []
++ ['native']
+
+----------------------------------------------------------------------
+Ran 1 test in 0.004s
+
+FAILED (failures=21)

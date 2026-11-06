@@ -1,0 +1,50 @@
+{
+  "observed_utc": "2026-10-29T18:33:13.800535+00:00",
+  "scope": "finite lexical source and AST-signal auditors only; no kernel/semantic/global CBZ qualification",
+  "python": "CPython3.11.16",
+  "base_commit": "27c89b05bd2503c580b692f57146d608a7f0f668",
+  "sources": {
+    "tools/cbz/layer_a_scan.py": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+    "tools/cbz/a3_float_census.py": "882b6f611aaf14e30c314ab25ef17a787eed579dbc2591b0720341174df10d90",
+    "tests/test_cbz_layer_a_scan.py": "3f6f666e0a8cc9d4415d8e87a3cbc4fa879fb34becf3cdf1602137a266d5a0ed",
+    "tests/test_cbz_layer_a_scan_mutants.py": "170d158de2f3d1a8c1d7d96dc5d8d2893333eea30786eef769ad021d6c31d121",
+    "tests/test_cbz_a3_float_census.py": "da19b8436089be8300236cd3f363a82e7db1dd3aab10751a75ee9255a45700a9",
+    "tests/test_cbz_auditor_hardening.py": "f31d43830b807f4c3f593181e2ccbdae8bf08393456b8d464d30d4277f222fdb"
+  },
+  "normal": {
+    "tests": 72,
+    "exit": 0,
+    "duration_seconds_decimal": "110.936",
+    "log": "v4-final-normal.log"
+  },
+  "optimized": {
+    "tests": 72,
+    "exit": 0,
+    "duration_seconds_decimal": "118.016",
+    "log": "v4-final-optimized.log"
+  },
+  "source_mutations": {
+    "lexical": 66,
+    "a3": 23,
+    "threshold_percent": 100,
+    "killed": 89,
+    "survivors": 0,
+    "stale_anchors": 0,
+    "kill_requires": "designated named assertion failure; errors/import/launch/syntax/unrelated failures cannot kill"
+  },
+  "scoped_source_probe": {
+    "repo": "Math-",
+    "commit": "8151f592918a845bf19eb8eafaf8444540a32734",
+    "lean_blobs": 162,
+    "violations": 0,
+    "lex_errors": 0,
+    "exit": 0,
+    "not_final_federation_gate": true
+  },
+  "remaining_boundaries": [
+    "Gitlinks require separately pinned admission; ULW45a80ab0 is rejected with exit2 until resolved.",
+    "Lexical results do not see arbitrary macros/elaboration/imports; G2-G4 remain authoritative.",
+    "A3census does not certify mathematical bounds or exactness; no semantic A3 closure inferred.",
+    "Full preexisting regression/hosted/federation final gates not run by this contribution."
+  ]
+}

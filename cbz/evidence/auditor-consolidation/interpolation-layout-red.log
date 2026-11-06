@@ -1,0 +1,53 @@
+FFF
+======================================================================
+FAIL: test_interpolation_prefix_accepts_lean_layout (tests.test_cbz_auditor_hardening.LexicalUnion.test_interpolation_prefix_accepts_lean_layout) (src='#check s! "{("x", (sorry : Nat))}"')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 55, in test_interpolation_prefix_accepts_lean_layout
+    with self.subTest(src=src): self.assertEqual(kinds(src), ['sorry'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['sorry']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'sorry'
+
+- []
++ ['sorry']
+
+======================================================================
+FAIL: test_interpolation_prefix_accepts_lean_layout (tests.test_cbz_auditor_hardening.LexicalUnion.test_interpolation_prefix_accepts_lean_layout) (src='#check s! /- layout -/ "{("x", (sorry : Nat))}"')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 55, in test_interpolation_prefix_accepts_lean_layout
+    with self.subTest(src=src): self.assertEqual(kinds(src), ['sorry'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['sorry']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'sorry'
+
+- []
++ ['sorry']
+
+======================================================================
+FAIL: test_interpolation_prefix_accepts_lean_layout (tests.test_cbz_auditor_hardening.LexicalUnion.test_interpolation_prefix_accepts_lean_layout) (src='#check m! -- layout\n "{("x", (sorry : Nat))}"')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 55, in test_interpolation_prefix_accepts_lean_layout
+    with self.subTest(src=src): self.assertEqual(kinds(src), ['sorry'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['sorry']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'sorry'
+
+- []
++ ['sorry']
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+FAILED (failures=3)

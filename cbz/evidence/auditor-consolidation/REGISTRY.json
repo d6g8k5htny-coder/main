@@ -1,0 +1,46 @@
+{
+  "tools": [
+    {
+      "path": "tools/cbz/layer_a_scan.py",
+      "purpose": "finite Lean source-token scanner, tracked-Git or explicit filesystem source",
+      "usage": "python3.11 -B -S tools/cbz/layer_a_scan.py --git REPO --rev EXACT_COMMIT --fail-on all --json OUTSIDE_SOURCE.json",
+      "verification": "two72-test normal/optimized suites;66source mutants all killed via named assertion failures; actual pinnedLean counterexamples replayed",
+      "owner": "none — self-contained",
+      "cbz_criteria": [
+        4,
+        9,
+        11
+      ],
+      "gates": [
+        "G0",
+        "finite necessary source portion of G1"
+      ],
+      "limitations": [
+        "Gitlinks require separately pinned admission; ULW45a80ab0 is rejected with exit2 until resolved.",
+        "Lexical results do not see arbitrary macros/elaboration/imports; G2-G4 remain authoritative."
+      ]
+    },
+    {
+      "path": "tools/cbz/a3_float_census.py",
+      "purpose": "finite Python AST floating/exact/interval signal inventory, never semantic bound certification",
+      "usage": "python3.11 -B -S tools/cbz/a3_float_census.py --git REPO --rev EXACT_COMMIT --json OUTSIDE_SOURCE.json",
+      "verification": "same normal/optimized suites;23source mutants all killed; syntax/import/launch errors not kills",
+      "owner": "none — self-contained",
+      "cbz_criteria": [
+        4,
+        9,
+        11
+      ],
+      "gates": [
+        "G0",
+        "A3source triage only"
+      ],
+      "limitations": [
+        "A3census does not certify mathematical bounds or exactness; no semantic A3 closure inferred."
+      ]
+    }
+  ],
+  "canonical_registration_owner": "Root per B-003; proposed addenda only",
+  "source_doc": "docs/cbz/CANONICAL_AUDITORS.md",
+  "verification": "cbz/evidence/auditor-consolidation/VERIFICATION.json"
+}
