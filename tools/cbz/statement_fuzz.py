@@ -1338,7 +1338,7 @@ def _parse_theorem_binders(toks, start, end, defs, point_types=frozenset(), name
             def is_known(v):
                 if v in known or v.split('.')[0] in known:
                     return True
-                if v in _REAL_SHORT_NAMES and 'Real' in opens:
+                if v in _REAL_SHORT_NAMES and 'Real' in opens and not any(v in _REAL_NAME_RIVALS.get(ns, ()) for ns in opens):
                     return True
                 if isinstance(defs, DefTable):
                     return defs.denotes(v, namespace, opens)
@@ -1496,6 +1496,11 @@ _REAL_TYPES = {'Real', 'ℝ'}
 _FIELD_TYPES = {'Rat', 'Real'}          # numeric types with exact (totalized) division
 _FIN_CAST_SCOPES = ('Fin.NatCast', 'Fin.CommRing', 'Fin.IntCast')   # scoped instances that coerce ℕ/ℤ into Fin n
 _REAL_SHORT_NAMES = frozenset({'exp', 'log', 'sin', 'cos', 'tan', 'sinh', 'cosh', 'arctan', 'sqrt', 'pi', 'logb'})
+# Mathlib / core namespaces that carry one of those short names too: opened together with `Real`, the bare name is an
+# overloaded identifier Lean resolves by the expected type, so the tool refuses it
+_REAL_NAME_RIVALS = {'Nat': {'sqrt', 'log'}, 'Int': {'sqrt', 'log'}, 'NNReal': {'sqrt'}, 'ENNReal': {'log'}, 'EReal': {'exp', 'log'},
+                     'Complex': {'exp', 'log', 'sin', 'cos', 'tan', 'sinh', 'cosh', 'arctan', 'pi'}, 'NormedSpace': {'exp'},
+                     'Polynomial': {'log'}, 'Ordinal': {'log'}, 'Cardinal': {'log'}, 'PadicInt': {'exp', 'log'}}
 _TRANSCENDENTAL = {'Real.exp', 'Real.log', 'Real.pi', 'Real.sin', 'Real.cos', 'Real.tan', 'Real.arctan',
                    'Real.sinh', 'Real.cosh', 'Real.rpow', 'Real.logb', 'π'}
 
@@ -1956,7 +1961,15 @@ class Evaluator:
             # `(e : T)` elaborates e at T (Lean pushes the expected type to the leaves: `(n - 1 : ℝ)` is real
             # subtraction of ↑n, `((n - 1 : ℕ) : ℝ)` casts a truncated Nat); the value is then used at typ
             inner = self._type_name(node.type)
-            return self._rec(_coerce(self.num(node.expr, env, inner), inner, typ))
+            value = self.num(node.expr, env, inner)
+            try:
+                intrinsic = self.arith_type(node.expr, env)       # `(Real.sqrt 10 : ℕ)`: ℝ has no coercion into ℕ
+            except Unsupported:
+                intrinsic = None
+            if intrinsic is not None and _base(intrinsic) in _FIELD_TYPES and _base(inner) not in _FIELD_TYPES \
+                    and _base(inner) in ('Nat', 'Int'):
+                raise Unsupported(f'a {_base(intrinsic)} value ascribed where a {_base(inner)} is expected')
+            return self._rec(_coerce(value, inner, typ))
         if isinstance(node, Var):
             if node.name in ('true', 'false'):
                 return node.name == 'true'
@@ -2625,8 +2638,14 @@ class Evaluator:
     def real_name(self, name: str, env=None) -> str:
         """`exp`, `log`, `sqrt`, `pi` … written bare under `open Real` denote `Real.exp` … (Mathlib keeps them in the
         `Real` namespace and nothing at the root shadows them), unless a definition or binder of that name is in
-        scope, which Lean would prefer."""
+        scope, which Lean would prefer — or another opened library namespace supplies the same short name
+        (`open Nat Real` makes `sqrt` an overloaded identifier that Lean resolves by the expected type, so
+        `(sqrt 10 : ℕ)` is `Nat.sqrt 10`): that case is refused, never guessed (01DKKe, 757/6680709277 R1)."""
         if name in _REAL_SHORT_NAMES and 'Real' in self.opens and not (env and name in env) and self.defn(name) is None:
+            rivals = sorted(ns for ns in self.opens if name in _REAL_NAME_RIVALS.get(ns, ()))
+            if rivals:
+                raise Unsupported(f'bare `{name}` is ambiguous under `open {" ".join(rivals + ["Real"])}` '
+                                  f'(`{rivals[0]}.{name}` and `Real.{name}` are both in scope; Lean picks by the expected type)')
             return 'Real.' + name
         return name
 

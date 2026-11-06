@@ -466,14 +466,17 @@ a scoped instance precisely so that `x < n` elaborates as `↑x < n` (`Mathlib/D
 refuses that comparison under `open Fin.NatCast` / `Fin.CommRing` / `Fin.IntCast`, where the coercion loop exists and
 the comparison wraps (zero occurrences in the census corpus). In the same round, `exp`, `log`, `sqrt`, `pi` …
 written bare under `open Real` are read as Mathlib's `Real.exp` … (a definition or binder of that name in scope wins, as in
-Lean); the census receipts in `census_math_dfa9b30a_20261106_trans/` are those of this head — four verdicts moved against the
+Lean; and when another opened namespace carries the same short name — `open Nat Real` makes `sqrt` an overloaded identifier
+that Lean resolves by the expected type, `(sqrt 10 : ℕ)` being `Nat.sqrt 10` — the bare name is refused as ambiguous, the
+false PASS 01DKKe found in the readback (757/6680709277 R1) and its second layer, an intrinsically real value ascribed to
+ℕ/ℤ, now both UNSUPPORTED); the census receipts in `census_math_dfa9b30a_20261106_trans/` are those of this head — four verdicts moved against the
 first run of the day (`productDecay_eq_exp` in three groups and `shifted_gaussian_le`, UNSUPPORTED "unknown function exp" →
 CORROBORATED), six more bare-`exp` identities are now named as undecided-by-enclosure rather than unknown, nothing else
-changed. Tests 93 → **105** (`TranscendentalTests`: the thirteen P15 statements and their flips; the exact normal form;
+changed. Tests 93 → **106** (`TranscendentalTests`: the thirteen P15 statements and their flips; the exact normal form;
 Mathlib's totalisations; π and trigonometry; true equalities between enclosed values reported UNSUPPORTED with the
 reason; the refinement ladder and the caps; sampled binders with transcendental values, including the
 undecided-majority rule; connectives with an undecided side; the mutation contract on transcendental statements —
-0 survivors; containment against `decimal` and `math`; outward rounding and message formatting), normal, `-O`,
+0 survivors; containment against `decimal` and `math`; outward rounding and message formatting; bare names under `open Real` with the rival-namespace refusal), normal, `-O`,
 `-W error`. Landed expectations that change: `Real.exp 1 < 3` and `Real.exp 0 = 1` are PASS (the fail-closed
 anchors are now `Real.arcsin 1 < 3`, `Real.exp 1 ^ (1/2 : ℝ) < 2` (rpow) and `Real.cos Real.pi = -1`), a nested
 radical is enclosed rather than refused, and `(hx : Real.exp x > 0)` is a readable hypothesis
@@ -487,7 +490,7 @@ whose equalities are decided by the linear independence of the e^q over ℚ for 
 (Lindemann–Weierstrass — an imported theorem, not re-proved here); `Real.log` / `Real.pi` / trigonometric values and
 `Real.exp` of irrational arguments are enclosed by rigorous rational intervals refined to 1024 bits; a comparison the
 enclosures do not decide — in particular an equality between two enclosed values — is UNSUPPORTED, never PASS"; the coverage row for the census becomes
-`3,782 | 40 PASS | 233 CORROBORATED | 0 FAIL | 3,509 UNSUPPORTED`; the test count becomes 105.
+`3,782 | 40 PASS | 233 CORROBORATED | 0 FAIL | 3,509 UNSUPPORTED`; the test count becomes 106.
 
 **Dependency definitions in census mode (6 November; unit `CBZ0-G12-DEPS-01N-20261106`;
 [`census_math_dfa9b30a_20261106_deps/`](census_math_dfa9b30a_20261106_deps/CENSUS.md)).** The census evaluated each of the 16
