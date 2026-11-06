@@ -126,17 +126,18 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`ed03b33d0ff2d9bb01048fa0be841c9964e044e8` (tree
-`ac5c07cd3768c0decac1d55f9f5fdd682ee34b83`) extends the existing bounded
+`4c1b7abad6d03852dc7c7abf1e642fcb0b416936` (tree
+`783078253d459f052c30766235352871f1a959be`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 54/54 controls and killed 105/105 designated
+The exact source commit passed 61/61 controls and killed 113/113 designated
 mutants in each mode. Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`9a2d61dae7107edbb703ca2d4044d3055ef741dd3fc80ba184550a6dbe418df3`):
+`4570a88f28c101140a1f9b2113151326b251dd0ef75cd8dbb5424f2c812dcafc`,
+56,304 bytes each):
 zero production findings and 28 retained browser-tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
 interpreter command-mode payload arguments and unreachable wrapper bodies,
@@ -152,7 +153,14 @@ inherit module-level path values, and quoted or property-only JavaScript names
 do not count as binding expressions. Wrapper arguments use the same
 interpreter command-mode filter as direct process calls; augmented assignment
 replaces or clears the prior static value; and a property call cannot match a
-named child-process import.
+named child-process import. Unresolved sequence elements preserve their command
+position: an unknown value before a candidate tool refuses attribution, while a
+dynamic suffix after a statically selected tool does not erase that proven
+prefix. Boolean `or` uses left-to-right short-circuit semantics; local callees
+cannot inherit module wrappers; quoted JavaScript call text is masked; resolved
+starred command elements, `unittest` lifecycle methods and trusted
+`spec_from_file_location`/`run_path` wrappers are recognized. These are bounded
+static facts, not runtime or scientific certification.
 
 ### Empirical statement check for core-Lean arithmetic skeletons: bounded registration
 

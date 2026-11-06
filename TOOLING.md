@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`ed03b33d0ff2d9bb01048fa0be841c9964e044e8`, based on Main default
+`4c1b7abad6d03852dc7c7abf1e642fcb0b416936`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,13 +263,14 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`ed03b33d0ff2d9bb01048fa0be841c9964e044e8` (tree
-`ac5c07cd3768c0decac1d55f9f5fdd682ee34b83`) recognizes explicit local path
+`4c1b7abad6d03852dc7c7abf1e642fcb0b416936` (tree
+`783078253d459f052c30766235352871f1a959be`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-54/54 controls and 105/105 designated mutations passed in both modes. The exact
+61/61 controls and 113/113 designated mutations passed in both modes. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`9a2d61dae7107edbb703ca2d4044d3055ef741dd3fc80ba184550a6dbe418df3`),
+`4570a88f28c101140a1f9b2113151326b251dd0ef75cd8dbb5424f2c812dcafc`,
+56,304 bytes each),
 with zero production findings and exactly 28 historical one-shot browser
 tools still unexercised; both runs exited 1. Adverse controls refuse mere path
 mentions, fake same-named APIs, interpreter command-mode arguments, unreachable
@@ -282,7 +283,12 @@ shadows do not fall back to module values; and quoted or property-only
 JavaScript names are not expression evidence. Forwarded commands receive the
 same interpreter command-mode filtering as direct calls, augmented assignment
 replaces or clears stale static values, and property calls cannot impersonate
-trusted named imports. Static evidence is not runtime
+trusted named imports. Unknown command elements retain position, so an unknown
+prefix refuses attribution while a dynamic suffix after a proven tool does not
+erase the proven prefix. Boolean `or` is left-to-right, local callees cannot
+inherit module wrappers, quoted JavaScript calls remain data, and resolved
+starred elements, `unittest` lifecycle methods and trusted loader wrappers are
+recognized. Static evidence is not runtime
 proof. Exact dormant dispositions and the final orchestrator remain unfinished;
 G11 is FAIL.
 

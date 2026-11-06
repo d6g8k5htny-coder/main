@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has native source parent
-`ed03b33d0ff2d9bb01048fa0be841c9964e044e8`; its isolated work began from the
+`4c1b7abad6d03852dc7c7abf1e642fcb0b416936`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,11 +37,12 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `ed03b33d0ff2d9bb01048fa0be841c9964e044e8` (tree
-`ac5c07cd3768c0decac1d55f9f5fdd682ee34b83`) passed 54/54 tests and killed
-105/105 designated mutants in both modes. Its byte-identical normal/optimized
+native source `4c1b7abad6d03852dc7c7abf1e642fcb0b416936` (tree
+`783078253d459f052c30766235352871f1a959be`) passed 61/61 tests and killed
+113/113 designated mutants in both modes. Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`9a2d61dae7107edbb703ca2d4044d3055ef741dd3fc80ba184550a6dbe418df3`)
+`4570a88f28c101140a1f9b2113151326b251dd0ef75cd8dbb5424f2c812dcafc`,
+56,304 bytes each)
 contain zero production findings and retain exactly 28 no-current-exercise
 browser-tool candidates; both census runs exit 1. The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
@@ -54,7 +55,15 @@ only in strings or properties cannot credit a tool. No final G11 or combined
 G0–G11 pass is claimed. Forwarded interpreter command payloads receive the
 same command-mode filtering as direct calls; augmented assignments replace or
 clear prior static values; and property calls cannot impersonate a named
-child-process import.
+child-process import. Four further exact-head review findings are repaired:
+unresolved command elements cannot shift the executable, Boolean `or` follows
+left-to-right short-circuit order, a local callee cannot inherit a same-named
+module wrapper, and quoted JavaScript call text is not a call. Position-preserved
+dynamic suffixes after an already proven tool path, resolved starred command
+elements, `unittest` lifecycle methods and trusted loader-wrapper paths are now
+recognized with dedicated negative controls. These repairs restored the exact
+28-browser-tool residue after an intermediate sound census exposed eight more
+unproven execution paths; no intermediate result is rebound as a passing gate.
 
 ## Current verification boundary
 
