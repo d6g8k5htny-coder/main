@@ -364,12 +364,33 @@ class Crawl(unittest.TestCase):
         path.write_text(json.dumps({"schema": rc.ACK_SCHEMA, "entries": entries}))
         return str(path)
 
+    def test_acknowledgement_constraints_are_not_live_reference_records(self):
+        entry = {
+            "source": "main:unused.md",
+            "cited_repo": "math",
+            "cited_path": "tool.py",
+            "cited_commit": "0" * 40,
+            "reason": "a reviewed historical matcher, not a live reference record",
+        }
+        document = {"schema": "cbz.drift-acknowledgements.v2", "entries": [entry]}
+        fed = self.fed(main_extra={"tools/cbz/reference_crawler_acknowledged.json": document})
+        path = Path(self.tmp.name) / "acknowledged.json"
+        path.write_text(json.dumps(document))
+        code, report = silence(lambda: fed.crawl("--strict", "--acknowledged", str(path)))
+        self.assertEqual(code, 1)  # the fixture's three ordinary unacknowledged drifts remain
+        self.assertFalse(any(
+            finding.get("source") == "main:tools/cbz/reference_crawler_acknowledged.json"
+            for finding in report["findings"]
+        ))
+
     def test_acknowledged_drift_does_not_block_under_strict(self):
         fed = self.fed()
         ack = self.acknowledgements([
             {"source": "main:sources.json", "reason": "a dated record"},
-            {"source": "main:docs/LINKS.md", "repo": "math", "path": "tool.py", "commit": fed.a1, "reason": "dated"},
-            {"source": "main:docs/LINKS.md", "path": "data.json", "commit": "0" * 40, "reason": "another commit"},
+            {"source": "main:docs/LINKS.md", "cited_repo": "math", "cited_path": "tool.py",
+             "cited_commit": fed.a1, "reason": "dated"},
+            {"source": "main:docs/LINKS.md", "cited_path": "data.json",
+             "cited_commit": "0" * 40, "reason": "another commit"},
         ])
         (code, report), out, _ = captured(lambda: fed.crawl("--strict", "--acknowledged", ack))
         self.assertEqual((code, report["blocking"]), (1, 1))
@@ -430,9 +451,9 @@ class Crawl(unittest.TestCase):
             "unknown entry key": {"schema": rc.ACK_SCHEMA, "entries": [dict(good, pth="tool.py")]},
             "blank reason": {"schema": rc.ACK_SCHEMA, "entries": [dict(good, reason=" ")]},
             "no reason": {"schema": rc.ACK_SCHEMA, "entries": [{"source": "main:sources.json"}]},
-            "non-string value": {"schema": rc.ACK_SCHEMA, "entries": [dict(good, path=["tool.py"])]},
+            "non-string value": {"schema": rc.ACK_SCHEMA, "entries": [dict(good, cited_path=["tool.py"])]},
             "source without a repository": {"schema": rc.ACK_SCHEMA, "entries": [dict(good, source="sources.json")]},
-            "branch name as commit": {"schema": rc.ACK_SCHEMA, "entries": [dict(good, commit="main")]},
+            "branch name as commit": {"schema": rc.ACK_SCHEMA, "entries": [dict(good, cited_commit="main")]},
             "repeated entry": {"schema": rc.ACK_SCHEMA, "entries": [good, dict(good, reason="again")]},
             "not JSON": "{",
         }

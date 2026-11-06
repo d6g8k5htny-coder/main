@@ -291,10 +291,17 @@ MUTANTS = [
      "target = nodes.get(name) or next((n for k, n in nodes.items() if k.lower() == name.lower()), None)",
      "target = nodes.get(name)"),
     ("acknowledgements ignored", ' and "acknowledged" not in row)', ")"),
+    ("acknowledgement constraints treated as live references",
+     "    if isinstance(obj, dict):\n        repos = distinct(obj, REPO_KEYS,",
+     "    if isinstance(obj, dict):\n        if obj.get('cited_repo') and obj.get('cited_path') and obj.get('cited_commit'):\n"
+     "            obj = dict(obj, repository=obj['cited_repo'], path=obj['cited_path'], commit=obj['cited_commit'])\n"
+     "        repos = distinct(obj, REPO_KEYS,"),
     ("acknowledgement narrowing ignored",
-     '        if all(entry[k] == row.get(k) for k in ("repo", "path", "commit") if k in entry):', "        if True:"),
-    ("acknowledgement commit not compared", 'for k in ("repo", "path", "commit") if k in entry)',
-     'for k in ("repo", "path") if k in entry)'),
+     '        if all(entry[entry_key] == row.get(row_key) for entry_key, row_key in constraints if entry_key in entry):',
+     "        if True:"),
+    ("acknowledgement commit not compared",
+     'for entry_key, row_key in constraints if entry_key in entry)',
+     'for entry_key, row_key in constraints if entry_key in entry and entry_key != "cited_commit")'),
     ("directory acknowledgement crosses its boundary", 'cited.startswith(source) if source.endswith("/")',
      'cited.startswith(source.rstrip("/")) if source.endswith("/")'),
     ("every acknowledgement source is a prefix",
@@ -320,6 +327,7 @@ MUTANTS = [
 DESIGNATED = {
     "abbreviated commits rejected": ("test_named_refs_and_abbreviated_commits_are_checked_and_path_only_records_are_not_references",),
     "acknowledgement commit not compared": ("test_acknowledged_drift_does_not_block_under_strict",),
+    "acknowledgement constraints treated as live references": ("test_acknowledgement_constraints_are_not_live_reference_records",),
     "acknowledgement file hash dropped": ("test_acknowledged_drift_does_not_block_under_strict",),
     "acknowledgement narrowing ignored": ("test_acknowledged_drift_does_not_block_under_strict",),
     "acknowledgement schema unchecked": ("test_malformed_acknowledgements_stop_the_run_before_crawling",),
@@ -432,9 +440,10 @@ DESIGNATED = {
 # The test population this inventory was designed and run against. Any change to the suite
 # (a test added, removed or renamed, or any edit to the file) must update these deliberately,
 # together with DESIGNATED and the evidence fail-map.
-TEST_SHA256 = "148fd971cb041ab4d2c198976e2c3f26b17d8dd75f9910bfc3e370a8cc068a74"
+TEST_SHA256 = "9e415dde58fd8b911730c7722223ddec097f828fa9634595c38f8b1301fb1233"
 EXPECTED_TESTS = (
     "test_a_directory_source_acknowledges_only_files_under_it",
+    "test_acknowledgement_constraints_are_not_live_reference_records",
     "test_acknowledged_drift_does_not_block_under_strict",
     "test_added_repository_is_crawled",
     "test_binary_files_are_counted_and_oversize_files_reported",

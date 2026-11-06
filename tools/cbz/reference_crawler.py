@@ -104,16 +104,19 @@ finding with an interface change, or a FROZEN_REMOVED finding for a .lean, .py o
 file. --acknowledged FILE names those citations, so that --strict blocks on all
 interface drift except the drift that has been reviewed and recorded as historical.
 FILE is JSON:
-  {"schema": "cbz.drift-acknowledgements.v1", "description": "...",
-   "entries": [{"source": "REPO:PATH", "reason": "...", "repo": "...", "path": "...", "commit": "..."}]}
+  {"schema": "cbz.drift-acknowledgements.v2", "description": "...",
+   "entries": [{"source": "REPO:PATH", "reason": "...", "cited_repo": "...",
+                "cited_path": "...", "cited_commit": "..."}]}
 "source" is the citing file as the report names it (main:docs/x.json); a source that ends
 in "/" names every file under that directory. "reason" is required and must not be
-blank. The optional repo, path and commit narrow an entry to one cited repository, path
-or recorded commit. Any other key, a blank or non-string value, an invalid commit or a
-repeated entry makes the file malformed, and a malformed file stops the run (exit 2)
-before anything is crawled. An acknowledged finding records the index of the first entry
-that matches it. Entries that match no interface drift are listed as unused; that is
-reported, not blocking.
+blank. The optional cited_repo, cited_path and cited_commit narrow an entry to one cited
+repository, path or recorded commit. Their distinct names are deliberate: the reviewed
+matcher is not itself a live reference record when the acknowledgement file is crawled.
+Any other key, a blank or non-string value, an invalid cited_commit or a repeated entry
+makes the file malformed, and a malformed file stops the run (exit 2) before anything is
+crawled. An acknowledged finding records the index of the first entry that matches it.
+Entries that match no interface drift are listed as unused; that is reported, not
+blocking.
 
 Domain (governance B-006). The checks are on Git objects and file text. Lean
 statement drift compares comment-stripped, whitespace-normalized declaration text,
@@ -161,8 +164,8 @@ SHA256_KEYS = ("sha256", "raw_sha256")
 BYTES_KEYS = ("bytes", "byte_length")
 ALSO_AT_PREFIX = "byte_identical_at_"
 INTERFACE_SUFFIXES = (".lean", ".py", ".json")
-ACK_SCHEMA = "cbz.drift-acknowledgements.v1"
-ACK_KEYS = ("source", "repo", "path", "commit")
+ACK_SCHEMA = "cbz.drift-acknowledgements.v2"
+ACK_KEYS = ("source", "cited_repo", "cited_path", "cited_commit")
 ACK_SOURCE = re.compile(r"^[^:/]+:[^:]")
 JSON_SUFFIXES = (".json", ".ipynb")
 JSON_LINES_SUFFIXES = (".jsonl", ".ndjson")
@@ -902,7 +905,7 @@ def load_acknowledgements(path):
         valid = (isinstance(entry, dict) and not set(entry) - {*ACK_KEYS, "reason"} and "reason" in entry
                  and all(isinstance(v, str) and v.strip() for v in entry.values())
                  and ACK_SOURCE.match(entry.get("source", "")) is not None
-                 and ("commit" not in entry or COMMITISH.match(entry["commit"]) is not None))
+                 and ("cited_commit" not in entry or COMMITISH.match(entry["cited_commit"]) is not None))
         if not valid:
             raise CrawlError(f"acknowledgements {path}: entry {i} is malformed")
         key = tuple(entry.get(k) for k in ACK_KEYS)
@@ -918,7 +921,8 @@ def acknowledgement_for(row, entries):
         source, cited = entry["source"], row.get("source", "")
         if not (cited.startswith(source) if source.endswith("/") else cited == source):
             continue
-        if all(entry[k] == row.get(k) for k in ("repo", "path", "commit") if k in entry):
+        constraints = (("cited_repo", "repo"), ("cited_path", "path"), ("cited_commit", "commit"))
+        if all(entry[entry_key] == row.get(row_key) for entry_key, row_key in constraints if entry_key in entry):
             return i
     return None
 

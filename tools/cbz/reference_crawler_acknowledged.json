@@ -1,5 +1,5 @@
 {
- "schema": "cbz.drift-acknowledgements.v1",
+ "schema": "cbz.drift-acknowledgements.v2",
  "description": "Reviewed historical citations for reference_crawler.py --strict, the G7 gate. Each entry names citing files that record a file at a commit on purpose, so the cited file's later interface drift is expected there. All other interface drift blocks. Add an entry only with a reason that a reviewer can check against the citing files.",
  "entries": [
   {
@@ -91,30 +91,30 @@
   },
   {
    "source": "main:STATUS.md",
-   "repo": "Math-",
-   "path": "cbz/finite_moment_tail_20261030/CONTRACT.json",
-   "commit": "e1cf617b6bc979b75d420f28df17ddad59426522",
+   "cited_repo": "Math-",
+   "cited_path": "cbz/finite_moment_tail_20261030/CONTRACT.json",
+   "cited_commit": "e1cf617b6bc979b75d420f28df17ddad59426522",
    "reason": "Cites the finite MomentTail contract at the disclosed Math-#545 candidate head e1cf617b6bc979b75d420f28df17ddad59426522. That PR is now closed unmerged under Q-MATH-545, and this path remains absent from Math- main."
   },
   {
    "source": "main:GOVERNANCE.md",
-   "repo": "Math-",
-   "path": "cbz/finite_moment_tail_20261030/CONTRACT.json",
-   "commit": "e1cf617b6bc979b75d420f28df17ddad59426522",
+   "cited_repo": "Math-",
+   "cited_path": "cbz/finite_moment_tail_20261030/CONTRACT.json",
+   "cited_commit": "e1cf617b6bc979b75d420f28df17ddad59426522",
    "reason": "The same disclosed candidate pin as main:STATUS.md. Math-#545 is now closed unmerged under Q-MATH-545, and this path remains absent from Math- main."
   },
   {
    "source": "main:cbz/contributions/math514/kernel_replay/",
-   "repo": "main",
-   "path": "cbz/evidence/kernel/math-core/receipt.json",
-   "commit": "94747663830ca6645ea27c8820058168c08cf170",
+   "cited_repo": "main",
+   "cited_path": "cbz/evidence/kernel/math-core/receipt.json",
+   "cited_commit": "94747663830ca6645ea27c8820058168c08cf170",
    "reason": "The kernel-replay records cite completed evidence at a commit in main's history. README.md says 'Reuse that completed evidence'. The receipt is absent at the current tip and remains reachable at 94747663."
   },
   {
    "source": "main:docs/RESEARCH_INDEX.md",
-   "repo": "Math-",
-   "path": "frontiers/cap_first_exit_lean_20261002/MANIFEST.json",
-   "commit": "79cb314d5b9f6b8b410bfd0df200414314f6b8c7",
+   "cited_repo": "Math-",
+   "cited_path": "frontiers/cap_first_exit_lean_20261002/MANIFEST.json",
+   "cited_commit": "79cb314d5b9f6b8b410bfd0df200414314f6b8c7",
    "reason": "A dated identity: the index says the cap-first-exit packet has 152 Lean targets in its manifest, linking the manifest at 79cb314d. The later manifest retains 152 targets but extends other schema and content."
   },
   {
