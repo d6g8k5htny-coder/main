@@ -126,19 +126,19 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`a44a041ee2d3d5f7f86ed687ebfe37c096ba51fd` (tree
-`7c0965174bdea13b8e8c404fe3a93453f6f7c02a`) extends the existing bounded
+`bded45423363ec21f524e0338a077ab8d7dc2d72` (tree
+`f0dd308edb2bee184d5b3f687fb100c573466c48`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 103/103 controls and killed 154/154 designated
+The exact source commit passed 105/105 controls and killed 156/156 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`cfacfa031f57b075a44cae3e0c741786a0a906c82ec74d9948bab70c7b04fbde`.
+`d4cab4976fb9b491bdfdc6b5350ad2318273fcbeac340ad4178791a86698dc19`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`14a3a3f311f4dcdfcfda56f703c5f093f02c531ddb8d91d243a998612c3b99ae`,
+`dd8beda3f81d634959a5245b4cbc935992d58df3c0bfb61b36ed68b47ab9d0c4`,
 56,078 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
@@ -230,6 +230,10 @@ Python call-argument helper effects precede attribution of the enclosing call,
 reassigned Python helpers lose their former bodies, and deferred JavaScript
 helpers validate module URL bindings at reachable activation points. These
 bounded rules have dedicated adverse controls and designated mutants.
+Python call arguments retain the value observed at each evaluation point while
+later in-place aggregate mutation invalidates shared provenance. Assignment
+RHS expressions execute before their targets replace active helper bindings.
+Both bounded rules have dedicated adverse controls and designated mutants.
 The stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the
 earlier 28-tool result remains historical and is not rebound.
 

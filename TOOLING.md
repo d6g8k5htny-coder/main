@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`a44a041ee2d3d5f7f86ed687ebfe37c096ba51fd`, based on Main default
+`bded45423363ec21f524e0338a077ab8d7dc2d72`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,15 +263,15 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`a44a041ee2d3d5f7f86ed687ebfe37c096ba51fd` (tree
-`7c0965174bdea13b8e8c404fe3a93453f6f7c02a`) recognizes explicit local path
+`bded45423363ec21f524e0338a077ab8d7dc2d72` (tree
+`f0dd308edb2bee184d5b3f687fb100c573466c48`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-103/103 controls and 154/154 designated mutations passed in both modes; the
+105/105 controls and 156/156 designated mutations passed in both modes; the
 sealed mutation-inventory SHA-256 is
-`cfacfa031f57b075a44cae3e0c741786a0a906c82ec74d9948bab70c7b04fbde`. The exact
+`d4cab4976fb9b491bdfdc6b5350ad2318273fcbeac340ad4178791a86698dc19`. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`14a3a3f311f4dcdfcfda56f703c5f093f02c531ddb8d91d243a998612c3b99ae`,
+`dd8beda3f81d634959a5245b4cbc935992d58df3c0bfb61b36ed68b47ab9d0c4`,
 56,078 bytes each),
 with zero production findings and exactly 29 no-current-exercise tool
 candidates; both runs exited 1. Adverse controls refuse mere path
@@ -341,6 +341,9 @@ control and designated mutant. The
 scanner also applies Python argument helper effects before enclosing-call
 attribution, rejects reassigned Python helper bodies, and validates deferred
 JavaScript module URL bindings at reachable activation points. The
+scanner captures each Python argument's static value at evaluation while
+invalidating shared list objects after later mutation, and evaluates assignment
+RHS helpers before target rebinding. The
 stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the former
 28-tool result remains historical and is not rebound. Static evidence is not
 runtime proof. Exact dormant dispositions and the final orchestrator remain
