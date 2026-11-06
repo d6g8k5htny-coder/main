@@ -1165,6 +1165,9 @@ def _python_execution_wrappers(tree, imports):
                 update_target(node.target, node.value)
             elif isinstance(node, ast.AugAssign):
                 update_target(node.target)
+            elif isinstance(node, ast.Delete):
+                for target in node.targets:
+                    update_target(target)
             mutated_root = _python_mutated_root_name(node)
             if mutated_root:
                 invalidate(mutated_root)
@@ -1237,7 +1240,8 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
         active_imports, _ = _combined_import_bindings(
             imports, local_imports, scope_shadowed.get(scope, set()))
         locally_imported = set(local_imports["modules"]) | set(local_imports["symbols"])
-        static_shadowed = scope_shadowed.get(scope, set()) - locally_imported
+        static_shadowed = (scope_shadowed.get(scope, set())
+                           - locally_imported - global_names)
         if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
             value_node = (ast.BinOp(left=node.target, op=node.op, right=node.value)
                           if isinstance(node, ast.AugAssign) else node.value)
@@ -1774,7 +1778,8 @@ def _js_call_is_reachable(text, position):
                 continue
             if open_brace < call.start() < close_brace:
                 continue
-            if _js_parameter_shadows(searchable, call.start(), name):
+            if _js_helper_call_shadowed(
+                    searchable, call.start(), name, definition_start):
                 continue
             if reachable(call.start(), seen | {identity}, binding_guards + (guard,)):
                 return True
@@ -1813,6 +1818,32 @@ def _js_local_declaration_shadows(text, position, name):
                                  if declaration_scopes else None)
             if declaration_scope == scope:
                 return True
+    return False
+
+
+def _js_helper_call_shadowed(text, position, name, definition_start):
+    """Resolve a helper call against the nearest lexical declaration scope."""
+    if _js_parameter_shadows(text, position, name):
+        return True
+    searchable, scopes = _js_function_scopes(text)
+    containing = sorted(
+        (scope for scope in scopes if scope[2] < position < scope[3]),
+        key=lambda item: item[2], reverse=True)
+    pattern = re.compile(
+        r"\b(?:const|let|var|function|class)\s+(" + re.escape(name) +
+        r")(?![\w$])")
+    for scope in containing:
+        declarations = []
+        for declaration in pattern.finditer(searchable, scope[2] + 1, scope[3]):
+            declaration_scopes = [candidate for candidate in scopes
+                                  if candidate[2] < declaration.start() < candidate[3]]
+            declaration_scope = (max(declaration_scopes, key=lambda item: item[2])
+                                 if declaration_scopes else None)
+            if declaration_scope == scope:
+                declarations.append(declaration)
+        if declarations:
+            return not any(declaration.start(1) == definition_start
+                           for declaration in declarations)
     return False
 
 

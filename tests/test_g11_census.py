@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "0636c8aaec666c6898706ffcdce7e5c4ab97f0614ba95dbeac511c68c277b701"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "f6de27b4f13e27b4187d6c2ef9bf1d7ebbd3f96f905f5b4f266b1a71fabc011e"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -657,6 +657,22 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
+    def test_nested_helper_global_assignment_is_read_in_same_scope(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/README.md": "tools/live.py\n",
+            "tests/test_global_read.py": (
+                "import runpy\n"
+                "script = 'other.py'\n"
+                "def exercise():\n"
+                "    global script\n"
+                "    script = 'tools/live.py'\n"
+                "    runpy.run_path(script)\n"
+                "exercise()\n"
+            ),
+        }
+        self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])
+
     def test_wrapper_rebinding_invalidates_forwarding(self):
         tree = {
             "tools/unused.py": "x = 1\n",
@@ -699,6 +715,20 @@ class ToolChecks(unittest.TestCase):
                 "alias = command\n"
                 "del command[1]\n"
                 "subprocess.run(alias)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_wrapper_element_delete_invalidates_forwarding(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_wrapper_delete.py": (
+                "import subprocess\n"
+                "def launch(command):\n"
+                "    del command[1]\n"
+                "    subprocess.run(command)\n"
+                "launch(['python3', 'tools/unused.py', 'other.py'])\n"
             ),
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
@@ -1275,6 +1305,20 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
+    def test_js_lexically_shadowed_helper_is_not_reachable(self):
+        tree = {
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/helper-shadow.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "function launch() { spawnSync('echo',[script]); }\n"
+                "function exercise() { const launch = () => {}; launch(); }\n"
+                "exercise();\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
     def test_js_node_test_callback_is_a_reachable_root(self):
         tree = {
             "tools/live.mjs": "export const live = true;\n",
@@ -1642,7 +1686,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 148)
+        self.assertEqual(len(cases), 151)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

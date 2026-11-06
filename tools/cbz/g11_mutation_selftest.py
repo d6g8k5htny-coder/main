@@ -666,6 +666,21 @@ NEW_MUTATIONS = [
      "            return True",
      "tests.test_g11_census.ToolChecks.test_js_rebound_helper_is_not_reachable",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("wrapper element deletion retains forwarding", "census",
+     "            elif isinstance(node, ast.Delete):\n                for target in node.targets:\n                    update_target(target)",
+     "            elif False:\n                for target in node.targets:\n                    update_target(target)",
+     "tests.test_g11_census.ToolChecks.test_wrapper_element_delete_invalidates_forwarding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("declared global remains a local static shadow", "census",
+     "        static_shadowed = (scope_shadowed.get(scope, set())\n                           - locally_imported - global_names)",
+     "        static_shadowed = (scope_shadowed.get(scope, set())\n                           - locally_imported)",
+     "tests.test_g11_census.ToolChecks.test_nested_helper_global_assignment_is_read_in_same_scope",
+     'self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])'),
+    ("JavaScript lexical helper shadow ignored", "census",
+     "            if _js_helper_call_shadowed(\n                    searchable, call.start(), name, definition_start):\n                continue",
+     "            if False:\n                continue",
+     "tests.test_g11_census.ToolChecks.test_js_lexically_shadowed_helper_is_not_reachable",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -817,6 +832,9 @@ EXPECTED_MUTATION_NAMES = (
     "global assignment stored in helper local binding",
     "command element deletion retains stale sequence",
     "JavaScript helper rebinding ignored",
+    "wrapper element deletion retains forwarding",
+    "declared global remains a local static shadow",
+    "JavaScript lexical helper shadow ignored",
 )
 
 
@@ -995,7 +1013,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 97
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 100
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
