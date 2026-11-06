@@ -812,6 +812,73 @@ class CensusModeTests(unittest.TestCase):
             self.assertEqual(report['exit_code'], 1)
             self.assertEqual(sf.main(['--lean-dir', str(root), '--exclude', 'raw']), 1)
 
+    def test_definitions_from_a_dependency_directory(self):
+        # `--defs-from`: a Lake path dependency (or the package a companion is built against) contributes definitions,
+        # never targets; imports are accounted for; the ambiguity rule still applies
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d)
+            (root / 'proofs' / 'Proofs').mkdir(parents=True)
+            (root / 'spec' / 'Spec').mkdir(parents=True)
+            (root / 'spec' / 'Spec' / 'P15.lean').write_text(
+                'import Mathlib\nnamespace Spec.P15\nnoncomputable def pStar : ℝ := 1 - Real.exp (-1)\n'
+                'def phi (p : ℝ) : ℝ := p * p\ntheorem not_a_target : phi 2 = 4 := by norm_num\nend Spec.P15\n')
+            (root / 'spec' / 'Spec' / 'Other.lean').write_text(
+                'import Mathlib\nnamespace Spec.Other\ndef twice (n : ℕ) : ℕ := 2 * n\nend Spec.Other\n')
+            (root / 'proofs' / 'Proofs' / 'P15Elementary.lean').write_text(
+                'import Mathlib\nimport Spec.P15\nimport Spec.Missing\nopen Spec.P15\nnamespace Proofs\n'
+                'theorem phi_two : phi 2 = 4 := by norm_num [phi]\n'
+                'theorem pStar_lt : pStar < 1 := by simp [pStar, Real.exp_pos]\n'
+                'theorem phi_le (p : ℝ) (h0 : 0 ≤ p) (h1 : p ≤ 1) : phi p ≤ p := by nlinarith [phi]\n'
+                'def twice (n : ℕ) : ℕ := n + n\ntheorem twice_three : twice 3 = 6 := rfl\nend Proofs\n')
+            (root / 'proofs' / 'Proofs' / 'Copy.lean').write_text((root / 'spec' / 'Spec' / 'Other.lean').read_text())
+            without = sf.check_lean_dir(root / 'proofs')
+            self.assertEqual(without['per_target']['Proofs/P15Elementary.lean::Proofs.phi_two']['status'], 'UNSUPPORTED')
+            self.assertIn('unknown', without['per_target']['Proofs/P15Elementary.lean::Proofs.phi_two']['detail'])
+            self.assertEqual(without['unresolved_imports'], {'Spec.P15': ['Proofs/P15Elementary.lean'],
+                                                             'Spec.Missing': ['Proofs/P15Elementary.lean']})
+            report = sf.check_lean_dir(root / 'proofs', defs_from=(root / 'spec',))
+            t = report['per_target']
+            self.assertEqual(t['Proofs/P15Elementary.lean::Proofs.phi_two']['status'], 'PASS')
+            self.assertEqual(t['Proofs/P15Elementary.lean::Proofs.pStar_lt']['status'], 'PASS')        # exponential normal form
+            self.assertEqual(t['Proofs/P15Elementary.lean::Proofs.phi_le']['status'], 'CORROBORATED')
+            self.assertEqual(t['Proofs/P15Elementary.lean::Proofs.twice_three']['status'], 'PASS')     # the module's own def wins
+            self.assertNotIn('Spec/P15.lean::Spec.P15.not_a_target', t)                                 # dependencies are not targets
+            self.assertEqual(report['targets'], 4)
+            self.assertEqual(report['defs_from']['dirs'], [str(root / 'spec')])
+            self.assertEqual(report['defs_from']['files'], 2)
+            self.assertEqual(report['defs_from']['files_pooled'], 1)                                     # Other.lean is byte-identical to Copy.lean
+            self.assertEqual(report['defs_from']['byte_identical_to_group'], {'spec/Spec/Other.lean': 'Proofs/Copy.lean'})
+            self.assertEqual(set(report['defs_from']['file_sha256']), {'spec/Spec/P15.lean', 'spec/Spec/Other.lean'})
+            self.assertEqual(report['unresolved_imports'], {'Spec.Missing': ['Proofs/P15Elementary.lean']})
+            # a name defined differently in the dependency and in another group module is ambiguous, fail-closed
+            (root / 'proofs' / 'Proofs' / 'Shadow.lean').write_text(
+                'import Mathlib\nnamespace Spec.P15\ndef phi (p : ℝ) : ℝ := p + p\nend Spec.P15\n')
+            (root / 'proofs' / 'Proofs' / 'Amb.lean').write_text(
+                'import Mathlib\nopen Spec.P15 in\ntheorem amb : phi 2 = 4 := by norm_num [phi]\n')
+            report = sf.check_lean_dir(root / 'proofs', defs_from=(root / 'spec',))
+            self.assertEqual(report['per_target']['Proofs/Amb.lean::amb']['status'], 'UNSUPPORTED')
+            self.assertIn('ambiguous', report['per_target']['Proofs/Amb.lean::amb']['detail'])
+            self.assertEqual(report['per_target']['Proofs/P15Elementary.lean::Proofs.phi_two']['status'], 'UNSUPPORTED')  # now ambiguous too
+            self.assertEqual(sf.main(['--lean-dir', str(root / 'proofs'), '--defs-from', str(root / 'spec')]), 1)
+
+    def test_big_operators_and_exact_work_are_capped_not_approximated(self):
+        # a sampled `Finset.range 65536` or a sum of huge exact rationals is Infeasible for that instance: counted,
+        # never a verdict and never a float
+        def ev(binders, text, defs=''):
+            module = sf.parse_module(defs + f'theorem t {binders} : {text} := by sorry\n')
+            return sf.evaluate_theorem(module, module.theorems[-1])
+        r = ev('(n : ℕ)', '∑ j ∈ Finset.range n, (j : ℝ) = n * (n - 1) / 2')
+        self.assertEqual(r.status, 'CORROBORATED')
+        self.assertGreater(r.sampling['infeasible'], 0)                      # the pool's 65536, 10^6 … are refused
+        r = ev('(n : ℕ)', '∑ j ∈ Finset.range n, (j : ℝ) = n * (n - 1) / 2 + 1')
+        self.assertEqual(r.status, 'FAIL')
+        big = ('noncomputable def pairingSum (q : ℕ) (r : ℝ) : ℝ :=\n  ∑ j ∈ Finset.range (q / 2 + 1),\n'
+               '    (Nat.factorial q : ℝ) * r ^ (q - 2 * j) / ((2 : ℝ) ^ j * (Nat.factorial j : ℝ) * (Nat.factorial (q - 2 * j) : ℝ))\n')
+        r = ev('(q : ℕ) {r s : ℝ} (hr : 0 ≤ r) (hrs : r ≤ s)', 'pairingSum q r ≤ pairingSum q s', big)
+        self.assertEqual(r.status, 'CORROBORATED')
+        self.assertGreater(r.sampling['infeasible'], 0)                      # q = 5000 with r = 10^6 exceeds the work cap
+        self.assertEqual(ev('(q : ℕ) {r s : ℝ} (hr : 0 ≤ r) (hrs : r < s)', 'pairingSum q r < pairingSum q s', big).status, 'FAIL')  # q = 0
+
     def test_a_parser_exception_fails_one_declaration_not_the_module(self):
         m = sf.parse_module('theorem a : 1 = 1 := rfl\ntheorem b : [1 2 := rfl\ntheorem c : 2 = 2 := rfl\n')
         self.assertEqual([t.name for t in m.theorems], ['a', 'b', 'c'])

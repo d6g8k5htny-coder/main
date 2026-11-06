@@ -489,6 +489,38 @@ whose equalities are decided by the linear independence of the e^q over ℚ for 
 enclosures do not decide — in particular an equality between two enclosed values — is UNSUPPORTED, never PASS"; the coverage row for the census becomes
 `3,782 | 40 PASS | 233 CORROBORATED | 0 FAIL | 3,509 UNSUPPORTED`; the test count becomes 105.
 
+**Dependency definitions in census mode (6 November; unit `CBZ0-G12-DEPS-01N-20261106`;
+[`census_math_dfa9b30a_20261106_deps/`](census_math_dfa9b30a_20261106_deps/CENSUS.md)).** The census evaluated each of the 16
+Lean groups on its own, so a statement in `specifications/lean_statement_proofs_20261011` about `pStar`, `hStar`, `rhoStar`,
+`epsilon`, `phi`, `binomTail` or `pairingSum` — constants and functions *defined* in `specifications/lean_statements_20261010`,
+a Lake path dependency (`lakefile.toml`: `path = "../lean_statements_20261010"`) — was UNSUPPORTED "unknown name", as were the
+companions' statements about `ResearchFormalCoreR1.d2Schur` from `formal/`. `--defs-from <dir>` (repeatable) adds a dependency
+directory's `.lean` files to the group's definition pool — definitions, carrier types and type abbreviations, never targets —
+under the unchanged resolution rule (a statement's own module first, then the pool when exactly one definition carries the
+qualified name, otherwise UNSUPPORTED "ambiguous definition"; a dependency file byte-identical to a group file is skipped and
+recorded). The dependency table is derived from the groups' `import` lines, transitively (16 groups → the table in CENSUS.md
+and `run_census.sh`), and every `import` of a target module is accounted for in the report: a group file, a dependency file,
+a library prefix (`Mathlib`, `Init`, `Lean`, `Std`, `Batteries` …), or listed under `unresolved_imports` (modules the archive
+does not carry: `Lifetime`, `ReusedCompactFrontier`, `RegularPointChart` …). The report records the dependency files' SHA-256
+(`defs_from.file_sha256`), so a receipt binds the definitions it read. Two resource caps came with the larger reach, both
+Infeasible — counted, never a verdict, never a float: a `∑`/`∏` over more than 4,096 indices (a sampled `Finset.range 65536`
+of binomials), and an instance whose exact results exceed 20,000,000 bits in total (`binomTail 10^6 65535 c`, `pairingSum 5000
+(10^6)`); the baseline census re-run with the caps alone is identical to `census_math_dfa9b30a_20261106_trans/` per target.
+
+Result: **66 PASS · 273 CORROBORATED · 0 FAIL · 3,443 UNSUPPORTED** — 66 verdicts moved, all from UNSUPPORTED (26 → PASS,
+40 → CORROBORATED), **none to FAIL on these kernel-proved statements**, no earlier verdict changed
+(`verdict_changes_20261106_trans_to_deps.json`). The gains are the P15 price-boundary constants (`pStar_pos`, `pStar_gt_half`,
+`pStar_lt_one`, `one_lt_hStar`, `seven_sixths_lt_hStar`, `rhoStar_lt_six_sevenths`, `f3_rhoStar_lt_upper`,
+`f3_lower_lt_rhoStar`, `f3_upper_lt_six_sevenths`, `f2_rhoStar_nonneg`, `binomTail_three_one` — closed, PASS), the `binomTail`
+and `phi` inequalities (`binomTail_pos`, `binomTail_le_of_le`, `binomTail_succ_left`, `phi_le_div`, `le_phi_self`, `f7_phi_*`,
+`f8_prod_phi_le_one`), the Side24 integrand-ratio facts about `epsilon = 10⁻¹⁰⁸` (`ir_epsilon_pos`, `ir_epsilon_lt`,
+`ir_exponentA_two` … `ir_exponentB_three`, `ir_lower_rational`, `ir_upper_rational` — PASS), `ib_final_constant`, `co_margin`,
+the `pairingSum` monotonicity and bounds, the W3 scratch links `d2DetV_eq_*`, `d2Schur_eq_srcSchur`, `d2Tau_eq_srcTau`, and the
+companions' `schur_no_upper`, `schur_from_lower_inputs`, `residual_integral_eq_delta`, `zero_atom_counterexample`. Tests 105 →
+**107** (`CensusModeTests`: the dependency pool with a Lake-style layout — resolution, shadowing by the module's own definition,
+byte-identical skip, import accounting, the ambiguity rule across dependency and group; the big-operator and work caps with a
+`pairingSum` fixture). Package receipts are unchanged (the caps change no package verdict).
+
 ## Proposed gate row and registry entries (for Root; B-003)
 
 **§10 gate matrix, new row:**

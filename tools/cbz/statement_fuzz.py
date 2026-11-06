@@ -1503,6 +1503,9 @@ _TRANSCENDENTAL = {'Real.exp', 'Real.log', 'Real.pi', 'Real.sin', 'Real.cos', 'R
 _MAX_RESULT_BITS = 2_000_000
 _MAX_LOOP = 200_000           # List.range
 _MAX_PRODUCT_LOOP = 5_000      # Nat.factorial, Nat.choose (products of thousands of big integers)
+_MAX_BIGOP_TERMS = 4_096       # ∑ / ∏ over a finite index set: every term is an exact value (often a power or a
+                               # binomial), so a sampled `Finset.range 65536` is Infeasible, never approximated
+_MAX_WORK_BITS = 20_000_000    # result bits summed over the exact values of one instance (see Evaluator._rec)
 
 
 class Infeasible(Unsupported):
@@ -1710,6 +1713,7 @@ class Evaluator:
         self.probes = []
         self.model_n = None          # the carrier size of the current finite model, when one is in force
         self.bits = _ENCLOSURE_BITS[0]   # precision of transcendental enclosures (refined on Undecided)
+        self.work = 0                    # exact-arithmetic work spent on the current instance (operand bits)
 
     def defn(self, name):
         """The definition a name written in the statement denotes (None if none; Unsupported if ambiguous)."""
@@ -2217,8 +2221,8 @@ class Evaluator:
         """`∑ i, e` / `∏ i, e` over a finite index set, exactly, at the context's type (a vector-valued sum adds
         vectors). The empty sum is 0 and the empty product 1 (the constant vector at a vector type)."""
         idx, index_type = self.finite_index_domain(node.var, node.type, node.domain, node.body, env)
-        if len(idx) > _MAX_LOOP:
-            raise Infeasible(f'big operator over {len(idx)} indices exceeds the loop cap')
+        if len(idx) > _MAX_BIGOP_TERMS:
+            raise Infeasible(f'big operator over {len(idx)} indices exceeds the term cap')
         if _base(typ) == 'Fin':
             typ = 'Nat'
         acc = self.num(Num(0 if node.op == '∑' else 1), env, typ)
@@ -2333,6 +2337,12 @@ class Evaluator:
             raise AssertionError('floating point value produced')  # pragma: no cover - A3 guard
         if isinstance(v, (int, Fraction, Alg)) and not isinstance(v, bool):
             self.values_seen.append(v)
+            # a deterministic work budget per instance: the sizes of every exact result are summed, and an instance
+            # that would need more than _MAX_WORK_BITS (a 2,500-term sum of 100,000-bit rationals, say) is Infeasible —
+            # reported and counted, never approximated and never a verdict
+            self.work += _bits(v) + 1
+            if self.work > _MAX_WORK_BITS:
+                raise Infeasible(f'exact evaluation of this instance exceeds the work cap ({_MAX_WORK_BITS} result bits)')
         if isinstance(v, Iv):
             if v.magnitude_bits() > _MAX_RESULT_BITS or _bits(v.lo) > 2 * _MAX_RESULT_BITS or _bits(v.hi) > 2 * _MAX_RESULT_BITS:
                 raise Infeasible('an enclosure exceeds the result-size cap')
@@ -4379,7 +4389,7 @@ def evaluate_theorem(module: Module, thm: Theorem, seed: int = 1, samples: int =
         for bits in _ENCLOSURE_BITS:
             # transcendental enclosures are refined until they decide every comparison or the cap is reached
             ev.bits = bits
-            ev.instances, ev.vacuous, ev.failures, ev.probes = 0, False, [], []
+            ev.instances, ev.vacuous, ev.failures, ev.probes, ev.work = 0, False, [], [], 0
             try:
                 ok = ev.prop(thm.statement, {})
                 break
@@ -4776,7 +4786,7 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
             nonlocal hyp_undecided
             try:
                 try:
-                    ev.bits = _ENCLOSURE_BITS[0]
+                    ev.bits, ev.work = _ENCLOSURE_BITS[0], 0
                     return all(ev.prop(h, env) for h in hs)
                 except Undecided:
                     if hyp_undecided >= 4 * samples:    # undecided in bulk (an identity as a hypothesis): no more retries
@@ -4855,10 +4865,10 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
             seen.add(key)
             try:
                 try:
-                    ev.bits = _ENCLOSURE_BITS[0]
+                    ev.bits, ev.work = _ENCLOSURE_BITS[0], 0
                     ok = ev.prop(thm.statement, env)
                 except Undecided:
-                    ev.bits = _ENCLOSURE_BITS[2]
+                    ev.bits, ev.work = _ENCLOSURE_BITS[2], 0
                     try:
                         ok = ev.prop(thm.statement, env)
                     except Undecided:
@@ -5214,15 +5224,28 @@ def check_package(root, selftest=False, seed=1, samples=64, admit_corroborated=F
                      'exact witness. UNSUPPORTED is fail-closed.')}
 
 
-def check_lean_dir(root, exclude=(), seed=1, samples=64):
+_LIBRARY_IMPORT_PREFIXES = ('Mathlib', 'Init', 'Lean', 'Std', 'Batteries', 'Aesop', 'Qq', 'ProofWidgets', 'ImportGraph',
+                            'LeanSearchClient', 'Plausible', 'Cli', 'Lake')
+
+
+def _imports(source: str):
+    """The `import A.B.C` lines of a Lean file (module names)."""
+    return [m.group(1) for m in re.finditer(r'^import\s+([\w.«»]+)', source, re.M)]
+
+
+def check_lean_dir(root, exclude=(), seed=1, samples=64, defs_from=()):
     """Census mode: every `theorem`/`lemma` in every `.lean` file under ``root`` (recursively, sorted; paths
     containing any ``exclude`` substring skipped; byte-identical files evaluated once and recorded as copies) is
-    a target, with definitions and carrier types shared across the group as in a package. The report has the
-    shape of ``check_package`` plus a histogram of UNSUPPORTED reasons; the exit code is 0 only when every target
-    PASSes (there is no manifest to register against, so this mode is coverage evidence, never a gate)."""
+    a target, with definitions and carrier types shared across the group as in a package. ``defs_from`` names
+    directories the group depends on (a Lake path dependency, or the package a companion is built against): their
+    `.lean` files contribute definitions, carrier types and type abbreviations to the pool — never targets — under
+    the same ambiguity rule, and every `import` of a target module is accounted for: resolved inside the group, in a
+    ``defs_from`` root, or a library (Mathlib, Lean core …); unresolved imports are listed in the report. The report
+    has the shape of ``check_package`` plus a histogram of UNSUPPORTED reasons; the exit code is 0 only when every
+    target PASSes (there is no manifest to register against, so this mode is coverage evidence, never a gate)."""
     root = pathlib.Path(root)
     files = sorted(p for p in root.rglob('*.lean') if not any(x in str(p.relative_to(root)) for x in exclude))
-    modules, hashes, copies, seen_hash = {}, {}, {}, {}
+    modules, hashes, copies, seen_hash, sources = {}, {}, {}, {}, {}
     for p in files:
         rel = str(p.relative_to(root))
         h = _sha256(p)
@@ -5231,8 +5254,31 @@ def check_lean_dir(root, exclude=(), seed=1, samples=64):
             copies[rel] = seen_hash[h]
             continue
         seen_hash[h] = rel
-        modules[rel] = parse_module(p.read_text(encoding='utf-8', errors='replace'))
-    share_definitions(modules)
+        sources[rel] = p.read_text(encoding='utf-8', errors='replace')
+        modules[rel] = parse_module(sources[rel])
+    # definitions imported from dependency directories: pooled, never targets
+    imported, imported_hashes, imported_skipped = {}, {}, {}
+    for d in defs_from:
+        droot = pathlib.Path(d)
+        for p in sorted(q for q in droot.rglob('*.lean') if not any(x in str(q.relative_to(droot)) for x in exclude)):
+            rel = f'{droot.name}/{p.relative_to(droot)}'
+            h = _sha256(p)
+            imported_hashes[rel] = h
+            if h in seen_hash:
+                imported_skipped[rel] = seen_hash[h]      # byte-identical to a module already in the pool
+                continue
+            seen_hash[h] = rel
+            imported[rel] = parse_module(p.read_text(encoding='utf-8', errors='replace'))
+    share_definitions({**imported, **modules})
+    # import accounting: every `import` of a target module names a group file, a dependency file or a library
+    module_names = {rel[:-5].replace('/', '.') for rel in list(hashes)} | \
+                   {rel.split('/', 1)[1][:-5].replace('/', '.') for rel in list(imported_hashes) if '/' in rel}
+    unresolved = {}
+    for rel, src in sources.items():
+        for name in _imports(src):
+            if name in module_names or name.split('.')[0] in _LIBRARY_IMPORT_PREFIXES:
+                continue
+            unresolved.setdefault(name, []).append(rel)
     per_target, counts, reasons = {}, {}, {}
     for rel, module in modules.items():
         for thm in module.theorems:
@@ -5247,14 +5293,20 @@ def check_lean_dir(root, exclude=(), seed=1, samples=64):
             if res.status == 'UNSUPPORTED':
                 reason = _reason_class(res.detail)
                 reasons[reason] = reasons.get(reason, 0) + 1
-    return {'lean_dir': str(root), 'files': len(files), 'files_evaluated': len(modules), 'copies': copies,
-            'file_sha256': hashes, 'targets': len(per_target), 'status_counts': counts,
+    report = {'lean_dir': str(root), 'files': len(files), 'files_evaluated': len(modules), 'copies': copies,
+              'file_sha256': hashes, 'targets': len(per_target), 'status_counts': counts,
             'unsupported_reasons': dict(sorted(reasons.items(), key=lambda kv: -kv[1])), 'per_target': per_target,
             'sampling': {'seed': seed, 'samples': samples},
             'exit_code': 0 if counts and set(counts) == {'PASS'} else 1,
-            'note': ('G12 census: coverage of the empirical statement check over every declaration in a directory, '
-                     'with no manifest. PASS/CORROBORATED/FAIL/UNSUPPORTED as in a package check; UNSUPPORTED reasons '
-                     'are classified. Not a gate and not kernel evidence.')}
+              'note': ('G12 census: coverage of the empirical statement check over every declaration in a directory, '
+                       'with no manifest. PASS/CORROBORATED/FAIL/UNSUPPORTED as in a package check; UNSUPPORTED reasons '
+                       'are classified. Not a gate and not kernel evidence.')}
+    if defs_from:
+        report['defs_from'] = {'dirs': [str(d) for d in defs_from], 'files': len(imported_hashes),
+                               'files_pooled': len(imported), 'file_sha256': imported_hashes,
+                               'byte_identical_to_group': imported_skipped}
+    report['unresolved_imports'] = unresolved
+    return report
 
 
 def _reason_class(detail: str) -> str:
@@ -5290,6 +5342,9 @@ def main(argv=None):
     group.add_argument('--lean-dir', help='census mode: every theorem in every .lean file under this directory')
     ap.add_argument('--exclude', action='append', default=[],
                     help='census mode: skip files whose relative path contains this substring (repeatable)')
+    ap.add_argument('--defs-from', action='append', default=[],
+                    help='census mode: a directory the group depends on (a Lake path dependency, the package a companion '
+                         'is built against); its .lean files contribute definitions, never targets (repeatable)')
     ap.add_argument('--json', help='write the full report here')
     ap.add_argument('--selftest', action='store_true', help='also run the mutation self-test per module')
     ap.add_argument('--seed', type=int, default=1, help='seed of the deterministic sampler for binders before the colon')
@@ -5298,12 +5353,14 @@ def main(argv=None):
                     help='exit 0 when every target is PASS or CORROBORATED (default: PASS only, the registered contract)')
     a = ap.parse_args(argv)
     if a.lean_dir:
-        report = check_lean_dir(a.lean_dir, exclude=a.exclude, seed=a.seed, samples=a.samples)
+        report = check_lean_dir(a.lean_dir, exclude=a.exclude, seed=a.seed, samples=a.samples, defs_from=a.defs_from)
         if a.json:
             pathlib.Path(a.json).write_text(json.dumps(report, indent=1, default=str) + '\n')
         summary = {k: report[k] for k in ('lean_dir', 'files', 'files_evaluated', 'targets', 'status_counts',
-                                          'unsupported_reasons', 'sampling', 'exit_code')}
+                                          'unsupported_reasons', 'sampling', 'exit_code', 'unresolved_imports')}
         summary['copies'] = len(report['copies'])
+        if 'defs_from' in report:
+            summary['defs_from'] = {k: v for k, v in report['defs_from'].items() if k != 'file_sha256'}
         print(json.dumps(summary, indent=1))
         for name, r in report['per_target'].items():
             if r['status'] != 'PASS':
