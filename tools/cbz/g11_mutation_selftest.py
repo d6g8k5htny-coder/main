@@ -307,8 +307,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.Workflows.test_job_defaults_run_mapping_is_not_a_step",
      "self.assertEqual(g11.noop_steps(text), [])"),
     ("static path assignments not bound", "census",
-     "            _bind_python_value(node, value, local, module_bindings, scope)",
-     "            _bind_python_value(node, None, local, module_bindings, scope)",
+     "            _bind_python_value(\n                node, value, local, module_bindings, scope, global_names)",
+     "            _bind_python_value(\n                node, None, local, module_bindings, scope, global_names)",
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("spec loader path ignored", "census",
@@ -512,7 +512,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_path_constructor_resolves_every_component",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("command element assignment retains stale sequence", "census",
-     "                _invalidate_python_binding(root.id, local, module, scope)",
+     "                _invalidate_python_binding(\n                    root.id, local, module, scope, global_names)",
      "                pass",
      "tests.test_g11_census.ToolChecks.test_command_element_assignment_invalidates_static_sequence",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
@@ -532,8 +532,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_wrapper_element_write_invalidates_forwarding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("helper element write falls back to module binding", "census",
-     "                _invalidate_python_binding(root.id, local, module, scope)",
-     "                destination.pop(root.id, None)",
+     "                _invalidate_python_binding(\n                    root.id, local, module, scope, global_names)",
+     "                local.pop(root.id, None)",
      "tests.test_g11_census.ToolChecks.test_helper_element_write_invalidates_module_binding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript default initializer treated as a binding", "census",
@@ -617,7 +617,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_deferred_caller_uses_module_value_at_invocation",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript uncalled helper chain accepted", "census",
-     "            if reachable(call.start(), seen | {identity}):",
+     "            if reachable(call.start(), seen | {identity}, binding_guards + (guard,)):",
      "            if True:",
      "tests.test_g11_census.ToolChecks.test_js_uncalled_helper_chain_is_not_reachable",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
@@ -632,7 +632,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_none_guard_join_invalidates_alternative_values",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("node test registration reachability ignored", "census",
-     "            return reachable(call_start, seen | {identity})",
+     "            return reachable(call_start, seen | {identity}, binding_guards)",
      "            return True",
      "tests.test_g11_census.ToolChecks.test_js_node_test_registration_must_be_reachable",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
@@ -651,6 +651,21 @@ NEW_MUTATIONS = [
      "                queue.append((functions[target.id], None, execution_line))",
      "tests.test_g11_census.ToolChecks.test_nested_helper_effects_precede_caller_continuation",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("global assignment stored in helper local binding", "census",
+     "        return module if scope is None or name in global_names else local",
+     "        return module if scope is None else local",
+     "tests.test_g11_census.ToolChecks.test_nested_helper_global_assignment_updates_module_binding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("command element deletion retains stale sequence", "census",
+     "                if not names and isinstance(target, (ast.Subscript, ast.Attribute)):",
+     "                if False:",
+     "tests.test_g11_census.ToolChecks.test_command_element_delete_invalidates_aggregate_and_aliases",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("JavaScript helper rebinding ignored", "census",
+     "            return all(binding_active(*guard, candidate) for guard in binding_guards)",
+     "            return True",
+     "tests.test_g11_census.ToolChecks.test_js_rebound_helper_is_not_reachable",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -799,6 +814,9 @@ EXPECTED_MUTATION_NAMES = (
     "node test registrar shadow ignored",
     "none guard branch environments merged",
     "nested helper effects deferred",
+    "global assignment stored in helper local binding",
+    "command element deletion retains stale sequence",
+    "JavaScript helper rebinding ignored",
 )
 
 
@@ -977,7 +995,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 94
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 97
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

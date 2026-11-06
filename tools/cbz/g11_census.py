@@ -974,8 +974,26 @@ def _python_mutated_root_name(node):
     return root.id if isinstance(root, ast.Name) else None
 
 
-def _invalidate_python_binding(name, local, module, scope):
-    destination = module if scope is None else local
+def _python_scope_global_names(function):
+    """Return names declared global in one function, excluding nested scopes."""
+    names = set()
+
+    def visit(node):
+        if node is not function and isinstance(
+                node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef, ast.Lambda)):
+            return
+        if isinstance(node, ast.Global):
+            names.update(node.names)
+            return
+        for child in ast.iter_child_nodes(node):
+            visit(child)
+
+    visit(function)
+    return names
+
+
+def _invalidate_python_binding(name, local, module, scope, global_names=()):
+    destination = module if scope is None or name in global_names else local
     prior = destination.get(name, module.get(name))
     if isinstance(prior, list):
         environments = (destination,) if destination is module else (destination, module)
@@ -986,11 +1004,13 @@ def _invalidate_python_binding(name, local, module, scope):
     destination[name] = _UNRESOLVED_STATIC
 
 
-def _bind_python_value(node, value, local, module, scope):
+def _bind_python_value(node, value, local, module, scope, global_names=()):
     targets = []
     if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
         targets = node.targets if isinstance(node, ast.Assign) else [node.target]
-    destination = module if scope is None else local
+
+    def destination(name):
+        return module if scope is None or name in global_names else local
 
     def bind(target, target_value):
         if isinstance(target, ast.Subscript):
@@ -998,21 +1018,22 @@ def _bind_python_value(node, value, local, module, scope):
             while isinstance(root, (ast.Subscript, ast.Attribute)):
                 root = root.value
             if isinstance(root, ast.Name):
-                _invalidate_python_binding(root.id, local, module, scope)
+                _invalidate_python_binding(
+                    root.id, local, module, scope, global_names)
             return
         if isinstance(target, (ast.Tuple, ast.List)):
             if not isinstance(target_value, list) or len(target.elts) != len(target_value):
                 for name in _target_names(target):
-                    destination.pop(name, None)
+                    destination(name).pop(name, None)
                 return
             for element, element_value in zip(target.elts, target_value):
                 bind(element, element_value)
             return
         for name in _target_names(target):
             if target_value is None:
-                destination.pop(name, None)
+                destination(name).pop(name, None)
             else:
-                destination[name] = target_value
+                destination(name)[name] = target_value
 
     for target in targets:
         bind(target, value)
@@ -1193,6 +1214,8 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
     wrappers = _python_execution_wrappers(tree, imports)
     scope_shadowed = {id(node): _scope_bindings(node) for node in ast.walk(tree)
                       if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
+    scope_globals = {id(node): _python_scope_global_names(node) for node in ast.walk(tree)
+                     if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
     module_bindings, scope_bindings, scope_imports = {}, {}, {}
     reachable_nodes = sorted(_reachable_python_nodes(tree, mode), key=lambda item: item[2])
     wrapper_reassignments = {}
@@ -1207,6 +1230,7 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     wrapper_reassignments.setdefault(key, []).append(node.lineno)
     for node, scope, execution_line in reachable_nodes:
         local = scope_bindings.setdefault(scope, {}) if scope is not None else module_bindings
+        global_names = scope_globals.get(scope, set())
         local_imports = scope_imports.setdefault(scope, _empty_import_bindings())
         if scope is not None:
             _update_local_import_bindings(node, local_imports)
@@ -1220,16 +1244,26 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
             value = _python_static_value(value_node, local, module_bindings, source_path,
                                          active_imports, static_shadowed)
             if isinstance(node, ast.AugAssign) and isinstance(node.target, ast.Name):
-                destination = module_bindings if scope is None else local
+                destination = (module_bindings if scope is None or node.target.id in global_names
+                               else local)
                 prior = destination.get(node.target.id, module_bindings.get(node.target.id))
                 if isinstance(prior, list) and isinstance(value, list):
                     prior[:] = value
                     value = prior
-            _bind_python_value(node, value, local, module_bindings, scope)
+            _bind_python_value(
+                node, value, local, module_bindings, scope, global_names)
         elif isinstance(node, ast.Delete):
             for target in node.targets:
-                for name in _target_names(target):
-                    _invalidate_python_binding(name, local, module_bindings, scope)
+                names = _target_names(target)
+                if not names and isinstance(target, (ast.Subscript, ast.Attribute)):
+                    root = target
+                    while isinstance(root, (ast.Subscript, ast.Attribute)):
+                        root = root.value
+                    if isinstance(root, ast.Name):
+                        names = {root.id}
+                for name in names:
+                    _invalidate_python_binding(
+                        name, local, module_bindings, scope, global_names)
         if isinstance(node, ast.Import):
             for alias in node.names:
                 path = _tool_for_module(alias.name, tools, unique)
@@ -1248,7 +1282,8 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
         elif isinstance(node, ast.Call):
             mutated_root = _python_mutated_root_name(node)
             if mutated_root:
-                _invalidate_python_binding(mutated_root, local, module_bindings, scope)
+                _invalidate_python_binding(
+                    mutated_root, local, module_bindings, scope, global_names)
             call_name = _resolved_import_name(node.func, active_imports, static_shadowed)
             if isinstance(node.func, ast.Name):
                 key = (scope, node.func.id)
@@ -1699,12 +1734,25 @@ def _js_call_is_reachable(text, position):
             return ()
         return header.group(1), header.start(1), open_brace, close_brace
 
-    def reachable(candidate, seen):
+    def binding_active(name, definition_end, definition_scope, activation):
+        if activation <= definition_end:
+            return True
+        changed = re.compile(
+            r"(?<![\w$.])" + re.escape(name) +
+            r"(?![\w$])\s*(?:=(?!=|>)|\+\+|--|(?:\+|-|\*|/|%|&|\||\^|<<|>>)\s*=)"
+            r"|\b(?:const|let|var|function|class)\s+" + re.escape(name) +
+            r"(?![\w$])")
+        for match in changed.finditer(searchable, definition_end, activation):
+            if _js_function_scope_key(searchable, match.start()) == definition_scope:
+                return False
+        return True
+
+    def reachable(candidate, seen, binding_guards=()):
         if in_literal_false_block(candidate):
             return False
         function = containing_named_function(candidate)
         if function is None:
-            return True
+            return all(binding_active(*guard, candidate) for guard in binding_guards)
         if not function:
             return False
         if len(function) == 5:
@@ -1712,11 +1760,13 @@ def _js_call_is_reachable(text, position):
             identity = (name, open_brace, close_brace)
             if identity in seen:
                 return False
-            return reachable(call_start, seen | {identity})
+            return reachable(call_start, seen | {identity}, binding_guards)
         name, definition_start, open_brace, close_brace = function
         identity = (name, open_brace, close_brace)
         if identity in seen:
             return False
+        definition_scope = _js_function_scope_key(searchable, definition_start)
+        guard = (name, close_brace + 1, definition_scope)
         calls = re.compile(
             r"(?<![\w$.])" + re.escape(name) + r"(?![\w$])\s*\(")
         for call in calls.finditer(searchable):
@@ -1724,7 +1774,9 @@ def _js_call_is_reachable(text, position):
                 continue
             if open_brace < call.start() < close_brace:
                 continue
-            if reachable(call.start(), seen | {identity}):
+            if _js_parameter_shadows(searchable, call.start(), name):
+                continue
+            if reachable(call.start(), seen | {identity}, binding_guards + (guard,)):
                 return True
         return False
 
