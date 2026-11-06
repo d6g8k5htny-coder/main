@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "c8ab0c706f74ee1b1b6b5ed9814f1118fa0f7d298df44e9c35f5d2b145630c25"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "149f9c89c3acd928760e0e61e6a0fc9c98a33ea808640a928f20d33e5a2e4395"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -592,6 +592,31 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
+    def test_command_mutator_calls_invalidate_aliases_and_forwarding(self):
+        tree = {
+            "tools/direct.py": "x = 1\n",
+            "tools/forwarded.py": "x = 1\n",
+            "tools/README.md": "tools/direct.py tools/forwarded.py\n",
+            "tests/test_mutators.py": (
+                "import subprocess, unittest\n"
+                "command = ['python3', 'tools/direct.py']\n"
+                "alias = command\n"
+                "def launch(arguments):\n"
+                "    arguments.clear()\n"
+                "    arguments.extend(['echo'])\n"
+                "    return subprocess.run(arguments)\n"
+                "class Mutators(unittest.TestCase):\n"
+                "    def test_mutators(self):\n"
+                "        alias.clear()\n"
+                "        alias.extend(['echo'])\n"
+                "        subprocess.run(command)\n"
+                "        launch(['python3', 'tools/forwarded.py'])\n"
+            ),
+        }
+        self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
+            "tools/direct.py": False, "tools/forwarded.py": False,
+        })
+
     def test_wrapper_forwarding_rejects_command_mode_arguments(self):
         tree = {
             "tools/live.py": "x = 1\n",
@@ -914,6 +939,22 @@ class ToolChecks(unittest.TestCase):
             "tools/live.mjs": True, "tools/unused.mjs": False,
         })
 
+    def test_js_local_declaration_shadows_named_child_process_import(self):
+        tree = {
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/local-shadow.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "function exercise() {\n"
+                "  spawnSync('echo',[script]);\n"
+                "  const spawnSync=(...args) => console.log(args);\n"
+                "}\n"
+                "exercise();\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
     def test_js_default_initializer_reference_is_not_a_parameter_binding(self):
         tree = {
             "tools/live.mjs": "export const live = true;\n",
@@ -940,6 +981,21 @@ class ToolChecks(unittest.TestCase):
                 "  spawnSync('echo',[script]);\n"
                 "}\n"
                 "exercise('other.mjs');\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
+    def test_js_url_binding_does_not_escape_function_scope(self):
+        tree = {
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/url-scope.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script='other.mjs';\n"
+                "function unused() {\n"
+                "  const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "}\n"
+                "spawnSync('echo',[script]);\n"
             ),
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
@@ -1260,7 +1316,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 126)
+        self.assertEqual(len(cases), 129)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

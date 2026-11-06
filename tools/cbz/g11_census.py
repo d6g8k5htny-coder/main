@@ -904,6 +904,34 @@ def _python_static_value(node, local, module, source_path, imports, scope_shadow
     return None
 
 
+_MUTATING_LIST_METHODS = {"append", "clear", "extend", "insert", "pop", "remove",
+                          "reverse", "sort", "__delitem__", "__iadd__", "__imul__",
+                          "__setitem__"}
+
+
+def _python_mutated_root_name(node):
+    """Return the directly mutated aggregate root for a supported list method call."""
+    if (not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute)
+            or node.func.attr not in _MUTATING_LIST_METHODS):
+        return None
+    root = node.func.value
+    while isinstance(root, (ast.Subscript, ast.Attribute)):
+        root = root.value
+    return root.id if isinstance(root, ast.Name) else None
+
+
+def _invalidate_python_binding(name, local, module, scope):
+    destination = module if scope is None else local
+    prior = destination.get(name, module.get(name))
+    if isinstance(prior, list):
+        environments = (destination,) if destination is module else (destination, module)
+        for environment in environments:
+            for bound_name, bound in list(environment.items()):
+                if bound is prior:
+                    environment[bound_name] = _UNRESOLVED_STATIC
+    destination[name] = _UNRESOLVED_STATIC
+
+
 def _bind_python_value(node, value, local, module, scope):
     targets = []
     if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
@@ -916,14 +944,7 @@ def _bind_python_value(node, value, local, module, scope):
             while isinstance(root, (ast.Subscript, ast.Attribute)):
                 root = root.value
             if isinstance(root, ast.Name):
-                prior = destination.get(root.id, module.get(root.id))
-                if isinstance(prior, list):
-                    environments = (destination,) if destination is module else (destination, module)
-                    for environment in environments:
-                        for name, bound in list(environment.items()):
-                            if bound is prior:
-                                environment[name] = _UNRESOLVED_STATIC
-                destination[root.id] = _UNRESOLVED_STATIC
+                _invalidate_python_binding(root.id, local, module, scope)
             return
         if isinstance(target, (ast.Tuple, ast.List)):
             if not isinstance(target_value, list) or len(target.elts) != len(target_value):
@@ -1046,6 +1067,9 @@ def _python_execution_wrappers(tree, imports):
                 targets = [node.target]
             for target in targets:
                 rebound.update(written_root_names(target))
+            mutated_root = _python_mutated_root_name(node)
+            if mutated_root:
+                rebound.add(mutated_root)
             _update_local_import_bindings(node, local_imports)
             active_imports, active_shadowed = _combined_import_bindings(
                 imports, local_imports, shadowed)
@@ -1120,6 +1144,9 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     if path:
                         references.add(path)
         elif isinstance(node, ast.Call):
+            mutated_root = _python_mutated_root_name(node)
+            if mutated_root:
+                _invalidate_python_binding(mutated_root, local, module_bindings, scope)
             call_name = _resolved_import_name(node.func, active_imports, static_shadowed)
             if isinstance(node.func, ast.Name):
                 positions = wrappers.get((scope, node.func.id))
@@ -1255,7 +1282,8 @@ def js_tool_references(text, source_path, tools):
             continue
         target = posixpath.normpath(posixpath.join(posixpath.dirname(source_path), specifier))
         if target in tools:
-            bindings.setdefault(match.group(1), []).append((match.end(), target))
+            bindings.setdefault(match.group(1), []).append(
+                (match.end(), target, _js_function_scope_key(visible, match.start())))
     child_names = set()
     named_import = re.compile(
         r"\bimport\s*\{([^}]*)\}\s*from\s*['\"](?:node:)?child_process['\"]")
@@ -1268,15 +1296,19 @@ def js_tool_references(text, source_path, tools):
     for call_start, callee, arguments in _js_call_arguments(visible, child_names):
         if _js_parameter_shadows(visible, call_start, callee):
             continue
+        if _js_local_declaration_shadows(visible, call_start, callee):
+            continue
+        call_scope = _js_function_scope_key(visible, call_start)
         identifiers = _js_expression_identifiers(arguments)
         for name, declarations in bindings.items():
             if _js_parameter_shadows(visible, call_start, name):
                 continue
             available = [declaration for declaration in declarations
-                         if declaration[0] <= call_start]
+                         if declaration[0] <= call_start
+                         and (declaration[2] is None or declaration[2] == call_scope)]
             if name not in identifiers or not available:
                 continue
-            declaration_end, target = available[-1]
+            declaration_end, target, _scope = available[-1]
             assignment = re.compile(
                 r"(?<![\w$.])" + re.escape(name) +
                 r"(?![\w$])\s*(?:=(?!=|>)|\+\+|--|(?:\+|-|\*|/|%|&|\||\^|<<|>>)\s*=)")
@@ -1447,8 +1479,8 @@ def _js_parameter_bindings(parameters):
                          for part in _js_top_level_parts(parameters)))
 
 
-def _js_parameter_shadows(text, position, name):
-    """Return true when a containing function binds the imported callee name."""
+def _js_function_scopes(text):
+    """Return masked text and bounded block-bodied function/arrow scopes."""
     searchable = []
     quote = None
     escaped = False
@@ -1469,7 +1501,7 @@ def _js_parameter_shadows(text, position, name):
             searchable.append(char)
     searchable = "".join(searchable)
 
-    scopes = []
+    open_scopes = []
     for function in re.finditer(r"\bfunction\b", searchable):
         open_paren = searchable.find("(", function.end())
         if open_paren < 0:
@@ -1485,19 +1517,56 @@ def _js_parameter_shadows(text, position, name):
             open_brace += 1
         if open_brace >= len(searchable) or searchable[open_brace] != "{":
             continue
-        scopes.append((open_paren + 1, close_paren, open_brace))
+        open_scopes.append((open_paren + 1, close_paren, open_brace))
 
     arrow = re.compile(r"(?:\(([^()]*)\)|([A-Za-z_$][\w$]*))\s*=>\s*\{")
     for match in arrow.finditer(searchable):
         param_start = match.start(1) if match.group(1) is not None else match.start(2)
         param_end = match.end(1) if match.group(1) is not None else match.end(2)
-        scopes.append((param_start, param_end, match.end() - 1))
+        open_scopes.append((param_start, param_end, match.end() - 1))
 
-    for param_start, param_end, open_brace in scopes:
+    scopes = []
+    for param_start, param_end, open_brace in open_scopes:
         close_brace = _js_matching_delimiter(searchable, open_brace, "{", "}")
-        if close_brace is None or not (open_brace < position < close_brace):
+        if close_brace is not None:
+            scopes.append((param_start, param_end, open_brace, close_brace))
+    return searchable, scopes
+
+
+def _js_function_scope_key(text, position):
+    _searchable, scopes = _js_function_scopes(text)
+    containing = [(open_brace, close_brace) for _start, _end, open_brace, close_brace in scopes
+                  if open_brace < position < close_brace]
+    return max(containing, key=lambda item: item[0]) if containing else None
+
+
+def _js_parameter_shadows(text, position, name):
+    """Return true when a containing function binds the imported callee name."""
+    searchable, scopes = _js_function_scopes(text)
+
+    for param_start, param_end, open_brace, close_brace in scopes:
+        if not (open_brace < position < close_brace):
             continue
         if name in _js_parameter_bindings(searchable[param_start:param_end]):
+            return True
+    return False
+
+
+def _js_local_declaration_shadows(text, position, name):
+    """Return true for a same-function local declaration shadowing an import."""
+    searchable, scopes = _js_function_scopes(text)
+    containing = [scope for scope in scopes if scope[2] < position < scope[3]]
+    if not containing:
+        return False
+    scope = max(containing, key=lambda item: item[2])
+    pattern = re.compile(
+        r"\b(?:const|let|var|function|class)\s+" + re.escape(name) + r"(?![\w$])")
+    for declaration in pattern.finditer(searchable, scope[2] + 1, scope[3]):
+        declaration_scopes = [candidate for candidate in scopes
+                              if candidate[2] < declaration.start() < candidate[3]]
+        declaration_scope = (max(declaration_scopes, key=lambda item: item[2])
+                             if declaration_scopes else None)
+        if declaration_scope == scope:
             return True
     return False
 

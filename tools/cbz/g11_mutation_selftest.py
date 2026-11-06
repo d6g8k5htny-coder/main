@@ -367,8 +367,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_sibling_tool_path_execution_is_a_reference",
      "self.assertTrue(report[\"tools/family/worker.py\"][\"referenced\"])"),
     ("JavaScript URL tool binding ignored", "census",
-     "        if target in tools:\n            bindings.setdefault(match.group(1), []).append((match.end(), target))",
-     "        if False:\n            bindings.setdefault(match.group(1), []).append((match.end(), target))",
+     "        if target in tools:\n            bindings.setdefault(match.group(1), []).append(\n                (match.end(), target, _js_function_scope_key(visible, match.start())))",
+     "        if False:\n            bindings.setdefault(match.group(1), []).append(\n                (match.end(), target, _js_function_scope_key(visible, match.start())))",
      "tests.test_g11_census.ToolChecks.test_js_url_child_process_execution_is_a_reference",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("JavaScript URL mention accepted without child process", "census",
@@ -512,8 +512,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_path_constructor_resolves_every_component",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("command element assignment retains stale sequence", "census",
-     "        if isinstance(target, ast.Subscript):\n            root = target.value\n            while isinstance(root, (ast.Subscript, ast.Attribute)):\n                root = root.value\n            if isinstance(root, ast.Name):\n                prior = destination.get(root.id, module.get(root.id))\n                if isinstance(prior, list):\n                    environments = (destination,) if destination is module else (destination, module)\n                    for environment in environments:\n                        for name, bound in list(environment.items()):\n                            if bound is prior:\n                                environment[name] = _UNRESOLVED_STATIC\n                destination[root.id] = _UNRESOLVED_STATIC\n            return",
-     "        if isinstance(target, ast.Subscript):\n            return",
+     "                _invalidate_python_binding(root.id, local, module, scope)",
+     "                pass",
      "tests.test_g11_census.ToolChecks.test_command_element_assignment_invalidates_static_sequence",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript parameter shadow accepted as imported callee", "census",
@@ -532,8 +532,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_wrapper_element_write_invalidates_forwarding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("helper element write falls back to module binding", "census",
-     "        if isinstance(target, ast.Subscript):\n            root = target.value\n            while isinstance(root, (ast.Subscript, ast.Attribute)):\n                root = root.value\n            if isinstance(root, ast.Name):\n                prior = destination.get(root.id, module.get(root.id))\n                if isinstance(prior, list):\n                    environments = (destination,) if destination is module else (destination, module)\n                    for environment in environments:\n                        for name, bound in list(environment.items()):\n                            if bound is prior:\n                                environment[name] = _UNRESOLVED_STATIC\n                destination[root.id] = _UNRESOLVED_STATIC\n            return",
-     "        if isinstance(target, ast.Subscript):\n            root = target.value\n            while isinstance(root, (ast.Subscript, ast.Attribute)):\n                root = root.value\n            if isinstance(root, ast.Name):\n                prior = destination.get(root.id, module.get(root.id))\n                if isinstance(prior, list):\n                    environments = (destination,)\n                    for environment in environments:\n                        for name, bound in list(environment.items()):\n                            if bound is prior:\n                                environment[name] = _UNRESOLVED_STATIC\n                destination.pop(root.id, None)\n            return",
+     "                _invalidate_python_binding(root.id, local, module, scope)",
+     "                destination.pop(root.id, None)",
      "tests.test_g11_census.ToolChecks.test_helper_element_write_invalidates_module_binding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript default initializer treated as a binding", "census",
@@ -547,14 +547,29 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_interpreter_option_operands_do_not_hide_the_script",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("command alias survives element write", "census",
-     "                if isinstance(prior, list):\n                    environments = (destination,) if destination is module else (destination, module)\n                    for environment in environments:\n                        for name, bound in list(environment.items()):\n                            if bound is prior:\n                                environment[name] = _UNRESOLVED_STATIC",
-     "                if False:\n                    environments = (destination,) if destination is module else (destination, module)\n                    for environment in environments:\n                        for name, bound in list(environment.items()):\n                            if bound is prior:\n                                environment[name] = _UNRESOLVED_STATIC",
+     "    if isinstance(prior, list):\n        environments = (destination,) if destination is module else (destination, module)\n        for environment in environments:\n            for bound_name, bound in list(environment.items()):\n                if bound is prior:\n                    environment[bound_name] = _UNRESOLVED_STATIC",
+     "    if False:\n        environments = (destination,) if destination is module else (destination, module)\n        for environment in environments:\n            for bound_name, bound in list(environment.items()):\n                if bound is prior:\n                    environment[bound_name] = _UNRESOLVED_STATIC",
      "tests.test_g11_census.ToolChecks.test_command_alias_element_write_invalidates_all_aliases",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript URL binding parameter shadow ignored", "census",
      "            if _js_parameter_shadows(visible, call_start, name):\n                continue",
      "            if False:\n                continue",
      "tests.test_g11_census.ToolChecks.test_js_parameter_shadows_url_binding",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("list mutator calls retain stale command provenance", "census",
+     "    if (not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute)\n            or node.func.attr not in _MUTATING_LIST_METHODS):\n        return None",
+     "    if True:\n        return None",
+     "tests.test_g11_census.ToolChecks.test_command_mutator_calls_invalidate_aliases_and_forwarding",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("JavaScript local declaration shadow ignored", "census",
+     "        if _js_local_declaration_shadows(visible, call_start, callee):\n            continue",
+     "        if False:\n            continue",
+     "tests.test_g11_census.ToolChecks.test_js_local_declaration_shadows_named_child_process_import",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("JavaScript URL declaration escapes function scope", "census",
+     "                         if declaration[0] <= call_start\n                         and (declaration[2] is None or declaration[2] == call_scope)]",
+     "                         if declaration[0] <= call_start]",
+     "tests.test_g11_census.ToolChecks.test_js_url_binding_does_not_escape_function_scope",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
@@ -685,6 +700,9 @@ EXPECTED_MUTATION_NAMES = (
     "interpreter option operand mistaken for script",
     "command alias survives element write",
     "JavaScript URL binding parameter shadow ignored",
+    "list mutator calls retain stale command provenance",
+    "JavaScript local declaration shadow ignored",
+    "JavaScript URL declaration escapes function scope",
 )
 
 
@@ -863,7 +881,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 74
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 77
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
