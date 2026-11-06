@@ -126,19 +126,19 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`ce9806c8b450fd279f74a70c6d9796209a029440` (tree
-`b8df071222579b136a84d93eb5a0f199e16be72c`) extends the existing bounded
+`53695c769603f48f05ab330ba6232c42917d5006` (tree
+`718569217e20913a91f9877f4a7543f2f2c548ff`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 116/116 controls and killed 167/167 designated
+The exact source commit passed 118/118 controls and killed 169/169 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`b167c4753821c778a55dfe383ac4a5645907654a44552384105928ef424d47d6`.
+`fea08459f78eec6025aa321a999feb1b320b73c498d5962964c4ac450643d1c3`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`3a84839f4fc1d765eac4c55c4f4624edfe19655bcea5871dfd84e4ec3c866e16`,
+`f901665288d143f39595c57398d52108353674df23dbffe4ae2ad2b5d65ecc6e`,
 56,078 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
@@ -242,6 +242,11 @@ active-call guard bounds direct recursion. A declared `global` reassignment
 invalidates the module-level helper identity used by later calls. Literal
 Boolean short-circuiting excludes operands that cannot execute. These three
 bounded rules likewise have dedicated adverse controls and designated mutants.
+Literal conditional expressions traverse only the arm selected by a proven
+condition; unknown conditions establish neither arm. Async helper definitions
+are not registered as synchronous executable helpers, so coroutine creation
+alone cannot credit their bodies. The census does not attempt general coroutine
+activation analysis. Both fail-closed rules have dedicated controls and mutants.
 Python call-argument helper effects precede attribution of the enclosing call,
 reassigned Python helpers lose their former bodies, and deferred JavaScript
 helpers validate module URL bindings at reachable activation points. These

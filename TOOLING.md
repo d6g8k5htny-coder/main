@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`ce9806c8b450fd279f74a70c6d9796209a029440`, based on Main default
+`53695c769603f48f05ab330ba6232c42917d5006`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,15 +263,15 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`ce9806c8b450fd279f74a70c6d9796209a029440` (tree
-`b8df071222579b136a84d93eb5a0f199e16be72c`) recognizes explicit local path
+`53695c769603f48f05ab330ba6232c42917d5006` (tree
+`718569217e20913a91f9877f4a7543f2f2c548ff`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-116/116 controls and 167/167 designated mutations passed in both modes; the
+118/118 controls and 169/169 designated mutations passed in both modes; the
 sealed mutation-inventory SHA-256 is
-`b167c4753821c778a55dfe383ac4a5645907654a44552384105928ef424d47d6`. The exact
+`fea08459f78eec6025aa321a999feb1b320b73c498d5962964c4ac450643d1c3`. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`3a84839f4fc1d765eac4c55c4f4624edfe19655bcea5871dfd84e4ec3c866e16`,
+`f901665288d143f39595c57398d52108353674df23dbffe4ae2ad2b5d65ecc6e`,
 56,078 bytes each),
 with zero production findings and exactly 29 no-current-exercise tool
 candidates; both runs exited 1. Adverse controls refuse mere path
@@ -355,7 +355,10 @@ definite termination inside the branch; and semicolonless lexical declarations
 shadow imported callees under ASI. Repeated sequential Python helper calls are
 each expanded while active-call identity bounds recursion; declared `global`
 reassignment invalidates the module helper used by later calls; and literal
-Boolean short-circuiting excludes an unreachable operand. The
+Boolean short-circuiting excludes an unreachable operand. Literal conditional
+expressions traverse only a proven selected arm, while coroutine creation does
+not execute an async helper body; general coroutine activation remains outside
+the bounded scanner. The
 stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the former
 28-tool result remains historical and is not rebound. Static evidence is not
 runtime proof. Exact dormant dispositions and the final orchestrator remain
