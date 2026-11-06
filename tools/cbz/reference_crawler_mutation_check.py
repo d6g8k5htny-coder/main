@@ -379,7 +379,10 @@ DESIGNATED = {
     "lean statements blind": ("test_clean_federation_reports_interface_drift_without_blocking",),
     "line comments kept": ("test_nested_block_and_line_comments_are_removed_but_strings_kept",),
     "live drift misclassified": ("test_live_reference_drift_blocks",),
-    "malformed acknowledgement accepted": ("test_malformed_acknowledgements_stop_the_run_before_crawling",),
+    "malformed acknowledgement accepted": (
+        "test_malformed_acknowledgements_stop_the_run_before_crawling",
+        "test_registered_acknowledgements_conform_to_current_schema",
+    ),
     "malformed byte-identical values silent": ("test_byte_identical_values_are_validated",),
     "malformed identity silent": ("test_records_with_an_identity_are_references_and_malformed_values_are_reported",),
     "missing commit assumed present": ("test_missing_path_commit_and_repository_block",),
@@ -440,7 +443,7 @@ DESIGNATED = {
 # The test population this inventory was designed and run against. Any change to the suite
 # (a test added, removed or renamed, or any edit to the file) must update these deliberately,
 # together with DESIGNATED and the evidence fail-map.
-TEST_SHA256 = "9e415dde58fd8b911730c7722223ddec097f828fa9634595c38f8b1301fb1233"
+TEST_SHA256 = "745ef7d9e9c5837addaf190187b535c75b9602701b6af86eba86a1b545f3b4f3"
 EXPECTED_TESTS = (
     "test_a_directory_source_acknowledges_only_files_under_it",
     "test_acknowledgement_constraints_are_not_live_reference_records",
@@ -477,6 +480,7 @@ EXPECTED_TESTS = (
     "test_pin_skew_reported_and_optionally_blocking",
     "test_python_signatures",
     "test_record_aliases_commits_and_refs",
+    "test_registered_acknowledgements_conform_to_current_schema",
     "test_records_with_an_identity_are_references_and_malformed_values_are_reported",
     "test_registered_but_unpinned_repository_is_crawled_and_reported",
     "test_registered_unpinned_repository_resolves_through_the_cache",

@@ -383,6 +383,20 @@ class Crawl(unittest.TestCase):
             for finding in report["findings"]
         ))
 
+    def test_registered_acknowledgements_conform_to_current_schema(self):
+        path = Path(rc.__file__).with_name("reference_crawler_acknowledged.json")
+        try:
+            loaded = rc.load_acknowledgements(path)
+        except rc.CrawlError as exc:
+            self.fail(str(exc))
+        self.assertEqual(len(loaded["entries"]), 26)
+        legacy = dict(loaded["entries"][0], path="legacy.py")
+        legacy.pop("cited_path", None)
+        legacy_path = Path(self.tmp.name) / "legacy-acknowledgements.json"
+        legacy_path.write_text(json.dumps({"schema": rc.ACK_SCHEMA, "entries": [legacy]}))
+        with self.assertRaises(rc.CrawlError):
+            rc.load_acknowledgements(legacy_path)
+
     def test_acknowledged_drift_does_not_block_under_strict(self):
         fed = self.fed()
         ack = self.acknowledgements([
