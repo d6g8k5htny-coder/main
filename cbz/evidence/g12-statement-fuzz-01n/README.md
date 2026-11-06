@@ -519,8 +519,8 @@ and `phi` inequalities (`binomTail_pos`, `binomTail_le_of_le`, `binomTail_succ_l
 `f8_prod_phi_le_one`), the Side24 integrand-ratio facts about `epsilon = 10⁻¹⁰⁸` (`ir_epsilon_pos`, `ir_epsilon_lt`,
 `ir_exponentA_two` … `ir_exponentB_three`, `ir_lower_rational`, `ir_upper_rational` — PASS), `ib_final_constant`, `co_margin`,
 the `pairingSum` monotonicity and bounds, the W3 scratch links `d2DetV_eq_*`, `d2Schur_eq_srcSchur`, `d2Tau_eq_srcTau`, and the
-companions' `schur_no_upper`, `schur_from_lower_inputs`, `residual_integral_eq_delta`, `zero_atom_counterexample`. Tests 105 →
-**107** (`CensusModeTests`: the dependency pool with a Lake-style layout — resolution, shadowing by the module's own definition,
+companions' `schur_no_upper`, `schur_from_lower_inputs`, `residual_integral_eq_delta`, `zero_atom_counterexample`. Tests 106 →
+**108** (`CensusModeTests`: the dependency pool with a Lake-style layout — resolution, shadowing by the module's own definition,
 byte-identical skip, import accounting, the ambiguity rule across dependency and group; the big-operator and work caps with a
 `pairingSum` fixture). Package receipts are unchanged (the caps change no package verdict). Review (01SHCrxv, 759/6680798254, PASS): pooled
 dependency files are keyed `<defs-from i:name>/<path>`, a prefix no group path can produce, so a group subdirectory named
