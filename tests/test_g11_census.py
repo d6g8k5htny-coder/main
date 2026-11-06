@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "bc9c3ff2ac5e201f4d8b64a7a6d1e68b09b63d98e74119239f8717683ac76f8b"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "cdadf04d90a348f934fdde11d2e567e85e59e9dfa4adaf9cc9caa8699c6437e8"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -366,6 +366,24 @@ class ToolChecks(unittest.TestCase):
         report = self.tools(tree)
         self.assertEqual({path: item["referenced"] for path, item in report.items()}, {
             "tools/argument.py": False, "tools/live.py": True, "tools/module_argument.py": False,
+        })
+
+    def test_destructured_paths_bind_corresponding_values(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/unused.py\n",
+            "tests/test_bindings.py": (
+                "import runpy, unittest\n"
+                "UNUSED, LIVE = 'tools/unused.py', 'tools/live.py'\n"
+                "class Bindings(unittest.TestCase):\n"
+                "    def test_live(self):\n"
+                "        runpy.run_path(LIVE)\n"
+            ),
+        }
+        report = self.tools(tree)
+        self.assertEqual({path: item["referenced"] for path, item in report.items()}, {
+            "tools/live.py": True, "tools/unused.py": False,
         })
 
     def test_wrapper_process_call_must_be_reachable(self):
@@ -755,7 +773,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 98)
+        self.assertEqual(len(cases), 99)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

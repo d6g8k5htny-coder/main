@@ -416,6 +416,11 @@ NEW_MUTATIONS = [
      "    for arguments in visible.splitlines():",
      "tests.test_g11_census.ToolChecks.test_js_url_child_process_execution_is_a_reference",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
+    ("destructured path values rebound as aggregate", "census",
+     "                bind(element, element_value)",
+     "                bind(element, target_value)",
+     "tests.test_g11_census.ToolChecks.test_destructured_paths_bind_corresponding_values",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -517,6 +522,7 @@ EXPECTED_MUTATION_NAMES = (
     "unreachable wrapper process call accepted",
     "function-local process import ignored",
     "JavaScript same-line mention accepted outside call arguments",
+    "destructured path values rebound as aggregate",
 )
 
 
@@ -695,7 +701,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 47
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 48
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

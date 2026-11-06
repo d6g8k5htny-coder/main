@@ -858,12 +858,24 @@ def _bind_python_value(node, value, local, module, scope):
     if isinstance(node, (ast.Assign, ast.AnnAssign)):
         targets = node.targets if isinstance(node, ast.Assign) else [node.target]
     destination = module if scope is None else local
-    for target in targets:
+
+    def bind(target, target_value):
+        if isinstance(target, (ast.Tuple, ast.List)):
+            if not isinstance(target_value, list) or len(target.elts) != len(target_value):
+                for name in _target_names(target):
+                    destination.pop(name, None)
+                return
+            for element, element_value in zip(target.elts, target_value):
+                bind(element, element_value)
+            return
         for name in _target_names(target):
-            if value is None:
+            if target_value is None:
                 destination.pop(name, None)
             else:
-                destination[name] = value
+                destination[name] = target_value
+
+    for target in targets:
+        bind(target, value)
 
 
 def _tool_values(value, tools):
