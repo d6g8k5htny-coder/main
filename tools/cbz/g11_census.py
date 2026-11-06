@@ -872,8 +872,14 @@ def _python_static_value(node, local, module, source_path, imports, scope_shadow
     resolved_call = _resolved_import_name(node.func, imports, scope_shadowed)
     builtin_str = (call_name == "str" and "str" not in imports["shadowed"]
                    and "str" not in scope_shadowed)
-    if (builtin_str or resolved_call == "pathlib.Path") and node.args:
+    if builtin_str and node.args:
         return _python_static_value(node.args[0], local, module, source_path, imports, scope_shadowed)
+    if resolved_call == "pathlib.Path" and node.args:
+        values = [_python_static_value(arg, local, module, source_path, imports, scope_shadowed)
+                  for arg in node.args]
+        if values and all(isinstance(value, str) for value in values):
+            return posixpath.normpath(posixpath.join(*values))
+        return None
     if resolved_call in {"os.path.join", "posixpath.join"}:
         values = [_python_static_value(arg, local, module, source_path, imports, scope_shadowed)
                   for arg in node.args]
@@ -905,6 +911,13 @@ def _bind_python_value(node, value, local, module, scope):
     destination = module if scope is None else local
 
     def bind(target, target_value):
+        if isinstance(target, ast.Subscript):
+            root = target.value
+            while isinstance(root, (ast.Subscript, ast.Attribute)):
+                root = root.value
+            if isinstance(root, ast.Name):
+                destination.pop(root.id, None)
+            return
         if isinstance(target, (ast.Tuple, ast.List)):
             if not isinstance(target_value, list) or len(target.elts) != len(target_value):
                 for name in _target_names(target):
@@ -1211,7 +1224,9 @@ def js_tool_references(text, source_path, tools):
             parts = re.split(r"\s+as\s+", item.strip())
             if parts and parts[0] in allowed_child_calls:
                 child_names.add(parts[-1])
-    for call_start, arguments in _js_call_arguments(visible, child_names):
+    for call_start, callee, arguments in _js_call_arguments(visible, child_names):
+        if _js_parameter_shadows(visible, call_start, callee):
+            continue
         identifiers = _js_expression_identifiers(arguments)
         for name, declarations in bindings.items():
             available = [declaration for declaration in declarations
@@ -1282,7 +1297,7 @@ def _js_call_arguments(text, names):
             masked.append(char)
     searchable = "".join(masked)
     starts = re.compile(
-        r"(?<![\w$.])(?:" + "|".join(map(re.escape, sorted(names))) + r")(?![\w$])\s*\(")
+        r"(?<![\w$.])(" + "|".join(map(re.escape, sorted(names))) + r")(?![\w$])\s*\(")
     arguments = []
     for match in starts.finditer(searchable):
         start = match.end()
@@ -1304,9 +1319,79 @@ def _js_call_arguments(text, names):
             elif char == ")":
                 depth -= 1
                 if depth == 0:
-                    arguments.append((match.start(), text[start:index]))
+                    arguments.append((match.start(), match.group(1), text[start:index]))
                     break
     return arguments
+
+
+def _js_matching_delimiter(searchable, start, opening, closing):
+    if start >= len(searchable) or searchable[start] != opening:
+        return None
+    depth = 0
+    for index in range(start, len(searchable)):
+        if searchable[index] == opening:
+            depth += 1
+        elif searchable[index] == closing:
+            depth -= 1
+            if depth == 0:
+                return index
+    return None
+
+
+def _js_parameter_shadows(text, position, name):
+    """Return true when a containing function binds the imported callee name."""
+    searchable = []
+    quote = None
+    escaped = False
+    for char in text:
+        if quote:
+            searchable.append("\n" if char == "\n" else " ")
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == quote:
+                quote = None
+            continue
+        if char in {'"', "'", "`"}:
+            quote = char
+            searchable.append(" ")
+        else:
+            searchable.append(char)
+    searchable = "".join(searchable)
+
+    scopes = []
+    for function in re.finditer(r"\bfunction\b", searchable):
+        open_paren = searchable.find("(", function.end())
+        if open_paren < 0:
+            continue
+        header = searchable[function.end():open_paren]
+        if "{" in header or ";" in header:
+            continue
+        close_paren = _js_matching_delimiter(searchable, open_paren, "(", ")")
+        if close_paren is None:
+            continue
+        open_brace = close_paren + 1
+        while open_brace < len(searchable) and searchable[open_brace].isspace():
+            open_brace += 1
+        if open_brace >= len(searchable) or searchable[open_brace] != "{":
+            continue
+        scopes.append((open_paren + 1, close_paren, open_brace))
+
+    arrow = re.compile(r"(?:\(([^()]*)\)|([A-Za-z_$][\w$]*))\s*=>\s*\{")
+    for match in arrow.finditer(searchable):
+        param_start = match.start(1) if match.group(1) is not None else match.start(2)
+        param_end = match.end(1) if match.group(1) is not None else match.end(2)
+        scopes.append((param_start, param_end, match.end() - 1))
+
+    identifier = re.compile(r"(?<![\w$])" + re.escape(name) + r"(?![\w$])")
+    for param_start, param_end, open_brace in scopes:
+        close_brace = _js_matching_delimiter(searchable, open_brace, "{", "}")
+        if close_brace is None or not (open_brace < position < close_brace):
+            continue
+        if identifier.search(searchable[param_start:param_end]):
+            return True
+    return False
 
 
 def _heredoc_opener(command):

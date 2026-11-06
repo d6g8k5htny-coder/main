@@ -412,8 +412,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_function_local_process_import_is_trusted",
      "self.assertTrue(self.tools(tree)[\"tools/worker.py\"][\"referenced\"])"),
     ("JavaScript same-line mention accepted outside call arguments", "census",
-     "    for call_start, arguments in _js_call_arguments(visible, child_names):",
-     "    for arguments in visible.splitlines():\n        call_start = len(visible)",
+     "    for call_start, callee, arguments in _js_call_arguments(visible, child_names):",
+     "    for arguments in visible.splitlines():\n        call_start = len(visible)\n        callee = ''",
      "tests.test_g11_census.ToolChecks.test_js_url_child_process_execution_is_a_reference",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("destructured path values rebound as aggregate", "census",
@@ -447,8 +447,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_augmented_assignment_replaces_static_path_value",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript property call accepted as imported callee", "census",
-     '        r"(?<![\\w$.])(?:" + "|".join(map(re.escape, sorted(names))) + r")(?![\\w$])\\s*\\(")',
-     '        r"\\b(?:" + "|".join(map(re.escape, sorted(names))) + r")\\s*\\(")',
+     '        r"(?<![\\w$.])(" + "|".join(map(re.escape, sorted(names))) + r")(?![\\w$])\\s*\\(")',
+     '        r"\\b(" + "|".join(map(re.escape, sorted(names))) + r")\\s*\\(")',
      "tests.test_g11_census.ToolChecks.test_js_property_calls_do_not_use_named_child_process_imports",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("unresolved command element dropped", "census",
@@ -505,6 +505,21 @@ NEW_MUTATIONS = [
      "            if not assignment.search(visible[declaration_end:call_start]):\n                references.add(target)",
      "            if True:\n                references.add(target)",
      "tests.test_g11_census.ToolChecks.test_js_reassigned_url_binding_does_not_keep_its_old_path",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("path constructor ignores later components", "census",
+     "    if resolved_call == \"pathlib.Path\" and node.args:\n        values = [_python_static_value(arg, local, module, source_path, imports, scope_shadowed)\n                  for arg in node.args]\n        if values and all(isinstance(value, str) for value in values):\n            return posixpath.normpath(posixpath.join(*values))\n        return None",
+     "    if resolved_call == \"pathlib.Path\" and node.args:\n        return _python_static_value(node.args[0], local, module, source_path, imports, scope_shadowed)",
+     "tests.test_g11_census.ToolChecks.test_path_constructor_resolves_every_component",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("command element assignment retains stale sequence", "census",
+     "        if isinstance(target, ast.Subscript):\n            root = target.value\n            while isinstance(root, (ast.Subscript, ast.Attribute)):\n                root = root.value\n            if isinstance(root, ast.Name):\n                destination.pop(root.id, None)\n            return",
+     "        if isinstance(target, ast.Subscript):\n            return",
+     "tests.test_g11_census.ToolChecks.test_command_element_assignment_invalidates_static_sequence",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("JavaScript parameter shadow accepted as imported callee", "census",
+     "        if _js_parameter_shadows(visible, call_start, callee):\n            continue",
+     "        if False:\n            continue",
+     "tests.test_g11_census.ToolChecks.test_js_parameter_shadows_named_child_process_import",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
 
 ]
@@ -625,6 +640,9 @@ EXPECTED_MUTATION_NAMES = (
     "class method registered as module wrapper",
     "conditional command alternatives merged",
     "reassigned JavaScript URL binding retains stale path",
+    "path constructor ignores later components",
+    "command element assignment retains stale sequence",
+    "JavaScript parameter shadow accepted as imported callee",
 )
 
 
@@ -803,7 +821,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 64
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 67
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
