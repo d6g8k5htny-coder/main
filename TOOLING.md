@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`b12d04c4dee21b53c309bd661cb67380cc8060d7`, based on Main default
+`63994b5dc2c222ee0d151d1a29dbe743b4f1dde2`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -262,18 +262,22 @@ At #762's qualified head, both modes produced byte-identical reports
 `86b7139fc1c2d308c1746132e1d3dd070fc6c393c4e0ba9a1aa0223d35c6feb2`).
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
-documentation-only gaps. The subsequent isolated attribution repair at
-`b12d04c4dee21b53c309bd661cb67380cc8060d7` recognizes explicit local path
+documentation-only gaps. The subsequent review-repaired attribution source
+`63994b5dc2c222ee0d151d1a29dbe743b4f1dde2` (tree
+`9425bae5f776afce84f057787e8e21dd9043870d`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-43/43 controls and 93/93 designated mutations passed in both modes. The exact
+47/47 controls and 98/98 designated mutations passed in both modes. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`fd52b4d11c6daea9a65de0b3630e378f34db4263f8b059c61b77540d4a9573f8`),
+`1625dba27e1f81b5bca4840c81e90bc9cbab1783b59dc83235f7c55b7a13f374`),
 with zero production findings and exactly 28 historical one-shot browser
 tools still unexercised; both runs exited 1. Adverse controls refuse mere path
-mentions, fake same-named APIs, unreachable helpers and arbitrary unknown
-branches. Static evidence is not runtime proof. Exact dormant dispositions
-and the final orchestrator remain unfinished; G11 is FAIL.
+mentions, fake same-named APIs, interpreter command-mode arguments, unreachable
+helpers, arbitrary unknown branches and JavaScript same-line decoys outside the
+selected child-process call. Filesystem-root traversal terminates and reachable
+function-local process imports remain creditable. Static evidence is not
+runtime proof. Exact dormant dispositions and the final orchestrator remain
+unfinished; G11 is FAIL.
 
 ## Missing final orchestrator
 

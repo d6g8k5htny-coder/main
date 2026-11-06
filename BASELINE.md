@@ -12,7 +12,7 @@ Observed sequentially on 6 November 2026:
 
 | Repository | Default revision |
 |---|---|
-| Main | Candidate containing this file; source parent `b12d04c4dee21b53c309bd661cb67380cc8060d7`, based on default `299c7fad72f1079b87b2d044b2d30f2098678f29` |
+| Main | Candidate containing this file; source parent `63994b5dc2c222ee0d151d1a29dbe743b4f1dde2`, based on default `299c7fad72f1079b87b2d044b2d30f2098678f29` |
 | Math- | `f532c3e2d91a0c7679a37c733741660917a9b21b` |
 | Universal-Law-Workspace | `05f3096d077a6fa4ff6cf763c074451cb1ac9972` (pins Main `299c7fad72f1079b87b2d044b2d30f2098678f29`) |
 

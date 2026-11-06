@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has source parent
-`b12d04c4dee21b53c309bd661cb67380cc8060d7`; its isolated work began from the
+`63994b5dc2c222ee0d151d1a29dbe743b4f1dde2`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -36,15 +36,19 @@ latest durable v79 receipt is
 Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
-closed seven documentation-only gaps. The isolated G11 attribution repair at
-`b12d04c4dee21b53c309bd661cb67380cc8060d7` passed 43/43 tests and killed
-93/93 designated mutants in both modes. Its byte-identical normal/optimized
+closed seven documentation-only gaps. The review-repaired G11 attribution
+source `63994b5dc2c222ee0d151d1a29dbe743b4f1dde2` (tree
+`9425bae5f776afce84f057787e8e21dd9043870d`) passed 47/47 tests and killed
+98/98 designated mutants in both modes. Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`fd52b4d11c6daea9a65de0b3630e378f34db4263f8b059c61b77540d4a9573f8`)
+`1625dba27e1f81b5bca4840c81e90bc9cbab1783b59dc83235f7c55b7a13f374`)
 contain zero production findings and retain exactly 28 no-current-exercise
 browser-tool candidates; both census runs exit 1. The former 20 active
-static-attribution gaps are closed without crediting mere mentions, fake APIs
-or unreachable code. No final G11 or combined G0–G11 pass is claimed.
+static-attribution gaps are closed without crediting mere mentions, fake APIs,
+interpreter command payloads, same-line JavaScript decoys or unreachable code.
+Absolute-parent traversal now stops at the filesystem root and reachable
+function-local process imports are recognized. No final G11 or combined G0–G11
+pass is claimed.
 
 ## Current verification boundary
 
