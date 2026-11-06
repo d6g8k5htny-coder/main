@@ -311,6 +311,18 @@ tests** (normal, `-O`, `-W error`); the module-level `defs` of a parsed file are
 (`Demo.fact`), and the test fixtures that append a theorem after a closed namespace write the `open … in`
 prefix Lean itself would need.
 
+**Declaration-scope repair (6 November; Codex review finding 4472023769).** A selected definition was
+looked up in the caller's namespace correctly, but the reader then evaluated its body, pattern clauses and
+returned closures in that caller's namespace and `open` set. Thus `A.f` could read `B.x` when called from
+`namespace B`, producing both a false FAIL and a false PASS. Commit `55571918ed8772c5c260aa44855af68add8d0a2d`
+records each definition's declaration namespace and opens and restores the caller after evaluation; closures
+carry the same scope. The regression covers ordinary bodies, returned functions, pattern clauses and
+`open Shared in def` with both true and false assertions. The suite is now **86 tests**, passing under normal,
+`-O`, and `-W error` modes. The exact Math- `dfa9b30a27ea8f8ee647bb067549fa53c7d06ef6`
+census was rerun from a native archive: after normalising only the environment-specific `lean_dir` field,
+all 16 JSON reports match the stored receipts exactly, so **0 of 3,782 verdicts changed**. The additive
+machine-readable receipt is `declaration_scope_repair_20261106.json`; no historical receipt was rebound.
+
 **Proposed registration amendment (for Root; the landed GOVERNANCE.md section of #741 governs until
 amended):** the coverage row for Math- `formal/` at `19a55750` becomes `63 | 3 PASS | 56 CORROBORATED |
 4 UNSUPPORTED`; the sentence "The tool does not cover Mathlib real analysis, binders before the colon or

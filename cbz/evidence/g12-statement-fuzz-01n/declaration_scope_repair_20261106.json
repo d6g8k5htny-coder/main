@@ -1,0 +1,62 @@
+{
+  "schema": "cbz.g12.declaration-scope-repair.v1",
+  "observed_at_utc": "2026-11-06T03:59:44Z",
+  "scientific_effect": "NONE",
+  "base_head": "95e5de31352ed48f5261eb48965d596eb1863114",
+  "repair_commit": "55571918ed8772c5c260aa44855af68add8d0a2d",
+  "repair_tree": "5fa6b6007df00abdc449877d67bbef66aff5ff51",
+  "review_finding": "https://github.com/d6g8k5htny-coder/main/pull/752#discussion_r4472023769",
+  "boundary": "Definition bodies, pattern clauses, returned closures and finite-model closures resolve names in their declaration namespace and open set; theorem/caller scope is restored after evaluation.",
+  "files": {
+    "tools/cbz/statement_fuzz.py": "78ec967a2a2957a203c57b412769d7685f9d953817b5173d4102a813c7120f1d",
+    "tests/test_cbz_statement_fuzz.py": "332895e4c7e46a70dbd88795075ecfb1032aa86e450f5edfac3c42f8a989071e"
+  },
+  "red_green": {
+    "test": "tests.test_cbz_statement_fuzz.NameResolutionTests.test_definition_bodies_resolve_in_their_declaration_scope",
+    "before_repair": "FAIL",
+    "after_repair": "PASS"
+  },
+  "focused_verification": [
+    {
+      "command": "python3 -B -S -m unittest -q tests.test_cbz_statement_fuzz",
+      "tests": 86,
+      "result": "PASS"
+    },
+    {
+      "command": "python3 -B -O -S -m unittest -q tests.test_cbz_statement_fuzz",
+      "tests": 86,
+      "result": "PASS"
+    },
+    {
+      "command": "python3 -B -W error -S -m unittest -q tests.test_cbz_statement_fuzz",
+      "tests": 86,
+      "result": "PASS"
+    }
+  ],
+  "repository_discovery": {
+    "command": "python3 -B -S -m unittest discover -s tests -p 'test_*.py' -v",
+    "tests": 2005,
+    "seconds": 907.949,
+    "skipped": 25,
+    "failures": 1,
+    "failure": "tests.test_cbz_node_regression.SourceMutationTests.test_outer_empty_guard_mutation_is_rejected",
+    "failure_boundary": "Identical failure reproduced from detached unmodified base_head under Python 3.12.14; SyntaxWarning output precedes the mutation oracle. It is not introduced or concealed by this repair."
+  },
+  "math_census": {
+    "source_commit": "dfa9b30a27ea8f8ee647bb067549fa53c7d06ef6",
+    "source_recovery": "native git fetch and git archive",
+    "command": "CENSUS_SCRATCH=<scratch> bash cbz/evidence/g12-statement-fuzz-01n/census_math_dfa9b30a_20261104/run_census.sh",
+    "groups": 16,
+    "declarations": 3782,
+    "status_counts": {
+      "PASS": 7,
+      "CORROBORATED": 128,
+      "FAIL": 0,
+      "UNSUPPORTED": 3647
+    },
+    "comparison": "All 16 generated JSON reports equal their stored counterparts after removing only the environment-specific lean_dir field.",
+    "verdicts_changed": 0
+  },
+  "historical_receipts_modified": false,
+  "mathematical_statements_modified": false
+}
