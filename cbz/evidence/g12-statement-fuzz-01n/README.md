@@ -435,8 +435,8 @@ first atanh tail bound was z^{2N+5}/… instead of z^{2N+3}/… (too small by th
 miss log q by less than 2^{-bits-1}); it was corrected, and the unit tests now check `_exp_point` / `_log_point`
 / `_pi_enclosure` containment against the standard library's `decimal` at 80 digits and the trigonometric and
 arctan series against `math`, plus the outward-rounding invariants (`lo ≤ x ≤ hi`, bounded mantissas) on 200
-random rationals. (2) The 16-group census at `dfa9b30a` re-taken — **40 PASS · 229 CORROBORATED · 0 FAIL ·
-3,513 UNSUPPORTED**; 49 verdicts moved, all from UNSUPPORTED (23 → PASS, 26 → CORROBORATED), **none to
+random rationals. (2) The 16-group census at `dfa9b30a` re-taken — **40 PASS · 233 CORROBORATED · 0 FAIL ·
+3,509 UNSUPPORTED**; 53 verdicts moved, all from UNSUPPORTED (23 → PASS, 30 → CORROBORATED), **none to
 FAIL on these kernel-proved statements**, and no earlier verdict changed
 (`verdict_changes_20261106_finvec_to_trans.json`). Among the gains: every P15 elementary and interpolation
 statement (`two_lt_exp_one`, `exp_two_eq`, `exp_neg_three_eq`, `log_three_exp_sub_two_lt_two`,
@@ -454,8 +454,22 @@ printed witnesses: `Real.exp 1 < 2`, `Real.exp 1 < 27182818284590452353602874662
 mutant killed, `math_formal_19a55750_r6.json` 3·56·0·4) equal r5 per target and per self-test; of the 58
 adversarial probes of #742, 55 match and the three that differ are the intended extensions
 (`Real.sqrt (Real.sqrt 2) < 2` PASS, `Real.exp 0 = 1` PASS, `(hx : Real.exp x > 0)` now a readable hypothesis).
-The #695 index annotation re-bound to these receipts reads **34 PASS · 74 CORROBORATED · 259 not applicable**.
-Tests 93 → **105** (`TranscendentalTests`: the thirteen P15 statements and their flips; the exact normal form;
+The #695 index annotation re-bound to these receipts reads **34 PASS · 75 CORROBORATED · 258 not applicable**.
+**Review round (6 November; 01SHCrxv 757/6679600965 PASS, 01DKKe 757/6679615263 PASS; 01SHCrxv 755/6678701025 V1).**
+Two same-family soundness reads, each with its own containment harness against mpmath (1,176 and 29-probe runs), found
+no defect; their non-blocking items are applied on this branch: the sine critical-point interval for negative k is the
+exact `[π_hi·(½+k), π_lo·(½+k)]` (O1); a rational `ExpPoly` hashes as its rational value (N1); a reversed enclosure
+raises `Unsupported('reversed enclosure: evaluator defect')` instead of being silently swapped (N2); and the
+registration text names Lindemann–Weierstrass as the imported theorem (O3). V1 of the #755 read — a `Fin` index
+compared with a ℕ *term* — is confirmed from the pinned sources: at Mathlib `d13f23b7` the ring structure on `Fin n` is
+a scoped instance precisely so that `x < n` elaborates as `↑x < n` (`Mathlib/Data/ZMod/Defs.lean`), and the tool now
+refuses that comparison under `open Fin.NatCast` / `Fin.CommRing` / `Fin.IntCast`, where the coercion loop exists and
+the comparison wraps (zero occurrences in the census corpus). In the same round, `exp`, `log`, `sqrt`, `pi` …
+written bare under `open Real` are read as Mathlib's `Real.exp` … (a definition or binder of that name in scope wins, as in
+Lean); the census receipts in `census_math_dfa9b30a_20261106_trans/` are those of this head — four verdicts moved against the
+first run of the day (`productDecay_eq_exp` in three groups and `shifted_gaussian_le`, UNSUPPORTED "unknown function exp" →
+CORROBORATED), six more bare-`exp` identities are now named as undecided-by-enclosure rather than unknown, nothing else
+changed. Tests 93 → **105** (`TranscendentalTests`: the thirteen P15 statements and their flips; the exact normal form;
 Mathlib's totalisations; π and trigonometry; true equalities between enclosed values reported UNSUPPORTED with the
 reason; the refinement ladder and the caps; sampled binders with transcendental values, including the
 undecided-majority rule; connectives with an undecided side; the mutation contract on transcendental statements —
@@ -467,11 +481,13 @@ radical is enclosed rather than refused, and `(hx : Real.exp x > 0)` is a readab
 
 **Registration consequence (for Root; proposed text, the landed §"Empirical statement check" governs until
 amended):** the sentence of the amended section "The exp/log gap is narrowed, not withdrawn: 49 census
-declarations … remain UNSUPPORTED for a transcendental function" becomes "`Real.exp` of rationals is exact
-(exponential normal form) and `Real.exp` / `Real.log` / `Real.pi` / trigonometric values are enclosed by rigorous
-rational intervals refined to 1024 bits; a comparison the enclosures do not decide — in particular an equality
-between two enclosed values — is UNSUPPORTED, never PASS"; the coverage row for the census becomes
-`3,782 | 40 PASS | 229 CORROBORATED | 0 FAIL | 3,513 UNSUPPORTED`; the test count becomes 105.
+declarations … remain UNSUPPORTED for a transcendental function" becomes "`Real.exp` of rationals is exact: values of
+`Real.exp` at rationals and their sums, products and integer powers are kept in the exponential normal form Σ c·e^q,
+whose equalities are decided by the linear independence of the e^q over ℚ for distinct rational q
+(Lindemann–Weierstrass — an imported theorem, not re-proved here); `Real.log` / `Real.pi` / trigonometric values and
+`Real.exp` of irrational arguments are enclosed by rigorous rational intervals refined to 1024 bits; a comparison the
+enclosures do not decide — in particular an equality between two enclosed values — is UNSUPPORTED, never PASS"; the coverage row for the census becomes
+`3,782 | 40 PASS | 233 CORROBORATED | 0 FAIL | 3,509 UNSUPPORTED`; the test count becomes 105.
 
 ## Proposed gate row and registry entries (for Root; B-003)
 

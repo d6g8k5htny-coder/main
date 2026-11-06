@@ -8,20 +8,22 @@ Lindemann–Weierstrass); `Real.log`, `Real.pi` / `π`, `Real.sin` / `cos` / `ta
 `Real.exp` of irrational arguments and nested radicals are enclosed by rational intervals from series with proved
 remainder bounds (outward rounding only), a closed comparison is refined 64 → 128 → 256 → 512 → 1024 bits and
 reported UNSUPPORTED when still undecided, and a sampled instance the enclosures do not decide at 256 bits is
-skipped and counted (`undecided`). Same source archive, same 16 groups, same command (`run_census.sh`, seed 1,
-64 samples); `verdict_changes_20261106_finvec_to_trans.json` lists every verdict (and every WEAK flag) that moved.
+skipped and counted (`undecided`); `exp`, `log`, `sqrt`, `pi` … written bare under `open Real` are read as
+Mathlib's `Real.exp` …. Same source archive, same 16 groups, same command (`run_census.sh`, seed 1, 64 samples);
+`verdict_changes_20261106_finvec_to_trans.json` lists every verdict (and every WEAK flag) that moved.
 
-**Result: 3,782 declarations — 40 PASS · 229 CORROBORATED · 0 FAIL · 3,513 UNSUPPORTED**
-(finite-vector census: 17 · 203 · 0 · 3,562). **49 verdicts moved, 49 of them from
-UNSUPPORTED**: 23 to PASS and 26 to CORROBORATED; **0 to FAIL** — every one of these statements is kernel-proved, so a FAIL
-would have been a reader defect. No previously decided verdict changed. By group: `specifications/lean_statement_proofs_20261011` 34, `frontiers/source_derivative_gaussian_20261025` 10, `reviews/w3_side24_source_proposal_20261008` 3, `frontiers/source_lifetime_realization_20261017` 1, `frontiers/source_smooth_realization_20261011` 1.
+**Result: 3,782 declarations — 40 PASS · 233 CORROBORATED · 0 FAIL · 3,509 UNSUPPORTED**
+(finite-vector census: 17 · 203 · 0 · 3,562). **53 verdicts moved, 53 of them from
+UNSUPPORTED**: 23 to PASS and 30 to CORROBORATED; **0 to FAIL** — every one of these statements is kernel-proved, so a FAIL
+would have been a reader defect. No previously decided verdict changed. By group: `specifications/lean_statement_proofs_20261011` 34, `frontiers/source_derivative_gaussian_20261025` 11, `frontiers/source_lifetime_realization_20261017` 3, `reviews/w3_side24_source_proposal_20261008` 3, `frontiers/source_smooth_realization_20261011` 2.
 4 closed verdicts needed more than 64 bits (the 29- and 32-digit enclosures of `e` and `exp x_U` in `P15Interpolation`,
-decided at 128 bits). 15 declarations are UNSUPPORTED *because of* the enclosure layer rather than a missing
-construct: one closed equality undecided to 1024 bits (`fixture_seam_phase`), eleven sampled identities between trigonometric
-values whose instances are undecided except at degenerate arguments (`phase_axis`, `phase_lattice_shift`, `phase_spatial_sub`,
-`atom_phase_neg`, `srcQTheta_eq`, `pow_three_eq_exp` …, reported "sampling cannot corroborate the statement" with the counts),
-and two whose hypotheses are themselves undecided identities (`fixture_inertia_pos` / `_neg`); enclosures can refute such an
-equality but never confirm it, so these stay UNSUPPORTED, never PASS or CORROBORATED. 5 CORROBORATED verdicts carry the
+decided at 128 bits). 21 declarations are UNSUPPORTED *because of* the enclosure layer rather than a missing
+construct: 1 closed equality undecided to 1024 bits (`fixture_seam_phase`), 18 sampled identities between
+transcendental values whose instances are undecided except at degenerate arguments (`phase_axis`, `phase_lattice_shift`,
+`phase_spatial_sub`, `atom_phase_neg`, `srcQTheta_eq`, `pow_three_eq_exp`, `sourceWeight_eq_physical` …, reported "sampling
+cannot corroborate the statement" with the counts), and 2 whose hypotheses are themselves undecided identities
+(`fixture_inertia_pos` / `_neg`); enclosures can refute such an equality but never confirm it, so these stay UNSUPPORTED, never
+PASS or CORROBORATED. 5 CORROBORATED verdicts carry the
 WEAK flag — the same 5 as in the finite-vector census; the new `li_geom_tail`-style statements over ℕ reach 28 instances
 (not WEAK) because `Real.exp` arguments up to 10⁶ in absolute value are enclosed and the pool's larger ℕ values are counted
 as Infeasible, never as holding.
@@ -29,10 +31,10 @@ as Infeasible, never as holding.
 | Group | Declarations | PASS | CORROBORATED | FAIL | UNSUPPORTED | finite-vector census (P · C · U) |
 |---|---:|---:|---:|---:|---:|---|
 | `formal` | 63 | 3 | 56 | 0 | 4 | 3 · 56 · 4 |
-| `frontiers/source_derivative_gaussian_20261025` | 2225 | 9 | 103 | 0 | 2113 | 8 · 94 · 2123 |
-| `frontiers/source_lifetime_realization_20261017` | 182 | 0 | 2 | 0 | 180 | 0 · 1 · 181 |
+| `frontiers/source_derivative_gaussian_20261025` | 2225 | 9 | 104 | 0 | 2112 | 8 · 94 · 2123 |
+| `frontiers/source_lifetime_realization_20261017` | 182 | 0 | 4 | 0 | 178 | 0 · 1 · 181 |
 | `specifications/lean_statement_proofs_20261011` | 559 | 25 | 20 | 0 | 514 | 3 · 8 · 548 |
-| `frontiers/source_smooth_realization_20261011` | 122 | 0 | 2 | 0 | 120 | 0 · 1 · 121 |
+| `frontiers/source_smooth_realization_20261011` | 122 | 0 | 3 | 0 | 119 | 0 · 1 · 121 |
 | `frontiers/determinant_moment_20261025` | 85 | 0 | 24 | 0 | 61 | 0 · 24 · 61 |
 | `frontiers/compact_morse_elder_adapter_20261018` | 121 | 0 | 2 | 0 | 119 | 0 · 2 · 119 |
 | `frontiers/regular_superlevel_geometry_20261020` | 23 | 0 | 0 | 0 | 23 | 0 · 0 · 23 |
@@ -78,7 +80,7 @@ polynomials: enclosures can separate them (FAIL) but never confirm equality, so 
 | proposition outside the interpreter | 215 | 215 |
 | definition result type outside the interpreter | 197 | 197 |
 | unparsed statement | 153 | 153 |
-| unknown function | 148 | 134 |
+| unknown function | 138 | 134 |
 | other | 106 | 105 |
 | existential quantifier | 97 | 97 |
 | structural conclusion | 92 | 92 |
@@ -86,7 +88,7 @@ polynomials: enclosures can separate them (FAIL) but never confirm equality, so 
 | definition outside the interpreter | 72 | 71 |
 | Mathlib notation | 71 | 71 |
 | hypothesis outside the interpreter | 51 | 51 |
-| enclosures do not decide the statement | 15 | 0 |
+| enclosures do not decide the statement | 21 | 0 |
 | unbounded quantifier inside the statement | 12 | 12 |
 | ascription to an unsupported type | 4 | 2 |
 | quantifier over an unsupported type | 4 | 4 |
@@ -269,6 +271,7 @@ class now holds only the functions the backend does not model.
 - CORROBORATED: `ResearchFormalCoreR1.gm8_finite_radius_power_bound`
 - CORROBORATED: `ResearchFormalCoreR1.gm8_sqrt_pow`
 - CORROBORATED: `ResearchFormalCoreR1.nfloor_contact_value`
+- CORROBORATED: `I4Weights.productDecay_eq_exp` — new
 - CORROBORATED: `I4Weights.frequency_l1_le_product`
 - CORROBORATED: `I4Weights.sourceA_pos` — new
 - CORROBORATED: `TorusFiltration.superlevel_mono`
@@ -277,6 +280,8 @@ class now holds only the functions the backend does not model.
 - CORROBORATED: `TorusFiltration.elder_control_death`
 
 **`frontiers/source_lifetime_realization_20261017`**
+- CORROBORATED: `I4ThetaBridge.shifted_gaussian_le` — new
+- CORROBORATED: `I4Weights.productDecay_eq_exp` — new
 - CORROBORATED: `I4Weights.frequency_l1_le_product`
 - CORROBORATED: `I4Weights.sourceA_pos` — new
 
@@ -328,6 +333,7 @@ class now holds only the functions the backend does not model.
 - CORROBORATED: `UniversalLaw.Proofs.Side24Images.Aux.ib_poly_gauss_le` — new
 
 **`frontiers/source_smooth_realization_20261011`**
+- CORROBORATED: `I4Weights.productDecay_eq_exp` — new
 - CORROBORATED: `I4Weights.frequency_l1_le_product`
 - CORROBORATED: `I4Weights.sourceA_pos` — new
 

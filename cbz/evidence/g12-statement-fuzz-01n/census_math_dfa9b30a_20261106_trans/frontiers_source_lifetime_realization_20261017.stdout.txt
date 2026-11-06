@@ -4,8 +4,8 @@
  "files_evaluated": 19,
  "targets": 182,
  "status_counts": {
-  "UNSUPPORTED": 180,
-  "CORROBORATED": 2
+  "UNSUPPORTED": 178,
+  "CORROBORATED": 4
  },
  "unsupported_reasons": {
   "binder outside the interpreter": 102,
@@ -13,13 +13,13 @@
   "definition result type outside the interpreter": 18,
   "unparsed statement": 14,
   "definition outside the interpreter": 8,
-  "unknown function": 6,
   "structural conclusion": 6,
+  "enclosures do not decide the statement": 3,
+  "unknown function": 2,
   "other": 2,
   "ascription to an unsupported type": 1,
   "real exponent (Real.rpow)": 1,
-  "hypothesis outside the interpreter": 1,
-  "enclosures do not decide the statement": 1
+  "hypothesis outside the interpreter": 1
  },
  "sampling": {
   "seed": 1,
@@ -71,7 +71,7 @@ UNSUPPORTED: SourceLifetimeGeometry.lean::I4LifetimeField.actualField_linearComb
 UNSUPPORTED: SourceLifetimeGeometry.lean::I4LifetimeField.actualField_covariance_spectral: binder ( x y : E d ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceThetaBridge.lean::I4ThetaBridge.latticeVec_apply: result type E d
 UNSUPPORTED: SourceThetaBridge.lean::I4ThetaBridge.theta_summand_eq_product: binder ( z : E d ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
-UNSUPPORTED: SourceThetaBridge.lean::I4ThetaBridge.shifted_gaussian_le: unknown function exp
+CORROBORATED: SourceThetaBridge.lean::I4ThetaBridge.shifted_gaussian_le: holds on 64 sampled instances satisfying the hypotheses (0 draws rejected by the hypotheses, 95 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it
 UNSUPPORTED: SourceThetaBridge.lean::I4ThetaBridge.shifted_gaussian_summable: proposition of form App
 UNSUPPORTED: SourceThetaBridge.lean::I4ThetaBridge.theta_summable: binder ( z : E d ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceThetaBridge.lean::I4ThetaBridge.theta_zero_pos: definition thetaSum has an unparsed body
@@ -130,7 +130,7 @@ UNSUPPORTED: inputs/SourceKernel.lean::I4Kernel.coefficientKernel_eq_fullLattice
 UNSUPPORTED: inputs/SourceKernel.lean::I4Kernel.spectralKernel_zero: definition sourceSpectralKernel has an unparsed body
 UNSUPPORTED: inputs/SourceLattice.lean::I4Lattice.halfLattice_ne_zero: hypothesis ( hk : k ∈ halfLattice d ) mentions undeclared names ['halfLattice']
 UNSUPPORTED: inputs/SourceLattice.lean::I4Lattice.halfLattice_partition: result type Set ( Fin d → ℤ )
-UNSUPPORTED: inputs/SourceLattice.lean::I4Lattice.sourceWeight_neg: unknown function exp
+UNSUPPORTED: inputs/SourceLattice.lean::I4Lattice.sourceWeight_neg: the enclosures to 256 bits did not decide 212 of the sampled instances (64 decided, all held): sampling cannot corroborate the statement
 UNSUPPORTED: inputs/SourceLattice.lean::I4Lattice.phase_lattice_shift: the enclosures to 256 bits did not decide 528 of the sampled instances (64 decided, all held): sampling cannot corroborate the statement
 UNSUPPORTED: inputs/SourceLattice.lean::I4Lattice.modeCoefficient_lattice_shift: binder ( m : SourceMode d ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: inputs/SourceLattice.lean::I4Lattice.sourceField_lattice_shift: binder ( ω : SourceMode d → ℝ ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
@@ -201,10 +201,10 @@ UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.summable_decay_pow: proposit
 UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.coordinateBound_summable: proposition of form App
 UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.finite_product_summable: binder { f : ℤ → ℝ } is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.productBound_summable: proposition of form App
-UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.productDecay_eq_exp: unknown function exp
+CORROBORATED: inputs/SpectralWeights.lean::I4Weights.productDecay_eq_exp: holds on 64 sampled instances satisfying the hypotheses (0 draws rejected by the hypotheses, 0 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it
 CORROBORATED: inputs/SpectralWeights.lean::I4Weights.frequency_l1_le_product: holds on 64 sampled instances satisfying the hypotheses (1 draws rejected by the hypotheses, 0 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it
 CORROBORATED: inputs/SpectralWeights.lean::I4Weights.sourceA_pos: holds on 64 sampled instances satisfying the hypotheses (1 draws rejected by the hypotheses, 0 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it
-UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.sourceWeight_eq_physical: unknown function exp
+UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.sourceWeight_eq_physical: the enclosures to 256 bits did not decide 210 of the sampled instances (64 decided, all held): sampling cannot corroborate the statement
 UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.sourceWeight_summable: proposition of form App
 UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.sourceZ_pos: definition sourceZ has an unparsed body
 UNSUPPORTED: inputs/SpectralWeights.lean::I4Weights.pairedBound_eq_amplitude: definition sourceZ has an unparsed body

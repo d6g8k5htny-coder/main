@@ -4,8 +4,8 @@
  "files_evaluated": 14,
  "targets": 122,
  "status_counts": {
-  "UNSUPPORTED": 120,
-  "CORROBORATED": 2
+  "UNSUPPORTED": 119,
+  "CORROBORATED": 3
  },
  "unsupported_reasons": {
   "binder outside the interpreter": 65,
@@ -14,10 +14,9 @@
   "definition result type outside the interpreter": 9,
   "structural conclusion": 6,
   "definition outside the interpreter": 4,
-  "unknown function": 3,
+  "enclosures do not decide the statement": 3,
   "other": 1,
-  "hypothesis outside the interpreter": 1,
-  "enclosures do not decide the statement": 1
+  "hypothesis outside the interpreter": 1
  },
  "sampling": {
   "seed": 1,
@@ -68,7 +67,7 @@ UNSUPPORTED: SourceKernel.lean::I4Kernel.coefficientKernel_eq_fullLattice: unsup
 UNSUPPORTED: SourceKernel.lean::I4Kernel.spectralKernel_zero: definition sourceSpectralKernel has an unparsed body
 UNSUPPORTED: SourceLattice.lean::I4Lattice.halfLattice_ne_zero: hypothesis ( hk : k ∈ halfLattice d ) mentions undeclared names ['halfLattice']
 UNSUPPORTED: SourceLattice.lean::I4Lattice.halfLattice_partition: result type Set ( Fin d → ℤ )
-UNSUPPORTED: SourceLattice.lean::I4Lattice.sourceWeight_neg: unknown function exp
+UNSUPPORTED: SourceLattice.lean::I4Lattice.sourceWeight_neg: the enclosures to 256 bits did not decide 212 of the sampled instances (64 decided, all held): sampling cannot corroborate the statement
 UNSUPPORTED: SourceLattice.lean::I4Lattice.phase_lattice_shift: the enclosures to 256 bits did not decide 528 of the sampled instances (64 decided, all held): sampling cannot corroborate the statement
 UNSUPPORTED: SourceLattice.lean::I4Lattice.modeCoefficient_lattice_shift: binder ( m : SourceMode d ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SourceLattice.lean::I4Lattice.sourceField_lattice_shift: binder ( ω : SourceMode d → ℝ ) is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
@@ -139,10 +138,10 @@ UNSUPPORTED: SpectralWeights.lean::I4Weights.summable_decay_pow: proposition of 
 UNSUPPORTED: SpectralWeights.lean::I4Weights.coordinateBound_summable: proposition of form App
 UNSUPPORTED: SpectralWeights.lean::I4Weights.finite_product_summable: binder { f : ℤ → ℝ } is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis
 UNSUPPORTED: SpectralWeights.lean::I4Weights.productBound_summable: proposition of form App
-UNSUPPORTED: SpectralWeights.lean::I4Weights.productDecay_eq_exp: unknown function exp
+CORROBORATED: SpectralWeights.lean::I4Weights.productDecay_eq_exp: holds on 64 sampled instances satisfying the hypotheses (0 draws rejected by the hypotheses, 0 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it
 CORROBORATED: SpectralWeights.lean::I4Weights.frequency_l1_le_product: holds on 64 sampled instances satisfying the hypotheses (1 draws rejected by the hypotheses, 0 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it
 CORROBORATED: SpectralWeights.lean::I4Weights.sourceA_pos: holds on 64 sampled instances satisfying the hypotheses (1 draws rejected by the hypotheses, 0 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it
-UNSUPPORTED: SpectralWeights.lean::I4Weights.sourceWeight_eq_physical: unknown function exp
+UNSUPPORTED: SpectralWeights.lean::I4Weights.sourceWeight_eq_physical: the enclosures to 256 bits did not decide 210 of the sampled instances (64 decided, all held): sampling cannot corroborate the statement
 UNSUPPORTED: SpectralWeights.lean::I4Weights.sourceWeight_summable: proposition of form App
 UNSUPPORTED: SpectralWeights.lean::I4Weights.sourceZ_pos: definition sourceZ has an unparsed body
 UNSUPPORTED: SpectralWeights.lean::I4Weights.pairedBound_eq_amplitude: definition sourceZ has an unparsed body

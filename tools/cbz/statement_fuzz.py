@@ -1338,6 +1338,8 @@ def _parse_theorem_binders(toks, start, end, defs, point_types=frozenset(), name
             def is_known(v):
                 if v in known or v.split('.')[0] in known:
                     return True
+                if v in _REAL_SHORT_NAMES and 'Real' in opens:
+                    return True
                 if isinstance(defs, DefTable):
                     return defs.denotes(v, namespace, opens)
                 return v in defs
@@ -1492,6 +1494,8 @@ _NAT_TYPES = {'Nat', 'ℕ'}
 _RAT_TYPES = {'Rat', 'ℚ'}
 _REAL_TYPES = {'Real', 'ℝ'}
 _FIELD_TYPES = {'Rat', 'Real'}          # numeric types with exact (totalized) division
+_FIN_CAST_SCOPES = ('Fin.NatCast', 'Fin.CommRing', 'Fin.IntCast')   # scoped instances that coerce ℕ/ℤ into Fin n
+_REAL_SHORT_NAMES = frozenset({'exp', 'log', 'sin', 'cos', 'tan', 'sinh', 'cosh', 'arctan', 'sqrt', 'pi', 'logb'})
 _TRANSCENDENTAL = {'Real.exp', 'Real.log', 'Real.pi', 'Real.sin', 'Real.cos', 'Real.tan', 'Real.arctan',
                    'Real.sinh', 'Real.cosh', 'Real.rpow', 'Real.logb', 'π'}
 
@@ -1757,7 +1761,7 @@ class Evaluator:
                 return v.type if isinstance(v, Bound) else 'Nat'
             if node.name in ('Set.univ', '∅'):
                 return 'Set'
-            if node.name in ('Real.pi', 'π'):
+            if node.name in ('Real.pi', 'π') or self.real_name(node.name, env) == 'Real.pi':
                 return 'Real'
             d = self.defn(node.name)
             if d is not None and d.result_type:
@@ -1841,7 +1845,8 @@ class Evaluator:
                 if fn.name in ('dotProduct', 'Matrix.dotProduct', 'inner') and node.args:
                     t = self.arith_type(node.args[-1], env)
                     return _vec_info(t)[0] if _base(t) == 'Vec' else 'Real'
-                if fn.name == 'Real.sqrt' or fn.name in _TRANSCENDENTAL:
+                if fn.name == 'Real.sqrt' or fn.name in _TRANSCENDENTAL or self.real_name(fn.name, env) in _TRANSCENDENTAL \
+                        or self.real_name(fn.name, env) == 'Real.sqrt':
                     return 'Real'
                 if fn.name in ('.toReal', 'ENNReal.toReal'):
                     return 'Real'
@@ -1955,7 +1960,7 @@ class Evaluator:
                 return frozenset(self.points())
             if node.name == '∅':
                 return frozenset()
-            if node.name in ('Real.pi', 'π') and node.name not in env:
+            if (node.name in ('Real.pi', 'π') or self.real_name(node.name, env) == 'Real.pi') and node.name not in env:
                 return _pi_enclosure(self.bits)
             if node.name in env:
                 v = env[node.name]
@@ -2607,6 +2612,14 @@ class Evaluator:
             return _inv(_pow(base, -exp))
         return _pow(base, exp)
 
+    def real_name(self, name: str, env=None) -> str:
+        """`exp`, `log`, `sqrt`, `pi` … written bare under `open Real` denote `Real.exp` … (Mathlib keeps them in the
+        `Real` namespace and nothing at the root shadows them), unless a definition or binder of that name is in
+        scope, which Lean would prefer."""
+        if name in _REAL_SHORT_NAMES and 'Real' in self.opens and not (env and name in env) and self.defn(name) is None:
+            return 'Real.' + name
+        return name
+
     def apply(self, node: App, env, typ):
         fn = node.fn
         args = node.args
@@ -2621,7 +2634,7 @@ class Evaluator:
                     value = self.index_vector(value, a, env, typ if a is args[-1] else ft)
                 return value
             raise Unsupported('application of a non-name')
-        name = fn.name
+        name = self.real_name(fn.name, env)
         if '.' in name and not name.startswith('.'):
             recv, method = name.rsplit('.', 1)
             if (recv in env or self.has_def(recv)) and method in _LIST_METHODS:
@@ -3189,11 +3202,19 @@ class Evaluator:
                 lt, rt = self.arith_type(node.left, env), self.arith_type(node.right, env)
                 typ = _max_type(lt, rt)
                 # a `Fin n` index against numerals only: the numerals are `Fin n` literals (`i = 2`, `i ≠ 7 - 5`),
-                # which wrap; against a ℕ term Lean coerces the index (`↑i < n`)
-                if _base(lt) == 'Fin' and rt == 'Nat' and _literal_only(node.right):
-                    typ = lt
-                elif _base(rt) == 'Fin' and lt == 'Nat' and _literal_only(node.left):
-                    typ = rt
+                # which wrap; against a ℕ term Lean coerces the index (`↑i < n`) — because at the pinned Mathlib
+                # the ring structure on `Fin n` is a *scoped* instance (`Fin.instCommRing`, `Mathlib/Data/ZMod/Defs.lean`:
+                # a global one "causes `x < n` to be elaborated as `x < ↑n` rather than `↑x < n`"); under
+                # `open Fin.NatCast` / `Fin.CommRing` / `Fin.IntCast` that coercion loop exists and `binrel%` keeps
+                # `Fin n`, so the comparison wraps and is refused (01SHCrxv, 755/6678701025 V1)
+                if (_base(lt) == 'Fin' and rt == 'Nat') or (_base(rt) == 'Fin' and lt == 'Nat'):
+                    literal = _literal_only(node.right) if _base(lt) == 'Fin' else _literal_only(node.left)
+                    if literal:
+                        typ = lt if _base(lt) == 'Fin' else rt
+                    elif any(o in _FIN_CAST_SCOPES for o in self.opens):
+                        raise Unsupported('a Fin index compared with a ℕ term under `open ' +
+                                          ', '.join(o for o in self.opens if o in _FIN_CAST_SCOPES) +
+                                          '`: Lean coerces the ℕ term into Fin n there (wraps modulo n)')
                 if typ == 'Bool':
                     typ = 'Nat'
                 if typ == 'Sci':
@@ -3770,7 +3791,7 @@ def _approx(x, digits: int = 18) -> str:
     if abs(b) > 100_000:                                        # astronomically large or small: the exponent is enough
         return f'{sign}2^{b}…' if b > 0 else f'{sign}2^{b - 1}…'
     # decimal exponent k with 10^k ≤ a < 10^(k+1): estimated from the bit lengths, then corrected
-    k = int(b * 0.30103) - 1
+    k = b * 30103 // 100000 - 1                                # log10(2) ≈ 0.30103, in integer arithmetic (A3)
     while a >= Fraction(10) ** (k + 1):
         k += 1
     while a < Fraction(10) ** k:
@@ -3799,7 +3820,7 @@ class Iv:
     def __init__(self, lo, hi):
         lo, hi = _exact(lo), _exact(hi)
         if lo > hi:
-            lo, hi = hi, lo
+            raise Unsupported('reversed enclosure: evaluator defect')     # fail closed rather than hide it (01DKKe N2)
         self.lo, self.hi = lo, hi
 
     @staticmethod
@@ -3931,7 +3952,7 @@ class ExpPoly:
         return isinstance(o, ExpPoly) and self.terms == o.terms
 
     def __hash__(self):
-        return hash(frozenset(self.terms.items()))
+        return hash(self.rational()) if self.is_rational() else hash(frozenset(self.terms.items()))
 
     def __neg__(self):
         return ExpPoly({q: -c for q, c in self.terms.items()})
@@ -4201,10 +4222,8 @@ def _trig_iv(x: Iv, bits: int, want: str) -> Iv:
     out = Iv(min(lo_v.lo, hi_v.lo), max(lo_v.hi, hi_v.hi))
     # critical points: sin at π/2 + kπ, cos at kπ, for k with the point possibly inside [y.lo, y.hi]
     for k in range(-3, 4):
-        if want == 'sin':
-            c_lo, c_hi = pi.lo / 2 + pi.lo * k if k >= 0 else pi.lo / 2 + pi.hi * k, pi.hi / 2 + pi.hi * k if k >= 0 else pi.hi / 2 + pi.lo * k
-        else:
-            c_lo, c_hi = (pi.lo * k, pi.hi * k) if k >= 0 else (pi.hi * k, pi.lo * k)
+        factor = Fraction(1, 2) + k if want == 'sin' else Fraction(k)        # the critical point is factor·π
+        c_lo, c_hi = (pi.lo * factor, pi.hi * factor) if factor >= 0 else (pi.hi * factor, pi.lo * factor)
         if c_hi >= y.lo and c_lo <= y.hi:                        # the critical point may lie inside
             extreme = 1 if (want == 'sin' and k % 2 == 0) or (want == 'cos' and k % 2 == 0) else -1
             out = Iv(min(out.lo, extreme), max(out.hi, extreme))
@@ -4760,6 +4779,9 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
                     ev.bits = _ENCLOSURE_BITS[0]
                     return all(ev.prop(h, env) for h in hs)
                 except Undecided:
+                    if hyp_undecided >= 4 * samples:    # undecided in bulk (an identity as a hypothesis): no more retries
+                        hyp_undecided += 1
+                        return False
                     ev.bits = _ENCLOSURE_BITS[2]        # a boundary sample sits within 2^-64 of a transcendental bound:
                     try:                                # 256 bits usually decide it; an identity stays undecided
                         return all(ev.prop(h, env) for h in hs)

@@ -1052,6 +1052,21 @@ class FiniteVectorTests(unittest.TestCase):
         r = self.ev('(i : Fin 3)', 'i ≠ 7')             # `(7 : Fin 3) = 1`
         self.assertEqual(r.status, 'UNSUPPORTED')
         self.assertEqual(self.ev('(i : Fin 3)', '(i : ℕ) + 1 ≠ 0').status, 'CORROBORATED')
+        # a Fin index against a ℕ *term* is `↑i < n` at the pinned Mathlib (the ring structure on `Fin n` is a scoped
+        # instance); under `open Fin.NatCast` / `Fin.CommRing` / `Fin.IntCast` the ℕ term is coerced into `Fin n`
+        # instead and the comparison wraps, so it is refused there (755/6678701025 V1)
+        self.assertEqual(self.ev('(i : Fin 3) (n : ℕ) (h : n = 4)', 'i < n').status, 'CORROBORATED')
+        for scope in ('Fin.NatCast', 'Fin.CommRing', 'Fin.IntCast'):
+            with self.subTest(scope=scope):
+                module = sf.parse_module(f'open {scope} in\ntheorem t (i : Fin 3) (n : ℕ) (h : n = 4) : i < n := by sorry\n')
+                r = sf.evaluate_theorem(module, module.theorems[-1])
+                self.assertEqual(r.status, 'UNSUPPORTED')
+                self.assertIn(scope, r.detail)
+                self.assertIn('wraps', r.detail)
+        module = sf.parse_module('open scoped Fin.NatCast\ntheorem t (i : Fin 3) (n : ℕ) : n < 3 → i < n ∨ i ≥ n := by sorry\n')
+        self.assertEqual(sf.evaluate_theorem(module, module.theorems[-1]).status, 'UNSUPPORTED')
+        module = sf.parse_module('open Fin.NatCast\ntheorem t (i : Fin 3) : i < 7 - 5 ∨ i ≥ 2 := by sorry\n')     # numerals: unchanged
+        self.assertEqual(sf.evaluate_theorem(module, module.theorems[-1]).status, 'UNSUPPORTED')
         self.assertEqual(self.ev('(i : Fin 3)', 'i ≠ 7 - 5 ∨ i = 2').status, 'UNSUPPORTED')   # 7 - 5 is Fin arithmetic too
         r = self.ev('(v : Fin 2 → ℝ)', '∑ i, (1 : ℝ) = 2')
         self.assertEqual(r.status, 'UNSUPPORTED')        # nothing fixes the index set
@@ -1137,6 +1152,22 @@ class TranscendentalTests(unittest.TestCase):
         # log |x| is the Mathlib value: log(−3) is log 3 ≈ 1.0986, not an error and not a negative number
         self.assertEqual(self.ev('Real.log (-3) > 1').status, 'PASS')
         self.assertEqual(self.ev('Real.log (-3) < 0').status, 'FAIL')
+
+    def test_bare_real_names_under_open_real(self):
+        # `exp`, `log`, `sqrt`, `pi` … written bare under `open Real` are Mathlib's `Real.exp` …; without the open they
+        # are unknown; a definition or a binder of that name in scope wins, as it does in Lean
+        def ev(src):
+            module = sf.parse_module(src)
+            return sf.evaluate_theorem(module, module.theorems[-1])
+        self.assertEqual(ev('open Real\ntheorem t : exp 0 = 1 ∧ 2 < exp 1 ∧ log 1 = 0 ∧ 3 < pi ∧ sqrt 4 = 2 ∧ cos 0 = 1 := by sorry\n').status, 'PASS')
+        self.assertEqual(ev('open Real in\ntheorem t (a : ℝ) (k : ℤ) : exp (-a * (k : ℝ) ^ 2) > 0 := by sorry\n').status, 'CORROBORATED')
+        self.assertEqual(ev('open Real\ntheorem t (x : ℝ) (hx : exp x ≤ 1) : x ≤ 0 := by sorry\n').status, 'CORROBORATED')
+        r = ev('theorem t : exp 0 = 1 := by sorry\n')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('unknown function exp', r.detail)
+        self.assertEqual(ev('open Real\ndef exp (x : ℝ) : ℝ := x + 1\ntheorem t : exp 0 = 1 := by sorry\n').status, 'PASS')
+        self.assertEqual(ev('open Real\ndef exp (x : ℝ) : ℝ := x + 1\ntheorem t : exp 1 = 1 := by sorry\n').status, 'FAIL')
+        self.assertEqual(ev('open Real\ntheorem t (exp : ℝ) (h : exp = 2) : exp = 2 := by sorry\n').status, 'CORROBORATED')
 
     def test_connectives_are_settled_by_a_decided_side(self):
         # cos π = −1 is undecided by enclosures; the other side settles the connective when it can
@@ -1313,6 +1344,16 @@ class TranscendentalTests(unittest.TestCase):
         self.assertEqual(sf._approx(sf.Fraction(10) ** 5000), '1e5000')
         self.assertEqual(sf._approx(sf.Fraction(1, 10) ** 320), '1e-320')
         self.assertEqual(sf._approx(sf.Fraction(2) ** 1500000), '2^1500000…')          # the exponent alone, cheaply
+        # review items of #757 (01DKKe N1, N2; 01SHCrxv O1)
+        self.assertEqual(sf.ExpPoly({sf.Fraction(0): sf.Fraction(3)}), 3)
+        self.assertEqual(hash(sf.ExpPoly({sf.Fraction(0): sf.Fraction(3)})), hash(sf.Fraction(3)))   # hash/eq contract
+        with self.assertRaises(sf.Unsupported):
+            sf.Iv(1, 0)                                                                   # a reversed pair is a defect, not a hull
+        iv = sf._trig_iv(sf.Iv(sf.Fraction(-3, 2), sf.Fraction(-1)), 64, 'sin')          # no critical point inside: no ±1 slack
+        self.assertGreater(iv.lo, -1)
+        self.assertLess(iv.hi, sf.Fraction(-84, 100))
+        iv = sf._trig_iv(sf.Iv(sf.Fraction(-2), sf.Fraction(-1)), 64, 'sin')             # −π/2 inside: the minimum −1 is reached
+        self.assertEqual(iv.lo, -1)
         self.assertEqual(sf._approx(sf.Fraction(0)), '0')
         self.assertEqual(sf._approx(123456789), '123456789')
         self.assertIn('…', repr(sf._e_enclosure(64)))

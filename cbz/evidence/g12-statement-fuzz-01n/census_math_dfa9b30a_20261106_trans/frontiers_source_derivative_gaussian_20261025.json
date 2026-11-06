@@ -132,8 +132,8 @@
  },
  "targets": 2225,
  "status_counts": {
-  "UNSUPPORTED": 2113,
-  "CORROBORATED": 103,
+  "UNSUPPORTED": 2112,
+  "CORROBORATED": 104,
   "PASS": 9
  },
  "unsupported_reasons": {
@@ -147,8 +147,8 @@
   "definition outside the interpreter": 44,
   "hypothesis outside the interpreter": 43,
   "Mathlib notation": 38,
-  "unknown function": 37,
-  "enclosures do not decide the statement": 11,
+  "unknown function": 34,
+  "enclosures do not decide the statement": 13,
   "unbounded quantifier inside the statement": 6,
   "unknown name": 6,
   "application outside the interpreter": 3,
@@ -19517,10 +19517,18 @@
    "module": "inputs/SourceLattice.lean",
    "name": "I4Lattice.sourceWeight_neg",
    "status": "UNSUPPORTED",
-   "detail": "unknown function exp",
-   "instances": 0,
+   "detail": "the enclosures to 256 bits did not decide 212 of the sampled instances (64 decided, all held): sampling cannot corroborate the statement",
+   "instances": 64,
    "vacuous": false,
-   "float_free": true
+   "float_free": true,
+   "sampling": {
+    "seed": 1,
+    "draws": 652,
+    "accepted": 64,
+    "rejected": 0,
+    "infeasible": 336,
+    "undecided": 212
+   }
   },
   "inputs/SourceLattice.lean::I4Lattice.phase_lattice_shift": {
    "module": "inputs/SourceLattice.lean",
@@ -20172,11 +20180,19 @@
   "inputs/SpectralWeights.lean::I4Weights.productDecay_eq_exp": {
    "module": "inputs/SpectralWeights.lean",
    "name": "I4Weights.productDecay_eq_exp",
-   "status": "UNSUPPORTED",
-   "detail": "unknown function exp",
-   "instances": 0,
+   "status": "CORROBORATED",
+   "detail": "holds on 64 sampled instances satisfying the hypotheses (0 draws rejected by the hypotheses, 0 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it",
+   "instances": 64,
    "vacuous": false,
-   "float_free": true
+   "float_free": true,
+   "sampling": {
+    "seed": 1,
+    "draws": 65,
+    "accepted": 64,
+    "rejected": 0,
+    "infeasible": 0,
+    "undecided": 0
+   }
   },
   "inputs/SpectralWeights.lean::I4Weights.frequency_l1_le_product": {
    "module": "inputs/SpectralWeights.lean",
@@ -20216,10 +20232,18 @@
    "module": "inputs/SpectralWeights.lean",
    "name": "I4Weights.sourceWeight_eq_physical",
    "status": "UNSUPPORTED",
-   "detail": "unknown function exp",
-   "instances": 0,
+   "detail": "the enclosures to 256 bits did not decide 210 of the sampled instances (64 decided, all held): sampling cannot corroborate the statement",
+   "instances": 64,
    "vacuous": false,
-   "float_free": true
+   "float_free": true,
+   "sampling": {
+    "seed": 1,
+    "draws": 652,
+    "accepted": 64,
+    "rejected": 0,
+    "infeasible": 338,
+    "undecided": 210
+   }
   },
   "inputs/SpectralWeights.lean::I4Weights.sourceWeight_summable": {
    "module": "inputs/SpectralWeights.lean",
