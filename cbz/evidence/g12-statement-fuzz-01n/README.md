@@ -117,7 +117,10 @@ own mutation self-test. Claude017 has offered exactly such a backend (`interval.
 exact rational intervals with Mathlib's totalized conventions,
 [684/6532742483](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6532742483)); the
 offer is accepted and the backend is wired in as a follow-up on this branch once it is pushed with its
-tests. Nothing in this directory certifies those statements.
+tests. Nothing in this directory certifies those statements. *(6 November: the module was never pushed; as
+agreed at [684/6560240334](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6560240334) the
+enclosures were implemented in this tool as a follow-on — see "Transcendental enclosure backend" below — and
+Claude017's design is credited there.)*
 
 ## ℝ backend and sampled binders (1 November 2026; receipts `*_r2*`)
 
@@ -378,6 +381,97 @@ on ℝ, an existential, a family) and is never written for a statement the inter
 UNSUPPORTED is never upgraded or left silent. The census shows the CLOSED-track Gaussian-field packages
 have no reachable declaration at all; their rows read *not applicable* throughout, and the index should
 say so rather than let the addendum rule be read as satisfied.
+
+**Transcendental enclosure backend (6 November; unit `CBZ0-G12-TRANS-01N-20261106`; receipts `*_r6*` and
+[`census_math_dfa9b30a_20261106_trans/`](census_math_dfa9b30a_20261106_trans/CENSUS.md)).** The registration of
+#741/#756 named `Real.exp` / `Real.log` as the one gap that touched registered-track statements: 49 census
+declarations were UNSUPPORTED for a transcendental function, 39 of them in the P15 proofs (`2 < Real.exp 1`,
+`197/32 < Real.exp (11/6)`, `Real.log (3 * Real.exp 1 - 2) < 2`, the 29- and 32-digit enclosures of `e` and
+`exp x_U` / `exp x_L` in `P15Interpolation`). Claude017 offered an `interval.py` for exactly this on 30 October
+([684/6532742483](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6532742483): outward-rounded exact
+rational intervals, Mathlib's totalised conventions, `Undecided` instead of a guess); the offer was accepted, the
+module was never pushed, and the agreed follow-on ([684/6560240334](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6560240334))
+is this backend, which follows that design and adds the exact exponential normal form. They are now read, with no
+float anywhere:
+
+- **Exact normal form.** `Real.exp q` for rational q is the monomial e^q; `+ - *`, integer powers, `Real.sinh` /
+  `Real.cosh` of rationals and the inverse of a monomial stay in the form Σ c·e^q. Equality of two such values is
+  equality of normal forms, because the e^q for distinct rational q are linearly independent over ℚ
+  (Lindemann–Weierstrass); so `Real.exp 2 = Real.exp 1 ^ 2`, `Real.exp 1 * Real.exp (-1) = 1`,
+  `Real.cosh 1 ^ 2 - Real.sinh 1 ^ 2 = 1` are PASS and `Real.exp 1 = Real.exp 2` is FAIL with no enclosure at
+  all. `Real.log (c · e^q)` is `log |c| + q` through the monomial (`Real.log (Real.exp 5) = 5` is PASS exactly).
+- **Rigorous enclosures.** Everything else is a closed interval with exact rational endpoints: e from Σ 1/k! with
+  the tail bound 1/(N!·N); e^r (|r| ≤ 1/2) from the Taylor series with the Lagrange remainder
+  2·|r|^{N+1}/(N+1)!, and e^n by outward-rounded binary powers of the enclosure of e; log from
+  q = 2^k·m, log m = 2·atanh((m−1)/(m+1)) with the geometric tail bound z^{2N+3}/((2N+3)(1−z²)); π by Machin's
+  formula from the alternating arctan series (the first omitted term bounds the remainder; arguments above 1/2
+  are split by the addition formula); sin and cos after reduction modulo 2π — π itself an interval — from their
+  Taylor series with the remainder |y|^N/N! (every derivative is bounded by 1), widened to ±1 where a critical
+  point may lie in the interval; `Real.sqrt` of an enclosure, and of an irrational algebraic value (a nested
+  radical, previously refused), by integer square roots. Every series term and every intermediate is rounded
+  **outward** to a bounded number of significant bits (`_round_out`, `Iv.round`, `Iv.pow_rounded`): containment is
+  kept, only the width grows, and the endpoints stay short at 1024 bits and for `Real.exp` arguments up to 10⁶ in
+  absolute value (e^{10⁶} ≈ 2^{1.44·10⁶} is within the result caps; beyond, Infeasible). Mathlib's totalisations
+  are the ones read: `Real.log 0 = 0`, `Real.log (-x) = Real.log x`, `x / 0 = 0`, `Real.sqrt x = 0` for x ≤ 0.
+- **Undecided is a verdict class, never a guess.** A comparison the enclosures do not separate raises *Undecided*.
+  A closed statement is refined 64 → 128 → 256 → 512 → 1024 bits (the PASS detail records the precision that
+  decided it) and is UNSUPPORTED past the cap, the reason naming the operator, the precision and the two
+  enclosures. A sampled instance is retried at 256 bits, then skipped and counted (`sampling.undecided`); a
+  statement whose undecided instances outnumber the decided ones is UNSUPPORTED, not weakly corroborated. An
+  **equality** between two values that are not both exponential polynomials can be refuted by enclosures but
+  never confirmed, so `Real.cos Real.pi = -1`, `Real.sin 1 ^ 2 + Real.cos 1 ^ 2 = 1`,
+  `Real.arctan 1 = Real.pi / 4` and `Real.log (-3) = Real.log 3` are UNSUPPORTED with that reason, while
+  `Real.cos Real.pi = -1 ∨ Real.pi > 3` is PASS: a side of `∧` / `∨` / `→` that is undecided does not decide the
+  connective by itself, the other side does when it can (Lean's short-circuit from the left is kept, and an
+  *unsupported* construct is never settled away). `min` / `max` are exact when the order is decided and the hull
+  of the pointwise extrema when it is not. Outside, fail-closed and named: `Real.rpow`, `Real.arcsin` /
+  `arccos` / `Gamma` and every other function the backend does not model.
+
+Soundness evidence. (1) An independent cross-check in development: 1,668 enclosures (`e`, π, log 2, `exp` and
+`log` at random rationals, sin / cos / atan at random points and over random intervals, `exp` / `log` / `arctan`
+over intervals, exponential polynomials) were compared against mpmath at 320 digits — every one contains its
+value and is narrower than 2^{-bits}. This cross-check **found one defect before any receipt was taken**: the
+first atanh tail bound was z^{2N+5}/… instead of z^{2N+3}/… (too small by the factor z², so an interval could
+miss log q by less than 2^{-bits-1}); it was corrected, and the unit tests now check `_exp_point` / `_log_point`
+/ `_pi_enclosure` containment against the standard library's `decimal` at 80 digits and the trigonometric and
+arctan series against `math`, plus the outward-rounding invariants (`lo ≤ x ≤ hi`, bounded mantissas) on 200
+random rationals. (2) The 16-group census at `dfa9b30a` re-taken — **40 PASS · 229 CORROBORATED · 0 FAIL ·
+3,513 UNSUPPORTED**; 49 verdicts moved, all from UNSUPPORTED (23 → PASS, 26 → CORROBORATED), **none to
+FAIL on these kernel-proved statements**, and no earlier verdict changed
+(`verdict_changes_20261106_finvec_to_trans.json`). Among the gains: every P15 elementary and interpolation
+statement (`two_lt_exp_one`, `exp_two_eq`, `exp_neg_three_eq`, `log_three_exp_sub_two_lt_two`,
+`exp_eleven_sixths_gt`, `three_exp_sub_two_lt`, `f3_exp_one_gt` / `f3_exp_one_lt` / `f3_exp_xU_ge` /
+`f3_exp_xL_le` at 128 bits, `f3_log_lt`, `f3_lt_log`, `f3_hStar_pos`, `log_benchmark_le`), the Side24 elementary
+bounds (`ten_lt_exp`, `pow_ten_lt_exp`, `exp_neg_lt`, `big_lt_exp`, `ratio_const_lt_half`), sampled hazard and
+cluster inequalities (`neg_log_one_sub_ge`, `cc_affineExp_pos`, `f6_one_sub_exp_neg_mem`,
+`rc_half_le_one_sub_exp`, `rc_poisson_tail_two_le_sq`, `li_geom_tail`, `exp_succ_le`, `ib_poly_gauss_le`), and
+in the Gaussian-source packages `fixture_scale_ne` (`√2/π ≠ 0`), `sourceC_ne_zero` (`2π/L ≠ 0`), `sourceA_pos`,
+`gaussianCompactLowerConstant_pos`, `exp_mul_abs_le`, and the pin identities `pinMultiplier_value` /
+`annihilator_pin_values` (`(1 − cos(c·0))² = 0`, exact because cos 0 is the exact 1). The controls refute at
+printed witnesses: `Real.exp 1 < 2`, `Real.exp 1 < 271828182845904523536028746620/10^29` (FAIL at 128 bits),
+`Real.exp (11/6) < 197/32`, `Real.exp 2 ≠ Real.exp 1 ^ 2`, `Real.pi < 3`, `Real.exp x > 1 + x` at `x = 0`,
+`Real.exp x ≤ 1 + x` at `x = 1`. Both package receipts (`main_formal_ec6962ff_r6.json` 59/59 PASS with every
+mutant killed, `math_formal_19a55750_r6.json` 3·56·0·4) equal r5 per target and per self-test; of the 58
+adversarial probes of #742, 55 match and the three that differ are the intended extensions
+(`Real.sqrt (Real.sqrt 2) < 2` PASS, `Real.exp 0 = 1` PASS, `(hx : Real.exp x > 0)` now a readable hypothesis).
+The #695 index annotation re-bound to these receipts reads **34 PASS · 74 CORROBORATED · 259 not applicable**.
+Tests 93 → **105** (`TranscendentalTests`: the thirteen P15 statements and their flips; the exact normal form;
+Mathlib's totalisations; π and trigonometry; true equalities between enclosed values reported UNSUPPORTED with the
+reason; the refinement ladder and the caps; sampled binders with transcendental values, including the
+undecided-majority rule; connectives with an undecided side; the mutation contract on transcendental statements —
+0 survivors; containment against `decimal` and `math`; outward rounding and message formatting), normal, `-O`,
+`-W error`. Landed expectations that change: `Real.exp 1 < 3` and `Real.exp 0 = 1` are PASS (the fail-closed
+anchors are now `Real.arcsin 1 < 3`, `Real.exp 1 ^ (1/2 : ℝ) < 2` (rpow) and `Real.cos Real.pi = -1`), a nested
+radical is enclosed rather than refused, and `(hx : Real.exp x > 0)` is a readable hypothesis
+(`Real.arcsin x > 0` is the unreadable example).
+
+**Registration consequence (for Root; proposed text, the landed §"Empirical statement check" governs until
+amended):** the sentence of the amended section "The exp/log gap is narrowed, not withdrawn: 49 census
+declarations … remain UNSUPPORTED for a transcendental function" becomes "`Real.exp` of rationals is exact
+(exponential normal form) and `Real.exp` / `Real.log` / `Real.pi` / trigonometric values are enclosed by rigorous
+rational intervals refined to 1024 bits; a comparison the enclosures do not decide — in particular an equality
+between two enclosed values — is UNSUPPORTED, never PASS"; the coverage row for the census becomes
+`3,782 | 40 PASS | 229 CORROBORATED | 0 FAIL | 3,513 UNSUPPORTED`; the test count becomes 105.
 
 ## Proposed gate row and registry entries (for Root; B-003)
 

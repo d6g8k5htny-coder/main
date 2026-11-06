@@ -1,0 +1,78 @@
+{
+ "lean_dir": "<git archive dfa9b30a>/companions/d2_square_schur_20261006",
+ "files": 2,
+ "files_evaluated": 2,
+ "copies": {},
+ "file_sha256": {
+  "Contract.lean": "17d29f16a788be98145ac76e55ab4103378e453770eb8ac4bde58281747d2eea",
+  "D2SquareSchur.lean": "e0f9560e6f129216cd989cea3cdf97254972ca9b1cae7bab57df664329ae78fa"
+ },
+ "targets": 4,
+ "status_counts": {
+  "CORROBORATED": 2,
+  "UNSUPPORTED": 2
+ },
+ "unsupported_reasons": {
+  "unknown function": 2
+ },
+ "per_target": {
+  "D2SquareSchur.lean::D2SquareSchur.weighted_square_identity": {
+   "module": "D2SquareSchur.lean",
+   "name": "D2SquareSchur.weighted_square_identity",
+   "status": "CORROBORATED",
+   "detail": "holds on 64 sampled instances satisfying the hypotheses (1 draws rejected by the hypotheses, 0 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it",
+   "instances": 64,
+   "vacuous": false,
+   "float_free": true,
+   "sampling": {
+    "seed": 1,
+    "draws": 64,
+    "accepted": 64,
+    "rejected": 1,
+    "infeasible": 0,
+    "undecided": 0
+   }
+  },
+  "D2SquareSchur.lean::D2SquareSchur.weighted_square_lower": {
+   "module": "D2SquareSchur.lean",
+   "name": "D2SquareSchur.weighted_square_lower",
+   "status": "CORROBORATED",
+   "detail": "holds on 64 sampled instances satisfying the hypotheses (4 draws rejected by the hypotheses, 0 infeasible, seed 1): sampling is admitted evidence of the statement, not a proof of it",
+   "instances": 64,
+   "vacuous": false,
+   "float_free": true,
+   "sampling": {
+    "seed": 1,
+    "draws": 64,
+    "accepted": 64,
+    "rejected": 4,
+    "infeasible": 0,
+    "undecided": 0
+   }
+  },
+  "D2SquareSchur.lean::D2SquareSchur.schur_no_upper": {
+   "module": "D2SquareSchur.lean",
+   "name": "D2SquareSchur.schur_no_upper",
+   "status": "UNSUPPORTED",
+   "detail": "unknown function d2Schur",
+   "instances": 0,
+   "vacuous": false,
+   "float_free": true
+  },
+  "D2SquareSchur.lean::D2SquareSchur.schur_from_lower_inputs": {
+   "module": "D2SquareSchur.lean",
+   "name": "D2SquareSchur.schur_from_lower_inputs",
+   "status": "UNSUPPORTED",
+   "detail": "unknown function d2Schur",
+   "instances": 0,
+   "vacuous": false,
+   "float_free": true
+  }
+ },
+ "sampling": {
+  "seed": 1,
+  "samples": 64
+ },
+ "exit_code": 1,
+ "note": "G12 census: coverage of the empirical statement check over every declaration in a directory, with no manifest. PASS/CORROBORATED/FAIL/UNSUPPORTED as in a package check; UNSUPPORTED reasons are classified. Not a gate and not kernel evidence."
+}
