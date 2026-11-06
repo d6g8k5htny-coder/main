@@ -812,17 +812,20 @@ def _python_static_value(node, local, module, source_path, imports, scope_shadow
         values = []
         for element in node.elts:
             if isinstance(element, ast.Starred):
-                continue
+                return None
             value = _python_static_value(element, local, module, source_path, imports, scope_shadowed)
-            if value is not None:
-                values.append(value)
+            if value is None:
+                return None
+            values.append(value)
         return values
     if isinstance(node, ast.BoolOp) and isinstance(node.op, ast.Or):
-        for value_node in reversed(node.values):
+        for value_node in node.values:
             value = _python_static_value(value_node, local, module, source_path, imports, scope_shadowed)
-            if value is not None:
+            if value is None:
+                return None
+            if value:
                 return value
-        return None
+        return value if node.values else None
     if not isinstance(node, ast.Call):
         return None
     call_name = _dotted_name(node.func)
@@ -1013,7 +1016,10 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
         elif isinstance(node, ast.Call):
             call_name = _resolved_import_name(node.func, active_imports, static_shadowed)
             if isinstance(node.func, ast.Name):
-                positions = wrappers.get((scope, node.func.id), wrappers.get((None, node.func.id), ()))
+                positions = wrappers.get((scope, node.func.id))
+                if positions is None and node.func.id not in static_shadowed:
+                    positions = wrappers.get((None, node.func.id), ())
+                positions = positions or ()
                 for position in positions:
                     if position < len(node.args):
                         value = _python_static_value(node.args[position], local, module_bindings,
@@ -1039,8 +1045,10 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                         references.update(_command_tool_values(value, tools))
                         continue
                     if isinstance(arg, (ast.List, ast.Tuple)):
-                        tokens = [elt.value for elt in arg.elts
-                                  if isinstance(elt, ast.Constant) and isinstance(elt.value, str)]
+                        tokens = ([elt.value for elt in arg.elts]
+                                  if all(isinstance(elt, ast.Constant)
+                                         and isinstance(elt.value, str) for elt in arg.elts)
+                                  else [])
                     elif isinstance(arg, ast.Constant) and isinstance(arg.value, str):
                         try:
                             tokens = shlex.split(arg.value)
@@ -1194,10 +1202,29 @@ def _js_expression_identifiers(text):
 def _js_call_arguments(text, names):
     if not names:
         return []
+    masked = []
+    quote = None
+    escaped = False
+    for char in text:
+        if quote:
+            masked.append("\n" if char == "\n" else " ")
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == quote:
+                quote = None
+            continue
+        if char in {'"', "'", "`"}:
+            quote = char
+            masked.append(" ")
+        else:
+            masked.append(char)
+    searchable = "".join(masked)
     starts = re.compile(
         r"(?<![\w$.])(?:" + "|".join(map(re.escape, sorted(names))) + r")(?![\w$])\s*\(")
     arguments = []
-    for match in starts.finditer(text):
+    for match in starts.finditer(searchable):
         start = match.end()
         depth, quote, escaped = 1, None, False
         for index in range(start, len(text)):

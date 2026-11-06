@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "73e690d809a838ec2cc79a3a0d20f14027be95b020fa16cc6c6755d6ebf136f5"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "5727c92e940660a373b319ac4f2da6358f93b3c16e3490bf627166000fcd1f3b"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -240,12 +240,13 @@ class ToolChecks(unittest.TestCase):
             "tools/env_tool.py": "x = 1\n",
             "tools/local_tool.py": "x = 1\n",
             "tools/legacy_tool.py": "x = 1\n",
+            "tools/uncertain_tool.py": "x = 1\n",
             "tools/lazy_tool.py": "x = 1\n",
             "tools/wrapped_tool.py": "x = 1\n",
             "tools/README.md": (
                 "tools/subprocess_tool.py tools/spec_tool.py tools/runpy_tool.py "
                 "tools/env_tool.py tools/local_tool.py tools/legacy_tool.py "
-                "tools/lazy_tool.py tools/wrapped_tool.py\n"
+                "tools/uncertain_tool.py tools/lazy_tool.py tools/wrapped_tool.py\n"
             ),
             "tests/test_paths.py": (
                 "import importlib.util, os, runpy, subprocess, sys, unittest\n"
@@ -257,8 +258,9 @@ class ToolChecks(unittest.TestCase):
                 "ENV = Path(os.environ.get('G11_ENV_TOOL', ROOT / 'tools/env_tool.py'))\n"
                 "HERE = os.path.dirname(os.path.abspath(__file__))\n"
                 "WORKSPACE = os.path.dirname(HERE)\n"
-                "LEGACY_REAL = os.path.join(WORKSPACE, 'tools', 'legacy_tool.py')\n"
-                "LEGACY = os.environ.get('G11_LEGACY_TOOL') or LEGACY_REAL\n"
+                "LEGACY = os.path.join(WORKSPACE, 'tools', 'legacy_tool.py')\n"
+                "UNCERTAIN_REAL = os.path.join(WORKSPACE, 'tools', 'uncertain_tool.py')\n"
+                "UNCERTAIN = os.environ.get('G11_UNCERTAIN_TOOL') or UNCERTAIN_REAL\n"
                 "LAZY = ROOT / 'tools/lazy_tool.py'\n"
                 "WRAPPED = ROOT / 'tools/wrapped_tool.py'\n"
                 "class Paths(unittest.TestCase):\n"
@@ -269,6 +271,7 @@ class ToolChecks(unittest.TestCase):
                 "        runpy.run_path(str(RUNPY), run_name='__main__')\n"
                 "        subprocess.check_call([sys.executable, str(ENV)])\n"
                 "        subprocess.run([sys.executable, LEGACY])\n"
+                "        subprocess.run([sys.executable, UNCERTAIN])\n"
                 "        local = ROOT / 'tools/local_tool.py'\n"
                 "        importlib.util.spec_from_file_location('local_tool', local)\n"
                 "        module = None\n"
@@ -368,6 +371,48 @@ class ToolChecks(unittest.TestCase):
             "tools/argument.py": False, "tools/live.py": True, "tools/module_argument.py": False,
         })
 
+    def test_unresolved_command_elements_do_not_shift_the_executable(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/bound.py": "x = 1\n",
+            "tools/inline.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/bound.py tools/inline.py\n",
+            "tests/test_commands.py": (
+                "import shutil, subprocess, unittest\n"
+                "command = [shutil.which('echo'), 'tools/bound.py']\n"
+                "class Commands(unittest.TestCase):\n"
+                "    def test_commands(self):\n"
+                "        subprocess.run(['python3', 'tools/live.py'])\n"
+                "        subprocess.run(command)\n"
+                "        subprocess.run([shutil.which('echo'), 'tools/inline.py'])\n"
+            ),
+        }
+        self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
+            "tools/bound.py": False, "tools/inline.py": False, "tools/live.py": True,
+        })
+
+    def test_boolean_or_static_values_follow_short_circuit_order(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/unknown.py": "x = 1\n",
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/unknown.py tools/unused.py\n",
+            "tests/test_paths.py": (
+                "import os, runpy, unittest\n"
+                "UNUSED = 'other.py' or 'tools/unused.py'\n"
+                "LIVE = '' or 'tools/live.py'\n"
+                "UNKNOWN = os.environ.get('G11_UNKNOWN') or 'tools/unknown.py'\n"
+                "class Paths(unittest.TestCase):\n"
+                "    def test_paths(self):\n"
+                "        runpy.run_path(UNUSED)\n"
+                "        runpy.run_path(LIVE)\n"
+                "        runpy.run_path(UNKNOWN)\n"
+            ),
+        }
+        self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
+            "tools/live.py": True, "tools/unknown.py": False, "tools/unused.py": False,
+        })
+
     def test_destructured_paths_bind_corresponding_values(self):
         tree = {
             "tools/live.py": "x = 1\n",
@@ -435,6 +480,27 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
             "tools/argument.py": False, "tools/live.py": True,
+        })
+
+    def test_local_callee_shadows_do_not_inherit_module_wrappers(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/unused.py\n",
+            "tests/test_wrapper.py": (
+                "import subprocess, unittest\n"
+                "def launch(arguments):\n"
+                "    return subprocess.run(arguments)\n"
+                "def exercise(launch):\n"
+                "    launch(['python3', 'tools/unused.py'])\n"
+                "class Wrapper(unittest.TestCase):\n"
+                "    def test_wrapper(self):\n"
+                "        launch(['python3', 'tools/live.py'])\n"
+                "        exercise(print)\n"
+            ),
+        }
+        self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
+            "tools/live.py": True, "tools/unused.py": False,
         })
 
     def test_local_path_shadows_do_not_inherit_module_values(self):
@@ -570,6 +636,23 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
             "tools/live.mjs": True, "tools/property.mjs": False,
+        })
+
+    def test_js_quoted_call_text_does_not_execute_bindings(self):
+        tree = {
+            "tools/live.mjs": "export const live = true;\n",
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/live.mjs tools/unused.mjs\n",
+            "tests/quoted-call.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const live=new URL('../tools/live.mjs',import.meta.url);\n"
+                "const unused=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "spawnSync(process.execPath,[live]);\n"
+                "console.log('spawnSync(unused)');\n"
+            ),
+        }
+        self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
+            "tools/live.mjs": True, "tools/unused.mjs": False,
         })
 
     def test_tests_and_init_files_are_not_tools(self):
@@ -888,7 +971,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 105)
+        self.assertEqual(len(cases), 109)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

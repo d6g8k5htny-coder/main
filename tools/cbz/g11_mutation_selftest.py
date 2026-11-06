@@ -352,7 +352,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_path_values_need_reachable_execution_not_mentions",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("process wrapper forwarding ignored", "census",
-     "                positions = wrappers.get((scope, node.func.id), wrappers.get((None, node.func.id), ()))",
+     "                positions = wrappers.get((scope, node.func.id))\n                if positions is None and node.func.id not in static_shadowed:\n                    positions = wrappers.get((None, node.func.id), ())\n                positions = positions or ()",
      "                positions = ()",
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
@@ -450,6 +450,26 @@ NEW_MUTATIONS = [
      '        r"(?<![\\w$.])(?:" + "|".join(map(re.escape, sorted(names))) + r")(?![\\w$])\\s*\\(")',
      '        r"\\b(?:" + "|".join(map(re.escape, sorted(names))) + r")\\s*\\(")',
      "tests.test_g11_census.ToolChecks.test_js_property_calls_do_not_use_named_child_process_imports",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("unresolved command element dropped", "census",
+     "            if value is None:\n                return None\n            values.append(value)",
+     "            if value is None:\n                continue\n            values.append(value)",
+     "tests.test_g11_census.ToolChecks.test_unresolved_command_elements_do_not_shift_the_executable",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("boolean or evaluated in reverse order", "census",
+     "        for value_node in node.values:\n            value = _python_static_value(value_node, local, module, source_path, imports, scope_shadowed)",
+     "        for value_node in reversed(node.values):\n            value = _python_static_value(value_node, local, module, source_path, imports, scope_shadowed)",
+     "tests.test_g11_census.ToolChecks.test_boolean_or_static_values_follow_short_circuit_order",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("shadowed callee inherits module wrapper", "census",
+     "                if positions is None and node.func.id not in static_shadowed:\n                    positions = wrappers.get((None, node.func.id), ())",
+     "                if positions is None:\n                    positions = wrappers.get((None, node.func.id), ())",
+     "tests.test_g11_census.ToolChecks.test_local_callee_shadows_do_not_inherit_module_wrappers",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("quoted JavaScript text accepted as child process call", "census",
+     "    for match in starts.finditer(searchable):",
+     "    for match in starts.finditer(text):",
+     "tests.test_g11_census.ToolChecks.test_js_quoted_call_text_does_not_execute_bindings",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
 
 ]
@@ -559,6 +579,10 @@ EXPECTED_MUTATION_NAMES = (
     "forwarded command-mode arguments credited",
     "augmented assignment retains stale static value",
     "JavaScript property call accepted as imported callee",
+    "unresolved command element dropped",
+    "boolean or evaluated in reverse order",
+    "shadowed callee inherits module wrapper",
+    "quoted JavaScript text accepted as child process call",
 )
 
 
@@ -737,7 +761,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 54
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 58
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
