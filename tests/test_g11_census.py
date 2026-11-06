@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "8faa876ff098b801d72aa9912427ced189346fa2f92a37feb2aa1683f04314c0"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "20ddfcd2a90abde3c199122cb0dda95493ee10706c211258cb4bdfdc50fbe551"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -739,6 +739,23 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
+    def test_concatenation_preserves_named_operand_before_later_effects(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_named_concat_capture.py": (
+                "import subprocess\n"
+                "command = ['python3', 'other.py']\n"
+                "def change():\n"
+                "    global command\n"
+                "    command = ['python3', 'tools/unused.py']\n"
+                "    return 'argument'\n"
+                "result = command + [change()]\n"
+                "subprocess.run(result)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
     def test_python_helper_stops_after_unconditional_termination(self):
         tree = {
             "tools/direct.py": "x = 1\n",
@@ -764,6 +781,22 @@ class ToolChecks(unittest.TestCase):
             {path: item["referenced"] for path, item in self.tools(tree).items()},
             {"tools/branch.py": False, "tools/direct.py": False},
         )
+
+    def test_selected_python_branch_stops_after_termination(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_branch_termination.py": (
+                "import runpy\n"
+                "script = 'tools/unused.py'\n"
+                "def launch():\n"
+                "    if True:\n"
+                "        return\n"
+                "        runpy.run_path(script)\n"
+                "launch()\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
     def test_reassigned_python_helper_is_not_executed(self):
         tree = {
@@ -1366,6 +1399,22 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
+    def test_js_asi_block_declaration_shadows_child_process_import(self):
+        tree = {
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/asi-block-shadow.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "{\n"
+                "  let spawnSync\n"
+                "  spawnSync=(...args) => console.log(args);\n"
+                "  spawnSync('echo',[script]);\n"
+                "}\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
     def test_js_default_initializer_reference_is_not_a_parameter_binding(self):
         tree = {
             "tools/live.mjs": "export const live = true;\n",
@@ -1850,7 +1899,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 161)
+        self.assertEqual(len(cases), 164)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

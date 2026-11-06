@@ -766,8 +766,11 @@ def _reachable_python_nodes(tree, mode):
         if identity in visited:
             return
         visited.add(identity)
-        for statement in function.body:
-            visit(statement, owner, id(function), activation_line)
+        visit_statement_sequence(function.body, owner, id(function), activation_line)
+
+    def visit_statement_sequence(body, owner, scope, activation_line):
+        for statement in body:
+            visit(statement, owner, scope, activation_line)
             if statement_terminates(statement):
                 break
 
@@ -820,8 +823,8 @@ def _reachable_python_nodes(tree, mode):
                             execution_line = (marker.lineno if activation_line is None
                                               else activation_line)
                             nodes.append((marker, scope, execution_line))
-                        for statement in alternative:
-                            visit(statement, owner, scope, activation_line)
+                        visit_statement_sequence(
+                            alternative, owner, scope, activation_line)
                     if names:
                         marker = ast.Delete(
                             targets=[ast.Name(id=name, ctx=ast.Del())
@@ -833,8 +836,7 @@ def _reachable_python_nodes(tree, mode):
                     return
                 else:
                     branch = node.body if truth else node.orelse
-            for statement in branch:
-                visit(statement, owner, scope, activation_line)
+            visit_statement_sequence(branch, owner, scope, activation_line)
             return
         if isinstance(node, (ast.For, ast.AsyncFor, ast.While)):
             if isinstance(node, (ast.For, ast.AsyncFor)):
@@ -866,6 +868,21 @@ def _reachable_python_nodes(tree, mode):
             for target in targets:
                 for name in _target_names(target):
                     active_functions.pop((scope, name), None)
+
+        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+            # Binary operands are evaluated left-to-right before addition.
+            # Capture a resolved named/list operand before effects in the
+            # later operand can rebind its source name.
+            for index, operand in enumerate((node.left, node.right)):
+                visit(operand, owner, scope, activation_line)
+                marker = ast.Expr(value=operand)
+                marker.lineno = getattr(operand, "lineno", getattr(node, "lineno", 0))
+                marker._g11_binary_id = id(node)
+                marker._g11_binary_index = index
+                execution_line = (marker.lineno if activation_line is None
+                                  else activation_line)
+                nodes.append((marker, scope, execution_line))
+            return
 
         if isinstance(node, (ast.List, ast.Tuple)):
             # Sequence elements are evaluated left-to-right. Preserve each
@@ -1053,18 +1070,22 @@ def _python_static_value(node, local, module, source_path, imports, scope_shadow
 def _python_sequence_static_value(node, evaluated_elements, local, module,
                                   source_path, imports, scope_shadowed=()):
     """Resolve a sequence from values captured at each element evaluation."""
+    missing = object()
     if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
-        left = _python_sequence_static_value(
-            node.left, evaluated_elements, local, module, source_path, imports,
-            scope_shadowed)
-        right = _python_sequence_static_value(
-            node.right, evaluated_elements, local, module, source_path, imports,
-            scope_shadowed)
+        left = evaluated_elements.get(("binary", id(node), 0), missing)
+        if left is missing:
+            left = _python_sequence_static_value(
+                node.left, evaluated_elements, local, module, source_path,
+                imports, scope_shadowed)
+        right = evaluated_elements.get(("binary", id(node), 1), missing)
+        if right is missing:
+            right = _python_sequence_static_value(
+                node.right, evaluated_elements, local, module, source_path,
+                imports, scope_shadowed)
         return _static_add(left, right)
     if not isinstance(node, (ast.List, ast.Tuple)):
         return _python_static_value(
             node, local, module, source_path, imports, scope_shadowed)
-    missing = object()
     values = []
     for index, element in enumerate(node.elts):
         value_node = element.value if isinstance(element, ast.Starred) else element
@@ -1374,6 +1395,14 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
         locally_imported = set(local_imports["modules"]) | set(local_imports["symbols"])
         static_shadowed = (scope_shadowed.get(scope, set())
                            - locally_imported - global_names)
+        if hasattr(node, "_g11_binary_id"):
+            evaluated_sequence_elements[(
+                "binary", node._g11_binary_id, node._g11_binary_index)] = (
+                    _python_sequence_static_value(
+                        node.value, evaluated_sequence_elements, local,
+                        module_bindings, source_path, active_imports,
+                        static_shadowed))
+            continue
         if hasattr(node, "_g11_sequence_id"):
             value = _python_sequence_static_value(
                 node.value, evaluated_sequence_elements, local, module_bindings,
@@ -2005,6 +2034,9 @@ def _js_local_declaration_shadows(text, position, name):
             if declaration_block != block:
                 continue
             start = declaration.end()
+            simple = re.match(r"\s*([A-Za-z_$][\w$]*)", searchable[start:block[1]])
+            if simple is not None and simple.group(1) == name:
+                return True
             depths = {"(": 0, "[": 0, "{": 0}
             closing = {")": "(", "]": "[", "}": "{"}
             end = block[1]

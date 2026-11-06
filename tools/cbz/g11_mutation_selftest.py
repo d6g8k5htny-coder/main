@@ -717,8 +717,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_module_block_declaration_shadows_named_child_process_import",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("captured sequence values lost through concatenation", "census",
-     "    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):\n        left = _python_sequence_static_value(",
-     "    if False and isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):\n        left = _python_sequence_static_value(",
+     "    missing = object()\n    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):\n        left = evaluated_elements.get",
+     "    missing = object()\n    if False and isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):\n        left = evaluated_elements.get",
      "tests.test_g11_census.ToolChecks.test_sequence_capture_survives_list_concatenation",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("Python helper traversal continues after termination", "census",
@@ -730,6 +730,21 @@ NEW_MUTATIONS = [
      "            if name in bindings:\n                return True",
      "            if False and name in bindings:\n                return True",
      "tests.test_g11_census.ToolChecks.test_js_destructured_block_declaration_shadows_child_process_import",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("named binary operand reevaluated after later effects", "census",
+     '        left = evaluated_elements.get(("binary", id(node), 0), missing)',
+     "        left = missing",
+     "tests.test_g11_census.ToolChecks.test_concatenation_preserves_named_operand_before_later_effects",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("selected branch traversal continues after termination", "census",
+     "            visit_statement_sequence(branch, owner, scope, activation_line)\n            return",
+     "            for statement in branch:\n                visit(statement, owner, scope, activation_line)\n            return",
+     "tests.test_g11_census.ToolChecks.test_selected_python_branch_stops_after_termination",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("JavaScript ASI declaration shadow ignored", "census",
+     "            if simple is not None and simple.group(1) == name:\n                return True",
+     "            if False:\n                return True",
+     "tests.test_g11_census.ToolChecks.test_js_asi_block_declaration_shadows_child_process_import",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
@@ -895,6 +910,9 @@ EXPECTED_MUTATION_NAMES = (
     "captured sequence values lost through concatenation",
     "Python helper traversal continues after termination",
     "JavaScript destructured block shadow ignored",
+    "named binary operand reevaluated after later effects",
+    "selected branch traversal continues after termination",
+    "JavaScript ASI declaration shadow ignored",
 )
 
 
@@ -1073,7 +1091,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 110
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 113
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
