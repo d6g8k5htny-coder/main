@@ -464,22 +464,42 @@ registration text names Lindemann–Weierstrass as the imported theorem (O3). V1
 compared with a ℕ *term* — is confirmed from the pinned sources: at Mathlib `d13f23b7` the ring structure on `Fin n` is
 a scoped instance precisely so that `x < n` elaborates as `↑x < n` (`Mathlib/Data/ZMod/Defs.lean`), and the tool now
 refuses that comparison under `open Fin.NatCast` / `Fin.CommRing` / `Fin.IntCast`, where the coercion loop exists and
-the comparison wraps (zero occurrences in the census corpus). In the same round, `exp`, `log`, `sqrt`, `pi` …
-written bare under `open Real` are read as Mathlib's `Real.exp` … (a definition or binder of that name in scope wins, as in
-Lean; and when another opened namespace carries the same short name — `open Nat Real` makes `sqrt` an overloaded identifier
-that Lean resolves by the expected type, `(sqrt 10 : ℕ)` being `Nat.sqrt 10` — the bare name is refused as ambiguous, the
-false PASS 01DKKe found in the readback (757/6680709277 R1) and its second layer, an intrinsically real value ascribed to
-ℕ/ℤ, now both UNSUPPORTED); the census receipts in `census_math_dfa9b30a_20261106_trans/` are those of this head — four verdicts moved against the
-first run of the day (`productDecay_eq_exp` in three groups and `shifted_gaussian_le`, UNSUPPORTED "unknown function exp" →
-CORROBORATED), six more bare-`exp` identities are now named as undecided-by-enclosure rather than unknown, nothing else
-changed. Tests 93 → **106** (`TranscendentalTests`: the thirteen P15 statements and their flips; the exact normal form;
-Mathlib's totalisations; π and trigonometry; true equalities between enclosed values reported UNSUPPORTED with the
-reason; the refinement ladder and the caps; sampled binders with transcendental values, including the
-undecided-majority rule; connectives with an undecided side; the mutation contract on transcendental statements —
-0 survivors; containment against `decimal` and `math`; outward rounding and message formatting; bare names under `open Real` with the rival-namespace refusal), normal, `-O`,
-`-W error`. Landed expectations that change: `Real.exp 1 < 3` and `Real.exp 0 = 1` are PASS (the fail-closed
-anchors are now `Real.arcsin 1 < 3`, `Real.exp 1 ^ (1/2 : ℝ) < 2` (rpow) and `Real.cos Real.pi = -1`), a nested
-radical is enclosed rather than refused, and `(hx : Real.exp x > 0)` is a readable hypothesis
+the comparison wraps (zero occurrences in the census corpus). In the same round, `exp`, `log`, `sqrt`, `cos` …
+written bare under `open Real` are read as Mathlib's `Real.exp` …, and the two readbacks of that rule (01DKKe,
+757/6680709277 **R1**: `(sqrt 10 : ℕ) * (sqrt 10 : ℕ) = 10` under `open Nat Real` was a false PASS — Lean elaborates
+`Nat.sqrt`; 757/6680946372 **R1b**: the same through `Rat.sqrt`, `(sqrt 2 : ℚ) * (sqrt 2 : ℚ) = 2` under `open Rat Real`,
+which Lean reads as `1 * 1 = 2`) settled it as an allowlist, never a denylist: a bare short name denotes `Real.<name>`
+only when nothing else in scope can carry it. A binder of that name wins, and so does a definition of the statement's
+own namespace chain (Lean, `resolveGlobalName`, returns those alone); a root-level definition or one reached through
+another `open` is merged by Lean with `Real.<name>` into one overload set and is refused; every other opened namespace
+must be either on a short list of library namespaces that define none of these names (`Finset`, `Set`, `BigOperators`,
+`MeasureTheory`, `Topology`, `Filter`, `ContDiff` …) or a user namespace of the pool whose definitions do not include the
+name — a namespace known to carry it (verified at the Mathlib pin `d13f23b7`: `Nat`/`Int` `sqrt`, `log`; `Rat.sqrt`,
+`Mathlib/Data/Rat/Sqrt.lean` l.29, not protected; `NNReal.sqrt`; `ENNReal.log`; `EReal.exp`; `Complex.exp`/`log`/
+`sin`/`cos`/`tan`/`sinh`/`cosh`/`arctan`; `NormedSpace.exp`; `Ordinal.log`) is refused as ambiguous, and one the tool does
+not know (`Polynomial`, or `Nat` for `exp`) is refused as "not known here". The forms of `open` are now distinguished:
+`open scoped X` brings no names, `open X (a b)` only `a` and `b`, `open X hiding a` everything but `a`, `open X renaming
+a → b` only the new names (which the tool does not resolve) — in the pooled-definition resolution as well as in this
+rule. Two corrections of my own earlier text fall out of the pin check: `Real.pi` is `protected`
+(`Mathlib/Analysis/SpecialFunctions/Trigonometric/Basic.lean` l.128), so a bare `pi` never denotes it under `open
+Real` (only the scoped notation `π` does; the tool now reports `unknown name pi`), and a root-level `def exp` next to
+`open Real` does not "win" as the earlier test asserted — it is ambiguous in Lean and is refused. The second layer,
+an intrinsically real value ascribed to ℕ, ℤ or ℚ (`(Real.sqrt 2 : ℚ)`), is UNSUPPORTED: Lean has no such coercion;
+ℕ/ℤ/ℚ → ℝ casts are unchanged. The census receipts in `census_math_dfa9b30a_20261106_trans/` are those of the
+`6be08d86` head and were re-run per target at every later head of this branch, identical each time (the corpus opens
+`Real` only alone, with `scoped ContDiff`, or with the user namespaces `ResearchFormalCoreR1 W3Scratch`, and never uses
+a bare short name there): four verdicts had moved against the first run of the day (`productDecay_eq_exp` in three
+groups and `shifted_gaussian_le`, UNSUPPORTED "unknown function exp" → CORROBORATED), six more bare-`exp` identities
+are named as undecided-by-enclosure rather than unknown, nothing else changed. Tests 93 → **107**
+(`TranscendentalTests`: the thirteen P15 statements and their flips; the exact normal form; Mathlib's totalisations;
+π and trigonometry; true equalities between enclosed values reported UNSUPPORTED with the reason; the refinement
+ladder and the caps; sampled binders with transcendental values, including the undecided-majority rule; connectives
+with an undecided side; the mutation contract on transcendental statements — 0 survivors; containment against
+`decimal` and `math`; outward rounding and message formatting; bare names under `open Real` with the R1/R1b rows, the
+forms of `open`, the protected `pi` and the root-level case; and `test_open_forms_resolve_pooled_definitions_as_lean_does`),
+normal, `-O`, `-W error`. Landed expectations that change: `Real.exp 1 < 3` and `Real.exp 0 = 1` are PASS (the
+fail-closed anchors are now `Real.arcsin 1 < 3`, `Real.exp 1 ^ (1/2 : ℝ) < 2` (rpow) and `Real.cos Real.pi = -1`), a
+nested radical is enclosed rather than refused, and `(hx : Real.exp x > 0)` is a readable hypothesis
 (`Real.arcsin x > 0` is the unreadable example).
 
 **Registration consequence (for Root; proposed text, the landed §"Empirical statement check" governs until
@@ -490,7 +510,7 @@ whose equalities are decided by the linear independence of the e^q over ℚ for 
 (Lindemann–Weierstrass — an imported theorem, not re-proved here); `Real.log` / `Real.pi` / trigonometric values and
 `Real.exp` of irrational arguments are enclosed by rigorous rational intervals refined to 1024 bits; a comparison the
 enclosures do not decide — in particular an equality between two enclosed values — is UNSUPPORTED, never PASS"; the coverage row for the census becomes
-`3,782 | 40 PASS | 233 CORROBORATED | 0 FAIL | 3,509 UNSUPPORTED`; the test count becomes 106.
+`3,782 | 40 PASS | 233 CORROBORATED | 0 FAIL | 3,509 UNSUPPORTED`; the test count becomes 107.
 
 ## Proposed gate row and registry entries (for Root; B-003)
 

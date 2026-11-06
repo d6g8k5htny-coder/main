@@ -726,8 +726,24 @@ class DefTable:
     def candidates(name, namespace='', opens=()):
         parts = namespace.split('.') if namespace else []
         out = ['.'.join(parts[:k] + [name]) for k in range(len(parts), 0, -1)] + [name]
-        out += [f'{o}.{name}' for o in opens]
+        out += [c for c in (_opened_as(o, name) for o in opens) if c is not None]
         return out
+
+    def _has(self, qualified):
+        return qualified in self.local or qualified in self.shared
+
+    def scope_of(self, name, namespace='', opens=()):
+        """Where a bare ``name`` finds a pooled definition, the way Lean orders the search: 'namespace' (the
+        statement's namespace chain — Lean resolves these first and alone), 'root' (a root-level definition),
+        'open' (through an `open`), or None."""
+        parts = namespace.split('.') if namespace else []
+        if any(self._has('.'.join(parts[:k] + [name])) for k in range(len(parts), 0, -1)):
+            return 'namespace'
+        if self._has(name):
+            return 'root'
+        if any(self._has(c) for c in (_opened_as(o, name) for o in opens) if c is not None):
+            return 'open'
+        return None
 
     def resolve(self, name, namespace='', opens=()):
         """The definition ``name`` denotes from ``namespace`` (None when there is none); Unsupported when the
@@ -771,6 +787,11 @@ class DefTable:
             return self.resolve(name, namespace, opens) is not None
         except Unsupported:
             return True
+
+    def has_namespace(self, ns: str) -> bool:
+        """Whether some pooled definition lives under ``ns`` (so the pool speaks for what ``ns`` carries)."""
+        prefix = ns + '.'
+        return any(q.startswith(prefix) for q in self.local) or any(q.startswith(prefix) for q in self.shared)
 
 
 def share_definitions(modules):
@@ -969,9 +990,9 @@ def parse_module(source: str) -> Module:
                 opens.pop()
             continue
         if kw == 'open':
-            names = tuple(t.value for t in toks[k + 1:end]
-                          if t.kind == 'ident' and t.value not in ('scoped', 'in', 'hiding', 'renaming'))
-            if toks[end - 1].value == 'in':
+            trailing_in = toks[end - 1].value == 'in'
+            names = _open_entries([t.value for t in toks[k + 1:end - 1 if trailing_in else end]])
+            if trailing_in:
                 pending_opens = pending_opens + names
             else:
                 opens[-1] = tuple(opens[-1]) + names
@@ -1338,8 +1359,8 @@ def _parse_theorem_binders(toks, start, end, defs, point_types=frozenset(), name
             def is_known(v):
                 if v in known or v.split('.')[0] in known:
                     return True
-                if v in _REAL_SHORT_NAMES and 'Real' in opens and not any(v in _REAL_NAME_RIVALS.get(ns, ()) for ns in opens):
-                    return True
+                if v in _REAL_SHORT_NAMES and _real_opens(v, opens):
+                    return True                      # resolved — or refused with the reason — by `Evaluator.real_name`
                 if isinstance(defs, DefTable):
                     return defs.denotes(v, namespace, opens)
                 return v in defs
@@ -1495,12 +1516,135 @@ _RAT_TYPES = {'Rat', 'ℚ'}
 _REAL_TYPES = {'Real', 'ℝ'}
 _FIELD_TYPES = {'Rat', 'Real'}          # numeric types with exact (totalized) division
 _FIN_CAST_SCOPES = ('Fin.NatCast', 'Fin.CommRing', 'Fin.IntCast')   # scoped instances that coerce ℕ/ℤ into Fin n
-_REAL_SHORT_NAMES = frozenset({'exp', 'log', 'sin', 'cos', 'tan', 'sinh', 'cosh', 'arctan', 'sqrt', 'pi', 'logb'})
-# Mathlib / core namespaces that carry one of those short names too: opened together with `Real`, the bare name is an
-# overloaded identifier Lean resolves by the expected type, so the tool refuses it
-_REAL_NAME_RIVALS = {'Nat': {'sqrt', 'log'}, 'Int': {'sqrt', 'log'}, 'NNReal': {'sqrt'}, 'ENNReal': {'log'}, 'EReal': {'exp', 'log'},
-                     'Complex': {'exp', 'log', 'sin', 'cos', 'tan', 'sinh', 'cosh', 'arctan', 'pi'}, 'NormedSpace': {'exp'},
-                     'Polynomial': {'log'}, 'Ordinal': {'log'}, 'Cardinal': {'log'}, 'PadicInt': {'exp', 'log'}}
+# The short names of `Real`'s transcendental functions that `open Real` brings into scope. `Real.pi` is `protected`
+# (`Mathlib/Analysis/SpecialFunctions/Trigonometric/Basic.lean` l.128 at the pin: `protected noncomputable def pi`), so
+# a bare `pi` never denotes it — only the scoped notation `π` does; `arcsin`/`arccos`/`rpow` are outside the backend.
+_REAL_SHORT_NAMES = frozenset({'exp', 'log', 'sin', 'cos', 'tan', 'sinh', 'cosh', 'arctan', 'sqrt', 'logb'})
+# A bare short name under `open Real` denotes `Real.<name>` only when nothing else in scope can carry the name: no
+# definition at the root or through another `open` (the statement's own namespace chain wins outright, as in Lean), and
+# every other opened namespace is either on `_SAFE_OPEN_NAMESPACES` (library namespaces that define none of these
+# short names) or a user namespace of the pool that defines no `<ns>.<name>`. Anything else — a namespace known to
+# carry the name (`_REAL_NAME_RIVALS`, each entry verified at the Mathlib pin `d13f23b7`: `Nat.log`
+# `Mathlib/Data/Nat/Log.lean` l.62, `Nat.sqrt` core (used bare in `Mathlib/Data/Nat/Sqrt.lean`), `Int.sqrt`
+# `Data/Int/Sqrt.lean` l.27, `Int.log` `Data/Int/Log.lean` l.61, `Rat.sqrt` `Data/Rat/Sqrt.lean` l.29, `NNReal.sqrt`
+# `Analysis/Real/Sqrt.lean` l.46, `ENNReal.log` `SpecialFunctions/Log/ENNRealLog.lean` l.46, `EReal.exp`
+# `Log/ERealExp.lean` l.40, `Complex.exp` `Analysis/Complex/Exponential.lean` l.62, `Complex.log`
+# `SpecialFunctions/Complex/Log.lean` l.30, `Complex.sin/cos/tan/sinh/cosh` `Analysis/Complex/Trigonometric.lean`
+# ll.29–53, `Complex.arctan` `SpecialFunctions/Complex/Arctan.lean` l.29, `NormedSpace.exp`
+# `Analysis/Normed/Algebra/Exponential.lean` l.127, `Ordinal.log` `SetTheory/Ordinal/Exponential.lean` l.284) or one
+# whose contents the tool does not know — makes the bare identifier an overload that Lean resolves by the expected
+# type (`(sqrt 10 : ℕ)` is `Nat.sqrt 10`, `(sqrt 2 : ℚ)` is `Rat.sqrt 2`), and the tool refuses it rather than guess:
+# an allowlist of what is safe, never a denylist of what is known to clash (01DKKe, 757/6680709277 R1 and 6680946372 R1b).
+# The pool vouches for a user namespace only through the `def`/`abbrev` declarations it holds (the group's files and
+# any `--defs-from` directory), and it cannot tell a user namespace from a library namespace the user extends: a
+# library namespace extended in the pool that carries one of these names elsewhere would pass as a user namespace.
+# No namespace declared in the Math- corpus at `dfa9b30a` is a Mathlib namespace, and no file of it opens `Real`
+# together with anything but `ResearchFormalCoreR1 W3Scratch` (user namespaces) and `scoped ContDiff`.
+_REAL_NAME_RIVALS = {'Nat': {'sqrt', 'log'}, 'Int': {'sqrt', 'log'}, 'Rat': {'sqrt'}, 'NNReal': {'sqrt'}, 'ENNReal': {'log'},
+                     'EReal': {'exp'}, 'Complex': {'exp', 'log', 'sin', 'cos', 'tan', 'sinh', 'cosh', 'arctan'},
+                     'NormedSpace': {'exp'}, 'Ordinal': {'log'}}
+_SAFE_OPEN_NAMESPACES = frozenset({'BigOperators', 'Finset', 'Set', 'Function', 'Classical', 'MeasureTheory',
+                                   'ProbabilityTheory', 'Topology', 'Filter', 'Metric', 'ContDiff', 'Pointwise',
+                                   'RealInnerProductSpace', 'InnerProductSpace', 'Manifold', 'Interval', 'Fintype',
+                                   'Finsupp', 'Asymptotics', 'Bornology'})
+
+
+def _open_entries(values):
+    """The scope entries of one `open` line (its tokens after `open`, a trailing `in` removed): `X` for `open X`
+    (every name of X in scope), `scoped X` for `open scoped X` (notation and scoped instances only, no names),
+    `X (a b)` for `open X (a b)` (only a and b), `X hiding a b` for `open X hiding a b` (every name but a and b),
+    `X renaming (b d)` for `open X renaming a → b, c → d` (only the new names, which the tool does not resolve)."""
+    if not values:
+        return ()
+    if values[0] == 'scoped':
+        return tuple('scoped ' + v for v in values[1:] if _IDENT_START.match(v))
+    for keyword in ('hiding', 'renaming'):
+        if keyword in values:
+            i = values.index(keyword)
+            spaces, rest = values[:i], values[i + 1:]
+            if keyword == 'renaming':
+                rest = [rest[j + 1] for j, v in enumerate(rest) if v in ('→', '->') and j + 1 < len(rest)]
+                return tuple(f'{ns} renaming ({" ".join(rest)})' for ns in spaces)
+            return tuple(f'{ns} hiding {" ".join(rest)}' for ns in spaces)
+    if '(' in values:
+        i = values.index('(')
+        names = [v for v in values[i + 1:] if v not in ('(', ')', ',')]
+        return tuple(f'{ns} ({" ".join(names)})' for ns in values[:i])
+    return tuple(v for v in values if _IDENT_START.match(v))
+
+
+
+def _open_namespace(entry: str) -> str:
+    """The namespace an open-scope entry refers to (`scoped X` → X, `X hiding a` → X, `X (a b)` → X)."""
+    return entry.split()[1] if entry.startswith('scoped ') else entry.split()[0]
+
+
+def _opened_as(entry: str, name: str):
+    """The qualified name ``name`` may stand for through this open-scope entry, or None when the entry does not bring
+    ``name`` into scope (a scoped open, a name hidden, a name not in the explicit list, a renaming)."""
+    words = entry.split()
+    if entry.startswith('scoped '):
+        return None
+    ns = words[0]
+    if len(words) == 1:
+        return f'{ns}.{name}'
+    if words[1] == 'hiding':
+        return None if name in words[2:] else f'{ns}.{name}'
+    if words[1] == 'renaming':
+        return None
+    return f'{ns}.{name}' if name in (w.strip('()') for w in words[1:]) else None
+
+
+def _open_new_names(entry: str):
+    """The names an explicit-list or renaming entry brings into scope (`X (a b)` → a, b; `X renaming (b d)` → b, d)."""
+    words = entry.split()
+    if len(words) > 1 and words[1] == 'renaming':
+        return tuple(w.strip('()') for w in words[2:])
+    if len(words) > 1 and words[1].startswith('('):
+        return tuple(w.strip('()') for w in words[1:])
+    return ()
+
+
+def _real_opens(name: str, opens) -> bool:
+    """Whether some `open` of `Real` in scope brings the bare short ``name`` into scope."""
+    return any(_open_namespace(o) == 'Real' and _opened_as(o, name) is not None for o in opens)
+
+
+def _bare_real_name(name: str, namespace: str, opens, defs) -> str:
+    """What a bare transcendental short name denotes under `open Real`: itself when a definition of the statement's
+    namespace chain carries it (Lean resolves those first and alone), `Real.<name>` when nothing else in scope can
+    carry it, and Unsupported otherwise — never a guess among overloads (see `_REAL_NAME_RIVALS`)."""
+    if isinstance(defs, DefTable):
+        where = defs.scope_of(name, namespace, opens)
+        if where == 'namespace':
+            return name
+        if where == 'root':
+            raise Unsupported(f'bare `{name}` is ambiguous under `open Real`: a root-level definition `{name}` and '
+                              f'`Real.{name}` are both in scope (Lean picks by the expected type)')
+    elif name in defs:                                    # a plain definition table: the module's own definition wins
+        return name
+    for entry in opens:
+        ns = _open_namespace(entry)
+        if ns == 'Real' or entry.startswith('scoped '):   # a scoped open brings no names into scope
+            continue
+        if _opened_as(entry, name) is None:
+            if name in _open_new_names(entry):            # `open X renaming a → exp`: `exp` is X's a
+                raise Unsupported(f'bare `{name}` is ambiguous under `open {entry} Real` (a renamed import and '
+                                  f'`Real.{name}` are both in scope)')
+            continue                                      # hidden or not in the explicit list: X does not supply it
+        if name in _REAL_NAME_RIVALS.get(ns, ()):
+            raise Unsupported(f'bare `{name}` is ambiguous under `open {ns} Real` (`{ns}.{name}` and `Real.{name}` are '
+                              'both in scope; Lean picks by the expected type)')
+        if isinstance(defs, DefTable) and defs._has(f'{ns}.{name}'):
+            raise Unsupported(f'bare `{name}` is ambiguous under `open {ns} Real` (the definition `{ns}.{name}` and '
+                              f'`Real.{name}` are both in scope; Lean picks by the expected type)')
+        if ns in _SAFE_OPEN_NAMESPACES:
+            continue
+        if isinstance(defs, DefTable) and defs.has_namespace(ns) and ns not in _REAL_NAME_RIVALS:
+            continue                                      # a user namespace of the pool that defines no `<ns>.<name>`
+        raise Unsupported(f'bare `{name}` under `open {ns} Real`: whether `{ns}` carries `{name}` is not known here, so '
+                          'the identifier may be an overload Lean resolves by the expected type')
+    return 'Real.' + name
 _TRANSCENDENTAL = {'Real.exp', 'Real.log', 'Real.pi', 'Real.sin', 'Real.cos', 'Real.tan', 'Real.arctan',
                    'Real.sinh', 'Real.cosh', 'Real.rpow', 'Real.logb', 'π'}
 
@@ -1962,9 +2106,9 @@ class Evaluator:
                 intrinsic = self.arith_type(node.expr, env)       # `(Real.sqrt 10 : ℕ)`: ℝ has no coercion into ℕ
             except Unsupported:
                 intrinsic = None
-            if intrinsic is not None and _base(intrinsic) in _FIELD_TYPES and _base(inner) not in _FIELD_TYPES \
-                    and _base(inner) in ('Nat', 'Int'):
-                raise Unsupported(f'a {_base(intrinsic)} value ascribed where a {_base(inner)} is expected')
+            if intrinsic is not None and ((_base(intrinsic) in _FIELD_TYPES and _base(inner) in ('Nat', 'Int')) or
+                                          (_base(intrinsic) == 'Real' and _base(inner) == 'Rat')):
+                raise Unsupported(f'a {_base(intrinsic)} value ascribed where a {_base(inner)} is expected')     # no such coercion in Lean
             return self._rec(_coerce(value, inner, typ))
         if isinstance(node, Var):
             if node.name in ('true', 'false'):
@@ -2626,17 +2770,14 @@ class Evaluator:
         return _pow(base, exp)
 
     def real_name(self, name: str, env=None) -> str:
-        """`exp`, `log`, `sqrt`, `pi` … written bare under `open Real` denote `Real.exp` … (Mathlib keeps them in the
-        `Real` namespace and nothing at the root shadows them), unless a definition or binder of that name is in
-        scope, which Lean would prefer — or another opened library namespace supplies the same short name
-        (`open Nat Real` makes `sqrt` an overloaded identifier that Lean resolves by the expected type, so
-        `(sqrt 10 : ℕ)` is `Nat.sqrt 10`): that case is refused, never guessed (01DKKe, 757/6680709277 R1)."""
-        if name in _REAL_SHORT_NAMES and 'Real' in self.opens and not (env and name in env) and self.defn(name) is None:
-            rivals = sorted(ns for ns in self.opens if name in _REAL_NAME_RIVALS.get(ns, ()))
-            if rivals:
-                raise Unsupported(f'bare `{name}` is ambiguous under `open {" ".join(rivals + ["Real"])}` '
-                                  f'(`{rivals[0]}.{name}` and `Real.{name}` are both in scope; Lean picks by the expected type)')
-            return 'Real.' + name
+        """`exp`, `log`, `sqrt` … written bare under `open Real` denote `Real.exp` … unless a binder of that name is in
+        scope (a local always wins) or a definition of the statement's namespace chain carries it, which Lean resolves
+        first and alone; any other way for the name to be in scope — a root-level or opened definition, or another
+        opened namespace that carries or may carry it (`open Nat Real` makes `sqrt` an overloaded identifier that Lean
+        resolves by the expected type: `(sqrt 10 : ℕ)` is `Nat.sqrt 10`, and under `open Rat Real` `(sqrt 2 : ℚ)` is
+        `Rat.sqrt 2 = 1`) — is refused, never guessed (01DKKe, 757/6680709277 R1 and 6680946372 R1b)."""
+        if name in _REAL_SHORT_NAMES and not (env and name in env) and _real_opens(name, self.opens):
+            return _bare_real_name(name, self.namespace, self.opens, self.module.defs)
         return name
 
     def apply(self, node: App, env, typ):
@@ -3230,9 +3371,9 @@ class Evaluator:
                     literal = _literal_only(node.right) if _base(lt) == 'Fin' else _literal_only(node.left)
                     if literal:
                         typ = lt if _base(lt) == 'Fin' else rt
-                    elif any(o in _FIN_CAST_SCOPES for o in self.opens):
+                    elif any(_open_namespace(o) in _FIN_CAST_SCOPES for o in self.opens):
                         raise Unsupported('a Fin index compared with a ℕ term under `open ' +
-                                          ', '.join(o for o in self.opens if o in _FIN_CAST_SCOPES) +
+                                          ', '.join(o for o in self.opens if _open_namespace(o) in _FIN_CAST_SCOPES) +
                                           '`: Lean coerces the ℕ term into Fin n there (wraps modulo n)')
                 if typ == 'Bool':
                     typ = 'Nat'

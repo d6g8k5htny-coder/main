@@ -8,8 +8,9 @@ Lindemann–Weierstrass); `Real.log`, `Real.pi` / `π`, `Real.sin` / `cos` / `ta
 `Real.exp` of irrational arguments and nested radicals are enclosed by rational intervals from series with proved
 remainder bounds (outward rounding only), a closed comparison is refined 64 → 128 → 256 → 512 → 1024 bits and
 reported UNSUPPORTED when still undecided, and a sampled instance the enclosures do not decide at 256 bits is
-skipped and counted (`undecided`); `exp`, `log`, `sqrt`, `pi` … written bare under `open Real` are read as
-Mathlib's `Real.exp` …. Same source archive, same 16 groups, same command (`run_census.sh`, seed 1, 64 samples);
+skipped and counted (`undecided`); `exp`, `log`, `sqrt`, `cos` … written bare under `open Real` are read as
+Mathlib's `Real.exp` … only when nothing else in scope can carry the name (fail-closed; `Real.pi` is `protected`,
+so a bare `pi` is never read — see the README's review-round paragraph). Same source archive, same 16 groups, same command (`run_census.sh`, seed 1, 64 samples);
 `verdict_changes_20261106_finvec_to_trans.json` lists every verdict (and every WEAK flag) that moved.
 
 **Result: 3,782 declarations — 40 PASS · 233 CORROBORATED · 0 FAIL · 3,509 UNSUPPORTED**

@@ -1154,42 +1154,119 @@ class TranscendentalTests(unittest.TestCase):
         self.assertEqual(self.ev('Real.log (-3) < 0').status, 'FAIL')
 
     def test_bare_real_names_under_open_real(self):
-        # `exp`, `log`, `sqrt`, `pi` … written bare under `open Real` are Mathlib's `Real.exp` …; without the open they
-        # are unknown; a definition or a binder of that name in scope wins, as it does in Lean
+        # `exp`, `log`, `sqrt`, `cos` … written bare under `open Real` are Mathlib's `Real.exp` …; without the open they
+        # are unknown; a binder of that name wins, and so does a definition of the statement's own namespace chain
+        # (Lean resolves those first and alone); `Real.pi` is `protected`, so bare `pi` is never `Real.pi` — `π` is
         def ev(src):
             module = sf.parse_module(src)
             return sf.evaluate_theorem(module, module.theorems[-1])
-        self.assertEqual(ev('open Real\ntheorem t : exp 0 = 1 ∧ 2 < exp 1 ∧ log 1 = 0 ∧ 3 < pi ∧ sqrt 4 = 2 ∧ cos 0 = 1 := by sorry\n').status, 'PASS')
+        self.assertEqual(ev('open Real\ntheorem t : exp 0 = 1 ∧ 2 < exp 1 ∧ log 1 = 0 ∧ 3 < π ∧ sqrt 4 = 2 ∧ cos 0 = 1 := by sorry\n').status, 'PASS')
         self.assertEqual(ev('open Real in\ntheorem t (a : ℝ) (k : ℤ) : exp (-a * (k : ℝ) ^ 2) > 0 := by sorry\n').status, 'CORROBORATED')
         self.assertEqual(ev('open Real\ntheorem t (x : ℝ) (hx : exp x ≤ 1) : x ≤ 0 := by sorry\n').status, 'CORROBORATED')
         r = ev('theorem t : exp 0 = 1 := by sorry\n')
         self.assertEqual(r.status, 'UNSUPPORTED')
         self.assertIn('unknown function exp', r.detail)
-        self.assertEqual(ev('open Real\ndef exp (x : ℝ) : ℝ := x + 1\ntheorem t : exp 0 = 1 := by sorry\n').status, 'PASS')
-        self.assertEqual(ev('open Real\ndef exp (x : ℝ) : ℝ := x + 1\ntheorem t : exp 1 = 1 := by sorry\n').status, 'FAIL')
+        r = ev('open Real\ntheorem t : 3 < pi := by sorry\n')
+        self.assertEqual((r.status, r.detail), ('UNSUPPORTED', 'unknown name pi'))                 # protected: not opened
+        self.assertEqual(ev('open scoped Real\ntheorem t : 3 < π := by sorry\n').status, 'PASS')  # the notation is scoped
         self.assertEqual(ev('open Real\ntheorem t (exp : ℝ) (h : exp = 2) : exp = 2 := by sorry\n').status, 'CORROBORATED')
+        self.assertEqual(ev('namespace Foo\ndef exp (x : ℝ) : ℝ := x + 1\nopen Real\ntheorem t : exp 0 = 1 := by sorry\nend Foo\n').status, 'PASS')
+        self.assertEqual(ev('namespace Foo\ndef exp (x : ℝ) : ℝ := x + 1\nopen Real\ntheorem t : exp 1 = 1 := by sorry\nend Foo\n').status, 'FAIL')
+        # a root-level definition is *not* preferred: Lean merges it with the opened `Real.exp` into one overload set
+        # (`Lean.ResolveName.resolveGlobalName`: only the current namespace chain is returned alone) — refused
+        for src in ('open Real\ndef exp (x : ℝ) : ℝ := x + 1\ntheorem t : exp 0 = 1 := by sorry\n',
+                    'def exp (x : ℝ) : ℝ := x + 1\nopen Real\ntheorem t : exp 1 = 1 := by sorry\n'):
+            with self.subTest(src=src.splitlines()[-1]):
+                r = ev(src)
+                self.assertEqual(r.status, 'UNSUPPORTED')
+                self.assertIn('root-level definition `exp`', r.detail)
         # R1 (01DKKe, 757/6680709277): with another opened namespace that carries the name, the bare identifier is
         # overloaded and Lean resolves it by the expected type — `(sqrt 10 : ℕ)` is `Nat.sqrt 10` = 3, so `Real.sqrt`
-        # would be a false reading (`(sqrt 10 : ℕ) * (sqrt 10 : ℕ) = 10` is false in Lean); refused, never guessed
+        # would be a false reading (`(sqrt 10 : ℕ) * (sqrt 10 : ℕ) = 10` is false in Lean); refused, never guessed.
+        # R1b (757/6680946372): the same through `Rat.sqrt` (`Mathlib/Data/Rat/Sqrt.lean` l.29 at the pin, not
+        # protected): `(sqrt 2 : ℚ) * (sqrt 2 : ℚ) = 2` is `1 * 1 = 2`, false in Lean, and was PASS at `942beb78`
         for src in ('open Nat Real\ntheorem t : (sqrt 10 : ℕ) * (sqrt 10 : ℕ) = 10 := by sorry\n',
                     'open Nat Real\ntheorem t : (sqrt 10 : ℕ) = 3 := by sorry\n',
                     'open Nat Real\ntheorem t : (log 2 8 : ℕ) = 3 := by sorry\n',
                     'open Real Complex\ntheorem t : exp 0 = 1 := by sorry\n',
-                    'open scoped Real\nopen Nat\ntheorem t : sqrt 4 = 2 := by sorry\n'):
+                    'open Rat Real\ntheorem t : (sqrt 2 : ℚ) * (sqrt 2 : ℚ) = 2 := by sorry\n',
+                    'open Rat Real\ntheorem t : (sqrt 4 : ℚ) = 2 := by sorry\n',
+                    'open Real NNReal\ntheorem t : sqrt 4 = 2 := by sorry\n',
+                    'open Real\nopen Nat hiding log\ntheorem t : sqrt 4 = 2 := by sorry\n',   # `Nat.sqrt` is still opened
+                    'open Nat renaming succ → sqrt\nopen Real\ntheorem t : sqrt 4 = 2 := by sorry\n',
+                    'namespace Foo\ndef sqrt (x : ℝ) : ℝ := x\nend Foo\nopen Foo Real\ntheorem t : sqrt 4 = 2 := by sorry\n',
+                    'namespace Foo\ndef sqrt (x : ℝ) : ℝ := x\nend Foo\nopen Real\nopen Foo (sqrt)\ntheorem t : sqrt 4 = 2 := by sorry\n'):
             with self.subTest(src=src.splitlines()[-1]):
                 r = ev(src)
                 self.assertEqual(r.status, 'UNSUPPORTED')
                 self.assertIn('ambiguous', r.detail)
-        self.assertEqual(ev('open Nat Real\ntheorem t : exp 0 = 1 := by sorry\n').status, 'PASS')           # Nat has no exp
         r = ev('open Nat Real\ntheorem t (x : ℝ) (hx : sqrt x ≤ 1) : x ≤ 1 ∨ x < 0 := by sorry\n')
-        self.assertEqual(r.status, 'UNSUPPORTED')                                                           # hypothesis too
-        # the second layer: a value of an intrinsically real type ascribed to ℕ/ℤ has no coercion in Lean
-        for text in ('(Real.sqrt 10 : ℕ) = 3', '(Real.sqrt 10 : ℕ) * (Real.sqrt 10 : ℕ) = 10', '(Real.exp 1 : ℤ) = 2', '((2 : ℝ) : ℕ) = 2'):
+        self.assertEqual(r.status, 'UNSUPPORTED')                                                   # hypothesis too
+        self.assertIn('ambiguous', r.detail)
+        # the rule is an allowlist: a namespace the tool does not know to be free of the name is refused, even one
+        # that in fact carries no `exp` (`Nat`, `Polynomial`); library namespaces known to define none of these short
+        # names, and user namespaces whose pooled definitions do not include the name, pass through
+        for src in ('open Nat Real\ntheorem t : exp 0 = 1 := by sorry\n', 'open Real Polynomial\ntheorem t : exp 0 = 1 := by sorry\n',
+                    'open Foo Real\ntheorem t : sqrt 4 = 2 := by sorry\n'):
+            with self.subTest(src=src.splitlines()[0]):
+                r = ev(src)
+                self.assertEqual(r.status, 'UNSUPPORTED')
+                self.assertIn('is not known here', r.detail)
+        for src in ('open Real Finset BigOperators MeasureTheory\ntheorem t : exp 0 = 1 := by sorry\n',
+                    'namespace Foo\ndef other (x : ℝ) : ℝ := x\nend Foo\nopen Foo Real\ntheorem t : sqrt 4 = 2 := by sorry\n',
+                    # the forms of `open`: a scoped open brings no names, an explicit list or a `hiding` only what it says,
+                    # a renaming only the new names (`Lean.Elab.Command.elabOpenDecl`)
+                    'open Real\nopen scoped BigOperators Topology Matrix NNReal\ntheorem t : sqrt 4 = 2 := by sorry\n',
+                    'open Nat (succ)\nopen Real\ntheorem t : sqrt 4 = 2 := by sorry\n',
+                    'open Nat hiding sqrt log\nopen Real\ntheorem t : sqrt 4 = 2 := by sorry\n',
+                    'open Nat renaming sqrt → nsqrt\nopen Real\ntheorem t : sqrt 4 = 2 := by sorry\n',
+                    'open Real hiding log\ntheorem t : exp 0 = 1 := by sorry\n',
+                    'open Real (exp)\ntheorem t : exp 0 = 1 := by sorry\n'):
+            with self.subTest(src=src.splitlines()[0]):
+                self.assertEqual(ev(src).status, 'PASS', src)
+        for src in ('open scoped Real\ntheorem t : exp 0 = 1 := by sorry\n',                     # scoped: `π` only
+                    'open scoped Real\nopen Nat\ntheorem t : sqrt 4 = 2 := by sorry\n',
+                    'open Real hiding exp\ntheorem t : exp 0 = 1 := by sorry\n',
+                    'open Real (exp)\ntheorem t : log 1 = 0 := by sorry\n'):
+            with self.subTest(src=src.splitlines()[0]):
+                r = ev(src)
+                self.assertEqual(r.status, 'UNSUPPORTED')
+                self.assertIn('unknown function', r.detail)
+        # the second layer: a value of an intrinsically real type ascribed to ℕ, ℤ or ℚ has no coercion in Lean
+        for text in ('(Real.sqrt 10 : ℕ) = 3', '(Real.sqrt 10 : ℕ) * (Real.sqrt 10 : ℕ) = 10', '(Real.exp 1 : ℤ) = 2', '((2 : ℝ) : ℕ) = 2',
+                     '(Real.sqrt 2 : ℚ) * (Real.sqrt 2 : ℚ) = 2', '(Real.sqrt 4 : ℚ) = 2', '((2 : ℝ) : ℚ) = 2'):
             with self.subTest(text=text):
                 r = ev(f'theorem t : {text} := by sorry\n')
                 self.assertEqual(r.status, 'UNSUPPORTED')
                 self.assertIn('ascribed where', r.detail)
         self.assertEqual(ev('theorem t (n : ℕ) : ((n - 1 : ℕ) : ℝ) ≥ 0 ∧ (n - 1 : ℝ) ≤ n := by sorry\n').status, 'CORROBORATED')  # ℕ → ℝ casts stay
+        self.assertEqual(ev('theorem t (q : ℚ) : ((q : ℝ) : ℝ) = q ∧ ((2 : ℚ) : ℝ) = 2 := by sorry\n').status, 'CORROBORATED')  # ℚ → ℝ stays
+
+    def test_open_forms_resolve_pooled_definitions_as_lean_does(self):
+        # `open X (a)` brings only `a`, `open X hiding a` everything but `a`, `open scoped X` nothing, `open X renaming`
+        # nothing the tool resolves; a definition of the statement's namespace chain is found first
+        def ev(src):
+            module = sf.parse_module(src)
+            return sf.evaluate_theorem(module, module.theorems[-1])
+        defs = 'namespace Foo\ndef two : ℝ := 2\ndef three : ℝ := 3\nend Foo\n'
+        self.assertEqual(ev(defs + 'open Foo (two)\ntheorem t : two = 2 := by sorry\n').status, 'PASS')
+        self.assertEqual(ev(defs + 'open Foo (two)\ntheorem t : three = 3 := by sorry\n').status, 'UNSUPPORTED')
+        self.assertEqual(ev(defs + 'open Foo hiding two\ntheorem t : three = 3 := by sorry\n').status, 'PASS')
+        self.assertEqual(ev(defs + 'open Foo hiding two\ntheorem t : two = 2 := by sorry\n').status, 'UNSUPPORTED')
+        self.assertEqual(ev(defs + 'open scoped Foo\ntheorem t : two = 2 := by sorry\n').status, 'UNSUPPORTED')
+        self.assertEqual(ev(defs + 'open Foo renaming two → deux\ntheorem t : deux = 2 := by sorry\n').status, 'UNSUPPORTED')
+        self.assertEqual(ev(defs + 'open Foo\ntheorem t : two + three = 5 := by sorry\n').status, 'PASS')
+        self.assertEqual(ev(defs + 'open Foo in\ntheorem t : two = 2 := by sorry\n').status, 'PASS')
+        self.assertEqual(ev(defs + 'open Foo (two) in\ntheorem t : two = 2 := by sorry\n').status, 'PASS')
+        table = sf.parse_module(defs).defs
+        self.assertEqual(table.scope_of('two', 'Foo'), 'namespace')
+        self.assertEqual(table.scope_of('two', '', ('Foo',)), 'open')
+        self.assertEqual(table.scope_of('two', '', ('scoped Foo',)), None)
+        self.assertEqual(table.scope_of('two', '', ('Foo (three)',)), None)
+        self.assertEqual(table.scope_of('two', '', ('Foo hiding three',)), 'open')
+        self.assertEqual(table.scope_of('Foo.two', ''), 'root')
+        self.assertTrue(table.has_namespace('Foo'))
+        self.assertFalse(table.has_namespace('Fo'))
 
     def test_connectives_are_settled_by_a_decided_side(self):
         # cos π = −1 is undecided by enclosures; the other side settles the connective when it can
