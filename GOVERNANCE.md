@@ -126,19 +126,19 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`42c7b0bb649e8300db71b82aee16b065a3479782` (tree
-`aedec4194814efb6bbbce52d4cac9db3270c0ddc`) extends the existing bounded
+`06b81c26498b092e3ff600c02a2ac985fb5fbb50` (tree
+`54da40e6e17a46e7abbedc2252c2b86448cf4ce1`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 91/91 controls and killed 143/143 designated
+The exact source commit passed 94/94 controls and killed 145/145 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`6f9ebd7c35004bd1982796e079ec0d21fc2aa694752b14fe4614d6154d417fa0`.
+`ee49fb05808c750d45cf8dd954be84e6b0f6f46cb4c7fa0951406e4ade5cac07`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`fd459f47de4c3ad0f46db1f392cd22ba5900d2999a9c51838f49aa98901e3b56`,
+`b38bf67f776d6e2467a2b8931200bbc1124f3b6f5cc279ca11b973089fd9dcf5`,
 56,078 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
@@ -212,6 +212,11 @@ are invalidated rather than combining mutually exclusive states. A
 itself reachable from module execution, and only when the registrar still
 resolves to the unshadowed imported identity. These bounded rules have
 dedicated adverse controls and designated mutants.
+Each supported cache-guard alternative starts from an isolated fail-closed
+binding environment before the join invalidates alternative writes. Reachable
+Python helper bodies are expanded at their call position, so their binding
+effects precede the caller's continuation. These are bounded source rules,
+not general symbolic execution.
 The stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the
 earlier 28-tool result remains historical and is not rebound.
 

@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`42c7b0bb649e8300db71b82aee16b065a3479782`, based on Main default
+`06b81c26498b092e3ff600c02a2ac985fb5fbb50`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,15 +263,15 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`42c7b0bb649e8300db71b82aee16b065a3479782` (tree
-`aedec4194814efb6bbbce52d4cac9db3270c0ddc`) recognizes explicit local path
+`06b81c26498b092e3ff600c02a2ac985fb5fbb50` (tree
+`54da40e6e17a46e7abbedc2252c2b86448cf4ce1`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-91/91 controls and 143/143 designated mutations passed in both modes; the
+94/94 controls and 145/145 designated mutations passed in both modes; the
 sealed mutation-inventory SHA-256 is
-`6f9ebd7c35004bd1982796e079ec0d21fc2aa694752b14fe4614d6154d417fa0`. The exact
+`ee49fb05808c750d45cf8dd954be84e6b0f6f46cb4c7fa0951406e4ade5cac07`. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`fd459f47de4c3ad0f46db1f392cd22ba5900d2999a9c51838f49aa98901e3b56`,
+`b38bf67f776d6e2467a2b8931200bbc1124f3b6f5cc279ca11b973089fd9dcf5`,
 56,078 bytes each),
 with zero production findings and exactly 29 no-current-exercise tool
 candidates; both runs exited 1. Adverse controls refuse mere path
@@ -329,6 +329,9 @@ join rather than combining mutually exclusive states. An imported `node:test`
 callback root requires both a reachable registration call and an unshadowed
 registrar identity; helper-local or nested registrations without a reachable
 module chain remain untrusted. The
+scanner analyzes supported cache-guard alternatives in isolated fail-closed
+binding environments and expands reachable Python helper effects at the call
+position before continuing the caller. The
 stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the former
 28-tool result remains historical and is not rebound. Static evidence is not
 runtime proof. Exact dormant dispositions and the final orchestrator remain

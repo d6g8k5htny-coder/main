@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has native source parent
-`42c7b0bb649e8300db71b82aee16b065a3479782`; its isolated work began from the
+`06b81c26498b092e3ff600c02a2ac985fb5fbb50`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,13 +37,13 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `42c7b0bb649e8300db71b82aee16b065a3479782` (tree
-`aedec4194814efb6bbbce52d4cac9db3270c0ddc`) passed 91/91 tests and killed
-143/143 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `6f9ebd7c35004bd1982796e079ec0d21fc2aa694752b14fe4614d6154d417fa0`.
+native source `06b81c26498b092e3ff600c02a2ac985fb5fbb50` (tree
+`54da40e6e17a46e7abbedc2252c2b86448cf4ce1`) passed 94/94 tests and killed
+145/145 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `ee49fb05808c750d45cf8dd954be84e6b0f6f46cb4c7fa0951406e4ade5cac07`.
 Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`fd459f47de4c3ad0f46db1f392cd22ba5900d2999a9c51838f49aa98901e3b56`,
+`b38bf67f776d6e2467a2b8931200bbc1124f3b6f5cc279ca11b973089fd9dcf5`,
 56,078 bytes each)
 contain zero production findings and retain exactly 29 no-current-exercise
 tool candidates; both census runs exit 1. The former 20 active
@@ -116,12 +116,18 @@ chain rooted in module execution. The stricter JavaScript rule briefly exposed
 callbacks passed to the imported `node:test` identity, restoring that actual
 test execution without treating arbitrary callback APIs as roots. The
 intermediate 30-tool census remains historical; the current review-defect total
-is 45 and exact-head review remains required before integration. Three latest
+is 47 and exact-head review remains required before integration. Three latest
 counterexamples are also repaired: mutually exclusive `is None` branches no
 longer manufacture a post-join binding; a `node:test` registration must itself
 be reachable from module execution; and a shadowed `test` name cannot inherit
 the imported registrar's identity. Each was reproduced red in both modes and
 now has a dedicated control and designated mutant.
+Two subsequent exact-head defects are also repaired: mutually exclusive
+cache-guard alternatives use isolated fail-closed binding environments before
+their results are joined, and a nested Python helper's binding effects occur at
+its call position before analysis resumes in the caller. Both supplied
+counterexamples were reproduced red in both modes and now have dedicated
+controls and designated mutants.
 
 ## Current verification boundary
 
