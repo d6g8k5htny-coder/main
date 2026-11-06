@@ -38,7 +38,7 @@
     "distinct_unmatched_3200": "1.685002"
   },
   "remaining_boundaries": [
-    "Distinct unmatched ordinary-string opening braces still start distinct suffix scans; quadratic worst case remains.",
+    "Each distinct ordinary-string hole start is lexed once to its own end, so total work is the sum of hole lengths; many unmatched openings and deeply nested matched holes both retain a quadratic worst case.",
     "No runtime budget or skip is present. A future budget must fail closed and receive separate adverse tests.",
     "Lexical results do not see arbitrary macros, elaboration or imports; G2-G4 remain authoritative.",
     "A3 census does not certify mathematical bounds or exactness.",

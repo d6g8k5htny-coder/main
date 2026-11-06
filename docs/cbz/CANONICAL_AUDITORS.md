@@ -115,11 +115,12 @@ starts are absolute offsets shared by one explicit generator work stack: each
 start is lexed at most once, so nested candidate strings cannot recurse through
 the Python call stack or multiply the same overlapping suffix exponentially.
 Two subprocess regressions and two bound source mutants exercise those exact
-properties. This is not a general linear-time claim: an ordinary string with
-many distinct unmatched opening braces still starts one suffix scan per brace
-and has a quadratic worst case. That finite performance limit does not skip a
-source or manufacture a clean result; a global runtime budget, if later added,
-must fail closed and receive separate adverse tests.
+properties. This is not a general linear-time claim: each distinct ordinary-
+string hole start is lexed once to its own end, so total work is the sum of
+hole lengths. Many unmatched opening braces and deeply nested matched holes
+therefore both retain a quadratic worst case. That finite performance limit
+does not skip a source or manufacture a clean result; a global runtime budget,
+if later added, must fail closed and receive separate adverse tests.
 
 Native configuration fields are fail-closed for arbitrary expressions: only
 complete literal `false` followed by a field delimiter is exempt. Parenthesized

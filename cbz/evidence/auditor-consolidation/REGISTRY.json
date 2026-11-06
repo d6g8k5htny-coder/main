@@ -18,7 +18,7 @@
       "limitations": [
         "Gitlinks require separately pinned admission; ULW45a80ab0 is rejected with exit2 until resolved.",
         "Lexical results do not see arbitrary macros/elaboration/imports; G2-G4 remain authoritative.",
-        "Distinct unmatched ordinary-string opening braces retain a quadratic worst case; no timeout or silent skip is used."
+        "Each distinct ordinary-string hole start is lexed once to its own end, so many unmatched openings and deeply nested matched holes retain a quadratic worst case; no timeout or silent skip is used."
       ]
     },
     {
