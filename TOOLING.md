@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`63994b5dc2c222ee0d151d1a29dbe743b4f1dde2`, based on Main default
+`0b511aa109ee9ff193a5a7ad020cebbc6f35d500`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,13 +263,13 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`63994b5dc2c222ee0d151d1a29dbe743b4f1dde2` (tree
+`0b511aa109ee9ff193a5a7ad020cebbc6f35d500` (tree
 `9425bae5f776afce84f057787e8e21dd9043870d`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
 47/47 controls and 98/98 designated mutations passed in both modes. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`1625dba27e1f81b5bca4840c81e90bc9cbab1783b59dc83235f7c55b7a13f374`),
+`411d714a6cd3b9ec051dd3fc76eb09730d71d16683a2c7533a4d2b6262e6d77d`),
 with zero production findings and exactly 28 historical one-shot browser
 tools still unexercised; both runs exited 1. Adverse controls refuse mere path
 mentions, fake same-named APIs, interpreter command-mode arguments, unreachable

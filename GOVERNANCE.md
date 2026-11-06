@@ -126,7 +126,7 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`63994b5dc2c222ee0d151d1a29dbe743b4f1dde2` (tree
+`0b511aa109ee9ff193a5a7ad020cebbc6f35d500` (tree
 `9425bae5f776afce84f057787e8e21dd9043870d`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
@@ -136,7 +136,7 @@ Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 The exact source commit passed 47/47 controls and killed 98/98 designated
 mutants in each mode. Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`1625dba27e1f81b5bca4840c81e90bc9cbab1783b59dc83235f7c55b7a13f374`):
+`411d714a6cd3b9ec051dd3fc76eb09730d71d16683a2c7533a4d2b6262e6d77d`):
 zero production findings and 28 retained browser-tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
 interpreter command-mode payload arguments and unreachable wrapper bodies,
