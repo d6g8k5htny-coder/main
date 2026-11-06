@@ -126,19 +126,19 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`8445a70df54da54246ef67002fb64896e918ebaa` (tree
-`eecc7e5bf60c0cd0923fe91b7be76187b06df185`) extends the existing bounded
+`2a91b0e6533399238a041e68452cce38d76fca92` (tree
+`de96e5c782e5a9f57547858c97efb72c59e7863e`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 107/107 controls and killed 158/158 designated
+The exact source commit passed 110/110 controls and killed 161/161 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`afb6cf9452ccdb1facae9701af18ee822185bce625a2ab379c51a344855699ae`.
+`8faa876ff098b801d72aa9912427ced189346fa2f92a37feb2aa1683f04314c0`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`8580d6f8e4ccc9ca888f996d36372688d369555b0202439a2c55fe24df9e8c31`,
+`b5175d0e9cdfe7c7f2759796c5c740d4fdc4bea4286fc1146fe4b54ee61d9fc2`,
 56,078 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
@@ -226,6 +226,11 @@ declared globals are excluded from helper-local static-shadow bindings; and a
 JavaScript helper call resolves the nearest lexical declaration before module
 helper reachability is admitted. These bounded rules likewise have dedicated
 adverse controls and designated mutants.
+Captured sequence values propagate through supported list concatenation.
+Ordinary helper expansion stops after unconditional termination, including a
+selected literal branch. Destructured JavaScript lexical declarations are
+included in imported-callee shadow resolution. All three bounded rules have
+dedicated adverse controls and designated mutants.
 Python call-argument helper effects precede attribution of the enclosing call,
 reassigned Python helpers lose their former bodies, and deferred JavaScript
 helpers validate module URL bindings at reachable activation points. These
