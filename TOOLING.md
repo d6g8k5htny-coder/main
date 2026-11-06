@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`fbff4a079050b39b8f07d0a0f1d8556a9d66f38c`, based on Main default
+`66552b4241b473a61ac9a8c502122e21db40fc7b`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,13 +263,13 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`fbff4a079050b39b8f07d0a0f1d8556a9d66f38c` (tree
-`c40898f1d3344e346bdac9c4a2878e9c5e8d88bc`) recognizes explicit local path
+`66552b4241b473a61ac9a8c502122e21db40fc7b` (tree
+`9c6f24db6243b10889e679152ceb7fdae1fdae3e`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-48/48 controls and 99/99 designated mutations passed in both modes. The exact
+51/51 controls and 102/102 designated mutations passed in both modes. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`c233343490ef44d4a015ebaf942314f5263b233d6d214eb5d11b744d2bc8c5fa`),
+`714dc5bd9129b660b7376647a316f370954d4c1304d2ebb22380804ef1c3f276`),
 with zero production findings and exactly 28 historical one-shot browser
 tools still unexercised; both runs exited 1. Adverse controls refuse mere path
 mentions, fake same-named APIs, interpreter command-mode arguments, unreachable
@@ -277,8 +277,11 @@ helpers, arbitrary unknown branches and JavaScript same-line decoys outside the
 selected child-process call. Filesystem-root traversal terminates and reachable
 function-local process imports remain creditable. Destructured targets receive
 only corresponding resolved values; unsupported shapes are left unresolved.
-Static evidence is not runtime proof. Exact dormant dispositions and the final
-orchestrator remain unfinished; G11 is FAIL.
+Reachable parameter rebinding invalidates wrapper forwarding; unresolved local
+shadows do not fall back to module values; and quoted or property-only
+JavaScript names are not expression evidence. Static evidence is not runtime
+proof. Exact dormant dispositions and the final orchestrator remain unfinished;
+G11 is FAIL.
 
 ## Missing final orchestrator
 

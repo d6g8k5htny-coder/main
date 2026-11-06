@@ -126,17 +126,17 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`fbff4a079050b39b8f07d0a0f1d8556a9d66f38c` (tree
-`c40898f1d3344e346bdac9c4a2878e9c5e8d88bc`) extends the existing bounded
+`66552b4241b473a61ac9a8c502122e21db40fc7b` (tree
+`9c6f24db6243b10889e679152ceb7fdae1fdae3e`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 48/48 controls and killed 99/99 designated
+The exact source commit passed 51/51 controls and killed 102/102 designated
 mutants in each mode. Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`c233343490ef44d4a015ebaf942314f5263b233d6d214eb5d11b744d2bc8c5fa`):
+`714dc5bd9129b660b7376647a316f370954d4c1304d2ebb22380804ef1c3f276`):
 zero production findings and 28 retained browser-tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
 interpreter command-mode payload arguments and unreachable wrapper bodies,
@@ -146,7 +146,10 @@ reachable function-local process imports. Static attribution is not runtime
 execution, completeness of arbitrary Python/JavaScript semantics, Layer A
 clearance or scientific evidence. Tuple/list assignment targets are bound only
 to their corresponding resolved values; unsupported destructuring is left
-unresolved rather than credited as one aggregate.
+unresolved rather than credited as one aggregate. Wrapper parameters lose
+forwarding status after reachable rebinding, unresolved local names cannot
+inherit module-level path values, and quoted or property-only JavaScript names
+do not count as binding expressions.
 
 ### Empirical statement check for core-Lean arithmetic skeletons: bounded registration
 
