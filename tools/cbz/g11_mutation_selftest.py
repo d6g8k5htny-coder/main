@@ -471,6 +471,11 @@ NEW_MUTATIONS = [
      "    for match in starts.finditer(text):",
      "tests.test_g11_census.ToolChecks.test_js_quoted_call_text_does_not_execute_bindings",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("resolved starred command elements ignored", "census",
+     "            if isinstance(element, ast.Starred):\n                value = _python_static_value(element.value, local, module, source_path,\n                                             imports, scope_shadowed)\n                if not isinstance(value, list):\n                    return None\n                values.extend(value)\n                continue",
+     "            if isinstance(element, ast.Starred):\n                return None",
+     "tests.test_g11_census.ToolChecks.test_unresolved_command_elements_do_not_shift_the_executable",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -583,6 +588,7 @@ EXPECTED_MUTATION_NAMES = (
     "boolean or evaluated in reverse order",
     "shadowed callee inherits module wrapper",
     "quoted JavaScript text accepted as child process call",
+    "resolved starred command elements ignored",
 )
 
 

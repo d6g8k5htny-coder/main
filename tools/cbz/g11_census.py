@@ -812,7 +812,12 @@ def _python_static_value(node, local, module, source_path, imports, scope_shadow
         values = []
         for element in node.elts:
             if isinstance(element, ast.Starred):
-                return None
+                value = _python_static_value(element.value, local, module, source_path,
+                                             imports, scope_shadowed)
+                if not isinstance(value, list):
+                    return None
+                values.extend(value)
+                continue
             value = _python_static_value(element, local, module, source_path, imports, scope_shadowed)
             if value is None:
                 return None
