@@ -12,9 +12,9 @@ placed in a complete dormant quarantine.
 
 | Repository | Bound revision | Role |
 |---|---|---|
-| Main | `04989724b5142f8eea8d41946d0367d0372d845a` | This index and Main formal/tool sources |
+| Main | Candidate containing this file; source parent `b12d04c4dee21b53c309bd661cb67380cc8060d7`, based on default `299c7fad72f1079b87b2d044b2d30f2098678f29` | This index and Main formal/tool sources; no proof status changed by the G11 repair |
 | Math- | `f532c3e2d91a0c7679a37c733741660917a9b21b` | Repository-local mathematical proof catalogue and retained evidence |
-| Universal-Law-Workspace | `ed9a1e0106d616bc3a1eabb213fe4605f9e30813` | Federation pin snapshot |
+| Universal-Law-Workspace | `05f3096d077a6fa4ff6cf763c074451cb1ac9972` | Federation pin snapshot; its Main pin is the preceding default, not this later candidate |
 
 The observations are sequential and can become stale. [BASELINE.md](BASELINE.md)
 records the current criterion and gate boundary.

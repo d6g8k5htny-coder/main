@@ -122,6 +122,24 @@ Mission tools must be finished, documented with exact usage and verification,
 and registered here and in `TOOLING.md` before final admission. Tools are a
 means to closure, never a reason to open a general infrastructure project.
 
+### G11 bounded static-attribution repair
+
+**Registered 2026-11-06; G11 admission remains pending.** The repair at source
+commit `b12d04c4dee21b53c309bd661cb67380cc8060d7` extends the existing bounded
+G11 census only far enough to recognize explicit tool paths delivered to
+trusted Python execution/loading APIs or named Node child-process imports.
+Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
+`python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
+`python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
+The exact source commit passed 43/43 controls and killed 93/93 designated
+mutants in each mode. Its normal and optimized whole-tree reports were
+byte-identical (SHA-256
+`fd52b4d11c6daea9a65de0b3630e378f34db4263f8b059c61b77540d4a9573f8`):
+zero production findings and 28 retained browser-tool candidates, so both
+census runs correctly exited 1 and G11 remains FAIL. Static attribution is not
+runtime execution, completeness of arbitrary Python/JavaScript semantics,
+Layer A clearance or scientific evidence.
+
 ### Empirical statement check for core-Lean arithmetic skeletons: bounded registration
 
 **Registered 2026-11-01 14:40 UTC; amended 2026-11-06 after main PRs #742, #743 and #752; global

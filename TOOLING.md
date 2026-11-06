@@ -3,8 +3,9 @@
 **State: component registry; the final federation toolchain is incomplete.**
 
 This file lists runnable mission-relevant tools present in the Main revision
-that contains this file. Its source parent was
-`c4db7562640817ab5f23119571030851b964472c`. Each entry states purpose,
+that contains this file. Its candidate source parent is
+`b12d04c4dee21b53c309bd661cb67380cc8060d7`, based on Main default
+`299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
 
@@ -259,16 +260,20 @@ python3 -B -S -O tools/cbz/g11_census.py --rev HEAD --json /tmp/g11-opt.json
 At #762's qualified head, both modes produced byte-identical reports
 (SHA-256
 `86b7139fc1c2d308c1746132e1d3dd070fc6c393c4e0ba9a1aa0223d35c6feb2`).
-The seven false `defaults.run` findings are absent. The census still exits
-nonzero with 55 tool documentation or static-exercise findings. Read-only
-classification found seven documentation-only gaps, 20 active tools whose
-real test/workflow execution is outside the current static attribution model,
-and 28 historical one-shot browser tools with no current exercise detected.
-The registrations above close the 11 missing documentation entries, but do
-not manufacture exercise evidence for the four active attribution gaps.
-Attribution repair and exact dormant-tool quarantine remain separate adverse-
-tested work. Until those dispositions and a fresh final census pass, G11 is
-FAIL and cannot support G11 admission.
+The seven false `defaults.run` findings were absent, while 55 documentation or
+static-exercise findings remained. Main #763 closed the seven
+documentation-only gaps. The subsequent isolated attribution repair at
+`b12d04c4dee21b53c309bd661cb67380cc8060d7` recognizes explicit local path
+bindings only when delivered to trusted Python execution/loading APIs,
+reachable forwarding wrappers, or named Node child-process imports. Its
+43/43 controls and 93/93 designated mutations passed in both modes. The exact
+source normal and optimized censuses were byte-identical (SHA-256
+`fd52b4d11c6daea9a65de0b3630e378f34db4263f8b059c61b77540d4a9573f8`),
+with zero production findings and exactly 28 historical one-shot browser
+tools still unexercised; both runs exited 1. Adverse controls refuse mere path
+mentions, fake same-named APIs, unreachable helpers and arbitrary unknown
+branches. Static evidence is not runtime proof. Exact dormant dispositions
+and the final orchestrator remain unfinished; G11 is FAIL.
 
 ## Missing final orchestrator
 
