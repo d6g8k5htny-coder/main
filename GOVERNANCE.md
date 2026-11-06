@@ -126,19 +126,19 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`feedcf1a919c3ff9155f4ee2b1f1cfa99e4f43a9` (tree
-`cfa06a5da5f6829b5e109dc448af934e891c662a`) extends the existing bounded
+`2c34017b21bd496f240849a51f4263a309120873` (tree
+`1de76f8bb8a0bf0af50db987b98544e0bd7956e2`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 80/80 controls and killed 132/132 designated
+The exact source commit passed 82/82 controls and killed 134/134 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`e7058a48c706a27f4f2343435b54ed23db1640a8f0623635e253e35c95be52b5`.
+`da7b29fec4b75b47999f93473705a2f0701a3a797a6c4901cd7ad2150931b127`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`3ee15e98f68672bbfb32cb423288e2b9b3f6f4c877641e3db7fa32d505a8fd9d`,
+`238eb1746741b1cae6b0a7037b52a5d39f03b009efa048db982f34936211b78a`,
 56,065 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
@@ -188,6 +188,11 @@ Writes through aliases of wrapper parameters invalidate their shared
 forwarding provenance. Reassignment of a wrapper name invalidates the recorded
 wrapper before subsequent attribution. JavaScript callee resolution checks
 declarations in every containing function, not only the innermost scope.
+Wrapper discovery stops scanning a statement sequence after an unconditional
+`return` or `raise`; unreachable process calls therefore cannot prove
+forwarding. Calls made from deferred functions use the caller's activation
+point when deciding whether a module wrapper has been defined or reassigned,
+instead of treating the nested call's lexical line as module execution order.
 The stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the
 earlier 28-tool result remains historical and is not rebound.
 

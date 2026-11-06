@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has native source parent
-`feedcf1a919c3ff9155f4ee2b1f1cfa99e4f43a9`; its isolated work began from the
+`2c34017b21bd496f240849a51f4263a309120873`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,13 +37,13 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `feedcf1a919c3ff9155f4ee2b1f1cfa99e4f43a9` (tree
-`cfa06a5da5f6829b5e109dc448af934e891c662a`) passed 80/80 tests and killed
-132/132 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `e7058a48c706a27f4f2343435b54ed23db1640a8f0623635e253e35c95be52b5`.
+native source `2c34017b21bd496f240849a51f4263a309120873` (tree
+`1de76f8bb8a0bf0af50db987b98544e0bd7956e2`) passed 82/82 tests and killed
+134/134 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `da7b29fec4b75b47999f93473705a2f0701a3a797a6c4901cd7ad2150931b127`.
 Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`3ee15e98f68672bbfb32cb423288e2b9b3f6f4c877641e3db7fa32d505a8fd9d`,
+`238eb1746741b1cae6b0a7037b52a5d39f03b009efa048db982f34936211b78a`,
 56,065 bytes each)
 contain zero production findings and retain exactly 29 no-current-exercise
 tool candidates; both census runs exit 1. The former 20 active
@@ -96,8 +96,13 @@ a wrapper parameter invalidates the shared forwarding proof; reassignment of a
 registered wrapper binding prevents later calls from inheriting the original
 function's evidence; and a JavaScript declaration in any enclosing function
 shadows a same-named child-process import for nested calls. Each counterexample
-was reproduced red and has a dedicated control and designated mutant. The
-current review-defect total is 35; exact-head review remains required before
+was reproduced red and has a dedicated control and designated mutant. Two
+further exact-head defects are now repaired: wrapper discovery stops after an
+unconditional `return` or `raise`, and module-wrapper availability inside a
+deferred caller is evaluated at that caller's actual activation point rather
+than the nested call's earlier source line. Both counterexamples were
+reproduced red and have dedicated controls and designated mutants. The
+current review-defect total is 37; exact-head review remains required before
 integration.
 
 ## Current verification boundary
