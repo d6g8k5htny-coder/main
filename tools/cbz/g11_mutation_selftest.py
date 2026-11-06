@@ -352,7 +352,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_path_values_need_reachable_execution_not_mentions",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("process wrapper forwarding ignored", "census",
-     "                positions = wrappers.get((scope, node.func.id))\n                if positions is None and node.func.id not in static_shadowed:\n                    positions = wrappers.get((None, node.func.id), ())\n                positions = positions or ()",
+     "                positions = (wrapper[0] if wrapper is not None\n                             and key not in inactive_wrappers\n                             and node.lineno > wrapper[1] else ())",
      "                positions = ()",
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
@@ -422,8 +422,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_destructured_paths_bind_corresponding_values",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("rebound wrapper parameter still forwarded", "census",
-     "                if (isinstance(forwarded, ast.Name) and forwarded.id in parameters\n                        and forwarded.id not in rebound):",
-     "                if (isinstance(forwarded, ast.Name) and forwarded.id in parameters\n                        and True):",
+     "            if target.id in parameters:\n                rebound.add(target.id)\n            aliases.pop(target.id, None)",
+     "            if False:\n                rebound.add(target.id)\n            if target.id not in parameters:\n                aliases.pop(target.id, None)",
      "tests.test_g11_census.ToolChecks.test_wrapper_rebinding_invalidates_forwarding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("local static shadow inherits module value", "census",
@@ -442,8 +442,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_wrapper_forwarding_rejects_command_mode_arguments",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("augmented assignment retains stale static value", "census",
-     "        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):\n            value_node = (ast.BinOp(left=node.target, op=node.op, right=node.value)",
-     "        if isinstance(node, (ast.Assign, ast.AnnAssign)):\n            value_node = (ast.BinOp(left=node.target, op=node.op, right=node.value)",
+     "        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):\n            targets = node.targets if isinstance(node, ast.Assign) else [node.target]",
+     "        if isinstance(node, (ast.Assign, ast.AnnAssign)):\n            targets = node.targets if isinstance(node, ast.Assign) else [node.target]",
      "tests.test_g11_census.ToolChecks.test_augmented_assignment_replaces_static_path_value",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript property call accepted as imported callee", "census",
@@ -462,8 +462,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_boolean_or_static_values_follow_short_circuit_order",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("shadowed callee inherits module wrapper", "census",
-     "                if positions is None and node.func.id not in static_shadowed:\n                    positions = wrappers.get((None, node.func.id), ())",
-     "                if positions is None:\n                    positions = wrappers.get((None, node.func.id), ())",
+     "                if wrapper is None and node.func.id not in static_shadowed:\n                    key = (None, node.func.id)\n                    wrapper = wrappers.get(key)",
+     "                if wrapper is None:\n                    key = (None, node.func.id)\n                    wrapper = wrappers.get(key)",
      "tests.test_g11_census.ToolChecks.test_local_callee_shadows_do_not_inherit_module_wrappers",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("quoted JavaScript text accepted as child process call", "census",
@@ -527,8 +527,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_interpreter_mode_switch_after_script_is_program_argument",
      'self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])'),
     ("wrapper element write retains caller provenance", "census",
-     "                rebound.update(written_root_names(target))",
-     "                rebound.update(_target_names(target))",
+     "                if isinstance(root, ast.Name):\n                    invalidate(root.id)",
+     "                if False:\n                    invalidate(root.id)",
      "tests.test_g11_census.ToolChecks.test_wrapper_element_write_invalidates_forwarding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("helper element write falls back to module binding", "census",
@@ -570,6 +570,21 @@ NEW_MUTATIONS = [
      "                         if declaration[0] <= call_start\n                         and (declaration[2] is None or declaration[2] == call_scope)]",
      "                         if declaration[0] <= call_start]",
      "tests.test_g11_census.ToolChecks.test_js_url_binding_does_not_escape_function_scope",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("wrapper parameter alias mutation retains caller provenance", "census",
+     "            parameter = aliases.get(name)",
+     "            parameter = name if name in parameters else None",
+     "tests.test_g11_census.ToolChecks.test_wrapper_parameter_alias_mutation_invalidates_forwarding",
+     'self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {'),
+    ("reassigned wrapper remains registered", "census",
+     "                             and key not in inactive_wrappers",
+     "                             and True",
+     "tests.test_g11_census.ToolChecks.test_reassigned_wrapper_binding_is_not_execution_evidence",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("JavaScript enclosing declaration shadow ignored", "census",
+     "    for scope in containing:\n        for declaration in pattern.finditer(searchable, scope[2] + 1, scope[3]):",
+     "    for scope in containing[:1]:\n        for declaration in pattern.finditer(searchable, scope[2] + 1, scope[3]):",
+     "tests.test_g11_census.ToolChecks.test_js_enclosing_declaration_shadows_named_child_process_import",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
@@ -703,6 +718,9 @@ EXPECTED_MUTATION_NAMES = (
     "list mutator calls retain stale command provenance",
     "JavaScript local declaration shadow ignored",
     "JavaScript URL declaration escapes function scope",
+    "wrapper parameter alias mutation retains caller provenance",
+    "reassigned wrapper remains registered",
+    "JavaScript enclosing declaration shadow ignored",
 )
 
 
@@ -881,7 +899,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 77
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 80
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

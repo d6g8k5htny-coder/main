@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "149f9c89c3acd928760e0e61e6a0fc9c98a33ea808640a928f20d33e5a2e4395"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "e7058a48c706a27f4f2343435b54ed23db1640a8f0623635e253e35c95be52b5"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -559,6 +559,46 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
+    def test_wrapper_parameter_alias_mutation_invalidates_forwarding(self):
+        tree = {
+            "tools/write.py": "x = 1\n",
+            "tools/mutator.py": "x = 1\n",
+            "tools/README.md": "tools/write.py tools/mutator.py\n",
+            "tests/test_wrapper_aliases.py": (
+                "import subprocess, unittest\n"
+                "def launch_write(command):\n"
+                "    alias = command\n"
+                "    alias[1] = 'other.py'\n"
+                "    return subprocess.run(command)\n"
+                "def launch_mutator(command):\n"
+                "    alias = command\n"
+                "    alias.clear()\n"
+                "    alias.extend(['echo'])\n"
+                "    return subprocess.run(command)\n"
+                "class WrapperAliases(unittest.TestCase):\n"
+                "    def test_aliases(self):\n"
+                "        launch_write(['python3', 'tools/write.py'])\n"
+                "        launch_mutator(['python3', 'tools/mutator.py'])\n"
+            ),
+        }
+        self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
+            "tools/mutator.py": False, "tools/write.py": False,
+        })
+
+    def test_reassigned_wrapper_binding_is_not_execution_evidence(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_wrapper_reassigned.py": (
+                "import subprocess\n"
+                "def launch(command):\n"
+                "    return subprocess.run(command)\n"
+                "launch = print\n"
+                "launch(['python3', 'tools/unused.py'])\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
     def test_helper_element_write_invalidates_module_binding(self):
         tree = {
             "tools/unused.py": "x = 1\n",
@@ -955,6 +995,23 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
+    def test_js_enclosing_declaration_shadows_named_child_process_import(self):
+        tree = {
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/enclosing-shadow.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "function outer() {\n"
+                "  const spawnSync=(...args) => console.log(args);\n"
+                "  function inner() { spawnSync('echo',[script]); }\n"
+                "  inner();\n"
+                "}\n"
+                "outer();\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
     def test_js_default_initializer_reference_is_not_a_parameter_binding(self):
         tree = {
             "tools/live.mjs": "export const live = true;\n",
@@ -1316,7 +1373,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 129)
+        self.assertEqual(len(cases), 132)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

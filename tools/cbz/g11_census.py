@@ -1026,22 +1026,39 @@ def _python_execution_wrappers(tree, imports):
                      "subprocess.check_call", "subprocess.check_output", "os.system"}
     path_calls = {"importlib.util.spec_from_file_location": 1, "runpy.run_path": 0}
 
-    def written_root_names(target):
-        if isinstance(target, (ast.Subscript, ast.Attribute)):
-            root = target
-            while isinstance(root, (ast.Subscript, ast.Attribute)):
-                root = root.value
-            return {root.id} if isinstance(root, ast.Name) else set()
-        if isinstance(target, (ast.Tuple, ast.List)):
-            return set().union(*(written_root_names(element) for element in target.elts))
-        return set(_target_names(target))
-
     def wrapper_positions(function):
         parameters = [arg.arg for arg in (*function.args.posonlyargs, *function.args.args)]
         positions = set()
         rebound = set()
+        aliases = {parameter: parameter for parameter in parameters}
         shadowed = _scope_bindings(function)
         local_imports = _empty_import_bindings()
+
+        def invalidate(name):
+            parameter = aliases.get(name)
+            if parameter is not None:
+                rebound.add(parameter)
+
+        def update_target(target, value=None):
+            if isinstance(target, (ast.Subscript, ast.Attribute)):
+                root = target
+                while isinstance(root, (ast.Subscript, ast.Attribute)):
+                    root = root.value
+                if isinstance(root, ast.Name):
+                    invalidate(root.id)
+                return
+            if isinstance(target, (ast.Tuple, ast.List)):
+                for element in target.elts:
+                    update_target(element)
+                return
+            if not isinstance(target, ast.Name):
+                return
+            if target.id in parameters:
+                rebound.add(target.id)
+            aliases.pop(target.id, None)
+            if (isinstance(value, ast.Name) and value.id in aliases
+                    and target.id not in parameters):
+                aliases[target.id] = aliases[value.id]
 
         def visit(node):
             if node is not function and isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef,
@@ -1060,16 +1077,16 @@ def _python_execution_wrappers(tree, imports):
                 return
             if isinstance(node, (ast.For, ast.AsyncFor, ast.While)):
                 return
-            targets = []
             if isinstance(node, ast.Assign):
-                targets = node.targets
-            elif isinstance(node, (ast.AnnAssign, ast.AugAssign)):
-                targets = [node.target]
-            for target in targets:
-                rebound.update(written_root_names(target))
+                for target in node.targets:
+                    update_target(target, node.value)
+            elif isinstance(node, ast.AnnAssign):
+                update_target(node.target, node.value)
+            elif isinstance(node, ast.AugAssign):
+                update_target(node.target)
             mutated_root = _python_mutated_root_name(node)
             if mutated_root:
-                rebound.add(mutated_root)
+                invalidate(mutated_root)
             _update_local_import_bindings(node, local_imports)
             active_imports, active_shadowed = _combined_import_bindings(
                 imports, local_imports, shadowed)
@@ -1078,9 +1095,10 @@ def _python_execution_wrappers(tree, imports):
                 forwarded = node.args[0] if resolved in process_calls else None
                 if resolved in path_calls and len(node.args) > path_calls[resolved]:
                     forwarded = node.args[path_calls[resolved]]
-                if (isinstance(forwarded, ast.Name) and forwarded.id in parameters
-                        and forwarded.id not in rebound):
-                    positions.add(parameters.index(forwarded.id))
+                if isinstance(forwarded, ast.Name):
+                    parameter = aliases.get(forwarded.id)
+                    if parameter is not None and parameter not in rebound:
+                        positions.add(parameters.index(parameter))
             for child in ast.iter_child_nodes(node):
                 visit(child)
 
@@ -1093,7 +1111,8 @@ def _python_execution_wrappers(tree, imports):
             if isinstance(statement, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 positions = wrapper_positions(statement)
                 if positions:
-                    wrappers[(containing_scope, statement.name)] = positions
+                    wrappers[(containing_scope, statement.name)] = (
+                        positions, statement.lineno)
                 register(statement.body, id(statement))
             elif isinstance(statement, ast.ClassDef):
                 register(statement.body, id(statement))
@@ -1113,6 +1132,7 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
     scope_shadowed = {id(node): _scope_bindings(node) for node in ast.walk(tree)
                       if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
     module_bindings, scope_bindings, scope_imports = {}, {}, {}
+    inactive_wrappers = set()
     for node, scope in _reachable_python_nodes(tree, mode):
         local = scope_bindings.setdefault(scope, {}) if scope is not None else module_bindings
         local_imports = scope_imports.setdefault(scope, _empty_import_bindings())
@@ -1123,6 +1143,13 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
         locally_imported = set(local_imports["modules"]) | set(local_imports["symbols"])
         static_shadowed = scope_shadowed.get(scope, set()) - locally_imported
         if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
+            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            for target in targets:
+                for name in _target_names(target):
+                    key = (scope, name)
+                    wrapper = wrappers.get(key)
+                    if wrapper is not None and node.lineno > wrapper[1]:
+                        inactive_wrappers.add(key)
             value_node = (ast.BinOp(left=node.target, op=node.op, right=node.value)
                           if isinstance(node, ast.AugAssign) else node.value)
             value = _python_static_value(value_node, local, module_bindings, source_path,
@@ -1149,10 +1176,14 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                 _invalidate_python_binding(mutated_root, local, module_bindings, scope)
             call_name = _resolved_import_name(node.func, active_imports, static_shadowed)
             if isinstance(node.func, ast.Name):
-                positions = wrappers.get((scope, node.func.id))
-                if positions is None and node.func.id not in static_shadowed:
-                    positions = wrappers.get((None, node.func.id), ())
-                positions = positions or ()
+                key = (scope, node.func.id)
+                wrapper = wrappers.get(key)
+                if wrapper is None and node.func.id not in static_shadowed:
+                    key = (None, node.func.id)
+                    wrapper = wrappers.get(key)
+                positions = (wrapper[0] if wrapper is not None
+                             and key not in inactive_wrappers
+                             and node.lineno > wrapper[1] else ())
                 for position in positions:
                     if position < len(node.args):
                         value = _python_static_value(node.args[position], local, module_bindings,
@@ -1553,21 +1584,23 @@ def _js_parameter_shadows(text, position, name):
 
 
 def _js_local_declaration_shadows(text, position, name):
-    """Return true for a same-function local declaration shadowing an import."""
+    """Return true for a containing-function declaration shadowing an import."""
     searchable, scopes = _js_function_scopes(text)
-    containing = [scope for scope in scopes if scope[2] < position < scope[3]]
+    containing = sorted(
+        (scope for scope in scopes if scope[2] < position < scope[3]),
+        key=lambda item: item[2], reverse=True)
     if not containing:
         return False
-    scope = max(containing, key=lambda item: item[2])
     pattern = re.compile(
         r"\b(?:const|let|var|function|class)\s+" + re.escape(name) + r"(?![\w$])")
-    for declaration in pattern.finditer(searchable, scope[2] + 1, scope[3]):
-        declaration_scopes = [candidate for candidate in scopes
-                              if candidate[2] < declaration.start() < candidate[3]]
-        declaration_scope = (max(declaration_scopes, key=lambda item: item[2])
-                             if declaration_scopes else None)
-        if declaration_scope == scope:
-            return True
+    for scope in containing:
+        for declaration in pattern.finditer(searchable, scope[2] + 1, scope[3]):
+            declaration_scopes = [candidate for candidate in scopes
+                                  if candidate[2] < declaration.start() < candidate[3]]
+            declaration_scope = (max(declaration_scopes, key=lambda item: item[2])
+                                 if declaration_scopes else None)
+            if declaration_scope == scope:
+                return True
     return False
 
 
