@@ -184,6 +184,21 @@ def _resolve_import(node, imports):
     return tuple(resolved.rsplit(".", 1))
 
 
+def _resolved_import_name(node, imports, scope_shadowed=()):
+    dotted = _dotted_name(node)
+    if not dotted:
+        return None
+    parts = dotted.split(".")
+    if parts[0] in imports["shadowed"] or parts[0] in scope_shadowed:
+        return None
+    if parts[0] in imports["modules"]:
+        return ".".join([imports["modules"][parts[0]], *parts[1:]])
+    if parts[0] in imports["symbols"]:
+        module, symbol = imports["symbols"][parts[0]]
+        return ".".join([module, symbol, *parts[1:]])
+    return None
+
+
 def _resolve_scoped_import(node, imports, scope_shadowed=()):
     target = node
     while isinstance(target, (ast.Call, ast.Subscript)):
@@ -592,6 +607,13 @@ def _is_main_guard(node):
             and node.comparators[0].value == "__main__")
 
 
+def _is_none_guard(node):
+    return (isinstance(node, ast.Compare) and isinstance(node.left, ast.Name)
+            and len(node.ops) == 1 and isinstance(node.ops[0], (ast.Is, ast.IsNot))
+            and len(node.comparators) == 1 and isinstance(node.comparators[0], ast.Constant)
+            and node.comparators[0].value is None)
+
+
 def _reachable_python_nodes(tree, mode):
     functions, methods = {}, {}
 
@@ -617,49 +639,52 @@ def _reachable_python_nodes(tree, mode):
 
     nodes, queue, visited = [], [], set()
 
-    def visit(node, owner=None):
+    def visit(node, owner=None, scope=None):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             # A definition is not a call: only decorators/defaults execute here.
             for decorator in node.decorator_list:
-                visit(decorator, owner)
+                visit(decorator, owner, scope)
             for default in node.args.defaults:
-                visit(default, owner)
+                visit(default, owner, scope)
             for default in node.args.kw_defaults:
                 if default is not None:
-                    visit(default, owner)
+                    visit(default, owner, scope)
             if mode == "tests" and owner in test_classes and node.name.startswith("test_"):
                 queue.append((node, owner))
             return
         if isinstance(node, ast.ClassDef):
             for decorator in node.decorator_list:
-                visit(decorator, owner)
+                visit(decorator, owner, scope)
             for base in node.bases:
-                visit(base, owner)
+                visit(base, owner, scope)
             for keyword in node.keywords:
-                visit(keyword.value, owner)
+                visit(keyword.value, owner, scope)
             for statement in node.body:
-                visit(statement, node.name)
+                visit(statement, node.name, scope)
             return
         if isinstance(node, ast.If):
-            visit(node.test, owner)
+            visit(node.test, owner, scope)
             if _is_main_guard(node.test):
                 branch = node.body if mode == "script" else node.orelse
             else:
                 truth = _literal_bool(node.test)
                 if truth is None:
-                    return
-                branch = node.body if truth else node.orelse
+                    if not _is_none_guard(node.test):
+                        return
+                    branch = [*node.body, *node.orelse]
+                else:
+                    branch = node.body if truth else node.orelse
             for statement in branch:
-                visit(statement, owner)
+                visit(statement, owner, scope)
             return
         if isinstance(node, (ast.For, ast.AsyncFor, ast.While)):
             if isinstance(node, (ast.For, ast.AsyncFor)):
-                visit(node.iter, owner)
+                visit(node.iter, owner, scope)
             else:
-                visit(node.test, owner)
+                visit(node.test, owner, scope)
             return
 
-        nodes.append(node)
+        nodes.append((node, scope))
         if isinstance(node, ast.Call):
             target = node.func
             if isinstance(target, ast.Name) and target.id in functions:
@@ -670,7 +695,7 @@ def _reachable_python_nodes(tree, mode):
                 if method:
                     queue.append((method, owner))
         for child in ast.iter_child_nodes(node):
-            visit(child, owner)
+            visit(child, owner, scope)
 
     for statement in tree.body:
         visit(statement)
@@ -681,17 +706,183 @@ def _reachable_python_nodes(tree, mode):
             continue
         visited.add(identity)
         for statement in function.body:
-            visit(statement, owner)
+            visit(statement, owner, id(function))
     return nodes
 
 
-def python_tool_references(text, tools, unique, mode="script"):
+def _python_static_value(node, local, module, source_path, imports, scope_shadowed=()):
+    """Resolve only path/command values whose bytes are explicit in the AST."""
+    bindings = dict(module)
+    bindings.update(local)
+    if isinstance(node, ast.Constant) and isinstance(node.value, str):
+        return node.value
+    if isinstance(node, ast.Name):
+        if node.id == "__file__":
+            return source_path
+        return bindings.get(node.id)
+    if isinstance(node, ast.Attribute):
+        if _resolved_import_name(node, imports, scope_shadowed) == "sys.executable":
+            return "<python>"
+        value = _python_static_value(node.value, local, module, source_path, imports, scope_shadowed)
+        if isinstance(value, str) and node.attr == "parent":
+            return posixpath.dirname(value)
+        return None
+    if isinstance(node, ast.Subscript) and isinstance(node.value, ast.Attribute) \
+            and node.value.attr == "parents" and isinstance(node.slice, ast.Constant) \
+            and isinstance(node.slice.value, int):
+        value = _python_static_value(node.value.value, local, module, source_path, imports, scope_shadowed)
+        if not isinstance(value, str) or node.slice.value < 0:
+            return None
+        parents, current = [], value
+        while True:
+            current = posixpath.dirname(current)
+            parents.append(current)
+            if not current or current == ".":
+                break
+        return parents[node.slice.value] if node.slice.value < len(parents) else None
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):
+        left = _python_static_value(node.left, local, module, source_path, imports, scope_shadowed)
+        right = _python_static_value(node.right, local, module, source_path, imports, scope_shadowed)
+        if isinstance(left, str) and isinstance(right, str):
+            return posixpath.normpath(posixpath.join(left, right))
+        return None
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+        left = _python_static_value(node.left, local, module, source_path, imports, scope_shadowed)
+        right = _python_static_value(node.right, local, module, source_path, imports, scope_shadowed)
+        if isinstance(left, list) and isinstance(right, list):
+            return left + right
+        if isinstance(left, str) and isinstance(right, str):
+            return left + right
+        return None
+    if isinstance(node, ast.IfExp):
+        body = _python_static_value(node.body, local, module, source_path, imports, scope_shadowed)
+        other = _python_static_value(node.orelse, local, module, source_path, imports, scope_shadowed)
+        if isinstance(body, list) and isinstance(other, list):
+            return body + [value for value in other if value not in body]
+        return body if body == other else None
+    if isinstance(node, (ast.List, ast.Tuple)):
+        values = []
+        for element in node.elts:
+            if isinstance(element, ast.Starred):
+                continue
+            value = _python_static_value(element, local, module, source_path, imports, scope_shadowed)
+            if value is not None:
+                values.append(value)
+        return values
+    if isinstance(node, ast.BoolOp) and isinstance(node.op, ast.Or):
+        for value_node in reversed(node.values):
+            value = _python_static_value(value_node, local, module, source_path, imports, scope_shadowed)
+            if value is not None:
+                return value
+        return None
+    if not isinstance(node, ast.Call):
+        return None
+    call_name = _dotted_name(node.func)
+    resolved_call = _resolved_import_name(node.func, imports, scope_shadowed)
+    builtin_str = (call_name == "str" and "str" not in imports["shadowed"]
+                   and "str" not in scope_shadowed)
+    if (builtin_str or resolved_call == "pathlib.Path") and node.args:
+        return _python_static_value(node.args[0], local, module, source_path, imports, scope_shadowed)
+    if resolved_call in {"os.path.join", "posixpath.join"}:
+        values = [_python_static_value(arg, local, module, source_path, imports, scope_shadowed)
+                  for arg in node.args]
+        if values and all(isinstance(value, str) for value in values):
+            return posixpath.normpath(posixpath.join(*values))
+    if resolved_call in {"os.path.abspath", "os.path.realpath", "posixpath.abspath",
+                         "posixpath.realpath"} and node.args:
+        return _python_static_value(node.args[0], local, module, source_path, imports, scope_shadowed)
+    if resolved_call in {"os.path.dirname", "posixpath.dirname"} and node.args:
+        value = _python_static_value(node.args[0], local, module, source_path, imports, scope_shadowed)
+        return posixpath.dirname(value) if isinstance(value, str) else None
+    if resolved_call == "os.environ.get" and len(node.args) >= 2:
+        return _python_static_value(node.args[1], local, module, source_path, imports, scope_shadowed)
+    if isinstance(node.func, ast.Attribute):
+        base = _python_static_value(node.func.value, local, module, source_path, imports, scope_shadowed)
+        if node.func.attr in {"resolve", "absolute"}:
+            return base
+        if node.func.attr == "with_name" and isinstance(base, str) and node.args:
+            name = _python_static_value(node.args[0], local, module, source_path, imports, scope_shadowed)
+            if isinstance(name, str):
+                return posixpath.join(posixpath.dirname(base), name)
+    return None
+
+
+def _bind_python_value(node, value, local, module, scope):
+    targets = []
+    if isinstance(node, (ast.Assign, ast.AnnAssign)):
+        targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+    destination = module if scope is None else local
+    for target in targets:
+        for name in _target_names(target):
+            if value is None:
+                destination.pop(name, None)
+            else:
+                destination[name] = value
+
+
+def _tool_values(value, tools):
+    values = value if isinstance(value, list) else [value]
+    return {_tool_for_token(item, tools) for item in values if isinstance(item, str)} - {None}
+
+
+def _python_execution_wrappers(tree, imports):
+    """Return reachable-call argument positions forwarded to a trusted process API."""
+    wrappers = {}
+    process_calls = {"subprocess.run", "subprocess.call", "subprocess.Popen",
+                     "subprocess.check_call", "subprocess.check_output", "os.system"}
+
+    def wrapper_positions(function):
+        parameters = [arg.arg for arg in (*function.args.posonlyargs, *function.args.args)]
+        positions = set()
+        shadowed = _scope_bindings(function)
+
+        def visit(node):
+            if node is not function and isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef,
+                                                          ast.ClassDef, ast.Lambda)):
+                return
+            if isinstance(node, ast.Call) and node.args \
+                    and _resolved_import_name(node.func, imports, shadowed) in process_calls \
+                    and isinstance(node.args[0], ast.Name) and node.args[0].id in parameters:
+                positions.add(parameters.index(node.args[0].id))
+            for child in ast.iter_child_nodes(node):
+                visit(child)
+
+        for statement in function.body:
+            visit(statement)
+        return positions
+
+    def register(body, containing_scope=None):
+        for statement in body:
+            if isinstance(statement, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                positions = wrapper_positions(statement)
+                if positions:
+                    wrappers[(containing_scope, statement.name)] = positions
+                register(statement.body, id(statement))
+            elif isinstance(statement, ast.ClassDef):
+                register(statement.body, containing_scope)
+
+    register(tree.body)
+    return wrappers
+
+
+def python_tool_references(text, source_path, tools, unique, mode="script"):
     references = set()
     try:
         tree = ast.parse(text)
     except (SyntaxError, ValueError):
         return references
-    for node in _reachable_python_nodes(tree, mode):
+    imports = _import_bindings(tree)
+    wrappers = _python_execution_wrappers(tree, imports)
+    scope_shadowed = {id(node): _scope_bindings(node) for node in ast.walk(tree)
+                      if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
+    module_bindings, scope_bindings = {}, {}
+    for node, scope in _reachable_python_nodes(tree, mode):
+        local = scope_bindings.setdefault(scope, {}) if scope is not None else module_bindings
+        shadowed = scope_shadowed.get(scope, set())
+        if isinstance(node, (ast.Assign, ast.AnnAssign)):
+            value_node = node.value
+            value = _python_static_value(value_node, local, module_bindings, source_path, imports, shadowed)
+            _bind_python_value(node, value, local, module_bindings, scope)
         if isinstance(node, ast.Import):
             for alias in node.names:
                 path = _tool_for_module(alias.name, tools, unique)
@@ -708,11 +899,37 @@ def python_tool_references(text, tools, unique, mode="script"):
                     if path:
                         references.add(path)
         elif isinstance(node, ast.Call):
-            call_name = _dotted_name(node.func)
+            call_name = _resolved_import_name(node.func, imports, shadowed)
+            if isinstance(node.func, ast.Name):
+                positions = wrappers.get((scope, node.func.id), wrappers.get((None, node.func.id), ()))
+                for position in positions:
+                    if position < len(node.args):
+                        value = _python_static_value(node.args[position], local, module_bindings,
+                                                     source_path, imports, shadowed)
+                        references.update(_tool_values(value, tools))
+            if call_name == "importlib.util.spec_from_file_location" and len(node.args) >= 2:
+                value = _python_static_value(node.args[1], local, module_bindings, source_path,
+                                             imports, shadowed)
+                references.update(_tool_values(value, tools))
+                continue
+            if call_name == "runpy.run_path" and node.args:
+                value = _python_static_value(node.args[0], local, module_bindings, source_path,
+                                             imports, shadowed)
+                references.update(_tool_values(value, tools))
+                continue
             if call_name in {"subprocess.run", "subprocess.call", "subprocess.Popen",
                              "subprocess.check_call", "subprocess.check_output", "os.system",
                              "runpy.run_path"}:
                 for arg in node.args:
+                    value = _python_static_value(arg, local, module_bindings, source_path,
+                                                 imports, shadowed)
+                    if isinstance(value, list):
+                        first = value[0] if value else None
+                        if first == "<python>" or first in {"python", "python3", "python3.11", "bash", "sh"}:
+                            references.update(_tool_values(value[1:], tools))
+                        else:
+                            references.update(_tool_values(first, tools))
+                        continue
                     if isinstance(arg, (ast.List, ast.Tuple)):
                         tokens = [elt.value for elt in arg.elts
                                   if isinstance(elt, ast.Constant) and isinstance(elt.value, str)]
@@ -818,6 +1035,35 @@ def js_tool_references(text, source_path, tools):
             target = specifier
         if target in tools:
             references.add(target)
+    bindings = {}
+    url_binding = re.compile(
+        r"\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*"
+        r"(?:fileURLToPath\s*\(\s*)?new\s+URL\s*\(\s*['\"]([^'\"]+)['\"]\s*,\s*"
+        r"import\.meta\.url\s*\)\s*\)?")
+    for match in url_binding.finditer(visible):
+        specifier = match.group(2)
+        if not specifier.startswith("."):
+            continue
+        target = posixpath.normpath(posixpath.join(posixpath.dirname(source_path), specifier))
+        if target in tools:
+            bindings[match.group(1)] = target
+    child_names = set()
+    named_import = re.compile(
+        r"\bimport\s*\{([^}]*)\}\s*from\s*['\"](?:node:)?child_process['\"]")
+    allowed_child_calls = {"spawnSync", "spawn", "execFileSync", "execFile"}
+    for match in named_import.finditer(visible):
+        for item in match.group(1).split(","):
+            parts = re.split(r"\s+as\s+", item.strip())
+            if parts and parts[0] in allowed_child_calls:
+                child_names.add(parts[-1])
+    child_call = (re.compile(r"\b(?:" + "|".join(map(re.escape, sorted(child_names))) + r")\s*\(")
+                  if child_names else None)
+    for line in visible.splitlines():
+        if child_call is None or not child_call.search(line):
+            continue
+        for name, target in bindings.items():
+            if re.search(r"\b" + re.escape(name) + r"\b", line):
+                references.add(target)
     return references
 
 
@@ -887,10 +1133,11 @@ def tool_report(files, texts, all_paths):
                   (p.startswith(".github/workflows/") and p.endswith((".yml", ".yaml")))]
     direct, tool_dependencies = {p: [] for p in tools}, {}
     for path in tools:
-        tool_dependencies[path] = python_tool_references(texts.get(path, ""), tools, unique_modules, mode="script")
+        tool_dependencies[path] = python_tool_references(texts.get(path, ""), path, tools, unique_modules,
+                                                         mode="script")
     for exerciser in exercisers:
         if exerciser.endswith(".py"):
-            refs = python_tool_references(texts[exerciser], tools, unique_modules, mode="tests")
+            refs = python_tool_references(texts[exerciser], exerciser, tools, unique_modules, mode="tests")
         elif exerciser.endswith((".mjs", ".js", ".cjs")):
             refs = js_tool_references(texts[exerciser], exerciser, tools)
         else:

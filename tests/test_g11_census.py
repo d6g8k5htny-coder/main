@@ -17,7 +17,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "40f85351368a8648ec220cc993631372d94c0776daa72d63bd46bb96ae34959f"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "c518a20afbd0acb7f98105bcf03ac174aff4dd477f58a3214b25e4e3ea737017"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -230,6 +230,155 @@ class ToolChecks(unittest.TestCase):
         report = self.tools({"tools/a.py": '"""Does a."""\n', "tools/b.py": "x = 1\n"})
         self.assertEqual((report["tools/a.py"]["module_docstring"], report["tools/b.py"]["module_docstring"]),
                          (True, False))
+
+    def test_reachable_python_path_values_are_execution_references(self):
+        tree = {
+            "tools/subprocess_tool.py": "x = 1\n",
+            "tools/spec_tool.py": "x = 1\n",
+            "tools/runpy_tool.py": "x = 1\n",
+            "tools/env_tool.py": "x = 1\n",
+            "tools/local_tool.py": "x = 1\n",
+            "tools/legacy_tool.py": "x = 1\n",
+            "tools/lazy_tool.py": "x = 1\n",
+            "tools/wrapped_tool.py": "x = 1\n",
+            "tools/README.md": (
+                "tools/subprocess_tool.py tools/spec_tool.py tools/runpy_tool.py "
+                "tools/env_tool.py tools/local_tool.py tools/legacy_tool.py "
+                "tools/lazy_tool.py tools/wrapped_tool.py\n"
+            ),
+            "tests/test_paths.py": (
+                "import importlib.util, os, runpy, subprocess, sys, unittest\n"
+                "from pathlib import Path\n"
+                "ROOT = Path(__file__).resolve().parents[1]\n"
+                "CLI = ROOT / 'tools/subprocess_tool.py'\n"
+                "SPEC = ROOT / 'tools/spec_tool.py'\n"
+                "RUNPY = ROOT / 'tools/runpy_tool.py'\n"
+                "ENV = Path(os.environ.get('G11_ENV_TOOL', ROOT / 'tools/env_tool.py'))\n"
+                "HERE = os.path.dirname(os.path.abspath(__file__))\n"
+                "WORKSPACE = os.path.dirname(HERE)\n"
+                "LEGACY_REAL = os.path.join(WORKSPACE, 'tools', 'legacy_tool.py')\n"
+                "LEGACY = os.environ.get('G11_LEGACY_TOOL') or LEGACY_REAL\n"
+                "LAZY = ROOT / 'tools/lazy_tool.py'\n"
+                "WRAPPED = ROOT / 'tools/wrapped_tool.py'\n"
+                "class Paths(unittest.TestCase):\n"
+                "    def test_executes(self):\n"
+                "        command = [sys.executable] + (['-O'] if sys.flags.optimize else []) + ['-B', str(CLI)]\n"
+                "        subprocess.run(command)\n"
+                "        importlib.util.spec_from_file_location('spec_tool', SPEC)\n"
+                "        runpy.run_path(str(RUNPY), run_name='__main__')\n"
+                "        subprocess.check_call([sys.executable, str(ENV)])\n"
+                "        subprocess.run([sys.executable, LEGACY])\n"
+                "        local = ROOT / 'tools/local_tool.py'\n"
+                "        importlib.util.spec_from_file_location('local_tool', local)\n"
+                "        module = None\n"
+                "        if module is None:\n"
+                "            importlib.util.spec_from_file_location('lazy_tool', LAZY)\n"
+                "        def launch(arguments):\n"
+                "            return subprocess.run(arguments)\n"
+                "        launch([sys.executable, str(WRAPPED)])\n"
+            ),
+        }
+        report = self.tools(tree)
+        referenced = {path for path, item in report.items() if item["referenced"]}
+        self.assertEqual(referenced, {
+            "tools/env_tool.py", "tools/lazy_tool.py", "tools/legacy_tool.py", "tools/local_tool.py",
+            "tools/runpy_tool.py", "tools/wrapped_tool.py",
+            "tools/spec_tool.py", "tools/subprocess_tool.py",
+        })
+
+    def test_path_values_need_reachable_execution_not_mentions(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/decoy.py": "x = 1\n",
+            "tools/dead.py": "x = 1\n",
+            "tools/fake_loader.py": "x = 1\n",
+            "tools/fake_wrapper.py": "x = 1\n",
+            "tools/conditional.py": "x = 1\n",
+            "tools/README.md": (
+                "tools/live.py tools/decoy.py tools/dead.py tools/fake_loader.py "
+                "tools/fake_wrapper.py tools/conditional.py\n"
+            ),
+            "tests/test_paths.py": (
+                "import subprocess, sys, unittest\n"
+                "from pathlib import Path\n"
+                "ROOT = Path(__file__).resolve().parents[1]\n"
+                "LIVE = ROOT / 'tools/live.py'\n"
+                "DECOY = ROOT / 'tools/decoy.py'\n"
+                "DEAD = ROOT / 'tools/dead.py'\n"
+                "def unused():\n"
+                "    subprocess.run([sys.executable, str(DEAD)])\n"
+                "class Paths(unittest.TestCase):\n"
+                "    def test_executes(self):\n"
+                "        self.assertTrue(DECOY.name)\n"
+                "        subprocess.run([sys.executable, str(LIVE)])\n"
+            ),
+            "tests/test_fake_loader.py": (
+                "import importlib.util, sys, unittest\n"
+                "from pathlib import Path\n"
+                "ROOT = Path(__file__).resolve().parents[1]\n"
+                "FAKE = ROOT / 'tools/fake_loader.py'\n"
+                "FAKE_WRAPPER = ROOT / 'tools/fake_wrapper.py'\n"
+                "CONDITIONAL = ROOT / 'tools/conditional.py'\n"
+                "class Loader:\n"
+                "    def spec_from_file_location(self, *args): return None\n"
+                "    def run_path(self, *args): return None\n"
+                "loader = Loader()\n"
+                "class Paths(unittest.TestCase):\n"
+                "    def test_decoys(self):\n"
+                "        loader.spec_from_file_location('fake', FAKE)\n"
+                "        loader.run_path(str(FAKE))\n"
+                "        def label(arguments): return list(arguments)\n"
+                "        label([sys.executable, str(FAKE_WRAPPER)])\n"
+                "        if __import__('os').environ.get('G11_UNKNOWN_BRANCH'):\n"
+                "            importlib.util.spec_from_file_location('conditional', CONDITIONAL)\n"
+            ),
+        }
+        report = self.tools(tree)
+        self.assertEqual({path: item["referenced"] for path, item in report.items()}, {
+            "tools/conditional.py": False, "tools/dead.py": False, "tools/decoy.py": False,
+            "tools/fake_loader.py": False, "tools/fake_wrapper.py": False, "tools/live.py": True,
+        })
+
+    def test_sibling_tool_path_execution_is_a_reference(self):
+        tree = {
+            "tools/family/worker.py": "x = 1\n",
+            "tools/README.md": "tools/family/worker.py\n",
+            "tools/family/test_worker.py": (
+                "import importlib.util, unittest\n"
+                "from pathlib import Path\n"
+                "class Worker(unittest.TestCase):\n"
+                "    def test_worker(self):\n"
+                "        path = Path(__file__).with_name('worker.py')\n"
+                "        importlib.util.spec_from_file_location('worker', path)\n"
+            ),
+        }
+        report = self.tools(tree)
+        self.assertTrue(report["tools/family/worker.py"]["referenced"])
+
+    def test_js_url_child_process_execution_is_a_reference(self):
+        tree = {
+            "tools/live.mjs": "export const live = true;\n",
+            "tools/decoy.mjs": "export const decoy = true;\n",
+            "tools/fake.mjs": "export const fake = true;\n",
+            "tools/README.md": "tools/live.mjs tools/decoy.mjs tools/fake.mjs\n",
+            "tests/live.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "import {fileURLToPath} from 'node:url';\n"
+                "const script=fileURLToPath(new URL('../tools/live.mjs',import.meta.url));\n"
+                "const decoy=fileURLToPath(new URL('../tools/decoy.mjs',import.meta.url));\n"
+                "spawnSync(process.execPath,[script],{encoding:'utf8'});\n"
+                "String(decoy);\n"
+            ),
+            "tests/fake.test.mjs": (
+                "const script=new URL('../tools/fake.mjs',import.meta.url);\n"
+                "function spawnSync() {}\n"
+                "spawnSync(process.execPath,[script]);\n"
+            ),
+        }
+        report = self.tools(tree)
+        self.assertEqual({path: item["referenced"] for path, item in report.items()}, {
+            "tools/decoy.mjs": False, "tools/fake.mjs": False, "tools/live.mjs": True,
+        })
 
     def test_tests_and_init_files_are_not_tools(self):
         report = self.tools({"tools/__init__.py": "", "tools/x/test_y.py": "x = 1\n", "tools/a.py": "x = 1\n"})
@@ -547,7 +696,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 76)
+        self.assertEqual(len(cases), 93)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:
