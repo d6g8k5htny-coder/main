@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has native source parent
-`a104a29af571b760738c50ebfc5b07ad7a1b6d98`; its isolated work began from the
+`e649fd8ca9acda9694bf3d0d5890c87906ef970d`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,12 +37,12 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `a104a29af571b760738c50ebfc5b07ad7a1b6d98` (tree
-`157ae0ce007c182883b2bfb0a796ba0e3c967c67`) passed 64/64 tests and killed
-116/116 designated mutants in both modes. Its byte-identical normal/optimized
+native source `e649fd8ca9acda9694bf3d0d5890c87906ef970d` (tree
+`fcf809bb6e0619d99a768e6019b8d4e6207b3b89`) passed 67/67 tests and killed
+119/119 designated mutants in both modes. Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`dccbf430bd9aae6686b52f322657b0c5d21277949f9ee253661f28cf69160caf`,
-56,295 bytes each)
+`773b7dd390b92c83c8701fb9c6b37f4abac93c5ee102d1ef6e596b8c1d2fe0ca`,
+56,063 bytes each)
 contain zero production findings and retain exactly 29 no-current-exercise
 tool candidates; both census runs exit 1. The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
@@ -68,7 +68,11 @@ alternatives earn credit only when every branch selects the same tool; and an
 intervening JavaScript assignment invalidates a prior URL binding. The stricter
 source newly exposes `tools/atlas_formal_source_bridge.py`, so the earlier
 28-tool report remains historical rather than being rebound to this 29-tool
-result. No intermediate result is rebound as a passing gate.
+result. Three subsequent exact-head findings are also repaired: every
+`pathlib.Path` constructor component participates in path resolution; assigning
+through a command element or slice invalidates its aggregate static binding;
+and a JavaScript function parameter cannot impersonate a same-named imported
+child-process callee. No intermediate result is rebound as a passing gate.
 
 ## Current verification boundary
 

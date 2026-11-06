@@ -126,18 +126,18 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`a104a29af571b760738c50ebfc5b07ad7a1b6d98` (tree
-`157ae0ce007c182883b2bfb0a796ba0e3c967c67`) extends the existing bounded
+`e649fd8ca9acda9694bf3d0d5890c87906ef970d` (tree
+`fcf809bb6e0619d99a768e6019b8d4e6207b3b89`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 64/64 controls and killed 116/116 designated
+The exact source commit passed 67/67 controls and killed 119/119 designated
 mutants in each mode. Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`dccbf430bd9aae6686b52f322657b0c5d21277949f9ee253661f28cf69160caf`,
-56,295 bytes each):
+`773b7dd390b92c83c8701fb9c6b37f4abac93c5ee102d1ef6e596b8c1d2fe0ca`,
+56,063 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
 interpreter command-mode payload arguments and unreachable wrapper bodies,
@@ -164,6 +164,10 @@ static facts, not runtime or scientific certification. Class methods remain
 separate from bare module wrappers; statically known conditional expressions
 select one branch, while unknown alternatives earn only intersection evidence;
 and a JavaScript URL binding loses provenance after an intervening assignment.
+All `pathlib.Path` constructor components must resolve before a path is
+credited; a subscript or slice assignment clears the root static aggregate;
+and a named child-process import is not credited inside a function whose
+parameter shadows that import.
 The stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the
 earlier 28-tool result remains historical and is not rebound.
 
