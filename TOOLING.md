@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`2a91b0e6533399238a041e68452cce38d76fca92`, based on Main default
+`e4c2518a8b76ad884c847faddcaa6bee916ee666`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,15 +263,15 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`2a91b0e6533399238a041e68452cce38d76fca92` (tree
-`de96e5c782e5a9f57547858c97efb72c59e7863e`) recognizes explicit local path
+`e4c2518a8b76ad884c847faddcaa6bee916ee666` (tree
+`b6f2b4df29aa9b17cd600cf2d0bcfb3ad934d873`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-110/110 controls and 161/161 designated mutations passed in both modes; the
+113/113 controls and 164/164 designated mutations passed in both modes; the
 sealed mutation-inventory SHA-256 is
-`8faa876ff098b801d72aa9912427ced189346fa2f92a37feb2aa1683f04314c0`. The exact
+`20ddfcd2a90abde3c199122cb0dda95493ee10706c211258cb4bdfdc50fbe551`. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`b5175d0e9cdfe7c7f2759796c5c740d4fdc4bea4286fc1146fe4b54ee61d9fc2`,
+`b988ad95ee6bbe50cf4e64ebfcc830dd6856acee120ae5c152bd1f78375d06f1`,
 56,078 bytes each),
 with zero production findings and exactly 29 no-current-exercise tool
 candidates; both runs exited 1. Adverse controls refuse mere path
@@ -349,7 +349,10 @@ JavaScript lexical-block declarations as shadows of imported callees. Captured
 sequence values also propagate through supported concatenation; ordinary
 helper traversal stops after definite termination, including selected literal
 branches; and destructured lexical declarations participate in JavaScript
-callee shadowing. The
+callee shadowing. Named concatenation operands retain their evaluation-time
+values across later operand effects; selected branch traversal stops after
+definite termination inside the branch; and semicolonless lexical declarations
+shadow imported callees under ASI. The
 stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the former
 28-tool result remains historical and is not rebound. Static evidence is not
 runtime proof. Exact dormant dispositions and the final orchestrator remain

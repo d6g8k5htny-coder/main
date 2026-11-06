@@ -126,19 +126,19 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`2a91b0e6533399238a041e68452cce38d76fca92` (tree
-`de96e5c782e5a9f57547858c97efb72c59e7863e`) extends the existing bounded
+`e4c2518a8b76ad884c847faddcaa6bee916ee666` (tree
+`b6f2b4df29aa9b17cd600cf2d0bcfb3ad934d873`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 110/110 controls and killed 161/161 designated
+The exact source commit passed 113/113 controls and killed 164/164 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`8faa876ff098b801d72aa9912427ced189346fa2f92a37feb2aa1683f04314c0`.
+`20ddfcd2a90abde3c199122cb0dda95493ee10706c211258cb4bdfdc50fbe551`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`b5175d0e9cdfe7c7f2759796c5c740d4fdc4bea4286fc1146fe4b54ee61d9fc2`,
+`b988ad95ee6bbe50cf4e64ebfcc830dd6856acee120ae5c152bd1f78375d06f1`,
 56,078 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
@@ -231,6 +231,12 @@ Ordinary helper expansion stops after unconditional termination, including a
 selected literal branch. Destructured JavaScript lexical declarations are
 included in imported-callee shadow resolution. All three bounded rules have
 dedicated adverse controls and designated mutants.
+Named operands in supported concatenations retain their evaluation-time values
+before later operand effects can rebind the source name. Selected Python
+branches stop traversal after definite termination inside the branch.
+Semicolonless JavaScript lexical declarations shadow imported child-process
+callees under ASI. These three bounded rules also have dedicated adverse
+controls and designated mutants.
 Python call-argument helper effects precede attribution of the enclosing call,
 reassigned Python helpers lose their former bodies, and deferred JavaScript
 helpers validate module URL bindings at reachable activation points. These
