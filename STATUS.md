@@ -8,18 +8,42 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
+## Current maintenance snapshot — 6 November 2026
+
+The current default revisions observed sequentially are Main
+`04989724b5142f8eea8d41946d0367d0372d845a`, Math-
+`f532c3e2d91a0c7679a37c733741660917a9b21b` and Workspace
+`ed9a1e0106d616bc3a1eabb213fe4605f9e30813`. A fresh organization-visible
+search found zero open pull requests. The available local checkout root was
+observed with 14/14 clean checkouts, zero stashes, valid HEADs and no missing
+registered worktree paths. That is a bounded observation, not a perpetual or
+all-host guarantee. The exact remote census still contains 2,049 non-default
+branches requiring explicit integration, archival or dormant disposition.
+
+The five canonical reading surfaces are this file,
+[PROOF_INDEX.md](PROOF_INDEX.md), [GOVERNANCE.md](GOVERNANCE.md),
+[TOOLING.md](TOOLING.md) and [BASELINE.md](BASELINE.md). The proof index is
+explicitly incomplete; the tooling registry has no admitted final G0–G11
+orchestrator; and the baseline ledger marks every unawarded criterion. The
+latest durable v78 receipt is
+[Main #684 comment 6684436967](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6684436967).
+Neither that checkpoint nor this documentation repair establishes CBZ-0.
+
 ## Current verification boundary
 
 The full federation inventory, proof dispositions, required tooling admission,
 cross-repository synchronization and final common G0-G11 pass remain unfinished.
 Source-only checks and individual successful jobs do not complete the twelve
-baseline criteria. The [foundation candidate #695](https://github.com/d6g8k5htny-coder/main/pull/695)
-is a candidate handoff, not the current default-branch baseline.
+baseline criteria. The closed-unmerged
+[foundation candidate #695](https://github.com/d6g8k5htny-coder/main/pull/695),
+preserved at head `82d9e480a51b946b3e74525ccf32139129d37d28`, is a recoverable candidate
+handoff, not the current default-branch baseline.
 The pre-integration Main source was `11e28815163e15223e8827fe6ff47a1faaf36ebd`.
 [PR #713](https://github.com/d6g8k5htny-coder/main/pull/713) merged on 2026-10-31 at 10:18:44 UTC
 as `9abd2c100ae105103945073a7fa6c47b15679269`; its qualification evidence
-remains bound to the sources actually checked, not automatically to later compositions. The proof catalogue and other
-foundation material in #695 are pending, not an admitted default-branch baseline.
+remains bound to the sources actually checked, not automatically to later
+compositions. The proof catalogue and other foundation material in #695 are
+preserved outside the default branch, not an admitted current baseline.
 This intermediate entry is not a completed cold-start acceptance test.
 
 ## How to verify
