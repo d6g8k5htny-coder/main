@@ -1,0 +1,48 @@
+{
+  "observed_utc": "2026-11-06T08:57:30Z",
+  "scope": "finite lexical source and AST-signal auditors only; no kernel, semantic, scientific or global CBZ qualification",
+  "python": "CPython 3.12.14",
+  "base_commit": "c933b81f59929af85a7f2de5123df1ccfadd7f80",
+  "candidate_commit": "3fb58927a714d25fcd1b4906de91d96310768141",
+  "candidate_tree_before_this_receipt": "cd7afcfafa9a02f1e19b27babeedff8b89ed370c",
+  "sources": {
+    "tools/cbz/layer_a_scan.py": "bf797f33d5df7a8e695f62e6a2d70dca05ec99956ac5c33aa0347164eac48410",
+    "tools/cbz/a3_float_census.py": "9faf7275053254e75372cd06d57de290b41124e86162c1c23eb5f4e46b6b2b80",
+    "tests/test_cbz_layer_a_scan.py": "3f6f666e0a8cc9d4415d8e87a3cbc4fa879fb34becf3cdf1602137a266d5a0ed",
+    "tests/test_cbz_layer_a_scan_mutants.py": "7df98bb1ada762777a6e3597e37514977d5088c932d1ef67d5f8a1d850970dec",
+    "tests/test_cbz_a3_float_census.py": "458a2c1d1b56034acdb24b5444eb024b0c0ff425c018aa9d9353e25762be88c4",
+    "tests/test_cbz_auditor_hardening.py": "503a842afbcc466cabc3d1a01236bca7ff0ff2c8f60da0324faeac562d329877"
+  },
+  "normal": {"tests": 83, "exit": 0, "duration_seconds_decimal": "28.062"},
+  "optimized": {"tests": 83, "exit": 0, "duration_seconds_decimal": "111.764"},
+  "source_mutations": {
+    "lexical": 74,
+    "a3": 27,
+    "threshold_percent": 100,
+    "killed": 101,
+    "survivors": 0,
+    "stale_anchors": 0,
+    "kill_requires": "designated named test-body assertion failure; errors, import/launch/syntax failures, tool-origin traceback frames and unrelated failures cannot kill"
+  },
+  "semantic_parity": {
+    "total": 1025,
+    "main_lean_files": 18,
+    "targeted_nested_hole_cases": 7,
+    "deterministic_fuzz_cases": 1000,
+    "mismatches": 0
+  },
+  "performance_seconds": {
+    "nested_candidate_30": "0.000786",
+    "json_like_nested_24": "0.000858",
+    "distinct_unmatched_1600": "0.391233",
+    "distinct_unmatched_3200": "1.685002"
+  },
+  "remaining_boundaries": [
+    "Distinct unmatched ordinary-string opening braces still start distinct suffix scans; quadratic worst case remains.",
+    "No runtime budget or skip is present. A future budget must fail closed and receive separate adverse tests.",
+    "Lexical results do not see arbitrary macros, elaboration or imports; G2-G4 remain authoritative.",
+    "A3 census does not certify mathematical bounds or exactness.",
+    "No final federation G0-G11 or CBZ-0 result is claimed."
+  ]
+}
+
