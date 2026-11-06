@@ -582,8 +582,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_reassigned_wrapper_binding_is_not_execution_evidence",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript enclosing declaration shadow ignored", "census",
-     "    for block in containing:\n        for declaration in pattern.finditer(searchable, block[0] + 1, block[1]):",
-     "    for block in containing[:1]:\n        for declaration in pattern.finditer(searchable, block[0] + 1, block[1]):",
+     "    for block in containing:\n        for declaration in direct_pattern.finditer(searchable, block[0] + 1, block[1]):",
+     "    for block in containing[:1]:\n        for declaration in direct_pattern.finditer(searchable, block[0] + 1, block[1]):",
      "tests.test_g11_census.ToolChecks.test_js_enclosing_declaration_shadows_named_child_process_import",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("wrapper traversal continues after return", "census",
@@ -715,6 +715,21 @@ NEW_MUTATIONS = [
      "    blocks = _js_block_scopes(searchable)",
      "    blocks = [(scope[2], scope[3]) for scope in function_scopes]",
      "tests.test_g11_census.ToolChecks.test_js_module_block_declaration_shadows_named_child_process_import",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("captured sequence values lost through concatenation", "census",
+     "    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):\n        left = _python_sequence_static_value(",
+     "    if False and isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):\n        left = _python_sequence_static_value(",
+     "tests.test_g11_census.ToolChecks.test_sequence_capture_survives_list_concatenation",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("Python helper traversal continues after termination", "census",
+     "            if statement_terminates(statement):\n                break",
+     "            if False:\n                break",
+     "tests.test_g11_census.ToolChecks.test_python_helper_stops_after_unconditional_termination",
+     "self.assertEqual("),
+    ("JavaScript destructured block shadow ignored", "census",
+     "            if name in bindings:\n                return True",
+     "            if False and name in bindings:\n                return True",
+     "tests.test_g11_census.ToolChecks.test_js_destructured_block_declaration_shadows_child_process_import",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
@@ -877,6 +892,9 @@ EXPECTED_MUTATION_NAMES = (
     "assignment target invalidated before RHS helper",
     "sequence element value reevaluated after later effects",
     "JavaScript module block shadow ignored",
+    "captured sequence values lost through concatenation",
+    "Python helper traversal continues after termination",
+    "JavaScript destructured block shadow ignored",
 )
 
 
@@ -1055,7 +1073,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 107
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 110
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

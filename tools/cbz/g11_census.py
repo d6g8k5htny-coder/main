@@ -744,6 +744,23 @@ def _reachable_python_nodes(tree, mode):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
     }
 
+    def statement_sequence_terminates(body):
+        return any(statement_terminates(statement) for statement in body)
+
+    def statement_terminates(statement):
+        if isinstance(statement, (ast.Return, ast.Raise)):
+            return True
+        if not isinstance(statement, ast.If):
+            return False
+        if _is_main_guard(statement.test):
+            branch = statement.body if mode == "script" else statement.orelse
+        else:
+            truth = _literal_bool(statement.test)
+            if truth is None:
+                return False
+            branch = statement.body if truth else statement.orelse
+        return statement_sequence_terminates(branch)
+
     def execute(function, owner, activation_line):
         identity = (id(function), owner, activation_line)
         if identity in visited:
@@ -751,6 +768,8 @@ def _reachable_python_nodes(tree, mode):
         visited.add(identity)
         for statement in function.body:
             visit(statement, owner, id(function), activation_line)
+            if statement_terminates(statement):
+                break
 
     def visit(node, owner=None, scope=None, activation_line=None):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
@@ -1034,6 +1053,14 @@ def _python_static_value(node, local, module, source_path, imports, scope_shadow
 def _python_sequence_static_value(node, evaluated_elements, local, module,
                                   source_path, imports, scope_shadowed=()):
     """Resolve a sequence from values captured at each element evaluation."""
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+        left = _python_sequence_static_value(
+            node.left, evaluated_elements, local, module, source_path, imports,
+            scope_shadowed)
+        right = _python_sequence_static_value(
+            node.right, evaluated_elements, local, module, source_path, imports,
+            scope_shadowed)
+        return _static_add(left, right)
     if not isinstance(node, (ast.List, ast.Tuple)):
         return _python_static_value(
             node, local, module, source_path, imports, scope_shadowed)
@@ -1959,15 +1986,43 @@ def _js_local_declaration_shadows(text, position, name):
         key=lambda item: item[0], reverse=True)
     if not containing:
         return False
-    pattern = re.compile(
-        r"\b(?:const|let|var|function|class)\s+" + re.escape(name) + r"(?![\w$])")
+    direct_pattern = re.compile(
+        r"\b(?:function|class)\s+" + re.escape(name) + r"(?![\w$])")
     for block in containing:
-        for declaration in pattern.finditer(searchable, block[0] + 1, block[1]):
+        for declaration in direct_pattern.finditer(searchable, block[0] + 1, block[1]):
             declaration_blocks = [candidate for candidate in blocks
                                   if candidate[0] < declaration.start() < candidate[1]]
             declaration_block = (max(declaration_blocks, key=lambda item: item[0])
                                  if declaration_blocks else None)
             if declaration_block == block:
+                return True
+        variable_pattern = re.compile(r"\b(?:const|let|var)\b")
+        for declaration in variable_pattern.finditer(searchable, block[0] + 1, block[1]):
+            declaration_blocks = [candidate for candidate in blocks
+                                  if candidate[0] < declaration.start() < candidate[1]]
+            declaration_block = (max(declaration_blocks, key=lambda item: item[0])
+                                 if declaration_blocks else None)
+            if declaration_block != block:
+                continue
+            start = declaration.end()
+            depths = {"(": 0, "[": 0, "{": 0}
+            closing = {")": "(", "]": "[", "}": "{"}
+            end = block[1]
+            for index in range(start, block[1]):
+                char = searchable[index]
+                if char in depths:
+                    depths[char] += 1
+                elif char in closing:
+                    opening = closing[char]
+                    depths[opening] = max(0, depths[opening] - 1)
+                elif char == ";" and not any(depths.values()):
+                    end = index
+                    break
+            bindings = set().union(*(
+                _js_binding_names(part)
+                for part in _js_top_level_parts(searchable[start:end])
+            ))
+            if name in bindings:
                 return True
     return False
 
