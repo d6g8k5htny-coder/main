@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "b167c4753821c778a55dfe383ac4a5645907654a44552384105928ef424d47d6"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "fea08459f78eec6025aa321a999feb1b320b73c498d5962964c4ac450643d1c3"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -861,6 +861,32 @@ class ToolChecks(unittest.TestCase):
                 "import runpy\n"
                 "script = 'tools/unused.py'\n"
                 "False and runpy.run_path(script)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_conditional_expression_skips_unreachable_loader(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_conditional_expression.py": (
+                "import runpy\n"
+                "script = 'tools/unused.py'\n"
+                "runpy.run_path(script) if False else None\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_unawaited_async_helper_body_is_not_executed(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_async_helper.py": (
+                "import runpy\n"
+                "script = 'tools/unused.py'\n"
+                "async def launch():\n"
+                "    runpy.run_path(script)\n"
+                "launch().close()\n"
             ),
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
@@ -1951,7 +1977,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 167)
+        self.assertEqual(len(cases), 169)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

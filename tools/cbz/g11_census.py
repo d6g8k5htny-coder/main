@@ -795,9 +795,10 @@ def _reachable_python_nodes(tree, mode):
             for default in node.args.kw_defaults:
                 if default is not None:
                     visit(default, owner, scope, activation_line)
-            if owner is None:
+            if owner is None and isinstance(node, ast.FunctionDef):
                 active_functions[(scope, node.name)] = node
-            if (mode == "tests" and owner in test_classes
+            if (isinstance(node, ast.FunctionDef)
+                    and mode == "tests" and owner in test_classes
                     and (node.name.startswith("test_")
                          or node.name in {"setUp", "tearDown", "setUpClass", "tearDownClass"})):
                 queue.append((node, owner, float("inf")))
@@ -882,6 +883,16 @@ def _reachable_python_nodes(tree, mode):
                     active_functions.pop(
                         (active_function_destination(scope, name), name), None)
 
+        if isinstance(node, ast.IfExp):
+            # Conditional expressions evaluate the condition first and only
+            # one arm. Unknown conditions do not establish either arm.
+            visit(node.test, owner, scope, activation_line)
+            truth = _literal_bool(node.test)
+            if truth is not None:
+                visit(node.body if truth else node.orelse,
+                      owner, scope, activation_line)
+            return
+
         if isinstance(node, ast.BoolOp):
             # Boolean operands execute left-to-right and later operands are
             # reachable only when the preceding literal truth values require
@@ -961,7 +972,7 @@ def _reachable_python_nodes(tree, mode):
             elif (isinstance(target, ast.Attribute) and isinstance(target.value, ast.Name)
                   and target.value.id in {"self", "cls"} and owner):
                 method = methods.get((owner, target.attr))
-                if method:
+                if isinstance(method, ast.FunctionDef):
                     execute(method, owner, execution_line)
             return
 

@@ -761,6 +761,16 @@ NEW_MUTATIONS = [
      "        if False:\n            # Boolean operands execute left-to-right",
      "tests.test_g11_census.ToolChecks.test_boolean_short_circuit_skips_unreachable_loader",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("conditional expression reachability ignored", "census",
+     "        if isinstance(node, ast.IfExp):\n            # Conditional expressions evaluate the condition first",
+     "        if False:\n            # Conditional expressions evaluate the condition first",
+     "tests.test_g11_census.ToolChecks.test_conditional_expression_skips_unreachable_loader",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("async helper creation treated as execution", "census",
+     "            if owner is None and isinstance(node, ast.FunctionDef):",
+     "            if owner is None:",
+     "tests.test_g11_census.ToolChecks.test_unawaited_async_helper_body_is_not_executed",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -931,6 +941,8 @@ EXPECTED_MUTATION_NAMES = (
     "repeated helper invocation suppressed",
     "global helper reassignment invalidates local identity",
     "Boolean short-circuit reachability ignored",
+    "conditional expression reachability ignored",
+    "async helper creation treated as execution",
 )
 
 
@@ -1109,7 +1121,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 116
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 118
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
