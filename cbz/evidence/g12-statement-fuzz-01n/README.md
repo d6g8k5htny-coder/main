@@ -466,7 +466,10 @@ a scoped instance precisely so that `x < n` elaborates as `↑x < n` (`Mathlib/D
 refuses that comparison under `open Fin.NatCast` / `Fin.CommRing` / `Fin.IntCast`, where the coercion loop exists and
 the comparison wraps (zero occurrences in the census corpus). In the same round, `exp`, `log`, `sqrt`, `pi` …
 written bare under `open Real` are read as Mathlib's `Real.exp` … (a definition or binder of that name in scope wins, as in
-Lean); the census receipts in `census_math_dfa9b30a_20261106_trans/` are those of this head — four verdicts moved against the
+Lean; and when another opened namespace carries the same short name — `open Nat Real` makes `sqrt` an overloaded identifier
+that Lean resolves by the expected type, `(sqrt 10 : ℕ)` being `Nat.sqrt 10` — the bare name is refused as ambiguous, the
+false PASS 01DKKe found in the readback (757/6680709277 R1) and its second layer, an intrinsically real value ascribed to
+ℕ/ℤ, now both UNSUPPORTED); the census receipts in `census_math_dfa9b30a_20261106_trans/` are those of this head — four verdicts moved against the
 first run of the day (`productDecay_eq_exp` in three groups and `shifted_gaussian_le`, UNSUPPORTED "unknown function exp" →
 CORROBORATED), six more bare-`exp` identities are now named as undecided-by-enclosure rather than unknown, nothing else
 changed. Tests 93 → **105** (`TranscendentalTests`: the thirteen P15 statements and their flips; the exact normal form;

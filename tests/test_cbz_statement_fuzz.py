@@ -1168,6 +1168,28 @@ class TranscendentalTests(unittest.TestCase):
         self.assertEqual(ev('open Real\ndef exp (x : ℝ) : ℝ := x + 1\ntheorem t : exp 0 = 1 := by sorry\n').status, 'PASS')
         self.assertEqual(ev('open Real\ndef exp (x : ℝ) : ℝ := x + 1\ntheorem t : exp 1 = 1 := by sorry\n').status, 'FAIL')
         self.assertEqual(ev('open Real\ntheorem t (exp : ℝ) (h : exp = 2) : exp = 2 := by sorry\n').status, 'CORROBORATED')
+        # R1 (01DKKe, 757/6680709277): with another opened namespace that carries the name, the bare identifier is
+        # overloaded and Lean resolves it by the expected type — `(sqrt 10 : ℕ)` is `Nat.sqrt 10` = 3, so `Real.sqrt`
+        # would be a false reading (`(sqrt 10 : ℕ) * (sqrt 10 : ℕ) = 10` is false in Lean); refused, never guessed
+        for src in ('open Nat Real\ntheorem t : (sqrt 10 : ℕ) * (sqrt 10 : ℕ) = 10 := by sorry\n',
+                    'open Nat Real\ntheorem t : (sqrt 10 : ℕ) = 3 := by sorry\n',
+                    'open Nat Real\ntheorem t : (log 2 8 : ℕ) = 3 := by sorry\n',
+                    'open Real Complex\ntheorem t : exp 0 = 1 := by sorry\n',
+                    'open scoped Real\nopen Nat\ntheorem t : sqrt 4 = 2 := by sorry\n'):
+            with self.subTest(src=src.splitlines()[-1]):
+                r = ev(src)
+                self.assertEqual(r.status, 'UNSUPPORTED')
+                self.assertIn('ambiguous', r.detail)
+        self.assertEqual(ev('open Nat Real\ntheorem t : exp 0 = 1 := by sorry\n').status, 'PASS')           # Nat has no exp
+        r = ev('open Nat Real\ntheorem t (x : ℝ) (hx : sqrt x ≤ 1) : x ≤ 1 ∨ x < 0 := by sorry\n')
+        self.assertEqual(r.status, 'UNSUPPORTED')                                                           # hypothesis too
+        # the second layer: a value of an intrinsically real type ascribed to ℕ/ℤ has no coercion in Lean
+        for text in ('(Real.sqrt 10 : ℕ) = 3', '(Real.sqrt 10 : ℕ) * (Real.sqrt 10 : ℕ) = 10', '(Real.exp 1 : ℤ) = 2', '((2 : ℝ) : ℕ) = 2'):
+            with self.subTest(text=text):
+                r = ev(f'theorem t : {text} := by sorry\n')
+                self.assertEqual(r.status, 'UNSUPPORTED')
+                self.assertIn('ascribed where', r.detail)
+        self.assertEqual(ev('theorem t (n : ℕ) : ((n - 1 : ℕ) : ℝ) ≥ 0 ∧ (n - 1 : ℝ) ≤ n := by sorry\n').status, 'CORROBORATED')  # ℕ → ℝ casts stay
 
     def test_connectives_are_settled_by_a_decided_side(self):
         # cos π = −1 is undecided by enclosures; the other side settles the connective when it can
