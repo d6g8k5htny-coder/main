@@ -1,0 +1,50 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmpmd8l91i0/mutation_test.py",
+    "--internal-test-runner",
+    "--test-root",
+    "/tmp/tmpmd8l91i0/tests",
+    "--output",
+    "/tmp/tmpmd8l91i0/receipt.json"
+  ],
+  "events": [],
+  "exit_code": 1,
+  "fixture_sha256": "79a982a7b2537cfef48757f2049ea04fb0a0c752da1685212fd409390b7129ed",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmpmd8l91i0/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass C(unittest.TestCase):\n def test_first(self): record(\"first\")\n def test_second(self):\n  record(\"second\")\n  self.fail(\"retained second body\")\ndef load_tests(loader, tests, pattern):\n record(\"hook\")\n return unittest.TestSuite([C(\"test_first\")])\n",
+  "label": "hook-omission",
+  "optimize": 1,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "failure_events": [],
+    "finished_ids": [],
+    "invalid_population": [
+      "unsupported module load_tests hook: test_auditor"
+    ],
+    "lifecycle_failures": 0,
+    "log": "Refused unsupported selected test population before execution.\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [
+      "test_auditor.C.test_first",
+      "test_auditor.C.test_second"
+    ],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": false,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "Refused unsupported selected test population before execution.\n"
+}

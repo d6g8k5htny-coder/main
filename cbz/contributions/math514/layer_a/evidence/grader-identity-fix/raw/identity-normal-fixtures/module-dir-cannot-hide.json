@@ -1,0 +1,76 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmpbktn1lgd/mutation_test.py",
+    "--internal-test-runner",
+    "--test-root",
+    "/tmp/tmpbktn1lgd/tests",
+    "--output",
+    "/tmp/tmpbktn1lgd/receipt.json"
+  ],
+  "events": [
+    "hidden",
+    "visible"
+  ],
+  "exit_code": 1,
+  "fixture_sha256": "1bb1c9417772eeb98db975333596bcd694cb90dd4aed98627fbafa2315ba3386",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmpbktn1lgd/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass Hidden(unittest.TestCase):\n def test_hidden(self):\n  record(\"hidden\")\n  self.fail(\"hidden body retained\")\nclass Visible(unittest.TestCase):\n def test_visible(self): record(\"visible\")\ndef __dir__():\n record(\"module-dir\")\n return [\"Visible\"]\n",
+  "label": "module-dir-cannot-hide",
+  "optimize": 0,
+  "outcome": "KILLED",
+  "receipt": {
+    "assertion_events": [
+      {
+        "id": "test_auditor.Hidden.test_hidden",
+        "source": "direct"
+      }
+    ],
+    "assertion_failures": 1,
+    "body_assertion_ids": [
+      "test_auditor.Hidden.test_hidden"
+    ],
+    "body_entered_ids": [
+      "test_auditor.Hidden.test_hidden",
+      "test_auditor.Visible.test_visible"
+    ],
+    "body_finished_ids": [
+      "test_auditor.Hidden.test_hidden",
+      "test_auditor.Visible.test_visible"
+    ],
+    "errors": 0,
+    "expected_failures": 0,
+    "failure_events": [
+      {
+        "id": "test_auditor.Hidden.test_hidden",
+        "kind": "assertion",
+        "phase": "body"
+      }
+    ],
+    "finished_ids": [
+      "test_auditor.Hidden.test_hidden",
+      "test_auditor.Visible.test_visible"
+    ],
+    "invalid_population": [],
+    "lifecycle_failures": 0,
+    "log": "test_hidden (test_auditor.Hidden.test_hidden) ... FAIL\ntest_visible (test_auditor.Visible.test_visible) ... ok\n\n======================================================================\nFAIL: test_hidden (test_auditor.Hidden.test_hidden)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpbktn1lgd/mutation_test.py\", line 475, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: hidden body retained\n\nRan 2 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [
+      "test_auditor.Hidden.test_hidden",
+      "test_auditor.Visible.test_visible"
+    ],
+    "skipped": 0,
+    "started_ids": [
+      "test_auditor.Hidden.test_hidden",
+      "test_auditor.Visible.test_visible"
+    ],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": false,
+    "tests_run": 2,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "test_hidden (test_auditor.Hidden.test_hidden) ... FAIL\ntest_visible (test_auditor.Visible.test_visible) ... ok\n\n======================================================================\nFAIL: test_hidden (test_auditor.Hidden.test_hidden)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpbktn1lgd/mutation_test.py\", line 475, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: hidden body retained\n\nRan 2 tests\n"
+}

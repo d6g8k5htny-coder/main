@@ -1,0 +1,61 @@
+{
+  "new_obligation": "Named method descriptor executes and changes declaration before ordinary-class refusal",
+  "no_completed_verification_repeated": true,
+  "results": [
+    {
+      "tool": "kernel_replay",
+      "source_sha256": "730bf28746f6574dc11cf9d8b63d759c6edab1aafed8d2a73b21f2388278cef3",
+      "fixture_sha256": "c49611a85b9d6a0ac3bde70143bc66c3718cec1c267d659a8c42401cc307ccd0",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-S",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/method-descriptor-alias/kernel_replay/run_tests.py",
+        "--output",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/method-descriptor-alias/kernel_replay/receipt.json",
+        "--test",
+        "test_descriptor.C.test_second"
+      ],
+      "exit_code": 0,
+      "outcome": "SURVIVED",
+      "selected_ids": [
+        "test_descriptor.C.test_second"
+      ],
+      "invalid_population": [],
+      "body_trace": [
+        "descriptor",
+        "first"
+      ],
+      "receipt": "review-probes/method-descriptor-alias/kernel_replay/receipt.json"
+    },
+    {
+      "tool": "layer_a",
+      "source_sha256": "c07a257fd5a641b67e00431616fe2e3cfd0426ebc0066383bf328356c227f822",
+      "fixture_sha256": "83cacd8148b1a86bdcc38c9fa678e7a393302954fecf7c2f312df22589a94fa2",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-S",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/method-descriptor-alias/layer_a/mutation_test.py",
+        "--internal-test-runner",
+        "--test-root",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/method-descriptor-alias/layer_a/tests",
+        "--output",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/method-descriptor-alias/layer_a/receipt.json",
+        "--test",
+        "test_auditor.C.test_second"
+      ],
+      "exit_code": 0,
+      "outcome": "SURVIVED",
+      "selected_ids": [
+        "test_auditor.C.test_second"
+      ],
+      "invalid_population": [],
+      "body_trace": [
+        "descriptor",
+        "first"
+      ],
+      "receipt": "review-probes/method-descriptor-alias/layer_a/receipt.json"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmp8c86_aad/mutation_test.py",
+    "--internal-test-runner",
+    "--test-root",
+    "/tmp/tmp8c86_aad/tests",
+    "--output",
+    "/tmp/tmp8c86_aad/receipt.json",
+    "--test",
+    "test_auditor.C.test_one"
+  ],
+  "events": [],
+  "exit_code": 1,
+  "fixture_sha256": "9b00cfa2d825a53c46b304348429499227b356e48555feea31f319d48753f2fb",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmp8c86_aad/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass Meta(type):\n def __call__(cls,*a,**k):\n  record(\"metaclass\")\n  return super().__call__(*a,**k)\nclass C(unittest.TestCase,metaclass=Meta):\n def test_one(self): record(\"body\")\n",
+  "label": "construction-metaclass-1-method",
+  "optimize": 0,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "failure_events": [],
+    "finished_ids": [],
+    "invalid_population": [
+      "unsupported test selector: test_auditor.C.test_one (ValueError)"
+    ],
+    "lifecycle_failures": 0,
+    "log": "Refused unsupported selected test population before execution.\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": false,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "Refused unsupported selected test population before execution.\n"
+}

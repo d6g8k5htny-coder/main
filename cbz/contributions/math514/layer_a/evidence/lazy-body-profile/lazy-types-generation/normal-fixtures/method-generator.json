@@ -1,0 +1,35 @@
+{
+  "fixture_source": "from pathlib import Path\nimport unittest\nimport functools\nsentinel=Path('/tmp/tmp9kwygv8b/lazy-executed')\nordinary=Path('/tmp/tmp9kwygv8b/ordinary-executed')\nclass C(unittest.TestCase):\n def test_a_lazy(self):\n  sentinel.write_text(\"generator\")\n  yield 1\n def test_b_assertion(self):\n  ordinary.write_text(\"body\")\n  self.fail(\"ordinary body assertion\")\n",
+  "label": "method-generator",
+  "lazy_sentinel_executed": false,
+  "optimize": 0,
+  "ordinary_sentinel_executed": false,
+  "receipt": {
+    "assertion_failures": 0,
+    "errors": 0,
+    "expected_ids": [
+      "test_auditor.C.test_a_lazy",
+      "test_auditor.C.test_b_assertion"
+    ],
+    "file": "source_checks.py",
+    "log": "/tmp/tmpm8yxg9ay/logs/fixture.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mutated_sha256": "6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf",
+    "name": "fixture",
+    "original_sha256": "6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf",
+    "outcome": "ERROR",
+    "pristine_population": {
+      "invalid_population": [
+        "test_auditor.C.test_a_lazy"
+      ],
+      "receipt_schema": "cbz-unittest-population-v1",
+      "selected_ids": [
+        "test_auditor.C.test_a_lazy",
+        "test_auditor.C.test_b_assertion"
+      ]
+    },
+    "returncode": 1,
+    "tests": {},
+    "tests_run": 0
+  }
+}

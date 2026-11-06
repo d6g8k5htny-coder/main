@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "component": "CBZ-LAYER-A-EXACT-SCOPE-v1",
+  "observed_utc": "2026-11-06",
+  "native_source": {
+    "original_pr_head": "8958ee09a37d652ad2f533e10e4925367e0361bc",
+    "reviewed_repair_chain_tip": "2e7643d780d60ba5ddb598baa1d0ce35184d2818",
+    "reviewed_repair_tree": "ad01286332a9f19fe80eddaeb6cb511dc5bddea2",
+    "current_main_parent": "4e8f58760ecc20fb3bf2f989eaf4b9ecfe3caa75"
+  },
+  "population": {
+    "tests": 115,
+    "auditor_tests": 91,
+    "mutation_runner_tests": 24,
+    "declared_mutants": 71
+  },
+  "normal": {
+    "command": "python3 -B -S mutation_test.py --output /absolute/path/g0-final-normal.json",
+    "started_utc": "2026-11-06T07:08:56.451518+00:00",
+    "ended_utc": "2026-11-06T07:10:30.323877+00:00",
+    "status": "PASS",
+    "baseline_tests": 115,
+    "baseline_assertion_failures": 0,
+    "baseline_errors": 0,
+    "killed": 71,
+    "receipt_sha256": "70a9e218264d8a95cef5ea77a793b339cca2d24d7d3f86055c91a46dda3575e4"
+  },
+  "optimized": {
+    "command": "python3 -O -B -S mutation_test.py --output /absolute/path/g0-final-optimized.json",
+    "started_utc": "2026-11-06T07:10:36.533217+00:00",
+    "ended_utc": "2026-11-06T07:12:17.049031+00:00",
+    "status": "PASS",
+    "baseline_tests": 115,
+    "baseline_assertion_failures": 0,
+    "baseline_errors": 0,
+    "killed": 71,
+    "receipt_sha256": "a70d9df47fd164c9757f7f90d89b816dd10ba24a749a92a427a4e42f07c626b9"
+  },
+  "new_adverse_mutants": [
+    {
+      "name": "allow-all-mod-operands",
+      "normal": {"outcome": "KILLED", "assertion_failures": 14, "errors": 0},
+      "optimized": {"outcome": "KILLED", "assertion_failures": 14, "errors": 0}
+    },
+    {
+      "name": "allow-unestablished-mod-names",
+      "normal": {"outcome": "KILLED", "assertion_failures": 12, "errors": 0},
+      "optimized": {"outcome": "KILLED", "assertion_failures": 12, "errors": 0}
+    },
+    {
+      "name": "ignore-nonchain-integer-bindings",
+      "normal": {"outcome": "KILLED", "assertion_failures": 8, "errors": 0},
+      "optimized": {"outcome": "KILLED", "assertion_failures": 8, "errors": 0}
+    }
+  ],
+  "source_sha256": {
+    "auditor.py": "309935e125195ae8093ffeb691f9d4c16f6c69e3dbb74b453ed6d50e05be1619",
+    "canonical_lean.py": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+    "mutation_test.py": "28cfda579d60eb86afc8214f8bcb20783a23926b0dee4b5338cfcc242beace98",
+    "source_checks.py": "9719e7d8ee988a1df0acbef752fc96f43e4622c4023b33829ac6e52c52a50486",
+    "tests/test_auditor.py": "a01ca62c84ca2dc3da934a4359bcaee6a17b82c51efda64f9c25550a1a90fb0d",
+    "tests/test_mutation_runner.py": "3e8ddbce854f571411e08cedf00288c8515e18eb41cf90ab17a796936c5efb31",
+    "README.md": "1984feec21ba252707b04a7486324f124c858a768c5ad3ce719b4fca7011f3a7",
+    "SPEC.md": "a72f1e61a08fb8d6650029325f0cd6bc482c6163573d473bc5aa8f19fee5e256"
+  },
+  "source_unchanged_during_each_run": true,
+  "preserved_failure": {
+    "status": "ERROR",
+    "description": "The first normal G0 attempt hit the existing 60-second instrumented-baseline timeout. A direct replay completed in 25.927 seconds; the unchanged command then passed. The failed attempt is retained in durable contribution evidence and is not represented as a pass."
+  },
+  "limits": {
+    "actual_repository_G1": "NOT_RUN",
+    "lean_compiler_runs": 0,
+    "kernel_audit_runs": 0,
+    "pin_verification_runs": 0,
+    "mathematical_acceptance": false,
+    "scientific_effect": "NONE"
+  }
+}

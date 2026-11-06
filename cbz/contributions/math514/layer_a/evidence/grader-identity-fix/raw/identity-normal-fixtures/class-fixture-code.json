@@ -1,0 +1,51 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmp799vfurr/mutation_test.py",
+    "--internal-test-runner",
+    "--test-root",
+    "/tmp/tmp799vfurr/tests",
+    "--output",
+    "/tmp/tmp799vfurr/receipt.json"
+  ],
+  "events": [
+    "class-setup"
+  ],
+  "exit_code": 0,
+  "fixture_sha256": "2804d0f5d634b2a1c50aa0f6b4acf998ff6bdfea6b27cb905af67ec7f9b294c2",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmp799vfurr/events').open(\"a\") as out: out.write(label+\"\\n\")\ndef replacement(self): record(\"replacement\")\nclass C(unittest.TestCase):\n @classmethod\n def setUpClass(cls):\n  record(\"class-setup\")\n  cls.test_one.__code__=replacement.__code__\n def test_one(self):\n  record(\"original\")\n  self.fail(\"original body retained\")\n",
+  "label": "class-fixture-code",
+  "optimize": 0,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "failure_events": [],
+    "finished_ids": [],
+    "invalid_population": [
+      "selected class/function/code identity changed during execution"
+    ],
+    "lifecycle_failures": 0,
+    "log": "\nRan 0 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [
+      "test_auditor.C.test_one"
+    ],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": true,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "\nRan 0 tests\n"
+}

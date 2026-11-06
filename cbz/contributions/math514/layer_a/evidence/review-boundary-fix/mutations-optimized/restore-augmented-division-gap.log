@@ -1,0 +1,24 @@
+test_augmented_division_cannot_certify_float_results (test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results) ... 
+  test_augmented_division_cannot_certify_float_results (test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results) (source='x = 1\nx /= 2') ... FAIL
+  test_augmented_division_cannot_certify_float_results (test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results) (source='x = 0\nx /= 1') ... FAIL
+
+======================================================================
+FAIL: test_augmented_division_cannot_certify_float_results (test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results) (source='x = 1\nx /= 2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-_ywciqkf/tests/test_auditor.py", line 791, in test_augmented_division_cannot_certify_float_results
+    self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})
+AssertionError: 'PY_INEXACT' not found in set()
+
+======================================================================
+FAIL: test_augmented_division_cannot_certify_float_results (test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results) (source='x = 0\nx /= 1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-_ywciqkf/tests/test_auditor.py", line 791, in test_augmented_division_cannot_certify_float_results
+    self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})
+AssertionError: 'PY_INEXACT' not found in set()
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=2)

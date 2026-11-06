@@ -1,0 +1,79 @@
+{
+  "assertion_failures": 1,
+  "errors": 0,
+  "expected_ids": [
+    "test_auditor.C.test_a_lazy",
+    "test_auditor.C.test_b_assertion"
+  ],
+  "file": "source_checks.py",
+  "fixture_source": "from pathlib import Path\nimport unittest\nclass C(unittest.TestCase):\n def test_a_lazy(self):\n  Path('/tmp/tmppr_2252v/lazy-body-executed').write_text(\"executed\")\n  yield 1\n def test_b_assertion(self): self.fail(\"ordinary body sentinel\")\n",
+  "grader_sha256": "e857fde3c3d7caf301e24a77972ee18d1253186613633e1b0876b61f274eebed",
+  "lazy_body_sentinel_executed": false,
+  "log": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/layer_a/mixed-generator-red.log",
+  "log_sha256": "24af48646a104c428a673946b736347c5150a49224f6b04c0a128467d5327410",
+  "mutated_sha256": "6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf",
+  "name": "mixed-generator-red",
+  "original_sha256": "6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf",
+  "outcome": "KILLED",
+  "pristine_population": {
+    "invalid_population": [],
+    "receipt_schema": "cbz-unittest-population-v1",
+    "selected_ids": [
+      "test_auditor.C.test_a_lazy",
+      "test_auditor.C.test_b_assertion"
+    ]
+  },
+  "returncode": 1,
+  "tests": {
+    "assertion_events": [
+      {
+        "id": "test_auditor.C.test_b_assertion",
+        "source": "direct"
+      }
+    ],
+    "assertion_failures": 1,
+    "body_assertion_ids": [
+      "test_auditor.C.test_b_assertion"
+    ],
+    "body_entered_ids": [
+      "test_auditor.C.test_a_lazy",
+      "test_auditor.C.test_b_assertion"
+    ],
+    "body_finished_ids": [
+      "test_auditor.C.test_a_lazy",
+      "test_auditor.C.test_b_assertion"
+    ],
+    "errors": 0,
+    "expected_failures": 0,
+    "failure_events": [
+      {
+        "id": "test_auditor.C.test_b_assertion",
+        "kind": "assertion",
+        "phase": "body"
+      }
+    ],
+    "finished_ids": [
+      "test_auditor.C.test_a_lazy",
+      "test_auditor.C.test_b_assertion"
+    ],
+    "invalid_population": [],
+    "lifecycle_failures": 0,
+    "log": "test_a_lazy (test_auditor.C.test_a_lazy) ... ok\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/layer_a/mutation_test.py\", line 244, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ordinary body sentinel\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nFAILED (failures=1)\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [
+      "test_auditor.C.test_a_lazy",
+      "test_auditor.C.test_b_assertion"
+    ],
+    "skipped": 0,
+    "started_ids": [
+      "test_auditor.C.test_a_lazy",
+      "test_auditor.C.test_b_assertion"
+    ],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": false,
+    "tests_run": 2,
+    "unexpected_successes": 0
+  },
+  "tests_run": 2
+}

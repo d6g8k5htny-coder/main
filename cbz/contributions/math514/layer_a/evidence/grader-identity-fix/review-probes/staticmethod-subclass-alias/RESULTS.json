@@ -1,0 +1,61 @@
+{
+  "new_obligation": "Custom subclass of permitted staticmethod dispatches before freeze",
+  "no_completed_verification_repeated": true,
+  "results": [
+    {
+      "tool": "kernel_replay",
+      "source_sha256": "d1783e4892e5ae406762d8917cadb8d84534fd271744fdd92a1e285a72e26739",
+      "fixture_sha256": "db453ae68e561d99e25d2d5e2019b293dc33a4570cc7b9fe2e9665934e02b3c6",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-S",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/staticmethod-subclass-alias/kernel_replay/run_tests.py",
+        "--output",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/staticmethod-subclass-alias/kernel_replay/receipt.json"
+      ],
+      "exit_code": 0,
+      "outcome": "SURVIVED",
+      "selected_ids": [
+        "test_static_alias.C.test_first",
+        "test_static_alias.C.test_second"
+      ],
+      "invalid_population": [],
+      "body_trace": [
+        "descriptor",
+        "first",
+        "first"
+      ],
+      "receipt": "review-probes/staticmethod-subclass-alias/kernel_replay/receipt.json"
+    },
+    {
+      "tool": "layer_a",
+      "source_sha256": "6a719ffd05533bdd982b2dbb5c398ba7c5fc41b277c6e2277b33dab56689b463",
+      "fixture_sha256": "38b8b9585b565a3f89d7506ccab34a5c56d3198ab8ef6ddf799b06d98d9633a4",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-S",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/staticmethod-subclass-alias/layer_a/mutation_test.py",
+        "--internal-test-runner",
+        "--test-root",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/staticmethod-subclass-alias/layer_a/tests",
+        "--output",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/staticmethod-subclass-alias/layer_a/receipt.json"
+      ],
+      "exit_code": 0,
+      "outcome": "SURVIVED",
+      "selected_ids": [
+        "test_auditor.C.test_first",
+        "test_auditor.C.test_second"
+      ],
+      "invalid_population": [],
+      "body_trace": [
+        "descriptor",
+        "first",
+        "first"
+      ],
+      "receipt": "review-probes/staticmethod-subclass-alias/layer_a/receipt.json"
+    }
+  ]
+}

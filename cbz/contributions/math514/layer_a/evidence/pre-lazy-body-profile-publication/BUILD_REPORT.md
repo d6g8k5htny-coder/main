@@ -1,0 +1,9 @@
+# Layer A composed build report
+
+The successor fixes two actual manifest false greens using unchanged canonical Main#698 source and closes the separate mutation-grader lifecycle false-kill channel. The exact manifest cases and canonical error channel have retained RED/GREEN evidence. The grader requires an externally bound complete selected population and exact direct/body-subtest assertion events; lifecycle assertions, ambiguous outcomes and inconsistent receipts cannot kill.
+
+`evidence/composed-admission.json` binds the integrated sources and finite evidence. Current inventory is 83 methods: 72 auditor methods and 11 harness methods. Fresh affected verification covers 56 distinct methods per relevant mode: 45 lexer-dependent methods, 8 added lifecycle methods, and 3 retained harness methods whose runner dependency changed. The 27 unaffected auditor methods retain applicable historical evidence. No fresh whole83-method execution is claimed.
+
+The current 57 scanner mutation definitions compose 19 freshly affected current definitions and 38 unchanged historical results. The initial two redundant survivors, original definitions, adapted definitions and actual assertion-body traces remain explicit. Separate grader safeguard observations are 10+3+2 across source generations, including repeated duplicate-population controls warranted by changed receipt accounting; they are not 15 distinct final production mutants. Three dynamic actual-source controls select one original method each and observe identity SURVIVED, placeholder weakening KILLED and setup ImportError ERROR.
+
+The original 70/53 result and all earlier failures/generations remain exact historical evidence. Canonical698 compiler outputs were reused; no Lean/compiler/mathematical execution occurred. Both current same-provider source reviews are included. Actual repository G1 remains NOT_RUN; final federation scope, integration and G0–G11 are Root-owned.

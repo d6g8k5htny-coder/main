@@ -1,0 +1,207 @@
+{
+  "executed": 3,
+  "killed": 3,
+  "planned": 3,
+  "results": [
+    {
+      "file": "mutation_test.py",
+      "log": "/workspace/cbz-0/delivery/mutation-lifecycle-fix/evidence/layer_a/drop-external-population-binding.log",
+      "log_sha256": "e06761b787303128d4abc303cffd5059cc43a1ea6fdb4de47ffb83a6e265ba5d",
+      "mutated_sha256": "5446ee1c3ec1b1ee6af36e0bd43c9a643c6211c9a8c7c162f3f9ba7213461068",
+      "name": "drop-external-population-binding",
+      "original_sha256": "b36e1c95a22efe62975fcf3026d192a1f70cd4a6dcba4c4a07fdf42cfa4677a2",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "selected_test": "test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation",
+      "tests": {
+        "assertion_failures": 1,
+        "body_assertion_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation"
+        ],
+        "body_entered_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation"
+        ],
+        "body_finished_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation"
+        ],
+        "errors": 0,
+        "expected_failures": 0,
+        "failure_events": [
+          {
+            "id": "test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation",
+            "kind": "assertion",
+            "phase": "body"
+          }
+        ],
+        "finished_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation"
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "log": "test_expected_population_is_bound_before_mutation (test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation) ... FAIL\n\n======================================================================\nFAIL: test_expected_population_is_bound_before_mutation (test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/mutation_test.py\", line 232, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_two'], 'started_ids': ['test_auditor.C.test_two'], 'finished_ids': ['test_auditor.C.test_two'], 'body_entered_ids': ['test_auditor.C.test_two'], 'body_finished_ids': ['test_auditor.C.test_two'], 'body_assertion_ids': ['test_auditor.C.test_two'], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_two', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_two (test_auditor.C.test_two) ... FAIL\\n\\n======================================================================\\nFAIL: test_two (test_auditor.C.test_two)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-layer-lifecycle-control-s_izf505/mutation_test.py\", line 232, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: wrong population\\n\\n----------------------------------------------------------------------\\nRan 1 test in 0.000s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_one'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_one'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '2ab973bdbb4c00686ec454b8bac6bec2513fe6ed5c21f9ebb1b81eb137203350', 'log': '/tmp/tmpl9qqsuxx/logs/fixture.log', 'log_sha256': '835707cfb85fd5c3f207371acec2cc3be43648604bdddae4636d07efe743ae54'}\n\n----------------------------------------------------------------------\nRan 1 test in 0.158s\n\nFAILED (failures=1)\n",
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation"
+        ],
+        "skipped": 0,
+        "started_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation"
+        ],
+        "subtest_events": [],
+        "subtests": 0,
+        "successful": false,
+        "tests_run": 1,
+        "unexpected_successes": 0
+      }
+    },
+    {
+      "file": "mutation_test.py",
+      "log": "/workspace/cbz-0/delivery/mutation-lifecycle-fix/evidence/layer_a/allow-lifecycle-body-invocation.log",
+      "log_sha256": "3931e34a8b85b973a515c6fc2033147f82277924eafc0ea1387221735abdd3b5",
+      "mutated_sha256": "7aac172293de71fca5ac0a040da4794e30f52d280decffa3360750c4f20b7269",
+      "name": "allow-lifecycle-body-invocation",
+      "original_sha256": "b36e1c95a22efe62975fcf3026d192a1f70cd4a6dcba4c4a07fdf42cfa4677a2",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "selected_test": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+      "tests": {
+        "assertion_failures": 2,
+        "body_assertion_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+          "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill"
+        ],
+        "body_entered_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill"
+        ],
+        "body_finished_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill"
+        ],
+        "errors": 0,
+        "expected_failures": 0,
+        "failure_events": [],
+        "finished_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill"
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "log": "test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) ... \n  test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) (body=' def setUp(self): self.test_one()\\n def test_one(self): self.fail(\"setup called body\")\\n') ... FAIL\n  test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) (body=' def setUp(self): self._callTestMethod(self.test_one)\\n def test_one(self): self.fail(\"setup called dispatch\")\\n') ... FAIL\n\n======================================================================\nFAIL: test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) (body=' def setUp(self): self.test_one()\\n def test_one(self): self.fail(\"setup called body\")\\n')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-layer-lifecycle-control-uv5zt_vi/tests/test_mutation_runner.py\", line 83, in test_setup_teardown_cleanup_assertions_cannot_kill\n    self.assertEqual(value['outcome'],'ERROR',value)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': ['test_auditor.C.test_one'], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_one', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (test_auditor.C.test_one) ... FAIL\\n\\n======================================================================\\nFAIL: test_one (test_auditor.C.test_one)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-layer-lifecycle-control-uv5zt_vi/mutation_test.py\", line 242, in lifecycle\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: setup called body\\n\\n----------------------------------------------------------------------\\nRan 1 test in 0.000s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_one'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_one'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmp_eyxbv03/logs/fixture.log', 'log_sha256': 'b706cd5ec07e4c60083cb2b97fa7eb05473cafd58aded55c5f0b8e598f29f9dc'}\n\n======================================================================\nFAIL: test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) (body=' def setUp(self): self._callTestMethod(self.test_one)\\n def test_one(self): self.fail(\"setup called dispatch\")\\n')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-layer-lifecycle-control-uv5zt_vi/tests/test_mutation_runner.py\", line 83, in test_setup_teardown_cleanup_assertions_cannot_kill\n    self.assertEqual(value['outcome'],'ERROR',value)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': ['test_auditor.C.test_one'], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_one', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (test_auditor.C.test_one) ... FAIL\\n\\n======================================================================\\nFAIL: test_one (test_auditor.C.test_one)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-layer-lifecycle-control-uv5zt_vi/mutation_test.py\", line 242, in lifecycle\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: setup called dispatch\\n\\n----------------------------------------------------------------------\\nRan 1 test in 0.000s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_one'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_one'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpjj8sz0lm/logs/fixture.log', 'log_sha256': 'c5822d0b00f8482746161b692895d9408340022cdfc6015873d34d07ac0be81b'}\n\n----------------------------------------------------------------------\nRan 1 test in 1.445s\n\nFAILED (failures=2)\n",
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill"
+        ],
+        "skipped": 0,
+        "started_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill"
+        ],
+        "subtest_events": [
+          {
+            "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+            "outcome": "success",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+            "outcome": "assertion",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+            "outcome": "assertion",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+            "outcome": "success",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+            "outcome": "success",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+            "outcome": "success",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+            "outcome": "success",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+            "outcome": "success",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+            "outcome": "success",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+            "outcome": "success",
+            "phase": "body"
+          }
+        ],
+        "subtests": 10,
+        "successful": false,
+        "tests_run": 1,
+        "unexpected_successes": 0
+      }
+    },
+    {
+      "file": "mutation_test.py",
+      "log": "/workspace/cbz-0/delivery/mutation-lifecycle-fix/evidence/layer_a/allow-complete-duplicate-receipt.log",
+      "log_sha256": "a34f020aad6559eec1cd1018305c42d5f8008a7f0f5f0da24511bfde0286f45e",
+      "mutated_sha256": "b527c2cd0482cf23bc8df3b91766be042e87e2cec1eecb31b02fe1f5e226fcf7",
+      "name": "allow-complete-duplicate-receipt",
+      "original_sha256": "b36e1c95a22efe62975fcf3026d192a1f70cd4a6dcba4c4a07fdf42cfa4677a2",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "selected_test": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "tests": {
+        "assertion_failures": 1,
+        "body_assertion_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed"
+        ],
+        "body_entered_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed"
+        ],
+        "body_finished_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed"
+        ],
+        "errors": 0,
+        "expected_failures": 0,
+        "failure_events": [
+          {
+            "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+            "kind": "assertion",
+            "phase": "body"
+          }
+        ],
+        "finished_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed"
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "log": "test_missing_forged_or_noninteger_receipts_fail_closed (test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed) ... FAIL\n\n======================================================================\nFAIL: test_missing_forged_or_noninteger_receipts_fail_closed (test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/mutation_test.py\", line 232, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.151s\n\nFAILED (failures=1)\n",
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed"
+        ],
+        "skipped": 0,
+        "started_ids": [
+          "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed"
+        ],
+        "subtest_events": [],
+        "subtests": 0,
+        "successful": false,
+        "tests_run": 1,
+        "unexpected_successes": 0
+      }
+    }
+  ],
+  "scope": "changed lifecycle harness safeguards only"
+}

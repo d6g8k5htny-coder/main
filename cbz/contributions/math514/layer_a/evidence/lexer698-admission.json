@@ -1,0 +1,1944 @@
+{
+  "active_definition_accounting": {
+    "fresh_current_definitions": 19,
+    "legacy_adapted": 2,
+    "legacy_unchanged": 51,
+    "new": 4,
+    "reused_unchanged": 38
+  },
+  "adapted_redundancy_results": {
+    "modes": {
+      "normal": [
+        {
+          "assertion_failures": 1,
+          "errors": 0,
+          "file": "canonical_lean.py",
+          "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-adapted-mutants/normal/canonical-unicode-boundary-weakened.log",
+          "log_sha256": "014a6bcb2a60b0fd16cf326ca85304c8631c17da9a7828cd4dce37bba2fd086d",
+          "mutated_sha256": "28772c5505d43962428055d720708d12e7c9412849175547e78cd4f8431f29dc",
+          "name": "canonical-unicode-boundary-weakened",
+          "observed_assertion_body_methods": [
+            "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries"
+          ],
+          "original_sha256": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+          "outcome": "KILLED",
+          "returncode": 1,
+          "tests_run": 45
+        },
+        {
+          "assertion_failures": 5,
+          "errors": 0,
+          "file": "source_checks.py",
+          "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-adapted-mutants/normal/skip-malformed-character-refusal.log",
+          "log_sha256": "03143409d70198406ff6157d807f39cb25aeb537a6d14033cd8e562c46fa0107",
+          "mutated_sha256": "efc8e2c3db9c30c7c870ce39da193f178dd27f4a4941f789afdd562e879fe470",
+          "name": "skip-malformed-character-refusal",
+          "observed_assertion_body_methods": [
+            "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+            "test_unterminated_character_literals_are_never_silent"
+          ],
+          "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+          "outcome": "KILLED",
+          "returncode": 1,
+          "tests_run": 45
+        }
+      ],
+      "optimized": [
+        {
+          "assertion_failures": 1,
+          "errors": 0,
+          "file": "canonical_lean.py",
+          "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-adapted-mutants/optimized/canonical-unicode-boundary-weakened.log",
+          "log_sha256": "097c71a03c87f952408aceb38424e81931e29c3a416d7bcf64abda80acfaa0da",
+          "mutated_sha256": "28772c5505d43962428055d720708d12e7c9412849175547e78cd4f8431f29dc",
+          "name": "canonical-unicode-boundary-weakened",
+          "observed_assertion_body_methods": [
+            "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries"
+          ],
+          "original_sha256": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+          "outcome": "KILLED",
+          "returncode": 1,
+          "tests_run": 45
+        },
+        {
+          "assertion_failures": 5,
+          "errors": 0,
+          "file": "source_checks.py",
+          "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-adapted-mutants/optimized/skip-malformed-character-refusal.log",
+          "log_sha256": "5c2d130705be2851db98a1634fead841b830a5e2de3d49299f8cf8fd0d7c5d8c",
+          "mutated_sha256": "efc8e2c3db9c30c7c870ce39da193f178dd27f4a4941f789afdd562e879fe470",
+          "name": "skip-malformed-character-refusal",
+          "observed_assertion_body_methods": [
+            "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+            "test_unterminated_character_literals_are_never_silent"
+          ],
+          "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+          "outcome": "KILLED",
+          "returncode": 1,
+          "tests_run": 45
+        }
+      ]
+    },
+    "scope": "only two adapted redundant legacy definitions; baseline and17otheraffectedresults reused fromlexer698-initial"
+  },
+  "affected_results": {
+    "claim": "affected Lean integration checks and actual source mutants; no fresh full-suite, Lean compiler, actual repository G1 or CBZ claim",
+    "ended_utc": "2026-10-29T19:42:52.095194+00:00",
+    "full_test_sha256": "94532912255f92250046e0e85d2633b438245e635499d815340edfe4bb29890e",
+    "modes": {
+      "normal": {
+        "baseline": {
+          "assertion_failures": 0,
+          "errors": 0,
+          "file": "source_checks.py",
+          "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/baseline-identity.log",
+          "log_sha256": "1c38bee11cbf7458401fd5c05c59a866f16ab06c4a2cb45196a79145aec9bee5",
+          "mutated_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+          "name": "baseline-identity",
+          "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+          "outcome": "SURVIVED",
+          "returncode": 0,
+          "tests_run": 45
+        },
+        "current_mutants": [
+          {
+            "assertion_failures": 6,
+            "errors": 0,
+            "file": "canonical_lean.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/restore-generic-numeral-swallowing.log",
+            "log_sha256": "f0c6e773e48ef5813c20e4b0d6e01da4cec0f2b3367c8705fc880c6c5f9a1269",
+            "mutated_sha256": "82e2994905787e3e788dbfe91560909b193c8464fdfd456a9648cf85d2c1a047",
+            "name": "restore-generic-numeral-swallowing",
+            "observed_assertion_body_methods": [
+              "test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens",
+              "test_numeral_adjoining_owned_axiom_cannot_receive_static_pass"
+            ],
+            "original_sha256": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 2,
+            "errors": 0,
+            "file": "canonical_lean.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/discard-nested-string-code-holes.log",
+            "log_sha256": "3bafa35ae11e5b22e44802247bbe4d0a35918a9d393c79f4e511a73de1c5a02e",
+            "mutated_sha256": "cb213eaee2d701911bb0c708b05ff18602379fb44ba5db011b4e78d1b6ad8c60",
+            "name": "discard-nested-string-code-holes",
+            "observed_assertion_body_methods": [
+              "test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass",
+              "test_nested_string_placeholder_and_benign_literal_boundaries"
+            ],
+            "original_sha256": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 1,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/discard-canonical-lexical-errors.log",
+            "log_sha256": "49efda0a7aa45cd9700c1ac0f03f9fc0f00ce54b4d27e609fc7bcc020bf9fde7",
+            "mutated_sha256": "75fc6d34b09c4c2194601295e82618c7f0597741b9ade56a5dfc461e44863e15",
+            "name": "discard-canonical-lexical-errors",
+            "observed_assertion_body_methods": [
+              "test_canonical_metadata_and_error_channels_fail_closed"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 1,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/ignore-canonical-metadata-shape.log",
+            "log_sha256": "140d44373d0b9e2cc7028f15fb1889c3f176c06ab2ded1b05a5c38ce98a2d83d",
+            "mutated_sha256": "28dd2e4a2b43542600d634c4e0c4dae72566a33bd494dcc4a081cb779300e08c",
+            "name": "ignore-canonical-metadata-shape",
+            "observed_assertion_body_methods": [
+              "test_canonical_metadata_and_error_channels_fail_closed"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 81,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/empty-lean-findings.log",
+            "log_sha256": "dc7878b4995172e899f7fd0310ef7ac936cf4be7b9fbb9b2c14a4f3fd0cbbb8d",
+            "mutated_sha256": "1a0396a19977b2333e435fe1c44ded05e5cdf03582bb8adcd2c8ec02674eb4e9",
+            "name": "empty-lean-findings",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+              "test_canonical_metadata_and_error_channels_fail_closed",
+              "test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens",
+              "test_each_file_is_really_scanned_not_only_first",
+              "test_external_source_needs_immutable_pin_and_is_still_scanned",
+              "test_file_hash_failure_does_not_prevent_violation_detection",
+              "test_foundation_names_cannot_authorize_new_owned_axioms",
+              "test_lean_block_comment_separator_cannot_join_identifiers_into_escape",
+              "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+              "test_lexical_incompleteness_and_interpolation_are_fatal_not_silent",
+              "test_literal_import_operands_are_explicit_gaps_after_valid_prefix",
+              "test_macro_expansion_and_unsafe_trust_require_separate_certifier",
+              "test_negative_fixture_retains_exact_violation_and_never_counts_as_clean",
+              "test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass",
+              "test_nested_string_placeholder_and_benign_literal_boundaries",
+              "test_numeral_adjoining_owned_axiom_cannot_receive_static_pass",
+              "test_quarantine_requires_exact_boundary_and_scans_retained_source",
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts",
+              "test_retained_text_source_requires_language_then_a_registered_module",
+              "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape",
+              "test_unsupported_import_tail_is_a_gap_after_a_valid_prefix",
+              "test_unterminated_character_literals_are_never_silent"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 1,
+            "errors": 0,
+            "file": "canonical_lean.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-adapted-mutants/normal/canonical-unicode-boundary-weakened.log",
+            "log_sha256": "014a6bcb2a60b0fd16cf326ca85304c8631c17da9a7828cd4dce37bba2fd086d",
+            "mutated_sha256": "28772c5505d43962428055d720708d12e7c9412849175547e78cd4f8431f29dc",
+            "name": "canonical-unicode-boundary-weakened",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries"
+            ],
+            "original_sha256": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 19,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/disable-placeholder-category.log",
+            "log_sha256": "7b4c7ff6cb4e3ecb059ff10e774bda976081861e26e35e0b152a40b29363bccd",
+            "mutated_sha256": "f4cbd694639a315f256d844d734d7afd19b916f47f8e3e720236e91789131732",
+            "name": "disable-placeholder-category",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+              "test_each_file_is_really_scanned_not_only_first",
+              "test_file_hash_failure_does_not_prevent_violation_detection",
+              "test_lean_block_comment_separator_cannot_join_identifiers_into_escape",
+              "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+              "test_negative_fixture_retains_exact_violation_and_never_counts_as_clean",
+              "test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass",
+              "test_nested_string_placeholder_and_benign_literal_boundaries",
+              "test_quarantine_requires_exact_boundary_and_scans_retained_source",
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts",
+              "test_retained_text_source_requires_language_then_a_registered_module",
+              "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 12,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/disable-axiom-category.log",
+            "log_sha256": "65a5eab8d97b6495114214f98194181b40502e3ef7562823cd7e5722115ab837",
+            "mutated_sha256": "d1fbe903bd3441fbb5e8f82d3e570e67bd47a8c23f9a2be8418bfe4c606aa00b",
+            "name": "disable-axiom-category",
+            "observed_assertion_body_methods": [
+              "test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens",
+              "test_external_source_needs_immutable_pin_and_is_still_scanned",
+              "test_foundation_names_cannot_authorize_new_owned_axioms",
+              "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+              "test_numeral_adjoining_owned_axiom_cannot_receive_static_pass"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 19,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/disable-native-category.log",
+            "log_sha256": "4cac36a898d1855635e8b2a16fbe11bc19fcf2e649d299c86dac82d7723937f2",
+            "mutated_sha256": "aefba58fc0dd39ac0802bdfc1dd7543b8a911bbc1b93cd9cd31be8e499b21b55",
+            "name": "disable-native-category",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+              "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts",
+              "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 6,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/disable-unchecked-declaration-refusal.log",
+            "log_sha256": "94e7cbc5df9854c331446d259ab109c481b1275edaa67bb14535104dc8191266",
+            "mutated_sha256": "6cdfddcd254a1b6a15ed6676e3722f2101094883b4c5e64eedc259d494f7c02b",
+            "name": "disable-unchecked-declaration-refusal",
+            "observed_assertion_body_methods": [
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 5,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-adapted-mutants/normal/skip-malformed-character-refusal.log",
+            "log_sha256": "03143409d70198406ff6157d807f39cb25aeb537a6d14033cd8e562c46fa0107",
+            "mutated_sha256": "efc8e2c3db9c30c7c870ce39da193f178dd27f4a4941f789afdd562e879fe470",
+            "name": "skip-malformed-character-refusal",
+            "observed_assertion_body_methods": [
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_unterminated_character_literals_are_never_silent"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 2,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/miss-escaped-placeholder-helpers.log",
+            "log_sha256": "ee5c0caa6dee173bf7135f99533f8172f1fcd5a3b601db287433f57eb668b0f1",
+            "mutated_sha256": "102f87361be3c4abe16a16ec6b1c10a9c0e87fe8a5f710bca0830750434f8b5f",
+            "name": "miss-escaped-placeholder-helpers",
+            "observed_assertion_body_methods": [
+              "test_reported_kernel_escape_names_and_native_config_layouts"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 11,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/drop-escaped-constant-normalization.log",
+            "log_sha256": "d26f2e422dce362428b751a29d6d3a6f9ccd6e1eb00889b88f8fe67d2bc83321",
+            "mutated_sha256": "a90a3d027909d2b4d28c2b67b2454503d0f86d8b215eaf255fc7560bf140cdcc",
+            "name": "drop-escaped-constant-normalization",
+            "observed_assertion_body_methods": [
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts",
+              "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 5,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/miss-multiline-commented-native-config.log",
+            "log_sha256": "f2ae35f3c8f83613b483157adf9f40bf5da075ccaa5ee3983afae8048a0c3f28",
+            "mutated_sha256": "819f56954c408cc508c1d2cd43b4553fdba22e44ba74827e359d2b57bd5f571e",
+            "name": "miss-multiline-commented-native-config",
+            "observed_assertion_body_methods": [
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 6,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/disable-macro-gap-category.log",
+            "log_sha256": "536c0d4b7ad553caeba484821001604f453ce1162b9c1e694b7268a824cac6d1",
+            "mutated_sha256": "fe9cb7ddf1f750edbbca24fc1df40cee30f602f68e2056769d3a56939cd5352c",
+            "name": "disable-macro-gap-category",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+              "test_macro_expansion_and_unsafe_trust_require_separate_certifier"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 5,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/drop-lean-dependencies.log",
+            "log_sha256": "13b228ff4884bff2a18d0dbf35cd56f5c6e4faacdb3647248a713137ffc202bb",
+            "mutated_sha256": "6b8d9b3a8e478485c8f61ba869430027a19a04a5e182d7fc398a153c2e03b9b6",
+            "name": "drop-lean-dependencies",
+            "observed_assertion_body_methods": [
+              "test_closed_import_cannot_reach_quarantine_directly_or_transitively",
+              "test_import_module_primes_and_identifier_suffixes_are_extracted_completely",
+              "test_lean_explicit_imports_are_extracted_across_lines",
+              "test_primed_lean_module_after_valid_import_cannot_hide_quarantine",
+              "test_unknown_module_alias_and_dynamic_import_fail_closed"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 2,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/truncate-primed-lean-imports.log",
+            "log_sha256": "d4cea57e5d3259a04a3fa2061a12f11c061754f6cb556971f25e3634d3022fee",
+            "mutated_sha256": "e9ab09bb04a45eb21dcdcf569cc73abe50e1f71064da2947e06a7bb2d8983d8f",
+            "name": "truncate-primed-lean-imports",
+            "observed_assertion_body_methods": [
+              "test_import_module_primes_and_identifier_suffixes_are_extracted_completely",
+              "test_primed_lean_module_after_valid_import_cannot_hide_quarantine"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 4,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/silence-unsupported-lean-import-tail.log",
+            "log_sha256": "52fdc288e2f40760e5b88bb0ff5e3848af8e0bcd527236208312d893d695c4cb",
+            "mutated_sha256": "79c8479493e8cb9fa7c3b57cb2cbd5da88399d80ed10a3127645268024151bd5",
+            "name": "silence-unsupported-lean-import-tail",
+            "observed_assertion_body_methods": [
+              "test_literal_import_operands_are_explicit_gaps_after_valid_prefix",
+              "test_unsupported_import_tail_is_a_gap_after_a_valid_prefix"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 3,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/drop-literal-import-operands.log",
+            "log_sha256": "686a757113bbc1e675c5f715721178f57981d8fa7760b0a098513664969dc28f",
+            "mutated_sha256": "b74b4323f4cef7d124dc320c918d3144736fa266c4538c9c24bfeb12086d118e",
+            "name": "drop-literal-import-operands",
+            "observed_assertion_body_methods": [
+              "test_literal_import_operands_are_explicit_gaps_after_valid_prefix"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          }
+        ],
+        "killed": 17,
+        "mutants": [
+          {
+            "assertion_failures": 6,
+            "errors": 0,
+            "file": "canonical_lean.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/restore-generic-numeral-swallowing.log",
+            "log_sha256": "f0c6e773e48ef5813c20e4b0d6e01da4cec0f2b3367c8705fc880c6c5f9a1269",
+            "mutated_sha256": "82e2994905787e3e788dbfe91560909b193c8464fdfd456a9648cf85d2c1a047",
+            "name": "restore-generic-numeral-swallowing",
+            "observed_assertion_body_methods": [
+              "test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens",
+              "test_numeral_adjoining_owned_axiom_cannot_receive_static_pass"
+            ],
+            "original_sha256": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 2,
+            "errors": 0,
+            "file": "canonical_lean.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/discard-nested-string-code-holes.log",
+            "log_sha256": "3bafa35ae11e5b22e44802247bbe4d0a35918a9d393c79f4e511a73de1c5a02e",
+            "mutated_sha256": "cb213eaee2d701911bb0c708b05ff18602379fb44ba5db011b4e78d1b6ad8c60",
+            "name": "discard-nested-string-code-holes",
+            "observed_assertion_body_methods": [
+              "test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass",
+              "test_nested_string_placeholder_and_benign_literal_boundaries"
+            ],
+            "original_sha256": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 1,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/discard-canonical-lexical-errors.log",
+            "log_sha256": "49efda0a7aa45cd9700c1ac0f03f9fc0f00ce54b4d27e609fc7bcc020bf9fde7",
+            "mutated_sha256": "75fc6d34b09c4c2194601295e82618c7f0597741b9ade56a5dfc461e44863e15",
+            "name": "discard-canonical-lexical-errors",
+            "observed_assertion_body_methods": [
+              "test_canonical_metadata_and_error_channels_fail_closed"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 1,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/ignore-canonical-metadata-shape.log",
+            "log_sha256": "140d44373d0b9e2cc7028f15fb1889c3f176c06ab2ded1b05a5c38ce98a2d83d",
+            "mutated_sha256": "28dd2e4a2b43542600d634c4e0c4dae72566a33bd494dcc4a081cb779300e08c",
+            "name": "ignore-canonical-metadata-shape",
+            "observed_assertion_body_methods": [
+              "test_canonical_metadata_and_error_channels_fail_closed"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 81,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/empty-lean-findings.log",
+            "log_sha256": "dc7878b4995172e899f7fd0310ef7ac936cf4be7b9fbb9b2c14a4f3fd0cbbb8d",
+            "mutated_sha256": "1a0396a19977b2333e435fe1c44ded05e5cdf03582bb8adcd2c8ec02674eb4e9",
+            "name": "empty-lean-findings",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+              "test_canonical_metadata_and_error_channels_fail_closed",
+              "test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens",
+              "test_each_file_is_really_scanned_not_only_first",
+              "test_external_source_needs_immutable_pin_and_is_still_scanned",
+              "test_file_hash_failure_does_not_prevent_violation_detection",
+              "test_foundation_names_cannot_authorize_new_owned_axioms",
+              "test_lean_block_comment_separator_cannot_join_identifiers_into_escape",
+              "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+              "test_lexical_incompleteness_and_interpolation_are_fatal_not_silent",
+              "test_literal_import_operands_are_explicit_gaps_after_valid_prefix",
+              "test_macro_expansion_and_unsafe_trust_require_separate_certifier",
+              "test_negative_fixture_retains_exact_violation_and_never_counts_as_clean",
+              "test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass",
+              "test_nested_string_placeholder_and_benign_literal_boundaries",
+              "test_numeral_adjoining_owned_axiom_cannot_receive_static_pass",
+              "test_quarantine_requires_exact_boundary_and_scans_retained_source",
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts",
+              "test_retained_text_source_requires_language_then_a_registered_module",
+              "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape",
+              "test_unsupported_import_tail_is_a_gap_after_a_valid_prefix",
+              "test_unterminated_character_literals_are_never_silent"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 0,
+            "errors": 0,
+            "file": "canonical_lean.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/canonical-unicode-boundary-weakened.log",
+            "log_sha256": "08e737fdd7036e291d8fc1042f3cd0420b58f274aaac20e0e4f4e13621038033",
+            "mutated_sha256": "307cbc4f2317be14a8d61e1c2c828fb284120b5149c32103160851912a450895",
+            "name": "canonical-unicode-boundary-weakened",
+            "original_sha256": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+            "outcome": "SURVIVED",
+            "returncode": 0,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 19,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/disable-placeholder-category.log",
+            "log_sha256": "7b4c7ff6cb4e3ecb059ff10e774bda976081861e26e35e0b152a40b29363bccd",
+            "mutated_sha256": "f4cbd694639a315f256d844d734d7afd19b916f47f8e3e720236e91789131732",
+            "name": "disable-placeholder-category",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+              "test_each_file_is_really_scanned_not_only_first",
+              "test_file_hash_failure_does_not_prevent_violation_detection",
+              "test_lean_block_comment_separator_cannot_join_identifiers_into_escape",
+              "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+              "test_negative_fixture_retains_exact_violation_and_never_counts_as_clean",
+              "test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass",
+              "test_nested_string_placeholder_and_benign_literal_boundaries",
+              "test_quarantine_requires_exact_boundary_and_scans_retained_source",
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts",
+              "test_retained_text_source_requires_language_then_a_registered_module",
+              "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 12,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/disable-axiom-category.log",
+            "log_sha256": "65a5eab8d97b6495114214f98194181b40502e3ef7562823cd7e5722115ab837",
+            "mutated_sha256": "d1fbe903bd3441fbb5e8f82d3e570e67bd47a8c23f9a2be8418bfe4c606aa00b",
+            "name": "disable-axiom-category",
+            "observed_assertion_body_methods": [
+              "test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens",
+              "test_external_source_needs_immutable_pin_and_is_still_scanned",
+              "test_foundation_names_cannot_authorize_new_owned_axioms",
+              "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+              "test_numeral_adjoining_owned_axiom_cannot_receive_static_pass"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 19,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/disable-native-category.log",
+            "log_sha256": "4cac36a898d1855635e8b2a16fbe11bc19fcf2e649d299c86dac82d7723937f2",
+            "mutated_sha256": "aefba58fc0dd39ac0802bdfc1dd7543b8a911bbc1b93cd9cd31be8e499b21b55",
+            "name": "disable-native-category",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+              "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts",
+              "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 6,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/disable-unchecked-declaration-refusal.log",
+            "log_sha256": "94e7cbc5df9854c331446d259ab109c481b1275edaa67bb14535104dc8191266",
+            "mutated_sha256": "6cdfddcd254a1b6a15ed6676e3722f2101094883b4c5e64eedc259d494f7c02b",
+            "name": "disable-unchecked-declaration-refusal",
+            "observed_assertion_body_methods": [
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 0,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/skip-malformed-character-refusal.log",
+            "log_sha256": "60d6e1c2132f6ef891f5011b887211f695fcd371b1251606d8a892256ce3303f",
+            "mutated_sha256": "3ca529eb72b335305c738b6788f63389a2a4a5b5f6accf6c31be9ab93f1716aa",
+            "name": "skip-malformed-character-refusal",
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "SURVIVED",
+            "returncode": 0,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 2,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/miss-escaped-placeholder-helpers.log",
+            "log_sha256": "ee5c0caa6dee173bf7135f99533f8172f1fcd5a3b601db287433f57eb668b0f1",
+            "mutated_sha256": "102f87361be3c4abe16a16ec6b1c10a9c0e87fe8a5f710bca0830750434f8b5f",
+            "name": "miss-escaped-placeholder-helpers",
+            "observed_assertion_body_methods": [
+              "test_reported_kernel_escape_names_and_native_config_layouts"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 11,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/drop-escaped-constant-normalization.log",
+            "log_sha256": "d26f2e422dce362428b751a29d6d3a6f9ccd6e1eb00889b88f8fe67d2bc83321",
+            "mutated_sha256": "a90a3d027909d2b4d28c2b67b2454503d0f86d8b215eaf255fc7560bf140cdcc",
+            "name": "drop-escaped-constant-normalization",
+            "observed_assertion_body_methods": [
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts",
+              "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 5,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/miss-multiline-commented-native-config.log",
+            "log_sha256": "f2ae35f3c8f83613b483157adf9f40bf5da075ccaa5ee3983afae8048a0c3f28",
+            "mutated_sha256": "819f56954c408cc508c1d2cd43b4553fdba22e44ba74827e359d2b57bd5f571e",
+            "name": "miss-multiline-commented-native-config",
+            "observed_assertion_body_methods": [
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 6,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/disable-macro-gap-category.log",
+            "log_sha256": "536c0d4b7ad553caeba484821001604f453ce1162b9c1e694b7268a824cac6d1",
+            "mutated_sha256": "fe9cb7ddf1f750edbbca24fc1df40cee30f602f68e2056769d3a56939cd5352c",
+            "name": "disable-macro-gap-category",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+              "test_macro_expansion_and_unsafe_trust_require_separate_certifier"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 5,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/drop-lean-dependencies.log",
+            "log_sha256": "13b228ff4884bff2a18d0dbf35cd56f5c6e4faacdb3647248a713137ffc202bb",
+            "mutated_sha256": "6b8d9b3a8e478485c8f61ba869430027a19a04a5e182d7fc398a153c2e03b9b6",
+            "name": "drop-lean-dependencies",
+            "observed_assertion_body_methods": [
+              "test_closed_import_cannot_reach_quarantine_directly_or_transitively",
+              "test_import_module_primes_and_identifier_suffixes_are_extracted_completely",
+              "test_lean_explicit_imports_are_extracted_across_lines",
+              "test_primed_lean_module_after_valid_import_cannot_hide_quarantine",
+              "test_unknown_module_alias_and_dynamic_import_fail_closed"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 2,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/truncate-primed-lean-imports.log",
+            "log_sha256": "d4cea57e5d3259a04a3fa2061a12f11c061754f6cb556971f25e3634d3022fee",
+            "mutated_sha256": "e9ab09bb04a45eb21dcdcf569cc73abe50e1f71064da2947e06a7bb2d8983d8f",
+            "name": "truncate-primed-lean-imports",
+            "observed_assertion_body_methods": [
+              "test_import_module_primes_and_identifier_suffixes_are_extracted_completely",
+              "test_primed_lean_module_after_valid_import_cannot_hide_quarantine"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 4,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/silence-unsupported-lean-import-tail.log",
+            "log_sha256": "52fdc288e2f40760e5b88bb0ff5e3848af8e0bcd527236208312d893d695c4cb",
+            "mutated_sha256": "79c8479493e8cb9fa7c3b57cb2cbd5da88399d80ed10a3127645268024151bd5",
+            "name": "silence-unsupported-lean-import-tail",
+            "observed_assertion_body_methods": [
+              "test_literal_import_operands_are_explicit_gaps_after_valid_prefix",
+              "test_unsupported_import_tail_is_a_gap_after_a_valid_prefix"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 3,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/normal/drop-literal-import-operands.log",
+            "log_sha256": "686a757113bbc1e675c5f715721178f57981d8fa7760b0a098513664969dc28f",
+            "mutated_sha256": "b74b4323f4cef7d124dc320c918d3144736fa266c4538c9c24bfeb12086d118e",
+            "name": "drop-literal-import-operands",
+            "observed_assertion_body_methods": [
+              "test_literal_import_operands_are_explicit_gaps_after_valid_prefix"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          }
+        ]
+      },
+      "optimized": {
+        "baseline": {
+          "assertion_failures": 0,
+          "errors": 0,
+          "file": "source_checks.py",
+          "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/baseline-identity.log",
+          "log_sha256": "97e645f35e21c52af3988bdc7415c7df498ea9f4f7e5a1d0a781241fd84f0d8d",
+          "mutated_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+          "name": "baseline-identity",
+          "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+          "outcome": "SURVIVED",
+          "returncode": 0,
+          "tests_run": 45
+        },
+        "current_mutants": [
+          {
+            "assertion_failures": 6,
+            "errors": 0,
+            "file": "canonical_lean.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/restore-generic-numeral-swallowing.log",
+            "log_sha256": "5fb6b58f41207cdae013fd7faf888a7e4fec5430a2a583b06b7ea6df29df3bb1",
+            "mutated_sha256": "82e2994905787e3e788dbfe91560909b193c8464fdfd456a9648cf85d2c1a047",
+            "name": "restore-generic-numeral-swallowing",
+            "observed_assertion_body_methods": [
+              "test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens",
+              "test_numeral_adjoining_owned_axiom_cannot_receive_static_pass"
+            ],
+            "original_sha256": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 2,
+            "errors": 0,
+            "file": "canonical_lean.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/discard-nested-string-code-holes.log",
+            "log_sha256": "1b2438356f2edbefea2348749e55676749caa2f5d7f3b9ab5bafbb37e45da5ac",
+            "mutated_sha256": "cb213eaee2d701911bb0c708b05ff18602379fb44ba5db011b4e78d1b6ad8c60",
+            "name": "discard-nested-string-code-holes",
+            "observed_assertion_body_methods": [
+              "test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass",
+              "test_nested_string_placeholder_and_benign_literal_boundaries"
+            ],
+            "original_sha256": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 1,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/discard-canonical-lexical-errors.log",
+            "log_sha256": "b93333b602a2b95a7ec94953d6a03f9abb19193b6990ddabd9e121104408b6c7",
+            "mutated_sha256": "75fc6d34b09c4c2194601295e82618c7f0597741b9ade56a5dfc461e44863e15",
+            "name": "discard-canonical-lexical-errors",
+            "observed_assertion_body_methods": [
+              "test_canonical_metadata_and_error_channels_fail_closed"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 1,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/ignore-canonical-metadata-shape.log",
+            "log_sha256": "b72f6839332cebf0a416edd1bb6ec3a1c2566ea6ea0705767a185035178a132f",
+            "mutated_sha256": "28dd2e4a2b43542600d634c4e0c4dae72566a33bd494dcc4a081cb779300e08c",
+            "name": "ignore-canonical-metadata-shape",
+            "observed_assertion_body_methods": [
+              "test_canonical_metadata_and_error_channels_fail_closed"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 81,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/empty-lean-findings.log",
+            "log_sha256": "8e821c8dafe2d7cb34d3ca4c822cfce11fa144a46c2e5893509845cc3d516bb5",
+            "mutated_sha256": "1a0396a19977b2333e435fe1c44ded05e5cdf03582bb8adcd2c8ec02674eb4e9",
+            "name": "empty-lean-findings",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+              "test_canonical_metadata_and_error_channels_fail_closed",
+              "test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens",
+              "test_each_file_is_really_scanned_not_only_first",
+              "test_external_source_needs_immutable_pin_and_is_still_scanned",
+              "test_file_hash_failure_does_not_prevent_violation_detection",
+              "test_foundation_names_cannot_authorize_new_owned_axioms",
+              "test_lean_block_comment_separator_cannot_join_identifiers_into_escape",
+              "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+              "test_lexical_incompleteness_and_interpolation_are_fatal_not_silent",
+              "test_literal_import_operands_are_explicit_gaps_after_valid_prefix",
+              "test_macro_expansion_and_unsafe_trust_require_separate_certifier",
+              "test_negative_fixture_retains_exact_violation_and_never_counts_as_clean",
+              "test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass",
+              "test_nested_string_placeholder_and_benign_literal_boundaries",
+              "test_numeral_adjoining_owned_axiom_cannot_receive_static_pass",
+              "test_quarantine_requires_exact_boundary_and_scans_retained_source",
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts",
+              "test_retained_text_source_requires_language_then_a_registered_module",
+              "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape",
+              "test_unsupported_import_tail_is_a_gap_after_a_valid_prefix",
+              "test_unterminated_character_literals_are_never_silent"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 1,
+            "errors": 0,
+            "file": "canonical_lean.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-adapted-mutants/optimized/canonical-unicode-boundary-weakened.log",
+            "log_sha256": "097c71a03c87f952408aceb38424e81931e29c3a416d7bcf64abda80acfaa0da",
+            "mutated_sha256": "28772c5505d43962428055d720708d12e7c9412849175547e78cd4f8431f29dc",
+            "name": "canonical-unicode-boundary-weakened",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries"
+            ],
+            "original_sha256": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 19,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/disable-placeholder-category.log",
+            "log_sha256": "c877db2415ccc5a77780db9279ce1db260e17a393dbbd02f86791ed8fd3558f5",
+            "mutated_sha256": "f4cbd694639a315f256d844d734d7afd19b916f47f8e3e720236e91789131732",
+            "name": "disable-placeholder-category",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+              "test_each_file_is_really_scanned_not_only_first",
+              "test_file_hash_failure_does_not_prevent_violation_detection",
+              "test_lean_block_comment_separator_cannot_join_identifiers_into_escape",
+              "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+              "test_negative_fixture_retains_exact_violation_and_never_counts_as_clean",
+              "test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass",
+              "test_nested_string_placeholder_and_benign_literal_boundaries",
+              "test_quarantine_requires_exact_boundary_and_scans_retained_source",
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts",
+              "test_retained_text_source_requires_language_then_a_registered_module",
+              "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 12,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/disable-axiom-category.log",
+            "log_sha256": "835dfabb686ec167227218e2cffcffbf48fc408e7adc4aac09916f30efb079d9",
+            "mutated_sha256": "d1fbe903bd3441fbb5e8f82d3e570e67bd47a8c23f9a2be8418bfe4c606aa00b",
+            "name": "disable-axiom-category",
+            "observed_assertion_body_methods": [
+              "test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens",
+              "test_external_source_needs_immutable_pin_and_is_still_scanned",
+              "test_foundation_names_cannot_authorize_new_owned_axioms",
+              "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+              "test_numeral_adjoining_owned_axiom_cannot_receive_static_pass"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 19,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/disable-native-category.log",
+            "log_sha256": "07a20bc0878936e8f13d066514278167febdcef10a44a9b555a76cc6ead0cec3",
+            "mutated_sha256": "aefba58fc0dd39ac0802bdfc1dd7543b8a911bbc1b93cd9cd31be8e499b21b55",
+            "name": "disable-native-category",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+              "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts",
+              "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 6,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/disable-unchecked-declaration-refusal.log",
+            "log_sha256": "9b201bfa8f341bcf43f44533de3d607ef55a6cb98b06f1843797090132d07169",
+            "mutated_sha256": "6cdfddcd254a1b6a15ed6676e3722f2101094883b4c5e64eedc259d494f7c02b",
+            "name": "disable-unchecked-declaration-refusal",
+            "observed_assertion_body_methods": [
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 5,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-adapted-mutants/optimized/skip-malformed-character-refusal.log",
+            "log_sha256": "5c2d130705be2851db98a1634fead841b830a5e2de3d49299f8cf8fd0d7c5d8c",
+            "mutated_sha256": "efc8e2c3db9c30c7c870ce39da193f178dd27f4a4941f789afdd562e879fe470",
+            "name": "skip-malformed-character-refusal",
+            "observed_assertion_body_methods": [
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_unterminated_character_literals_are_never_silent"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 2,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/miss-escaped-placeholder-helpers.log",
+            "log_sha256": "10c411c561639dbc8690ff1695a24b9a767767cb88cc7715e0567ca535c55a72",
+            "mutated_sha256": "102f87361be3c4abe16a16ec6b1c10a9c0e87fe8a5f710bca0830750434f8b5f",
+            "name": "miss-escaped-placeholder-helpers",
+            "observed_assertion_body_methods": [
+              "test_reported_kernel_escape_names_and_native_config_layouts"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 11,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/drop-escaped-constant-normalization.log",
+            "log_sha256": "09bd3ddf5ce49ca776b5a24423a51a261bb358ff650e3c8c8b891d71c32a051a",
+            "mutated_sha256": "a90a3d027909d2b4d28c2b67b2454503d0f86d8b215eaf255fc7560bf140cdcc",
+            "name": "drop-escaped-constant-normalization",
+            "observed_assertion_body_methods": [
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts",
+              "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 5,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/miss-multiline-commented-native-config.log",
+            "log_sha256": "8dedd4c9e94fd4154a404ff05217d0abfb33eb5a2b1519bd325b4e25a4bec3a0",
+            "mutated_sha256": "819f56954c408cc508c1d2cd43b4553fdba22e44ba74827e359d2b57bd5f571e",
+            "name": "miss-multiline-commented-native-config",
+            "observed_assertion_body_methods": [
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 6,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/disable-macro-gap-category.log",
+            "log_sha256": "3b632fe48e8f9f5ce3a7d6464b430e76e30262d3dabfbdc0a0324300a4437de7",
+            "mutated_sha256": "fe9cb7ddf1f750edbbca24fc1df40cee30f602f68e2056769d3a56939cd5352c",
+            "name": "disable-macro-gap-category",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+              "test_macro_expansion_and_unsafe_trust_require_separate_certifier"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 5,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/drop-lean-dependencies.log",
+            "log_sha256": "8cb5b974c6b5a7ea3bc64639b5e6589447349b560afbfe0387bef74bfb5fb0d8",
+            "mutated_sha256": "6b8d9b3a8e478485c8f61ba869430027a19a04a5e182d7fc398a153c2e03b9b6",
+            "name": "drop-lean-dependencies",
+            "observed_assertion_body_methods": [
+              "test_closed_import_cannot_reach_quarantine_directly_or_transitively",
+              "test_import_module_primes_and_identifier_suffixes_are_extracted_completely",
+              "test_lean_explicit_imports_are_extracted_across_lines",
+              "test_primed_lean_module_after_valid_import_cannot_hide_quarantine",
+              "test_unknown_module_alias_and_dynamic_import_fail_closed"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 2,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/truncate-primed-lean-imports.log",
+            "log_sha256": "9bf1c11d2cb6d4753815df0adb3e3de9c01d33fb006aff4d8d2c0b1b7c4ffb14",
+            "mutated_sha256": "e9ab09bb04a45eb21dcdcf569cc73abe50e1f71064da2947e06a7bb2d8983d8f",
+            "name": "truncate-primed-lean-imports",
+            "observed_assertion_body_methods": [
+              "test_import_module_primes_and_identifier_suffixes_are_extracted_completely",
+              "test_primed_lean_module_after_valid_import_cannot_hide_quarantine"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 4,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/silence-unsupported-lean-import-tail.log",
+            "log_sha256": "62f24db4e7ce01ba4b1cebd019dcb039504f4488736293b6b5b0fecd21e8feee",
+            "mutated_sha256": "79c8479493e8cb9fa7c3b57cb2cbd5da88399d80ed10a3127645268024151bd5",
+            "name": "silence-unsupported-lean-import-tail",
+            "observed_assertion_body_methods": [
+              "test_literal_import_operands_are_explicit_gaps_after_valid_prefix",
+              "test_unsupported_import_tail_is_a_gap_after_a_valid_prefix"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 3,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/drop-literal-import-operands.log",
+            "log_sha256": "91656aa156edf80d8599659669e7e3b3dc920f03aa1f6e400e04a04c6c0ea237",
+            "mutated_sha256": "b74b4323f4cef7d124dc320c918d3144736fa266c4538c9c24bfeb12086d118e",
+            "name": "drop-literal-import-operands",
+            "observed_assertion_body_methods": [
+              "test_literal_import_operands_are_explicit_gaps_after_valid_prefix"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          }
+        ],
+        "killed": 17,
+        "mutants": [
+          {
+            "assertion_failures": 6,
+            "errors": 0,
+            "file": "canonical_lean.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/restore-generic-numeral-swallowing.log",
+            "log_sha256": "5fb6b58f41207cdae013fd7faf888a7e4fec5430a2a583b06b7ea6df29df3bb1",
+            "mutated_sha256": "82e2994905787e3e788dbfe91560909b193c8464fdfd456a9648cf85d2c1a047",
+            "name": "restore-generic-numeral-swallowing",
+            "observed_assertion_body_methods": [
+              "test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens",
+              "test_numeral_adjoining_owned_axiom_cannot_receive_static_pass"
+            ],
+            "original_sha256": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 2,
+            "errors": 0,
+            "file": "canonical_lean.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/discard-nested-string-code-holes.log",
+            "log_sha256": "1b2438356f2edbefea2348749e55676749caa2f5d7f3b9ab5bafbb37e45da5ac",
+            "mutated_sha256": "cb213eaee2d701911bb0c708b05ff18602379fb44ba5db011b4e78d1b6ad8c60",
+            "name": "discard-nested-string-code-holes",
+            "observed_assertion_body_methods": [
+              "test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass",
+              "test_nested_string_placeholder_and_benign_literal_boundaries"
+            ],
+            "original_sha256": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 1,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/discard-canonical-lexical-errors.log",
+            "log_sha256": "b93333b602a2b95a7ec94953d6a03f9abb19193b6990ddabd9e121104408b6c7",
+            "mutated_sha256": "75fc6d34b09c4c2194601295e82618c7f0597741b9ade56a5dfc461e44863e15",
+            "name": "discard-canonical-lexical-errors",
+            "observed_assertion_body_methods": [
+              "test_canonical_metadata_and_error_channels_fail_closed"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 1,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/ignore-canonical-metadata-shape.log",
+            "log_sha256": "b72f6839332cebf0a416edd1bb6ec3a1c2566ea6ea0705767a185035178a132f",
+            "mutated_sha256": "28dd2e4a2b43542600d634c4e0c4dae72566a33bd494dcc4a081cb779300e08c",
+            "name": "ignore-canonical-metadata-shape",
+            "observed_assertion_body_methods": [
+              "test_canonical_metadata_and_error_channels_fail_closed"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 81,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/empty-lean-findings.log",
+            "log_sha256": "8e821c8dafe2d7cb34d3ca4c822cfce11fa144a46c2e5893509845cc3d516bb5",
+            "mutated_sha256": "1a0396a19977b2333e435fe1c44ded05e5cdf03582bb8adcd2c8ec02674eb4e9",
+            "name": "empty-lean-findings",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+              "test_canonical_metadata_and_error_channels_fail_closed",
+              "test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens",
+              "test_each_file_is_really_scanned_not_only_first",
+              "test_external_source_needs_immutable_pin_and_is_still_scanned",
+              "test_file_hash_failure_does_not_prevent_violation_detection",
+              "test_foundation_names_cannot_authorize_new_owned_axioms",
+              "test_lean_block_comment_separator_cannot_join_identifiers_into_escape",
+              "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+              "test_lexical_incompleteness_and_interpolation_are_fatal_not_silent",
+              "test_literal_import_operands_are_explicit_gaps_after_valid_prefix",
+              "test_macro_expansion_and_unsafe_trust_require_separate_certifier",
+              "test_negative_fixture_retains_exact_violation_and_never_counts_as_clean",
+              "test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass",
+              "test_nested_string_placeholder_and_benign_literal_boundaries",
+              "test_numeral_adjoining_owned_axiom_cannot_receive_static_pass",
+              "test_quarantine_requires_exact_boundary_and_scans_retained_source",
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts",
+              "test_retained_text_source_requires_language_then_a_registered_module",
+              "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape",
+              "test_unsupported_import_tail_is_a_gap_after_a_valid_prefix",
+              "test_unterminated_character_literals_are_never_silent"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 0,
+            "errors": 0,
+            "file": "canonical_lean.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/canonical-unicode-boundary-weakened.log",
+            "log_sha256": "81b0341312b3a14a5c4c31ea3161bb15184363bb65d81a7a491e9dd8d9e1f5c7",
+            "mutated_sha256": "307cbc4f2317be14a8d61e1c2c828fb284120b5149c32103160851912a450895",
+            "name": "canonical-unicode-boundary-weakened",
+            "original_sha256": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+            "outcome": "SURVIVED",
+            "returncode": 0,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 19,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/disable-placeholder-category.log",
+            "log_sha256": "c877db2415ccc5a77780db9279ce1db260e17a393dbbd02f86791ed8fd3558f5",
+            "mutated_sha256": "f4cbd694639a315f256d844d734d7afd19b916f47f8e3e720236e91789131732",
+            "name": "disable-placeholder-category",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+              "test_each_file_is_really_scanned_not_only_first",
+              "test_file_hash_failure_does_not_prevent_violation_detection",
+              "test_lean_block_comment_separator_cannot_join_identifiers_into_escape",
+              "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+              "test_negative_fixture_retains_exact_violation_and_never_counts_as_clean",
+              "test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass",
+              "test_nested_string_placeholder_and_benign_literal_boundaries",
+              "test_quarantine_requires_exact_boundary_and_scans_retained_source",
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts",
+              "test_retained_text_source_requires_language_then_a_registered_module",
+              "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 12,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/disable-axiom-category.log",
+            "log_sha256": "835dfabb686ec167227218e2cffcffbf48fc408e7adc4aac09916f30efb079d9",
+            "mutated_sha256": "d1fbe903bd3441fbb5e8f82d3e570e67bd47a8c23f9a2be8418bfe4c606aa00b",
+            "name": "disable-axiom-category",
+            "observed_assertion_body_methods": [
+              "test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens",
+              "test_external_source_needs_immutable_pin_and_is_still_scanned",
+              "test_foundation_names_cannot_authorize_new_owned_axioms",
+              "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+              "test_numeral_adjoining_owned_axiom_cannot_receive_static_pass"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 19,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/disable-native-category.log",
+            "log_sha256": "07a20bc0878936e8f13d066514278167febdcef10a44a9b555a76cc6ead0cec3",
+            "mutated_sha256": "aefba58fc0dd39ac0802bdfc1dd7543b8a911bbc1b93cd9cd31be8e499b21b55",
+            "name": "disable-native-category",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+              "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts",
+              "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 6,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/disable-unchecked-declaration-refusal.log",
+            "log_sha256": "9b201bfa8f341bcf43f44533de3d607ef55a6cb98b06f1843797090132d07169",
+            "mutated_sha256": "6cdfddcd254a1b6a15ed6676e3722f2101094883b4c5e64eedc259d494f7c02b",
+            "name": "disable-unchecked-declaration-refusal",
+            "observed_assertion_body_methods": [
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 0,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/skip-malformed-character-refusal.log",
+            "log_sha256": "7ac1abde253575f9618b2b354a00485473d56514374dc7272470608b0333eda2",
+            "mutated_sha256": "3ca529eb72b335305c738b6788f63389a2a4a5b5f6accf6c31be9ab93f1716aa",
+            "name": "skip-malformed-character-refusal",
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "SURVIVED",
+            "returncode": 0,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 2,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/miss-escaped-placeholder-helpers.log",
+            "log_sha256": "10c411c561639dbc8690ff1695a24b9a767767cb88cc7715e0567ca535c55a72",
+            "mutated_sha256": "102f87361be3c4abe16a16ec6b1c10a9c0e87fe8a5f710bca0830750434f8b5f",
+            "name": "miss-escaped-placeholder-helpers",
+            "observed_assertion_body_methods": [
+              "test_reported_kernel_escape_names_and_native_config_layouts"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 11,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/drop-escaped-constant-normalization.log",
+            "log_sha256": "09bd3ddf5ce49ca776b5a24423a51a261bb358ff650e3c8c8b891d71c32a051a",
+            "mutated_sha256": "a90a3d027909d2b4d28c2b67b2454503d0f86d8b215eaf255fc7560bf140cdcc",
+            "name": "drop-escaped-constant-normalization",
+            "observed_assertion_body_methods": [
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts",
+              "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 5,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/miss-multiline-commented-native-config.log",
+            "log_sha256": "8dedd4c9e94fd4154a404ff05217d0abfb33eb5a2b1519bd325b4e25a4bec3a0",
+            "mutated_sha256": "819f56954c408cc508c1d2cd43b4553fdba22e44ba74827e359d2b57bd5f571e",
+            "name": "miss-multiline-commented-native-config",
+            "observed_assertion_body_methods": [
+              "test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+              "test_reported_kernel_escape_names_and_native_config_layouts"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 6,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/disable-macro-gap-category.log",
+            "log_sha256": "3b632fe48e8f9f5ce3a7d6464b430e76e30262d3dabfbdc0a0324300a4437de7",
+            "mutated_sha256": "fe9cb7ddf1f750edbbca24fc1df40cee30f602f68e2056769d3a56939cd5352c",
+            "name": "disable-macro-gap-category",
+            "observed_assertion_body_methods": [
+              "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+              "test_macro_expansion_and_unsafe_trust_require_separate_certifier"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 5,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/drop-lean-dependencies.log",
+            "log_sha256": "8cb5b974c6b5a7ea3bc64639b5e6589447349b560afbfe0387bef74bfb5fb0d8",
+            "mutated_sha256": "6b8d9b3a8e478485c8f61ba869430027a19a04a5e182d7fc398a153c2e03b9b6",
+            "name": "drop-lean-dependencies",
+            "observed_assertion_body_methods": [
+              "test_closed_import_cannot_reach_quarantine_directly_or_transitively",
+              "test_import_module_primes_and_identifier_suffixes_are_extracted_completely",
+              "test_lean_explicit_imports_are_extracted_across_lines",
+              "test_primed_lean_module_after_valid_import_cannot_hide_quarantine",
+              "test_unknown_module_alias_and_dynamic_import_fail_closed"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 2,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/truncate-primed-lean-imports.log",
+            "log_sha256": "9bf1c11d2cb6d4753815df0adb3e3de9c01d33fb006aff4d8d2c0b1b7c4ffb14",
+            "mutated_sha256": "e9ab09bb04a45eb21dcdcf569cc73abe50e1f71064da2947e06a7bb2d8983d8f",
+            "name": "truncate-primed-lean-imports",
+            "observed_assertion_body_methods": [
+              "test_import_module_primes_and_identifier_suffixes_are_extracted_completely",
+              "test_primed_lean_module_after_valid_import_cannot_hide_quarantine"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 4,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/silence-unsupported-lean-import-tail.log",
+            "log_sha256": "62f24db4e7ce01ba4b1cebd019dcb039504f4488736293b6b5b0fecd21e8feee",
+            "mutated_sha256": "79c8479493e8cb9fa7c3b57cb2cbd5da88399d80ed10a3127645268024151bd5",
+            "name": "silence-unsupported-lean-import-tail",
+            "observed_assertion_body_methods": [
+              "test_literal_import_operands_are_explicit_gaps_after_valid_prefix",
+              "test_unsupported_import_tail_is_a_gap_after_a_valid_prefix"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          },
+          {
+            "assertion_failures": 3,
+            "errors": 0,
+            "file": "source_checks.py",
+            "log": "/workspace/cbz-0/tools/layer_a/evidence/lexer698-initial/optimized/drop-literal-import-operands.log",
+            "log_sha256": "91656aa156edf80d8599659669e7e3b3dc920f03aa1f6e400e04a04c6c0ea237",
+            "mutated_sha256": "b74b4323f4cef7d124dc320c918d3144736fa266c4538c9c24bfeb12086d118e",
+            "name": "drop-literal-import-operands",
+            "observed_assertion_body_methods": [
+              "test_literal_import_operands_are_explicit_gaps_after_valid_prefix"
+            ],
+            "original_sha256": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+            "outcome": "KILLED",
+            "returncode": 1,
+            "tests_run": 45
+          }
+        ]
+      }
+    },
+    "observed_status": "FAIL",
+    "selected_methods": [
+      {
+        "end_line": 44,
+        "id": "test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected",
+        "line": 36,
+        "source_sha256": "59f07ced5acb7267f976ba99b909ac4e415c31495da98e3a8ac213a9b57f391e"
+      },
+      {
+        "end_line": 54,
+        "id": "test_auditor.SourceRules.test_comment_strings_nested_comments_raw_strings_and_char_are_not_code",
+        "line": 46,
+        "source_sha256": "a42d6053aac8caa908820dd486314303e98d619e71cea84f60f9fec0293cd0a9"
+      },
+      {
+        "end_line": 59,
+        "id": "test_auditor.SourceRules.test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape",
+        "line": 56,
+        "source_sha256": "9d69ccb20230112eca287ca89e2c79ab77bf0d29b1a4d5b5a016126aadef520e"
+      },
+      {
+        "end_line": 65,
+        "id": "test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent",
+        "line": 61,
+        "source_sha256": "960fedac091b0b157e59cae3c6992c673f5e363c27a74ace537b560915a630ef"
+      },
+      {
+        "end_line": 71,
+        "id": "test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier",
+        "line": 67,
+        "source_sha256": "45ef92258591e56b51437ff44cc5f908f326bd9d9cb904b91da430657be327f0"
+      },
+      {
+        "end_line": 81,
+        "id": "test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries",
+        "line": 73,
+        "source_sha256": "d4d64d5b7f1bda671d53f6160c2bfd9df412e4ce8f7b4724c2e567239fa784dd"
+      },
+      {
+        "end_line": 102,
+        "id": "test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts",
+        "line": 83,
+        "source_sha256": "71a61f54d4515a946bc8470db6dc7d71856429b8b5989d2bc60792cdf42faece"
+      },
+      {
+        "end_line": 107,
+        "id": "test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent",
+        "line": 104,
+        "source_sha256": "8c944a0ba925ac7b0645b27e2cd36496ee557a705226f3ad31072de99996aa40"
+      },
+      {
+        "end_line": 111,
+        "id": "test_auditor.SourceRules.test_new_kernel_escape_names_inside_comments_and_strings_are_not_code",
+        "line": 109,
+        "source_sha256": "06d59dea43f2220bb0fbdd26a9b714c15a119411c884c2bb7f3485bacf5c4b80"
+      },
+      {
+        "end_line": 115,
+        "id": "test_auditor.SourceRules.test_lean_explicit_imports_are_extracted_across_lines",
+        "line": 113,
+        "source_sha256": "de6e991fa0bd961576bd95604abd7934ac053362c871609323f789b46eeefa1f"
+      },
+      {
+        "end_line": 123,
+        "id": "test_auditor.SourceRules.test_lean_vacuity_candidates_have_declaration_location",
+        "line": 117,
+        "source_sha256": "21e1cc00c0071d72ee187c35805f8c6099cb157ba98122f48b6e300deb0c0b5a"
+      },
+      {
+        "end_line": 126,
+        "id": "test_auditor.SourceRules.test_axiom_audit_print_command_is_not_a_new_axiom_declaration",
+        "line": 125,
+        "source_sha256": "6522133375e7a34bace3439dfbd3ddb25800029d9a6dce38c4a002dcd1d2fd0f"
+      },
+      {
+        "end_line": 136,
+        "id": "test_auditor.SourceRules.test_canonical_metadata_and_error_channels_fail_closed",
+        "line": 128,
+        "source_sha256": "ad60e324ec3d3da948fdefb78e8aa0b236174b4dd23ff2aedf10d094f4668fe0"
+      },
+      {
+        "end_line": 142,
+        "id": "test_auditor.SourceRules.test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens",
+        "line": 138,
+        "source_sha256": "97d33dbdc008aa3ac6c804c09ea90dac6e14c0d3b372cbc24e757079d52ac1f8"
+      },
+      {
+        "end_line": 146,
+        "id": "test_auditor.SourceRules.test_nested_string_placeholder_and_benign_literal_boundaries",
+        "line": 144,
+        "source_sha256": "47691fdbe6422494652cb3447e6ae60f667cba9fb1c65bac8a5c3a824898e3f3"
+      },
+      {
+        "end_line": 150,
+        "id": "test_auditor.SourceRules.test_lean_no_semantic_sat_claim_from_uninterpreted_hypotheses",
+        "line": 148,
+        "source_sha256": "51ff3f9c3e8d420646a38badf6c8e1c797aa3a8ce56915a6e56ae9a2cec680f0"
+      },
+      {
+        "end_line": 202,
+        "id": "test_auditor.SourceRules.test_lean_block_comment_separator_cannot_join_identifiers_into_escape",
+        "line": 200,
+        "source_sha256": "44bc1aefed1f25cb0796140ddd551a12a56c9eee60d09b039e2fbb640ca60899"
+      },
+      {
+        "end_line": 216,
+        "id": "test_auditor.SourceRules.test_import_module_primes_and_identifier_suffixes_are_extracted_completely",
+        "line": 213,
+        "source_sha256": "01ebf3dfed17b71659ebd35952cf9536cb64ee7c23c43f644bb1e77375831f08"
+      },
+      {
+        "end_line": 220,
+        "id": "test_auditor.SourceRules.test_unsupported_import_tail_is_a_gap_after_a_valid_prefix",
+        "line": 218,
+        "source_sha256": "d59d84598cb18b965c9c21179abe04472334df26ae1643db3ef5f51c028dad7d"
+      },
+      {
+        "end_line": 225,
+        "id": "test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix",
+        "line": 222,
+        "source_sha256": "820f46bfe34e027b6096d9cb46f8ba21f4df27c5520ff46188ea4843bad8bfd3"
+      },
+      {
+        "end_line": 294,
+        "id": "test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface",
+        "line": 275,
+        "source_sha256": "b94bcc9ed9447f0963b00d9723e5bd1922c46dbd2031426ad37ba10e7e79ee8c"
+      },
+      {
+        "end_line": 304,
+        "id": "test_auditor.ManifestRules.test_numeral_adjoining_owned_axiom_cannot_receive_static_pass",
+        "line": 296,
+        "source_sha256": "6439fbfbebed82ed14ea6ba729e7942c93826420438f0e1e6d7d706083456407"
+      },
+      {
+        "end_line": 313,
+        "id": "test_auditor.ManifestRules.test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass",
+        "line": 306,
+        "source_sha256": "58dc5d2c6ec65f75a445f4ee7d737527af58eb6a1c9e448557fc414aac3a6d4a"
+      },
+      {
+        "end_line": 331,
+        "id": "test_auditor.ManifestRules.test_known_unsupported_source_suffix_cannot_claim_a_supported_language",
+        "line": 326,
+        "source_sha256": "6b618f333c6864be0b900061214881e555bb4273b60ff684d570d01d75e1d674"
+      },
+      {
+        "end_line": 340,
+        "id": "test_auditor.ManifestRules.test_retained_text_source_requires_language_then_a_registered_module",
+        "line": 333,
+        "source_sha256": "417fe36012f1bd1eccddf9ab56bc2af6f802629585b4fe11bc67c2068ced3a7b"
+      },
+      {
+        "end_line": 353,
+        "id": "test_auditor.ManifestRules.test_primed_lean_module_after_valid_import_cannot_hide_quarantine",
+        "line": 348,
+        "source_sha256": "b4056f8e0a5f2c53dbdb23d52e465adeb08e4f020c829458e38682bfcb2171cc"
+      },
+      {
+        "end_line": 373,
+        "id": "test_auditor.ManifestRules.test_complete_manifest_counts_every_file_and_is_deterministic",
+        "line": 364,
+        "source_sha256": "80d391fcd444d64d521aeb06d5ddddf7c26c762a22d5d763b1fb65a3dabfade0"
+      },
+      {
+        "end_line": 378,
+        "id": "test_auditor.ManifestRules.test_each_file_is_really_scanned_not_only_first",
+        "line": 375,
+        "source_sha256": "c9f3c2bb6afa2cf28a0df64af99a1c13040551efe87e0a5ff174e5bf2ce81fca"
+      },
+      {
+        "end_line": 411,
+        "id": "test_auditor.ManifestRules.test_missing_unreadable_invalid_utf8_files_are_not_skipped",
+        "line": 402,
+        "source_sha256": "b6ac78b3bc309dbac1373f20aee68f6481d6f268071706b05a8a918d5965d420"
+      },
+      {
+        "end_line": 434,
+        "id": "test_auditor.ManifestRules.test_pin_hash_and_foundation_allowlist_cannot_be_weakened",
+        "line": 429,
+        "source_sha256": "e5460bd71f28408d6b4d9d339fd09307d00fe388421e7f8ae77acba7dc0a3925"
+      },
+      {
+        "end_line": 441,
+        "id": "test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms",
+        "line": 436,
+        "source_sha256": "e56e4d95d5d55021582323164c3f557ee870951bebdb53327be9aa110ecbb3a1"
+      },
+      {
+        "end_line": 460,
+        "id": "test_auditor.ManifestRules.test_source_relabeling_to_docs_or_binary_is_not_silent",
+        "line": 456,
+        "source_sha256": "c497d18af8a0ca9fef651b15bb74addb9c31fd7af847ad7e26f41616a527a301"
+      },
+      {
+        "end_line": 483,
+        "id": "test_auditor.ManifestRules.test_negative_fixture_retains_exact_violation_and_never_counts_as_clean",
+        "line": 475,
+        "source_sha256": "727ebce9713d713ede0ab7a0aebb52c04c37bf5c80d0d9fdf7b7086b35f671df"
+      },
+      {
+        "end_line": 492,
+        "id": "test_auditor.ManifestRules.test_quarantine_requires_exact_boundary_and_scans_retained_source",
+        "line": 485,
+        "source_sha256": "8921e394ddf607e5983a6955712d0ea3186f73da19d219c0b23e08ea5f69329b"
+      },
+      {
+        "end_line": 500,
+        "id": "test_auditor.ManifestRules.test_closed_import_cannot_reach_quarantine_directly_or_transitively",
+        "line": 494,
+        "source_sha256": "b0f84fd23fef4fdf5ade82c0dd052100985a6fd91c969515be54e3051e3f62b1"
+      },
+      {
+        "end_line": 509,
+        "id": "test_auditor.ManifestRules.test_unknown_module_alias_and_dynamic_import_fail_closed",
+        "line": 502,
+        "source_sha256": "bdc934a74642b3e6fd9198a0107ffbd504e29903c42a16f9db30014067355678"
+      },
+      {
+        "end_line": 537,
+        "id": "test_auditor.ManifestRules.test_external_source_needs_immutable_pin_and_is_still_scanned",
+        "line": 533,
+        "source_sha256": "24d41c7bc2aacec3b79ee24e735dbf3a2579a95d318d7a115f0f3ec629a4384a"
+      },
+      {
+        "end_line": 560,
+        "id": "test_auditor.ManifestRules.test_vacuity_missing_stale_and_false_nonvacuity_annotations_are_rejected",
+        "line": 552,
+        "source_sha256": "bf51f1ad657eb4539203b2cd57231a346024156d6f29cf479c6987fc7d6d1114"
+      },
+      {
+        "end_line": 565,
+        "id": "test_auditor.ManifestRules.test_nonvacuous_claim_requires_content_bound_certificate",
+        "line": 562,
+        "source_sha256": "4cb778b9d8681c30e23e06c9afcf2ad02ab887fe34a54ee3b2035dfdfcd0edec"
+      },
+      {
+        "end_line": 601,
+        "id": "test_auditor.ManifestRules.test_archived_source_suffixes_and_wrong_explicit_language_cannot_hide_code",
+        "line": 594,
+        "source_sha256": "1866ccafd0fad523c3eea395fe1724c8913ee5bd7df7ce257d548de36011e898"
+      },
+      {
+        "end_line": 606,
+        "id": "test_auditor.ManifestRules.test_modules_cannot_point_to_documentation_in_place_of_source",
+        "line": 603,
+        "source_sha256": "0057cf575cd96a68600d3fb3cfd52a4d5d02c3b26b851e31febf4efe3cb06575"
+      },
+      {
+        "end_line": 623,
+        "id": "test_auditor.ManifestRules.test_file_hash_failure_does_not_prevent_violation_detection",
+        "line": 620,
+        "source_sha256": "1d8bf63f73eb45ecca7e6e0f4052187f34abff63be3e03d828ebed8ccb93a221"
+      },
+      {
+        "end_line": 633,
+        "id": "test_auditor.ManifestRules.test_nonvacuity_certificate_and_not_run_status_have_positive_binding_cases",
+        "line": 625,
+        "source_sha256": "d762f20c7628b5426d42f849b1652c0ae6a9764785ac674dbc5950e483961451"
+      },
+      {
+        "end_line": 642,
+        "id": "test_auditor.ManifestRules.test_malformed_vacuity_and_status_types_are_explicit_findings",
+        "line": 635,
+        "source_sha256": "d4de6f3fef98bf3306a485fc5ed8ad8da124410fdc135279d1755e65ea629f7e"
+      },
+      {
+        "end_line": 655,
+        "id": "test_auditor.ManifestRules.test_binary_source_language_mismatch_is_a_finding_not_a_crash",
+        "line": 652,
+        "source_sha256": "80bc5fa8ea164693df9fd67a25701452d3449440d2fea36cdbbbd224c8a945a9"
+      }
+    ],
+    "selected_mutants": [
+      "restore-generic-numeral-swallowing",
+      "discard-nested-string-code-holes",
+      "discard-canonical-lexical-errors",
+      "ignore-canonical-metadata-shape",
+      "empty-lean-findings",
+      "canonical-unicode-boundary-weakened",
+      "disable-placeholder-category",
+      "disable-axiom-category",
+      "disable-native-category",
+      "disable-unchecked-declaration-refusal",
+      "skip-malformed-character-refusal",
+      "miss-escaped-placeholder-helpers",
+      "drop-escaped-constant-normalization",
+      "miss-multiline-commented-native-config",
+      "disable-macro-gap-category",
+      "drop-lean-dependencies",
+      "truncate-primed-lean-imports",
+      "silence-unsupported-lean-import-tail",
+      "drop-literal-import-operands"
+    ],
+    "selected_source_sha256": "bc636f64401f4292815a5e654ab8c6244b93686c3cde20571a53d3d83edee0cb",
+    "source_sha256": {
+      "auditor.py": "c0a32e827279dfb9164d540c1f99c2269e3c49446a3fbeae23afefb53af54710",
+      "canonical_lean.py": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+      "mutation_test.py": "08b284df834f2c5c2960202046036b81826dc3900dc8c2a226ffe42b3a967212",
+      "source_checks.py": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+      "tests/test_auditor.py": "94532912255f92250046e0e85d2633b438245e635499d815340edfe4bb29890e",
+      "tests/test_mutation_runner.py": "350a8f11d2d06d04da5f5270dbb81368aeac2dc6a66144237004f9cbe7eb2653"
+    },
+    "source_unchanged_during_run": true,
+    "started_utc": "2026-10-29T19:42:41.138824+00:00"
+  },
+  "canonical_lexer_blob": "2eee3a2200082444093935291b9389c0795641cf",
+  "canonical_lexer_head": "38312e16f7ae22aeb433823c4a00a2cc80e23d0b",
+  "claim": "45 affected Lean integration methods and19 affected actual checker-source mutants per mode; no freshfull75-test/full57-mutant run; actual repositoryG1 notrun; genericgrader lifecycle augmentation separatelypending",
+  "current_declared_mutants": 57,
+  "fresh_mutants_per_mode": 19,
+  "fresh_tests_per_mode": 45,
+  "gate": "G0_COMPONENT",
+  "historical_receipt": {
+    "baseline_tests": 70,
+    "path": "evidence/g0-admission-final.json",
+    "sha256": "8f03335ff833b706445e1a6b6d8232548ece81cb439626e87275c5a6ffc98fe7",
+    "source_mutants": 53
+  },
+  "legacy_mutation_definitions_adapted": [
+    "canonical-unicode-boundary-weakened",
+    "skip-malformed-character-refusal"
+  ],
+  "new_compiler_runs": 0,
+  "new_test_methods": [
+    "ManifestRules.test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass",
+    "ManifestRules.test_numeral_adjoining_owned_axiom_cannot_receive_static_pass",
+    "SourceRules.test_canonical_metadata_and_error_channels_fail_closed",
+    "SourceRules.test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens",
+    "SourceRules.test_nested_string_placeholder_and_benign_literal_boundaries"
+  ],
+  "observed_status": "PASS",
+  "original_tests_unchanged": true,
+  "reused_mutants": 38,
+  "reused_test_methods": [
+    "ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected",
+    "ManifestRules.test_binary_proof_requires_bound_g2_g4_evidence",
+    "ManifestRules.test_bound_engineering_review_cannot_waive_defined_reflective_loader",
+    "ManifestRules.test_classification_fields_are_not_silently_ignored_and_tree_pin_is_immutable",
+    "ManifestRules.test_cli_json_and_nonzero_failures_and_duplicate_json_keys",
+    "ManifestRules.test_cli_output_write_failure_has_distinct_nonzero_code",
+    "ManifestRules.test_duplicate_scope_and_unknown_schema_keys_are_rejected",
+    "ManifestRules.test_empty_scope_cannot_manufacture_green",
+    "ManifestRules.test_engineering_from_import_alias_checks_a_mapped_submodule_boundary",
+    "ManifestRules.test_engineering_requires_explicit_bound_nonmathematical_review",
+    "ManifestRules.test_exact_math_cannot_import_a_nonmathematical_fractions_shadow",
+    "ManifestRules.test_external_binary_proof_cannot_bypass_kernel_bindings_or_utf8_mode",
+    "ManifestRules.test_fraction_stdlib_exception_cannot_hide_a_mapped_local_quarantine",
+    "ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing",
+    "ManifestRules.test_mapped_external_text_module_cannot_skip_supported_source_analysis",
+    "ManifestRules.test_python_import_alias_cannot_hide_quarantine",
+    "ManifestRules.test_status_observation_binding_distinguishes_json_booleans_and_integers",
+    "ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration",
+    "ManifestRules.test_unclassified_unknown_skipped_and_extra_paths_fail_closed",
+    "ManifestRules.test_zero_mode_file_is_rejected_even_when_existing_descriptor_can_read",
+    "SourceRules.test_callbacks_and_rebound_local_functions_cannot_smuggle_float_decisions",
+    "SourceRules.test_defined_reflective_loader_forms_fail_in_engineering_scope",
+    "SourceRules.test_engineering_float_is_scanned_but_not_mislabeled_mathematical",
+    "SourceRules.test_every_inexact_python_route_is_rejected",
+    "SourceRules.test_exact_integer_fraction_program_and_alias_are_accepted",
+    "SourceRules.test_python_dynamic_code_aliases_and_relative_imports_are_explicit_gaps",
+    "SourceRules.test_unhandled_python_constructs_are_explicit_not_skipped"
+  ],
+  "reused_tests": 30,
+  "schema_version": 1,
+  "scope": "lexer integration only; generic lifecycle augmentation pending",
+  "source_sha256": {
+    "auditor.py": "c0a32e827279dfb9164d540c1f99c2269e3c49446a3fbeae23afefb53af54710",
+    "canonical_lean.py": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+    "mutation_test.py": "e6afa7a0ef6b3e5cd9ce3afb5a4784ecf5f3163c2ed36fef4a46a517f238b721",
+    "source_checks.py": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+    "tests/test_auditor.py": "94532912255f92250046e0e85d2633b438245e635499d815340edfe4bb29890e",
+    "tests/test_mutation_runner.py": "350a8f11d2d06d04da5f5270dbb81368aeac2dc6a66144237004f9cbe7eb2653"
+  },
+  "unchanged_function_or_class_asts": {
+    "Token": true,
+    "_contradictions": true,
+    "check_lean": false,
+    "check_python": true,
+    "finding": true,
+    "lean_tokens": true
+  },
+  "unchanged_mutation_accounting_function_asts": {
+    "main": true,
+    "parse_test_result": true,
+    "run_one": true,
+    "sha": true
+  }
+}

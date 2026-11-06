@@ -1,0 +1,18 @@
+test_missing_forged_or_noninteger_receipts_fail_closed (test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed) ... FAIL
+
+======================================================================
+FAIL: test_missing_forged_or_noninteger_receipts_fail_closed (test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/mutation_test.py", line 244, in dispatch
+    return _original(*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.176s
+
+FAILED (failures=1)

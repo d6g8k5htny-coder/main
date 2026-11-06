@@ -1,0 +1,37 @@
+# Original Main #697 review closure
+
+This report records the reviewed manifest/notebook component before identity composition. Its unchanged-source and standalone-count statements refer to that component. The current combined 110-method/68-definition generation, exact source hashes and identity partition are recorded in `evidence/final-review-identity/current-composed-admission.json`.
+
+This contribution repairs four remaining original review boundaries in the auditor after numeric-metadata head `19b8e20a698775bef1813c5ceac91e2be9119bde`. It changes only `auditor.py`, the Python portion of `source_checks.py`, mutation definitions and nine added `ReviewBoundaryRules` tests, including one later notebook-classification obligation. The numeric fix, all earlier test methods and all mutation-runner functions remain unchanged. No active tool, GitHub source or canonical register was edited.
+
+| Native review comment | Actual disposition in this overlay | Verification |
+|---|---|---|
+| [4416393202](https://github.com/d6g8k5htny-coder/main/pull/697#discussion_r4416393202) | Augmented division is inexact; augmented power requires a nonnegative integer literal, using the AugAssign value operand. BinOp retains its right operand. | New division/power adverse methods and exact/engineering positive controls. |
+| [4416393211](https://github.com/d6g8k5htny-coder/main/pull/697#discussion_r4416393211) | Mathematical imports reject engineering-only mapped submodule candidates and package prefixes, matching ordinary edges. | Exact local fractions/Fraction witness; prefix guard control. |
+| [4416393221](https://github.com/d6g8k5htny-coder/main/pull/697#discussion_r4416393221) | Presence of status_evidence requests validation; null and all other non-true values fail closed. | Null/false/zero/string/list/object adverse controls and prior positive status binding tests. |
+| [4416393233](https://github.com/d6g8k5htny-coder/main/pull/697#discussion_r4416393233) | .mjs and .mjs.txt are known unsupported source, so data/documentation relabeling reports both source classification and language gaps. | Both data/documentation, mixed-case extension and text-wrapper controls. |
+| [4416393236](https://github.com/d6g8k5htny-coder/main/pull/697#discussion_r4416393236) | Already corrected by the prior lifecycle grader. An import swallowed by the test fallback causes setup failure, missing body entry and ERROR rather than KILLED. | Existing actual ImportError-source control reused; exact receipt binding in evidence/review-boundary-fix/IMPORTERROR_REUSED.json. No new execution. |
+
+The retained RED run executed eight methods, with ten assertion failures and no errors. Before repair, augmented division/power, the exact candidate witness, null-status and ES-module data cases passed their defective checks; the package-prefix control already reported PY_IMPORT_GAP but lacked the required mathematical dependency finding. This distinction is preserved.
+
+Verification is scoped to the changed Python and manifest obligations:
+
+- Before the notebook amendment, eighteen distinct methods passed in each mode: eight new and ten affected prior Python/manifest controls. Normal mode used eight initial invocations plus twelve after the final candidate variable rename; the two candidate/prefix methods were rerun, while six unchanged successful methods were reused. Optimized mode ran all eighteen once. All results have zero errors, skips or failures.
+- Before the notebook amendment, seven new guard mutations and three adapted legacy mutation anchors were actually assertion-killed in each mode, ten executions per mode. The legacy names are allow-python-division, allow-negative-dynamic-powers and skip-status-evidence. Their assertions remain intact; only source anchors changed. All 68 current mutation anchors are present exactly once and produce syntax-valid mutants.
+- Including the notebook amendment, the standalone population is 103 methods: 19 distinct affected methods verified and 84 reusable predecessor methods. The definition count is 68: eight added, three adapted/rechecked, 57 unchanged and supported by applicable earlier evidence. The latest amendment runs only one new method and one new mutant per mode and reuses the prior eighteen/ten results. This is composed evidence, not a new whole-103-method or whole-68-mutant run.
+- All 79 predecessor test_auditor methods and 15 predecessor harness methods have identical ASTs. The only changed source_checks definition is check_python; Lean and numeric metadata functions are identical. The completed 52-method numeric-metadata verification is reused. No Lean, kernel or mathematical check was replayed.
+
+The actual Main tree also contains the executable notebook `docs/notebooks/SIDE24_PUBLIC_COEFFICIENTS.ipynb` (SHA256 e348db8e9d667caff2a8da1d85ffd5ad599db34b34e542d9662d0bc1edc84024, three code cells). Root identified this concrete additional classification gap. The original 49-file overlay was frozen with every byte checked under `archive/pre-notebook` before amendment. `NOTEBOOK_SUFFIXES` now recognizes `.ipynb` and the consistent `.ipynb.txt` wrapper as unsupported source: relabeling them data/documentation reports both SOURCE_CLASSIFICATION and LANGUAGE_GAP. No notebook parser or executor is introduced.
+
+The additional notebook audit fixture has a retained one-method RED assertion failure and a one-method GREEN in each mode, including data, documentation, case normalization and text-wrapper controls. Its single guard mutant is assertion-killed in each mode with zero errors. The prior eighteen methods and ten affected mutants were not rerun. `source_checks.py` is byte-identical to the preceding reviewed overlay; all 87 preceding auditor test methods remain AST-identical. The new notebook findings deliberately block admission of unsupported executable notebooks; the tool does not grant mathematical or engineering clearance for their contents. `evidence/review-boundary-fix/NOTEBOOK_DISCOVERY.json` and `evidence/review-boundary-fix/review/NOTEBOOK_SOURCE_REVIEW.json` bind the discovery and independent delta review.
+
+Commands from this complete tool directory, with fresh output paths:
+
+```sh
+python3 -B -S mutation_test.py --internal-test-runner --test-root tests --test test_auditor.ReviewBoundaryRules --output /absolute/new/review-boundaries.json
+PYTHONOPTIMIZE=1 python3 -O -B -S mutation_test.py --internal-test-runner --test-root tests --test test_auditor.ReviewBoundaryRules --output /absolute/new/review-boundaries-O.json
+```
+
+`evidence/review-boundary-fix/MUTATION_COMMAND.py.txt` records the exact targeted mutation invocation through existing run_one; `evidence/review-boundary-fix/AFFECTED_METHODS.json` lists the ten predecessor controls. Standard public full G0 and manifest-driven G1 commands remain unchanged. This delta creates no separate production tool. Tool owner is none — self-contained; the existing auditor and its tests serve CBZ criteria 4, 7 and 9. Its configured all-definitions mutation requirement is now 68/68 when a fresh whole run is warranted; this delivery's evidence is explicitly composed.
+
+The bounded auditor does not authenticate an inventory or prove arbitrary mathematical semantics. Actual repository G1, G2/G3/G4, final federation pins/gates and canonical registry admission remain independent. No CBZ-0 or terminal baseline is claimed. Root's combined source record preserves this component and the separate identity repair; actual publication, hosted CI and federation admission remain Root-owned.

@@ -1,0 +1,49 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmp23klnsuo/mutation_test.py",
+    "--internal-test-runner",
+    "--test-root",
+    "/tmp/tmp23klnsuo/tests",
+    "--output",
+    "/tmp/tmp23klnsuo/receipt.json",
+    "--test",
+    "test_auditor.factory"
+  ],
+  "events": [],
+  "exit_code": 1,
+  "fixture_sha256": "ff5a9170b3bd74d02f931043f5bce0aa42e7c2aafc0e8b453a553812e5e10853",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmp23klnsuo/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass C(unittest.TestCase):\n def test_one(self): record(\"body\")\ndef factory():\n record(\"factory\")\n return unittest.TestSuite([C(\"test_one\")])\n",
+  "label": "callable-factory",
+  "optimize": 0,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "failure_events": [],
+    "finished_ids": [],
+    "invalid_population": [
+      "unsupported test selector: test_auditor.factory (ValueError)"
+    ],
+    "lifecycle_failures": 0,
+    "log": "Refused unsupported selected test population before execution.\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": false,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "Refused unsupported selected test population before execution.\n"
+}
