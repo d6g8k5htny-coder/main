@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "6f9ebd7c35004bd1982796e079ec0d21fc2aa694752b14fe4614d6154d417fa0"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "ee49fb05808c750d45cf8dd954be84e6b0f6f46cb4c7fa0951406e4ade5cac07"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -310,6 +310,38 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
+    def test_none_guard_branch_calls_use_isolated_bindings(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_cache.py": (
+                "import runpy\n"
+                "prefix = 'other/'\n"
+                "cache = None\n"
+                "if cache is None:\n"
+                "    prefix = 'tools/'\n"
+                "else:\n"
+                "    runpy.run_path(prefix + 'unused.py')\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_none_guard_join_invalidates_alternative_values(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_cache.py": (
+                "import runpy\n"
+                "cache = None\n"
+                "if cache is None:\n"
+                "    script = 'other.py'\n"
+                "else:\n"
+                "    script = 'tools/unused.py'\n"
+                "runpy.run_path(script)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
     def test_path_values_need_reachable_execution_not_mentions(self):
         tree = {
             "tools/live.py": "x = 1\n",
@@ -587,6 +619,24 @@ class ToolChecks(unittest.TestCase):
                 "    runpy.run_path(script)\n"
                 "exercise()\n"
                 "script = 'tools/unused.py'\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_nested_helper_effects_precede_caller_continuation(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_nested_effect.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "def change():\n"
+                "    command.clear()\n"
+                "    command.extend(['echo'])\n"
+                "def exercise():\n"
+                "    change()\n"
+                "    subprocess.run(command)\n"
+                "exercise()\n"
             ),
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
@@ -1548,7 +1598,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 143)
+        self.assertEqual(len(cases), 145)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

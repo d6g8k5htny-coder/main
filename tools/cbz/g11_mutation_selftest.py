@@ -612,8 +612,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_unreachable_child_process_calls_are_not_references",
      'self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()},'),
     ("deferred caller uses final module binding", "census",
-     "    reachable_nodes = sorted(_reachable_python_nodes(tree, mode), key=lambda item: item[2])",
-     "    reachable_nodes = _reachable_python_nodes(tree, mode)",
+     "                execute(functions[target.id], None, execution_line)",
+     "                execute(functions[target.id], None, float(\"inf\"))",
      "tests.test_g11_census.ToolChecks.test_deferred_caller_uses_module_value_at_invocation",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript uncalled helper chain accepted", "census",
@@ -627,9 +627,9 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_node_test_callback_is_a_reachable_root",
      'self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()},'),
     ("none guard branch states combined", "census",
-     "                if names:\n                    marker = ast.Delete(targets=[ast.Name(id=name, ctx=ast.Del())",
-     "                if False:\n                    marker = ast.Delete(targets=[ast.Name(id=name, ctx=ast.Del())",
-     "tests.test_g11_census.ToolChecks.test_none_guard_branches_do_not_combine_impossible_bindings",
+     "                    if names:\n                        marker = ast.Delete(\n",
+     "                    if False:\n                        marker = ast.Delete(\n",
+     "tests.test_g11_census.ToolChecks.test_none_guard_join_invalidates_alternative_values",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("node test registration reachability ignored", "census",
      "            return reachable(call_start, seen | {identity})",
@@ -641,6 +641,16 @@ NEW_MUTATIONS = [
      "                    if False:\n                        return ()",
      "tests.test_g11_census.ToolChecks.test_js_node_test_registrar_must_resolve_to_import",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("none guard branch environments merged", "census",
+     "                    for alternative in (node.body, node.orelse):",
+     "                    for alternative in ([*node.body, *node.orelse],):",
+     "tests.test_g11_census.ToolChecks.test_none_guard_branch_calls_use_isolated_bindings",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("nested helper effects deferred", "census",
+     "                execute(functions[target.id], None, execution_line)",
+     "                queue.append((functions[target.id], None, execution_line))",
+     "tests.test_g11_census.ToolChecks.test_nested_helper_effects_precede_caller_continuation",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -787,6 +797,8 @@ EXPECTED_MUTATION_NAMES = (
     "none guard branch states combined",
     "node test registration reachability ignored",
     "node test registrar shadow ignored",
+    "none guard branch environments merged",
+    "nested helper effects deferred",
 )
 
 
@@ -965,7 +977,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 91
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 94
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

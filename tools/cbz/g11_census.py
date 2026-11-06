@@ -739,6 +739,14 @@ def _reachable_python_nodes(tree, mode):
 
     nodes, queue, visited = [], [], set()
 
+    def execute(function, owner, activation_line):
+        identity = (id(function), owner, activation_line)
+        if identity in visited:
+            return
+        visited.add(identity)
+        for statement in function.body:
+            visit(statement, owner, id(function), activation_line)
+
     def visit(node, owner=None, scope=None, activation_line=None):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             # A definition is not a call: only decorators/defaults execute here.
@@ -774,23 +782,33 @@ def _reachable_python_nodes(tree, mode):
                 if truth is None:
                     if not _is_none_guard(node.test):
                         return
-                    branch = [*node.body, *node.orelse]
+                    names = (_branch_assigned_names(node.body)
+                             | _branch_assigned_names(node.orelse))
+                    for alternative in (node.body, node.orelse):
+                        if names:
+                            marker = ast.Delete(
+                                targets=[ast.Name(id=name, ctx=ast.Del())
+                                         for name in sorted(names)])
+                            marker.lineno = (getattr(alternative[0], "lineno", node.lineno)
+                                             if alternative else node.lineno)
+                            execution_line = (marker.lineno if activation_line is None
+                                              else activation_line)
+                            nodes.append((marker, scope, execution_line))
+                        for statement in alternative:
+                            visit(statement, owner, scope, activation_line)
+                    if names:
+                        marker = ast.Delete(
+                            targets=[ast.Name(id=name, ctx=ast.Del())
+                                     for name in sorted(names)])
+                        marker.lineno = getattr(node, "end_lineno", node.lineno)
+                        execution_line = (marker.lineno if activation_line is None
+                                          else activation_line)
+                        nodes.append((marker, scope, execution_line))
+                    return
                 else:
                     branch = node.body if truth else node.orelse
             for statement in branch:
                 visit(statement, owner, scope, activation_line)
-            if truth is None and _is_none_guard(node.test):
-                # Both cache-guard outcomes are reachable, but their assignments
-                # are mutually exclusive.  Clear branch-written values at the
-                # join rather than combining an impossible cross-branch state.
-                names = _branch_assigned_names(node.body) | _branch_assigned_names(node.orelse)
-                if names:
-                    marker = ast.Delete(targets=[ast.Name(id=name, ctx=ast.Del())
-                                                 for name in sorted(names)])
-                    marker.lineno = getattr(node, "end_lineno", node.lineno)
-                    execution_line = (marker.lineno if activation_line is None
-                                      else activation_line)
-                    nodes.append((marker, scope, execution_line))
             return
         if isinstance(node, (ast.For, ast.AsyncFor, ast.While)):
             if isinstance(node, (ast.For, ast.AsyncFor)):
@@ -805,12 +823,12 @@ def _reachable_python_nodes(tree, mode):
         if isinstance(node, ast.Call):
             target = node.func
             if isinstance(target, ast.Name) and target.id in functions:
-                queue.append((functions[target.id], None, execution_line))
+                execute(functions[target.id], None, execution_line)
             elif (isinstance(target, ast.Attribute) and isinstance(target.value, ast.Name)
                   and target.value.id in {"self", "cls"} and owner):
                 method = methods.get((owner, target.attr))
                 if method:
-                    queue.append((method, owner, execution_line))
+                    execute(method, owner, execution_line)
         for child in ast.iter_child_nodes(node):
             visit(child, owner, scope, activation_line)
 
@@ -818,12 +836,7 @@ def _reachable_python_nodes(tree, mode):
         visit(statement)
     while queue:
         function, owner, activation_line = queue.pop()
-        identity = (id(function), owner, activation_line)
-        if identity in visited:
-            continue
-        visited.add(identity)
-        for statement in function.body:
-            visit(statement, owner, id(function), activation_line)
+        execute(function, owner, activation_line)
     return nodes
 
 
