@@ -472,11 +472,11 @@ false PASS 01DKKe found in the readback (757/6680709277 R1) and its second layer
 ℕ/ℤ, now both UNSUPPORTED); the census receipts in `census_math_dfa9b30a_20261106_trans/` are those of this head — four verdicts moved against the
 first run of the day (`productDecay_eq_exp` in three groups and `shifted_gaussian_le`, UNSUPPORTED "unknown function exp" →
 CORROBORATED), six more bare-`exp` identities are now named as undecided-by-enclosure rather than unknown, nothing else
-changed. Tests 93 → **105** (`TranscendentalTests`: the thirteen P15 statements and their flips; the exact normal form;
+changed. Tests 93 → **106** (`TranscendentalTests`: the thirteen P15 statements and their flips; the exact normal form;
 Mathlib's totalisations; π and trigonometry; true equalities between enclosed values reported UNSUPPORTED with the
 reason; the refinement ladder and the caps; sampled binders with transcendental values, including the
 undecided-majority rule; connectives with an undecided side; the mutation contract on transcendental statements —
-0 survivors; containment against `decimal` and `math`; outward rounding and message formatting), normal, `-O`,
+0 survivors; containment against `decimal` and `math`; outward rounding and message formatting; bare names under `open Real` with the rival-namespace refusal), normal, `-O`,
 `-W error`. Landed expectations that change: `Real.exp 1 < 3` and `Real.exp 0 = 1` are PASS (the fail-closed
 anchors are now `Real.arcsin 1 < 3`, `Real.exp 1 ^ (1/2 : ℝ) < 2` (rpow) and `Real.cos Real.pi = -1`), a nested
 radical is enclosed rather than refused, and `(hx : Real.exp x > 0)` is a readable hypothesis
@@ -490,7 +490,7 @@ whose equalities are decided by the linear independence of the e^q over ℚ for 
 (Lindemann–Weierstrass — an imported theorem, not re-proved here); `Real.log` / `Real.pi` / trigonometric values and
 `Real.exp` of irrational arguments are enclosed by rigorous rational intervals refined to 1024 bits; a comparison the
 enclosures do not decide — in particular an equality between two enclosed values — is UNSUPPORTED, never PASS"; the coverage row for the census becomes
-`3,782 | 40 PASS | 233 CORROBORATED | 0 FAIL | 3,509 UNSUPPORTED`; the test count becomes 105.
+`3,782 | 40 PASS | 233 CORROBORATED | 0 FAIL | 3,509 UNSUPPORTED`; the test count becomes 106.
 
 ## Proposed gate row and registry entries (for Root; B-003)
 
