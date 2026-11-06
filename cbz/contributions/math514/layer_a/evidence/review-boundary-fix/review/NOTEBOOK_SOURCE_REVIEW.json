@@ -1,0 +1,83 @@
+{
+  "reviewer": "/root/auditor_intake_failure/review_boundary_source_review",
+  "reviewed_at": "2026-10-29T21:20:01.699909+00:00",
+  "result": "CLEAR",
+  "scope": "independent read-only notebook-source classification delta and existing receipts; no execution",
+  "source_sha256": {
+    "work/auditor.py": "309935e125195ae8093ffeb691f9d4c16f6c69e3dbb74b453ed6d50e05be1619",
+    "work/source_checks.py": "6d68a5cb61e41823e0919f13418935f0baef25f41a0d36fb0ec06457e45f4ae0",
+    "work/mutation_test.py": "fe3a1caa252eca0a678295c717eae8c9b7df8d36a4f1b0c8df740d8c33801af8",
+    "work/tests/test_auditor.py": "73e0b36fe95774af04b433f2de748911625a4ed10cf9f5f46c86249f19707ddc"
+  },
+  "prior_review_sha256": "6c305b4cf649d7f371d19d65a8230a403e9bf730fa4043eed2418ac4eb5e8081",
+  "prior_review_unchanged": true,
+  "finding": "Actual Main c93 notebook was executable source yet could receive nonsource STATIC_PASS. Known notebook suffixes must be refused without a checker.",
+  "source_assessment": "Only notebook suffix constant/comment and its source_like use changed in auditor.py. Both .ipynb and .ipynb.txt, including case variants via existing lowercase normalization, now reach source/proof relabeling refusal and unsupported language gap. The tool conservatively refuses notebooks rather than interpreting or executing cells.",
+  "test_assessment": "Exactly one method added with real code-cell JSON and three path/kind variants; previous87 test_auditor methods exact AST unchanged. Source checker bytes unchanged.",
+  "mutation_assessment": "Exactly one tuple prepended, removing only known notebook suffix classification; prior67 tuples and runner function definitions unchanged. New anchor unique and resulting mutant syntactically valid.",
+  "existing_evidence_read": {
+    "notebook-red": {
+      "sha256": "be288c4c08dfdd8de58547bc98baee4a768ad1e3d04cdfd519e77ffdf40736ce",
+      "tests_run": 1,
+      "assertion_failures": 1,
+      "errors": 0,
+      "outcome": null,
+      "successful": false
+    },
+    "notebook-green-normal": {
+      "sha256": "b5eaedef10508ffe30071abd86fad178522862568978ffd41fdfe0f608b31fae",
+      "tests_run": 1,
+      "assertion_failures": 0,
+      "errors": 0,
+      "outcome": null,
+      "successful": true
+    },
+    "notebook-green-optimized": {
+      "sha256": "b5eaedef10508ffe30071abd86fad178522862568978ffd41fdfe0f608b31fae",
+      "tests_run": 1,
+      "assertion_failures": 0,
+      "errors": 0,
+      "outcome": null,
+      "successful": true
+    },
+    "notebook-mutation-normal": {
+      "sha256": "f6ba69ce27ca9170b6f1d01234ab31aba2a8da8c63d56b4cc8cfbc50b6aff4e3",
+      "tests_run": 1,
+      "assertion_failures": 1,
+      "errors": 0,
+      "outcome": "KILLED",
+      "successful": false
+    },
+    "notebook-mutation-optimized": {
+      "sha256": "1ee911a407fee8645b1276269a3956d4dc586e95b1a4a9e13d29382523f98cf7",
+      "tests_run": 1,
+      "assertion_failures": 1,
+      "errors": 0,
+      "outcome": "KILLED",
+      "successful": false
+    }
+  },
+  "reused_evidence": "Previous18 distinct affected methods/mode and10 actual mutated definitions/mode remain applicable: none of those paths ends in .ipynb or .ipynb.txt, and previous source/guards/tests are unchanged. No old check was rerun by reviewer.",
+  "composition": {
+    "standalone_methods": 103,
+    "additional_fresh_methods_per_mode": 1,
+    "additional_mutation_definitions": 1,
+    "additional_mutation_executions_per_mode": 1,
+    "total_mutation_definitions": 68
+  },
+  "actual_tree_notebook_binding": {
+    "prior_overlay_manifest_sha256": "26666d1697a9aa374801091a15a41f97cdd12b3b961f2df267cb830dd32e80b0",
+    "prior_overlay_files": 49,
+    "all_prior_overlay_bytes_verified": true,
+    "actual_tree_notebook": "/workspace/main/docs/notebooks/SIDE24_PUBLIC_COEFFICIENTS.ipynb",
+    "notebook_sha256": "e348db8e9d667caff2a8da1d85ffd5ad599db34b34e542d9662d0bc1edc84024",
+    "notebook_bytes": 61961,
+    "cell_types": [
+      "code",
+      "markdown"
+    ],
+    "code_cell_count": 3,
+    "notebook_executed": false
+  },
+  "limits": "Bounded source classification and evidence review only; no actual repository G1, notebook cell certification, full scanner mutation execution, Lean/kernel replay or federation gate claim."
+}

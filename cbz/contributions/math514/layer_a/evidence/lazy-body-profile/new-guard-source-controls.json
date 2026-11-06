@@ -1,0 +1,542 @@
+{
+  "executed": 6,
+  "killed": 6,
+  "planned": 6,
+  "results": [
+    {
+      "after": "if False:",
+      "before": "if value is not None:",
+      "file": "mutation_test.py",
+      "log": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/layer_a/normal-accept-non-none-return-objects.log",
+      "log_sha256": "b43c342618dd83e53ac33fbf29442f34fbb1bb93e3cd9999ec596e42351fbd5c",
+      "mode": "normal",
+      "mutated_sha256": "bdc13d8bc2798b91acdffdd0bd17e1d8865aba9fef3d6a6cf8d41c8937e15008",
+      "name": "accept-non-none-return-objects",
+      "original_sha256": "840d2c86b9c7b1fb934c6fae0f300afa17aca6de5551ca8db70ac47147073b7f",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "selected_test": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+      "tests": {
+        "assertion_events": [
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "subtest"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "subtest"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "subtest"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "subtest"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "direct"
+          }
+        ],
+        "assertion_failures": 5,
+        "body_assertion_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "body_entered_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "body_finished_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "errors": 0,
+        "expected_failures": 0,
+        "failure_events": [
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "kind": "assertion",
+            "phase": "body"
+          }
+        ],
+        "finished_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "log": "test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) ... \n  test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='zero') ... FAIL\n  test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='false') ... FAIL\n  test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='empty-string') ... FAIL\n  test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='scalar') ... FAIL\ntest_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) ... FAIL\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='zero')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-lazy-layer-guard-4fth1q53/tests/test_mutation_runner.py\", line 207, in test_sync_bodies_require_none_and_refuse_other_returns_without_iteration\n    self.assertEqual(record['receipt']['outcome'],'ERROR',record)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'label': 'return-zero', 'optimize': 0, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmp82249x9r/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmp82249x9r/ordinary-executed\\')\\nclass C(unittest.TestCase):\\n def test_a_return(self): return 0\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': False, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-4fth1q53/mutation_test.py\", line 279, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.000s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmp2u_onkgi/logs/fixture.log', 'log_sha256': '6a068901d651836f23ec4d26435755bc135f6a53914b3384164c8c1e8b468985'}}\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='false')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-lazy-layer-guard-4fth1q53/tests/test_mutation_runner.py\", line 207, in test_sync_bodies_require_none_and_refuse_other_returns_without_iteration\n    self.assertEqual(record['receipt']['outcome'],'ERROR',record)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'label': 'return-false', 'optimize': 0, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmppgnl1m77/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmppgnl1m77/ordinary-executed\\')\\nclass C(unittest.TestCase):\\n def test_a_return(self): return False\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': False, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-4fth1q53/mutation_test.py\", line 279, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.000s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpoytcnfvy/logs/fixture.log', 'log_sha256': '6a068901d651836f23ec4d26435755bc135f6a53914b3384164c8c1e8b468985'}}\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='empty-string')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-lazy-layer-guard-4fth1q53/tests/test_mutation_runner.py\", line 207, in test_sync_bodies_require_none_and_refuse_other_returns_without_iteration\n    self.assertEqual(record['receipt']['outcome'],'ERROR',record)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'label': 'return-empty-string', 'optimize': 0, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmplnesn4us/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmplnesn4us/ordinary-executed\\')\\nclass C(unittest.TestCase):\\n def test_a_return(self): return \\'\\'\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': False, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-4fth1q53/mutation_test.py\", line 279, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.001s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpg72p76jy/logs/fixture.log', 'log_sha256': '8793e912b707958c35c88c7970ad9f1e7500fb42bb91d39c38f5c11a1d48832c'}}\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='scalar')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-lazy-layer-guard-4fth1q53/tests/test_mutation_runner.py\", line 207, in test_sync_bodies_require_none_and_refuse_other_returns_without_iteration\n    self.assertEqual(record['receipt']['outcome'],'ERROR',record)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'label': 'return-scalar', 'optimize': 0, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmp1hnl6byp/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmp1hnl6byp/ordinary-executed\\')\\nclass C(unittest.TestCase):\\n def test_a_return(self): return 7\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': False, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-4fth1q53/mutation_test.py\", line 279, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.000s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmp_l4riha6/logs/fixture.log', 'log_sha256': '6a068901d651836f23ec4d26435755bc135f6a53914b3384164c8c1e8b468985'}}\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/layer_a/mutation_test.py\", line 279, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'label': 'ordinary-unknown-iterable', 'optimize': 0, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmp_k691kiu/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmp_k691kiu/ordinary-executed\\')\\nclass UnknownIterable:\\n def __iter__(self):\\n  sentinel.write_text(\"iterated\")\\n  yield 1\\nclass C(unittest.TestCase):\\n def test_a_return(self): return UnknownIterable()\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': False, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-4fth1q53/mutation_test.py\", line 279, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.000s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpyr9zig_x/logs/fixture.log', 'log_sha256': '6a068901d651836f23ec4d26435755bc135f6a53914b3384164c8c1e8b468985'}}\n\n----------------------------------------------------------------------\nRan 1 test in 1.069s\n\nFAILED (failures=5)\n",
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "skipped": 0,
+        "started_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "subtest_events": [
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "assertion",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "assertion",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "assertion",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "assertion",
+            "phase": "body"
+          }
+        ],
+        "subtests": 4,
+        "successful": false,
+        "tests_run": 1,
+        "unexpected_successes": 0
+      }
+    },
+    {
+      "after": "if value:",
+      "before": "if value is not None:",
+      "file": "mutation_test.py",
+      "log": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/layer_a/normal-accept-falsey-non-none-returns.log",
+      "log_sha256": "51c8bfa5fef9f7bf784166942301065a1b17fc1451c530111e7ca000ad061252",
+      "mode": "normal",
+      "mutated_sha256": "3ad0966aee386111fcd696698ad685167936c38a43bf50621d5ce8c0d921a9d2",
+      "name": "accept-falsey-non-none-returns",
+      "original_sha256": "840d2c86b9c7b1fb934c6fae0f300afa17aca6de5551ca8db70ac47147073b7f",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "selected_test": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+      "tests": {
+        "assertion_events": [
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "subtest"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "subtest"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "subtest"
+          }
+        ],
+        "assertion_failures": 3,
+        "body_assertion_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "body_entered_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "body_finished_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "errors": 0,
+        "expected_failures": 0,
+        "failure_events": [],
+        "finished_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "log": "test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) ... \n  test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='zero') ... FAIL\n  test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='false') ... FAIL\n  test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='empty-string') ... FAIL\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='zero')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-lazy-layer-guard-kor6w0v4/tests/test_mutation_runner.py\", line 207, in test_sync_bodies_require_none_and_refuse_other_returns_without_iteration\n    self.assertEqual(record['receipt']['outcome'],'ERROR',record)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'label': 'return-zero', 'optimize': 0, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmp7vzg8o23/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmp7vzg8o23/ordinary-executed\\')\\nclass C(unittest.TestCase):\\n def test_a_return(self): return 0\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': False, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-kor6w0v4/mutation_test.py\", line 279, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.000s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpqu919qp0/logs/fixture.log', 'log_sha256': '0b1e96d3e266fd0c054d1bbe6d3ad6c8e82128473d098862b313b023110d188a'}}\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='false')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-lazy-layer-guard-kor6w0v4/tests/test_mutation_runner.py\", line 207, in test_sync_bodies_require_none_and_refuse_other_returns_without_iteration\n    self.assertEqual(record['receipt']['outcome'],'ERROR',record)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'label': 'return-false', 'optimize': 0, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmp9yksx6g3/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmp9yksx6g3/ordinary-executed\\')\\nclass C(unittest.TestCase):\\n def test_a_return(self): return False\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': False, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-kor6w0v4/mutation_test.py\", line 279, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.000s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpa56bl4ic/logs/fixture.log', 'log_sha256': '0b1e96d3e266fd0c054d1bbe6d3ad6c8e82128473d098862b313b023110d188a'}}\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='empty-string')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-lazy-layer-guard-kor6w0v4/tests/test_mutation_runner.py\", line 207, in test_sync_bodies_require_none_and_refuse_other_returns_without_iteration\n    self.assertEqual(record['receipt']['outcome'],'ERROR',record)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'label': 'return-empty-string', 'optimize': 0, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmpjupysvvv/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmpjupysvvv/ordinary-executed\\')\\nclass C(unittest.TestCase):\\n def test_a_return(self): return \\'\\'\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': False, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-kor6w0v4/mutation_test.py\", line 279, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.000s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpassypybf/logs/fixture.log', 'log_sha256': '0b1e96d3e266fd0c054d1bbe6d3ad6c8e82128473d098862b313b023110d188a'}}\n\n----------------------------------------------------------------------\nRan 1 test in 1.009s\n\nFAILED (failures=3)\n",
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "skipped": 0,
+        "started_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "subtest_events": [
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "assertion",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "assertion",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "assertion",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "success",
+            "phase": "body"
+          }
+        ],
+        "subtests": 4,
+        "successful": false,
+        "tests_run": 1,
+        "unexpected_successes": 0
+      }
+    },
+    {
+      "after": "                    if hasattr(value,'__iter__'): list(value)\n                    # Closing a fresh native coroutine",
+      "before": "                    # Closing a fresh native coroutine",
+      "file": "mutation_test.py",
+      "log": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/layer_a/normal-iterate-unknown-return-objects.log",
+      "log_sha256": "8dea0357a259fb52b0b9fc16aa64ef526d9e8a9328af0a0cd990b1fe5bc54493",
+      "mode": "normal",
+      "mutated_sha256": "eb56baa2b3190b8e766a2ca122c424103536d200070a9167844caf550580c77d",
+      "name": "iterate-unknown-return-objects",
+      "original_sha256": "840d2c86b9c7b1fb934c6fae0f300afa17aca6de5551ca8db70ac47147073b7f",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "selected_test": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+      "tests": {
+        "assertion_events": [
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "direct"
+          }
+        ],
+        "assertion_failures": 1,
+        "body_assertion_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "body_entered_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "body_finished_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "errors": 0,
+        "expected_failures": 0,
+        "failure_events": [
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "kind": "assertion",
+            "phase": "body"
+          }
+        ],
+        "finished_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "log": "test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) ... FAIL\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/layer_a/mutation_test.py\", line 279, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: True is not false : {'label': 'ordinary-unknown-iterable', 'optimize': 0, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmpe5ff7z0u/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmpe5ff7z0u/ordinary-executed\\')\\nclass UnknownIterable:\\n def __iter__(self):\\n  sentinel.write_text(\"iterated\")\\n  yield 1\\nclass C(unittest.TestCase):\\n def test_a_return(self): return UnknownIterable()\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': True, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'ERROR', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': ['non-None return from selected method: test_auditor.C.test_a_return'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-v52cplk7/mutation_test.py\", line 280, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.000s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmprr642moy/logs/fixture.log', 'log_sha256': '0994d013cff40e3aa2354dee3f92bf93cf0e7c8cd448bf765253aadd9d3cdecc'}}\n\n----------------------------------------------------------------------\nRan 1 test in 1.004s\n\nFAILED (failures=1)\n",
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "skipped": 0,
+        "started_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "subtest_events": [
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "success",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "success",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "success",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "success",
+            "phase": "body"
+          }
+        ],
+        "subtests": 4,
+        "successful": false,
+        "tests_run": 1,
+        "unexpected_successes": 0
+      }
+    },
+    {
+      "after": "if False:",
+      "before": "if value is not None:",
+      "file": "mutation_test.py",
+      "log": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/layer_a/optimized-accept-non-none-return-objects.log",
+      "log_sha256": "198ffa5f6ec6cfa71544844b5034f9a265f0565308450cffaea2b1d26459986f",
+      "mode": "optimized",
+      "mutated_sha256": "bdc13d8bc2798b91acdffdd0bd17e1d8865aba9fef3d6a6cf8d41c8937e15008",
+      "name": "accept-non-none-return-objects",
+      "original_sha256": "840d2c86b9c7b1fb934c6fae0f300afa17aca6de5551ca8db70ac47147073b7f",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "selected_test": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+      "tests": {
+        "assertion_events": [
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "subtest"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "subtest"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "subtest"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "subtest"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "direct"
+          }
+        ],
+        "assertion_failures": 5,
+        "body_assertion_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "body_entered_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "body_finished_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "errors": 0,
+        "expected_failures": 0,
+        "failure_events": [
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "kind": "assertion",
+            "phase": "body"
+          }
+        ],
+        "finished_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "log": "test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) ... \n  test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='zero') ... FAIL\n  test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='false') ... FAIL\n  test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='empty-string') ... FAIL\n  test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='scalar') ... FAIL\ntest_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) ... FAIL\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='zero')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-lazy-layer-guard-c57m7ko4/tests/test_mutation_runner.py\", line 207, in test_sync_bodies_require_none_and_refuse_other_returns_without_iteration\n    self.assertEqual(record['receipt']['outcome'],'ERROR',record)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'label': 'return-zero', 'optimize': 1, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmpv13x9tlu/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmpv13x9tlu/ordinary-executed\\')\\nclass C(unittest.TestCase):\\n def test_a_return(self): return 0\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': False, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-c57m7ko4/mutation_test.py\", line 279, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.001s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpdw6kz_fp/logs/fixture.log', 'log_sha256': 'dc37f1e5033156d97c8845c42bf490fda2428e667fad018e80faa20b8a3a968f'}}\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='false')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-lazy-layer-guard-c57m7ko4/tests/test_mutation_runner.py\", line 207, in test_sync_bodies_require_none_and_refuse_other_returns_without_iteration\n    self.assertEqual(record['receipt']['outcome'],'ERROR',record)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'label': 'return-false', 'optimize': 1, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmp2utnody9/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmp2utnody9/ordinary-executed\\')\\nclass C(unittest.TestCase):\\n def test_a_return(self): return False\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': False, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-c57m7ko4/mutation_test.py\", line 279, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.000s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmp7phx9f3b/logs/fixture.log', 'log_sha256': '370b3710049b1c6a5ff247ad715ee4a0dfa80e9caa3fcb90be1e1067feea38c5'}}\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='empty-string')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-lazy-layer-guard-c57m7ko4/tests/test_mutation_runner.py\", line 207, in test_sync_bodies_require_none_and_refuse_other_returns_without_iteration\n    self.assertEqual(record['receipt']['outcome'],'ERROR',record)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'label': 'return-empty-string', 'optimize': 1, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmpchxmgdmg/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmpchxmgdmg/ordinary-executed\\')\\nclass C(unittest.TestCase):\\n def test_a_return(self): return \\'\\'\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': False, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-c57m7ko4/mutation_test.py\", line 279, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.000s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpwzk4mm0m/logs/fixture.log', 'log_sha256': '370b3710049b1c6a5ff247ad715ee4a0dfa80e9caa3fcb90be1e1067feea38c5'}}\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='scalar')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-lazy-layer-guard-c57m7ko4/tests/test_mutation_runner.py\", line 207, in test_sync_bodies_require_none_and_refuse_other_returns_without_iteration\n    self.assertEqual(record['receipt']['outcome'],'ERROR',record)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'label': 'return-scalar', 'optimize': 1, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmpt7u24gks/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmpt7u24gks/ordinary-executed\\')\\nclass C(unittest.TestCase):\\n def test_a_return(self): return 7\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': False, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-c57m7ko4/mutation_test.py\", line 279, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.001s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpmq_xtzgh/logs/fixture.log', 'log_sha256': 'dc37f1e5033156d97c8845c42bf490fda2428e667fad018e80faa20b8a3a968f'}}\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/layer_a/mutation_test.py\", line 279, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'label': 'ordinary-unknown-iterable', 'optimize': 1, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmp5pprvv_l/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmp5pprvv_l/ordinary-executed\\')\\nclass UnknownIterable:\\n def __iter__(self):\\n  sentinel.write_text(\"iterated\")\\n  yield 1\\nclass C(unittest.TestCase):\\n def test_a_return(self): return UnknownIterable()\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': False, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-c57m7ko4/mutation_test.py\", line 279, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.001s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmp9p4dgo5a/logs/fixture.log', 'log_sha256': 'dc37f1e5033156d97c8845c42bf490fda2428e667fad018e80faa20b8a3a968f'}}\n\n----------------------------------------------------------------------\nRan 1 test in 3.278s\n\nFAILED (failures=5)\n",
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "skipped": 0,
+        "started_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "subtest_events": [
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "assertion",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "assertion",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "assertion",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "assertion",
+            "phase": "body"
+          }
+        ],
+        "subtests": 4,
+        "successful": false,
+        "tests_run": 1,
+        "unexpected_successes": 0
+      }
+    },
+    {
+      "after": "if value:",
+      "before": "if value is not None:",
+      "file": "mutation_test.py",
+      "log": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/layer_a/optimized-accept-falsey-non-none-returns.log",
+      "log_sha256": "b8bd6b7b83df7648ddc26b938eb53a7308dd4b49dcdd5e2aa5e218180a67106b",
+      "mode": "optimized",
+      "mutated_sha256": "3ad0966aee386111fcd696698ad685167936c38a43bf50621d5ce8c0d921a9d2",
+      "name": "accept-falsey-non-none-returns",
+      "original_sha256": "840d2c86b9c7b1fb934c6fae0f300afa17aca6de5551ca8db70ac47147073b7f",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "selected_test": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+      "tests": {
+        "assertion_events": [
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "subtest"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "subtest"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "subtest"
+          }
+        ],
+        "assertion_failures": 3,
+        "body_assertion_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "body_entered_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "body_finished_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "errors": 0,
+        "expected_failures": 0,
+        "failure_events": [],
+        "finished_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "log": "test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) ... \n  test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='zero') ... FAIL\n  test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='false') ... FAIL\n  test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='empty-string') ... FAIL\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='zero')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-lazy-layer-guard-yeqiu3q3/tests/test_mutation_runner.py\", line 207, in test_sync_bodies_require_none_and_refuse_other_returns_without_iteration\n    self.assertEqual(record['receipt']['outcome'],'ERROR',record)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'label': 'return-zero', 'optimize': 1, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmp_t8f3j5z/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmp_t8f3j5z/ordinary-executed\\')\\nclass C(unittest.TestCase):\\n def test_a_return(self): return 0\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': False, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-yeqiu3q3/mutation_test.py\", line 279, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.001s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpm2q7nzik/logs/fixture.log', 'log_sha256': 'f05634f22d1c09a6bc45315c1840f2f5557a7fd05c503c77e6ff1b1dcb67edbd'}}\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='false')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-lazy-layer-guard-yeqiu3q3/tests/test_mutation_runner.py\", line 207, in test_sync_bodies_require_none_and_refuse_other_returns_without_iteration\n    self.assertEqual(record['receipt']['outcome'],'ERROR',record)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'label': 'return-false', 'optimize': 1, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmpjzcmq_9x/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmpjzcmq_9x/ordinary-executed\\')\\nclass C(unittest.TestCase):\\n def test_a_return(self): return False\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': False, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-yeqiu3q3/mutation_test.py\", line 279, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.000s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmphfxyb0t6/logs/fixture.log', 'log_sha256': '41418d9da1da9ecfa07134450d3e1fe1b23617fb962534690d9cfd1d2e109ec9'}}\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) (value='empty-string')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-lazy-layer-guard-yeqiu3q3/tests/test_mutation_runner.py\", line 207, in test_sync_bodies_require_none_and_refuse_other_returns_without_iteration\n    self.assertEqual(record['receipt']['outcome'],'ERROR',record)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'label': 'return-empty-string', 'optimize': 1, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmpy0kcu0gl/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmpy0kcu0gl/ordinary-executed\\')\\nclass C(unittest.TestCase):\\n def test_a_return(self): return \\'\\'\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': False, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-yeqiu3q3/mutation_test.py\", line 279, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.001s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpvcwr96xv/logs/fixture.log', 'log_sha256': 'f05634f22d1c09a6bc45315c1840f2f5557a7fd05c503c77e6ff1b1dcb67edbd'}}\n\n----------------------------------------------------------------------\nRan 1 test in 3.266s\n\nFAILED (failures=3)\n",
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "skipped": 0,
+        "started_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "subtest_events": [
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "assertion",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "assertion",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "assertion",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "success",
+            "phase": "body"
+          }
+        ],
+        "subtests": 4,
+        "successful": false,
+        "tests_run": 1,
+        "unexpected_successes": 0
+      }
+    },
+    {
+      "after": "                    if hasattr(value,'__iter__'): list(value)\n                    # Closing a fresh native coroutine",
+      "before": "                    # Closing a fresh native coroutine",
+      "file": "mutation_test.py",
+      "log": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/layer_a/optimized-iterate-unknown-return-objects.log",
+      "log_sha256": "1a5ffaa1242c35792165c948c1f9710e153a52d6dffa22a0e748e4a892a0bd03",
+      "mode": "optimized",
+      "mutated_sha256": "eb56baa2b3190b8e766a2ca122c424103536d200070a9167844caf550580c77d",
+      "name": "iterate-unknown-return-objects",
+      "original_sha256": "840d2c86b9c7b1fb934c6fae0f300afa17aca6de5551ca8db70ac47147073b7f",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "selected_test": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+      "tests": {
+        "assertion_events": [
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "source": "direct"
+          }
+        ],
+        "assertion_failures": 1,
+        "body_assertion_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "body_entered_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "body_finished_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "errors": 0,
+        "expected_failures": 0,
+        "failure_events": [
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "kind": "assertion",
+            "phase": "body"
+          }
+        ],
+        "finished_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "log": "test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) ... FAIL\n\n======================================================================\nFAIL: test_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/layer_a/mutation_test.py\", line 279, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: True is not false : {'label': 'ordinary-unknown-iterable', 'optimize': 1, 'fixture_source': 'from pathlib import Path\\nimport unittest\\nimport functools\\nsentinel=Path(\\'/tmp/tmptw40psyu/lazy-executed\\')\\nordinary=Path(\\'/tmp/tmptw40psyu/ordinary-executed\\')\\nclass UnknownIterable:\\n def __iter__(self):\\n  sentinel.write_text(\"iterated\")\\n  yield 1\\nclass C(unittest.TestCase):\\n def test_a_return(self): return UnknownIterable()\\n def test_b_assertion(self):\\n  ordinary.write_text(\"body\")\\n  self.fail(\"ordinary body assertion\")\\n', 'lazy_sentinel_executed': True, 'ordinary_sentinel_executed': True, 'receipt': {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'ERROR', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'started_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_entered_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_finished_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'body_assertion_ids': ['test_auditor.C.test_b_assertion'], 'assertion_events': [{'id': 'test_auditor.C.test_b_assertion', 'source': 'direct'}], 'invalid_population': ['non-None return from selected method: test_auditor.C.test_a_return'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_b_assertion', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (test_auditor.C.test_a_return) ... ok\\ntest_b_assertion (test_auditor.C.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (test_auditor.C.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/cbz-lazy-layer-guard-csaccz6w/mutation_test.py\", line 280, in dispatch\\n    return _original(*args,**kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ordinary body assertion\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.001s\\n\\nFAILED (failures=1)\\n'}, 'expected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_a_return', 'test_auditor.C.test_b_assertion'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmp09eyl26_/logs/fixture.log', 'log_sha256': '83bfa1ccd97cfe81af52efb4dd8b226ff92dd6f6eb0927792fb55de44af649e1'}}\n\n----------------------------------------------------------------------\nRan 1 test in 3.248s\n\nFAILED (failures=1)\n",
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "skipped": 0,
+        "started_ids": [
+          "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration"
+        ],
+        "subtest_events": [
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "success",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "success",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "success",
+            "phase": "body"
+          },
+          {
+            "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+            "outcome": "success",
+            "phase": "body"
+          }
+        ],
+        "subtests": 4,
+        "successful": false,
+        "tests_run": 1,
+        "unexpected_successes": 0
+      }
+    }
+  ],
+  "scope": "three final None-return profile source mutants in two modes; unchanged lazy-shape and disposal evidence reused"
+}

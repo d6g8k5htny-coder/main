@@ -1,0 +1,65 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmpbpdk41xa/mutation_test.py",
+    "--internal-test-runner",
+    "--test-root",
+    "/tmp/tmpbpdk41xa/tests",
+    "--output",
+    "/tmp/tmpbpdk41xa/receipt.json",
+    "--test",
+    "test_auditor.C"
+  ],
+  "events": [
+    "first",
+    "second"
+  ],
+  "exit_code": 0,
+  "fixture_sha256": "9e06958129f525020247d4b363fd450bd85d2c3f9317352e2a519faa63ff4745",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmpbpdk41xa/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass C(unittest.TestCase):\n def test_first(self): record(\"first\")\n def test_second(self): record(\"second\")\n",
+  "label": "named-class",
+  "optimize": 1,
+  "outcome": "SURVIVED",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [
+      "test_auditor.C.test_first",
+      "test_auditor.C.test_second"
+    ],
+    "body_finished_ids": [
+      "test_auditor.C.test_first",
+      "test_auditor.C.test_second"
+    ],
+    "errors": 0,
+    "expected_failures": 0,
+    "failure_events": [],
+    "finished_ids": [
+      "test_auditor.C.test_first",
+      "test_auditor.C.test_second"
+    ],
+    "invalid_population": [],
+    "lifecycle_failures": 0,
+    "log": "test_first (test_auditor.C.test_first) ... ok\ntest_second (test_auditor.C.test_second) ... ok\n\nRan 2 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [
+      "test_auditor.C.test_first",
+      "test_auditor.C.test_second"
+    ],
+    "skipped": 0,
+    "started_ids": [
+      "test_auditor.C.test_first",
+      "test_auditor.C.test_second"
+    ],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": true,
+    "tests_run": 2,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "test_first (test_auditor.C.test_first) ... ok\ntest_second (test_auditor.C.test_second) ... ok\n\nRan 2 tests\n"
+}

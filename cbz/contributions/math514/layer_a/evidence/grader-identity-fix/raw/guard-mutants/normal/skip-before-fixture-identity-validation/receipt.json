@@ -1,0 +1,46 @@
+{
+  "receipt_schema": "cbz-unittest-lifecycle-v1",
+  "selected_ids": [
+    "test_mutation_runner.IdentityHarnessRules.test_postload_substitution_refused_before_any_fixture"
+  ],
+  "started_ids": [
+    "test_mutation_runner.IdentityHarnessRules.test_postload_substitution_refused_before_any_fixture"
+  ],
+  "finished_ids": [
+    "test_mutation_runner.IdentityHarnessRules.test_postload_substitution_refused_before_any_fixture"
+  ],
+  "body_entered_ids": [
+    "test_mutation_runner.IdentityHarnessRules.test_postload_substitution_refused_before_any_fixture"
+  ],
+  "body_finished_ids": [
+    "test_mutation_runner.IdentityHarnessRules.test_postload_substitution_refused_before_any_fixture"
+  ],
+  "body_assertion_ids": [
+    "test_mutation_runner.IdentityHarnessRules.test_postload_substitution_refused_before_any_fixture"
+  ],
+  "assertion_events": [
+    {
+      "id": "test_mutation_runner.IdentityHarnessRules.test_postload_substitution_refused_before_any_fixture",
+      "source": "direct"
+    }
+  ],
+  "invalid_population": [],
+  "lifecycle_failures": 0,
+  "subtests": 0,
+  "subtest_events": [],
+  "failure_events": [
+    {
+      "id": "test_mutation_runner.IdentityHarnessRules.test_postload_substitution_refused_before_any_fixture",
+      "phase": "body",
+      "kind": "assertion"
+    }
+  ],
+  "tests_run": 1,
+  "assertion_failures": 1,
+  "errors": 0,
+  "skipped": 0,
+  "expected_failures": 0,
+  "unexpected_successes": 0,
+  "successful": false,
+  "log": "test_postload_substitution_refused_before_any_fixture (test_mutation_runner.IdentityHarnessRules.test_postload_substitution_refused_before_any_fixture) ... FAIL\n\n======================================================================\nFAIL: test_postload_substitution_refused_before_any_fixture (test_mutation_runner.IdentityHarnessRules.test_postload_substitution_refused_before_any_fixture)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/normal/skip-before-fixture-identity-validation/mutation_test.py\", line 427, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['class-setup'] != []\n\nFirst list contains 1 additional elements.\nFirst extra element 0:\n'class-setup'\n\n- ['class-setup']\n+ [] : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_mutation_runner.IdentityHarnessRules.test_postload_substitution_refused_before_any_fixture.<locals>.Case.test_one'], 'started_ids': [], 'finished_ids': [], 'body_entered_ids': [], 'body_finished_ids': [], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': ['selected class/function/code identity changed during execution'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 0, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': '\\nRan 0 tests\\n'}\n\nRan 1 tests\n"
+}

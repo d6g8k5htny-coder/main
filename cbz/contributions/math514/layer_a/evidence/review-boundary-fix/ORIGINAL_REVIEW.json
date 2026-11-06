@@ -1,0 +1,37 @@
+[
+  {
+    "id": 4416393202,
+    "url": "https://github.com/d6g8k5htny-coder/main/pull/697#discussion_r4416393202",
+    "path": "cbz/contributions/math514/layer_a/source_checks.py",
+    "line": 302,
+    "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Apply exact-arithmetic checks to augmented assignments**\n\nFor mathematical Python, `x = 1; x /= 2` and `x = 2; x **= -1` both receive `STATIC_PASS` with no findings, although executing either produces the float `0.5`. `AugAssign` is allowed, but these operator checks only inspect `ast.BinOp`, so augmented division and exponentiation bypass the advertised exact-arithmetic restrictions. Apply the division and exponent checks to augmented assignments as well, and cover both forms with adverse tests.\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->"
+  },
+  {
+    "id": 4416393211,
+    "url": "https://github.com/d6g8k5htny-coder/main/pull/697#discussion_r4416393211",
+    "path": "cbz/contributions/math514/layer_a/auditor.py",
+    "line": 262,
+    "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Enforce mathematical dependency checks on submodule candidates**\n\nWhen a mapped local `fractions` package has an empty mathematical `__init__.py` and an engineering-only `fractions.Fraction` submodule containing `numerator = 0.5`, mathematical code using `from fractions import Fraction; x = Fraction.numerator` receives `STATIC_PASS`. I reproduced this through `audit()` with a hash-bound engineering review and confirmed that execution yields a float. Candidate edges are added here without the `MATH_DEPENDENCY_GAP` check applied to ordinary imports, allowing engineering-only values into the closed mathematical program. Apply that check to candidate and package-prefix dependencies too.\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->"
+  },
+  {
+    "id": 4416393221,
+    "url": "https://github.com/d6g8k5htny-coder/main/pull/697#discussion_r4416393221",
+    "path": "cbz/contributions/math514/layer_a/auditor.py",
+    "line": 287,
+    "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Reject an explicitly null status-evidence flag**\n\nWhen a classification contains `\"status_evidence\": null`, this guard treats the field as absent and skips all status validation, including the check immediately below that requires the value to be `true`. I reproduced `STATIC_PASS` for a classified status file containing only `{\"observed_status\":\"PASS\"}`, with no command, inputs or bound execution receipt. Test for field presence rather than a non-null value so an explicitly supplied invalid flag cannot silently disable the requested evidence checks.\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->"
+  },
+  {
+    "id": 4416393233,
+    "url": "https://github.com/d6g8k5htny-coder/main/pull/697#discussion_r4416393233",
+    "path": "cbz/contributions/math514/layer_a/auditor.py",
+    "line": 20,
+    "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Recognize ES-module files as unsupported source**\n\nThe source-extension set omits `.mjs`, although this repository contains numerous executable JavaScript modules, including `tests/test_dependency_viewer.mjs`. Consequently, an `.mjs` file can be classified as `data` or `documentation` and receive `STATIC_PASS` without either `SOURCE_CLASSIFICATION` or `LANGUAGE_GAP`; I reproduced this with `code.mjs` containing `export const bound = 0.1;`. This bypasses the documented prohibition on relabeling source as data. Recognize `.mjs` as source and refuse it as unsupported rather than silently accepting it as nonsource.\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->"
+  },
+  {
+    "id": 4416393236,
+    "url": "https://github.com/d6g8k5htny-coder/main/pull/697#discussion_r4416393236",
+    "path": "cbz/contributions/math514/layer_a/tests/test_auditor.py",
+    "line": 19,
+    "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Preserve checker import failures as mutation-runner errors**\n\nIf a checker-source mutant raises `ImportError`, this handler suppresses the import failure and sets both checker modules to `None`; the subsequent `setUp` assertions then make the mutation runner count the broken import as a behavioral kill. I reproduced this by prepending `raise ImportError(\"missing checker dependency\")` through `run_one()`, which reported `KILLED`, 67 assertion failures and zero errors without exercising any checker behavior. This contradicts G0's explicit exclusion of import/runtime errors from the kill threshold. Let the import failure propagate as a test-loading error, or otherwise classify it separately before counting assertion kills.\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->"
+  }
+]

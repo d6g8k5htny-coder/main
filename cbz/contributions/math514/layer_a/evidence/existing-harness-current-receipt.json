@@ -1,0 +1,30 @@
+{
+  "modes": {
+    "normal": {
+      "errors": 0,
+      "failures": 0,
+      "log": "evidence/lifecycle-existing-harness-normal.log",
+      "log_sha256": "a5f843c113cd036dc1876267aeab55b0932c41e81bfa56bac123bda3880deb26",
+      "optimized_children": false,
+      "tests_run": 3
+    },
+    "optimized": {
+      "errors": 0,
+      "failures": 0,
+      "log": "evidence/lifecycle-existing-harness-optimized.log",
+      "log_sha256": "bc287a98102ba59909d3d67a5703831fec5be51e592c408a383878e3ba55e221",
+      "optimized_children": true,
+      "tests_run": 3
+    }
+  },
+  "reason": "three retained harness methods call changed run_one; current dependency requires affected verification",
+  "schema_version": 1,
+  "source_sha256": {
+    "auditor.py": "c0a32e827279dfb9164d540c1f99c2269e3c49446a3fbeae23afefb53af54710",
+    "canonical_lean.py": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+    "mutation_test.py": "e857fde3c3d7caf301e24a77972ee18d1253186613633e1b0876b61f274eebed",
+    "source_checks.py": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+    "tests/test_auditor.py": "94532912255f92250046e0e85d2633b438245e635499d815340edfe4bb29890e",
+    "tests/test_mutation_runner.py": "347135c69335eaa74a62f5b6380057fff24e30eafcf57b8418de69bef1be7f7d"
+  }
+}

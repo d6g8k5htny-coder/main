@@ -1,0 +1,15 @@
+test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) ... 
+  test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=1/2') ... FAIL
+
+======================================================================
+FAIL: test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=1/2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-m9p6u2i9/tests/test_auditor.py", line 173, in test_every_inexact_python_route_is_rejected
+    self.assertIn(code, self.python_codes(text))
+AssertionError: 'PY_INEXACT' not found in set()
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

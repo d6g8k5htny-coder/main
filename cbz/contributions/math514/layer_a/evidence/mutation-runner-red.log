@@ -1,0 +1,32 @@
+test_invalid_checker_syntax_is_invalid_mutant_not_killed (test_mutation_runner.MutationHarnessRules.test_invalid_checker_syntax_is_invalid_mutant_not_killed) ... FAIL
+test_mutant_that_only_crashes_is_not_counted_as_behavioral_kill (test_mutation_runner.MutationHarnessRules.test_mutant_that_only_crashes_is_not_counted_as_behavioral_kill) ... FAIL
+test_unchanged_checker_survives_and_assertion_failure_kills_real_mutant (test_mutation_runner.MutationHarnessRules.test_unchanged_checker_survives_and_assertion_failure_kills_real_mutant) ... FAIL
+
+======================================================================
+FAIL: test_invalid_checker_syntax_is_invalid_mutant_not_killed (test_mutation_runner.MutationHarnessRules.test_invalid_checker_syntax_is_invalid_mutant_not_killed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/tools/layer_a/tests/test_mutation_runner.py", line 18, in setUp
+    self.assertIsNotNone(mutation_test,'mutation runner implementation is missing')
+AssertionError: unexpectedly None : mutation runner implementation is missing
+
+======================================================================
+FAIL: test_mutant_that_only_crashes_is_not_counted_as_behavioral_kill (test_mutation_runner.MutationHarnessRules.test_mutant_that_only_crashes_is_not_counted_as_behavioral_kill)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/tools/layer_a/tests/test_mutation_runner.py", line 18, in setUp
+    self.assertIsNotNone(mutation_test,'mutation runner implementation is missing')
+AssertionError: unexpectedly None : mutation runner implementation is missing
+
+======================================================================
+FAIL: test_unchanged_checker_survives_and_assertion_failure_kills_real_mutant (test_mutation_runner.MutationHarnessRules.test_unchanged_checker_survives_and_assertion_failure_kills_real_mutant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/tools/layer_a/tests/test_mutation_runner.py", line 18, in setUp
+    self.assertIsNotNone(mutation_test,'mutation runner implementation is missing')
+AssertionError: unexpectedly None : mutation runner implementation is missing
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.000s
+
+FAILED (failures=3)

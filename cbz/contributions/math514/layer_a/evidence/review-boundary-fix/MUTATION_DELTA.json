@@ -1,0 +1,57 @@
+{
+  "new": [
+    [
+      "discard-known-notebook-source-suffixes",
+      "auditor.py",
+      "NOTEBOOK_SUFFIXES = ('.ipynb', '.ipynb.txt')",
+      "NOTEBOOK_SUFFIXES = ()"
+    ],
+    [
+      "restore-augmented-division-gap",
+      "source_checks.py",
+      "if isinstance(node, (ast.BinOp, ast.AugAssign)) and isinstance(node.op, ast.Div):",
+      "if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):"
+    ],
+    [
+      "restore-augmented-power-gap",
+      "source_checks.py",
+      "if isinstance(node, (ast.BinOp, ast.AugAssign)) and isinstance(node.op, ast.Pow):",
+      "if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Pow):"
+    ],
+    [
+      "restore-python-candidate-nonmath-gap",
+      "auditor.py",
+      "if kind=='math_python' and records[candidate_target]['entry']['kind']=='engineering_python':",
+      "if False:"
+    ],
+    [
+      "restore-python-prefix-nonmath-gap",
+      "auditor.py",
+      "if kind=='math_python' and records[prefix]['entry']['kind']=='engineering_python':",
+      "if False:"
+    ],
+    [
+      "restore-null-status-evidence-skip",
+      "auditor.py",
+      "if 'status_evidence' in entry:",
+      "if entry.get('status_evidence') is not None:"
+    ],
+    [
+      "restore-es-module-extension-gap",
+      "auditor.py",
+      "'.js','.mjs','.ts'",
+      "'.js','.ts'"
+    ],
+    [
+      "restore-es-module-text-wrapper-gap",
+      "auditor.py",
+      "'.sh.txt','.js.txt','.mjs.txt'",
+      "'.sh.txt','.js.txt'"
+    ]
+  ],
+  "adapted_legacy_names": [
+    "allow-python-division",
+    "allow-negative-dynamic-powers",
+    "skip-status-evidence"
+  ]
+}

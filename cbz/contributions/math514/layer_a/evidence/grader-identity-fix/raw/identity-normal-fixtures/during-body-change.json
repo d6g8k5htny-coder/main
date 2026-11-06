@@ -1,0 +1,67 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmpl6tdfd0_/mutation_test.py",
+    "--internal-test-runner",
+    "--test-root",
+    "/tmp/tmpl6tdfd0_/tests",
+    "--output",
+    "/tmp/tmpl6tdfd0_/receipt.json"
+  ],
+  "events": [
+    "first"
+  ],
+  "exit_code": 1,
+  "fixture_sha256": "68f30b73c556ed152c65ce04a9e24329aed87a7593b480fd69fcf999ef8cb351",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmpl6tdfd0_/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass C(unittest.TestCase):\n def test_first(self):\n  record(\"first\")\n  type(self).test_second=type(self).test_first\n def test_second(self):\n  record(\"second\")\n  self.fail(\"retained second body\")\n",
+  "label": "during-body-change",
+  "optimize": 0,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [
+      "test_auditor.C.test_first"
+    ],
+    "body_finished_ids": [
+      "test_auditor.C.test_first"
+    ],
+    "errors": 1,
+    "expected_failures": 0,
+    "failure_events": [
+      {
+        "id": "test_auditor.C.test_first",
+        "kind": "error",
+        "phase": "body"
+      }
+    ],
+    "finished_ids": [
+      "test_auditor.C.test_first"
+    ],
+    "invalid_population": [
+      "selected class/function/code identity changed during execution",
+      "selected class/function/code identity changed during execution"
+    ],
+    "lifecycle_failures": 0,
+    "log": "test_first (test_auditor.C.test_first) ... ERROR\n\n======================================================================\nERROR: test_first (test_auditor.C.test_first)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpl6tdfd0_/mutation_test.py\", line 424, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/tmp/tmpl6tdfd0_/mutation_test.py\", line 417, in body\n    require_identities(population,bindings,receipt['invalid_population'])\n  File \"/tmp/tmpl6tdfd0_/mutation_test.py\", line 324, in require_identities\n    raise IdentityMismatch('selected body identity changed')\nIdentityMismatch: selected body identity changed\n\nRan 1 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [
+      "test_auditor.C.test_first",
+      "test_auditor.C.test_second"
+    ],
+    "skipped": 0,
+    "started_ids": [
+      "test_auditor.C.test_first"
+    ],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": false,
+    "tests_run": 1,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "test_first (test_auditor.C.test_first) ... ERROR\n\n======================================================================\nERROR: test_first (test_auditor.C.test_first)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpl6tdfd0_/mutation_test.py\", line 424, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/tmp/tmpl6tdfd0_/mutation_test.py\", line 417, in body\n    require_identities(population,bindings,receipt['invalid_population'])\n  File \"/tmp/tmpl6tdfd0_/mutation_test.py\", line 324, in require_identities\n    raise IdentityMismatch('selected body identity changed')\nIdentityMismatch: selected body identity changed\n\nRan 1 tests\n"
+}

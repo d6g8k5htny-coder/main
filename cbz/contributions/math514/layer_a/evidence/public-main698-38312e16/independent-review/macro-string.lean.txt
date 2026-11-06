@@ -1,0 +1,5 @@
+import Lean
+open Lean
+
+def f : CoreM Unit := throwError "bad {let x := "safe"; (sorry : Nat)}"
+#print axioms f

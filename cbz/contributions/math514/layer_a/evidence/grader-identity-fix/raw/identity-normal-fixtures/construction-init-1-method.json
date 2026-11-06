@@ -1,0 +1,49 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmp42a3ovun/mutation_test.py",
+    "--internal-test-runner",
+    "--test-root",
+    "/tmp/tmp42a3ovun/tests",
+    "--output",
+    "/tmp/tmp42a3ovun/receipt.json",
+    "--test",
+    "test_auditor.C.test_first"
+  ],
+  "events": [],
+  "exit_code": 1,
+  "fixture_sha256": "97b7d99b6163c7cab96420dcdab85c2c19d385c1594dd675735edb1ccac0b432",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmp42a3ovun/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass C(unittest.TestCase):\n def __init__(self,*a,**k):\n  record(\"constructor\")\n  super().__init__(*a,**k)\n  type(self).test_second=type(self).test_first\n def test_first(self): record(\"first\")\n def test_second(self):\n  record(\"second\")\n  self.fail(\"retained second body\")\n",
+  "label": "construction-init-1-method",
+  "optimize": 0,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "failure_events": [],
+    "finished_ids": [],
+    "invalid_population": [
+      "unsupported test selector: test_auditor.C.test_first (ValueError)"
+    ],
+    "lifecycle_failures": 0,
+    "log": "Refused unsupported selected test population before execution.\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": false,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "Refused unsupported selected test population before execution.\n"
+}

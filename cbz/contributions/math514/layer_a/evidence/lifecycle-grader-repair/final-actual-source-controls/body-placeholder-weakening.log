@@ -1,0 +1,33 @@
+test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) ... 
+  test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='sorry') ... FAIL
+  test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='admit') ... FAIL
+  test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='sorryAx') ... FAIL
+
+======================================================================
+FAIL: test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='sorry')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-yedzfsml/tests/test_auditor.py", line 44, in test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected
+    self.assertIn(code, self.lean_codes('theorem t : True := by ' + word))
+AssertionError: 'LEAN_PLACEHOLDER' not found in set()
+
+======================================================================
+FAIL: test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='admit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-yedzfsml/tests/test_auditor.py", line 44, in test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected
+    self.assertIn(code, self.lean_codes('theorem t : True := by ' + word))
+AssertionError: 'LEAN_PLACEHOLDER' not found in set()
+
+======================================================================
+FAIL: test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='sorryAx')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-yedzfsml/tests/test_auditor.py", line 44, in test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected
+    self.assertIn(code, self.lean_codes('theorem t : True := by ' + word))
+AssertionError: 'LEAN_PLACEHOLDER' not found in set()
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=3)

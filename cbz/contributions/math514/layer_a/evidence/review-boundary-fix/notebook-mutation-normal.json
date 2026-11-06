@@ -1,0 +1,69 @@
+{
+  "name": "discard-known-notebook-source-suffixes",
+  "file": "auditor.py",
+  "outcome": "KILLED",
+  "returncode": 1,
+  "tests_run": 1,
+  "assertion_failures": 1,
+  "errors": 0,
+  "tests": {
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [
+      "test_auditor.ReviewBoundaryRules.test_executable_notebooks_cannot_be_reclassified_as_nonsource"
+    ],
+    "started_ids": [
+      "test_auditor.ReviewBoundaryRules.test_executable_notebooks_cannot_be_reclassified_as_nonsource"
+    ],
+    "finished_ids": [
+      "test_auditor.ReviewBoundaryRules.test_executable_notebooks_cannot_be_reclassified_as_nonsource"
+    ],
+    "body_entered_ids": [
+      "test_auditor.ReviewBoundaryRules.test_executable_notebooks_cannot_be_reclassified_as_nonsource"
+    ],
+    "body_finished_ids": [
+      "test_auditor.ReviewBoundaryRules.test_executable_notebooks_cannot_be_reclassified_as_nonsource"
+    ],
+    "body_assertion_ids": [
+      "test_auditor.ReviewBoundaryRules.test_executable_notebooks_cannot_be_reclassified_as_nonsource"
+    ],
+    "assertion_events": [
+      {
+        "id": "test_auditor.ReviewBoundaryRules.test_executable_notebooks_cannot_be_reclassified_as_nonsource",
+        "source": "direct"
+      }
+    ],
+    "invalid_population": [],
+    "lifecycle_failures": 0,
+    "subtests": 0,
+    "subtest_events": [],
+    "failure_events": [
+      {
+        "id": "test_auditor.ReviewBoundaryRules.test_executable_notebooks_cannot_be_reclassified_as_nonsource",
+        "phase": "body",
+        "kind": "assertion"
+      }
+    ],
+    "tests_run": 1,
+    "assertion_failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "successful": false,
+    "log": "test_executable_notebooks_cannot_be_reclassified_as_nonsource (test_auditor.ReviewBoundaryRules.test_executable_notebooks_cannot_be_reclassified_as_nonsource) ... FAIL\n\n======================================================================\nFAIL: test_executable_notebooks_cannot_be_reclassified_as_nonsource (test_auditor.ReviewBoundaryRules.test_executable_notebooks_cannot_be_reclassified_as_nonsource)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/auditor-review-closure/work/mutation_test.py\", line 290, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'SOURCE_CLASSIFICATION' not found in set()\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=1)\n"
+  },
+  "expected_ids": [
+    "test_auditor.ReviewBoundaryRules.test_executable_notebooks_cannot_be_reclassified_as_nonsource"
+  ],
+  "pristine_population": {
+    "receipt_schema": "cbz-unittest-population-v1",
+    "selected_ids": [
+      "test_auditor.ReviewBoundaryRules.test_executable_notebooks_cannot_be_reclassified_as_nonsource"
+    ],
+    "invalid_population": []
+  },
+  "original_sha256": "309935e125195ae8093ffeb691f9d4c16f6c69e3dbb74b453ed6d50e05be1619",
+  "mutated_sha256": "27e2e054d93844cf97d738450a95605d8d9af81dc6a36009aea5a3b1f944d2a1",
+  "log": "../evidence/notebook-mutation-normal/discard-known-notebook-source-suffixes.log",
+  "log_sha256": "8544547d4db60733a023aad0616db42012efddb651646461b447fffeac94cb08"
+}

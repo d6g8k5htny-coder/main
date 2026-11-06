@@ -1,0 +1,15 @@
+import os,sys,json
+from pathlib import Path
+import mutation_test as m
+mode=sys.argv[1]
+if mode=='optimized':os.environ['PYTHONOPTIMIZE']='1'
+else:os.environ.pop('PYTHONOPTIMIZE',None)
+row=next(t for t in m.MUTATIONS if t[0]=='discard-known-notebook-source-suffixes')
+name,file,before,after=row
+def change(source):
+ if source.count(before)!=1:raise ValueError('nonunique notebook mutation anchor')
+ return source.replace(before,after,1)
+r=m.run_one(name,file,change,Path('../evidence')/('notebook-mutation-'+mode),tests=['test_auditor.ReviewBoundaryRules.test_executable_notebooks_cannot_be_reclassified_as_nonsource'])
+Path('../evidence/notebook-mutation-'+mode+'.json').write_text(json.dumps(r,indent=2)+'\n')
+print(json.dumps({'mode':mode,'outcome':r['outcome'],'errors':r['errors'],'assertion_failures':r['assertion_failures']}))
+raise SystemExit(0 if r['outcome']=='KILLED' and r['errors']==0 else 1)

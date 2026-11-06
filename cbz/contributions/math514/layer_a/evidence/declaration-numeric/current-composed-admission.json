@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "gate": "G0_COMPONENT_COMPOSITION",
+  "published_predecessor_head": "eedb46c36e664b66684a701c3adeacb70f8fac2f",
+  "observed_status": "PASS_AFFECTED_SCOPE",
+  "actual_repository_G1": "NOT_RUN",
+  "claim": "The 94-method/60-definition inventory is composed: 52 affected methods and three new source guard mutants per mode. No full 94/60 run or mathematical/scientific closure is claimed.",
+  "source_sha256": {
+    "source_checks.py": "1cba64bb503b8e9245b0bc504678ed71823cde6e629a6a53dbe8f19c6eb33aec",
+    "auditor.py": "c0a32e827279dfb9164d540c1f99c2269e3c49446a3fbeae23afefb53af54710",
+    "canonical_lean.py": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+    "mutation_test.py": "e0cc3d77716e143dd374f2a23fc28923b8590e5dffed83e20733cd329553ddeb",
+    "tests/test_auditor.py": "d28d370108b5466f510e540c2e673de2f96e1286aa9d44212728b0c2a8bd7b3c",
+    "tests/test_mutation_runner.py": "9190916dea425ab71aad73acbb70b4100890592f2a462375cb3a922ff62a1ff3"
+  },
+  "predecessor_source_sha256": {
+    "source_checks.py": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+    "auditor.py": "c0a32e827279dfb9164d540c1f99c2269e3c49446a3fbeae23afefb53af54710",
+    "canonical_lean.py": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+    "mutation_test.py": "840d2c86b9c7b1fb934c6fae0f300afa17aca6de5551ca8db70ac47147073b7f",
+    "tests/test_auditor.py": "94532912255f92250046e0e85d2633b438245e635499d815340edfe4bb29890e",
+    "tests/test_mutation_runner.py": "9190916dea425ab71aad73acbb70b4100890592f2a462375cb3a922ff62a1ff3"
+  },
+  "method_inventory": {
+    "current": 94,
+    "auditor": 79,
+    "existing_grader": 15,
+    "fresh_per_mode": 52,
+    "affected_predecessor_per_mode": 45,
+    "new": 7,
+    "reused_unaffected": 42
+  },
+  "checker_mutants": {
+    "current_definitions": 60,
+    "preserved_predecessor": 57,
+    "fresh_new_guard_mutants_per_mode": 3,
+    "new_guard_mode_executions": 6,
+    "predecessor_source_bound_evidence": "Earlier 19 affected plus 38 historical composition; no fresh 57-mutant rerun."
+  },
+  "new_full_G0_run": false,
+  "new_CI_run": false,
+  "new_Lean_or_math_run": false,
+  "evidence": {
+    "normal": "normal/campaign.json",
+    "optimized": "optimized/campaign.json",
+    "red": "red-new-controls.json",
+    "initial_postfix_failure": "green-new-controls-initial.json",
+    "applicability": "applicability.json",
+    "registration": "registration-move-applicability.json",
+    "independent_review": "review/final-review.json"
+  },
+  "boundary": "Bounded syntax/metadata only. Newly exposed declarations require vacuity annotations; final controller refreshes only affected rows. Kernel/proof closure and source-inventory authentication remain independent.",
+  "independent_review_sha256": "d41632dcd0e600fef55a2065b2a4bfe0ac3905c6f49414b9b960d47073d1d863"
+}

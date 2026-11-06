@@ -1,0 +1,51 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmp6hyqwt63/mutation_test.py",
+    "--internal-test-runner",
+    "--test-root",
+    "/tmp/tmp6hyqwt63/tests",
+    "--output",
+    "/tmp/tmp6hyqwt63/receipt.json"
+  ],
+  "events": [
+    "class-setup"
+  ],
+  "exit_code": 0,
+  "fixture_sha256": "6412c07e0d90d85a8a398c9ce463398a8b02af5f8745d0e52d21276b11f1884e",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmp6hyqwt63/events').open(\"a\") as out: out.write(label+\"\\n\")\ndef replacement(self): record(\"replacement\")\nclass C(unittest.TestCase):\n @classmethod\n def setUpClass(cls):\n  record(\"class-setup\")\n  cls.test_one=__import__(\"types\").FunctionType(cls.test_one.__code__,cls.test_one.__globals__)\n def test_one(self):\n  record(\"original\")\n  self.fail(\"original body retained\")\n",
+  "label": "class-fixture-same-code-function",
+  "optimize": 0,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "failure_events": [],
+    "finished_ids": [],
+    "invalid_population": [
+      "selected class/function/code identity changed during execution"
+    ],
+    "lifecycle_failures": 0,
+    "log": "\nRan 0 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [
+      "test_auditor.C.test_one"
+    ],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": true,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "\nRan 0 tests\n"
+}

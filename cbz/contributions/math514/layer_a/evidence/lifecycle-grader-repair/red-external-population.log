@@ -1,0 +1,17 @@
+test_expected_population_is_bound_before_mutation (test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation) ... FAIL
+
+======================================================================
+FAIL: test_expected_population_is_bound_before_mutation (test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 122, in test_expected_population_is_bound_before_mutation
+    self.assertEqual(result['outcome'],'ERROR',result)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_two'], 'started_ids': ['test_auditor.C.test_two'], 'finished_ids': ['test_auditor.C.test_two'], 'body_entered_ids': ['test_auditor.C.test_two'], 'body_finished_ids': ['test_auditor.C.test_two'], 'body_assertion_ids': ['test_auditor.C.test_two'], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_two', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_two (test_auditor.C.test_two) ... FAIL\n\n======================================================================\nFAIL: test_two (test_auditor.C.test_two)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/mutation_test.py", line 194, in body\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/tmp/cbz-layer-a-mutant-_z6i80_b/tests/test_auditor.py", line 5, in test_two\n    def test_two(self): self.fail("wrong population")\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: wrong population\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=1)\n'}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '2ab973bdbb4c00686ec454b8bac6bec2513fe6ed5c21f9ebb1b81eb137203350', 'log': '/tmp/tmpggk2g9at/logs/fixture.log', 'log_sha256': 'b9bf7876e96c393a82d85ad7ed9bf2435c3a5aeb0d2a0a0e34a5596b4d03ce7f'}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.084s
+
+FAILED (failures=1)

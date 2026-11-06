@@ -1,0 +1,33 @@
+test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) ... 
+  test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='-1') ... FAIL
+  test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='n') ... FAIL
+  test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='True') ... FAIL
+
+======================================================================
+FAIL: test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='-1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-w7rx5_lw/tests/test_auditor.py", line 797, in test_augmented_power_requires_nonnegative_integer_literal
+    self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})
+AssertionError: 'PY_INEXACT' not found in set()
+
+======================================================================
+FAIL: test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-w7rx5_lw/tests/test_auditor.py", line 797, in test_augmented_power_requires_nonnegative_integer_literal
+    self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})
+AssertionError: 'PY_INEXACT' not found in set()
+
+======================================================================
+FAIL: test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='True')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-w7rx5_lw/tests/test_auditor.py", line 797, in test_augmented_power_requires_nonnegative_integer_literal
+    self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})
+AssertionError: 'PY_INEXACT' not found in set()
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+FAILED (failures=3)

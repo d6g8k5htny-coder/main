@@ -1,0 +1,18 @@
+test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected (test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected) ... 
+  test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected (test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected) (fixture='import unittest\nclass C(unittest.TestCase):\n def test_one(self): self._outcome.result.addFailure(self,(AssertionError,AssertionError("forged callback"),None))\n') ... FAIL
+
+======================================================================
+FAIL: test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected (test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected) (fixture='import unittest\nclass C(unittest.TestCase):\n def test_one(self): self._outcome.result.addFailure(self,(AssertionError,AssertionError("forged callback"),None))\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-lifecycle-control-4ee91my6/tests/test_mutation_runner.py", line 117, in test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected
+    self.assertEqual(value['outcome'],'ERROR',value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': ['test_auditor.C.test_one'], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_one', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (test_auditor.C.test_one) ... FAIL\ntest_one (test_auditor.C.test_one) ... ok\n\n======================================================================\nFAIL: test_one (test_auditor.C.test_one)\n----------------------------------------------------------------------\nAssertionError: forged callback\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n'}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmp9l1isqz6/logs/fixture.log', 'log_sha256': 'd408b1c80165ca79013846bf9442a23b1cc75a08259f58604a7698a56dc94b05'}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.365s
+
+FAILED (failures=1)

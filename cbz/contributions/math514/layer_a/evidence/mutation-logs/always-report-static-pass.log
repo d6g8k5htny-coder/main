@@ -1,0 +1,222 @@
+test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected) ... ok
+test_archived_source_suffixes_and_wrong_explicit_language_cannot_hide_code (test_auditor.ManifestRules.test_archived_source_suffixes_and_wrong_explicit_language_cannot_hide_code) ... ok
+test_binary_proof_requires_bound_g2_g4_evidence (test_auditor.ManifestRules.test_binary_proof_requires_bound_g2_g4_evidence) ... ok
+test_cli_json_and_nonzero_failures_and_duplicate_json_keys (test_auditor.ManifestRules.test_cli_json_and_nonzero_failures_and_duplicate_json_keys) ... FAIL
+test_closed_import_cannot_reach_quarantine_directly_or_transitively (test_auditor.ManifestRules.test_closed_import_cannot_reach_quarantine_directly_or_transitively) ... ok
+test_complete_manifest_counts_every_file_and_is_deterministic (test_auditor.ManifestRules.test_complete_manifest_counts_every_file_and_is_deterministic) ... ok
+test_duplicate_scope_and_unknown_schema_keys_are_rejected (test_auditor.ManifestRules.test_duplicate_scope_and_unknown_schema_keys_are_rejected) ... ok
+test_each_file_is_really_scanned_not_only_first (test_auditor.ManifestRules.test_each_file_is_really_scanned_not_only_first) ... ok
+test_empty_scope_cannot_manufacture_green (test_auditor.ManifestRules.test_empty_scope_cannot_manufacture_green) ... ok
+test_engineering_requires_explicit_bound_nonmathematical_review (test_auditor.ManifestRules.test_engineering_requires_explicit_bound_nonmathematical_review) ... ok
+test_external_source_needs_immutable_pin_and_is_still_scanned (test_auditor.ManifestRules.test_external_source_needs_immutable_pin_and_is_still_scanned) ... ok
+test_file_hash_failure_does_not_prevent_violation_detection (test_auditor.ManifestRules.test_file_hash_failure_does_not_prevent_violation_detection) ... ok
+test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) ... ok
+test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) ... 
+  test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpm8wcrfny', 'tree_id': 'fixture-immutable-tree', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': []}}}], 'module_map': {}}) ... FAIL
+  test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpm8wcrfny', 'tree_id': 'fixture-immutable-tree', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation', 'language': []}}}], 'module_map': {}}) ... FAIL
+  test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpm8wcrfny', 'tree_id': 'fixture-immutable-tree', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation', 'module': []}}}], 'module_map': {}}) ... FAIL
+  test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpm8wcrfny', 'tree_id': 'fixture-immutable-tree', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': None, 'kind': 'documentation'}}}], 'module_map': {}}) ... FAIL
+  test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': {}, 'module_map': {}}) ... FAIL
+  test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpm8wcrfny', 'tree_id': 'fixture-immutable-tree', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation'}}}], 'module_map': []}) ... FAIL
+  test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': [[], [], []], 'roots': [{'id': 'r', 'path': '/tmp/tmpm8wcrfny', 'tree_id': 'fixture-immutable-tree', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation'}}}], 'module_map': {}}) ... FAIL
+  test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': True, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpm8wcrfny', 'tree_id': 'fixture-immutable-tree', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation'}}}], 'module_map': {}}) ... FAIL
+test_missing_unreadable_invalid_utf8_files_are_not_skipped (test_auditor.ManifestRules.test_missing_unreadable_invalid_utf8_files_are_not_skipped) ... ok
+test_modules_cannot_point_to_documentation_in_place_of_source (test_auditor.ManifestRules.test_modules_cannot_point_to_documentation_in_place_of_source) ... ok
+test_negative_fixture_retains_exact_violation_and_never_counts_as_clean (test_auditor.ManifestRules.test_negative_fixture_retains_exact_violation_and_never_counts_as_clean) ... ok
+test_nonvacuous_claim_requires_content_bound_certificate (test_auditor.ManifestRules.test_nonvacuous_claim_requires_content_bound_certificate) ... ok
+test_pin_hash_and_foundation_allowlist_cannot_be_weakened (test_auditor.ManifestRules.test_pin_hash_and_foundation_allowlist_cannot_be_weakened) ... ok
+test_python_import_alias_cannot_hide_quarantine (test_auditor.ManifestRules.test_python_import_alias_cannot_hide_quarantine) ... ok
+test_quarantine_requires_exact_boundary_and_scans_retained_source (test_auditor.ManifestRules.test_quarantine_requires_exact_boundary_and_scans_retained_source) ... ok
+test_source_relabeling_to_docs_or_binary_is_not_silent (test_auditor.ManifestRules.test_source_relabeling_to_docs_or_binary_is_not_silent) ... ok
+test_status_pass_requires_actual_bound_observation_not_aspiration (test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration) ... ok
+test_unclassified_unknown_skipped_and_extra_paths_fail_closed (test_auditor.ManifestRules.test_unclassified_unknown_skipped_and_extra_paths_fail_closed) ... ok
+test_unknown_module_alias_and_dynamic_import_fail_closed (test_auditor.ManifestRules.test_unknown_module_alias_and_dynamic_import_fail_closed) ... ok
+test_vacuity_missing_stale_and_false_nonvacuity_annotations_are_rejected (test_auditor.ManifestRules.test_vacuity_missing_stale_and_false_nonvacuity_annotations_are_rejected) ... ok
+test_callbacks_and_rebound_local_functions_cannot_smuggle_float_decisions (test_auditor.SourceRules.test_callbacks_and_rebound_local_functions_cannot_smuggle_float_decisions) ... ok
+test_comment_strings_nested_comments_raw_strings_and_char_are_not_code (test_auditor.SourceRules.test_comment_strings_nested_comments_raw_strings_and_char_are_not_code) ... ok
+test_engineering_float_is_scanned_but_not_mislabeled_mathematical (test_auditor.SourceRules.test_engineering_float_is_scanned_but_not_mislabeled_mathematical) ... ok
+test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) ... ok
+test_exact_integer_fraction_program_and_alias_are_accepted (test_auditor.SourceRules.test_exact_integer_fraction_program_and_alias_are_accepted) ... ok
+test_lean_block_comment_separator_cannot_join_identifiers_into_escape (test_auditor.SourceRules.test_lean_block_comment_separator_cannot_join_identifiers_into_escape) ... ok
+test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) ... ok
+test_lean_explicit_imports_are_extracted_across_lines (test_auditor.SourceRules.test_lean_explicit_imports_are_extracted_across_lines) ... ok
+test_lean_no_semantic_sat_claim_from_uninterpreted_hypotheses (test_auditor.SourceRules.test_lean_no_semantic_sat_claim_from_uninterpreted_hypotheses) ... ok
+test_lean_vacuity_candidates_have_declaration_location (test_auditor.SourceRules.test_lean_vacuity_candidates_have_declaration_location) ... ok
+test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) ... ok
+test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) ... ok
+test_python_dynamic_code_aliases_and_relative_imports_are_explicit_gaps (test_auditor.SourceRules.test_python_dynamic_code_aliases_and_relative_imports_are_explicit_gaps) ... ok
+test_unhandled_python_constructs_are_explicit_not_skipped (test_auditor.SourceRules.test_unhandled_python_constructs_are_explicit_not_skipped) ... ok
+test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape (test_auditor.SourceRules.test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape) ... ok
+
+======================================================================
+FAIL: test_cli_json_and_nonzero_failures_and_duplicate_json_keys (test_auditor.ManifestRules.test_cli_json_and_nonzero_failures_and_duplicate_json_keys)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-9fuwpl7k/tests/test_auditor.py", line 417, in test_cli_json_and_nonzero_failures_and_duplicate_json_keys
+    self.assertEqual(p.returncode,1,p.stderr+p.stdout)
+AssertionError: 0 != 1 : {
+  "claim": "bounded static rules only; not CBZ-0 or mathematical proof closure",
+  "classified_count": 1,
+  "fatal_gaps": [
+    {
+      "code": "FILE_MISSING",
+      "detail": "declared file is absent",
+      "line": 0,
+      "path": "readme.txt",
+      "root": "r"
+    }
+  ],
+  "files": [
+    {
+      "actual_sha256": null,
+      "expected_sha256": "2689367b205c16ce32ed4200942b8b8b1e262dfc70d9bc9fbc77c49699a4f1df",
+      "kind": "documentation",
+      "path": "readme.txt",
+      "root": "r"
+    }
+  ],
+  "findings": [
+    {
+      "code": "FILE_MISSING",
+      "detail": "declared file is absent",
+      "line": 0,
+      "path": "readme.txt",
+      "root": "r"
+    }
+  ],
+  "inventory_sha256": {
+    "r": "091289b475686cf611996d5a2a5654097ef7ffe09099b2b5c02e0b276254cc5c"
+  },
+  "manifest_file_sha256": "f9f4a083508f34e9650ad4886446f19d7def05158ba9de97e3a65411089b427d",
+  "manifest_sha256": "c26f6468acd067be32746e753d608f951763421a4c15f727474927c5080621a8",
+  "remaining_obligations": [
+    {
+      "gate": "G2",
+      "required_work": "All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound."
+    },
+    {
+      "gate": "G3",
+      "required_work": "Actual Lean build and no sorry warnings; source scanning does not execute Lean."
+    },
+    {
+      "gate": "G4",
+      "required_work": "Kernel recheck every closed declaration and all bound binary proof objects."
+    },
+    {
+      "gate": "G5",
+      "required_work": "Execute retained regression tests; source profile does not establish runtime success or historical test retention."
+    },
+    {
+      "gate": "G7",
+      "required_work": "Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency."
+    },
+    {
+      "gate": "G8",
+      "required_work": "Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength."
+    },
+    {
+      "gate": "G10",
+      "required_work": "Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git."
+    }
+  ],
+  "result": "STATIC_PASS",
+  "retained_count": 0,
+  "retained_findings": [],
+  "scanned_count": 0,
+  "schema_version": 1,
+  "vacuity_observations": []
+}
+
+
+======================================================================
+FAIL: test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpm8wcrfny', 'tree_id': 'fixture-immutable-tree', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': []}}}], 'module_map': {}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-9fuwpl7k/tests/test_auditor.py", line 384, in test_malformed_manifest_values_fail_with_findings_instead_of_crashing
+    self.assertEqual(r['result'],'FAIL',r)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '00df59b0ab53a1684d4c1c1c72a10d5e8ae43f57de9968a75c8177012ead9851', 'inventory_sha256': {'r': '3169ba9e29527082ac0a22ae78e46eca5efc1f58ff2b47d42c36100b4d9252a8'}, 'classified_count': 1, 'scanned_count': 0, 'retained_count': 0, 'findings': [{'code': 'CLASSIFICATION', 'root': 'r', 'path': 'a.txt', 'line': 0, 'detail': 'unknown classification: []'}], 'fatal_gaps': [{'code': 'CLASSIFICATION', 'root': 'r', 'path': 'a.txt', 'line': 0, 'detail': 'unknown classification: []'}], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': []}
+
+======================================================================
+FAIL: test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpm8wcrfny', 'tree_id': 'fixture-immutable-tree', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation', 'language': []}}}], 'module_map': {}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-9fuwpl7k/tests/test_auditor.py", line 384, in test_malformed_manifest_values_fail_with_findings_instead_of_crashing
+    self.assertEqual(r['result'],'FAIL',r)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': 'd5fe1e5561dabd1058a714dc0325a2036a4aa8b62ab8c85daa915c4e5f4f9aff', 'inventory_sha256': {'r': '3169ba9e29527082ac0a22ae78e46eca5efc1f58ff2b47d42c36100b4d9252a8'}, 'classified_count': 1, 'scanned_count': 0, 'retained_count': 0, 'findings': [{'code': 'LANGUAGE_GAP', 'root': 'r', 'path': 'a.txt', 'line': 0, 'detail': 'unsupported/nonstring language classification'}], 'fatal_gaps': [{'code': 'LANGUAGE_GAP', 'root': 'r', 'path': 'a.txt', 'line': 0, 'detail': 'unsupported/nonstring language classification'}], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': []}
+
+======================================================================
+FAIL: test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpm8wcrfny', 'tree_id': 'fixture-immutable-tree', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation', 'module': []}}}], 'module_map': {}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-9fuwpl7k/tests/test_auditor.py", line 384, in test_malformed_manifest_values_fail_with_findings_instead_of_crashing
+    self.assertEqual(r['result'],'FAIL',r)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '9ebd6fd34090651cbc4972fcd9c7d7768ca4e3b75e22742ed905d5cab8e25431', 'inventory_sha256': {'r': '3169ba9e29527082ac0a22ae78e46eca5efc1f58ff2b47d42c36100b4d9252a8'}, 'classified_count': 1, 'scanned_count': 0, 'retained_count': 0, 'findings': [{'code': 'MODULE_ALIAS', 'root': 'r', 'path': 'a.txt', 'line': 0, 'detail': 'module identity must be a string'}], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': []}
+
+======================================================================
+FAIL: test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpm8wcrfny', 'tree_id': 'fixture-immutable-tree', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': None, 'kind': 'documentation'}}}], 'module_map': {}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-9fuwpl7k/tests/test_auditor.py", line 384, in test_malformed_manifest_values_fail_with_findings_instead_of_crashing
+    self.assertEqual(r['result'],'FAIL',r)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': 'f0dffa5119ea3f8dae3268be9a81aa403038cb547818e628ad2e39ce77a80bc9', 'inventory_sha256': {'r': '3169ba9e29527082ac0a22ae78e46eca5efc1f58ff2b47d42c36100b4d9252a8'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [{'code': 'FILE_HASH', 'root': 'r', 'path': 'a.txt', 'line': 0, 'detail': 'content differs from manifest pin'}, {'code': 'FILE_HASH', 'root': 'r', 'path': 'a.txt', 'line': 0, 'detail': 'missing or malformed SHA256'}], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'a.txt', 'kind': 'documentation', 'expected_sha256': None, 'actual_sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'}]}
+
+======================================================================
+FAIL: test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': {}, 'module_map': {}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-9fuwpl7k/tests/test_auditor.py", line 384, in test_malformed_manifest_values_fail_with_findings_instead_of_crashing
+    self.assertEqual(r['result'],'FAIL',r)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '83b30ab93ca281ad096bf3a15f51332e19b44b7e22501f89d53ca0eddd35834e', 'inventory_sha256': {}, 'classified_count': 0, 'scanned_count': 0, 'retained_count': 0, 'findings': [{'code': 'MANIFEST', 'root': '', 'path': '', 'line': 0, 'detail': 'nonempty roots required'}], 'fatal_gaps': [{'code': 'MANIFEST', 'root': '', 'path': '', 'line': 0, 'detail': 'nonempty roots required'}], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': []}
+
+======================================================================
+FAIL: test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpm8wcrfny', 'tree_id': 'fixture-immutable-tree', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation'}}}], 'module_map': []})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-9fuwpl7k/tests/test_auditor.py", line 384, in test_malformed_manifest_values_fail_with_findings_instead_of_crashing
+    self.assertEqual(r['result'],'FAIL',r)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '317043fa243e4c8b09d5c93467bbd171bd857e1065bd32e7eaa10880db14d3ea', 'inventory_sha256': {'r': '3169ba9e29527082ac0a22ae78e46eca5efc1f58ff2b47d42c36100b4d9252a8'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [{'code': 'MANIFEST', 'root': '', 'path': '', 'line': 0, 'detail': 'module_map must be an object'}], 'fatal_gaps': [{'code': 'MANIFEST', 'root': '', 'path': '', 'line': 0, 'detail': 'module_map must be an object'}], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'a.txt', 'kind': 'documentation', 'expected_sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'actual_sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'}]}
+
+======================================================================
+FAIL: test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': [[], [], []], 'roots': [{'id': 'r', 'path': '/tmp/tmpm8wcrfny', 'tree_id': 'fixture-immutable-tree', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation'}}}], 'module_map': {}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-9fuwpl7k/tests/test_auditor.py", line 384, in test_malformed_manifest_values_fail_with_findings_instead_of_crashing
+    self.assertEqual(r['result'],'FAIL',r)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': 'b10d3f2c47b732fee164d4b76ed689eaa40f5d73a8c5d5706898adf088d7b1d9', 'inventory_sha256': {'r': '3169ba9e29527082ac0a22ae78e46eca5efc1f58ff2b47d42c36100b4d9252a8'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [{'code': 'FOUNDATION_PROFILE', 'root': '', 'path': '', 'line': 0, 'detail': 'approved imported axiom set must be exactly propext, Classical.choice, Quot.sound'}], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'a.txt', 'kind': 'documentation', 'expected_sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'actual_sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'}]}
+
+======================================================================
+FAIL: test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': True, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpm8wcrfny', 'tree_id': 'fixture-immutable-tree', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation'}}}], 'module_map': {}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-9fuwpl7k/tests/test_auditor.py", line 384, in test_malformed_manifest_values_fail_with_findings_instead_of_crashing
+    self.assertEqual(r['result'],'FAIL',r)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': 'be2a9509d25a6f723a66d9aa991ec6665cdc18ce2c7719c61aebca2172ce1521', 'inventory_sha256': {'r': '3169ba9e29527082ac0a22ae78e46eca5efc1f58ff2b47d42c36100b4d9252a8'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [{'code': 'MANIFEST', 'root': '', 'path': '', 'line': 0, 'detail': 'schema v1 exact top-level keys required'}], 'fatal_gaps': [{'code': 'MANIFEST', 'root': '', 'path': '', 'line': 0, 'detail': 'schema v1 exact top-level keys required'}], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'a.txt', 'kind': 'documentation', 'expected_sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'actual_sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'}]}
+
+----------------------------------------------------------------------
+Ran 41 tests in 0.112s
+
+FAILED (failures=9)
