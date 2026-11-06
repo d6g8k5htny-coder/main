@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`6301fb41afaf78ee54d5bbbdcb805e476caa0a17`, based on Main default
+`f3b950cfe1b2428f5204448bc3ec52d4eda5d3ff`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,16 +263,16 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`6301fb41afaf78ee54d5bbbdcb805e476caa0a17` (tree
-`c394a5069bfa0c52ffdc0384958841397c12d425`) recognizes explicit local path
+`f3b950cfe1b2428f5204448bc3ec52d4eda5d3ff` (tree
+`71a277529c646a952a6cdad7ae8962e885358c49`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-85/85 controls and 137/137 designated mutations passed in both modes; the
+88/88 controls and 140/140 designated mutations passed in both modes; the
 sealed mutation-inventory SHA-256 is
-`2bc5b77fb1698b863d94babc2172b659b5622f3dc67669582172da65bf844705`. The exact
+`d9d444881a03129236467119be6231e219392e668de56e6cd16d06564b523d7e`. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`a2fece97636594c920605d412b53322b75a0c419879c6ab4f75b331298fecd98`,
-56,027 bytes each),
+`1c9068c5b63833cfadefe0d7c2b885fdfaca375c816a0ea5a74e0cc3012ec71f`,
+56,065 bytes each),
 with zero production findings and exactly 29 no-current-exercise tool
 candidates; both runs exited 1. Adverse controls refuse mere path
 mentions, fake same-named APIs, interpreter command-mode arguments, unreachable
@@ -318,6 +318,12 @@ scanner also clears a previous forwarding registration when a later
 same-named function definition is non-forwarding, preserves list identity
 across `+=` for alias-aware mutations, and refuses JavaScript process calls in
 literal-false branches or uncalled named helpers. The
+scanner evaluates deferred Python bodies in activation order and requires
+JavaScript helper calls to have a reachable module-rooted invocation chain.
+Only callbacks passed to an imported `node:test` identity are recognized as
+test roots; this restores the actual museum-conditional test path while an
+arbitrary callback API remains untrusted. The temporary 30-tool result remains
+historical. The
 stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the former
 28-tool result remains historical and is not rebound. Static evidence is not
 runtime proof. Exact dormant dispositions and the final orchestrator remain

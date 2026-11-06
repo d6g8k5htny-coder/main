@@ -126,20 +126,20 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`6301fb41afaf78ee54d5bbbdcb805e476caa0a17` (tree
-`c394a5069bfa0c52ffdc0384958841397c12d425`) extends the existing bounded
+`f3b950cfe1b2428f5204448bc3ec52d4eda5d3ff` (tree
+`71a277529c646a952a6cdad7ae8962e885358c49`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 85/85 controls and killed 137/137 designated
+The exact source commit passed 88/88 controls and killed 140/140 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`2bc5b77fb1698b863d94babc2172b659b5622f3dc67669582172da65bf844705`.
+`d9d444881a03129236467119be6231e219392e668de56e6cd16d06564b523d7e`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`a2fece97636594c920605d412b53322b75a0c419879c6ab4f75b331298fecd98`,
-56,027 bytes each):
+`1c9068c5b63833cfadefe0d7c2b885fdfaca375c816a0ea5a74e0cc3012ec71f`,
+56,065 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
 interpreter command-mode payload arguments and unreachable wrapper bodies,
@@ -199,6 +199,13 @@ the resolved list object's identity so subsequent mutations through aliases
 remain visible. JavaScript process calls inside literal-false branches or
 uncalled named helpers are not execution evidence. These three review
 counterexamples have dedicated adverse controls and designated mutants.
+Deferred Python bodies are evaluated in activation order, so later module
+assignments cannot rewrite an earlier invocation's static value. JavaScript
+helper calls require a reachable chain rooted at module execution; callbacks
+are roots only when passed to the imported `node:test` identity. That explicit
+positive rule restores the actual `tools/museum_conditionals.mjs` test path
+without admitting arbitrary callback APIs. The intermediate 30-tool census is
+preserved as a diagnostic rather than rebound.
 The stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the
 earlier 28-tool result remains historical and is not rebound.
 

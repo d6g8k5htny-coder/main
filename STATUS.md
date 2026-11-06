@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has native source parent
-`6301fb41afaf78ee54d5bbbdcb805e476caa0a17`; its isolated work began from the
+`f3b950cfe1b2428f5204448bc3ec52d4eda5d3ff`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,14 +37,14 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `6301fb41afaf78ee54d5bbbdcb805e476caa0a17` (tree
-`c394a5069bfa0c52ffdc0384958841397c12d425`) passed 85/85 tests and killed
-137/137 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `2bc5b77fb1698b863d94babc2172b659b5622f3dc67669582172da65bf844705`.
+native source `f3b950cfe1b2428f5204448bc3ec52d4eda5d3ff` (tree
+`71a277529c646a952a6cdad7ae8962e885358c49`) passed 88/88 tests and killed
+140/140 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `d9d444881a03129236467119be6231e219392e668de56e6cd16d06564b523d7e`.
 Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`a2fece97636594c920605d412b53322b75a0c419879c6ab4f75b331298fecd98`,
-56,027 bytes each)
+`1c9068c5b63833cfadefe0d7c2b885fdfaca375c816a0ea5a74e0cc3012ec71f`,
+56,065 bytes each)
 contain zero production findings and retain exactly 29 no-current-exercise
 tool candidates; both census runs exit 1. The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
@@ -107,9 +107,16 @@ function definition clears an earlier wrapper registration; list augmented
 assignment preserves Python's shared list identity so later alias mutation is
 visible; and bounded JavaScript reachability refuses literal-false branches
 and uncalled named helpers. Each supplied counterexample was reproduced red in
-both modes and now has a dedicated control and designated mutant. The current
-review-defect total is 40; exact-head review remains required before
-integration.
+both modes and now has a dedicated control and designated mutant.
+Two newer review counterexamples are also repaired. Deferred Python function
+bodies now consume module bindings in activation order instead of the final
+module environment, and JavaScript helper reachability requires an invocation
+chain rooted in module execution. The stricter JavaScript rule briefly exposed
+`tools/museum_conditionals.mjs`; an explicit adverse-tested rule admits only
+callbacks passed to the imported `node:test` identity, restoring that actual
+test execution without treating arbitrary callback APIs as roots. The
+intermediate 30-tool census remains historical; the current review-defect total
+is 42 and exact-head review remains required before integration.
 
 ## Current verification boundary
 
