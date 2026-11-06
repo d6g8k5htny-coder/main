@@ -4,6 +4,7 @@ Every finding class is planted once in a synthetic tree, beside look-alikes that
 must not be flagged; the mutation self-test (tools/cbz/g11_mutation_selftest.py)
 requires these tests to fail when any detector is weakened.
 """
+import ast
 import hashlib
 import os
 import subprocess
@@ -17,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "c518a20afbd0acb7f98105bcf03ac174aff4dd477f58a3214b25e4e3ea737017"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "bc9c3ff2ac5e201f4d8b64a7a6d1e68b09b63d98e74119239f8717683ac76f8b"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -339,6 +340,64 @@ class ToolChecks(unittest.TestCase):
             "tools/fake_loader.py": False, "tools/fake_wrapper.py": False, "tools/live.py": True,
         })
 
+    def test_absolute_parent_paths_stop_at_the_root(self):
+        imports = g11._import_bindings(ast.parse("from pathlib import Path\n"))
+        within = ast.parse("Path('/tmp/project/tests/test_case.py').parents[1]", mode="eval").body
+        beyond = ast.parse("Path('/tmp/project/tests/test_case.py').parents[99]", mode="eval").body
+        self.assertEqual(g11._python_static_value(within, {}, {}, "tests/test_case.py", imports),
+                         "/tmp/project")
+        self.assertIsNone(g11._python_static_value(beyond, {}, {}, "tests/test_case.py", imports))
+
+    def test_resolved_command_lists_reject_command_mode_arguments(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/argument.py": "x = 1\n",
+            "tools/module_argument.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/argument.py tools/module_argument.py\n",
+            "tests/test_commands.py": (
+                "import subprocess, unittest\n"
+                "class Commands(unittest.TestCase):\n"
+                "    def test_commands(self):\n"
+                "        subprocess.run(['python3', 'tools/live.py'])\n"
+                "        subprocess.run(['python3', '-c', 'print(1)', 'tools/argument.py'])\n"
+                "        subprocess.run(['python3', '-m', 'unittest', 'tools/module_argument.py'])\n"
+            ),
+        }
+        report = self.tools(tree)
+        self.assertEqual({path: item["referenced"] for path, item in report.items()}, {
+            "tools/argument.py": False, "tools/live.py": True, "tools/module_argument.py": False,
+        })
+
+    def test_wrapper_process_call_must_be_reachable(self):
+        tree = {
+            "tools/dead.py": "x = 1\n",
+            "tools/README.md": "tools/dead.py\n",
+            "tests/test_wrapper.py": (
+                "import subprocess, unittest\n"
+                "class Wrapper(unittest.TestCase):\n"
+                "    def test_wrapper(self):\n"
+                "        def launch(arguments):\n"
+                "            if False:\n"
+                "                return subprocess.run(arguments)\n"
+                "        launch(['python3', 'tools/dead.py'])\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/dead.py"]["referenced"])
+
+    def test_function_local_process_import_is_trusted(self):
+        tree = {
+            "tools/worker.py": "x = 1\n",
+            "tools/README.md": "tools/worker.py\n",
+            "tests/test_local.py": (
+                "import unittest\n"
+                "class Local(unittest.TestCase):\n"
+                "    def test_local(self):\n"
+                "        import subprocess\n"
+                "        subprocess.run(['python3', 'tools/worker.py'])\n"
+            ),
+        }
+        self.assertTrue(self.tools(tree)["tools/worker.py"]["referenced"])
+
     def test_sibling_tool_path_execution_is_a_reference(self):
         tree = {
             "tools/family/worker.py": "x = 1\n",
@@ -367,7 +426,7 @@ class ToolChecks(unittest.TestCase):
                 "const script=fileURLToPath(new URL('../tools/live.mjs',import.meta.url));\n"
                 "const decoy=fileURLToPath(new URL('../tools/decoy.mjs',import.meta.url));\n"
                 "spawnSync(process.execPath,[script],{encoding:'utf8'});\n"
-                "String(decoy);\n"
+                "spawnSync('echo', ['hello']); String(decoy);\n"
             ),
             "tests/fake.test.mjs": (
                 "const script=new URL('../tools/fake.mjs',import.meta.url);\n"
@@ -696,7 +755,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 93)
+        self.assertEqual(len(cases), 98)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

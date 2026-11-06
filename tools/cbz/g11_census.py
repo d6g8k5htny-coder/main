@@ -199,6 +199,52 @@ def _resolved_import_name(node, imports, scope_shadowed=()):
     return None
 
 
+def _empty_import_bindings():
+    return {"modules": {}, "symbols": {}, "shadowed": set()}
+
+
+def _update_local_import_bindings(node, bindings):
+    """Apply one reachable function-local binding in execution order."""
+    if isinstance(node, ast.Import):
+        for alias in node.names:
+            bound = alias.asname or alias.name.split(".", 1)[0]
+            bindings["modules"][bound] = alias.name if alias.asname else alias.name.split(".", 1)[0]
+            bindings["symbols"].pop(bound, None)
+            bindings["shadowed"].discard(bound)
+        return
+    if isinstance(node, ast.ImportFrom) and node.level == 0:
+        for alias in node.names:
+            bound = alias.asname or alias.name
+            bindings["symbols"][bound] = (node.module or "", alias.name)
+            bindings["modules"].pop(bound, None)
+            bindings["shadowed"].discard(bound)
+        return
+    targets = []
+    if isinstance(node, ast.Assign):
+        targets = node.targets
+    elif isinstance(node, (ast.AnnAssign, ast.AugAssign)):
+        targets = [node.target]
+    for target in targets:
+        for name in _target_names(target):
+            bindings["modules"].pop(name, None)
+            bindings["symbols"].pop(name, None)
+            bindings["shadowed"].add(name)
+
+
+def _combined_import_bindings(module, local, scope_shadowed):
+    modules = dict(module["modules"])
+    symbols = dict(module["symbols"])
+    locally_bound = set(local["modules"]) | set(local["symbols"])
+    modules.update(local["modules"])
+    symbols.update(local["symbols"])
+    shadowed = set(module["shadowed"]) | set(local["shadowed"])
+    shadowed.update(set(scope_shadowed) - locally_bound)
+    for name in shadowed:
+        modules.pop(name, None)
+        symbols.pop(name, None)
+    return {"modules": modules, "symbols": symbols, "shadowed": shadowed}, ()
+
+
 def _resolve_scoped_import(node, imports, scope_shadowed=()):
     target = node
     while isinstance(target, (ast.Call, ast.Subscript)):
@@ -733,13 +779,13 @@ def _python_static_value(node, local, module, source_path, imports, scope_shadow
         value = _python_static_value(node.value.value, local, module, source_path, imports, scope_shadowed)
         if not isinstance(value, str) or node.slice.value < 0:
             return None
-        parents, current = [], value
-        while True:
-            current = posixpath.dirname(current)
-            parents.append(current)
-            if not current or current == ".":
-                break
-        return parents[node.slice.value] if node.slice.value < len(parents) else None
+        current = value
+        for _ in range(node.slice.value + 1):
+            parent = posixpath.dirname(current)
+            if parent == current:
+                return None
+            current = parent
+        return current
     if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):
         left = _python_static_value(node.left, local, module, source_path, imports, scope_shadowed)
         right = _python_static_value(node.right, local, module, source_path, imports, scope_shadowed)
@@ -825,6 +871,24 @@ def _tool_values(value, tools):
     return {_tool_for_token(item, tools) for item in values if isinstance(item, str)} - {None}
 
 
+def _command_tool_values(value, tools):
+    if not isinstance(value, list) or not value:
+        return _tool_values(value, tools)
+    first = value[0]
+    interpreters = {"<python>", "python", "python3", "python3.11", "bash", "sh"}
+    if first not in interpreters:
+        return _tool_values(first, tools)
+    arguments = value[1:]
+    if any(token in {"-c", "-m"} for token in arguments if isinstance(token, str)):
+        return set()
+    for token in arguments:
+        if not isinstance(token, str) or token.startswith("-"):
+            continue
+        path = _tool_for_token(token, tools)
+        return {path} if path else set()
+    return set()
+
+
 def _python_execution_wrappers(tree, imports):
     """Return reachable-call argument positions forwarded to a trusted process API."""
     wrappers = {}
@@ -835,13 +899,30 @@ def _python_execution_wrappers(tree, imports):
         parameters = [arg.arg for arg in (*function.args.posonlyargs, *function.args.args)]
         positions = set()
         shadowed = _scope_bindings(function)
+        local_imports = _empty_import_bindings()
 
         def visit(node):
             if node is not function and isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef,
                                                           ast.ClassDef, ast.Lambda)):
                 return
+            if isinstance(node, ast.If):
+                truth = _literal_bool(node.test)
+                if truth is None:
+                    if not _is_none_guard(node.test):
+                        return
+                    branch = [*node.body, *node.orelse]
+                else:
+                    branch = node.body if truth else node.orelse
+                for statement in branch:
+                    visit(statement)
+                return
+            if isinstance(node, (ast.For, ast.AsyncFor, ast.While)):
+                return
+            _update_local_import_bindings(node, local_imports)
+            active_imports, active_shadowed = _combined_import_bindings(
+                imports, local_imports, shadowed)
             if isinstance(node, ast.Call) and node.args \
-                    and _resolved_import_name(node.func, imports, shadowed) in process_calls \
+                    and _resolved_import_name(node.func, active_imports, active_shadowed) in process_calls \
                     and isinstance(node.args[0], ast.Name) and node.args[0].id in parameters:
                 positions.add(parameters.index(node.args[0].id))
             for child in ast.iter_child_nodes(node):
@@ -875,13 +956,18 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
     wrappers = _python_execution_wrappers(tree, imports)
     scope_shadowed = {id(node): _scope_bindings(node) for node in ast.walk(tree)
                       if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
-    module_bindings, scope_bindings = {}, {}
+    module_bindings, scope_bindings, scope_imports = {}, {}, {}
     for node, scope in _reachable_python_nodes(tree, mode):
         local = scope_bindings.setdefault(scope, {}) if scope is not None else module_bindings
-        shadowed = scope_shadowed.get(scope, set())
+        local_imports = scope_imports.setdefault(scope, _empty_import_bindings())
+        if scope is not None:
+            _update_local_import_bindings(node, local_imports)
+        active_imports, shadowed = _combined_import_bindings(
+            imports, local_imports, scope_shadowed.get(scope, set()))
         if isinstance(node, (ast.Assign, ast.AnnAssign)):
             value_node = node.value
-            value = _python_static_value(value_node, local, module_bindings, source_path, imports, shadowed)
+            value = _python_static_value(value_node, local, module_bindings, source_path,
+                                         active_imports, shadowed)
             _bind_python_value(node, value, local, module_bindings, scope)
         if isinstance(node, ast.Import):
             for alias in node.names:
@@ -899,22 +985,22 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     if path:
                         references.add(path)
         elif isinstance(node, ast.Call):
-            call_name = _resolved_import_name(node.func, imports, shadowed)
+            call_name = _resolved_import_name(node.func, active_imports, shadowed)
             if isinstance(node.func, ast.Name):
                 positions = wrappers.get((scope, node.func.id), wrappers.get((None, node.func.id), ()))
                 for position in positions:
                     if position < len(node.args):
                         value = _python_static_value(node.args[position], local, module_bindings,
-                                                     source_path, imports, shadowed)
+                                                     source_path, active_imports, shadowed)
                         references.update(_tool_values(value, tools))
             if call_name == "importlib.util.spec_from_file_location" and len(node.args) >= 2:
                 value = _python_static_value(node.args[1], local, module_bindings, source_path,
-                                             imports, shadowed)
+                                             active_imports, shadowed)
                 references.update(_tool_values(value, tools))
                 continue
             if call_name == "runpy.run_path" and node.args:
                 value = _python_static_value(node.args[0], local, module_bindings, source_path,
-                                             imports, shadowed)
+                                             active_imports, shadowed)
                 references.update(_tool_values(value, tools))
                 continue
             if call_name in {"subprocess.run", "subprocess.call", "subprocess.Popen",
@@ -922,13 +1008,9 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                              "runpy.run_path"}:
                 for arg in node.args:
                     value = _python_static_value(arg, local, module_bindings, source_path,
-                                                 imports, shadowed)
+                                                 active_imports, shadowed)
                     if isinstance(value, list):
-                        first = value[0] if value else None
-                        if first == "<python>" or first in {"python", "python3", "python3.11", "bash", "sh"}:
-                            references.update(_tool_values(value[1:], tools))
-                        else:
-                            references.update(_tool_values(first, tools))
+                        references.update(_command_tool_values(value, tools))
                         continue
                     if isinstance(arg, (ast.List, ast.Tuple)):
                         tokens = [elt.value for elt in arg.elts
@@ -940,20 +1022,7 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                             tokens = []
                     else:
                         tokens = []
-                    if tokens and tokens[0] in {"python", "python3", "python3.11", "bash", "sh"}:
-                        if "-c" in tokens[1:]:
-                            continue
-                        for token in tokens[1:]:
-                            if token == "-m":
-                                continue
-                            path = _tool_for_token(token, tools)
-                            if path:
-                                references.add(path)
-                                break
-                    elif tokens:
-                        path = _tool_for_token(tokens[0], tools)
-                        if path:
-                            references.add(path)
+                    references.update(_command_tool_values(tokens, tools))
     return references
 
 
@@ -1056,15 +1125,41 @@ def js_tool_references(text, source_path, tools):
             parts = re.split(r"\s+as\s+", item.strip())
             if parts and parts[0] in allowed_child_calls:
                 child_names.add(parts[-1])
-    child_call = (re.compile(r"\b(?:" + "|".join(map(re.escape, sorted(child_names))) + r")\s*\(")
-                  if child_names else None)
-    for line in visible.splitlines():
-        if child_call is None or not child_call.search(line):
-            continue
+    for arguments in _js_call_arguments(visible, child_names):
         for name, target in bindings.items():
-            if re.search(r"\b" + re.escape(name) + r"\b", line):
+            if re.search(r"\b" + re.escape(name) + r"\b", arguments):
                 references.add(target)
     return references
+
+
+def _js_call_arguments(text, names):
+    if not names:
+        return []
+    starts = re.compile(r"\b(?:" + "|".join(map(re.escape, sorted(names))) + r")\s*\(")
+    arguments = []
+    for match in starts.finditer(text):
+        start = match.end()
+        depth, quote, escaped = 1, None, False
+        for index in range(start, len(text)):
+            char = text[index]
+            if quote:
+                if escaped:
+                    escaped = False
+                elif char == "\\":
+                    escaped = True
+                elif char == quote:
+                    quote = None
+                continue
+            if char in {'"', "'", "`"}:
+                quote = char
+            elif char == "(":
+                depth += 1
+            elif char == ")":
+                depth -= 1
+                if depth == 0:
+                    arguments.append(text[start:index])
+                    break
+    return arguments
 
 
 def _heredoc_opener(command):
