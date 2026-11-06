@@ -48,6 +48,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 TOOL = ROOT / "tools" / "cbz" / "reference_crawler.py"
+ACKNOWLEDGEMENTS = TOOL.with_name("reference_crawler_acknowledged.json")
 TEST = ROOT / "tests" / "test_cbz_reference_crawler.py"
 GRADER_TEST = ROOT / "tests" / "test_reference_crawler_mutation_check.py"
 RAN = re.compile(r"^Ran (\d+) tests? in ", re.M)
@@ -553,6 +554,7 @@ def with_tool(source):
     tmp = tempfile.TemporaryDirectory()
     (Path(tmp.name) / "tools" / "cbz").mkdir(parents=True)
     (Path(tmp.name) / "tools" / "cbz" / "reference_crawler.py").write_text(source)
+    shutil.copy(ACKNOWLEDGEMENTS, Path(tmp.name) / "tools" / "cbz" / ACKNOWLEDGEMENTS.name)
     return tmp
 
 

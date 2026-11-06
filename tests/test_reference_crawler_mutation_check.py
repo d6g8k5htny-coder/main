@@ -123,6 +123,14 @@ class AssertionOrigin(unittest.TestCase):
         self.assertTrue(hasattr(MUTATION, "grader_mutation_selftest"))
         self.assertEqual(MUTATION.grader_mutation_selftest(), (3, 3))
 
+    def test_mutant_fixture_copies_the_registered_acknowledgements(self):
+        source = MUTATION.TOOL.read_text()
+        with MUTATION.with_tool(source) as tmp:
+            copied = Path(tmp) / "tools" / "cbz" / "reference_crawler_acknowledged.json"
+            original = MUTATION.TOOL.with_name("reference_crawler_acknowledged.json")
+            self.assertTrue(copied.is_file())
+            self.assertEqual(copied.read_bytes(), original.read_bytes())
+
     def test_helper_assertion_is_not_an_authorized_kill(self):
         outcome, _, failed, errored = self.run_fixture(
             "pass\n",
