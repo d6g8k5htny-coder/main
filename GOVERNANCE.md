@@ -199,7 +199,7 @@ Coverage actually observed, per package and cut (receipts under `cbz/evidence/g1
 | Package | Cut | Targets | PASS | CORROBORATED | FAIL | UNSUPPORTED | Mutation contract |
 |---|---|---:|---:|---:|---:|---:|---|
 | main `formal/` (SIDE24 + P15 skeletons) | `ec6962ff` (`formal/` unchanged since) | 59 | 59 | 0 | 0 | 0 | 184/184 killed, 24 weakenings kept, 15 declared controls FAIL |
-| Math- `formal/` (`ResearchFormalCoreR1`, Mathlib real analysis) | `19a55750` = `dfa9b30a` | 63 | 3 | 56 | 0 | 4 (named measure-theoretic constructs) | 72/72 killed, 6 weakenings kept, seeds 1–3 |
+| Math- `formal/` (`ResearchFormalCoreR1`, Mathlib real analysis) | `19a55750` = `dfa9b30a` | 63 | 3 | 56 | 0 | 4 (named measure-theoretic constructs) | 72/72 killed, 6 weakenings kept; receipts at seeds 1 and 2, seed 3 recorded in the evidence README |
 | Math- every Lean declaration, 16 groups (census, `--lean-dir`) | `dfa9b30a` | 3,782 | 7 | 128 | 0 | 3,647 (classified by construct) | — |
 
 Gate mapping: G0/G5/G6 use the documented tests and the mutation contract; G8/G9/G11 require this exact
@@ -211,10 +211,12 @@ keeps the row's kernel status and names the construct, and a FAIL blocks the row
 repaired. A per-record annotation of the #695 literal kernel index on this rule is
 `cbz/evidence/g12-statement-fuzz-01n/census_math_dfa9b30a_20261104/g12_annotations_literal_index_82d9e480.json`
 (367 records: 34 PASS · 69 CORROBORATED · 264 not applicable · 0 FAIL). None of this adds to or takes from
-G2–G4. The earlier recorded gap (an exact-rational interval backend for `Real.exp`/`log`) is withdrawn as a
-gap: no landed Lean statement in the federation uses those functions; the remaining UNSUPPORTED classes are
-named in the census. This component installs no global CLOSED guard and does not complete the common final
-G0–G11 run. Maintenance owner: none; stdlib only, self-contained. Actual executor: Anthropic Claude,
+G2–G4. The recorded gap (an exact-rational interval backend for `Real.exp`/`log`) is narrowed, not
+withdrawn: no statement of the registered `formal/` packages uses those functions, but the census classifies
+49 declarations as *transcendental function* (33 `Real.exp`, 9 `Real.log`, 4 `Real.cos`, 3 `Real.sin`; 39 of
+them in the P15 proofs of `specifications/lean_statement_proofs_20261011`), which therefore carry
+`G12: not applicable (transcendental …)`; the other UNSUPPORTED classes are named in the census. This
+component installs no global CLOSED guard and does not complete the common final G0–G11 run. Maintenance owner: none; stdlib only, self-contained. Actual executor: Anthropic Claude,
 Claude Code session `session_01NMeKEismAyeqgdB4sy2NJU`; the declaration-scope repair of #752 by a successor
 lane under the owner's account; scientific effect NONE.
 
