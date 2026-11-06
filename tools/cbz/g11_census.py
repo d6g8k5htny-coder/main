@@ -848,6 +848,23 @@ def _reachable_python_nodes(tree, mode):
                 for name in _target_names(target):
                     active_functions.pop((scope, name), None)
 
+        if isinstance(node, (ast.List, ast.Tuple)):
+            # Sequence elements are evaluated left-to-right. Preserve each
+            # static value before a later element's helper effects can rebind
+            # its source name.
+            for index, element in enumerate(node.elts):
+                value_node = element.value if isinstance(element, ast.Starred) else element
+                visit(value_node, owner, scope, activation_line)
+                marker = ast.Expr(value=value_node)
+                marker.lineno = getattr(value_node, "lineno", getattr(node, "lineno", 0))
+                marker._g11_sequence_id = id(node)
+                marker._g11_sequence_index = index
+                marker._g11_sequence_starred = isinstance(element, ast.Starred)
+                execution_line = (marker.lineno if activation_line is None
+                                  else activation_line)
+                nodes.append((marker, scope, execution_line))
+            return
+
         if isinstance(node, ast.Call):
             # Python evaluates the callee and every argument before invoking
             # the enclosing call. Helper effects in those expressions must be
@@ -1012,6 +1029,31 @@ def _python_static_value(node, local, module, source_path, imports, scope_shadow
             if isinstance(name, str):
                 return posixpath.join(posixpath.dirname(base), name)
     return None
+
+
+def _python_sequence_static_value(node, evaluated_elements, local, module,
+                                  source_path, imports, scope_shadowed=()):
+    """Resolve a sequence from values captured at each element evaluation."""
+    if not isinstance(node, (ast.List, ast.Tuple)):
+        return _python_static_value(
+            node, local, module, source_path, imports, scope_shadowed)
+    missing = object()
+    values = []
+    for index, element in enumerate(node.elts):
+        value_node = element.value if isinstance(element, ast.Starred) else element
+        value = evaluated_elements.get((id(node), index), missing)
+        if value is missing:
+            value = _python_sequence_static_value(
+                value_node, evaluated_elements, local, module, source_path,
+                imports, scope_shadowed)
+        if isinstance(element, ast.Starred):
+            if isinstance(value, list):
+                values.extend(value)
+            else:
+                values.append(_UNRESOLVED_STATIC)
+        else:
+            values.append(_UNRESOLVED_STATIC if value is None else value)
+    return values
 
 
 _MUTATING_LIST_METHODS = {"append", "clear", "extend", "insert", "pop", "remove",
@@ -1281,6 +1323,7 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                      if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
     module_bindings, scope_bindings, scope_imports = {}, {}, {}
     evaluated_arguments = {}
+    evaluated_sequence_elements = {}
     missing_argument = object()
     reachable_nodes = sorted(_reachable_python_nodes(tree, mode), key=lambda item: item[2])
     wrapper_reassignments = {}
@@ -1304,16 +1347,28 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
         locally_imported = set(local_imports["modules"]) | set(local_imports["symbols"])
         static_shadowed = (scope_shadowed.get(scope, set())
                            - locally_imported - global_names)
+        if hasattr(node, "_g11_sequence_id"):
+            value = _python_sequence_static_value(
+                node.value, evaluated_sequence_elements, local, module_bindings,
+                source_path, active_imports, static_shadowed)
+            if node._g11_sequence_starred and isinstance(value, list):
+                value = list(value)
+            evaluated_sequence_elements[(
+                node._g11_sequence_id, node._g11_sequence_index)] = value
+            continue
         if hasattr(node, "_g11_call_id"):
             evaluated_arguments[(node._g11_call_id, node._g11_argument_index)] = (
-                _python_static_value(node.value, local, module_bindings, source_path,
-                                     active_imports, static_shadowed))
+                _python_sequence_static_value(
+                    node.value, evaluated_sequence_elements, local,
+                    module_bindings, source_path, active_imports,
+                    static_shadowed))
             continue
         if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
             value_node = (ast.BinOp(left=node.target, op=node.op, right=node.value)
                           if isinstance(node, ast.AugAssign) else node.value)
-            value = _python_static_value(value_node, local, module_bindings, source_path,
-                                         active_imports, static_shadowed)
+            value = _python_sequence_static_value(
+                value_node, evaluated_sequence_elements, local, module_bindings,
+                source_path, active_imports, static_shadowed)
             if isinstance(node, ast.AugAssign) and isinstance(node.target, ast.Name):
                 destination = (module_bindings if scope is None or node.target.id in global_names
                                else local)
@@ -1355,9 +1410,10 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                 value = evaluated_arguments.get((id(node), index), missing_argument)
                 if value is not missing_argument:
                     return value
-                return _python_static_value(
-                    node.args[index], local, module_bindings, source_path,
-                    active_imports, static_shadowed)
+                return _python_sequence_static_value(
+                    node.args[index], evaluated_sequence_elements, local,
+                    module_bindings, source_path, active_imports,
+                    static_shadowed)
 
             mutated_root = _python_mutated_root_name(node)
             if mutated_root:
@@ -1765,6 +1821,18 @@ def _js_function_scope_key(text, position):
     return max(containing, key=lambda item: item[0]) if containing else None
 
 
+def _js_block_scopes(searchable):
+    """Return balanced lexical brace ranges from already masked JavaScript."""
+    stack = []
+    scopes = []
+    for index, char in enumerate(searchable):
+        if char == "{":
+            stack.append(index)
+        elif char == "}" and stack:
+            scopes.append((stack.pop(), index))
+    return scopes
+
+
 def _js_call_activation_points(text, position):
     """Return module-root activation points for one reachable process call."""
     searchable, scopes = _js_function_scopes(text)
@@ -1883,22 +1951,23 @@ def _js_parameter_shadows(text, position, name):
 
 
 def _js_local_declaration_shadows(text, position, name):
-    """Return true for a containing-function declaration shadowing an import."""
-    searchable, scopes = _js_function_scopes(text)
+    """Return true for a declaration in a containing lexical block."""
+    searchable, function_scopes = _js_function_scopes(text)
+    blocks = _js_block_scopes(searchable)
     containing = sorted(
-        (scope for scope in scopes if scope[2] < position < scope[3]),
-        key=lambda item: item[2], reverse=True)
+        (block for block in blocks if block[0] < position < block[1]),
+        key=lambda item: item[0], reverse=True)
     if not containing:
         return False
     pattern = re.compile(
         r"\b(?:const|let|var|function|class)\s+" + re.escape(name) + r"(?![\w$])")
-    for scope in containing:
-        for declaration in pattern.finditer(searchable, scope[2] + 1, scope[3]):
-            declaration_scopes = [candidate for candidate in scopes
-                                  if candidate[2] < declaration.start() < candidate[3]]
-            declaration_scope = (max(declaration_scopes, key=lambda item: item[2])
-                                 if declaration_scopes else None)
-            if declaration_scope == scope:
+    for block in containing:
+        for declaration in pattern.finditer(searchable, block[0] + 1, block[1]):
+            declaration_blocks = [candidate for candidate in blocks
+                                  if candidate[0] < declaration.start() < candidate[1]]
+            declaration_block = (max(declaration_blocks, key=lambda item: item[0])
+                                 if declaration_blocks else None)
+            if declaration_block == block:
                 return True
     return False
 

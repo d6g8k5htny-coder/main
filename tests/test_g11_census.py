@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "d4cab4976fb9b491bdfdc6b5350ad2318273fcbeac340ad4178791a86698dc19"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "afb6cf9452ccdb1facae9701af18ee822185bce625a2ab379c51a344855699ae"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -705,6 +705,23 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
+    def test_sequence_preserves_earlier_element_value_before_later_effects(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_sequence_capture.py": (
+                "import subprocess\n"
+                "script = 'other.py'\n"
+                "def change():\n"
+                "    global script\n"
+                "    script = 'tools/unused.py'\n"
+                "    return 'argument'\n"
+                "command = ['python3', script, change()]\n"
+                "subprocess.run(command)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
     def test_reassigned_python_helper_is_not_executed(self):
         tree = {
             "tools/unused.py": "x = 1\n",
@@ -1276,6 +1293,21 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
+    def test_js_module_block_declaration_shadows_named_child_process_import(self):
+        tree = {
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/block-shadow.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "{\n"
+                "  const spawnSync=(...args) => console.log(args);\n"
+                "  spawnSync('echo',[script]);\n"
+                "}\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
     def test_js_default_initializer_reference_is_not_a_parameter_binding(self):
         tree = {
             "tools/live.mjs": "export const live = true;\n",
@@ -1760,7 +1792,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 156)
+        self.assertEqual(len(cases), 158)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:
