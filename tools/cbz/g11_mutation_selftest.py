@@ -357,8 +357,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("nonprocess wrapper accepted", "census",
-     "                    and _resolved_import_name(node.func, active_imports, active_shadowed) in process_calls \\\n                    and isinstance(node.args[0], ast.Name) and node.args[0].id in parameters \\\n                    and node.args[0].id not in rebound:",
-     "                    and True \\\n                    and isinstance(node.args[0], ast.Name) and node.args[0].id in parameters \\\n                    and node.args[0].id not in rebound:",
+     "                forwarded = node.args[0] if resolved in process_calls else None",
+     "                forwarded = node.args[0]",
      "tests.test_g11_census.ToolChecks.test_path_values_need_reachable_execution_not_mentions",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("sibling with_name path ignored", "census",
@@ -422,8 +422,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_destructured_paths_bind_corresponding_values",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("rebound wrapper parameter still forwarded", "census",
-     "                    and node.args[0].id not in rebound:",
-     "                    and True:",
+     "                if (isinstance(forwarded, ast.Name) and forwarded.id in parameters\n                        and forwarded.id not in rebound):",
+     "                if (isinstance(forwarded, ast.Name) and forwarded.id in parameters\n                        and True):",
      "tests.test_g11_census.ToolChecks.test_wrapper_rebinding_invalidates_forwarding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("local static shadow inherits module value", "census",
@@ -452,7 +452,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_property_calls_do_not_use_named_child_process_imports",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("unresolved command element dropped", "census",
-     "            if value is None:\n                return None\n            values.append(value)",
+     "            if value is None:\n                values.append(_UNRESOLVED_STATIC)\n                continue\n            values.append(value)",
      "            if value is None:\n                continue\n            values.append(value)",
      "tests.test_g11_census.ToolChecks.test_unresolved_command_elements_do_not_shift_the_executable",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
@@ -472,9 +472,24 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_quoted_call_text_does_not_execute_bindings",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("resolved starred command elements ignored", "census",
-     "            if isinstance(element, ast.Starred):\n                value = _python_static_value(element.value, local, module, source_path,\n                                             imports, scope_shadowed)\n                if not isinstance(value, list):\n                    return None\n                values.extend(value)\n                continue",
+     "            if isinstance(element, ast.Starred):\n                value = _python_static_value(element.value, local, module, source_path,\n                                             imports, scope_shadowed)\n                if not isinstance(value, list):\n                    values.append(_UNRESOLVED_STATIC)\n                    continue\n                values.extend(value)\n                continue",
      "            if isinstance(element, ast.Starred):\n                return None",
      "tests.test_g11_census.ToolChecks.test_unresolved_command_elements_do_not_shift_the_executable",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("dynamic command suffix discards proven prefix", "census",
+     "            if value is None:\n                values.append(_UNRESOLVED_STATIC)\n                continue\n            values.append(value)",
+     "            if value is None:\n                return None\n            values.append(value)",
+     "tests.test_g11_census.ToolChecks.test_dynamic_command_suffix_does_not_hide_a_proven_tool_prefix",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("unittest lifecycle methods ignored", "census",
+     "                    and (node.name.startswith(\"test_\")\n                         or node.name in {\"setUp\", \"tearDown\", \"setUpClass\", \"tearDownClass\"})):",
+     "                    and node.name.startswith(\"test_\")):",
+     "tests.test_g11_census.ToolChecks.test_unittest_lifecycle_methods_are_reachable",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("import loader wrapper forwarding ignored", "census",
+     "    path_calls = {\"importlib.util.spec_from_file_location\": 1, \"runpy.run_path\": 0}",
+     "    path_calls = {\"runpy.run_path\": 0}",
+     "tests.test_g11_census.ToolChecks.test_import_loader_wrapper_forwards_a_proven_tool_path",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
 
 ]
@@ -589,6 +604,9 @@ EXPECTED_MUTATION_NAMES = (
     "shadowed callee inherits module wrapper",
     "quoted JavaScript text accepted as child process call",
     "resolved starred command elements ignored",
+    "dynamic command suffix discards proven prefix",
+    "unittest lifecycle methods ignored",
+    "import loader wrapper forwarding ignored",
 )
 
 
@@ -767,7 +785,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 58
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 61
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

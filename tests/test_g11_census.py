@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "1421bde3e8bc2f1436418f347d27dde6ab220fdc472bc4141fc97de377c488e5"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "980c52145fe0d6d4963ed4c31f869a2e48c4b2c439a796b76aa9c05ffda131c3"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -395,6 +395,50 @@ class ToolChecks(unittest.TestCase):
             "tools/live.py": True, "tools/starred.py": True,
         })
 
+    def test_dynamic_command_suffix_does_not_hide_a_proven_tool_prefix(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/shifted.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/shifted.py\n",
+            "tests/test_commands.py": (
+                "import os, subprocess, sys, unittest\n"
+                "LIVE = 'tools/live.py'\n"
+                "SHIFTED = 'tools/shifted.py'\n"
+                "class Commands(unittest.TestCase):\n"
+                "    def test_commands(self):\n"
+                "        suffix = os.environ.get('G11_DYNAMIC_SUFFIX')\n"
+                "        subprocess.run([sys.executable, '-B', LIVE, suffix])\n"
+                "        subprocess.run([sys.executable, suffix, SHIFTED])\n"
+            ),
+        }
+        self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
+            "tools/live.py": True, "tools/shifted.py": False,
+        })
+
+    def test_unittest_lifecycle_methods_are_reachable(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/dead.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/dead.py\n",
+            "tests/test_lifecycle.py": (
+                "import importlib.util, unittest\n"
+                "LIVE = 'tools/live.py'\n"
+                "DEAD = 'tools/dead.py'\n"
+                "def setUp():\n"
+                "    importlib.util.spec_from_file_location('dead', DEAD)\n"
+                "class Lifecycle(unittest.TestCase):\n"
+                "    def setUp(self):\n"
+                "        importlib.util.spec_from_file_location('live', LIVE)\n"
+                "    def helper(self):\n"
+                "        importlib.util.spec_from_file_location('dead', DEAD)\n"
+                "    def test_body(self):\n"
+                "        self.assertTrue(True)\n"
+            ),
+        }
+        self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
+            "tools/dead.py": False, "tools/live.py": True,
+        })
+
     def test_boolean_or_static_values_follow_short_circuit_order(self):
         tree = {
             "tools/live.py": "x = 1\n",
@@ -484,6 +528,29 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
             "tools/argument.py": False, "tools/live.py": True,
+        })
+
+    def test_import_loader_wrapper_forwards_a_proven_tool_path(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/dead.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/dead.py\n",
+            "tests/test_wrapper.py": (
+                "import importlib.util, unittest\n"
+                "LIVE = 'tools/live.py'\n"
+                "DEAD = 'tools/dead.py'\n"
+                "def load(path):\n"
+                "    return importlib.util.spec_from_file_location('loaded', path)\n"
+                "def exercise(load):\n"
+                "    load(DEAD)\n"
+                "class Wrapper(unittest.TestCase):\n"
+                "    def test_wrapper(self):\n"
+                "        load(LIVE)\n"
+                "        exercise(print)\n"
+            ),
+        }
+        self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
+            "tools/dead.py": False, "tools/live.py": True,
         })
 
     def test_local_callee_shadows_do_not_inherit_module_wrappers(self):
@@ -975,7 +1042,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 110)
+        self.assertEqual(len(cases), 113)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

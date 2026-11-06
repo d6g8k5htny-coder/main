@@ -48,6 +48,7 @@ LEGIT_DECORATORS = {"abstractmethod", "overload"}
 LEGIT_BASES = {"Protocol", "ABC"}
 NOOP_RUN = {"true", ":", "exit 0"}
 PRODUCTION = {"tooling", "site"}
+_UNRESOLVED_STATIC = object()
 
 
 def area(path):
@@ -695,7 +696,9 @@ def _reachable_python_nodes(tree, mode):
             for default in node.args.kw_defaults:
                 if default is not None:
                     visit(default, owner, scope)
-            if mode == "tests" and owner in test_classes and node.name.startswith("test_"):
+            if (mode == "tests" and owner in test_classes
+                    and (node.name.startswith("test_")
+                         or node.name in {"setUp", "tearDown", "setUpClass", "tearDownClass"})):
                 queue.append((node, owner))
             return
         if isinstance(node, ast.ClassDef):
@@ -815,12 +818,14 @@ def _python_static_value(node, local, module, source_path, imports, scope_shadow
                 value = _python_static_value(element.value, local, module, source_path,
                                              imports, scope_shadowed)
                 if not isinstance(value, list):
-                    return None
+                    values.append(_UNRESOLVED_STATIC)
+                    continue
                 values.extend(value)
                 continue
             value = _python_static_value(element, local, module, source_path, imports, scope_shadowed)
             if value is None:
-                return None
+                values.append(_UNRESOLVED_STATIC)
+                continue
             values.append(value)
         return values
     if isinstance(node, ast.BoolOp) and isinstance(node.op, ast.Or):
@@ -904,7 +909,9 @@ def _command_tool_values(value, tools):
     if any(token in {"-c", "-m"} for token in arguments if isinstance(token, str)):
         return set()
     for token in arguments:
-        if not isinstance(token, str) or token.startswith("-"):
+        if not isinstance(token, str):
+            return set()
+        if token.startswith("-"):
             continue
         path = _tool_for_token(token, tools)
         return {path} if path else set()
@@ -916,6 +923,7 @@ def _python_execution_wrappers(tree, imports):
     wrappers = {}
     process_calls = {"subprocess.run", "subprocess.call", "subprocess.Popen",
                      "subprocess.check_call", "subprocess.check_output", "os.system"}
+    path_calls = {"importlib.util.spec_from_file_location": 1, "runpy.run_path": 0}
 
     def wrapper_positions(function):
         parameters = [arg.arg for arg in (*function.args.posonlyargs, *function.args.args)]
@@ -951,11 +959,14 @@ def _python_execution_wrappers(tree, imports):
             _update_local_import_bindings(node, local_imports)
             active_imports, active_shadowed = _combined_import_bindings(
                 imports, local_imports, shadowed)
-            if isinstance(node, ast.Call) and node.args \
-                    and _resolved_import_name(node.func, active_imports, active_shadowed) in process_calls \
-                    and isinstance(node.args[0], ast.Name) and node.args[0].id in parameters \
-                    and node.args[0].id not in rebound:
-                positions.add(parameters.index(node.args[0].id))
+            if isinstance(node, ast.Call) and node.args:
+                resolved = _resolved_import_name(node.func, active_imports, active_shadowed)
+                forwarded = node.args[0] if resolved in process_calls else None
+                if resolved in path_calls and len(node.args) > path_calls[resolved]:
+                    forwarded = node.args[path_calls[resolved]]
+                if (isinstance(forwarded, ast.Name) and forwarded.id in parameters
+                        and forwarded.id not in rebound):
+                    positions.add(parameters.index(forwarded.id))
             for child in ast.iter_child_nodes(node):
                 visit(child)
 
