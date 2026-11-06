@@ -1,0 +1,113 @@
+FFFFFFusage: python -m unittest [-h] [--write] [records]
+python -m unittest: error: unrecognized arguments: --check
+EFF
+======================================================================
+ERROR: test_strict_empty_non_green (tests.test_node_status_freshness.ContentTests.test_strict_empty_non_green)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 65, in test_strict_empty_non_green
+    self.assertNotEqual(n.main([tmp,'--check']),0)
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/shared/cbz-recovery/freshness/tools/node_status_refresh.py", line 346, in main
+    args = ap.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/argparse.py", line 1908, in parse_args
+    self.error(msg)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/argparse.py", line 2650, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/argparse.py", line 2637, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+FAIL: test_access_error_unknown (tests.test_node_status_freshness.ContentTests.test_access_error_unknown)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 58, in test_access_error_unknown
+    self.assertEqual(n.refresh_record(record(),self.observer())['status'],'unknown')
+                                               ^^^^^^^^^^^^^^^
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 30, in observer
+    self.assertTrue(hasattr(n,'ContentObserver'), 'missing content-bound observer')
+AssertionError: False is not true : missing content-bound observer
+
+======================================================================
+FAIL: test_changed_blob_is_stale (tests.test_node_status_freshness.ContentTests.test_changed_blob_is_stale)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 41, in test_changed_blob_is_stale
+    self.assertEqual(n.refresh_record(record(),self.observer())['status'],'stale')
+                                               ^^^^^^^^^^^^^^^
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 30, in observer
+    self.assertTrue(hasattr(n,'ContentObserver'), 'missing content-bound observer')
+AssertionError: False is not true : missing content-bound observer
+
+======================================================================
+FAIL: test_missing_path_unknown (tests.test_node_status_freshness.ContentTests.test_missing_path_unknown)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 52, in test_missing_path_unknown
+    self.assertEqual(n.refresh_record(record(),self.observer())['status'],'unknown')
+                                               ^^^^^^^^^^^^^^^
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 30, in observer
+    self.assertTrue(hasattr(n,'ContentObserver'), 'missing content-bound observer')
+AssertionError: False is not true : missing content-bound observer
+
+======================================================================
+FAIL: test_mode_change_is_stale (tests.test_node_status_freshness.ContentTests.test_mode_change_is_stale)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 46, in test_mode_change_is_stale
+    self.assertEqual(n.refresh_record(record(),self.observer())['status'],'stale')
+                                               ^^^^^^^^^^^^^^^
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 30, in observer
+    self.assertTrue(hasattr(n,'ContentObserver'), 'missing content-bound observer')
+AssertionError: False is not true : missing content-bound observer
+
+======================================================================
+FAIL: test_partial_tree_unknown (tests.test_node_status_freshness.ContentTests.test_partial_tree_unknown)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 49, in test_partial_tree_unknown
+    self.assertEqual(n.refresh_record(record(),self.observer())['status'],'unknown')
+                                               ^^^^^^^^^^^^^^^
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 30, in observer
+    self.assertTrue(hasattr(n,'ContentObserver'), 'missing content-bound observer')
+AssertionError: False is not true : missing content-bound observer
+
+======================================================================
+FAIL: test_snapshot_commit_difference_is_not_content_drift (tests.test_node_status_freshness.ContentTests.test_snapshot_commit_difference_is_not_content_drift)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 33, in test_snapshot_commit_difference_is_not_content_drift
+    obs=self.observer(); out=n.refresh_record(record(),obs,'2026-10-29T20:00:00Z')
+        ^^^^^^^^^^^^^^^
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 30, in observer
+    self.assertTrue(hasattr(n,'ContentObserver'), 'missing content-bound observer')
+AssertionError: False is not true : missing content-bound observer
+
+======================================================================
+FAIL: test_url_kind_mismatch_unknown (tests.test_node_status_freshness.ContentTests.test_url_kind_mismatch_unknown)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 61, in test_url_kind_mismatch_unknown
+    self.assertEqual(n.refresh_record(rec,self.observer())['status'],'unknown')
+                                          ^^^^^^^^^^^^^^^
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 30, in observer
+    self.assertTrue(hasattr(n,'ContentObserver'), 'missing content-bound observer')
+AssertionError: False is not true : missing content-bound observer
+
+======================================================================
+FAIL: test_wrong_response_identity_unknown (tests.test_node_status_freshness.ContentTests.test_wrong_response_identity_unknown)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 55, in test_wrong_response_identity_unknown
+    self.assertEqual(n.refresh_record(record(),self.observer())['status'],'unknown')
+                                               ^^^^^^^^^^^^^^^
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 30, in observer
+    self.assertTrue(hasattr(n,'ContentObserver'), 'missing content-bound observer')
+AssertionError: False is not true : missing content-bound observer
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.003s
+
+FAILED (failures=8, errors=1)

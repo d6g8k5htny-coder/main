@@ -1,0 +1,113 @@
+{
+  "generation": "resource-boundary-v2",
+  "status": "COMPLETE_SCOPED_RESOURCE_REPAIR_G0_ENGINEERING_REVIEW_PASS",
+  "created_at": "2026-10-29T19:26:45.835512+00:00",
+  "scope": "P2 resource argument validation, subprocess exception normalization, bounded abnormal child cleanup, terminal ERROR propagation; isolated wrapper tests/mutants only.",
+  "peer_finding": {
+    "url": "https://github.com/d6g8k5htny-coder/main/pull/696#discussion_r4416529549",
+    "review_id": 5703218243,
+    "applies_to_published_head": "cd3a0021a16437567ceda8c9a0f0525677042de2",
+    "native_record": "/workspace/cbz-0/discovery/kernel-resource-review-native.json"
+  },
+  "source_bindings": [
+    {
+      "path": "/workspace/cbz-0/tools/kernel_replay/kernel_replay.py",
+      "sha256": "27da13a9455a62c2b192ff62f6222266cb483d323cf680f3d81d3b19b260b8ce"
+    },
+    {
+      "path": "/workspace/cbz-0/tools/kernel_replay/ExactReplay.lean",
+      "sha256": "24e55f5e99c83a46f9f908bbc90f22292a94305294e287d9b2eccbf24e8e6b66"
+    },
+    {
+      "path": "/workspace/cbz-0/tools/kernel_replay/mutations.py",
+      "sha256": "5fd6fbbfd2aab463f1c2c017af942762ae798a67f3d1fc47001bc317b8fee0a0"
+    },
+    {
+      "path": "/workspace/cbz-0/tools/kernel_replay/run_tests.py",
+      "sha256": "b0a7f1c508462c21688de8d5ec70384d40f780c342814d97589f0b45f2d7620b"
+    },
+    {
+      "path": "/workspace/cbz-0/tools/kernel_replay/tests/test_kernel_replay.py",
+      "sha256": "2ccdd956379bf3ddbc479a10604a10db7c26acee96c54c869c7a6bafc0f2dfeb"
+    },
+    {
+      "path": "/workspace/cbz-0/tools/kernel_replay/tests/test_real_lean.py",
+      "sha256": "51ab210da908b4e3d74fe179c41a414abf4c53e88458db33f7934ae0010337d7"
+    },
+    {
+      "path": "/workspace/cbz-0/tools/kernel_replay/tests/test_mutation_harness.py",
+      "sha256": "ca90d5c5c8e48d163d35b2170f2e7f08352863c23bd73f1b383a73a2dcc16ff3"
+    }
+  ],
+  "platform": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "sys_maxsize": 9223372036854775807,
+    "RLIMIT_AS": [
+      -1,
+      -1
+    ],
+    "threading_TIMEOUT_MAX": 9223372036.0,
+    "effective_memory_mib_max": 8796093022207,
+    "effective_timeout_seconds_max": 2147483,
+    "cleanup_wait_seconds": 1.0
+  },
+  "behavior": [
+    "Reject bool/nonfinite/oversized resource values before spawn; compare huge timeout integers before float conversion.",
+    "Memory limit is min(platform signed byte ceiling, finite inherited hard RLIMIT_AS); no clamp.",
+    "Normalize spawn/wait OSError, SubprocessError, OverflowError and ValueError to structured ERROR.",
+    "Explicit Popen ownership removes implicit context-manager wait. Timeout/error group SIGKILL and child fallback use bounded reap plus nonblocking poll.",
+    "Unreaped PID produces ERROR/diagnostics, halts subsequent modules, and leaves expected coverage incomplete. OS-uninterruptible child cannot be forced to exit by a finite caller wait.",
+    "Only FINISHED normal wait can become PASS; ERROR cannot become PASS from cleanup exit-zero/valid marker."
+  ],
+  "verification": {
+    "index": {
+      "path": "/workspace/cbz-0/tools/kernel_replay/evidence/g0-resource-applicable.json",
+      "sha256": "0b853bc0eb0ff2ac374a9a4782cfb8d3a7207e253180b7bd6aa911aefa171058"
+    },
+    "fresh_distinct_tests": 32,
+    "fresh_invocations": 33,
+    "new_resource_tests": 14,
+    "fresh_mutants": 19,
+    "fresh_mutant_kills": 19,
+    "old_wrapper_mutants_in_fresh_run": 10,
+    "new_resource_mutants": 9,
+    "reused_real_lean_tests": 9,
+    "reused_real_mutants": 6,
+    "single_fresh_full_suite": false,
+    "memory_oracle_mutant_refresh": true
+  },
+  "source_history": {
+    "baseline_source_sha256": "416b688929daff9f473ce3e0abd399d8be2cde46c12956d3e5d5d9937d914293",
+    "baseline_tests": 27,
+    "baseline_mutants": 16,
+    "baseline_preserved": "evidence/resource-baseline/ and existing g0-* receipts",
+    "prior_report_unchanged": "/workspace/cbz-0/discovery/kernel-replay-tool-report.json"
+  },
+  "canonical_math_core_resolution": {
+    "observed_by_this_window_utc": "2026-10-29T18:50:42.767390+00:00",
+    "source_commit": "8151f592918a845bf19eb8eafaf8444540a32734",
+    "canonical_handoff_cut": "94747663830ca6645ea27c8820058168c08cf170",
+    "status_source": "https://github.com/d6g8k5htny-coder/main/blob/94747663830ca6645ea27c8820058168c08cf170/STATUS.md",
+    "receipt_source": "https://github.com/d6g8k5htny-coder/main/blob/94747663830ca6645ea27c8820058168c08cf170/cbz/evidence/kernel/math-core/receipt.json",
+    "reported_resource_configuration": "LEAN_NUM_THREADS=2",
+    "component_scope": "Math core:116 owned constants,63 public theorem targets,26853 dependency closure; onlypropext/Classical.choice/Quot.sound; fullcomponentgate/adversecontrols recorded",
+    "project_proof_replayed_for_this_correction": false,
+    "adapter_production_code_or_tests_changed": false,
+    "adapter_27_tests_16_mutants_reused": true,
+    "federation_CBZ_claim": false,
+    "record_context": "Historical documentation-only correction at cd3a0021; adapter-unchanged/reused-27-16 fields describe that cut. The later resource-boundary source change has separate self_verification evidence above."
+  },
+  "mathematical_or_actual_lean_replay_performed": false,
+  "full_cbz": false,
+  "g2": "NOT_ASSESSED_BY_REPLAY",
+  "external_writes": false,
+  "git_or_remote_mutation": false,
+  "process_review": {
+    "status": "PASS_SAME_PROVIDER_ENGINEERING_REVIEW",
+    "report": "/workspace/cbz-0/discovery/kernel-resource-postfix-review.md",
+    "sha256": "660d37c8e5c3374d8fee867182042c12d2fc863f2a0f63198e4b01b0c8ced8b2",
+    "provider_distinct_scientific_review": "NOT_ASSESSED_BY_THIS_ENGINEERING_REVIEW",
+    "math_verification_reuse_is_separate": true
+  },
+  "delivery": "/workspace/cbz-0/delivery/kernel-resource-fix"
+}

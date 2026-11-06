@@ -1,0 +1,116 @@
+{
+  "component": "kernel_replay",
+  "changed_files": {
+    "run_tests.py": {
+      "baseline_sha256": "b0a7f1c508462c21688de8d5ec70384d40f780c342814d97589f0b45f2d7620b",
+      "previous_integrated_sha256": "5403f6b1ca6954cb0db9e0dc29e16b97a8f82506d1acedb8f0d7d2bece49bbf9",
+      "changed_sha256": "de089e08688ffb2c236cdc34ccc095eb421d5162dde6d8eff24af7fdc3c91baa"
+    },
+    "mutations.py": {
+      "baseline_sha256": "5fd6fbbfd2aab463f1c2c017af942762ae798a67f3d1fc47001bc317b8fee0a0",
+      "previous_integrated_sha256": "a1a0b0e7d6c5809c1f3f291a10aa14edc04265ce73cf76494318f966ab69b9bd",
+      "changed_sha256": "a1a0b0e7d6c5809c1f3f291a10aa14edc04265ce73cf76494318f966ab69b9bd"
+    },
+    "tests/test_mutation_harness.py": {
+      "baseline_sha256": "ca90d5c5c8e48d163d35b2170f2e7f08352863c23bd73f1b383a73a2dcc16ff3",
+      "previous_integrated_sha256": "96f372fbc4dbf0c0ead1195f85230235741acca687405b74f7365b9d9647e843",
+      "changed_sha256": "9887371525049cbc9685fadfd02531b1171507ad3c2c8373947c37875b3783e6"
+    }
+  },
+  "current_harness_method_ids": [
+    "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill",
+    "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish",
+    "test_mutation_harness.MutationHarnessTests.test_dispatch_hook_assertion_without_selected_method_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_selected_method_invoked_from_lifecycle_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_clean_identity_survives",
+    "test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion",
+    "test_mutation_harness.MutationHarnessTests.test_errors_skips_and_expected_failures_are_errors",
+    "test_mutation_harness.MutationHarnessTests.test_body_scoped_subtest_assertions_kill_without_changing_parent_population",
+    "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion",
+    "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors",
+    "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_population_listing_does_not_execute_fixtures_or_bodies",
+    "test_mutation_harness.MutationHarnessTests.test_summary_without_lifecycle_receipt_fails_closed",
+    "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error"
+  ],
+  "current_harness_method_count": 14,
+  "replaces_old_harness_ids": [
+    "test_mutation_harness.MutationHarnessTests.test_only_clean_assertion_failure_is_a_kill"
+  ],
+  "unchanged_original_method_count": 40,
+  "current_total_test_method_count": 54,
+  "fresh_normal_methods": {
+    "kernel-controls-green.log": [
+      "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill",
+      "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish",
+      "test_mutation_harness.MutationHarnessTests.test_dispatch_hook_assertion_without_selected_method_is_error",
+      "test_mutation_harness.MutationHarnessTests.test_selected_method_invoked_from_lifecycle_is_error",
+      "test_mutation_harness.MutationHarnessTests.test_clean_identity_survives",
+      "test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion",
+      "test_mutation_harness.MutationHarnessTests.test_errors_skips_and_expected_failures_are_errors",
+      "test_mutation_harness.MutationHarnessTests.test_body_scoped_subtest_assertions_kill_without_changing_parent_population",
+      "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors",
+      "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+      "test_mutation_harness.MutationHarnessTests.test_summary_without_lifecycle_receipt_fails_closed",
+      "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error"
+    ],
+    "kernel-population-listing-green.log": [
+      "test_mutation_harness.MutationHarnessTests.test_population_listing_does_not_execute_fixtures_or_bodies"
+    ],
+    "kernel-foreign-subtest-green.log": [
+      "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion"
+    ]
+  },
+  "fresh_optimized_methods": {
+    "kernel-controls-optimized-green.log": [
+      "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill",
+      "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish",
+      "test_mutation_harness.MutationHarnessTests.test_dispatch_hook_assertion_without_selected_method_is_error",
+      "test_mutation_harness.MutationHarnessTests.test_selected_method_invoked_from_lifecycle_is_error",
+      "test_mutation_harness.MutationHarnessTests.test_clean_identity_survives",
+      "test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion",
+      "test_mutation_harness.MutationHarnessTests.test_errors_skips_and_expected_failures_are_errors",
+      "test_mutation_harness.MutationHarnessTests.test_body_scoped_subtest_assertions_kill_without_changing_parent_population",
+      "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors",
+      "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+      "test_mutation_harness.MutationHarnessTests.test_population_listing_does_not_execute_fixtures_or_bodies",
+      "test_mutation_harness.MutationHarnessTests.test_summary_without_lifecycle_receipt_fails_closed",
+      "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error"
+    ],
+    "kernel-foreign-subtest-optimized-green.log": [
+      "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion"
+    ]
+  },
+  "fresh_original_production_mutants": 0,
+  "fresh_harness_source_mutants": {
+    "initial_generation": 8,
+    "changed_final_runner_generation": 4,
+    "foreign_parent_followup_generation": 1,
+    "unique_safeguard_mutants": 10,
+    "unchanged_classifier_mutants_reused": 5,
+    "note": "13 observed harness-mutant executions represent 10 distinct safeguard definitions across source generations; no fresh original production mutant replay"
+  },
+  "historical_original_production_mutants_reused": {
+    "fresh_from_previous_component_delivery": 19,
+    "reused_from_previous_component_delivery": 6
+  },
+  "scope": "No original Lean, project build, proof, broad kernel suite, or original production mutation replay. Dynamic benign fixture invocations are controls, not additional production-suite methods.",
+  "unchanged_mutation_definitions_block_sha256": "3de9f76a2f8b81d9c0a1fd81c89ed0b8a2efd92ef73900ddaabd761469b45499",
+  "evidence_reuse_rationale": "Only the runner/classifier and its harness tests changed. Original kernel_replay.py, ExactReplay.lean, wrapper/real test bodies, and all 25 original mutation definitions remain unchanged. Previously established actual assertion traces in those selected bodies remain body-scoped evidence. New phase controls correct future receipt grading; old receipts are retained historical records, not rewritten as new-schema receipts or presented as a fresh whole-suite run. Reuse old 19 fresh +6 earlier kills under their source applicability, with owner source-custody checks separate.",
+  "foreign_parent_followup": {
+    "specific_uncovered_obligation": "A reported subtest must belong to the actual selected parent TestCase.",
+    "guard_change": "Reject getattr(subtest,test_case,None) is not test; only foreign-parent events affected.",
+    "reused_evidence": "All prior13 controls and unchanged safeguards use actual parent identity and remain applicable.",
+    "fresh_evidence": [
+      "kernel-foreign-subtest-red.log",
+      "kernel-foreign-subtest-green.log",
+      "kernel-foreign-subtest-optimized-green.log",
+      "kernel-parent-identity-mutant/summary.json"
+    ]
+  },
+  "independent_review": {
+    "path": "evidence/independent-lifecycle-review.json",
+    "sha256": "e9ad02a21799e314b5374d77cb6aef468e2561f92ee23d9b5e3fefe6e19df242",
+    "outcome": "CLEAR on final source hashes; provider-distinct process requirements separately tracked"
+  }
+}

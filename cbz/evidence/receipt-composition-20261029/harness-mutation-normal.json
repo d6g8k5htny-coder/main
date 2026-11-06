@@ -1,0 +1,27 @@
+[
+  {
+    "label": "baseline",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "qualifies": true,
+    "failure_ids": []
+  },
+  {
+    "label": "permissive-kill-mutant",
+    "tests": 4,
+    "failures": 6,
+    "errors": 0,
+    "skips": 0,
+    "qualifies": true,
+    "failure_ids": [
+      "controlled_harness.MutationKillContractTests.test_skips_or_incomplete_population_never_qualify (result=namespace(testsRun=26, failures=[(namespace(id=<function MutationKillContractTests.result.<locals>.case.<locals>.<lambda> at 0x7f6bc062dd00>), 'controlled assertion failure')], errors=[], skipped=[(namespace(id=<function MutationKillContractTests.result.<locals>.case.<locals>.<lambda> at 0x7f6bc069c400>), 'controlled skip')]))",
+      "controlled_harness.MutationKillContractTests.test_skips_or_incomplete_population_never_qualify (result=namespace(testsRun=25, failures=[(namespace(id=<function MutationKillContractTests.result.<locals>.case.<locals>.<lambda> at 0x7f6bc069c4a0>), 'controlled assertion failure')], errors=[], skipped=[]))",
+      "controlled_harness.MutationKillContractTests.test_survival_unexpected_failures_and_empty_contract_never_qualify (failures=('unrelated',), expected={'expected'})",
+      "controlled_harness.MutationKillContractTests.test_survival_unexpected_failures_and_empty_contract_never_qualify (failures=('expected', 'unrelated'), expected={'expected'})",
+      "controlled_harness.MutationKillContractTests.test_test_errors_never_qualify_even_with_expected_assertion (failures=())",
+      "controlled_harness.MutationKillContractTests.test_test_errors_never_qualify_even_with_expected_assertion (failures=('expected',))"
+    ]
+  }
+]

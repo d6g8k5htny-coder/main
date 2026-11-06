@@ -1,0 +1,71 @@
+name: CBZ federation drift
+'on':
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '41 4 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  self-test:
+    name: drift-crawler-self-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Behaviour and mutation tests in both interpreter modes
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          cd tests
+          for mode in normal optimized; do
+            flag=""; [ "$mode" = optimized ] && flag="-O"
+            python -B $flag -m unittest test_cbz_drift test_cbz_drift_adversarial_01a103c8 test_cbz_drift_canonical_input test_cbz_drift_pr_trigger_01a11c48 -v 2>&1 | tee "$RUNNER_TEMP/drift-$mode.log"
+            grep -Eq '^Ran [1-9][0-9]* tests? in ' "$RUNNER_TEMP/drift-$mode.log" || { echo "::error::drift $mode run collected 0 tests"; exit 1; }
+          done
+  crawl:
+    name: federation-drift
+    needs: self-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          path: fed/main
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Crawl the federation from its workspace seed
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          # Only the seed is named here. Every other repository, and its ref, is discovered
+          # from the seed's pins, submodules, repository list, registry and lake manifests.
+          git clone -q https://github.com/d6g8k5htny-coder/Universal-Law-Workspace.git fed/Universal-Law-Workspace
+          head=$(git -C fed/main rev-parse HEAD)
+          status=0
+          for at in pins tips; do
+            python -B -S fed/main/tools/cbz_drift/crawl.py --seed d6g8k5htny-coder/Universal-Law-Workspace \
+              --search fed --clone-into fed --fetch --at "$at" \
+              --override "d6g8k5htny-coder/main=$head" \
+              --json "$RUNNER_TEMP/drift-$at.json" || status=$?
+            [ "$status" -le 1 ] || { echo "::error::drift crawler error (exit $status)"; exit "$status"; }
+          done
+          exit "$status"
+      - if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: federation-drift-reports
+          path: ${{ runner.temp }}/drift-*.json
+          if-no-files-found: warn

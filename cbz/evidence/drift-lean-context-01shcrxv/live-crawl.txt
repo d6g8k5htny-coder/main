@@ -1,0 +1,10 @@
+#712's crawler, tools/cbz_drift/crawl.py, run on the live federation from Universal-Law-Workspace a4b01682, with all 9 repositories held locally and --fetch.
+'before' is the tool directory at #723 head e666f48b (#712 -> #716 -> #723); 'after' is this head, which adds only slice B. Same inputs, same command:
+  crawl.py --seed d6g8k5htny-coder/Universal-Law-Workspace --search CLONES --search CLONES2 --fetch --at {pins,tips} --json REPORT
+
+before --at pins: crawled 9 repositories from d6g8k5htny-coder/universal-law-workspace@a4b016820329 (pins): 0 BLOCK, INFO {'PIN-STALE': 4, 'REGISTRY-EVOLVED': 31}; stats {'lake_external_edges': 72, 'lean_declarations': 3030, 'lean_files': 166, 'lean_shared_names': 479, 'registry_artifacts': 592, 'registry_artifacts_evolved': 31, 'registry_artifacts_verified': 592}
+before --at tips: crawled 9 repositories from d6g8k5htny-coder/universal-law-workspace@a4b016820329 (tips): 0 BLOCK, INFO {'PIN-STALE': 4, 'REGISTRY-EVOLVED': 32}; stats {'lake_external_edges': 72, 'lean_declarations': 3039, 'lean_files': 172, 'lean_shared_names': 482, 'registry_artifacts': 592, 'registry_artifacts_evolved': 32, 'registry_artifacts_verified': 592}
+after --at pins: crawled 9 repositories from d6g8k5htny-coder/universal-law-workspace@a4b016820329 (pins): 0 BLOCK, INFO {'PIN-STALE': 4, 'REGISTRY-EVOLVED': 31}; stats {'lake_external_edges': 72, 'lean_declarations': 3030, 'lean_files': 166, 'lean_shared_names': 479, 'registry_artifacts': 592, 'registry_artifacts_evolved': 31, 'registry_artifacts_verified': 592}
+after --at tips: crawled 9 repositories from d6g8k5htny-coder/universal-law-workspace@a4b016820329 (tips): 0 BLOCK, INFO {'PIN-STALE': 4, 'REGISTRY-EVOLVED': 32}; stats {'lake_external_edges': 72, 'lean_declarations': 3039, 'lean_files': 172, 'lean_shared_names': 482, 'registry_artifacts': 592, 'registry_artifacts_evolved': 32, 'registry_artifacts_verified': 592}
+--at pins: findings identical (level, code) before and after: True; stats identical: True; LEAN-DRIFT before 0, after 0
+--at tips: findings identical (level, code) before and after: True; stats identical: True; LEAN-DRIFT before 0, after 0

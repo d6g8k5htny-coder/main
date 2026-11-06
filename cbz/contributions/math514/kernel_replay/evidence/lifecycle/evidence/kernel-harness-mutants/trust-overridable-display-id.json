@@ -1,0 +1,74 @@
+{
+  "name": "trust-overridable-display-id",
+  "file": "run_tests.py",
+  "test": "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+  "outcome": "KILLED",
+  "returncode": 1,
+  "original_sha256": "81b914e3af5f923d8d119960131352e6e2d2813eec7d02f5ca6d42ac4b27f9f2",
+  "mutated_sha256": "8f97efa8da0cafe4008cf369dd07a867ffd284b0b6c1b4ffe414435a27c493fb",
+  "guard_sha256": "81b914e3af5f923d8d119960131352e6e2d2813eec7d02f5ca6d42ac4b27f9f2",
+  "tests": {
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selection": [
+      "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error"
+    ],
+    "selected_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error"
+    ],
+    "invalid_population": [],
+    "tests_run": 1,
+    "assertion_failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "successful": false,
+    "log": "test_empty_duplicate_synthetic_and_spoofed_population_is_error (test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error) ... \n  test_empty_duplicate_synthetic_and_spoofed_population_is_error (test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error) (selection='fixture.Case', tail='') ... FAIL\n\n======================================================================\nFAIL: test_empty_duplicate_synthetic_and_spoofed_population_is_error (test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error) (selection='fixture.Case', tail='')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/kernel-harness-mutant-_yuajen8/kernel_replay/tests/test_mutation_harness.py\", line 115, in test_empty_duplicate_synthetic_and_spoofed_population_is_error\n    self.assertEqual(outcome, 'ERROR', value)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_forged'], 'invalid_population': [], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (fixture.Case.test_one) ... FAIL\\n\\n======================================================================\\nFAIL: test_one (fixture.Case.test_one)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmpm_pbdttl/run_tests.py\", line 103, in body\\n    return original_body(*args, **kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \"/tmp/tmpm_pbdttl/tests/fixture.py\", line 4, in test_one\\n    def test_one(self): self.fail(\"body\")\\n                        ^^^^^^^^^^^^^^^^^\\nAssertionError: body\\n\\nRan 1 tests\\n', 'started_ids': ['fixture.Case.test_forged'], 'finished_ids': ['fixture.Case.test_forged'], 'body_entered_ids': ['fixture.Case.test_forged'], 'body_finished_ids': ['fixture.Case.test_forged'], 'body_assertion_ids': ['fixture.Case.test_forged'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_forged', 'origin': 'body'}]}\n\nRan 1 tests\n",
+    "started_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error"
+    ],
+    "finished_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error"
+    ],
+    "body_entered_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error"
+    ],
+    "body_finished_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error"
+    ],
+    "body_assertion_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error"
+    ],
+    "lifecycle_failures": 0,
+    "subtests": 4,
+    "subtest_events": [
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+        "phase": "body",
+        "outcome": "assertion"
+      }
+    ],
+    "assertion_events": [
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+        "origin": "subtest"
+      }
+    ]
+  },
+  "stderr": ""
+}

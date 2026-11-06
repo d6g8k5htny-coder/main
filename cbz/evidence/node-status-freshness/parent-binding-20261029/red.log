@@ -1,0 +1,463 @@
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='issues', parent=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='issues', parent='')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='issues', parent='https://api.github.com/repos/d6g8k5htny-coder/main/issues/9/')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='issues', parent='https://api.github.com/repos/d6g8k5htny-coder/main/issues/9?x=1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='issues', parent='https://api.github.com/repos/d6g8k5htny-coder/main/issues/10')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='issues', parent='https://api.github.com/repos/d6g8k5htny-coder/main/pulls/9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='issues', parent='https://api.github.com/wrong/d6g8k5htny-coder/main/issues/9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='issues', parent=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='issues', parent={})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='issues', parent='https://api.github.com/repos/d6g8k5htny-coder/other/issues/9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='pull', parent=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='pull', parent='')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='pull', parent='https://api.github.com/repos/d6g8k5htny-coder/main/issues/9/')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='pull', parent='https://api.github.com/repos/d6g8k5htny-coder/main/issues/9?x=1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='pull', parent='https://api.github.com/repos/d6g8k5htny-coder/main/issues/10')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='pull', parent='https://api.github.com/repos/d6g8k5htny-coder/main/pulls/9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='pull', parent='https://api.github.com/wrong/d6g8k5htny-coder/main/issues/9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='pull', parent=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='pull', parent={})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='main', form='pull', parent='https://api.github.com/repos/d6g8k5htny-coder/other/issues/9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='issues', parent=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='issues', parent='')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='issues', parent='https://api.github.com/repos/d6g8k5htny-coder/Math-/issues/9/')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='issues', parent='https://api.github.com/repos/d6g8k5htny-coder/Math-/issues/9?x=1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='issues', parent='https://api.github.com/repos/d6g8k5htny-coder/Math-/issues/10')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='issues', parent='https://api.github.com/repos/d6g8k5htny-coder/Math-/pulls/9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='issues', parent='https://api.github.com/wrong/d6g8k5htny-coder/Math-/issues/9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='issues', parent=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='issues', parent={})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='issues', parent='https://api.github.com/repos/d6g8k5htny-coder/other/issues/9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='pull', parent=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='pull', parent='')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='pull', parent='https://api.github.com/repos/d6g8k5htny-coder/Math-/issues/9/')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='pull', parent='https://api.github.com/repos/d6g8k5htny-coder/Math-/issues/9?x=1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='pull', parent='https://api.github.com/repos/d6g8k5htny-coder/Math-/issues/10')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='pull', parent='https://api.github.com/repos/d6g8k5htny-coder/Math-/pulls/9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='pull', parent='https://api.github.com/wrong/d6g8k5htny-coder/Math-/issues/9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='pull', parent=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='pull', parent={})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) (repo='Math-', form='pull', parent='https://api.github.com/repos/d6g8k5htny-coder/other/issues/9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 165, in test_comment_parent_binding
+    self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+AssertionError: 'fresh' != 'unknown'
+- fresh
++ unknown
+
+
+======================================================================
+FAIL: test_api_duplicate_json_members_rejected (tests.test_node_status_freshness.ContentTests.test_api_duplicate_json_members_rejected) (raw=b'{"id":13,"id":12}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 172, in test_api_duplicate_json_members_rejected
+    with self.assertRaisesRegex(n.SourceError, 'duplicate JSON key'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SourceError not raised
+
+======================================================================
+FAIL: test_api_duplicate_json_members_rejected (tests.test_node_status_freshness.ContentTests.test_api_duplicate_json_members_rejected) (raw=b'{"tree":{"sha":"bad","sha":"good"}}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/shared/cbz-recovery/freshness/tests/test_node_status_freshness.py", line 172, in test_api_duplicate_json_members_rejected
+    with self.assertRaisesRegex(n.SourceError, 'duplicate JSON key'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SourceError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.011s
+
+FAILED (failures=42)

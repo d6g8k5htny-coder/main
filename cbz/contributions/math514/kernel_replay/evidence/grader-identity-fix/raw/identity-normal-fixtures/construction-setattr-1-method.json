@@ -1,0 +1,49 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmp8rm1pl6w/run_tests.py",
+    "--output",
+    "/tmp/tmp8rm1pl6w/receipt.json",
+    "--test",
+    "test_identity.C.test_one"
+  ],
+  "events": [],
+  "exit_code": 1,
+  "fixture_sha256": "59d99319057cbe7840010bf0763be8d1a040438c029997f1c950edf25c833afd",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmp8rm1pl6w/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass C(unittest.TestCase):\n def __setattr__(self,name,value):\n  record(\"attribute\")\n  return super().__setattr__(name,value)\n def test_one(self): record(\"body\")\n",
+  "label": "construction-setattr-1-method",
+  "optimize": 0,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "finished_ids": [],
+    "invalid_population": [
+      "empty selected population",
+      "unsupported test selector: test_identity.C.test_one (ValueError)"
+    ],
+    "lifecycle_failures": 0,
+    "log": "\nRan 0 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [],
+    "selection": [
+      "test_identity.C.test_one"
+    ],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": true,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "\nRan 0 tests\n"
+}

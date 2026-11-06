@@ -1,0 +1,89 @@
+{
+  "name": "drop-lazy-return-rejection",
+  "mode": "normal",
+  "test": "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+  "outcome": "KILLED",
+  "returncode": 1,
+  "original_sha256": "3180aa60b3793736a9312537856d97cfd534842b2758d324d8b0c30282fca028",
+  "mutated_sha256": "11cb00a9617ecc1e086a5e8b146a2179c1486474b3c7d1e8f17c7307bb1c4f3a",
+  "guard_sha256": "3180aa60b3793736a9312537856d97cfd534842b2758d324d8b0c30282fca028",
+  "tests": {
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selection": [
+      "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work"
+    ],
+    "selected_ids": [
+      "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work"
+    ],
+    "invalid_population": [],
+    "tests_run": 1,
+    "assertion_failures": 4,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "successful": false,
+    "log": "test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) ... \n  test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) (expression='generator()') ... FAIL\n  test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) (expression='coroutine()') ... FAIL\n  test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) (expression='async_generator()') ... FAIL\n  test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) (expression='Awaitable()') ... FAIL\n\n======================================================================\nFAIL: test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) (expression='generator()')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/kernel-lazy-guard-mutant-de9ltc2t/kernel_replay/tests/test_mutation_harness.py\", line 268, in test_sync_lazy_returns_refuse_without_advancing_suspended_work\n    self.assertEqual(outcome, 'ERROR', value)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (fixture.Case.test_a_return) ... ok\\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmphx29nifu/run_tests.py\", line 138, in dispatch\\n    return original_dispatch(*args, **kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: body\\n\\nRan 2 tests\\n', 'started_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}\n\n======================================================================\nFAIL: test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) (expression='coroutine()')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/kernel-lazy-guard-mutant-de9ltc2t/kernel_replay/tests/test_mutation_harness.py\", line 268, in test_sync_lazy_returns_refuse_without_advancing_suspended_work\n    self.assertEqual(outcome, 'ERROR', value)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (fixture.Case.test_a_return) ... ok\\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmpbxz5vc35/run_tests.py\", line 138, in dispatch\\n    return original_dispatch(*args, **kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: body\\n\\nRan 2 tests\\n', 'started_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}\n\n======================================================================\nFAIL: test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) (expression='async_generator()')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/kernel-lazy-guard-mutant-de9ltc2t/kernel_replay/tests/test_mutation_harness.py\", line 268, in test_sync_lazy_returns_refuse_without_advancing_suspended_work\n    self.assertEqual(outcome, 'ERROR', value)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (fixture.Case.test_a_return) ... ok\\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmp6kab9njt/run_tests.py\", line 138, in dispatch\\n    return original_dispatch(*args, **kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: body\\n\\nRan 2 tests\\n', 'started_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}\n\n======================================================================\nFAIL: test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) (expression='Awaitable()')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/kernel-lazy-guard-mutant-de9ltc2t/kernel_replay/tests/test_mutation_harness.py\", line 268, in test_sync_lazy_returns_refuse_without_advancing_suspended_work\n    self.assertEqual(outcome, 'ERROR', value)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (fixture.Case.test_a_return) ... ok\\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\\n\\n======================================================================\\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmpi95vb0cz/run_tests.py\", line 138, in dispatch\\n    return original_dispatch(*args, **kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: body\\n\\nRan 2 tests\\n', 'started_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}\n\nRan 1 tests\n",
+    "started_ids": [
+      "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work"
+    ],
+    "finished_ids": [
+      "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work"
+    ],
+    "body_entered_ids": [
+      "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work"
+    ],
+    "body_finished_ids": [
+      "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work"
+    ],
+    "body_assertion_ids": [
+      "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+      "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+      "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+      "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work"
+    ],
+    "lifecycle_failures": 0,
+    "subtests": 4,
+    "subtest_events": [
+      {
+        "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+        "phase": "body",
+        "outcome": "assertion"
+      },
+      {
+        "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+        "phase": "body",
+        "outcome": "assertion"
+      },
+      {
+        "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+        "phase": "body",
+        "outcome": "assertion"
+      },
+      {
+        "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+        "phase": "body",
+        "outcome": "assertion"
+      }
+    ],
+    "assertion_events": [
+      {
+        "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+        "origin": "subtest"
+      },
+      {
+        "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+        "origin": "subtest"
+      },
+      {
+        "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+        "origin": "subtest"
+      },
+      {
+        "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+        "origin": "subtest"
+      }
+    ]
+  },
+  "stderr": ""
+}

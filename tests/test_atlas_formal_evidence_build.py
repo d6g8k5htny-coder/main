@@ -24,6 +24,14 @@ HISTORICAL_FILES = {
         '21c355e02ac6e01337d10465a3105b34b93f832586ee60aa2430f662a90cd8b7'),
     'tests/test_formal_gate.py': ('test_formal_gate.py.txt',
         '4286136d8b24eca9b26d1e7b12933bed5b0961809b362a60c3af7bf46e6ed4b6'),
+    # Frozen when the live package grew its P15 modules (main#740): the historical bytes of the
+    # root module, scope and review template, identical across the 3b39/8228/a22f profiles.
+    'formal/UniversalLaw.lean': ('UniversalLaw.lean.txt',
+        'cb94ad3490a00bc35b420a53a42ff65b6fc66a46b8a26ef1b87035d7bb15587e'),
+    'formal/SCOPE.md': ('SCOPE.md.txt',
+        'fd06700628b1fbc81c5cfe3786aaa455032375bcb879914f068a66b726802a17'),
+    'formal/reviews/TEMPLATE_alignment_review.json': ('TEMPLATE_alignment_review.json.txt',
+        'e722e928ca43c16981e063d8eb1c91e9bf8c683241d9dcf156400a419e72feb3'),
 }
 
 

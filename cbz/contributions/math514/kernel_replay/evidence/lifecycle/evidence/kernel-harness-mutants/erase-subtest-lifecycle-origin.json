@@ -1,0 +1,53 @@
+{
+  "name": "erase-subtest-lifecycle-origin",
+  "file": "run_tests.py",
+  "test": "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors",
+  "outcome": "KILLED",
+  "returncode": 1,
+  "original_sha256": "81b914e3af5f923d8d119960131352e6e2d2813eec7d02f5ca6d42ac4b27f9f2",
+  "mutated_sha256": "bb28e94385cca95474399e7195bdd01d4ecaa38a0a34c48ea2d7d242294e776b",
+  "guard_sha256": "81b914e3af5f923d8d119960131352e6e2d2813eec7d02f5ca6d42ac4b27f9f2",
+  "tests": {
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selection": [
+      "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors"
+    ],
+    "selected_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors"
+    ],
+    "invalid_population": [],
+    "tests_run": 1,
+    "assertion_failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "successful": false,
+    "log": "test_lifecycle_subtests_and_subtest_errors_are_errors (test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors) ... FAIL\n\n======================================================================\nFAIL: test_lifecycle_subtests_and_subtest_errors_are_errors (test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/mutation-lifecycle-fix/evidence/kernel-harness-mutants/guard_run_tests.py\", line 103, in body\n    return original_body(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/kernel-harness-mutant-ik_m69vt/kernel_replay/tests/test_mutation_harness.py\", line 103, in test_lifecycle_subtests_and_subtest_errors_are_errors\n    self.assertEqual(outcome, 'ERROR', value)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_one'], 'invalid_population': [], 'tests_run': 1, 'assertion_failures': 2, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (fixture.Case.test_one) ... FAIL\\n  test_one (fixture.Case.test_one) (i=1) ... FAIL\\n\\n======================================================================\\nFAIL: test_one (fixture.Case.test_one)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmpnoul2hjg/run_tests.py\", line 103, in body\\n    return original_body(*args, **kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \"/tmp/tmpnoul2hjg/tests/fixture.py\", line 5, in test_one\\n    def test_one(self): self.fail(\\'body\\')\\n                        ^^^^^^^^^^^^^^^^^\\nAssertionError: body\\n\\n======================================================================\\nFAIL: test_one (fixture.Case.test_one) (i=1)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmpnoul2hjg/tests/fixture.py\", line 4, in tearDown\\n    with self.subTest(i=1): self.fail(\\'teardown subtest\\')\\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: teardown subtest\\n\\nRan 1 tests\\n', 'started_ids': ['fixture.Case.test_one'], 'finished_ids': ['fixture.Case.test_one'], 'body_entered_ids': ['fixture.Case.test_one'], 'body_finished_ids': ['fixture.Case.test_one'], 'body_assertion_ids': ['fixture.Case.test_one', 'fixture.Case.test_one'], 'lifecycle_failures': 0, 'subtests': 1, 'subtest_events': [{'parent_id': 'fixture.Case.test_one', 'phase': 'body', 'outcome': 'assertion'}], 'assertion_events': [{'parent_id': 'fixture.Case.test_one', 'origin': 'body'}, {'parent_id': 'fixture.Case.test_one', 'origin': 'subtest'}]}\n\nRan 1 tests\n",
+    "started_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors"
+    ],
+    "finished_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors"
+    ],
+    "body_entered_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors"
+    ],
+    "body_finished_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors"
+    ],
+    "body_assertion_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors"
+    ],
+    "lifecycle_failures": 0,
+    "subtests": 0,
+    "subtest_events": [],
+    "assertion_events": [
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors",
+        "origin": "body"
+      }
+    ]
+  },
+  "stderr": ""
+}

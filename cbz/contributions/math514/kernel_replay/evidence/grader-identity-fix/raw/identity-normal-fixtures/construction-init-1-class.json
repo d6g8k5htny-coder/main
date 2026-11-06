@@ -1,0 +1,49 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmpkzgevi1t/run_tests.py",
+    "--output",
+    "/tmp/tmpkzgevi1t/receipt.json",
+    "--test",
+    "test_identity.C"
+  ],
+  "events": [],
+  "exit_code": 1,
+  "fixture_sha256": "8eb9e5f432e831a7fda5e4a33aa1c4a7e23b711b650448a1f882df7a3c62a3af",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmpkzgevi1t/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass C(unittest.TestCase):\n def __init__(self,*a,**k):\n  record(\"constructor\")\n  super().__init__(*a,**k)\n  type(self).test_second=type(self).test_first\n def test_first(self): record(\"first\")\n def test_second(self):\n  record(\"second\")\n  self.fail(\"retained second body\")\n",
+  "label": "construction-init-1-class",
+  "optimize": 0,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "finished_ids": [],
+    "invalid_population": [
+      "empty selected population",
+      "unsupported TestCase constructor/metaclass/attribute dispatch"
+    ],
+    "lifecycle_failures": 0,
+    "log": "\nRan 0 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [],
+    "selection": [
+      "test_identity.C"
+    ],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": true,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "\nRan 0 tests\n"
+}

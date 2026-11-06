@@ -17,7 +17,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "f4e4e5226705746d6ae7625c59efab54410d9fabf7622e11bd99889b2d7aee7a"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "333f981944fbd08389c9fb384d6cd0dbf89fff4e40514ca67b123a0057be5d77"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -179,7 +179,7 @@ class ToolChecks(unittest.TestCase):
 
     def test_documented_and_exercised_by_path_import_and_basename(self):
         tree = {"tools/a.py": "x = 1\n", "tools/b.py": "x = 1\n", "tools/c.mjs": "export const x = 1;\n", "tools/d.py": "x = 1\n",
-                "docs/USE.md": "See tools/a.py, b.py, c.mjs and d.py.\n",
+                "docs/USE.md": "See tools/a.py, tools/b.py, tools/c.mjs and d.py.\n",
                 "tests/test_a.py": "from tools import helper_x, a\n",
                 "tests/test_d.py": "import d\n",
                 ".github/workflows/ci.yml": "      - run: python tools/b.py\n",
@@ -289,7 +289,7 @@ class CommandLine(unittest.TestCase):
 class AdversarialControls(unittest.TestCase):
     def test_decoy_names_do_not_exempt_stubs(self):
         text = (
-            "from abc import abstractmethod as am\nimport typing as t\n"
+            "from abc import ABC as RealABC, abstractmethod as am\nimport typing as t\n"
             "def abstractmethod(fn): return fn\n"
             "class Fake:\n    @staticmethod\n    def abstractmethod(fn): return fn\n"
             "class Protocol: pass\nclass ABC: pass\nclass ValueError: pass\n"
@@ -298,29 +298,39 @@ class AdversarialControls(unittest.TestCase):
             "class NotReallyError:\n    def fail(self):\n        pass\n"
             "class NotReallyProtocol:\n    def fail(self):\n        ...\n"
             "class NotReallyABC:\n    def fail(self):\n        pass\n"
-            "class NotReallyRequestHandler:\n    def log_message(self, *args):\n        pass\n"
+            "class StreamRequestHandler: pass\n"
+            "class NotReallyRequestHandler(StreamRequestHandler):\n    def log_message(self, *args):\n        pass\n"
             "class DecoyProtocol(Protocol):\n    def proto(self):\n        pass\n"
             "class DecoyABC(ABC):\n    def abc(self):\n        pass\n"
             "class ShadowedBuiltin(ValueError):\n    def builtin(self):\n        pass\n"
             "class Genuine:\n    @am\n    def abstract(self):\n        pass\n"
             "class Shape(t.Protocol):\n    def area(self):\n        ...\n"
+            "class RealBase(RealABC):\n    @abstractmethod\n    def decoy_method(self):\n        pass\n"
         )
         report = run({"tools/good.py": text, **DOCUMENTED_TESTED})
         self.assertEqual(sorted(f["detail"].split(":")[0] for f in report["failing"]),
-                         ["abc", "abstract", "builtin", "decoy_decorator", "decoy_qualified",
+                         ["abc", "abstract", "builtin", "decoy_decorator", "decoy_method", "decoy_qualified",
                           "fail", "fail", "fail", "log_message", "proto"])
         self.assertEqual(report["status"], "FAIL")
         local_shadow = (
             "from abc import abstractmethod\n"
+            "from typing import overload\n"
             "def factory():\n"
             "    abstractmethod = lambda fn: fn\n"
             "    @abstractmethod\n"
             "    def local_decoy():\n"
             "        pass\n"
+            "def overloads():\n"
+            "    overload = lambda fn: fn\n"
+            "    @overload\n"
+            "    def local_overload(x: int): ...\n"
+            "    def local_overload(x):\n"
+            "        return x\n"
         )
         local_report = run({"tools/good.py": local_shadow, **DOCUMENTED_TESTED})
         self.assertEqual([(f["class"], f["detail"]) for f in local_report["findings"]
-                          if f["class"].startswith("stub")], [("stub", "local_decoy: pass")])
+                          if f["class"].startswith("stub")],
+                         [("stub", "local_decoy: pass"), ("stub", "local_overload: ellipsis")])
 
     def test_comment_and_string_mentions_do_not_exercise_tools(self):
         tree = {
@@ -339,7 +349,8 @@ class AdversarialControls(unittest.TestCase):
         })
         self.assertFalse(python_cmd["tools"]["tools/runner.py"]["referenced"])
 
-        workflow_text = "jobs:\n  test:\n    steps:\n      - run: \"sh -c 'echo tools/runner.py'\"\n"
+        workflow_text = ("jobs:\n  test:\n    steps:\n      - run: \"sh -c 'echo tools/runner.py'\"\n"
+                         "      - run: python3 -c tools/runner.py\n")
         shell_cmd = run({
             "tools/runner.py": "def main(): return 0\n",
             "tools/README.md": "Use tools/runner.py.\n",
@@ -404,6 +415,12 @@ class MutationAttribution(unittest.TestCase):
         parsed = g11m._parse_run(proc)
         self.assertEqual(parsed["test_id"], expected_parser)
         self.assertTrue(g11m.qualifies_kill(parsed, expected_parser, 123))
+        current = output.replace("(tests.test_g11_census.MutationAttribution)", "(%s)" % expected_parser)
+        parsed_current = g11m._parse_run(subprocess.CompletedProcess(["python"], 1, current, ""))
+        self.assertEqual(parsed_current["test_id"], expected_parser)
+        subtest = current.replace("(%s)\n" % expected_parser, "(%s) (tool='tools/d.py')\n" % expected_parser)
+        parsed_subtest = g11m._parse_run(subprocess.CompletedProcess(["python"], 1, subtest, ""))
+        self.assertEqual(parsed_subtest["test_id"], expected_parser)
 
 
 
@@ -429,6 +446,7 @@ class ReviewResidualControls(unittest.TestCase):
             "    def exception_method(self): ...\n"
             "def build(ABC, Exception, BaseHTTPRequestHandler):\n"
             "    class ShadowedABC(ABC):\n"
+            "        @abstractmethod\n"
             "        def shadowed_abc(self): ...\n"
             "    class ShadowedError(Exception):\n"
             "        def shadowed_exception(self): ...\n"

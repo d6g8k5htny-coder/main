@@ -1,0 +1,78 @@
+{
+  "receipt_schema": "cbz-unittest-lifecycle-v1",
+  "selection": [
+    "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution"
+  ],
+  "selected_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution"
+  ],
+  "invalid_population": [],
+  "tests_run": 1,
+  "assertion_failures": 4,
+  "errors": 0,
+  "skipped": 0,
+  "expected_failures": 0,
+  "unexpected_successes": 0,
+  "successful": false,
+  "log": "test_module_alias_subclass_and_population_hooks_refused_before_execution (test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution) ... \n  test_module_alias_subclass_and_population_hooks_refused_before_execution (test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution) (shape='alias') ... FAIL\n  test_module_alias_subclass_and_population_hooks_refused_before_execution (test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution) (shape='alias-assertion') ... FAIL\n  test_module_alias_subclass_and_population_hooks_refused_before_execution (test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution) (shape='subclass') ... FAIL\n  test_module_alias_subclass_and_population_hooks_refused_before_execution (test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution) (shape='omission') ... FAIL\n\n======================================================================\nFAIL: test_module_alias_subclass_and_population_hooks_refused_before_execution (test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution) (shape='alias')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/normal/ignore-module-hook-refusal/tests/test_mutation_harness.py\", line 339, in test_module_alias_subclass_and_population_hooks_refused_before_execution\n    self.assertEqual(outcome,'ERROR',value)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['discover:test_*.py'], 'selected_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_first (test_identity.C.test_first) ... ok\\ntest_second (test_identity.C.test_second) ... FAIL\\n\\n======================================================================\\nFAIL: test_second (test_identity.C.test_second)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmp4jdzkdw1/run_tests.py\", line 275, in dispatch\\n    return original_dispatch(*args, **kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: retained second body\\n\\nRan 2 tests\\n', 'started_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'finished_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'body_entered_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'body_finished_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'body_assertion_ids': ['test_identity.C.test_second'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'test_identity.C.test_second', 'origin': 'body'}]}\n\n======================================================================\nFAIL: test_module_alias_subclass_and_population_hooks_refused_before_execution (test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution) (shape='alias-assertion')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/normal/ignore-module-hook-refusal/tests/test_mutation_harness.py\", line 339, in test_module_alias_subclass_and_population_hooks_refused_before_execution\n    self.assertEqual(outcome,'ERROR',value)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['discover:test_*.py'], 'selected_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 2, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_first (test_identity.C.test_first) ... FAIL\\ntest_second (test_identity.C.test_second) ... FAIL\\n\\n======================================================================\\nFAIL: test_first (test_identity.C.test_first)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmpgtucz1ln/run_tests.py\", line 275, in dispatch\\n    return original_dispatch(*args, **kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: first body assertion\\n\\n======================================================================\\nFAIL: test_second (test_identity.C.test_second)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmpgtucz1ln/run_tests.py\", line 275, in dispatch\\n    return original_dispatch(*args, **kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: retained second body\\n\\nRan 2 tests\\n', 'started_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'finished_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'body_entered_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'body_finished_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'body_assertion_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'test_identity.C.test_first', 'origin': 'body'}, {'parent_id': 'test_identity.C.test_second', 'origin': 'body'}]}\n\n======================================================================\nFAIL: test_module_alias_subclass_and_population_hooks_refused_before_execution (test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution) (shape='subclass')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/normal/ignore-module-hook-refusal/tests/test_mutation_harness.py\", line 339, in test_module_alias_subclass_and_population_hooks_refused_before_execution\n    self.assertEqual(outcome,'ERROR',value)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['discover:test_*.py'], 'selected_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_first (test_identity.C.test_first) ... ok\\ntest_second (test_identity.C.test_second) ... FAIL\\n\\n======================================================================\\nFAIL: test_second (test_identity.C.test_second)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmpuzvf7jn2/run_tests.py\", line 275, in dispatch\\n    return original_dispatch(*args, **kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: retained second body\\n\\nRan 2 tests\\n', 'started_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'finished_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'body_entered_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'body_finished_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'body_assertion_ids': ['test_identity.C.test_second'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'test_identity.C.test_second', 'origin': 'body'}]}\n\n======================================================================\nFAIL: test_module_alias_subclass_and_population_hooks_refused_before_execution (test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution) (shape='omission')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/normal/ignore-module-hook-refusal/tests/test_mutation_harness.py\", line 339, in test_module_alias_subclass_and_population_hooks_refused_before_execution\n    self.assertEqual(outcome,'ERROR',value)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['discover:test_*.py'], 'selected_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_first (test_identity.C.test_first) ... ok\\ntest_second (test_identity.C.test_second) ... FAIL\\n\\n======================================================================\\nFAIL: test_second (test_identity.C.test_second)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmptjl2xosh/run_tests.py\", line 275, in dispatch\\n    return original_dispatch(*args, **kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: retained second body\\n\\nRan 2 tests\\n', 'started_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'finished_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'body_entered_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'body_finished_ids': ['test_identity.C.test_first', 'test_identity.C.test_second'], 'body_assertion_ids': ['test_identity.C.test_second'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'test_identity.C.test_second', 'origin': 'body'}]}\n\nRan 1 tests\n",
+  "started_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution"
+  ],
+  "finished_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution"
+  ],
+  "body_entered_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution"
+  ],
+  "body_finished_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution"
+  ],
+  "body_assertion_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+    "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+    "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+    "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution"
+  ],
+  "lifecycle_failures": 0,
+  "subtests": 4,
+  "subtest_events": [
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+      "phase": "body",
+      "outcome": "assertion"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+      "phase": "body",
+      "outcome": "assertion"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+      "phase": "body",
+      "outcome": "assertion"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+      "phase": "body",
+      "outcome": "assertion"
+    }
+  ],
+  "assertion_events": [
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+      "origin": "subtest"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+      "origin": "subtest"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+      "origin": "subtest"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+      "origin": "subtest"
+    }
+  ]
+}
