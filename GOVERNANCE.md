@@ -126,20 +126,20 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`2c34017b21bd496f240849a51f4263a309120873` (tree
-`1de76f8bb8a0bf0af50db987b98544e0bd7956e2`) extends the existing bounded
+`6301fb41afaf78ee54d5bbbdcb805e476caa0a17` (tree
+`c394a5069bfa0c52ffdc0384958841397c12d425`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 82/82 controls and killed 134/134 designated
+The exact source commit passed 85/85 controls and killed 137/137 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`da7b29fec4b75b47999f93473705a2f0701a3a797a6c4901cd7ad2150931b127`.
+`2bc5b77fb1698b863d94babc2172b659b5622f3dc67669582172da65bf844705`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`238eb1746741b1cae6b0a7037b52a5d39f03b009efa048db982f34936211b78a`,
-56,065 bytes each):
+`a2fece97636594c920605d412b53322b75a0c419879c6ab4f75b331298fecd98`,
+56,027 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
 interpreter command-mode payload arguments and unreachable wrapper bodies,
@@ -193,6 +193,12 @@ Wrapper discovery stops scanning a statement sequence after an unconditional
 forwarding. Calls made from deferred functions use the caller's activation
 point when deciding whether a module wrapper has been defined or reassigned,
 instead of treating the nested call's lexical line as module execution order.
+When a later function definition is not a forwarding wrapper, it clears an
+earlier same-named wrapper registration. List augmented assignment preserves
+the resolved list object's identity so subsequent mutations through aliases
+remain visible. JavaScript process calls inside literal-false branches or
+uncalled named helpers are not execution evidence. These three review
+counterexamples have dedicated adverse controls and designated mutants.
 The stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the
 earlier 28-tool result remains historical and is not rebound.
 

@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has native source parent
-`2c34017b21bd496f240849a51f4263a309120873`; its isolated work began from the
+`6301fb41afaf78ee54d5bbbdcb805e476caa0a17`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,14 +37,14 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `2c34017b21bd496f240849a51f4263a309120873` (tree
-`1de76f8bb8a0bf0af50db987b98544e0bd7956e2`) passed 82/82 tests and killed
-134/134 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `da7b29fec4b75b47999f93473705a2f0701a3a797a6c4901cd7ad2150931b127`.
+native source `6301fb41afaf78ee54d5bbbdcb805e476caa0a17` (tree
+`c394a5069bfa0c52ffdc0384958841397c12d425`) passed 85/85 tests and killed
+137/137 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `2bc5b77fb1698b863d94babc2172b659b5622f3dc67669582172da65bf844705`.
 Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`238eb1746741b1cae6b0a7037b52a5d39f03b009efa048db982f34936211b78a`,
-56,065 bytes each)
+`a2fece97636594c920605d412b53322b75a0c419879c6ab4f75b331298fecd98`,
+56,027 bytes each)
 contain zero production findings and retain exactly 29 no-current-exercise
 tool candidates; both census runs exit 1. The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
@@ -101,8 +101,14 @@ further exact-head defects are now repaired: wrapper discovery stops after an
 unconditional `return` or `raise`, and module-wrapper availability inside a
 deferred caller is evaluated at that caller's actual activation point rather
 than the nested call's earlier source line. Both counterexamples were
-reproduced red and have dedicated controls and designated mutants. The
-current review-defect total is 37; exact-head review remains required before
+reproduced red and have dedicated controls and designated mutants.
+Three later exact-head findings are also repaired: a non-forwarding duplicate
+function definition clears an earlier wrapper registration; list augmented
+assignment preserves Python's shared list identity so later alias mutation is
+visible; and bounded JavaScript reachability refuses literal-false branches
+and uncalled named helpers. Each supplied counterexample was reproduced red in
+both modes and now has a dedicated control and designated mutant. The current
+review-defect total is 40; exact-head review remains required before
 integration.
 
 ## Current verification boundary
