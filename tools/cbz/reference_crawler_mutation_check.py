@@ -155,7 +155,9 @@ MUTANTS = [
     ("sha256 ignored", "for d in ref.sha256s if d != digest]", "for d in ref.sha256s if False]"),
     ("bytes ignored", "for n in ref.sizes if n != len(data)]", "for n in ref.sizes if False]"),
     ("missing path silent", 'findings.append(finding(cls, target.name, path, f"path absent at {commit}", ref))', "pass"),
-    ("missing commit assumed present", "if not live and not mirror.ensure_commit(commit):", "if False:"),
+    ("missing commit misclassified",
+     'findings.append(finding("MISSING_COMMIT", target.name, ref.path, f"commit {commit} not found", ref))',
+     'findings.append(finding("FROZEN_REMOVED", target.name, ref.path, f"commit {commit} not found", ref))'),
     ("live drift misclassified", 'cls = "LIVE_DRIFT" if live else "IDENTITY_MISMATCH"', 'cls = "IDENTITY_MISMATCH"'),
     ("unknown repository ignored", 'findings.append(finding("UNKNOWN_REPOSITORY",', '(finding("UNKNOWN_REPOSITORY",'),
     ("foreign reference silent", 'findings.append(finding("FOREIGN_REPOSITORY",', '(finding("FOREIGN_REPOSITORY",'),
@@ -175,8 +177,8 @@ MUTANTS = [
     ("line comments kept", 'elif text.startswith("--", i):', "elif False:"),
     ("pin skew silent", 'findings.append(finding("PIN_SKEW", node.name, "", f"pinned {node.commit}, tip {tip}"))', "pass"),
     ("require-current-pins ignored", '(require_current_pins and row["class"] == "PIN_SKEW")', "False"),
-    ("unreachable halts the crawl",
-     'findings.append(finding("UNREACHABLE_REPOSITORY", node.name, "", str(exc)))', "raise"),
+    ("unreachable repository silent",
+     'findings.append(finding("UNREACHABLE_REPOSITORY", node.name, "", str(exc)))', "pass"),
     ("unreachable target not blocking", '"TARGET_UNREACHABLE", target.name', '"FROZEN_REMOVED", target.name'),
     ("missing pin silent",
      'findings.append(finding("MISSING_PIN", node.name, "", f"pinned commit {node.commit} not found"))', "pass"),
@@ -312,8 +314,8 @@ MUTANTS = [
     ("unused acknowledgements hidden", '"unused_entries": sorted(set(range(len(entries))) - used)}', '"unused_entries": []}'),
     ("acknowledgement file hash dropped", '"acknowledgements": {"sha256": (acknowledgements or {}).get("sha256"),',
      '"acknowledgements": {"sha256": None,'),
-    ("malformed acknowledgement accepted", "        if not valid:\n            raise CrawlError",
-     "        if False:\n            raise CrawlError"),
+    ("unknown acknowledgement keys accepted", 'and not set(entry) - {*ACK_KEYS, "reason"} and "reason" in entry',
+     'and True and "reason" in entry'),
     ("repeated acknowledgement accepted", "        if key in seen:\n", "        if False:\n"),
     ("acknowledgement schema unchecked", 'doc.get("schema") != ACK_SCHEMA or ', ""),
     ("blank acknowledgement reason accepted", "isinstance(v, str) and v.strip() for v", "isinstance(v, str) for v"),
@@ -382,13 +384,13 @@ DESIGNATED = {
     "lean statements blind": ("test_clean_federation_reports_interface_drift_without_blocking",),
     "line comments kept": ("test_nested_block_and_line_comments_are_removed_but_strings_kept",),
     "live drift misclassified": ("test_live_reference_drift_blocks",),
-    "malformed acknowledgement accepted": (
+    "unknown acknowledgement keys accepted": (
         "test_malformed_acknowledgements_stop_the_run_before_crawling",
         "test_registered_acknowledgements_conform_to_current_schema",
     ),
     "malformed byte-identical values silent": ("test_byte_identical_values_are_validated",),
     "malformed identity silent": ("test_records_with_an_identity_are_references_and_malformed_values_are_reported",),
-    "missing commit assumed present": ("test_missing_path_commit_and_repository_block",),
+    "missing commit misclassified": ("test_missing_path_commit_and_repository_block",),
     "missing path silent": ("test_missing_path_commit_and_repository_block",),
     "missing pin silent": ("test_missing_pinned_commit_blocks",),
     "missing workspace registry silent": ("test_incomplete_topology_inputs_block",),
@@ -432,7 +434,7 @@ DESIGNATED = {
     "unparsed json lines dropped": ("test_every_text_file_is_read_whatever_its_extension",),
     "unpinned not reported": ("test_registered_but_unpinned_repository_is_crawled_and_reported",),
     "unpinned repositories get no url": ("test_registered_unpinned_repository_resolves_through_the_cache",),
-    "unreachable halts the crawl": ("test_unreachable_pinned_repository_blocks_but_does_not_halt", "test_stale_registry_entry_is_reported_without_halting",),
+    "unreachable repository silent": ("test_unreachable_pinned_repository_blocks_but_does_not_halt", "test_stale_registry_entry_is_reported_without_halting",),
     "unreachable target not blocking": ("test_stale_registry_entry_is_reported_without_halting",),
     "unread not blocking": ("test_binary_files_are_counted_and_oversize_files_reported",),
     "unregistered pinned repositories not crawled": ("test_added_repository_is_crawled",),
@@ -446,7 +448,7 @@ DESIGNATED = {
 # The test population this inventory was designed and run against. Any change to the suite
 # (a test added, removed or renamed, or any edit to the file) must update these deliberately,
 # together with DESIGNATED and the evidence fail-map.
-TEST_SHA256 = "745ef7d9e9c5837addaf190187b535c75b9602701b6af86eba86a1b545f3b4f3"
+TEST_SHA256 = "e93af5bbc71ff07ff3a0f35370a0f118521b4c600f634b111e035cf118d3123f"
 EXPECTED_TESTS = (
     "test_a_directory_source_acknowledges_only_files_under_it",
     "test_acknowledgement_constraints_are_not_live_reference_records",

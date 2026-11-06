@@ -245,12 +245,12 @@ class Extractors(unittest.TestCase):
             rc.strip_json_comments('{"a": 1} /* open')
 
     def test_json_shape_walks_every_array_element(self):
-        self.assertEqual(rc.json_shape([1] * 60 + ["x"])["[]"], "number|string")
+        self.assertEqual(rc.json_shape([1] * 60 + ["x"]).get("[]"), "number|string")
 
     def test_json_shape_and_diff(self):
         old, new = rc.json_shape(JSON_A1), rc.json_shape(JSON_A2)
-        self.assertEqual(old["b.c"], "string")
-        self.assertEqual(new["b.c"], "number")
+        self.assertEqual(old.get("b.c"), "string")
+        self.assertEqual(new.get("b.c"), "number")
         self.assertEqual(rc.diff_maps(old, new), {"removed": [], "added": ["d"], "changed": ["b.c"]})
 
     def test_records_with_an_identity_are_references_and_malformed_values_are_reported(self):
@@ -649,7 +649,7 @@ class Crawl(unittest.TestCase):
         extra = {"docs/TEMPLATE_review.json": '{{"repository": "math", "path": "Thm.lean", "sha256": "REPLACE_ME"}}'}
         fed = self.fed(main_extra=extra)
         code, report = silence(fed.crawl)
-        self.assertEqual((code, report["skipped_fixture_paths"]["main"]),
+        self.assertEqual((code, report["skipped_fixture_paths"].get("main")),
                          (0, ["docs/TEMPLATE_review.json", "tests/fixtures/refs.json"]))
         code, report = silence(lambda: fed.crawl("--include-fixtures"))
         self.assertIn("MALFORMED_IDENTITY", classes(report))
