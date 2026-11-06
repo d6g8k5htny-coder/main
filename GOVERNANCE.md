@@ -126,17 +126,19 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`8cd0ddf850db11afc6a30bb808e05db7f19f6e72` (tree
-`4202e7f69a53211355d97e426a67786c4cc19eea`) extends the existing bounded
+`be372434d492936a67e604b6de69c622b8c46e52` (tree
+`0820e26cd6aed7e5de6736fb2900cf9850d5d217`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 74/74 controls and killed 126/126 designated
-mutants in each mode. Its normal and optimized whole-tree reports were
+The exact source commit passed 77/77 controls and killed 129/129 designated
+mutants in each mode; the sealed mutation-inventory SHA-256 is
+`149f9c89c3acd928760e0e61e6a0fc9c98a33ea808640a928f20d33e5a2e4395`.
+Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`897656f8f7931e95a61f54894e8b6e13f0fc144760116afb17b00da5bb4d00f0`,
+`66c469a927c571360d8057181412f26c38fc97a2015cbd3f863914a9670823ab`,
 56,065 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
@@ -176,6 +178,12 @@ Recognized interpreter options consume their operands before script selection;
 element writes invalidate every identity alias of a resolved command list; and
 a function parameter shadowing a JavaScript URL binding blocks the outer
 binding inside that function.
+Supported command-list mutator calls invalidate the root binding and its
+resolved identity aliases before direct or wrapper attribution. A same-function
+JavaScript declaration shadows a named child-process import throughout that
+function, and a function-local `new URL` declaration is visible only inside its
+own function. The recognized mutator methods and function parser are explicit
+bounded rules, not a claim of complete Python or JavaScript semantics.
 The stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the
 earlier 28-tool result remains historical and is not rebound.
 

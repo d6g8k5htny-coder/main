@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has native source parent
-`8cd0ddf850db11afc6a30bb808e05db7f19f6e72`; its isolated work began from the
+`be372434d492936a67e604b6de69c622b8c46e52`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,11 +37,13 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `8cd0ddf850db11afc6a30bb808e05db7f19f6e72` (tree
-`4202e7f69a53211355d97e426a67786c4cc19eea`) passed 74/74 tests and killed
-126/126 designated mutants in both modes. Its byte-identical normal/optimized
+native source `be372434d492936a67e604b6de69c622b8c46e52` (tree
+`0820e26cd6aed7e5de6736fb2900cf9850d5d217`) passed 77/77 tests and killed
+129/129 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `149f9c89c3acd928760e0e61e6a0fc9c98a33ea808640a928f20d33e5a2e4395`.
+Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`897656f8f7931e95a61f54894e8b6e13f0fc144760116afb17b00da5bb4d00f0`,
+`66c469a927c571360d8057181412f26c38fc97a2015cbd3f863914a9670823ab`,
 56,065 bytes each)
 contain zero production findings and retain exactly 29 no-current-exercise
 tool candidates; both census runs exit 1. The former 20 active
@@ -82,7 +84,13 @@ recognized interpreter options consume their operands before script selection;
 an element write invalidates every resolved identity alias of the command list;
 and a function parameter shadowing a JavaScript URL binding blocks that stale
 module binding inside the function. No intermediate result is rebound as a
-passing gate.
+passing gate. Three additional exact-head findings are now repaired: supported
+command-list mutator calls invalidate the list and all resolved aliases before
+direct or forwarded attribution; a function-local JavaScript declaration
+shadows a same-named child-process import across its function scope; and a
+function-local `new URL` binding cannot escape to an outer call. The supported
+Python mutator set is finite and documented; this remains bounded static
+analysis rather than general Python or JavaScript execution.
 
 ## Current verification boundary
 

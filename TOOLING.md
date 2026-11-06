@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`8cd0ddf850db11afc6a30bb808e05db7f19f6e72`, based on Main default
+`be372434d492936a67e604b6de69c622b8c46e52`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,13 +263,15 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`8cd0ddf850db11afc6a30bb808e05db7f19f6e72` (tree
-`4202e7f69a53211355d97e426a67786c4cc19eea`) recognizes explicit local path
+`be372434d492936a67e604b6de69c622b8c46e52` (tree
+`0820e26cd6aed7e5de6736fb2900cf9850d5d217`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-74/74 controls and 126/126 designated mutations passed in both modes. The exact
+77/77 controls and 129/129 designated mutations passed in both modes; the
+sealed mutation-inventory SHA-256 is
+`149f9c89c3acd928760e0e61e6a0fc9c98a33ea808640a928f20d33e5a2e4395`. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`897656f8f7931e95a61f54894e8b6e13f0fc144760116afb17b00da5bb4d00f0`,
+`66c469a927c571360d8057181412f26c38fc97a2015cbd3f863914a9670823ab`,
 56,065 bytes each),
 with zero production findings and exactly 29 no-current-exercise tool
 candidates; both runs exited 1. Adverse controls refuse mere path
@@ -302,7 +304,10 @@ JavaScript default initializer references do not shadow their imported
 callees. Recognized interpreter options consume their operands before script
 selection, command-list element writes invalidate every resolved identity
 alias, and a function parameter shadows a same-named JavaScript URL binding
-within that function. The
+within that function. Supported list-mutator calls invalidate command provenance
+and all resolved aliases; same-function JavaScript declarations shadow named
+child-process imports; and local URL declarations cannot escape their function
+scope. These are finite static rules, not general runtime semantics. The
 stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the former
 28-tool result remains historical and is not rebound. Static evidence is not
 runtime proof. Exact dormant dispositions and the final orchestrator remain
