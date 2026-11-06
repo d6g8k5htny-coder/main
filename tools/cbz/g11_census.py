@@ -737,10 +737,14 @@ def _reachable_python_nodes(tree, mode):
                             for base in statement.bases)):
                 test_classes.add(statement.name)
 
-    nodes, queue, visited = [], [], set()
+    nodes, queue, active_calls = [], [], set()
     active_functions = {}
     function_scope_bindings = {
         id(node): _scope_bindings(node) for node in ast.walk(tree)
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+    }
+    function_scope_globals = {
+        id(node): _python_scope_global_names(node) for node in ast.walk(tree)
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
     }
 
@@ -761,12 +765,19 @@ def _reachable_python_nodes(tree, mode):
             branch = statement.body if truth else statement.orelse
         return statement_sequence_terminates(branch)
 
+    def active_function_destination(scope, name):
+        return (None if name in function_scope_globals.get(scope, set())
+                else scope)
+
     def execute(function, owner, activation_line):
-        identity = (id(function), owner, activation_line)
-        if identity in visited:
+        identity = (id(function), owner)
+        if identity in active_calls:
             return
-        visited.add(identity)
-        visit_statement_sequence(function.body, owner, id(function), activation_line)
+        active_calls.add(identity)
+        try:
+            visit_statement_sequence(function.body, owner, id(function), activation_line)
+        finally:
+            active_calls.remove(identity)
 
     def visit_statement_sequence(body, owner, scope, activation_line):
         for statement in body:
@@ -856,7 +867,8 @@ def _reachable_python_nodes(tree, mode):
             targets = node.targets if isinstance(node, ast.Assign) else [node.target]
             for target in targets:
                 for name in _target_names(target):
-                    active_functions.pop((scope, name), None)
+                    active_functions.pop(
+                        (active_function_destination(scope, name), name), None)
             execution_line = (getattr(node, "lineno", 0)
                               if activation_line is None else activation_line)
             nodes.append((node, scope, execution_line))
@@ -867,7 +879,25 @@ def _reachable_python_nodes(tree, mode):
                        else [node.target])
             for target in targets:
                 for name in _target_names(target):
-                    active_functions.pop((scope, name), None)
+                    active_functions.pop(
+                        (active_function_destination(scope, name), name), None)
+
+        if isinstance(node, ast.BoolOp):
+            # Boolean operands execute left-to-right and later operands are
+            # reachable only when the preceding literal truth values require
+            # evaluation. An unknown predecessor is not definite execution.
+            for index, value in enumerate(node.values):
+                visit(value, owner, scope, activation_line)
+                if index == len(node.values) - 1:
+                    break
+                truth = _literal_bool(value)
+                if truth is None:
+                    break
+                if isinstance(node.op, ast.And) and not truth:
+                    break
+                if isinstance(node.op, ast.Or) and truth:
+                    break
+            return
 
         if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
             # Binary operands are evaluated left-to-right before addition.

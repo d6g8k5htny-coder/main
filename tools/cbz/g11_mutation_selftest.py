@@ -702,8 +702,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_call_preserves_earlier_argument_value_before_later_rebinding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("assignment target invalidated before RHS helper", "census",
-     "            if getattr(node, \"value\", None) is not None:\n                visit(node.value, owner, scope, activation_line)\n            targets = node.targets if isinstance(node, ast.Assign) else [node.target]\n            for target in targets:\n                for name in _target_names(target):\n                    active_functions.pop((scope, name), None)",
-     "            targets = node.targets if isinstance(node, ast.Assign) else [node.target]\n            for target in targets:\n                for name in _target_names(target):\n                    active_functions.pop((scope, name), None)\n            if getattr(node, \"value\", None) is not None:\n                visit(node.value, owner, scope, activation_line)",
+     "            if getattr(node, \"value\", None) is not None:\n                visit(node.value, owner, scope, activation_line)\n            targets = node.targets if isinstance(node, ast.Assign) else [node.target]\n            for target in targets:\n                for name in _target_names(target):\n                    active_functions.pop(\n                        (active_function_destination(scope, name), name), None)",
+     "            targets = node.targets if isinstance(node, ast.Assign) else [node.target]\n            for target in targets:\n                for name in _target_names(target):\n                    active_functions.pop(\n                        (active_function_destination(scope, name), name), None)\n            if getattr(node, \"value\", None) is not None:\n                visit(node.value, owner, scope, activation_line)",
      "tests.test_g11_census.ToolChecks.test_assignment_rhs_helper_executes_before_target_rebinding",
      'self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])'),
     ("sequence element value reevaluated after later effects", "census",
@@ -746,6 +746,21 @@ NEW_MUTATIONS = [
      "            if False:\n                return True",
      "tests.test_g11_census.ToolChecks.test_js_asi_block_declaration_shadows_child_process_import",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("repeated helper invocation suppressed", "census",
+     "            active_calls.remove(identity)",
+     "            pass",
+     "tests.test_g11_census.ToolChecks.test_repeated_helper_invocations_apply_each_mutation",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("global helper reassignment invalidates local identity", "census",
+     "        return (None if name in function_scope_globals.get(scope, set())\n                else scope)",
+     "        return scope",
+     "tests.test_g11_census.ToolChecks.test_global_assignment_invalidates_module_helper_identity",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("Boolean short-circuit reachability ignored", "census",
+     "        if isinstance(node, ast.BoolOp):\n            # Boolean operands execute left-to-right",
+     "        if False:\n            # Boolean operands execute left-to-right",
+     "tests.test_g11_census.ToolChecks.test_boolean_short_circuit_skips_unreachable_loader",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -913,6 +928,9 @@ EXPECTED_MUTATION_NAMES = (
     "named binary operand reevaluated after later effects",
     "selected branch traversal continues after termination",
     "JavaScript ASI declaration shadow ignored",
+    "repeated helper invocation suppressed",
+    "global helper reassignment invalidates local identity",
+    "Boolean short-circuit reachability ignored",
 )
 
 
@@ -1091,7 +1109,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 113
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 116
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
