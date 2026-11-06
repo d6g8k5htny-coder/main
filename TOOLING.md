@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`06b81c26498b092e3ff600c02a2ac985fb5fbb50`, based on Main default
+`0d15a60bee38f0b2b9a1406a8dbf58cb2867881b`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,15 +263,15 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`06b81c26498b092e3ff600c02a2ac985fb5fbb50` (tree
-`54da40e6e17a46e7abbedc2252c2b86448cf4ce1`) recognizes explicit local path
+`0d15a60bee38f0b2b9a1406a8dbf58cb2867881b` (tree
+`cd779310a725025fa5767e719a708ae67d9aa13b`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-94/94 controls and 145/145 designated mutations passed in both modes; the
+97/97 controls and 148/148 designated mutations passed in both modes; the
 sealed mutation-inventory SHA-256 is
-`ee49fb05808c750d45cf8dd954be84e6b0f6f46cb4c7fa0951406e4ade5cac07`. The exact
+`0636c8aaec666c6898706ffcdce7e5c4ab97f0614ba95dbeac511c68c277b701`. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`b38bf67f776d6e2467a2b8931200bbc1124f3b6f5cc279ca11b973089fd9dcf5`,
+`36b480bd5a87fcf29411bbf42114acb8d65900ddf9bae27ceb0d9a7454bccbf3`,
 56,078 bytes each),
 with zero production findings and exactly 29 no-current-exercise tool
 candidates; both runs exited 1. Adverse controls refuse mere path
@@ -331,7 +331,9 @@ registrar identity; helper-local or nested registrations without a reachable
 module chain remain untrusted. The
 scanner analyzes supported cache-guard alternatives in isolated fail-closed
 binding environments and expands reachable Python helper effects at the call
-position before continuing the caller. The
+position before continuing the caller. Declared Python `global` writes target
+the module environment; element/slice deletion invalidates resolved command
+aliases; and rebound JavaScript helpers do not provide reachability. The
 stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the former
 28-tool result remains historical and is not rebound. Static evidence is not
 runtime proof. Exact dormant dispositions and the final orchestrator remain
