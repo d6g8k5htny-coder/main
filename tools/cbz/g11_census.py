@@ -857,7 +857,7 @@ def _python_static_value(node, local, module, source_path, imports, scope_shadow
 
 def _bind_python_value(node, value, local, module, scope):
     targets = []
-    if isinstance(node, (ast.Assign, ast.AnnAssign)):
+    if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
         targets = node.targets if isinstance(node, ast.Assign) else [node.target]
     destination = module if scope is None else local
 
@@ -989,8 +989,9 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
             imports, local_imports, scope_shadowed.get(scope, set()))
         locally_imported = set(local_imports["modules"]) | set(local_imports["symbols"])
         static_shadowed = scope_shadowed.get(scope, set()) - locally_imported
-        if isinstance(node, (ast.Assign, ast.AnnAssign)):
-            value_node = node.value
+        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
+            value_node = (ast.BinOp(left=node.target, op=node.op, right=node.value)
+                          if isinstance(node, ast.AugAssign) else node.value)
             value = _python_static_value(value_node, local, module_bindings, source_path,
                                          active_imports, static_shadowed)
             _bind_python_value(node, value, local, module_bindings, scope)
@@ -1017,7 +1018,7 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     if position < len(node.args):
                         value = _python_static_value(node.args[position], local, module_bindings,
                                                      source_path, active_imports, static_shadowed)
-                        references.update(_tool_values(value, tools))
+                        references.update(_command_tool_values(value, tools))
             if call_name == "importlib.util.spec_from_file_location" and len(node.args) >= 2:
                 value = _python_static_value(node.args[1], local, module_bindings, source_path,
                                              active_imports, static_shadowed)
@@ -1193,7 +1194,8 @@ def _js_expression_identifiers(text):
 def _js_call_arguments(text, names):
     if not names:
         return []
-    starts = re.compile(r"\b(?:" + "|".join(map(re.escape, sorted(names))) + r")\s*\(")
+    starts = re.compile(
+        r"(?<![\w$.])(?:" + "|".join(map(re.escape, sorted(names))) + r")(?![\w$])\s*\(")
     arguments = []
     for match in starts.finditer(text):
         start = match.end()

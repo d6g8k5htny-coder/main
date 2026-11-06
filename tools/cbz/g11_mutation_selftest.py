@@ -322,8 +322,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("subprocess path list ignored", "census",
-     "                        references.update(_command_tool_values(value, tools))",
-     "                        references.update(())",
+     "                    if isinstance(value, list):\n                        references.update(_command_tool_values(value, tools))\n                        continue",
+     "                    if isinstance(value, list):\n                        references.update(())\n                        continue",
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("environment path default ignored", "census",
@@ -373,7 +373,7 @@ NEW_MUTATIONS = [
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("JavaScript URL mention accepted without child process", "census",
      "    if not names:\n        return []",
-     "    if False:\n        return []",
+     "    if not names:\n        names = {\"spawnSync\", \"spawn\", \"execFileSync\", \"execFile\"}",
      "tests.test_g11_census.ToolChecks.test_js_url_child_process_execution_is_a_reference",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("decoy Python loader APIs accepted", "census",
@@ -435,6 +435,21 @@ NEW_MUTATIONS = [
      "        identifiers = _js_expression_identifiers(arguments)",
      "        identifiers = set(bindings)",
      "tests.test_g11_census.ToolChecks.test_js_quoted_and_property_names_do_not_credit_bindings",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("forwarded command-mode arguments credited", "census",
+     "                        references.update(_command_tool_values(value, tools))\n            if call_name == \"importlib.util.spec_from_file_location\"",
+     "                        references.update(_tool_values(value, tools))\n            if call_name == \"importlib.util.spec_from_file_location\"",
+     "tests.test_g11_census.ToolChecks.test_wrapper_forwarding_rejects_command_mode_arguments",
+     "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("augmented assignment retains stale static value", "census",
+     "        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):\n            value_node = (ast.BinOp(left=node.target, op=node.op, right=node.value)",
+     "        if isinstance(node, (ast.Assign, ast.AnnAssign)):\n            value_node = (ast.BinOp(left=node.target, op=node.op, right=node.value)",
+     "tests.test_g11_census.ToolChecks.test_augmented_assignment_replaces_static_path_value",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("JavaScript property call accepted as imported callee", "census",
+     '        r"(?<![\\w$.])(?:" + "|".join(map(re.escape, sorted(names))) + r")(?![\\w$])\\s*\\(")',
+     '        r"\\b(?:" + "|".join(map(re.escape, sorted(names))) + r")\\s*\\(")',
+     "tests.test_g11_census.ToolChecks.test_js_property_calls_do_not_use_named_child_process_imports",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
 
 ]
@@ -541,6 +556,9 @@ EXPECTED_MUTATION_NAMES = (
     "rebound wrapper parameter still forwarded",
     "local static shadow inherits module value",
     "JavaScript quoted and property names credited",
+    "forwarded command-mode arguments credited",
+    "augmented assignment retains stale static value",
+    "JavaScript property call accepted as imported callee",
 )
 
 
@@ -719,7 +737,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 51
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 54
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
