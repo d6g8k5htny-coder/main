@@ -157,7 +157,7 @@ class EvaluationTests(unittest.TestCase):
         self.assertTrue(any(p['holds'] is False for p in r.probes))
 
     def test_unsupported_constructs_fail_closed(self):
-        self.assertEqual(self.ev('Real.exp 1 < 3').status, 'UNSUPPORTED')
+        self.assertEqual(self.ev('Real.arcsin 1 < 3').status, 'UNSUPPORTED')   # outside the enclosure backend
         self.assertEqual(self.ev('∀ x : Nat, x + 0 = x').status, 'UNSUPPORTED')   # unbounded domain
         self.assertEqual(self.ev('undefinedName 3 = 4').status, 'UNSUPPORTED')
 
@@ -322,16 +322,18 @@ class PackageTests(unittest.TestCase):
                 'theorem a : ∑ i ∈ Finset.range 3, (i : ℝ) = 3 := by\n  rw [← Finset.sum_range_succ]\n  norm_num\n'
                 'theorem b : (2 : Nat) + 2 = 4 := by decide\n'
                 'lemma c (x : ℝ) : x ^ 2 ≥ 0 := by positivity\n'
-                'theorem d : Real.exp 0 = 1 := by simp\nend Y\n')
+                'theorem d : Real.cos Real.pi = -1 := by simp\nend Y\n')
             (root / 'manifest.json').write_text(json.dumps({'source_modules': ['Y/Core.lean'], 'targets': [
                 {'name': 'Y.a', 'module': 'Y/Core.lean'}, {'name': 'Y.b', 'module': 'Y/Core.lean'},
                 {'name': 'Y.c', 'module': 'Y/Core.lean'}, {'name': 'Y.d', 'module': 'Y/Core.lean'}]}))
             report = sf.check_package(root)
             self.assertEqual(report['per_target']['Y.a']['status'], 'PASS')        # a finite sum is exact
             self.assertEqual(report['per_target']['Y.b']['status'], 'PASS')
-            # `(x : ℝ)` before the colon is sampled, never PASS: the package still fails on Y.d
+            # `(x : ℝ)` before the colon is sampled, never PASS; a true equality between transcendental values
+            # is not confirmed by enclosures (fail-closed): the package still fails on Y.c and Y.d
             self.assertEqual(report['per_target']['Y.c']['status'], 'CORROBORATED')
             self.assertEqual(report['per_target']['Y.d']['status'], 'UNSUPPORTED')
+            self.assertIn('never confirm', report['per_target']['Y.d']['detail'])
             self.assertEqual(report['exit_code'], 1)
 
     def test_manifest_targets_may_be_bare_names(self):
@@ -494,10 +496,19 @@ class ExactRealAlgebraTests(unittest.TestCase):
         self.assertEqual(self.ev('(9 : ℝ) ^ (1 / 2) = 1').status, 'PASS')          # the exponent 1/2 is a Nat: 0
         self.assertEqual(self.ev('(9 : ℝ) ^ (1 / 2 : ℝ) = 3').status, 'UNSUPPORTED')   # rpow
 
-    def test_transcendental_and_nested_radicals_stay_unsupported(self):
-        self.assertEqual(self.ev('Real.exp 0 = 1').status, 'UNSUPPORTED')
-        self.assertEqual(self.ev('Real.sqrt (Real.sqrt 2) < 2').status, 'UNSUPPORTED')
-        self.assertIn('nested radical', self.ev('Real.sqrt (Real.sqrt 2) < 2').detail)
+    def test_rpow_and_unknown_transcendentals_stay_unsupported(self):
+        # Real.exp / Real.log / trigonometry are enclosed (TranscendentalTests); rpow and the rest are not
+        self.assertEqual(self.ev('Real.exp 1 ^ (1/2 : ℝ) < 2').status, 'UNSUPPORTED')
+        self.assertIn('rpow', self.ev('Real.exp 1 ^ (1/2 : ℝ) < 2').detail)
+        self.assertEqual(self.ev('Real.arcsin 1 = Real.pi / 2').status, 'UNSUPPORTED')
+
+    def test_nested_radicals_are_enclosed_not_solved(self):
+        # √(√2) leaves ℚ(√2): orderings are decided by enclosures, an exact equality is not confirmed
+        self.assertEqual(self.ev('Real.sqrt (Real.sqrt 2) < 2').status, 'PASS')
+        self.assertEqual(self.ev('Real.sqrt (Real.sqrt 2) < 11/10').status, 'FAIL')           # 2^(1/4) = 1.189…
+        self.assertEqual(self.ev('Real.sqrt (3 + 2 * Real.sqrt 2) = 1 + Real.sqrt 2').status, 'UNSUPPORTED')
+        self.assertEqual(self.ev('Real.sqrt (3 + 2 * Real.sqrt 2) < 1 + Real.sqrt 2 + 1/10^30').status, 'PASS')
+        self.assertEqual(self.ev('Real.sqrt (Real.sqrt 2 - 2) = 0').status, 'PASS')            # Mathlib: √(≤0) = 0
 
     def test_roots_of_radicands_beyond_exact_factoring_stay_exact_but_never_guess_zero(self):
         # 10^47 + 3 cannot be split into square and squarefree parts within the deterministic primality range;
@@ -562,9 +573,9 @@ class SampledBinderSemanticsTests(unittest.TestCase):
         r = self.ev('(p : ℕ) (hp : Nat.Prime p)', 'p ≥ 2')
         self.assertEqual(r.status, 'UNSUPPORTED')
         self.assertIn('hp', r.detail)
-        r = self.ev('(x : ℝ) (hx : Real.exp x > 0)', 'x = x')
+        r = self.ev('(x : ℝ) (hx : Real.arcsin x > 0)', 'x = x')
         self.assertEqual(r.status, 'UNSUPPORTED')
-        self.assertIn('Real.exp', r.detail)
+        self.assertIn('Real.arcsin', r.detail)
 
     def test_type_tokens_inside_a_binder_type_are_types_not_hypotheses(self):
         for b in ('(x : ℝ≥0)', '(n : ℕ+)', '(v : Fin 3 → ℝ≥0)'):
@@ -1052,6 +1063,249 @@ class FiniteVectorTests(unittest.TestCase):
         report = sf.mutation_selftest(m)
         self.assertTrue(report['harness_ok'], report)
         self.assertEqual(report['survivors'], [])
+
+
+P15_TRANS = """
+namespace P15Elementary.Aux
+theorem two_lt_exp_one : (2 : ℝ) < Real.exp 1 := by sorry
+theorem three_exp_sub_two_pos : (0 : ℝ) < 3 * Real.exp 1 - 2 := by sorry
+theorem exp_two_eq : Real.exp 2 = Real.exp 1 ^ 2 := by sorry
+theorem exp_neg_three_eq : Real.exp (-3) = Real.exp (-1) ^ 3 := by sorry
+theorem log_three_exp_sub_two_lt_two : Real.log (3 * Real.exp 1 - 2) < 2 := by sorry
+theorem exp_eleven_sixths_gt : (197 / 32 : ℝ) < Real.exp (11 / 6) := by sorry
+theorem three_exp_sub_two_lt : 3 * Real.exp 1 - 2 < (197 / 32 : ℝ) := by sorry
+theorem log_three_exp_sub_two_lt : Real.log (3 * Real.exp 1 - 2) < 11 / 6 := by sorry
+end P15Elementary.Aux
+namespace P15Interpolation.Aux
+theorem f3_exp_one_gt : (271828182845904523536028746620 : ℝ) / 10 ^ 29 < Real.exp 1 := by sorry
+theorem f3_exp_one_lt : Real.exp 1 < (271828182845904523536028747136 : ℝ) / 10 ^ 29 := by sorry
+theorem f3_exp_xU_ge :
+    (83296775704110158100003160908803 : ℝ) / 10 ^ 32 ≤
+      Real.exp (-3863004568775331983 / 21136995431224668017) := by sorry
+theorem f3_log_lt :
+    Real.log (3 * Real.exp 1 - 2) < 2 + (-3863004568775331983 / 21136995431224668017 : ℝ) := by sorry
+theorem f3_lt_log :
+    2 + (-15452018275101327933 / 84547981724898672067 : ℝ) < Real.log (3 * Real.exp 1 - 2) := by sorry
+end P15Interpolation.Aux
+"""
+
+
+class TranscendentalTests(unittest.TestCase):
+    """`Real.exp` of rationals in the exact exponential normal form (equalities decided by Lindemann–Weierstrass);
+    orderings, `Real.log`, `Real.pi`, `Real.sin`/`cos`/`tan`/`sinh`/`cosh`/`arctan` and nested radicals by rigorous
+    rational enclosures (series with proved remainder bounds, outward rounding), refined to 1024 bits and reported
+    UNSUPPORTED when still undecided — never a float, never a guess."""
+
+    def ev(self, text, binders='', samples=64):
+        module = sf.parse_module(f'theorem t {binders} : {text} := by sorry\n')
+        return sf.evaluate_theorem(module, module.theorems[-1], samples=samples)
+
+    def test_p15_statements_pass_and_their_flips_fail(self):
+        module = sf.parse_module(P15_TRANS)
+        results = {t.name: sf.evaluate_theorem(module, t) for t in module.theorems}
+        self.assertEqual(len(results), 13)
+        self.assertEqual({r.status for r in results.values()}, {'PASS'}, {k: v.detail for k, v in results.items()})
+        # the 29-digit enclosures of e need more than 64 bits: the ladder reports the precision that decided
+        self.assertIn('128 bits', results['P15Interpolation.Aux.f3_exp_one_gt'].detail)
+        self.assertNotIn('bits', results['P15Elementary.Aux.two_lt_exp_one'].detail)
+        for flipped in ('Real.exp 1 < 2', 'Real.exp 1 < (271828182845904523536028746620 : ℝ) / 10 ^ 29',
+                        'Real.exp (11 / 6) < 197 / 32', '(197 / 32 : ℝ) ≤ 3 * Real.exp 1 - 2',
+                        '2 ≤ Real.log (3 * Real.exp 1 - 2)', 'Real.exp 2 ≠ Real.exp 1 ^ 2', 'Real.exp (-3) = Real.exp (-1) ^ 2'):
+            with self.subTest(flipped=flipped):
+                self.assertEqual(self.ev(flipped).status, 'FAIL')
+
+    def test_exponential_normal_form_decides_equalities_exactly(self):
+        for text in ('Real.exp 0 = 1', 'Real.exp 1 * Real.exp (-1) = 1', '(1 : ℝ) / Real.exp 1 = Real.exp (-1)',
+                     'Real.exp (1/2) ^ 2 = Real.exp 1', 'Real.cosh 1 ^ 2 - Real.sinh 1 ^ 2 = 1',
+                     'Real.exp 1 + Real.exp 2 = Real.exp 2 + Real.exp 1', 'Real.exp 1 ≠ 0', 'Real.exp 1 + 1 ≠ Real.exp 1',
+                     'Real.log (Real.exp 5) = 5', 'Real.log (-Real.exp 5) = 5', 'Real.sinh 0 = 0', 'Real.cosh 0 = 1',
+                     '(Real.exp 1 + 1) * (Real.exp 1 - 1) = Real.exp 2 - 1'):
+            with self.subTest(text=text):
+                r = self.ev(text)
+                self.assertEqual(r.status, 'PASS', r.detail)
+                self.assertNotIn('bits', r.detail)                 # exact, no enclosure
+        for text in ('Real.exp 1 = Real.exp 2', 'Real.exp 1 = 3', 'Real.exp 1 = 2718281828 / 10 ^ 9',
+                     'Real.exp 1 + Real.exp (-1) = 2 * Real.cosh 1 + 1'):
+            with self.subTest(text=text):
+                self.assertEqual(self.ev(text).status, 'FAIL')
+
+    def test_mathlib_totalisation_of_log_div_and_sqrt(self):
+        for text in ('Real.log 0 = 0', 'Real.log 1 = 0', 'Real.exp 1 / 0 = 0', 'Real.sqrt (-Real.exp 1) = 0',
+                     'Real.sqrt (Real.sqrt 2 - 2) = 0', 'Real.log (-2) = Real.log 2 ∨ Real.log (-2) < 1'):
+            with self.subTest(text=text):
+                self.assertEqual(self.ev(text).status, 'PASS', text)
+        # log |x| is the Mathlib value: log(−3) is log 3 ≈ 1.0986, not an error and not a negative number
+        self.assertEqual(self.ev('Real.log (-3) > 1').status, 'PASS')
+        self.assertEqual(self.ev('Real.log (-3) < 0').status, 'FAIL')
+
+    def test_connectives_are_settled_by_a_decided_side(self):
+        # cos π = −1 is undecided by enclosures; the other side settles the connective when it can
+        self.assertEqual(self.ev('Real.cos Real.pi = -1 ∨ Real.pi > 3').status, 'PASS')
+        self.assertEqual(self.ev('Real.pi > 3 ∨ Real.cos Real.pi = -1').status, 'PASS')
+        self.assertEqual(self.ev('Real.cos Real.pi = -1 ∧ Real.pi > 4').status, 'FAIL')
+        self.assertEqual(self.ev('Real.cos Real.pi = -1 → Real.pi > 3').status, 'PASS')
+        self.assertEqual(self.ev('Real.cos Real.pi = -1 ∧ Real.pi > 3').status, 'UNSUPPORTED')
+        self.assertEqual(self.ev('Real.cos Real.pi = -1 ∨ Real.pi > 4').status, 'UNSUPPORTED')
+        self.assertEqual(self.ev('Real.cos Real.pi = -1 → Real.pi > 4').status, 'UNSUPPORTED')
+        self.assertEqual(self.ev('¬ (Real.cos Real.pi = -1)').status, 'UNSUPPORTED')
+        # an unsupported construct is never settled away by the other side (fail-closed)
+        self.assertEqual(self.ev('Real.arcsin 1 = 2 ∨ Real.pi > 3').status, 'UNSUPPORTED')
+        self.assertEqual(self.ev('Real.pi > 3 ∨ Real.arcsin 1 = 2').status, 'PASS')     # Lean's `∨` short-circuits from the left
+
+    def test_pi_and_trigonometry_by_enclosure(self):
+        for text in ('(3 : ℝ) < Real.pi ∧ Real.pi < 22 / 7', 'Real.pi > 314159 / 10 ^ 5', 'Real.sin 1 < 1', 'Real.cos 2 < 0',
+                     '|Real.sin 100| ≤ 1', 'Real.sin 0 = 0', 'Real.cos 0 = 1', 'Real.sin (Real.pi / 6) < 1 / 2 + 1 / 10 ^ 30',
+                     'Real.sin (Real.pi / 6) > 1 / 2 - 1 / 10 ^ 30', 'Real.tan 1 > 3 / 2', 'Real.arctan 1 < Real.pi / 4 + 1 / 10 ^ 30',
+                     'Real.arctan 1 > Real.pi / 4 - 1 / 10 ^ 30', 'Real.arctan (-5) < -1', 'Real.cos (10 ^ 6) ≤ 1',
+                     'Real.exp Real.pi > 23', 'Real.exp (Real.sqrt 2) < 5', 'Real.log Real.pi > 1',
+                     'Real.exp (Real.exp 1) > 15'):
+            with self.subTest(text=text):
+                self.assertEqual(self.ev(text).status, 'PASS', text)
+        for text in ('Real.pi < 3', 'Real.pi = 22 / 7', 'Real.sin 1 > 1', 'Real.cos 2 > 0', 'Real.log 2 > 1'):
+            with self.subTest(text=text):
+                self.assertEqual(self.ev(text).status, 'FAIL', text)
+        # min / max: exact when the order is decided, the hull of the pointwise extrema when it is not
+        self.assertEqual(self.ev('max (Real.exp 1) 2 = Real.exp 1 ∧ min (Real.exp 1) 2 = 2 ∧ min Real.pi 3 = 3').status, 'PASS')
+        self.assertEqual(self.ev('max (Real.exp 1) (Real.exp 1) = Real.exp 1').status, 'PASS')
+        self.assertEqual(self.ev('max (Real.log 3) (Real.log (-3)) > 1').status, 'PASS')          # undecided order, decided hull
+        self.assertEqual(self.ev('max (Real.log 3) (Real.log (-3)) = Real.log 3').status, 'UNSUPPORTED')
+
+    def test_true_equalities_between_enclosed_values_are_not_confirmed(self):
+        # cos π = −1 is a theorem, but two enclosures never confirm an equality: fail-closed, with the reason
+        for text in ('Real.cos Real.pi = -1', 'Real.sin Real.pi = 0', 'Real.sin 1 ^ 2 + Real.cos 1 ^ 2 = 1',
+                     'Real.arctan 1 = Real.pi / 4', 'Real.log (-3) = Real.log 3', 'Real.sqrt (Real.exp 2) = Real.exp 1',
+                     'Real.log (2 * Real.exp 5) = Real.log 2 + 5'):
+            with self.subTest(text=text):
+                r = self.ev(text)
+                self.assertEqual(r.status, 'UNSUPPORTED', text)
+                self.assertIn('1024 bits do not decide', r.detail)
+                self.assertIn('never confirm', r.detail)
+                self.assertEqual(sf._reason_class(r.detail), 'enclosures do not decide the statement')
+        # an ordering that is true by a margin the enclosures reach is decided; one that needs an exact zero is not
+        self.assertEqual(self.ev('Real.sin 1 ^ 2 + Real.cos 1 ^ 2 ≤ 1 + 1 / 10 ^ 200').status, 'PASS')
+        self.assertEqual(self.ev('Real.sin 1 ^ 2 + Real.cos 1 ^ 2 ≤ 1').status, 'UNSUPPORTED')
+
+    def test_refinement_ladder_and_caps(self):
+        r = self.ev('Real.sqrt (Real.exp 2) < Real.exp 1 + 1 / 10 ^ 40')
+        self.assertEqual(r.status, 'PASS')
+        self.assertIn('256 bits', r.detail)
+        self.assertEqual(self.ev('Real.exp 1 > 27182818284590452353602874713526624977572 / 10 ^ 40').status, 'PASS')
+        self.assertEqual(self.ev('Real.exp 1 < 27182818284590452353602874713526624977572 / 10 ^ 40').status, 'FAIL')
+        self.assertEqual(self.ev('Real.exp 100000 > 0').status, 'PASS')          # e^100000 ≈ 2^144270: within the caps
+        self.assertEqual(self.ev('Real.exp 999999 > Real.exp 999998').status, 'PASS')
+        r = self.ev('Real.exp 10000000 > 0')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('size caps', r.detail)
+        for text in ('Real.exp 1 ^ (1 / 2 : ℝ) < 2', 'Real.rpow 2 (1 / 2) < 2', 'Real.arcsin 1 = Real.pi / 2', 'Real.exp 1 % 2 < 1'):
+            with self.subTest(text=text):
+                self.assertEqual(self.ev(text).status, 'UNSUPPORTED', text)
+        self.assertEqual(sf._reason_class(self.ev('Real.rpow 2 (1 / 2) < 2').detail), 'real exponent (Real.rpow)')
+        # Real.logb b x = Real.log x / Real.log b with the totalised log and division
+        self.assertEqual(self.ev('Real.logb 2 8 < 3 + 1 / 10 ^ 30 ∧ Real.logb 2 8 > 3 - 1 / 10 ^ 30').status, 'PASS')
+        self.assertEqual(self.ev('Real.logb (Real.exp 1) (Real.exp 3) = 3 ∧ Real.logb 2 0 = 0 ∧ Real.logb 1 5 = 0').status, 'PASS')
+        self.assertEqual(self.ev('Real.logb 2 8 = 3').status, 'UNSUPPORTED')          # an equality between enclosures
+        self.assertEqual(self.ev('Real.logb 10 1000 < 2').status, 'FAIL')
+
+    def test_sampled_binders_with_transcendental_values(self):
+        self.assertEqual(self.ev('Real.exp x ≥ 1 + x', '(x : ℝ)').status, 'CORROBORATED')
+        r = self.ev('Real.exp x > 1 + x', '(x : ℝ)')
+        self.assertEqual(r.status, 'FAIL')
+        self.assertIn('x = 0', r.detail)
+        r = self.ev('Real.exp x ≤ 1 + x', '(x : ℝ)')
+        self.assertEqual(r.status, 'FAIL')
+        self.assertEqual(self.ev('Real.log x ≤ x - 1', '(x : ℝ) (hx : 0 < x)').status, 'CORROBORATED')
+        self.assertEqual(self.ev('Real.exp (x + y) = Real.exp x * Real.exp y', '(x y : ℝ)').status, 'CORROBORATED')
+        self.assertEqual(self.ev('|Real.cos x| ≤ 1', '(x : ℝ)').status, 'CORROBORATED')
+        self.assertEqual(self.ev('Real.exp n ≥ 1', '(n : ℕ)').status, 'CORROBORATED')
+        # an identity between enclosed values is undecided on almost every instance: UNSUPPORTED, not weakly held
+        r = self.ev('Real.sin x ^ 2 + Real.cos x ^ 2 = 1', '(x : ℝ)', samples=16)
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('did not decide', r.detail)
+        self.assertGreater(r.sampling['undecided'], r.sampling['accepted'])
+        r = self.ev('Real.exp (Real.log x) = x', '(x : ℝ) (hx : 0 < x)', samples=16)
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        # a hypothesis the enclosures do not decide admits almost no draw: UNSUPPORTED, with the count recorded
+        r = self.ev('x = x', '(x : ℝ) (hx : Real.sin x ^ 2 + Real.cos x ^ 2 = 1)', samples=16)
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('did not decide the hypotheses', r.detail)
+        self.assertGreater(r.sampling['hypotheses_undecided'], 0)
+        self.assertEqual(self.ev('x ≤ 0', '(x : ℝ) (hx : Real.exp x ≤ 1)').status, 'CORROBORATED')
+
+    def test_transcendental_mutants_are_killed(self):
+        m = sf.parse_module(P15_TRANS + 'theorem w : Real.sin 1 < Real.exp 1 - 1 := by sorry\n')
+        report = sf.mutation_selftest(m)
+        self.assertTrue(report['harness_ok'], report)
+        self.assertEqual(report['survivors'], [])
+        self.assertGreaterEqual(report['mutants'], 14)
+
+    def test_enclosures_contain_the_values_computed_independently(self):
+        # the standard library's decimal module evaluates exp and ln at any precision: every enclosure of the
+        # transcendental layer must contain its value, and be no wider than the precision asks for
+        import decimal
+        decimal.getcontext().prec = 80
+        D = decimal.Decimal
+        def contains(iv, value):
+            lo, hi = D(iv.lo.numerator) / D(iv.lo.denominator), D(iv.hi.numerator) / D(iv.hi.denominator)
+            return lo <= value <= hi
+        for q in (sf.Fraction(1), sf.Fraction(-1), sf.Fraction(11, 6), sf.Fraction(-3863004568775331983, 21136995431224668017),
+                  sf.Fraction(100), sf.Fraction(-50), sf.Fraction(1, 10 ** 12), sf.Fraction(7, 3)):
+            for bits in (64, 128, 200):
+                with self.subTest(q=q, bits=bits):
+                    iv = sf._exp_point(q, bits)
+                    self.assertTrue(contains(iv, (D(q.numerator) / D(q.denominator)).exp()), (q, bits, iv))
+                    self.assertLessEqual(iv.width, sf.Fraction(1, 2 ** (bits - 1)) * max(1, abs(iv.hi)))
+                    if q > 0:
+                        lv = sf._log_point(q, bits)
+                        self.assertTrue(contains(lv, (D(q.numerator) / D(q.denominator)).ln()), (q, bits, lv))
+                        self.assertLess(lv.width, sf.Fraction(1, 2 ** (bits - 2)))
+        pi = D('3.14159265358979323846264338327950288419716939937510582097494459230781640628620899')
+        for bits in (64, 128, 200):
+            self.assertTrue(contains(sf._pi_enclosure(bits), pi))
+            self.assertLess(sf._pi_enclosure(bits).width, sf.Fraction(1, 2 ** bits))
+        # sin/cos/atan against the float library, with a slack far above double rounding and far below the width
+        import math
+        for y in (sf.Fraction(1), sf.Fraction(-3), sf.Fraction(22, 7), sf.Fraction(1, 1000), sf.Fraction(4)):
+            for want, f in (('sin', math.sin), ('cos', math.cos)):
+                iv = sf._sin_cos_point(y, 64, want)
+                self.assertLess(iv.width, sf.Fraction(1, 2 ** 60))
+                self.assertAlmostEqual(float(iv.lo), f(float(y)), places=12)
+        for x in (sf.Fraction(1, 5), sf.Fraction(-1, 2), sf.Fraction(3, 4), sf.Fraction(1), sf.Fraction(-9, 10)):
+            iv = sf._atan_series(x, 64)
+            self.assertLess(iv.width, sf.Fraction(1, 2 ** 60))
+            self.assertAlmostEqual(float(iv.lo), math.atan(float(x)), places=12)
+        # interval trigonometry: the range over an interval contains the values at interior points
+        X = sf.Iv(sf.Fraction(1), sf.Fraction(2))                 # sin has its maximum 1 at π/2 inside
+        self.assertEqual(sf._trig_iv(X, 64, 'sin').hi, 1)
+        self.assertTrue(contains(sf._trig_iv(X, 64, 'sin'), D(str(math.sin(1.3)))))
+        self.assertTrue(contains(sf._trig_iv(X, 64, 'cos'), D(str(math.cos(1.3)))))
+        self.assertEqual((sf._trig_iv(sf.Iv(0, 7), 64, 'cos').lo, sf._trig_iv(sf.Iv(0, 7), 64, 'cos').hi), (-1, 1))
+
+    def test_outward_rounding_and_message_formatting(self):
+        import random
+        rng = random.Random(3)
+        for _ in range(200):
+            x = sf.Fraction(rng.randint(-10 ** 30, 10 ** 30), rng.randint(1, 10 ** 25)) * sf.Fraction(2) ** rng.randint(-200, 200)
+            for p in (16, 64, 128):
+                lo, hi = sf._round_out(x, p, False), sf._round_out(x, p, True)
+                self.assertLessEqual(lo, x)
+                self.assertGreaterEqual(hi, x)
+                self.assertLessEqual(hi - lo, abs(x) * sf.Fraction(1, 2 ** (p - 2)))
+        self.assertEqual(sf._round_out(sf.Fraction(0), 64, True), 0)
+        iv = sf.Iv(sf.Fraction(1, 3), sf.Fraction(2, 3)).round(20)
+        self.assertLessEqual(iv.lo, sf.Fraction(1, 3))
+        self.assertGreaterEqual(iv.hi, sf.Fraction(2, 3))
+        big = sf.Iv(sf.Fraction(1), sf.Fraction(3)).pow_rounded(5000, 96)
+        self.assertLessEqual(big.lo, sf.Fraction(1))
+        self.assertGreaterEqual(big.hi, sf.Fraction(3) ** 5000)
+        self.assertLess(big.hi.numerator.bit_length(), 200 + 5000 * 2)      # bounded mantissa, not 3^5000's exact digits
+        self.assertEqual(sf._approx(sf.Fraction(5, 4)), '1.25')
+        self.assertEqual(sf._approx(sf.Fraction(-1, 3)), '-0.333333333333333333…')
+        self.assertEqual(sf._approx(sf.Fraction(10) ** 5000), '1e5000')
+        self.assertEqual(sf._approx(sf.Fraction(1, 10) ** 320), '1e-320')
+        self.assertEqual(sf._approx(sf.Fraction(2) ** 1500000), '2^1500000…')          # the exponent alone, cheaply
+        self.assertEqual(sf._approx(sf.Fraction(0)), '0')
+        self.assertEqual(sf._approx(123456789), '123456789')
+        self.assertIn('…', repr(sf._e_enclosure(64)))
 
 
 if __name__ == '__main__':

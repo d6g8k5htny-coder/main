@@ -63,6 +63,7 @@ from __future__ import annotations
 import argparse
 import contextlib
 import dataclasses
+import functools
 import hashlib
 import json
 import pathlib
@@ -1674,7 +1675,7 @@ def _fmt_set(points, n=None) -> str:
 def _fmt_value(v) -> str:
     if isinstance(v, frozenset):
         return _fmt_set(v)
-    if isinstance(v, (Meas, Func, ENN, Vec, Mat)):
+    if isinstance(v, (Meas, Func, ENN, Vec, Mat, ExpPoly, Iv)):
         return repr(v)
     return _fmt(v)
 
@@ -1704,6 +1705,7 @@ class Evaluator:
         self.failures = []
         self.probes = []
         self.model_n = None          # the carrier size of the current finite model, when one is in force
+        self.bits = _ENCLOSURE_BITS[0]   # precision of transcendental enclosures (refined on Undecided)
 
     def defn(self, name):
         """The definition a name written in the statement denotes (None if none; Unsupported if ambiguous)."""
@@ -1755,6 +1757,8 @@ class Evaluator:
                 return v.type if isinstance(v, Bound) else 'Nat'
             if node.name in ('Set.univ', '∅'):
                 return 'Set'
+            if node.name in ('Real.pi', 'π'):
+                return 'Real'
             d = self.defn(node.name)
             if d is not None and d.result_type:
                 return self._type_name(d.result_type)
@@ -1837,7 +1841,7 @@ class Evaluator:
                 if fn.name in ('dotProduct', 'Matrix.dotProduct', 'inner') and node.args:
                     t = self.arith_type(node.args[-1], env)
                     return _vec_info(t)[0] if _base(t) == 'Vec' else 'Real'
-                if fn.name == 'Real.sqrt':
+                if fn.name == 'Real.sqrt' or fn.name in _TRANSCENDENTAL:
                     return 'Real'
                 if fn.name in ('.toReal', 'ENNReal.toReal'):
                     return 'Real'
@@ -1951,6 +1955,8 @@ class Evaluator:
                 return frozenset(self.points())
             if node.name == '∅':
                 return frozenset()
+            if node.name in ('Real.pi', 'π') and node.name not in env:
+                return _pi_enclosure(self.bits)
             if node.name in env:
                 v = env[node.name]
                 return self._rec(v.value if isinstance(v, Bound) else v)
@@ -2241,9 +2247,11 @@ class Evaluator:
                 total = Fraction(0)
                 for x in v.entries:
                     total = total + _exact(x) * _exact(x)
-                return _real_sqrt(total)
+                return self._square_root(total)
             out = Fraction(0)
             for x in v.entries:
+                if isinstance(x, (ExpPoly, Iv)):
+                    raise Unsupported('sup norm of a vector with transcendental entries')
                 ax = _abs(_exact(x))
                 if ax > out:                  # Alg orders exactly against Fractions and other Alg values
                     out = ax
@@ -2255,7 +2263,7 @@ class Evaluator:
         v = self.num(node.expr, env, 'Real' if _base(t) in ('Nat', 'Int', 'Fin', 'Sci') else t)
         if isinstance(v, (list, tuple, bool, Vec, Mat, ENN)):
             raise Unsupported('norm of a non-numeric value')
-        return _abs(v)
+        return self._absolute(v)
 
     def index_vector(self, v, index_node, env, typ):
         i = self.num(index_node, env, 'Nat')
@@ -2320,6 +2328,12 @@ class Evaluator:
             raise AssertionError('floating point value produced')  # pragma: no cover - A3 guard
         if isinstance(v, (int, Fraction, Alg)) and not isinstance(v, bool):
             self.values_seen.append(v)
+        if isinstance(v, Iv):
+            if v.magnitude_bits() > _MAX_RESULT_BITS or _bits(v.lo) > 2 * _MAX_RESULT_BITS or _bits(v.hi) > 2 * _MAX_RESULT_BITS:
+                raise Infeasible('an enclosure exceeds the result-size cap')
+            return v
+        if isinstance(v, ExpPoly):
+            return v
         if isinstance(v, (list, tuple)):
             for x in v:
                 if isinstance(x, float):
@@ -2335,10 +2349,11 @@ class Evaluator:
                         raise AssertionError('floating point value produced')  # pragma: no cover - A3 guard
         return v
 
-    @staticmethod
-    def _arith(op, a, b, typ):
+    def _arith(self, op, a, b, typ):
         if isinstance(a, (list, tuple, bool)) or isinstance(b, (list, tuple, bool)):
             raise Unsupported('arithmetic on a non-numeric value')
+        if isinstance(a, (ExpPoly, Iv)) or isinstance(b, (ExpPoly, Iv)):
+            return self._trans_arith(op, a, b)
         if typ == 'ENNReal' or isinstance(a, ENN) or isinstance(b, ENN):
             a, b = _enn(a), _enn(b)
             if op == '+':
@@ -2379,6 +2394,189 @@ class Evaluator:
             return a - b * _ediv(a, b)        # Int.emod: 0 ≤ r < |b|
         raise Unsupported(f'operator {op}')
 
+    # ---- transcendental values: exact exponential polynomials where possible, rigorous enclosures otherwise
+    def _trans_arith(self, op, a, b):
+        """Arithmetic with an exponential polynomial or an enclosure on either side (always real: Lean's
+        `Real.exp` etc. live in ℝ, so division is field division and `x / 0 = 0` applies to an exact zero)."""
+        if isinstance(a, (Meas, Func, frozenset, Vec, Mat, ENN)) or isinstance(b, (Meas, Func, frozenset, Vec, Mat, ENN)):
+            raise Unsupported(f'operator {op} between a transcendental value and a non-numeric one')
+        if op == '%':
+            raise Unsupported('modulus of a transcendental value')
+        exact = not isinstance(a, (Iv, Alg)) and not isinstance(b, (Iv, Alg))
+        if exact:
+            x, y = _ep_of(a), _ep_of(b)
+            if op == '+':
+                return _ep(x + y)
+            if op == '-':
+                return _ep(x - y)
+            if op == '*':
+                return _ep(x * y)
+            if op == '/':
+                if y.is_rational():
+                    r = y.rational()
+                    return Fraction(0) if r == 0 else _ep(x * ExpPoly({Fraction(0): 1 / r}))
+                try:
+                    return _ep(x * y.inverse())
+                except Undecided:
+                    pass            # a sum of exponentials in the divisor: fall through to enclosures
+            else:
+                raise Unsupported(f'operator {op} on exponential values')
+        A, B = Iv.of(a, self.bits), Iv.of(b, self.bits)
+        if op == '+':
+            return (A + B).round(self.bits + _IV_GUARD_BITS)
+        if op == '-':
+            return (A - B).round(self.bits + _IV_GUARD_BITS)
+        if op == '*':
+            return (A * B).round(self.bits + _IV_GUARD_BITS)
+        if op == '/':
+            return (A / B).round(self.bits + _IV_GUARD_BITS)
+        raise Unsupported(f'operator {op} on enclosures')
+
+    def _inverse(self, v):
+        """Lean's field inverse, totalized at an exact zero; exponential monomials exactly, sums by enclosure."""
+        if isinstance(v, ExpPoly):
+            try:
+                return _ep(v.inverse())
+            except Undecided:
+                return Iv.of(v, self.bits).inverse()
+        if isinstance(v, Iv):
+            return v.inverse()
+        return _inv(v)
+
+    def _absolute(self, v):
+        if isinstance(v, ExpPoly):
+            sgn = _iv_compare('<', Iv.of(v, self.bits), Iv(0, 0))
+            if sgn is None:
+                raise Undecided(f'the sign of {v} is not decided at {self.bits} bits')
+            return -v if sgn else v
+        if isinstance(v, Iv):
+            return v.abs()
+        return _abs(v)
+
+    def _minmax(self, want_min: bool, a, b):
+        """`min` / `max`: exact when the order is decided (including between exponential polynomials); when two
+        enclosures overlap, the hull of the pointwise minima / maxima, which contains the value whichever side wins."""
+        if isinstance(a, (ExpPoly, Iv)) or isinstance(b, (ExpPoly, Iv)):
+            if isinstance(a, (list, tuple, bool, Meas, Func, frozenset, Vec, Mat, ENN)) or \
+                    isinstance(b, (list, tuple, bool, Meas, Func, frozenset, Vec, Mat, ENN)):
+                raise Unsupported('min/max between a transcendental value and a non-numeric one')
+            try:
+                le = self._trans_compare('≤', _exact(a), _exact(b))
+            except Undecided:
+                A, B = Iv.of(a, self.bits), Iv.of(b, self.bits)
+                return Iv(min(A.lo, B.lo), min(A.hi, B.hi)) if want_min else Iv(max(A.lo, B.lo), max(A.hi, B.hi))
+            return (a if le else b) if want_min else (b if le else a)
+        if isinstance(a, (list, tuple, bool)) or isinstance(b, (list, tuple, bool)):
+            raise Unsupported('min/max of a non-numeric value')
+        return min(a, b) if want_min else max(a, b)
+
+    def _square_root(self, v):
+        """`Real.sqrt`: exact in ℚ(√d) for a rational radicand; an enclosure for a transcendental radicand and for
+        a nested radical (√ of an irrational algebraic value, where the exact field would have to grow)."""
+        if isinstance(v, (ExpPoly, Iv)):
+            return _sqrt_iv(Iv.of(v, self.bits), self.bits)
+        if isinstance(v, Alg):
+            return _sqrt_iv(Iv.of(v, self.bits), self.bits) if v.sign() > 0 else Fraction(0)
+        return _real_sqrt(v)
+
+    def _transcendental(self, name, args, env):
+        """`Real.exp` of a rational is an exact exponential monomial (and `Real.sinh`/`cosh` exact exponential
+        polynomials); `Real.log` of `e^q` is q exactly; everything else is a rigorous enclosure at the current
+        precision. Mathlib's conventions: `Real.log 0 = 0`, `Real.log (-x) = Real.log x`."""
+        if name == 'Real.rpow':
+            raise Unsupported('real exponent (Real.rpow) is outside the exact backend')
+        if name == 'Real.logb':
+            if len(args) != 2:
+                raise Unsupported(f'{name} applied to {len(args)} arguments')
+            # Mathlib: `Real.logb b x = Real.log x / Real.log b`, with the totalised log and `x / 0 = 0`
+            num_ = self._transcendental('Real.log', [args[1]], env)
+            den_ = self._transcendental('Real.log', [args[0]], env)
+            return self._trans_arith('/', num_, den_) if isinstance(num_, (ExpPoly, Iv)) or isinstance(den_, (ExpPoly, Iv)) \
+                else self._arith('/', num_, den_, 'Real')
+        if len(args) != 1:
+            raise Unsupported(f'transcendental {name} applied to {len(args)} arguments')
+        x = self.num(args[0], env, 'Real')
+        if isinstance(x, (list, tuple, bool, Meas, Func, frozenset, Vec, Mat, ENN)):
+            raise Unsupported(f'{name} of a non-numeric value')
+        x = _ep(_exact(x)) if isinstance(x, ExpPoly) else _exact(x)
+        if name == 'Real.exp':
+            if isinstance(x, Fraction):
+                return _ep(ExpPoly.exp(x))
+            return _exp_iv(Iv.of(x, self.bits), self.bits)
+        if name == 'Real.log':
+            if isinstance(x, Fraction):
+                if x == 0:
+                    return Fraction(0)
+                return _log_point(abs(x), self.bits)
+            if isinstance(x, ExpPoly) and len(x.terms) == 1:
+                (q, c), = x.terms.items()
+                if c == 1:
+                    return q                                   # log (e^q) = q, exactly
+                if c == -1:
+                    return q                                   # log |−e^q| = q
+                base = _log_point(abs(c), self.bits)
+                return base + Iv(q, q)
+            return _log_iv(Iv.of(x, self.bits), self.bits)
+        if name in ('Real.sin', 'Real.cos'):
+            return _trig_iv(Iv.of(x, self.bits), self.bits, 'sin' if name == 'Real.sin' else 'cos')
+        if name == 'Real.tan':
+            X = Iv.of(x, self.bits)
+            return _trig_iv(X, self.bits, 'sin') / _trig_iv(X, self.bits, 'cos')
+        if name in ('Real.sinh', 'Real.cosh'):
+            if isinstance(x, Fraction):
+                e, einv = ExpPoly.exp(x), ExpPoly.exp(-x)
+                return _ep((e - einv) * ExpPoly({Fraction(0): Fraction(1, 2)}) if name == 'Real.sinh'
+                           else (e + einv) * ExpPoly({Fraction(0): Fraction(1, 2)}))
+            X = Iv.of(x, self.bits)
+            E, Einv = _exp_iv(X, self.bits), _exp_iv(-X, self.bits)
+            return (E - Einv) * Fraction(1, 2) if name == 'Real.sinh' else (E + Einv) * Fraction(1, 2)
+        if name == 'Real.arctan':
+            X = Iv.of(x, self.bits)
+            return self._arctan_iv(X)
+        raise Unsupported(f'transcendental {name} is outside the exact algebraic backend')
+
+    def _arctan_iv(self, X: Iv) -> Iv:
+        """arctan on an interval (monotone): series for |x| ≤ 1, π/2 − arctan(1/x) beyond."""
+        def point(x):
+            x = _exact(x)
+            if abs(x) <= 1:
+                return _atan_series(x, self.bits)
+            pi = _pi_enclosure(self.bits + 4)
+            inner = _atan_series(1 / abs(x), self.bits)
+            half = pi * Fraction(1, 2)
+            v = half - inner
+            return v if x > 0 else -v
+        lo, hi = point(X.lo), point(X.hi)
+        return Iv(lo.lo, hi.hi)
+
+    def _trans_compare(self, op, a, b):
+        """A comparison with an exponential polynomial or an enclosure on a side: exact when both sides are
+        exponential polynomials (a difference that is rational, or `=`/`≠` by normal form), otherwise by
+        enclosures at the current precision; undecided enclosures raise Undecided."""
+        exact = not isinstance(a, (Iv, Alg)) and not isinstance(b, (Iv, Alg))
+        if exact:
+            d = _ep(_ep_of(a) - _ep_of(b))
+            if op == '=':
+                return d == 0
+            if op == '≠':
+                return d != 0
+            if isinstance(d, Fraction):
+                return {'<': d < 0, '>': d > 0, '≤': d <= 0, '≥': d >= 0}[op]
+            res = _iv_compare(op, Iv.of(d, self.bits), Iv(0, 0))
+            if res is None:
+                raise Undecided(f'{op} between exponential values is not decided at {self.bits} bits (difference enclosed in {Iv.of(d, self.bits)})')
+            return res
+        A, B = Iv.of(a, self.bits), Iv.of(b, self.bits)
+        res = _iv_compare(op, A, B)
+        if res is None:
+            hint = ''
+            if op in ('=', '≠') and (A.width or B.width):
+                hint = (' — an equality between transcendental values is confirmed only in the exponential normal '
+                        'form (Real.exp of rationals under + − × and integer powers); enclosures can refute it, '
+                        'never confirm it')
+            raise Undecided(f'{op} is not decided at {self.bits} bits by the enclosures {A} and {B}{hint}')
+        return res
+
     def _power(self, node: BinOp, env, typ):
         """`a ^ b`: the exponent is elaborated on its own (Lean's `rightact%`), so a literal exponent is a Nat
         (`Monoid.npow`) whatever the base; an Int exponent is `zpow` on a field (`x ^ (-n : ℤ) = (x ^ n)⁻¹`,
@@ -2397,6 +2595,14 @@ class Evaluator:
             raise Unsupported('real exponent (Real.rpow) is outside the exact backend')
         if isinstance(exp, (list, tuple, bool)):
             raise Unsupported('arithmetic on a non-numeric value')
+        if isinstance(base, (ExpPoly, Iv)):
+            if abs(exp) > _MAX_EXP_ARGUMENT:
+                raise Infeasible(f'exponent {exp} on a transcendental value exceeds the cap')
+            if isinstance(base, Iv):
+                p = self.bits + _IV_GUARD_BITS + 2 * abs(exp).bit_length()
+                powered = base.pow_rounded(abs(exp), p)
+                return powered.inverse() if exp < 0 else powered
+            return self._inverse(base ** (-exp)) if exp < 0 else _ep(base ** exp)
         if exp < 0:
             return _inv(_pow(base, -exp))
         return _pow(base, exp)
@@ -2478,7 +2684,7 @@ class Evaluator:
                 raise Infeasible(f'Finset.range {n} exceeds the loop cap')
             return list(range(n))
         if name in _TRANSCENDENTAL:
-            raise Unsupported(f'transcendental {name} is outside the exact algebraic backend')
+            return self._transcendental(name, args, env)
         if name in ('.toReal', 'ENNReal.toReal') and len(args) == 1:
             v = self.num(args[0], env, 'ENNReal')
             return _enn(v).to_real()
@@ -2509,19 +2715,19 @@ class Evaluator:
         if name in _MEASURE_PREDICATES:
             raise Unsupported(f'predicate {name} used as a value')
         if name == 'Real.sqrt' and len(args) == 1:
-            return _real_sqrt(self.num(args[0], env, 'Real'))
+            return self._square_root(self.num(args[0], env, 'Real'))
         if name == 'abs' and len(args) == 1:
             t = _max_type(self.arith_type(args[0], env), typ) if typ != 'Nat' else self.arith_type(args[0], env)
             v = self.num(args[0], env, t)
             if isinstance(v, (list, tuple, bool)):
                 raise Unsupported('abs of a non-numeric value')
-            return _abs(v)
+            return self._absolute(v)
         if name == 'Inv.inv' and len(args) == 1:
             if typ == 'ENNReal':
                 return _enn(self.num(args[0], env, 'ENNReal')).inverse()
             if typ not in _FIELD_TYPES:
                 raise Unsupported(f'inverse at type {typ}')
-            return _inv(self.num(args[0], env, typ))
+            return self._inverse(self.num(args[0], env, typ))
         if name == 'List.range' and len(args) == 1:
             n = self.num(args[0], env, 'Nat')
             if n > _MAX_LOOP:
@@ -2578,10 +2784,8 @@ class Evaluator:
         if name == 'Nat.pred' and len(args) == 1:
             v = self.num(args[0], env, 'Nat')
             return v - 1 if v > 0 else 0
-        if name in ('Nat.min', 'min') and len(args) == 2:
-            return min(self.num(args[0], env, typ), self.num(args[1], env, typ))
-        if name in ('Nat.max', 'max') and len(args) == 2:
-            return max(self.num(args[0], env, typ), self.num(args[1], env, typ))
+        if name in ('Nat.min', 'min', 'Nat.max', 'max') and len(args) == 2:
+            return self._minmax(name.endswith('min'), self.num(args[0], env, typ), self.num(args[1], env, typ))
         if name == 'Int.natAbs' and len(args) == 1:
             return abs(self.num(args[0], env, 'Int'))
         if name == 'Int.toNat' and len(args) == 1:
@@ -2912,6 +3116,27 @@ class Evaluator:
         return ok
 
     # ---- propositions
+    def connective(self, node: BinOp, env) -> bool:
+        """`∧`, `∨`, `→` with Lean's short-circuit reading from the left. A side whose comparison the current
+        enclosure precision leaves undecided does not decide the connective by itself: the other side is still
+        evaluated, and settles it when it can (`A ∨ B` is true when B is true, `A ∧ B` false when B is false,
+        `A → B` true when B is true, whatever A is); otherwise the undecided comparison is re-raised, so the
+        statement is refined or reported, never guessed. Unsupported constructs propagate unchanged."""
+        try:
+            left = self.prop(node.left, env)
+        except Undecided as undecided:
+            right = self.prop(node.right, env)
+            if (node.op == '∨' and right) or (node.op == '→' and right):
+                return True
+            if node.op == '∧' and not right:
+                return False
+            raise undecided
+        if node.op == '∧':
+            return left and self.prop(node.right, env)
+        if node.op == '∨':
+            return left or self.prop(node.right, env)
+        return (not left) or self.prop(node.right, env)
+
     def prop(self, node, env) -> bool:
         if isinstance(node, Not):
             return not self.prop(node.expr, env)
@@ -2931,12 +3156,8 @@ class Evaluator:
                 raise Unsupported(f'proposition {node.name} is not Bool-valued')
             return self.truth(node, env)
         if isinstance(node, BinOp):
-            if node.op == '∧':
-                return self.prop(node.left, env) and self.prop(node.right, env)
-            if node.op == '∨':
-                return self.prop(node.left, env) or self.prop(node.right, env)
-            if node.op == '→':
-                return (not self.prop(node.left, env)) or self.prop(node.right, env)
+            if node.op in ('∧', '∨', '→'):
+                return self.connective(node, env)
             if node.op == '↔':
                 return self.prop(node.left, env) == self.prop(node.right, env)
             if node.op in ('∈', '∉'):
@@ -3008,6 +3229,8 @@ class Evaluator:
                     if node.op == '≠':
                         return a != b
                     raise Unsupported('ordering of non-numeric values')
+                if isinstance(a, (ExpPoly, Iv)) or isinstance(b, (ExpPoly, Iv)):
+                    return self._trans_compare(node.op, _exact(a), _exact(b))
                 if typ in _FIELD_TYPES:
                     a, b = _exact(a), _exact(b)       # an int meets a Fraction or an Alg: compare exactly
                 return {'=': a == b, '≠': a != b, '<': a < b, '>': a > b, '≤': a <= b, '≥': a >= b}[node.op]
@@ -3383,25 +3606,30 @@ class Alg:
         return conj * _inv(norm)
 
     # ---- order
+    def enclosure(self, bits: int):
+        """(lo, hi) rational bounds from integer square roots of each radicand at ``bits`` bits."""
+        lo = hi = Fraction(0)
+        scale = 1 << bits
+        for d, c in self.terms.items():
+            if d == 1:
+                lo += c
+                hi += c
+                continue
+            r = _isqrt(d << (2 * bits))
+            a, b = Fraction(r, scale), Fraction(r + 1, scale)
+            if c >= 0:
+                lo += c * a
+                hi += c * b
+            else:
+                lo += c * b
+                hi += c * a
+        return lo, hi
+
     def sign(self) -> int:
         """Exact sign: the element is nonzero (canonical form), so an enclosure of each √d by integer square
         roots at increasing precision eventually separates the sum from 0."""
         for bits in (64, 128, 256, 512, 1024, 2048, 4096):
-            lo = hi = Fraction(0)
-            scale = 1 << bits
-            for d, c in self.terms.items():
-                if d == 1:
-                    lo += c
-                    hi += c
-                    continue
-                r = _isqrt(d << (2 * bits))
-                a, b = Fraction(r, scale), Fraction(r + 1, scale)
-                if c >= 0:
-                    lo += c * a
-                    hi += c * b
-                else:
-                    lo += c * b
-                    hi += c * a
+            lo, hi = self.enclosure(bits)
             if lo > 0:
                 return 1
             if hi < 0:
@@ -3475,6 +3703,566 @@ def _coprime_base(radicands: list) -> list:
             if changed:
                 break
     return base
+
+
+# --------------------------------------------------------------------------------------------
+# Transcendental values: exact exponential polynomials and rigorous rational enclosures (Layer A: every
+# endpoint is a Fraction, every remainder bound is a theorem of the series used; nothing is approximated
+# without its error term, and a comparison the enclosure does not decide is reported, never guessed)
+# --------------------------------------------------------------------------------------------
+
+class Undecided(Unsupported):
+    """A comparison the current enclosure precision does not decide. A closed statement is retried at higher
+    precision and reported UNSUPPORTED when the cap is reached; a sampled instance is skipped and counted."""
+
+
+_ENCLOSURE_BITS = (64, 128, 256, 512, 1024)      # refinement ladder for closed statements
+_MAX_EXP_ARGUMENT = 1_000_000                     # |q| beyond this: e^q has more bits than the result caps allow (e^q ≈ 2^(1.443·q))
+_MAX_EXP_TERMS = 20_000                           # distinct exponents an exponential-polynomial product may reach
+
+
+def _fact(n: int) -> int:
+    out = 1
+    for k in range(2, n + 1):
+        out *= k
+    return out
+
+
+_IV_GUARD_BITS = 32           # significant bits kept beyond the working precision when an endpoint is rounded
+
+
+def _round_out(x: Fraction, p: int, up: bool) -> Fraction:
+    """x rounded to about p significant bits, toward −∞ (``up`` False) or +∞ (``up`` True): the result is a
+    dyadic rational on the outer side of x, so an interval rounded this way still contains every value it did."""
+    x = _exact(x)
+    if x == 0:
+        return x
+    n, d = x.numerator, x.denominator
+    s = p - (n.bit_length() - d.bit_length())        # |x|·2^s has about p bits
+    if s >= 0:
+        q, r = divmod(n << s, d)
+    else:
+        q, r = divmod(n, d << (-s))
+    if up and r:
+        q += 1                                       # floor → ceiling when the division was inexact
+    return Fraction(q, 1 << s) if s >= 0 else Fraction(q << (-s))
+
+
+def _magnitude_bits(x) -> int:
+    """About log2 |x| for a rational x (0 for |x| < 1 and for 0)."""
+    x = _exact(x)
+    if not isinstance(x, Fraction) or x == 0:
+        return 0
+    return max(0, x.numerator.bit_length() - x.denominator.bit_length())
+
+
+def _approx(x, digits: int = 18) -> str:
+    """A decimal approximation of a rational for messages (never for arithmetic), safe for huge values: the
+    integer that is printed never has more than ``digits`` + 1 digits, whatever the size of x."""
+    x = _exact(x)
+    if not isinstance(x, Fraction):
+        return str(x)
+    if x == 0:
+        return '0'
+    sign = '-' if x < 0 else ''
+    a = abs(x)
+    b = a.numerator.bit_length() - a.denominator.bit_length()
+    if abs(b) > 100_000:                                        # astronomically large or small: the exponent is enough
+        return f'{sign}2^{b}…' if b > 0 else f'{sign}2^{b - 1}…'
+    # decimal exponent k with 10^k ≤ a < 10^(k+1): estimated from the bit lengths, then corrected
+    k = int(b * 0.30103) - 1
+    while a >= Fraction(10) ** (k + 1):
+        k += 1
+    while a < Fraction(10) ** k:
+        k -= 1
+    scaled = a * Fraction(10) ** (digits - 1 - k)            # floor(scaled) has exactly ``digits`` digits
+    m = scaled.numerator // scaled.denominator
+    s, exact = str(m), m == scaled
+    if 0 <= k < digits:
+        ip, fp = s[:k + 1], s[k + 1:].rstrip('0')
+        out = ip + ('.' + fp if fp else '')
+    elif -4 <= k < 0:
+        out = '0.' + '0' * (-k - 1) + s.rstrip('0')
+    else:
+        fp = s[1:].rstrip('0')
+        out = s[0] + ('.' + fp if fp else '') + f'e{k}'
+    return sign + out + ('' if exact else '…')
+
+
+class Iv:
+    """A closed interval [lo, hi] with exact rational endpoints: every operation is an exact hull, so a value
+    inside the operands' intervals has its image inside the result. ``round`` moves the endpoints outward to a
+    bounded number of significant bits (containment is kept, only the width grows), which keeps the rational
+    endpoints small across long computations such as e^n for large n."""
+    __slots__ = ('lo', 'hi')
+
+    def __init__(self, lo, hi):
+        lo, hi = _exact(lo), _exact(hi)
+        if lo > hi:
+            lo, hi = hi, lo
+        self.lo, self.hi = lo, hi
+
+    @staticmethod
+    def of(v, bits: int) -> 'Iv':
+        if isinstance(v, Iv):
+            return v
+        if isinstance(v, ExpPoly):
+            return v.enclosure(bits)
+        if isinstance(v, Alg):
+            lo, hi = v.enclosure(bits)
+            return Iv(lo, hi)
+        if isinstance(v, bool) or not isinstance(v, (int, Fraction)):
+            raise Unsupported('enclosure of a non-numeric value')
+        return Iv(v, v)
+
+    @property
+    def width(self):
+        return self.hi - self.lo
+
+    def round(self, p: int) -> 'Iv':
+        """Outward rounding of both endpoints to about p significant bits (a superset of self)."""
+        return Iv(_round_out(self.lo, p, False), _round_out(self.hi, p, True))
+
+    def __neg__(self):
+        return Iv(-self.hi, -self.lo)
+
+    def __add__(self, o):
+        o = Iv.of(o, 64) if not isinstance(o, Iv) else o
+        return Iv(self.lo + o.lo, self.hi + o.hi)
+
+    __radd__ = __add__
+
+    def __sub__(self, o):
+        o = Iv.of(o, 64) if not isinstance(o, Iv) else o
+        return Iv(self.lo - o.hi, self.hi - o.lo)
+
+    def __rsub__(self, o):
+        return (-self) + o
+
+    def __mul__(self, o):
+        o = Iv.of(o, 64) if not isinstance(o, Iv) else o
+        if self.lo >= 0 and o.lo >= 0:                       # the common case needs no comparisons
+            return Iv(self.lo * o.lo, self.hi * o.hi)
+        if self.hi <= 0 and o.hi <= 0:
+            return Iv(self.hi * o.hi, self.lo * o.lo)
+        c = [self.lo * o.lo, self.lo * o.hi, self.hi * o.lo, self.hi * o.hi]
+        return Iv(min(c), max(c))
+
+    __rmul__ = __mul__
+
+    def inverse(self):
+        if self.lo == 0 == self.hi:
+            return Iv(0, 0)                    # Lean's totalised inverse: 0⁻¹ = 0, x / 0 = 0 (an exact zero only)
+        if self.lo <= 0 <= self.hi:
+            raise Undecided(f'the divisor\'s enclosure {self} contains 0 (Lean: x / 0 = 0)')
+        return Iv(1 / self.hi, 1 / self.lo)
+
+    def __truediv__(self, o):
+        o = Iv.of(o, 64) if not isinstance(o, Iv) else o
+        return self * o.inverse()
+
+    def __rtruediv__(self, o):
+        return Iv.of(o, 64) * self.inverse()
+
+    def __pow__(self, n: int):
+        if n == 0:
+            return Iv(1, 1)
+        if n < 0:
+            return (self ** (-n)).inverse()
+        if n % 2 == 0 and self.lo < 0 < self.hi:
+            m = max(-self.lo, self.hi)
+            return Iv(0, m ** n)
+        a, b = self.lo ** n, self.hi ** n
+        return Iv(min(a, b), max(a, b))
+
+    def magnitude_bits(self) -> int:
+        """About log2 of the largest absolute endpoint (0 for an interval inside (-1, 1))."""
+        return max(_magnitude_bits(self.lo), _magnitude_bits(self.hi))
+
+    def pow_rounded(self, n: int, p: int) -> 'Iv':
+        """self^n for n ≥ 0 by binary exponentiation, rounding outward to p significant bits after each product
+        (so the mantissas stay about p bits long however large n is); every intermediate is a superset. The
+        magnitude of the result is capped like every exact result (an endpoint beyond 2^(2·10⁶) is Infeasible)."""
+        if n * (self.magnitude_bits() + 1) > _MAX_RESULT_BITS:
+            raise Infeasible(f'exponent {n} on an enclosure of magnitude 2^{self.magnitude_bits()} exceeds the result cap')
+        out, base = Iv(1, 1), self.round(p)
+        while n:
+            if n & 1:
+                out = (out * base).round(p)
+            n >>= 1
+            if n:
+                base = (base * base).round(p)
+        return out
+
+    def abs(self):
+        if self.lo >= 0:
+            return self
+        if self.hi <= 0:
+            return -self
+        return Iv(0, max(-self.lo, self.hi))
+
+    def __repr__(self):
+        return f'[{_approx(self.lo)}, {_approx(self.hi)}]'
+
+
+class ExpPoly:
+    """Σ c · e^q over distinct rational exponents q with nonzero rational coefficients c: the exact normal form
+    of the values `Real.exp` builds from rational arguments under + - * and integer powers. Equality of normal
+    forms is equality of values (the e^q for distinct rational q are linearly independent over ℚ —
+    Lindemann–Weierstrass), so `exp 2 = exp 1 ^ 2` is decided exactly; an ordering is decided by enclosure."""
+    __slots__ = ('terms',)
+
+    def __init__(self, terms: dict):
+        self.terms = {q: c for q, c in terms.items() if c != 0}
+
+    @staticmethod
+    def exp(q) -> 'ExpPoly':
+        return ExpPoly({Fraction(q): Fraction(1)})
+
+    def is_rational(self):
+        return all(q == 0 for q in self.terms)
+
+    def rational(self):
+        return self.terms.get(Fraction(0), Fraction(0))
+
+    def __eq__(self, o):
+        if isinstance(o, (int, Fraction)) and not isinstance(o, bool):
+            return self.is_rational() and self.rational() == o
+        return isinstance(o, ExpPoly) and self.terms == o.terms
+
+    def __hash__(self):
+        return hash(frozenset(self.terms.items()))
+
+    def __neg__(self):
+        return ExpPoly({q: -c for q, c in self.terms.items()})
+
+    def __add__(self, o):
+        o = _ep_of(o)
+        t = dict(self.terms)
+        for q, c in o.terms.items():
+            t[q] = t.get(q, Fraction(0)) + c
+        return ExpPoly(t)
+
+    __radd__ = __add__
+
+    def __sub__(self, o):
+        return self + (-_ep_of(o))
+
+    def __rsub__(self, o):
+        return _ep_of(o) + (-self)
+
+    def __mul__(self, o):
+        o = _ep_of(o)
+        if len(self.terms) * len(o.terms) > _MAX_EXP_TERMS:
+            raise Infeasible(f'a product of exponential polynomials with {len(self.terms)} × {len(o.terms)} terms exceeds the cap')
+        t = {}
+        for q1, c1 in self.terms.items():
+            for q2, c2 in o.terms.items():
+                t[q1 + q2] = t.get(q1 + q2, Fraction(0)) + c1 * c2
+        return ExpPoly(t)
+
+    __rmul__ = __mul__
+
+    def __pow__(self, n: int):
+        if n < 0:
+            return self.inverse() ** (-n)
+        out, base = ExpPoly({Fraction(0): Fraction(1)}), self
+        while n:
+            if n & 1:
+                out = out * base
+            n >>= 1
+            if n:
+                base = base * base
+        return out
+
+    def inverse(self):
+        """Exact for a monomial c·e^q (1/(c e^q) = e^{-q}/c); otherwise the caller falls back to enclosures."""
+        if len(self.terms) == 1:
+            (q, c), = self.terms.items()
+            return ExpPoly({-q: 1 / c})
+        raise Undecided('inverse of a sum of exponentials is not an exponential polynomial')
+
+    def enclosure(self, bits: int) -> Iv:
+        total = Iv(0, 0)
+        for q, c in self.terms.items():
+            total = total + Iv(c, c) * _exp_point(q, bits)
+        return total
+
+    def __repr__(self):
+        return ' + '.join(f'{_fmt(c)}·e^{_fmt(q)}' if q != 0 else _fmt(c) for q, c in sorted(self.terms.items())) or '0'
+
+
+def _ep_of(v) -> ExpPoly:
+    if isinstance(v, ExpPoly):
+        return v
+    if isinstance(v, bool) or not isinstance(v, (int, Fraction)):
+        raise Unsupported('exponential arithmetic with a non-rational value')
+    return ExpPoly({Fraction(0): Fraction(v)})
+
+
+def _ep(v):
+    """Normalise: an exponential polynomial that is rational is a Fraction."""
+    if isinstance(v, ExpPoly):
+        return v.rational() if v.is_rational() else v
+    return v
+
+
+def _ubound(x, bits: int = 16) -> Fraction:
+    """A short dyadic upper bound of |x|, for remainder estimates (never for the value itself)."""
+    return _round_out(abs(_exact(x)), bits, True)
+
+
+def _series_precision(bits: int) -> int:
+    """Significant bits kept by the per-term rounding inside a series: the rounding errors of at most 2^16
+    terms, each at most 2^-p relative, stay far below the remainder target 2^-(bits+4)."""
+    return bits + _IV_GUARD_BITS + 16
+
+
+@functools.lru_cache(maxsize=4096)
+def _e_enclosure(bits: int) -> Iv:
+    """e = Σ 1/k!: for N ≥ 1 the tail Σ_{k>N} 1/k! < 1/(N!·N)."""
+    N, fact, acc = 1, 1, Fraction(1)
+    target = Fraction(1, 1 << (bits + 4))
+    while True:
+        fact *= N
+        acc += Fraction(1, fact)
+        if Fraction(1, fact * N) < target:
+            return Iv(acc, acc + Fraction(1, fact * N))
+        N += 1
+
+
+@functools.lru_cache(maxsize=4096)
+def _exp_point(q, bits: int) -> Iv:
+    """An enclosure of e^q for rational q: q = n + r with |r| ≤ 1/2; e^r by its Taylor series with the Lagrange
+    remainder |r|^{N+1}/(N+1)! · e^{|r|} ≤ 2·|r|^{N+1}/(N+1)!, each term enclosed and rounded outward; e^n by the
+    rounded power of the enclosure of e. Every intermediate interval contains the exact quantity it stands for."""
+    q = _exact(q)
+    if abs(q) > _MAX_EXP_ARGUMENT:
+        raise Infeasible(f'Real.exp of {_approx(q)}: the exact enclosure exceeds the size caps')
+    n = round(q)
+    r = q - n
+    p = _series_precision(bits)
+    R, rb = Iv(r, r).round(p), _ubound(r)                        # rb ≥ |r|, rb < 0.5001 so e^rb < 2
+    target = Fraction(1, 1 << (bits + 4))
+    acc, term, N = Iv(1, 1), Iv(1, 1), 0
+    while True:
+        N += 1
+        if N > _MAX_LOOP:
+            raise Infeasible('exp series does not converge within the loop cap')
+        term = (term * R * Fraction(1, N)).round(p)              # encloses r^N / N!
+        acc = (acc + term).round(p)                              # encloses Σ_{k≤N} r^k / k!
+        bound = 2 * rb ** (N + 1) / _fact(N + 1)
+        if bound < target:
+            break
+    er = Iv(acc.lo - bound, acc.hi + bound)
+    if n == 0:
+        return er
+    pe = bits + _IV_GUARD_BITS + 2 * abs(n).bit_length()         # rounding slack for the ≤ 2·log2(n) products
+    e = _e_enclosure(bits + abs(n).bit_length() + 4)
+    en = e.pow_rounded(abs(n), pe)                               # e > 0: e^n = [lo^n, hi^n], outward-rounded
+    if n < 0:
+        en = en.inverse()
+    return (er * en).round(bits + _IV_GUARD_BITS)
+
+
+@functools.lru_cache(maxsize=4096)
+def _log2_enclosure(bits: int) -> Iv:
+    return _atanh_series(Fraction(1, 3), bits) * 2
+
+
+@functools.lru_cache(maxsize=4096)
+def _atanh_series(z, bits: int) -> Iv:
+    """atanh(z) = Σ_{j≥0} z^{2j+1}/(2j+1) for 0 ≤ z < 1. After the terms j = 0 … N the omitted tail is positive
+    and at most z^{2N+3}/(2N+3) · Σ_{i≥0} z^{2i} = z^{2N+3}/((2N+3)(1 − z²)) (consecutive terms shrink by more
+    than z²), so [S_N, S_N + tail] encloses the value; the partial sums are themselves enclosed because every
+    power is rounded outward."""
+    z = _exact(z)
+    if not 0 <= z < 1:
+        raise Unsupported('atanh series outside [0, 1)')
+    p = _series_precision(bits)
+    Z, zb = Iv(z, z).round(p), _ubound(z)
+    if zb >= 1:
+        raise Unsupported('atanh series too close to 1')
+    Z2, zb2 = (Z * Z).round(p), zb * zb
+    target = Fraction(1, 1 << (bits + 4))
+    acc, N = Iv(0, 0), -1
+    power, pb = Z, zb                           # power encloses z^{2N+1}; pb bounds it from above
+    while True:
+        N += 1
+        if N > _MAX_LOOP:
+            raise Infeasible('atanh series does not converge within the loop cap')
+        acc = (acc + power * Fraction(1, 2 * N + 1)).round(p)
+        power, pb = (power * Z2).round(p), pb * zb2             # z^{2N+3}: the first omitted term's numerator
+        tail = pb / ((2 * N + 3) * (1 - zb2))
+        if tail < target:
+            return Iv(acc.lo, acc.hi + tail)
+
+
+@functools.lru_cache(maxsize=4096)
+def _log_point(q, bits: int) -> Iv:
+    """An enclosure of log q for rational q > 0: q = 2^k·m with m ∈ [1, 2), log m = 2·atanh((m−1)/(m+1))."""
+    q = _exact(q)
+    if q <= 0:
+        raise ValueError('log of a non-positive rational')
+    k = q.numerator.bit_length() - q.denominator.bit_length()
+    m = q / Fraction(2) ** k
+    if m < 1:
+        k -= 1
+        m = m * 2
+    if m >= 2:
+        k += 1
+        m = m / 2
+    log_m = _atanh_series((m - 1) / (m + 1), bits) * 2
+    if k == 0:
+        return log_m
+    return log_m + _log2_enclosure(bits + abs(k).bit_length() + 2) * k
+
+
+@functools.lru_cache(maxsize=4096)
+def _atan_series(x, bits: int) -> Iv:
+    """atan(x) = Σ (−1)^j x^{2j+1}/(2j+1) for |x| ≤ 1/2: an alternating series whose terms decrease in absolute
+    value, so the exact remainder is bounded by the first omitted term. Arguments in (1/2, 1] are split first:
+    atan x = atan(1/2) + atan((x − 1/2)/(1 + x/2)) with the second argument in (0, 1/3]."""
+    x = _exact(x)
+    if abs(x) > 1:
+        raise Unsupported('atan series outside [-1, 1]')
+    if abs(x) > Fraction(1, 2):
+        half = _atan_series(Fraction(1, 2), bits + 2)
+        rest = _atan_series((abs(x) - Fraction(1, 2)) / (1 + abs(x) / 2), bits + 2)
+        total = half + rest
+        return total if x > 0 else -total
+    p = _series_precision(bits)
+    X, xb = Iv(x, x).round(p), _ubound(x)
+    X2, xb2 = (X * X).round(p), xb * xb
+    target = Fraction(1, 1 << (bits + 4))
+    acc, j = Iv(0, 0), 0
+    power, pb = X, xb                           # power encloses x^{2j+1} (with the sign of x); pb bounds |·|
+    while True:
+        if j > _MAX_LOOP:
+            raise Infeasible('atan series does not converge within the loop cap')
+        term = power * Fraction(1, 2 * j + 1)
+        acc = (acc + (term if j % 2 == 0 else -term)).round(p)
+        power, pb = (power * X2).round(p), pb * xb2
+        nxt = pb / (2 * j + 3)                  # bounds the first omitted term
+        if nxt < target:
+            return Iv(acc.lo - nxt, acc.hi + nxt)
+        j += 1
+
+
+@functools.lru_cache(maxsize=4096)
+def _pi_enclosure(bits: int) -> Iv:
+    """Machin: π = 16·atan(1/5) − 4·atan(1/239)."""
+    return _atan_series(Fraction(1, 5), bits + 6) * 16 - _atan_series(Fraction(1, 239), bits + 4) * 4
+
+
+@functools.lru_cache(maxsize=4096)
+def _sin_cos_point(y, bits: int, want: str) -> Iv:
+    """sin or cos of a rational y by its Taylor series at 0. Every derivative of sin and cos is bounded by 1, so
+    the Lagrange remainder of the polynomial through degree N−1 is at most |y|^N/N!."""
+    y = _exact(y)
+    if abs(y) > 64:
+        raise Infeasible('trigonometric series at an argument beyond the reduction range')
+    p = _series_precision(bits)
+    Y, yb = Iv(y, y).round(p), _ubound(y)
+    target = Fraction(1, 1 << (bits + 4))
+    acc, N = Iv(0, 0), 0
+    term, tb = Iv(1, 1), Fraction(1)            # term encloses y^N / N!; tb = yb^N / N! bounds it from above
+    while True:
+        if N > _MAX_LOOP:
+            raise Infeasible('trigonometric series does not converge within the loop cap')
+        if want == 'sin' and N % 2 == 1:
+            acc = (acc + (term if N % 4 == 1 else -term)).round(p)
+        if want == 'cos' and N % 2 == 0:
+            acc = (acc + (term if N % 4 == 0 else -term)).round(p)
+        N += 1
+        term, tb = (term * Y * Fraction(1, N)).round(p), tb * yb / N
+        if tb < target and N > 2:
+            return Iv(acc.lo - tb, acc.hi + tb)
+
+
+def _reduce_angle(x: Iv, bits: int):
+    """x − 2kπ with k the nearest integer to x/(2π), as an interval (π is an interval)."""
+    pi = _pi_enclosure(bits + 8)
+    mid = (x.lo + x.hi) / 2
+    k = round(mid / (2 * pi.lo)) if pi.lo > 0 else 0
+    if abs(k) > 1 << 40:
+        raise Infeasible('angle reduction of an astronomically large argument')
+    return x - pi * (2 * k), k
+
+
+def _trig_iv(x: Iv, bits: int, want: str) -> Iv:
+    """sin/cos on an interval: reduce to |y| ≲ π + width, evaluate at the endpoints, and widen to ±1 when a
+    critical point may lie inside (checked against the π enclosure conservatively)."""
+    y, _ = _reduce_angle(x, bits)
+    if y.width > 4:
+        return Iv(-1, 1)
+    pi = _pi_enclosure(bits + 8)
+    lo_v, hi_v = _sin_cos_point(y.lo, bits, want), _sin_cos_point(y.hi, bits, want)
+    out = Iv(min(lo_v.lo, hi_v.lo), max(lo_v.hi, hi_v.hi))
+    # critical points: sin at π/2 + kπ, cos at kπ, for k with the point possibly inside [y.lo, y.hi]
+    for k in range(-3, 4):
+        if want == 'sin':
+            c_lo, c_hi = pi.lo / 2 + pi.lo * k if k >= 0 else pi.lo / 2 + pi.hi * k, pi.hi / 2 + pi.hi * k if k >= 0 else pi.hi / 2 + pi.lo * k
+        else:
+            c_lo, c_hi = (pi.lo * k, pi.hi * k) if k >= 0 else (pi.hi * k, pi.lo * k)
+        if c_hi >= y.lo and c_lo <= y.hi:                        # the critical point may lie inside
+            extreme = 1 if (want == 'sin' and k % 2 == 0) or (want == 'cos' and k % 2 == 0) else -1
+            out = Iv(min(out.lo, extreme), max(out.hi, extreme))
+    return Iv(max(out.lo, Fraction(-1)), min(out.hi, Fraction(1)))
+
+
+def _exp_iv(x: Iv, bits: int) -> Iv:
+    return Iv(_exp_point(x.lo, bits).lo, _exp_point(x.hi, bits).hi)
+
+
+def _log_iv(x: Iv, bits: int) -> Iv:
+    """Mathlib `Real.log`: log |x| for x ≠ 0 and log 0 = 0. An enclosure straddling 0 is undecided."""
+    if x.lo <= 0 <= x.hi:
+        if x.lo == 0 and x.hi == 0:
+            return Iv(0, 0)
+        raise Undecided(f'Real.log of an enclosure containing 0: {x}')
+    a = x.abs()
+    return Iv(_log_point(a.lo, bits).lo, _log_point(a.hi, bits).hi)
+
+
+@functools.lru_cache(maxsize=4096)
+def _sqrt_point(q, bits: int) -> Iv:
+    q = _exact(q)
+    if q <= 0:
+        return Iv(0, 0)
+    scale = 1 << bits
+    n = (q * scale * scale)
+    r = _isqrt(n.numerator // n.denominator)
+    return Iv(Fraction(r, scale), Fraction(r + 1, scale))
+
+
+def _sqrt_iv(x: Iv, bits: int) -> Iv:
+    """Mathlib `Real.sqrt`: 0 on non-positive arguments; monotone."""
+    lo = _sqrt_point(x.lo, bits).lo if x.lo > 0 else Fraction(0)
+    hi = _sqrt_point(x.hi, bits).hi if x.hi > 0 else Fraction(0)
+    return Iv(lo, hi)
+
+
+def _iv_compare(op: str, a: Iv, b: Iv):
+    """True / False when the enclosures decide the comparison, else None."""
+    if op == '<':
+        return True if a.hi < b.lo else (False if a.lo >= b.hi else None)
+    if op == '≤':
+        return True if a.hi <= b.lo else (False if a.lo > b.hi else None)
+    if op == '>':
+        return _iv_compare('<', b, a)
+    if op == '≥':
+        return _iv_compare('≤', b, a)
+    if op == '=':
+        if a.hi < b.lo or b.hi < a.lo:
+            return False
+        if a.lo == a.hi == b.lo == b.hi:
+            return True
+        return None
+    if op == '≠':
+        r = _iv_compare('=', a, b)
+        return None if r is None else not r
+    raise Unsupported(f'operator {op} on enclosures')
 
 
 def _real_sqrt(v):
@@ -3569,15 +4357,30 @@ def evaluate_theorem(module: Module, thm: Theorem, seed: int = 1, samples: int =
         return _evaluate_sampled(module, thm, seed, samples)
     ev = Evaluator(module, thm.namespace, thm.opens)
     try:
-        ok = ev.prop(thm.statement, {})
+        for bits in _ENCLOSURE_BITS:
+            # transcendental enclosures are refined until they decide every comparison or the cap is reached
+            ev.bits = bits
+            ev.instances, ev.vacuous, ev.failures, ev.probes = 0, False, [], []
+            try:
+                ok = ev.prop(thm.statement, {})
+                break
+            except Undecided as e:
+                undecided = e
+        else:
+            return EvalResult('UNSUPPORTED', f'enclosures to {_ENCLOSURE_BITS[-1]} bits do not decide the statement: '
+                              f'{undecided}', 0, False, [], ev.values_seen)
         quantified = ev.instances > 0 or ev.vacuous
         if not ok:
             detail = ('fails at ' + ', '.join(ev.failures)) if ev.failures else 'closed statement evaluated false'
+            if ev.bits != _ENCLOSURE_BITS[0]:
+                detail += f' (enclosures at {ev.bits} bits)'
             return EvalResult('FAIL', detail, ev.instances if quantified else 1, False, ev.probes, ev.values_seen)
         if quantified:
             detail = f'holds on all {ev.instances} quantified instances' + (' (an empty domain: vacuous)' if ev.vacuous else '')
         else:
             detail = 'closed statement evaluated true'
+        if ev.bits != _ENCLOSURE_BITS[0]:
+            detail += f' (transcendental enclosures at {ev.bits} bits)'
         return EvalResult('PASS', detail, ev.instances if quantified else 1, ev.vacuous, ev.probes, ev.values_seen)
     except Unsupported as e:
         return EvalResult('UNSUPPORTED', str(e), 0, False, [], ev.values_seen)
@@ -3912,7 +4715,7 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
     hyps = [b.type for b in thm.binders if b.kind == 'hyp']
     ev = Evaluator(module, thm.namespace, thm.opens)
     rng = random.Random(seed)
-    accepted, rejected, infeasible, draws = 0, 0, 0, 0
+    accepted, rejected, infeasible, undecided, hyp_undecided, draws = 0, 0, 0, 0, 0, 0
     seen = set()
     probes = []
     model = any(t in _MODEL_KINDS for _, t in variables)
@@ -3946,9 +4749,13 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
                                   {'seed': seed, 'draws': 0, 'accepted': 0, 'rejected': 1})
 
         def hyps_hold(hs, env):
+            nonlocal hyp_undecided
             try:
                 return all(ev.prop(h, env) for h in hs)
             except Infeasible:
+                return False
+            except Undecided:
+                hyp_undecided += 1      # a sample whose admissibility the enclosures do not decide is not used
                 return False
 
         def draw(index, env):
@@ -4005,14 +4812,25 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
             return False
 
         def check(env):
-            nonlocal accepted, rejected, infeasible, draws
+            nonlocal accepted, rejected, infeasible, undecided, draws
             draws += 1
             key = (ev.model_n,) + tuple(env[n].value for n, _ in variables)
             if key in seen:
                 return None
             seen.add(key)
             try:
-                ok = ev.prop(thm.statement, env)
+                try:
+                    ev.bits = _ENCLOSURE_BITS[0]
+                    ok = ev.prop(thm.statement, env)
+                except Undecided:
+                    ev.bits = _ENCLOSURE_BITS[2]
+                    try:
+                        ok = ev.prop(thm.statement, env)
+                    except Undecided:
+                        undecided += 1          # the enclosures at 256 bits do not decide this instance: skipped
+                        return None
+                    finally:
+                        ev.bits = _ENCLOSURE_BITS[0]
             except Infeasible:
                 infeasible += 1
                 return None
@@ -4030,7 +4848,7 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
                 record['Ω'] = f'Fin {ev.model_n}'
             return EvalResult('FAIL', detail, accepted, False, probes, ev.values_seen,
                               {'seed': seed, 'draws': draws, 'accepted': accepted, 'rejected': rejected,
-                               'infeasible': infeasible, 'witness': record})
+                               'infeasible': infeasible, 'undecided': undecided, 'witness': record})
 
         # structured points: every variable takes the i-th pool value (and the i-th carrier size)
         for i in range(_DIAGONAL):
@@ -4091,15 +4909,41 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
                 probes.append({'var': name, 'value': _fmt(v), 'holds': holds, 'outside_hypotheses': True})
                 if len(probes) >= 8:
                     break
-        sampling = {'seed': seed, 'draws': draws, 'accepted': accepted, 'rejected': rejected, 'infeasible': infeasible}
+        sampling = {'seed': seed, 'draws': draws, 'accepted': accepted, 'rejected': rejected, 'infeasible': infeasible,
+                    'undecided': undecided}
+        if hyp_undecided:
+            sampling['hypotheses_undecided'] = hyp_undecided
         if accepted == 0:
-            why = 'every drawn instance was infeasible to evaluate exactly' if infeasible and not rejected else \
-                'the hypotheses may be unsatisfiable (vacuous, A5) or outside what the sampler can hit'
+            if undecided and not rejected and not infeasible:
+                why = (f'the enclosures to {_ENCLOSURE_BITS[2]} bits did not decide any of the {undecided} sampled '
+                       'instances (transcendental values too close to the compared side)')
+            elif infeasible and not rejected:
+                why = 'every drawn instance was infeasible to evaluate exactly'
+            elif hyp_undecided and hyp_undecided >= rejected:
+                why = (f'the enclosures did not decide the hypotheses on {hyp_undecided} draws (transcendental hypotheses '
+                       'too close to their bound), so no draw was admitted')
+            else:
+                why = 'the hypotheses may be unsatisfiable (vacuous, A5) or outside what the sampler can hit'
             return EvalResult('UNSUPPORTED', f'no sample satisfied the hypotheses and evaluated ({draws + rejected} draws): {why}',
                               0, False, probes, ev.values_seen, sampling)
+        if undecided > accepted:
+            # the enclosures decide only a minority of the instances: the statement is outside what this layer
+            # can corroborate (typically an equality between transcendental values), not weakly supported
+            return EvalResult('UNSUPPORTED', f'the enclosures to {_ENCLOSURE_BITS[2]} bits did not decide {undecided} of the '
+                              f'sampled instances ({accepted} decided, all held): sampling cannot corroborate the statement',
+                              accepted, False, probes, ev.values_seen, sampling)
+        if hyp_undecided and accepted * 4 < samples:
+            # the hypotheses themselves are undecided on most draws (an identity between transcendental values as a
+            # hypothesis): the few admitted instances are not evidence about the hypotheses' domain
+            return EvalResult('UNSUPPORTED', f'the enclosures did not decide the hypotheses on {hyp_undecided} draws and only '
+                              f'{accepted} instances were admitted: sampling cannot corroborate the statement',
+                              accepted, False, probes, ev.values_seen, sampling)
+        undecided_note = f', {undecided} undecided by enclosures and skipped' if undecided else ''
+        if hyp_undecided:
+            undecided_note += f', the hypotheses undecided on {hyp_undecided} draws'
         detail = (f'holds on {accepted} sampled instances satisfying the hypotheses ({rejected} draws rejected by the '
-                  f'hypotheses, {infeasible} infeasible, seed {seed}): sampling is admitted evidence of the statement, '
-                  'not a proof of it')
+                  f'hypotheses, {infeasible} infeasible{undecided_note}, seed {seed}): sampling is admitted evidence '
+                  'of the statement, not a proof of it')
         if accepted * 4 < samples:
             detail += f' — WEAK: only {accepted} instances, the hypotheses are hard to hit by sampling'
             sampling['weak'] = True
@@ -4383,12 +5227,15 @@ def _reason_class(detail: str) -> str:
     d = detail
     for needle, cls in (('not reached by the parser', 'declaration not reached by the parser'),
                         ('ambiguous definition', 'ambiguous definition across modules'),
+                        ('do not decide', 'enclosures do not decide the statement'),
+                        ('did not decide', 'enclosures do not decide the statement'),
                         ('binder', 'binder outside the interpreter'), ('instance binder', 'binder outside the interpreter'),
                         ('hypothesis', 'hypothesis outside the interpreter'), ('existential', 'existential quantifier'),
                         ('unbounded quantifier', 'unbounded quantifier inside the statement'),
                         ('quantifier over', 'quantifier over an unsupported type'),
                         ('notation', 'Mathlib notation'), ('unparsed statement', 'unparsed statement'),
                         ('malformed theorem', 'malformed or term-mode theorem'), ('structural predicate', 'structural conclusion'),
+                        ('Real.rpow', 'real exponent (Real.rpow)'),
                         ('transcendental', 'transcendental function'), ('nested radical', 'nested radical'),
                         ('unknown name', 'unknown name'), ('unknown function', 'unknown function'),
                         ('result type', 'definition result type outside the interpreter'),
