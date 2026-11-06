@@ -126,19 +126,19 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`e4c2518a8b76ad884c847faddcaa6bee916ee666` (tree
-`b6f2b4df29aa9b17cd600cf2d0bcfb3ad934d873`) extends the existing bounded
+`ce9806c8b450fd279f74a70c6d9796209a029440` (tree
+`b8df071222579b136a84d93eb5a0f199e16be72c`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 113/113 controls and killed 164/164 designated
+The exact source commit passed 116/116 controls and killed 167/167 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`20ddfcd2a90abde3c199122cb0dda95493ee10706c211258cb4bdfdc50fbe551`.
+`b167c4753821c778a55dfe383ac4a5645907654a44552384105928ef424d47d6`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`b988ad95ee6bbe50cf4e64ebfcc830dd6856acee120ae5c152bd1f78375d06f1`,
+`3a84839f4fc1d765eac4c55c4f4624edfe19655bcea5871dfd84e4ec3c866e16`,
 56,078 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
@@ -237,6 +237,11 @@ branches stop traversal after definite termination inside the branch.
 Semicolonless JavaScript lexical declarations shadow imported child-process
 callees under ASI. These three bounded rules also have dedicated adverse
 controls and designated mutants.
+Sequential calls to the same Python helper are each expanded, while a scoped
+active-call guard bounds direct recursion. A declared `global` reassignment
+invalidates the module-level helper identity used by later calls. Literal
+Boolean short-circuiting excludes operands that cannot execute. These three
+bounded rules likewise have dedicated adverse controls and designated mutants.
 Python call-argument helper effects precede attribution of the enclosing call,
 reassigned Python helpers lose their former bodies, and deferred JavaScript
 helpers validate module URL bindings at reachable activation points. These
