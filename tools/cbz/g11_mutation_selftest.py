@@ -206,8 +206,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.AdversarialControls.test_decoy_names_do_not_exempt_stubs",
      'self.assertEqual([(f["class"], f["detail"]) for f in local_report["findings"]'),
     ("python -c path mention counts as execution", "census",
-     '    if any(token in {"-c", "-m"} for token in arguments if isinstance(token, str)):\n        return set()',
-     '    if any(token == "-m" for token in arguments if isinstance(token, str)):\n        return set()',
+     '        if token in {"-c", "-m"}:\n            return set()',
+     '        if token == "-m":\n            return set()',
      "tests.test_g11_census.AdversarialControls.test_comment_and_string_mentions_do_not_exercise_tools",
      'self.assertFalse(python_cmd["tools"]["tools/runner.py"]["referenced"])'),
     ("shell -c path mention counts as execution", "census",
@@ -397,8 +397,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_absolute_parent_paths_stop_at_the_root",
      "self.assertIsNone(g11._python_static_value(beyond,"),
     ("resolved command list credits command-mode arguments", "census",
-     "    if any(token in {\"-c\", \"-m\"} for token in arguments if isinstance(token, str)):\n        return set()",
-     "    if any(token in {\"-c\", \"-m\"} for token in arguments if isinstance(token, str)):\n        return _tool_values(arguments[-1], tools)",
+     "        if token in {\"-c\", \"-m\"}:\n            return set()",
+     "        if token in {\"-c\", \"-m\"}:\n            return _tool_values(arguments[-1], tools)",
      "tests.test_g11_census.ToolChecks.test_resolved_command_lists_reject_command_mode_arguments",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("unreachable wrapper process call accepted", "census",
@@ -512,7 +512,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_path_constructor_resolves_every_component",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("command element assignment retains stale sequence", "census",
-     "        if isinstance(target, ast.Subscript):\n            root = target.value\n            while isinstance(root, (ast.Subscript, ast.Attribute)):\n                root = root.value\n            if isinstance(root, ast.Name):\n                destination.pop(root.id, None)\n            return",
+     "        if isinstance(target, ast.Subscript):\n            root = target.value\n            while isinstance(root, (ast.Subscript, ast.Attribute)):\n                root = root.value\n            if isinstance(root, ast.Name):\n                destination[root.id] = _UNRESOLVED_STATIC\n            return",
      "        if isinstance(target, ast.Subscript):\n            return",
      "tests.test_g11_census.ToolChecks.test_command_element_assignment_invalidates_static_sequence",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
@@ -521,6 +521,26 @@ NEW_MUTATIONS = [
      "        if False:\n            continue",
      "tests.test_g11_census.ToolChecks.test_js_parameter_shadows_named_child_process_import",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
+    ("mode switch after script mistaken for interpreter mode", "census",
+     "    arguments = value[1:]\n    for token in arguments:\n        if not isinstance(token, str):\n            return set()\n        if token in {\"-c\", \"-m\"}:\n            return set()",
+     "    arguments = value[1:]\n    if any(token in {\"-c\", \"-m\"} for token in arguments if isinstance(token, str)):\n        return set()\n    for token in arguments:\n        if not isinstance(token, str):\n            return set()",
+     "tests.test_g11_census.ToolChecks.test_interpreter_mode_switch_after_script_is_program_argument",
+     'self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])'),
+    ("wrapper element write retains caller provenance", "census",
+     "                rebound.update(written_root_names(target))",
+     "                rebound.update(_target_names(target))",
+     "tests.test_g11_census.ToolChecks.test_wrapper_element_write_invalidates_forwarding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("helper element write falls back to module binding", "census",
+     "                destination[root.id] = _UNRESOLVED_STATIC",
+     "                destination.pop(root.id, None)",
+     "tests.test_g11_census.ToolChecks.test_helper_element_write_invalidates_module_binding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("JavaScript default initializer treated as a binding", "census",
+     "        if name in _js_parameter_bindings(searchable[param_start:param_end]):",
+     "        if re.search(r\"(?<![\\w$])\" + re.escape(name) + r\"(?![\\w$])\", searchable[param_start:param_end]):",
+     "tests.test_g11_census.ToolChecks.test_js_default_initializer_reference_is_not_a_parameter_binding",
+     'self.assertTrue(self.tools(tree)["tools/live.mjs"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -643,6 +663,10 @@ EXPECTED_MUTATION_NAMES = (
     "path constructor ignores later components",
     "command element assignment retains stale sequence",
     "JavaScript parameter shadow accepted as imported callee",
+    "mode switch after script mistaken for interpreter mode",
+    "wrapper element write retains caller provenance",
+    "helper element write falls back to module binding",
+    "JavaScript default initializer treated as a binding",
 )
 
 
@@ -821,7 +845,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 67
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 71
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "21958cb885d59b8cd0b4bcbc3ea6880eb889f5a170e54742da20a885787c5149"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "614bbcd0725e2fc3fb1b5c50366b19eb71c0d3d0ef70a8e82e9e22f406d79016"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -371,6 +371,19 @@ class ToolChecks(unittest.TestCase):
             "tools/argument.py": False, "tools/live.py": True, "tools/module_argument.py": False,
         })
 
+    def test_interpreter_mode_switch_after_script_is_program_argument(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/README.md": "tools/live.py\n",
+            "tests/test_commands.py": (
+                "import subprocess, unittest\n"
+                "class Commands(unittest.TestCase):\n"
+                "    def test_command(self):\n"
+                "        subprocess.run(['python3', 'tools/live.py', '-m'])\n"
+            ),
+        }
+        self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])
+
     def test_unresolved_command_elements_do_not_shift_the_executable(self):
         tree = {
             "tools/live.py": "x = 1\n",
@@ -507,6 +520,39 @@ class ToolChecks(unittest.TestCase):
                 "            arguments = ['echo', 'hello']\n"
                 "            return subprocess.run(arguments)\n"
                 "        launch(['python3', 'tools/unused.py'])\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_wrapper_element_write_invalidates_forwarding(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_wrapper.py": (
+                "import subprocess, unittest\n"
+                "def launch(command):\n"
+                "    command[1] = 'other.py'\n"
+                "    return subprocess.run(command)\n"
+                "class Wrapper(unittest.TestCase):\n"
+                "    def test_wrapper(self):\n"
+                "        launch(['python3', 'tools/unused.py'])\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_helper_element_write_invalidates_module_binding(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_helper.py": (
+                "import subprocess, unittest\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "def launch():\n"
+                "    command[1] = 'other.py'\n"
+                "    return subprocess.run(command)\n"
+                "class Helper(unittest.TestCase):\n"
+                "    def test_helper(self):\n"
+                "        launch()\n"
             ),
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
@@ -833,6 +879,21 @@ class ToolChecks(unittest.TestCase):
             "tools/live.mjs": True, "tools/unused.mjs": False,
         })
 
+    def test_js_default_initializer_reference_is_not_a_parameter_binding(self):
+        tree = {
+            "tools/live.mjs": "export const live = true;\n",
+            "tools/README.md": "tools/live.mjs\n",
+            "tests/default.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/live.mjs',import.meta.url);\n"
+                "function exercise(callback = spawnSync) {\n"
+                "  spawnSync(process.execPath,[script]);\n"
+                "}\n"
+                "exercise();\n"
+            ),
+        }
+        self.assertTrue(self.tools(tree)["tools/live.mjs"]["referenced"])
+
     def test_tests_and_init_files_are_not_tools(self):
         report = self.tools({"tools/__init__.py": "", "tools/x/test_y.py": "x = 1\n", "tools/a.py": "x = 1\n"})
         self.assertEqual(sorted(report), ["tools/a.py"])
@@ -1149,7 +1210,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 119)
+        self.assertEqual(len(cases), 123)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

@@ -916,7 +916,7 @@ def _bind_python_value(node, value, local, module, scope):
             while isinstance(root, (ast.Subscript, ast.Attribute)):
                 root = root.value
             if isinstance(root, ast.Name):
-                destination.pop(root.id, None)
+                destination[root.id] = _UNRESOLVED_STATIC
             return
         if isinstance(target, (ast.Tuple, ast.List)):
             if not isinstance(target_value, list) or len(target.elts) != len(target_value):
@@ -955,10 +955,10 @@ def _command_tool_values(value, tools):
     if first not in interpreters:
         return _tool_values(first, tools)
     arguments = value[1:]
-    if any(token in {"-c", "-m"} for token in arguments if isinstance(token, str)):
-        return set()
     for token in arguments:
         if not isinstance(token, str):
+            return set()
+        if token in {"-c", "-m"}:
             return set()
         if token.startswith("-"):
             continue
@@ -973,6 +973,16 @@ def _python_execution_wrappers(tree, imports):
     process_calls = {"subprocess.run", "subprocess.call", "subprocess.Popen",
                      "subprocess.check_call", "subprocess.check_output", "os.system"}
     path_calls = {"importlib.util.spec_from_file_location": 1, "runpy.run_path": 0}
+
+    def written_root_names(target):
+        if isinstance(target, (ast.Subscript, ast.Attribute)):
+            root = target
+            while isinstance(root, (ast.Subscript, ast.Attribute)):
+                root = root.value
+            return {root.id} if isinstance(root, ast.Name) else set()
+        if isinstance(target, (ast.Tuple, ast.List)):
+            return set().union(*(written_root_names(element) for element in target.elts))
+        return set(_target_names(target))
 
     def wrapper_positions(function):
         parameters = [arg.arg for arg in (*function.args.posonlyargs, *function.args.args)]
@@ -1004,7 +1014,7 @@ def _python_execution_wrappers(tree, imports):
             elif isinstance(node, (ast.AnnAssign, ast.AugAssign)):
                 targets = [node.target]
             for target in targets:
-                rebound.update(_target_names(target))
+                rebound.update(written_root_names(target))
             _update_local_import_bindings(node, local_imports)
             active_imports, active_shadowed = _combined_import_bindings(
                 imports, local_imports, shadowed)
@@ -1338,6 +1348,72 @@ def _js_matching_delimiter(searchable, start, opening, closing):
     return None
 
 
+def _js_top_level_parts(text, delimiter=","):
+    """Split JavaScript binding syntax without entering nested patterns."""
+    parts = []
+    start = 0
+    depths = {"(": 0, "[": 0, "{": 0}
+    closing = {")": "(", "]": "[", "}": "{"}
+    for index, char in enumerate(text):
+        if char in depths:
+            depths[char] += 1
+        elif char in closing:
+            opening = closing[char]
+            depths[opening] = max(0, depths[opening] - 1)
+        elif char == delimiter and not any(depths.values()):
+            parts.append(text[start:index])
+            start = index + 1
+    parts.append(text[start:])
+    return parts
+
+
+def _js_top_level_index(text, needle):
+    depths = {"(": 0, "[": 0, "{": 0}
+    closing = {")": "(", "]": "[", "}": "{"}
+    for index, char in enumerate(text):
+        if char in depths:
+            depths[char] += 1
+        elif char in closing:
+            opening = closing[char]
+            depths[opening] = max(0, depths[opening] - 1)
+        elif char == needle and not any(depths.values()):
+            return index
+    return -1
+
+
+def _js_binding_names(pattern):
+    """Return identifiers bound by one JavaScript parameter pattern."""
+    pattern = pattern.strip()
+    if pattern.startswith("..."):
+        pattern = pattern[3:].strip()
+    assignment = _js_top_level_index(pattern, "=")
+    if assignment >= 0:
+        pattern = pattern[:assignment].strip()
+    if re.fullmatch(r"[A-Za-z_$][\w$]*", pattern):
+        return {pattern}
+    if len(pattern) >= 2 and pattern[0] == "[" and pattern[-1] == "]":
+        return set().union(*(_js_binding_names(part)
+                             for part in _js_top_level_parts(pattern[1:-1])))
+    if len(pattern) >= 2 and pattern[0] == "{" and pattern[-1] == "}":
+        names = set()
+        for part in _js_top_level_parts(pattern[1:-1]):
+            part = part.strip()
+            if not part:
+                continue
+            if part.startswith("..."):
+                names.update(_js_binding_names(part))
+                continue
+            colon = _js_top_level_index(part, ":")
+            names.update(_js_binding_names(part[colon + 1:] if colon >= 0 else part))
+        return names
+    return set()
+
+
+def _js_parameter_bindings(parameters):
+    return set().union(*(_js_binding_names(part)
+                         for part in _js_top_level_parts(parameters)))
+
+
 def _js_parameter_shadows(text, position, name):
     """Return true when a containing function binds the imported callee name."""
     searchable = []
@@ -1384,12 +1460,11 @@ def _js_parameter_shadows(text, position, name):
         param_end = match.end(1) if match.group(1) is not None else match.end(2)
         scopes.append((param_start, param_end, match.end() - 1))
 
-    identifier = re.compile(r"(?<![\w$])" + re.escape(name) + r"(?![\w$])")
     for param_start, param_end, open_brace in scopes:
         close_brace = _js_matching_delimiter(searchable, open_brace, "{", "}")
         if close_brace is None or not (open_brace < position < close_brace):
             continue
-        if identifier.search(searchable[param_start:param_end]):
+        if name in _js_parameter_bindings(searchable[param_start:param_end]):
             return True
     return False
 
