@@ -1,0 +1,47 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmpxf5vs8hv/run_tests.py",
+    "--output",
+    "/tmp/tmpxf5vs8hv/receipt.json"
+  ],
+  "events": [],
+  "exit_code": 1,
+  "fixture_sha256": "62b00f3705b0f0ec0de3272fe23b8e5a1382abf1a17a4012a2d2553048edcc76",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmpxf5vs8hv/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass C(unittest.TestCase):\n def __setattr__(self,name,value):\n  record(\"attribute\")\n  return super().__setattr__(name,value)\n def test_one(self): record(\"body\")\n",
+  "label": "construction-setattr-0-class",
+  "optimize": 0,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "finished_ids": [],
+    "invalid_population": [
+      "empty selected population",
+      "unsupported TestCase constructor/metaclass/attribute dispatch"
+    ],
+    "lifecycle_failures": 0,
+    "log": "\nRan 0 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [],
+    "selection": [
+      "discover:test_*.py"
+    ],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": true,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "\nRan 0 tests\n"
+}

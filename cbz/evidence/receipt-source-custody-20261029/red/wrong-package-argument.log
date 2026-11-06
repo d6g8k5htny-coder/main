@@ -1,0 +1,25 @@
+test_execute_package_argument_cannot_substitute_another_tree (test_formal_source_custody.ExactSourceCommitTests.test_execute_package_argument_cannot_substitute_another_tree) ... FAIL
+
+======================================================================
+FAIL: test_execute_package_argument_cannot_substitute_another_tree (test_formal_source_custody.ExactSourceCommitTests.test_execute_package_argument_cannot_substitute_another_tree)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/receipt-composition/tests/test_formal_source_custody.py", line 119, in test_execute_package_argument_cannot_substitute_another_tree
+    gate.execute(manifest, digest, other, self.root, manifest_rel='pkg/manifest.json')
+  File "/workspace/cbz/receipt-composition/tools/formal_gate_check.py", line 394, in execute
+    check_lean_version(run([lake, "env", "lean", "--version"], "preflight-version", out, pkg, env))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/.runtimes/python/cpython-3.11.16-linux-x86_64-gnu/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/.runtimes/python/cpython-3.11.16-linux-x86_64-gnu/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/.runtimes/python/cpython-3.11.16-linux-x86_64-gnu/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+    raise effect
+AssertionError: Lean must not run
+
+----------------------------------------------------------------------
+Ran 1 test in 0.071s
+
+FAILED (failures=1)

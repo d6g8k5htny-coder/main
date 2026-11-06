@@ -1,0 +1,50 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmphzxj_uov/run_tests.py",
+    "--output",
+    "/tmp/tmphzxj_uov/receipt.json"
+  ],
+  "events": [
+    "class-setup"
+  ],
+  "exit_code": 1,
+  "fixture_sha256": "547815bb38288721e39815745cf07aa81ea9e92365830d7b14c1dd9b9497f468",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmphzxj_uov/events').open(\"a\") as out: out.write(label+\"\\n\")\ndef replacement(self): record(\"replacement\")\nclass C(unittest.TestCase):\n @classmethod\n def setUpClass(cls):\n  record(\"class-setup\")\n  cls.test_one.__code__=replacement.__code__\n def test_one(self):\n  record(\"original\")\n  self.fail(\"original body retained\")\n",
+  "label": "class-fixture-code",
+  "optimize": 1,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "finished_ids": [],
+    "invalid_population": [
+      "selected class/function/code identity changed during execution"
+    ],
+    "lifecycle_failures": 0,
+    "log": "\nRan 0 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [
+      "test_identity.C.test_one"
+    ],
+    "selection": [
+      "discover:test_*.py"
+    ],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": true,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "\nRan 0 tests\n"
+}

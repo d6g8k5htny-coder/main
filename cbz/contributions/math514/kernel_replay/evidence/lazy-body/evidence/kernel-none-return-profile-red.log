@@ -1,0 +1,54 @@
+test_all_non_none_returns_refuse_without_iterating_custom_objects (test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects) ... 
+  test_all_non_none_returns_refuse_without_iterating_custom_objects (test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects) (expression='False') ... FAIL
+  test_all_non_none_returns_refuse_without_iterating_custom_objects (test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects) (expression='0') ... FAIL
+  test_all_non_none_returns_refuse_without_iterating_custom_objects (test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects) (expression='[]') ... FAIL
+  test_all_non_none_returns_refuse_without_iterating_custom_objects (test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects) (expression='DeferredIterable()') ... FAIL
+
+======================================================================
+FAIL: test_all_non_none_returns_refuse_without_iterating_custom_objects (test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects) (expression='False')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 286, in test_all_non_none_returns_refuse_without_iterating_custom_objects
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (fixture.Case.test_a_return) ... ok\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmp2p6mq4yg/run_tests.py", line 138, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body\n\nRan 2 tests\n', 'started_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}
+
+======================================================================
+FAIL: test_all_non_none_returns_refuse_without_iterating_custom_objects (test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects) (expression='0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 286, in test_all_non_none_returns_refuse_without_iterating_custom_objects
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (fixture.Case.test_a_return) ... ok\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpko38ovm1/run_tests.py", line 138, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body\n\nRan 2 tests\n', 'started_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}
+
+======================================================================
+FAIL: test_all_non_none_returns_refuse_without_iterating_custom_objects (test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects) (expression='[]')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 286, in test_all_non_none_returns_refuse_without_iterating_custom_objects
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (fixture.Case.test_a_return) ... ok\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpg8u7ot4y/run_tests.py", line 138, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body\n\nRan 2 tests\n', 'started_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}
+
+======================================================================
+FAIL: test_all_non_none_returns_refuse_without_iterating_custom_objects (test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects) (expression='DeferredIterable()')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 286, in test_all_non_none_returns_refuse_without_iterating_custom_objects
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (fixture.Case.test_a_return) ... ok\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpr88leoew/run_tests.py", line 138, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body\n\nRan 2 tests\n', 'started_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.273s
+
+FAILED (failures=4)

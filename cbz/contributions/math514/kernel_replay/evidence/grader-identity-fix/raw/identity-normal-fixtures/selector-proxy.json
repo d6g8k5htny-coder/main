@@ -1,0 +1,49 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmpbxrbpbt5/run_tests.py",
+    "--output",
+    "/tmp/tmpbxrbpbt5/receipt.json",
+    "--test",
+    "test_identity.proxy.C.test_one"
+  ],
+  "events": [],
+  "exit_code": 1,
+  "fixture_sha256": "cb3f7bfffe5018e7d8539ba99aef8c082a2f8418b3d9e023f69cd09726f54374",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmpbxrbpbt5/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass C(unittest.TestCase):\n def test_one(self): record(\"body\")\nclass Proxy:\n def __getattr__(self,name):\n  record(\"proxy\")\n  return C\nproxy=Proxy()\n",
+  "label": "selector-proxy",
+  "optimize": 0,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "finished_ids": [],
+    "invalid_population": [
+      "empty selected population",
+      "unsupported test selector: test_identity.proxy.C.test_one (ValueError)"
+    ],
+    "lifecycle_failures": 0,
+    "log": "\nRan 0 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [],
+    "selection": [
+      "test_identity.proxy.C.test_one"
+    ],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": true,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "\nRan 0 tests\n"
+}

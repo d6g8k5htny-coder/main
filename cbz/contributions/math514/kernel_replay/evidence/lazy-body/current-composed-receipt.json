@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "status": "PASS_SCOPED_COMPOSED_NONE_RETURN_PROFILE",
+  "published_parent": "7b50d2b4c433a8f3b5442925e1ac9ff664880166",
+  "current_source_sha256": {
+    "run_tests.py": "f0a67f6cb3a2e0232d1cb7ff61cd7e5c21ae4c414a8c74c3a3225712b3a74ba3",
+    "tests/test_mutation_harness.py": "05a4a2f4c803315f80a3fcb2bb16f0d5d6df19c874c118152c257544880de114"
+  },
+  "unchanged_classifier_sha256": "a1a0b0e7d6c5809c1f3f291a10aa14edc04265ce73cf76494318f966ab69b9bd",
+  "single_fresh_full_suite": false,
+  "current_test_methods": 60,
+  "composition": {
+    "fresh_none_profile": 6,
+    "reused_prior_lifecycle": 14,
+    "reused_wrapper": 31,
+    "reused_real_lean": 9
+  },
+  "fresh_method_ids": [
+    "test_mutation_harness.LazyBodyHarnessTests.test_ordinary_synchronous_body_positives_remain_supported",
+    "test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution",
+    "test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution",
+    "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+    "test_mutation_harness.LazyBodyHarnessTests.test_decorator_without_wrapped_metadata_cannot_hide_lazy_return",
+    "test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects"
+  ],
+  "fresh_commands": {
+    "normal": "PYTHONOPTIMIZE=0 python3 -B -S -m unittest discover -s delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests -p test_mutation_harness.py -k LazyBodyHarnessTests -v",
+    "optimized": "PYTHONOPTIMIZE=1 python3 -B -S -O -m unittest discover -s delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests -p test_mutation_harness.py -k LazyBodyHarnessTests -v"
+  },
+  "fresh_logs": {
+    "normal": {
+      "path": "evidence/lazy-body/evidence/kernel-none-profile-controls-green.log",
+      "sha256": "0a2db29755b11f1bfd6a442bcedead8ea641e077dd4b5e25d475183d1b8e1c78",
+      "methods": 6,
+      "observed_result": "OK"
+    },
+    "optimized": {
+      "path": "evidence/lazy-body/evidence/kernel-none-profile-controls-optimized-green.log",
+      "sha256": "6268639df35d6220ff5ccede714b65e3c53eb04889a994dd0746bd71fc724829",
+      "methods": 6,
+      "observed_result": "OK"
+    }
+  },
+  "fresh_final_return_guard": {
+    "distinct": 1,
+    "executions": 2,
+    "receipt": "evidence/lazy-body/evidence/kernel-none-return-guard-mutant/summary.json"
+  },
+  "earlier_guard_generation": {
+    "distinct": 3,
+    "executions": 6,
+    "receipt": "evidence/lazy-body/evidence/kernel-lazy-guard-mutants/summary.json",
+    "reused_unchanged": [
+      "pristine function shape",
+      "decorator shape links"
+    ],
+    "superseded": "type-only return rejection"
+  },
+  "reused_source_evidence": {
+    "prior_lifecycle": "evidence/lifecycle/evidence/kernel-delivery.json",
+    "production_mutants": 25,
+    "production_trace_applicability": "original source/test bodies and mutation definitions unchanged; exact direct-method AST profile covered by appended applicability record"
+  },
+  "source_applicability": "evidence/lazy-body/evidence/original-method-shape-applicability.json",
+  "review": {
+    "path": "evidence/lazy-body/evidence/independent-lazy-body-review.json",
+    "sha256": "8e6c0de322cb2296d2ac9bf472bcb29c3fcdfaa941541539e1fc467d5a47c933",
+    "status": "CLEAR"
+  },
+  "hosted_ci": "No successor-head hosted CI result claimed.",
+  "original_suite_mutants_lean_replayed": false
+}

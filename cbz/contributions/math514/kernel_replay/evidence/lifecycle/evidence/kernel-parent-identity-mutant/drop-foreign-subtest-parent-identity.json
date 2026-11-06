@@ -1,0 +1,53 @@
+{
+  "name": "drop-foreign-subtest-parent-identity",
+  "file": "run_tests.py",
+  "test": "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion",
+  "outcome": "KILLED",
+  "returncode": 1,
+  "original_sha256": "de089e08688ffb2c236cdc34ccc095eb421d5162dde6d8eff24af7fdc3c91baa",
+  "mutated_sha256": "345720acce15f19f34f2b0586fb94326e5bb80f83abb03ccfe0da61dbb06e303",
+  "guard_sha256": "de089e08688ffb2c236cdc34ccc095eb421d5162dde6d8eff24af7fdc3c91baa",
+  "tests": {
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selection": [
+      "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion"
+    ],
+    "selected_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion"
+    ],
+    "invalid_population": [],
+    "tests_run": 1,
+    "assertion_failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "successful": false,
+    "log": "test_foreign_subtest_parent_cannot_claim_selected_body_assertion (test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion) ... FAIL\n\n======================================================================\nFAIL: test_foreign_subtest_parent_cannot_claim_selected_body_assertion (test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/mutation-lifecycle-fix/evidence/kernel-parent-identity-mutant/guard_run_tests.py\", line 112, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_one'], 'invalid_population': [], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (fixture.Case.test_one) ... \\n  unittest.case.FunctionTestCase (<lambda>) [foreign] ... FAIL\\ntest_one (fixture.Case.test_one) ... ok\\n\\n======================================================================\\nFAIL: unittest.case.FunctionTestCase (<lambda>) [foreign]\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmpw68eu4zg/tests/fixture.py\", line 6, in test_one\\n    try: raise AssertionError(\\'foreign parent assertion\\')\\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: foreign parent assertion\\n\\nRan 1 tests\\n', 'started_ids': ['fixture.Case.test_one'], 'finished_ids': ['fixture.Case.test_one'], 'body_entered_ids': ['fixture.Case.test_one'], 'body_finished_ids': ['fixture.Case.test_one'], 'body_assertion_ids': ['fixture.Case.test_one'], 'lifecycle_failures': 0, 'subtests': 1, 'subtest_events': [{'parent_id': 'fixture.Case.test_one', 'phase': 'body', 'outcome': 'assertion'}], 'assertion_events': [{'parent_id': 'fixture.Case.test_one', 'origin': 'subtest'}]}\n\nRan 1 tests\n",
+    "started_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion"
+    ],
+    "finished_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion"
+    ],
+    "body_entered_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion"
+    ],
+    "body_finished_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion"
+    ],
+    "body_assertion_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion"
+    ],
+    "lifecycle_failures": 0,
+    "subtests": 0,
+    "subtest_events": [],
+    "assertion_events": [
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion",
+        "origin": "body"
+      }
+    ]
+  },
+  "stderr": ""
+}

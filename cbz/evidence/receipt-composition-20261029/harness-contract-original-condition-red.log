@@ -1,0 +1,63 @@
+test_intended_assertion_failure_qualifies (test_formal_compiled_inventory.MutationKillContractTests.test_intended_assertion_failure_qualifies) ... ok
+test_skips_or_incomplete_population_never_qualify (test_formal_compiled_inventory.MutationKillContractTests.test_skips_or_incomplete_population_never_qualify) ... 
+  test_skips_or_incomplete_population_never_qualify (test_formal_compiled_inventory.MutationKillContractTests.test_skips_or_incomplete_population_never_qualify) (result=namespace(testsRun=26, failures=[(namespace(id=<function MutationKillContractTests.result.<locals>.case.<locals>.<lambda> at 0x7f845488ed40>), 'controlled assertion failure')], errors=[], skipped=[(namespace(id=<function MutationKillContractTests.result.<locals>.case.<locals>.<lambda> at 0x7f845488f380>), 'controlled skip')])) ... FAIL
+  test_skips_or_incomplete_population_never_qualify (test_formal_compiled_inventory.MutationKillContractTests.test_skips_or_incomplete_population_never_qualify) (result=namespace(testsRun=25, failures=[(namespace(id=<function MutationKillContractTests.result.<locals>.case.<locals>.<lambda> at 0x7f845488f420>), 'controlled assertion failure')], errors=[], skipped=[])) ... FAIL
+test_survival_unexpected_failures_and_empty_contract_never_qualify (test_formal_compiled_inventory.MutationKillContractTests.test_survival_unexpected_failures_and_empty_contract_never_qualify) ... 
+  test_survival_unexpected_failures_and_empty_contract_never_qualify (test_formal_compiled_inventory.MutationKillContractTests.test_survival_unexpected_failures_and_empty_contract_never_qualify) (failures=('unrelated',), expected={'expected'}) ... FAIL
+  test_survival_unexpected_failures_and_empty_contract_never_qualify (test_formal_compiled_inventory.MutationKillContractTests.test_survival_unexpected_failures_and_empty_contract_never_qualify) (failures=('expected', 'unrelated'), expected={'expected'}) ... FAIL
+test_test_errors_never_qualify_even_with_expected_assertion (test_formal_compiled_inventory.MutationKillContractTests.test_test_errors_never_qualify_even_with_expected_assertion) ... 
+  test_test_errors_never_qualify_even_with_expected_assertion (test_formal_compiled_inventory.MutationKillContractTests.test_test_errors_never_qualify_even_with_expected_assertion) (failures=()) ... FAIL
+  test_test_errors_never_qualify_even_with_expected_assertion (test_formal_compiled_inventory.MutationKillContractTests.test_test_errors_never_qualify_even_with_expected_assertion) (failures=('expected',)) ... FAIL
+
+======================================================================
+FAIL: test_skips_or_incomplete_population_never_qualify (test_formal_compiled_inventory.MutationKillContractTests.test_skips_or_incomplete_population_never_qualify) (result=namespace(testsRun=26, failures=[(namespace(id=<function MutationKillContractTests.result.<locals>.case.<locals>.<lambda> at 0x7f845488ed40>), 'controlled assertion failure')], errors=[], skipped=[(namespace(id=<function MutationKillContractTests.result.<locals>.case.<locals>.<lambda> at 0x7f845488f380>), 'controlled skip')]))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/receipt-composition/tests/test_formal_compiled_inventory.py", line 352, in test_skips_or_incomplete_population_never_qualify
+    with self.subTest(result=result), self.assertRaises(AssertionError):
+AssertionError: AssertionError not raised
+
+======================================================================
+FAIL: test_skips_or_incomplete_population_never_qualify (test_formal_compiled_inventory.MutationKillContractTests.test_skips_or_incomplete_population_never_qualify) (result=namespace(testsRun=25, failures=[(namespace(id=<function MutationKillContractTests.result.<locals>.case.<locals>.<lambda> at 0x7f845488f420>), 'controlled assertion failure')], errors=[], skipped=[]))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/receipt-composition/tests/test_formal_compiled_inventory.py", line 352, in test_skips_or_incomplete_population_never_qualify
+    with self.subTest(result=result), self.assertRaises(AssertionError):
+AssertionError: AssertionError not raised
+
+======================================================================
+FAIL: test_survival_unexpected_failures_and_empty_contract_never_qualify (test_formal_compiled_inventory.MutationKillContractTests.test_survival_unexpected_failures_and_empty_contract_never_qualify) (failures=('unrelated',), expected={'expected'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/receipt-composition/tests/test_formal_compiled_inventory.py", line 358, in test_survival_unexpected_failures_and_empty_contract_never_qualify
+    with self.subTest(failures=failures, expected=expected), self.assertRaises(AssertionError):
+AssertionError: AssertionError not raised
+
+======================================================================
+FAIL: test_survival_unexpected_failures_and_empty_contract_never_qualify (test_formal_compiled_inventory.MutationKillContractTests.test_survival_unexpected_failures_and_empty_contract_never_qualify) (failures=('expected', 'unrelated'), expected={'expected'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/receipt-composition/tests/test_formal_compiled_inventory.py", line 358, in test_survival_unexpected_failures_and_empty_contract_never_qualify
+    with self.subTest(failures=failures, expected=expected), self.assertRaises(AssertionError):
+AssertionError: AssertionError not raised
+
+======================================================================
+FAIL: test_test_errors_never_qualify_even_with_expected_assertion (test_formal_compiled_inventory.MutationKillContractTests.test_test_errors_never_qualify_even_with_expected_assertion) (failures=())
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/receipt-composition/tests/test_formal_compiled_inventory.py", line 347, in test_test_errors_never_qualify_even_with_expected_assertion
+    with self.subTest(failures=failures), self.assertRaisesRegex(AssertionError, 'errors'):
+AssertionError: AssertionError not raised
+
+======================================================================
+FAIL: test_test_errors_never_qualify_even_with_expected_assertion (test_formal_compiled_inventory.MutationKillContractTests.test_test_errors_never_qualify_even_with_expected_assertion) (failures=('expected',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/receipt-composition/tests/test_formal_compiled_inventory.py", line 347, in test_test_errors_never_qualify_even_with_expected_assertion
+    with self.subTest(failures=failures), self.assertRaisesRegex(AssertionError, 'errors'):
+AssertionError: AssertionError not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+FAILED (failures=6)

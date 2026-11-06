@@ -1,0 +1,49 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmpg46nbkoi/run_tests.py",
+    "--output",
+    "/tmp/tmpg46nbkoi/receipt.json",
+    "--test",
+    "test_identity.C"
+  ],
+  "events": [],
+  "exit_code": 1,
+  "fixture_sha256": "59305e1ee65694b6372e98165d36d412f68e12028d0e2e6f413f41c4998469a6",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmpg46nbkoi/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass Alias(staticmethod):\n def __get__(self,instance,owner):\n  record(\"descriptor-subclass\")\n  owner.test_second=owner.test_first\n  return owner.test_first.__get__(instance,owner)\nclass C(unittest.TestCase):\n def test_first(self): record(\"first\")\n def test_second(self):\n  record(\"second\")\n  self.fail(\"retained second body\")\n test_second=Alias(test_second)\n",
+  "label": "construction-descriptor-staticmethod-1-class",
+  "optimize": 1,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "finished_ids": [],
+    "invalid_population": [
+      "empty selected population",
+      "unsupported TestCase constructor/metaclass/attribute dispatch"
+    ],
+    "lifecycle_failures": 0,
+    "log": "\nRan 0 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [],
+    "selection": [
+      "test_identity.C"
+    ],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": true,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "\nRan 0 tests\n"
+}

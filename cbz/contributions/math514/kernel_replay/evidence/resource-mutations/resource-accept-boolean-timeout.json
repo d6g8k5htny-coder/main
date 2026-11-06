@@ -1,0 +1,21 @@
+{
+  "name": "resource-accept-boolean-timeout",
+  "file": "kernel_replay.py",
+  "test": "test_kernel_replay.WrapperTests.test_resource_boolean_arguments_rejected",
+  "outcome": "KILLED",
+  "returncode": 1,
+  "original_sha256": "27da13a9455a62c2b192ff62f6222266cb483d323cf680f3d81d3b19b260b8ce",
+  "mutated_sha256": "02d4d36f864cc378e5232e9a720204f05a7ee01e260ee6b99d7059913d738c45",
+  "tests": {
+    "tests_run": 1,
+    "assertion_failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "successful": false,
+    "log": "test_resource_boolean_arguments_rejected (test_kernel_replay.WrapperTests.test_resource_boolean_arguments_rejected) ... \n  test_resource_boolean_arguments_rejected (test_kernel_replay.WrapperTests.test_resource_boolean_arguments_rejected) (memory=256, timeout=True) ... FAIL\n\n======================================================================\nFAIL: test_resource_boolean_arguments_rejected (test_kernel_replay.WrapperTests.test_resource_boolean_arguments_rejected) (memory=256, timeout=True)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/tools/kernel_replay/evidence/mutant-ury5k8a7/kernel_replay/tests/test_kernel_replay.py\", line 188, in test_resource_boolean_arguments_rejected\n    self.assertFalse(r['ok'])\nAssertionError: True is not false\n\n----------------------------------------------------------------------\nRan 1 test in 0.022s\n\nFAILED (failures=1)\n"
+  },
+  "stdout": "test_resource_boolean_arguments_rejected (test_kernel_replay.WrapperTests.test_resource_boolean_arguments_rejected) ... \n  test_resource_boolean_arguments_rejected (test_kernel_replay.WrapperTests.test_resource_boolean_arguments_rejected) (memory=256, timeout=True) ... FAIL\n\n======================================================================\nFAIL: test_resource_boolean_arguments_rejected (test_kernel_replay.WrapperTests.test_resource_boolean_arguments_rejected) (memory=256, timeout=True)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/tools/kernel_replay/evidence/mutant-ury5k8a7/kernel_replay/tests/test_kernel_replay.py\", line 188, in test_resource_boolean_arguments_rejected\n    self.assertFalse(r['ok'])\nAssertionError: True is not false\n\n----------------------------------------------------------------------\nRan 1 test in 0.022s\n\nFAILED (failures=1)\n",
+  "stderr": ""
+}

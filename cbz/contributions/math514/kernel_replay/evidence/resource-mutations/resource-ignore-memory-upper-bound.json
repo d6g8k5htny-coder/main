@@ -1,0 +1,21 @@
+{
+  "name": "resource-ignore-memory-upper-bound",
+  "file": "kernel_replay.py",
+  "test": "test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn",
+  "outcome": "KILLED",
+  "returncode": 1,
+  "original_sha256": "27da13a9455a62c2b192ff62f6222266cb483d323cf680f3d81d3b19b260b8ce",
+  "mutated_sha256": "3a8223fde7a462b57c68fca074079d7af491c94621908eadfc27983cde12f970",
+  "tests": {
+    "tests_run": 1,
+    "assertion_failures": 2,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "successful": false,
+    "log": "test_resource_memory_upper_bounds_before_spawn (test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn) ... \n  test_resource_memory_upper_bounds_before_spawn (test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn) (memory_digits=401) ... FAIL\n  test_resource_memory_upper_bounds_before_spawn (test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn) (memory_digits=13) ... FAIL\n\n======================================================================\nFAIL: test_resource_memory_upper_bounds_before_spawn (test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn) (memory_digits=401)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/tools/kernel_replay/evidence/mutant-ua7s5u78/kernel_replay/tests/test_kernel_replay.py\", line 169, in test_resource_memory_upper_bounds_before_spawn\n    self.assertFalse(r['ok'])\nAssertionError: True is not false\n\n======================================================================\nFAIL: test_resource_memory_upper_bounds_before_spawn (test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn) (memory_digits=13)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/tools/kernel_replay/evidence/mutant-ua7s5u78/kernel_replay/tests/test_kernel_replay.py\", line 169, in test_resource_memory_upper_bounds_before_spawn\n    self.assertFalse(r['ok'])\nAssertionError: True is not false\n\n----------------------------------------------------------------------\nRan 1 test in 0.018s\n\nFAILED (failures=2)\n"
+  },
+  "stdout": "test_resource_memory_upper_bounds_before_spawn (test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn) ... \n  test_resource_memory_upper_bounds_before_spawn (test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn) (memory_digits=401) ... FAIL\n  test_resource_memory_upper_bounds_before_spawn (test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn) (memory_digits=13) ... FAIL\n\n======================================================================\nFAIL: test_resource_memory_upper_bounds_before_spawn (test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn) (memory_digits=401)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/tools/kernel_replay/evidence/mutant-ua7s5u78/kernel_replay/tests/test_kernel_replay.py\", line 169, in test_resource_memory_upper_bounds_before_spawn\n    self.assertFalse(r['ok'])\nAssertionError: True is not false\n\n======================================================================\nFAIL: test_resource_memory_upper_bounds_before_spawn (test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn) (memory_digits=13)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/tools/kernel_replay/evidence/mutant-ua7s5u78/kernel_replay/tests/test_kernel_replay.py\", line 169, in test_resource_memory_upper_bounds_before_spawn\n    self.assertFalse(r['ok'])\nAssertionError: True is not false\n\n----------------------------------------------------------------------\nRan 1 test in 0.018s\n\nFAILED (failures=2)\n",
+  "stderr": ""
+}

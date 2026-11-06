@@ -1,0 +1,110 @@
+{
+  "scope": "1 named-selector descriptor/proxy refusal safeguard per tool/mode; prior10themes remain separate",
+  "results": [
+    {
+      "tool": "kernel_replay",
+      "mode": "normal",
+      "name": "allow-selector-descriptor-or-proxy-execution",
+      "source_file": "run_tests.py",
+      "original_sha256": "d1783e4892e5ae406762d8917cadb8d84534fd271744fdd92a1e285a72e26739",
+      "mutant_sha256": "9a7581db5795949d996b30ef389ba9a5bc50b0356272b736b372135700610ddd",
+      "test": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "outcome": "KILLED",
+      "exit_code": 1,
+      "assertion_failures": 1,
+      "errors": 0,
+      "receipt": "kernel_replay/evidence/guard-mutants/normal/allow-selector-descriptor-or-proxy-execution/receipt.json",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-S",
+        "/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/normal/allow-selector-descriptor-or-proxy-execution/run_tests.py",
+        "--output",
+        "/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/normal/allow-selector-descriptor-or-proxy-execution/receipt.json",
+        "--test",
+        "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body"
+      ]
+    },
+    {
+      "tool": "kernel_replay",
+      "mode": "optimized",
+      "name": "allow-selector-descriptor-or-proxy-execution",
+      "source_file": "run_tests.py",
+      "original_sha256": "d1783e4892e5ae406762d8917cadb8d84534fd271744fdd92a1e285a72e26739",
+      "mutant_sha256": "9a7581db5795949d996b30ef389ba9a5bc50b0356272b736b372135700610ddd",
+      "test": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "outcome": "KILLED",
+      "exit_code": 1,
+      "assertion_failures": 1,
+      "errors": 0,
+      "receipt": "kernel_replay/evidence/guard-mutants/optimized/allow-selector-descriptor-or-proxy-execution/receipt.json",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-S",
+        "-O",
+        "/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/optimized/allow-selector-descriptor-or-proxy-execution/run_tests.py",
+        "--output",
+        "/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/optimized/allow-selector-descriptor-or-proxy-execution/receipt.json",
+        "--test",
+        "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body"
+      ]
+    },
+    {
+      "tool": "layer_a",
+      "mode": "normal",
+      "name": "allow-selector-descriptor-or-proxy-execution",
+      "source_file": "mutation_test.py",
+      "original_sha256": "6a719ffd05533bdd982b2dbb5c398ba7c5fc41b277c6e2277b33dab56689b463",
+      "mutant_sha256": "22138feb3737b6588118d7c625503b712491108e535d03a6372dc5517698b8dd",
+      "test": "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "outcome": "KILLED",
+      "exit_code": 1,
+      "assertion_failures": 1,
+      "errors": 0,
+      "receipt": "layer_a/evidence/guard-mutants/normal/allow-selector-descriptor-or-proxy-execution/receipt.json",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-S",
+        "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/normal/allow-selector-descriptor-or-proxy-execution/mutation_test.py",
+        "--internal-test-runner",
+        "--test-root",
+        "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/normal/allow-selector-descriptor-or-proxy-execution/tests",
+        "--output",
+        "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/normal/allow-selector-descriptor-or-proxy-execution/receipt.json",
+        "--test",
+        "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body"
+      ]
+    },
+    {
+      "tool": "layer_a",
+      "mode": "optimized",
+      "name": "allow-selector-descriptor-or-proxy-execution",
+      "source_file": "mutation_test.py",
+      "original_sha256": "6a719ffd05533bdd982b2dbb5c398ba7c5fc41b277c6e2277b33dab56689b463",
+      "mutant_sha256": "22138feb3737b6588118d7c625503b712491108e535d03a6372dc5517698b8dd",
+      "test": "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "outcome": "KILLED",
+      "exit_code": 1,
+      "assertion_failures": 1,
+      "errors": 0,
+      "receipt": "layer_a/evidence/guard-mutants/optimized/allow-selector-descriptor-or-proxy-execution/receipt.json",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-S",
+        "-O",
+        "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-selector-descriptor-or-proxy-execution/mutation_test.py",
+        "--internal-test-runner",
+        "--test-root",
+        "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-selector-descriptor-or-proxy-execution/tests",
+        "--output",
+        "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-selector-descriptor-or-proxy-execution/receipt.json",
+        "--test",
+        "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body"
+      ]
+    }
+  ],
+  "all_assertion_killed": true
+}

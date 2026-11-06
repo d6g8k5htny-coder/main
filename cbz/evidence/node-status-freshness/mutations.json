@@ -1,0 +1,113 @@
+{
+  "cases": 18,
+  "results": [
+    {
+      "name": "object-drift",
+      "optimized": false,
+      "killed": true,
+      "output": "test_changed_blob_is_stale (tests.test_node_status_freshness.ContentTests.test_changed_blob_is_stale) ... FAIL\n\n======================================================================\nFAIL: test_changed_blob_is_stale (tests.test_node_status_freshness.ContentTests.test_changed_blob_is_stale)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 41, in test_changed_blob_is_stale\n    self.assertEqual(n.refresh_record(record(),self.observer())['status'],'stale')\nAssertionError: 'fresh' != 'stale'\n- fresh\n+ stale\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "name": "mode-drift",
+      "optimized": false,
+      "killed": true,
+      "output": "test_mode_change_is_stale (tests.test_node_status_freshness.ContentTests.test_mode_change_is_stale) ... FAIL\n\n======================================================================\nFAIL: test_mode_change_is_stale (tests.test_node_status_freshness.ContentTests.test_mode_change_is_stale)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 46, in test_mode_change_is_stale\n    self.assertEqual(n.refresh_record(record(),self.observer())['status'],'stale')\nAssertionError: 'fresh' != 'stale'\n- fresh\n+ stale\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.002s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "name": "truncation",
+      "optimized": false,
+      "killed": true,
+      "output": "test_partial_tree_unknown (tests.test_node_status_freshness.ContentTests.test_partial_tree_unknown) ... FAIL\n\n======================================================================\nFAIL: test_partial_tree_unknown (tests.test_node_status_freshness.ContentTests.test_partial_tree_unknown)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 49, in test_partial_tree_unknown\n    self.assertEqual(n.refresh_record(record(),self.observer())['status'],'unknown')\nAssertionError: 'fresh' != 'unknown'\n- fresh\n+ unknown\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "name": "tree-identity",
+      "optimized": false,
+      "killed": true,
+      "output": "test_wrong_response_identity_unknown (tests.test_node_status_freshness.ContentTests.test_wrong_response_identity_unknown) ... FAIL\n\n======================================================================\nFAIL: test_wrong_response_identity_unknown (tests.test_node_status_freshness.ContentTests.test_wrong_response_identity_unknown)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 55, in test_wrong_response_identity_unknown\n    self.assertEqual(n.refresh_record(record(),self.observer())['status'],'unknown')\nAssertionError: 'fresh' != 'unknown'\n- fresh\n+ unknown\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "name": "comment-direction",
+      "optimized": false,
+      "killed": true,
+      "output": "test_future_recorded_comment_unknown (tests.test_node_status_freshness.ContentTests.test_future_recorded_comment_unknown) ... FAIL\n\n======================================================================\nFAIL: test_future_recorded_comment_unknown (tests.test_node_status_freshness.ContentTests.test_future_recorded_comment_unknown)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 111, in test_future_recorded_comment_unknown\n    self.assertEqual(n.refresh_record(rec,self.observer())['status'],'unknown')\nAssertionError: 'fresh' != 'unknown'\n- fresh\n+ unknown\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "name": "schema-preflight",
+      "optimized": false,
+      "killed": true,
+      "output": "test_strict_invalid_records_never_repaired_to_green (tests.test_node_status_freshness.ContentTests.test_strict_invalid_records_never_repaired_to_green) ... FAIL\n\n======================================================================\nFAIL: test_strict_invalid_records_never_repaired_to_green (tests.test_node_status_freshness.ContentTests.test_strict_invalid_records_never_repaired_to_green)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 116, in test_strict_invalid_records_never_repaired_to_green\n    self.assertEqual(n.main([tmp,'--check']),1)\nAssertionError: 0 != 1\n\n----------------------------------------------------------------------\nRan 1 test in 0.012s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "name": "strict-exit",
+      "optimized": false,
+      "killed": true,
+      "output": "test_strict_real_refresh_end_to_end (tests.test_node_status_freshness.ContentTests.test_strict_real_refresh_end_to_end) ... \n  test_strict_real_refresh_end_to_end (tests.test_node_status_freshness.ContentTests.test_strict_real_refresh_end_to_end) (status='stale') ... FAIL\n  test_strict_real_refresh_end_to_end (tests.test_node_status_freshness.ContentTests.test_strict_real_refresh_end_to_end) (status='unknown') ... FAIL\n\n======================================================================\nFAIL: test_strict_real_refresh_end_to_end (tests.test_node_status_freshness.ContentTests.test_strict_real_refresh_end_to_end) (status='stale')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 131, in test_strict_real_refresh_end_to_end\n    self.assertEqual(n.main([tmp,'--check']),0 if status=='fresh' else 1)\nAssertionError: 0 != 1\n\n======================================================================\nFAIL: test_strict_real_refresh_end_to_end (tests.test_node_status_freshness.ContentTests.test_strict_real_refresh_end_to_end) (status='unknown')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 131, in test_strict_real_refresh_end_to_end\n    self.assertEqual(n.main([tmp,'--check']),0 if status=='fresh' else 1)\nAssertionError: 0 != 1\n\n----------------------------------------------------------------------\nRan 1 test in 0.024s\n\nFAILED (failures=2)\n"
+    },
+    {
+      "name": "input-drift",
+      "optimized": false,
+      "killed": true,
+      "output": "test_strict_rejects_input_drift_during_observation (tests.test_node_status_freshness.ContentTests.test_strict_rejects_input_drift_during_observation) ... FAIL\n\n======================================================================\nFAIL: test_strict_rejects_input_drift_during_observation (tests.test_node_status_freshness.ContentTests.test_strict_rejects_input_drift_during_observation)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 144, in test_strict_rejects_input_drift_during_observation\n    self.assertEqual(n.main([tmp,'--check']),1)\nAssertionError: 0 != 1\n\n----------------------------------------------------------------------\nRan 1 test in 0.014s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "name": "directory-drift",
+      "optimized": false,
+      "killed": true,
+      "output": "test_directory_changed_even_unchanged_child (tests.test_node_status_freshness.ContentTests.test_directory_changed_even_unchanged_child) ... FAIL\n\n======================================================================\nFAIL: test_directory_changed_even_unchanged_child (tests.test_node_status_freshness.ContentTests.test_directory_changed_even_unchanged_child)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 73, in test_directory_changed_even_unchanged_child\n    self.assertEqual(n.refresh_record(rec,self.observer())['status'],'stale')\nAssertionError: 'fresh' != 'stale'\n- fresh\n+ stale\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "name": "object-drift",
+      "optimized": true,
+      "killed": true,
+      "output": "test_changed_blob_is_stale (tests.test_node_status_freshness.ContentTests.test_changed_blob_is_stale) ... FAIL\n\n======================================================================\nFAIL: test_changed_blob_is_stale (tests.test_node_status_freshness.ContentTests.test_changed_blob_is_stale)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 41, in test_changed_blob_is_stale\n    self.assertEqual(n.refresh_record(record(),self.observer())['status'],'stale')\nAssertionError: 'fresh' != 'stale'\n- fresh\n+ stale\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "name": "mode-drift",
+      "optimized": true,
+      "killed": true,
+      "output": "test_mode_change_is_stale (tests.test_node_status_freshness.ContentTests.test_mode_change_is_stale) ... FAIL\n\n======================================================================\nFAIL: test_mode_change_is_stale (tests.test_node_status_freshness.ContentTests.test_mode_change_is_stale)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 46, in test_mode_change_is_stale\n    self.assertEqual(n.refresh_record(record(),self.observer())['status'],'stale')\nAssertionError: 'fresh' != 'stale'\n- fresh\n+ stale\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "name": "truncation",
+      "optimized": true,
+      "killed": true,
+      "output": "test_partial_tree_unknown (tests.test_node_status_freshness.ContentTests.test_partial_tree_unknown) ... FAIL\n\n======================================================================\nFAIL: test_partial_tree_unknown (tests.test_node_status_freshness.ContentTests.test_partial_tree_unknown)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 49, in test_partial_tree_unknown\n    self.assertEqual(n.refresh_record(record(),self.observer())['status'],'unknown')\nAssertionError: 'fresh' != 'unknown'\n- fresh\n+ unknown\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "name": "tree-identity",
+      "optimized": true,
+      "killed": true,
+      "output": "test_wrong_response_identity_unknown (tests.test_node_status_freshness.ContentTests.test_wrong_response_identity_unknown) ... FAIL\n\n======================================================================\nFAIL: test_wrong_response_identity_unknown (tests.test_node_status_freshness.ContentTests.test_wrong_response_identity_unknown)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 55, in test_wrong_response_identity_unknown\n    self.assertEqual(n.refresh_record(record(),self.observer())['status'],'unknown')\nAssertionError: 'fresh' != 'unknown'\n- fresh\n+ unknown\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "name": "comment-direction",
+      "optimized": true,
+      "killed": true,
+      "output": "test_future_recorded_comment_unknown (tests.test_node_status_freshness.ContentTests.test_future_recorded_comment_unknown) ... FAIL\n\n======================================================================\nFAIL: test_future_recorded_comment_unknown (tests.test_node_status_freshness.ContentTests.test_future_recorded_comment_unknown)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 111, in test_future_recorded_comment_unknown\n    self.assertEqual(n.refresh_record(rec,self.observer())['status'],'unknown')\nAssertionError: 'fresh' != 'unknown'\n- fresh\n+ unknown\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.004s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "name": "schema-preflight",
+      "optimized": true,
+      "killed": true,
+      "output": "test_strict_invalid_records_never_repaired_to_green (tests.test_node_status_freshness.ContentTests.test_strict_invalid_records_never_repaired_to_green) ... FAIL\n\n======================================================================\nFAIL: test_strict_invalid_records_never_repaired_to_green (tests.test_node_status_freshness.ContentTests.test_strict_invalid_records_never_repaired_to_green)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 116, in test_strict_invalid_records_never_repaired_to_green\n    self.assertEqual(n.main([tmp,'--check']),1)\nAssertionError: 0 != 1\n\n----------------------------------------------------------------------\nRan 1 test in 0.012s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "name": "strict-exit",
+      "optimized": true,
+      "killed": true,
+      "output": "test_strict_real_refresh_end_to_end (tests.test_node_status_freshness.ContentTests.test_strict_real_refresh_end_to_end) ... \n  test_strict_real_refresh_end_to_end (tests.test_node_status_freshness.ContentTests.test_strict_real_refresh_end_to_end) (status='stale') ... FAIL\n  test_strict_real_refresh_end_to_end (tests.test_node_status_freshness.ContentTests.test_strict_real_refresh_end_to_end) (status='unknown') ... FAIL\n\n======================================================================\nFAIL: test_strict_real_refresh_end_to_end (tests.test_node_status_freshness.ContentTests.test_strict_real_refresh_end_to_end) (status='stale')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 131, in test_strict_real_refresh_end_to_end\n    self.assertEqual(n.main([tmp,'--check']),0 if status=='fresh' else 1)\nAssertionError: 0 != 1\n\n======================================================================\nFAIL: test_strict_real_refresh_end_to_end (tests.test_node_status_freshness.ContentTests.test_strict_real_refresh_end_to_end) (status='unknown')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 131, in test_strict_real_refresh_end_to_end\n    self.assertEqual(n.main([tmp,'--check']),0 if status=='fresh' else 1)\nAssertionError: 0 != 1\n\n----------------------------------------------------------------------\nRan 1 test in 0.033s\n\nFAILED (failures=2)\n"
+    },
+    {
+      "name": "input-drift",
+      "optimized": true,
+      "killed": true,
+      "output": "test_strict_rejects_input_drift_during_observation (tests.test_node_status_freshness.ContentTests.test_strict_rejects_input_drift_during_observation) ... FAIL\n\n======================================================================\nFAIL: test_strict_rejects_input_drift_during_observation (tests.test_node_status_freshness.ContentTests.test_strict_rejects_input_drift_during_observation)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 144, in test_strict_rejects_input_drift_during_observation\n    self.assertEqual(n.main([tmp,'--check']),1)\nAssertionError: 0 != 1\n\n----------------------------------------------------------------------\nRan 1 test in 0.017s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "name": "directory-drift",
+      "optimized": true,
+      "killed": true,
+      "output": "test_directory_changed_even_unchanged_child (tests.test_node_status_freshness.ContentTests.test_directory_changed_even_unchanged_child) ... FAIL\n\n======================================================================\nFAIL: test_directory_changed_even_unchanged_child (tests.test_node_status_freshness.ContentTests.test_directory_changed_even_unchanged_child)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpsd3hf5u0/tests/test_node_status_freshness.py\", line 73, in test_directory_changed_even_unchanged_child\n    self.assertEqual(n.refresh_record(rec,self.observer())['status'],'stale')\nAssertionError: 'fresh' != 'stale'\n- fresh\n+ stale\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=1)\n"
+    }
+  ]
+}

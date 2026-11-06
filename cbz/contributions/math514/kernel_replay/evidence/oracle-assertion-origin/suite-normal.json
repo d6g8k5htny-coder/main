@@ -1,0 +1,1046 @@
+{
+  "receipt_schema": "cbz-unittest-lifecycle-v1",
+  "selection": [
+    "discover:test_*.py"
+  ],
+  "selected_ids": [
+    "test_kernel_replay.WrapperTests.test_duplicate_modules_rejected",
+    "test_kernel_replay.WrapperTests.test_empty_coverage_rejected",
+    "test_kernel_replay.WrapperTests.test_expected_coverage_mismatch_rejected",
+    "test_kernel_replay.WrapperTests.test_individual_olean_symlink_rejected",
+    "test_kernel_replay.WrapperTests.test_memory_limit_applied",
+    "test_kernel_replay.WrapperTests.test_missing_module_rejected",
+    "test_kernel_replay.WrapperTests.test_missing_or_wrong_marker_fatal",
+    "test_kernel_replay.WrapperTests.test_module_names_and_unknown_fields_rejected",
+    "test_kernel_replay.WrapperTests.test_new_private_part_rejected",
+    "test_kernel_replay.WrapperTests.test_nonzero_exit_fatal_even_with_marker",
+    "test_kernel_replay.WrapperTests.test_one_child_at_a_time_and_exact_coverage",
+    "test_kernel_replay.WrapperTests.test_part_change_rejected",
+    "test_kernel_replay.WrapperTests.test_resource_boolean_arguments_rejected",
+    "test_kernel_replay.WrapperTests.test_resource_cleanup_exceptions_remain_structured",
+    "test_kernel_replay.WrapperTests.test_resource_memory_hard_limit_before_spawn",
+    "test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn",
+    "test_kernel_replay.WrapperTests.test_resource_oversized_cli_arguments_emit_non_green_report",
+    "test_kernel_replay.WrapperTests.test_resource_real_preexec_failure_is_structured",
+    "test_kernel_replay.WrapperTests.test_resource_spawn_exceptions_are_structured_errors",
+    "test_kernel_replay.WrapperTests.test_resource_timeout_kills_and_reaps_real_child",
+    "test_kernel_replay.WrapperTests.test_resource_timeout_upper_bounds_before_spawn",
+    "test_kernel_replay.WrapperTests.test_resource_unreapable_child_cleanup_is_bounded",
+    "test_kernel_replay.WrapperTests.test_resource_unreaped_child_stops_further_modules",
+    "test_kernel_replay.WrapperTests.test_resource_valid_integer_and_float_timeouts",
+    "test_kernel_replay.WrapperTests.test_resource_wait_error_kills_and_reaps_real_child",
+    "test_kernel_replay.WrapperTests.test_resource_wait_errors_cannot_become_success",
+    "test_kernel_replay.WrapperTests.test_search_root_and_part_symlinks_rejected",
+    "test_kernel_replay.WrapperTests.test_source_change_rejected",
+    "test_kernel_replay.WrapperTests.test_strict_cli",
+    "test_kernel_replay.WrapperTests.test_timeout_fatal",
+    "test_kernel_replay.WrapperTests.test_tool_binding_change_rejected",
+    "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+    "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+    "test_mutation_harness.IdentityHarnessTests.test_custom_testcase_run_is_refused_before_execution",
+    "test_mutation_harness.IdentityHarnessTests.test_identity_change_during_body_is_not_a_clean_kill",
+    "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+    "test_mutation_harness.IdentityHarnessTests.test_named_class_and_method_selection_preserve_exact_population",
+    "test_mutation_harness.IdentityHarnessTests.test_postload_substitution_refused_before_any_fixture",
+    "test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects",
+    "test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution",
+    "test_mutation_harness.LazyBodyHarnessTests.test_decorator_without_wrapped_metadata_cannot_hide_lazy_return",
+    "test_mutation_harness.LazyBodyHarnessTests.test_ordinary_synchronous_body_positives_remain_supported",
+    "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+    "test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution",
+    "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish",
+    "test_mutation_harness.MutationHarnessTests.test_body_scoped_subtest_assertions_kill_without_changing_parent_population",
+    "test_mutation_harness.MutationHarnessTests.test_checker_origin_assertion_is_not_a_kill",
+    "test_mutation_harness.MutationHarnessTests.test_clean_identity_survives",
+    "test_mutation_harness.MutationHarnessTests.test_dispatch_hook_assertion_without_selected_method_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_errors_skips_and_expected_failures_are_errors",
+    "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion",
+    "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion",
+    "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors",
+    "test_mutation_harness.MutationHarnessTests.test_population_listing_does_not_execute_fixtures_or_bodies",
+    "test_mutation_harness.MutationHarnessTests.test_selected_method_invoked_from_lifecycle_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill",
+    "test_mutation_harness.MutationHarnessTests.test_summary_without_lifecycle_receipt_fails_closed",
+    "test_real_lean.RealLeanTests.test_cli_prepare_and_run",
+    "test_real_lean.RealLeanTests.test_driver_missing_request_and_binding_rejected",
+    "test_real_lean.RealLeanTests.test_exact_module_no_prefix_glob",
+    "test_real_lean.RealLeanTests.test_good_public_private_inductive_all_parts",
+    "test_real_lean.RealLeanTests.test_private_self_reference_rejected",
+    "test_real_lean.RealLeanTests.test_public_self_reference_rejected",
+    "test_real_lean.RealLeanTests.test_real_private_body_cannot_hide_behind_olean_symlink",
+    "test_real_lean.RealLeanTests.test_unapproved_axiom_kernel_valid_but_independent_policy_rejects",
+    "test_real_lean.RealLeanTests.test_user_lean_path_cannot_shadow_checker"
+  ],
+  "invalid_population": [],
+  "tests_run": 68,
+  "assertion_failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "expected_failures": 0,
+  "unexpected_successes": 0,
+  "successful": true,
+  "log": "test_duplicate_modules_rejected (test_kernel_replay.WrapperTests.test_duplicate_modules_rejected) ... ok\ntest_empty_coverage_rejected (test_kernel_replay.WrapperTests.test_empty_coverage_rejected) ... ok\ntest_expected_coverage_mismatch_rejected (test_kernel_replay.WrapperTests.test_expected_coverage_mismatch_rejected) ... ok\ntest_individual_olean_symlink_rejected (test_kernel_replay.WrapperTests.test_individual_olean_symlink_rejected) ... ok\ntest_memory_limit_applied (test_kernel_replay.WrapperTests.test_memory_limit_applied) ... ok\ntest_missing_module_rejected (test_kernel_replay.WrapperTests.test_missing_module_rejected) ... ok\ntest_missing_or_wrong_marker_fatal (test_kernel_replay.WrapperTests.test_missing_or_wrong_marker_fatal) ... ok\ntest_module_names_and_unknown_fields_rejected (test_kernel_replay.WrapperTests.test_module_names_and_unknown_fields_rejected) ... ok\ntest_new_private_part_rejected (test_kernel_replay.WrapperTests.test_new_private_part_rejected) ... ok\ntest_nonzero_exit_fatal_even_with_marker (test_kernel_replay.WrapperTests.test_nonzero_exit_fatal_even_with_marker) ... ok\ntest_one_child_at_a_time_and_exact_coverage (test_kernel_replay.WrapperTests.test_one_child_at_a_time_and_exact_coverage) ... ok\ntest_part_change_rejected (test_kernel_replay.WrapperTests.test_part_change_rejected) ... ok\ntest_resource_boolean_arguments_rejected (test_kernel_replay.WrapperTests.test_resource_boolean_arguments_rejected) ... ok\ntest_resource_cleanup_exceptions_remain_structured (test_kernel_replay.WrapperTests.test_resource_cleanup_exceptions_remain_structured) ... ok\ntest_resource_memory_hard_limit_before_spawn (test_kernel_replay.WrapperTests.test_resource_memory_hard_limit_before_spawn) ... ok\ntest_resource_memory_upper_bounds_before_spawn (test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn) ... ok\ntest_resource_oversized_cli_arguments_emit_non_green_report (test_kernel_replay.WrapperTests.test_resource_oversized_cli_arguments_emit_non_green_report) ... ok\ntest_resource_real_preexec_failure_is_structured (test_kernel_replay.WrapperTests.test_resource_real_preexec_failure_is_structured) ... ok\ntest_resource_spawn_exceptions_are_structured_errors (test_kernel_replay.WrapperTests.test_resource_spawn_exceptions_are_structured_errors) ... ok\ntest_resource_timeout_kills_and_reaps_real_child (test_kernel_replay.WrapperTests.test_resource_timeout_kills_and_reaps_real_child) ... ok\ntest_resource_timeout_upper_bounds_before_spawn (test_kernel_replay.WrapperTests.test_resource_timeout_upper_bounds_before_spawn) ... ok\ntest_resource_unreapable_child_cleanup_is_bounded (test_kernel_replay.WrapperTests.test_resource_unreapable_child_cleanup_is_bounded) ... ok\ntest_resource_unreaped_child_stops_further_modules (test_kernel_replay.WrapperTests.test_resource_unreaped_child_stops_further_modules) ... ok\ntest_resource_valid_integer_and_float_timeouts (test_kernel_replay.WrapperTests.test_resource_valid_integer_and_float_timeouts) ... ok\ntest_resource_wait_error_kills_and_reaps_real_child (test_kernel_replay.WrapperTests.test_resource_wait_error_kills_and_reaps_real_child) ... ok\ntest_resource_wait_errors_cannot_become_success (test_kernel_replay.WrapperTests.test_resource_wait_errors_cannot_become_success) ... ok\ntest_search_root_and_part_symlinks_rejected (test_kernel_replay.WrapperTests.test_search_root_and_part_symlinks_rejected) ... ok\ntest_source_change_rejected (test_kernel_replay.WrapperTests.test_source_change_rejected) ... ok\ntest_strict_cli (test_kernel_replay.WrapperTests.test_strict_cli) ... ok\ntest_timeout_fatal (test_kernel_replay.WrapperTests.test_timeout_fatal) ... ok\ntest_tool_binding_change_rejected (test_kernel_replay.WrapperTests.test_tool_binding_change_rejected) ... ok\ntest_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body) ... ok\ntest_class_fixture_function_and_code_substitutions_are_refused (test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused) ... ok\ntest_custom_testcase_run_is_refused_before_execution (test_mutation_harness.IdentityHarnessTests.test_custom_testcase_run_is_refused_before_execution) ... ok\ntest_identity_change_during_body_is_not_a_clean_kill (test_mutation_harness.IdentityHarnessTests.test_identity_change_during_body_is_not_a_clean_kill) ... ok\ntest_module_alias_subclass_and_population_hooks_refused_before_execution (test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution) ... ok\ntest_named_class_and_method_selection_preserve_exact_population (test_mutation_harness.IdentityHarnessTests.test_named_class_and_method_selection_preserve_exact_population) ... ok\ntest_postload_substitution_refused_before_any_fixture (test_mutation_harness.IdentityHarnessTests.test_postload_substitution_refused_before_any_fixture) ... ok\ntest_all_non_none_returns_refuse_without_iterating_custom_objects (test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects) ... ok\ntest_declared_lazy_method_shapes_refuse_mixed_population_before_execution (test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution) ... ok\ntest_decorator_without_wrapped_metadata_cannot_hide_lazy_return (test_mutation_harness.LazyBodyHarnessTests.test_decorator_without_wrapped_metadata_cannot_hide_lazy_return) ... ok\ntest_ordinary_synchronous_body_positives_remain_supported (test_mutation_harness.LazyBodyHarnessTests.test_ordinary_synchronous_body_positives_remain_supported) ... ok\ntest_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) ... ok\ntest_wrapped_lazy_method_shapes_refuse_before_execution (test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution) ... ok\ntest_body_assertion_kills_after_all_selected_bodies_finish (test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish) ... ok\ntest_body_scoped_subtest_assertions_kill_without_changing_parent_population (test_mutation_harness.MutationHarnessTests.test_body_scoped_subtest_assertions_kill_without_changing_parent_population) ... ok\ntest_checker_origin_assertion_is_not_a_kill (test_mutation_harness.MutationHarnessTests.test_checker_origin_assertion_is_not_a_kill) ... ok\ntest_clean_identity_survives (test_mutation_harness.MutationHarnessTests.test_clean_identity_survives) ... ok\ntest_dispatch_hook_assertion_without_selected_method_is_error (test_mutation_harness.MutationHarnessTests.test_dispatch_hook_assertion_without_selected_method_is_error) ... ok\ntest_empty_duplicate_synthetic_and_spoofed_population_is_error (test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error) ... ok\ntest_errors_skips_and_expected_failures_are_errors (test_mutation_harness.MutationHarnessTests.test_errors_skips_and_expected_failures_are_errors) ... ok\ntest_foreign_subtest_parent_cannot_claim_selected_body_assertion (test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion) ... ok\ntest_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) ... ok\ntest_lifecycle_failures_never_kill_even_with_body_assertion (test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion) ... ok\ntest_lifecycle_subtests_and_subtest_errors_are_errors (test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors) ... ok\ntest_population_listing_does_not_execute_fixtures_or_bodies (test_mutation_harness.MutationHarnessTests.test_population_listing_does_not_execute_fixtures_or_bodies) ... ok\ntest_selected_method_invoked_from_lifecycle_is_error (test_mutation_harness.MutationHarnessTests.test_selected_method_invoked_from_lifecycle_is_error) ... ok\ntest_setup_assertion_is_not_a_kill (test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill) ... ok\ntest_summary_without_lifecycle_receipt_fails_closed (test_mutation_harness.MutationHarnessTests.test_summary_without_lifecycle_receipt_fails_closed) ... ok\ntest_cli_prepare_and_run (test_real_lean.RealLeanTests.test_cli_prepare_and_run) ... ok\ntest_driver_missing_request_and_binding_rejected (test_real_lean.RealLeanTests.test_driver_missing_request_and_binding_rejected) ... ok\ntest_exact_module_no_prefix_glob (test_real_lean.RealLeanTests.test_exact_module_no_prefix_glob) ... ok\ntest_good_public_private_inductive_all_parts (test_real_lean.RealLeanTests.test_good_public_private_inductive_all_parts) ... ok\ntest_private_self_reference_rejected (test_real_lean.RealLeanTests.test_private_self_reference_rejected) ... ok\ntest_public_self_reference_rejected (test_real_lean.RealLeanTests.test_public_self_reference_rejected) ... ok\ntest_real_private_body_cannot_hide_behind_olean_symlink (test_real_lean.RealLeanTests.test_real_private_body_cannot_hide_behind_olean_symlink) ... ok\ntest_unapproved_axiom_kernel_valid_but_independent_policy_rejects (test_real_lean.RealLeanTests.test_unapproved_axiom_kernel_valid_but_independent_policy_rejects) ... ok\ntest_user_lean_path_cannot_shadow_checker (test_real_lean.RealLeanTests.test_user_lean_path_cannot_shadow_checker) ... ok\n\nRan 68 tests\n",
+  "started_ids": [
+    "test_kernel_replay.WrapperTests.test_duplicate_modules_rejected",
+    "test_kernel_replay.WrapperTests.test_empty_coverage_rejected",
+    "test_kernel_replay.WrapperTests.test_expected_coverage_mismatch_rejected",
+    "test_kernel_replay.WrapperTests.test_individual_olean_symlink_rejected",
+    "test_kernel_replay.WrapperTests.test_memory_limit_applied",
+    "test_kernel_replay.WrapperTests.test_missing_module_rejected",
+    "test_kernel_replay.WrapperTests.test_missing_or_wrong_marker_fatal",
+    "test_kernel_replay.WrapperTests.test_module_names_and_unknown_fields_rejected",
+    "test_kernel_replay.WrapperTests.test_new_private_part_rejected",
+    "test_kernel_replay.WrapperTests.test_nonzero_exit_fatal_even_with_marker",
+    "test_kernel_replay.WrapperTests.test_one_child_at_a_time_and_exact_coverage",
+    "test_kernel_replay.WrapperTests.test_part_change_rejected",
+    "test_kernel_replay.WrapperTests.test_resource_boolean_arguments_rejected",
+    "test_kernel_replay.WrapperTests.test_resource_cleanup_exceptions_remain_structured",
+    "test_kernel_replay.WrapperTests.test_resource_memory_hard_limit_before_spawn",
+    "test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn",
+    "test_kernel_replay.WrapperTests.test_resource_oversized_cli_arguments_emit_non_green_report",
+    "test_kernel_replay.WrapperTests.test_resource_real_preexec_failure_is_structured",
+    "test_kernel_replay.WrapperTests.test_resource_spawn_exceptions_are_structured_errors",
+    "test_kernel_replay.WrapperTests.test_resource_timeout_kills_and_reaps_real_child",
+    "test_kernel_replay.WrapperTests.test_resource_timeout_upper_bounds_before_spawn",
+    "test_kernel_replay.WrapperTests.test_resource_unreapable_child_cleanup_is_bounded",
+    "test_kernel_replay.WrapperTests.test_resource_unreaped_child_stops_further_modules",
+    "test_kernel_replay.WrapperTests.test_resource_valid_integer_and_float_timeouts",
+    "test_kernel_replay.WrapperTests.test_resource_wait_error_kills_and_reaps_real_child",
+    "test_kernel_replay.WrapperTests.test_resource_wait_errors_cannot_become_success",
+    "test_kernel_replay.WrapperTests.test_search_root_and_part_symlinks_rejected",
+    "test_kernel_replay.WrapperTests.test_source_change_rejected",
+    "test_kernel_replay.WrapperTests.test_strict_cli",
+    "test_kernel_replay.WrapperTests.test_timeout_fatal",
+    "test_kernel_replay.WrapperTests.test_tool_binding_change_rejected",
+    "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+    "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+    "test_mutation_harness.IdentityHarnessTests.test_custom_testcase_run_is_refused_before_execution",
+    "test_mutation_harness.IdentityHarnessTests.test_identity_change_during_body_is_not_a_clean_kill",
+    "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+    "test_mutation_harness.IdentityHarnessTests.test_named_class_and_method_selection_preserve_exact_population",
+    "test_mutation_harness.IdentityHarnessTests.test_postload_substitution_refused_before_any_fixture",
+    "test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects",
+    "test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution",
+    "test_mutation_harness.LazyBodyHarnessTests.test_decorator_without_wrapped_metadata_cannot_hide_lazy_return",
+    "test_mutation_harness.LazyBodyHarnessTests.test_ordinary_synchronous_body_positives_remain_supported",
+    "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+    "test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution",
+    "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish",
+    "test_mutation_harness.MutationHarnessTests.test_body_scoped_subtest_assertions_kill_without_changing_parent_population",
+    "test_mutation_harness.MutationHarnessTests.test_checker_origin_assertion_is_not_a_kill",
+    "test_mutation_harness.MutationHarnessTests.test_clean_identity_survives",
+    "test_mutation_harness.MutationHarnessTests.test_dispatch_hook_assertion_without_selected_method_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_errors_skips_and_expected_failures_are_errors",
+    "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion",
+    "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion",
+    "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors",
+    "test_mutation_harness.MutationHarnessTests.test_population_listing_does_not_execute_fixtures_or_bodies",
+    "test_mutation_harness.MutationHarnessTests.test_selected_method_invoked_from_lifecycle_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill",
+    "test_mutation_harness.MutationHarnessTests.test_summary_without_lifecycle_receipt_fails_closed",
+    "test_real_lean.RealLeanTests.test_cli_prepare_and_run",
+    "test_real_lean.RealLeanTests.test_driver_missing_request_and_binding_rejected",
+    "test_real_lean.RealLeanTests.test_exact_module_no_prefix_glob",
+    "test_real_lean.RealLeanTests.test_good_public_private_inductive_all_parts",
+    "test_real_lean.RealLeanTests.test_private_self_reference_rejected",
+    "test_real_lean.RealLeanTests.test_public_self_reference_rejected",
+    "test_real_lean.RealLeanTests.test_real_private_body_cannot_hide_behind_olean_symlink",
+    "test_real_lean.RealLeanTests.test_unapproved_axiom_kernel_valid_but_independent_policy_rejects",
+    "test_real_lean.RealLeanTests.test_user_lean_path_cannot_shadow_checker"
+  ],
+  "finished_ids": [
+    "test_kernel_replay.WrapperTests.test_duplicate_modules_rejected",
+    "test_kernel_replay.WrapperTests.test_empty_coverage_rejected",
+    "test_kernel_replay.WrapperTests.test_expected_coverage_mismatch_rejected",
+    "test_kernel_replay.WrapperTests.test_individual_olean_symlink_rejected",
+    "test_kernel_replay.WrapperTests.test_memory_limit_applied",
+    "test_kernel_replay.WrapperTests.test_missing_module_rejected",
+    "test_kernel_replay.WrapperTests.test_missing_or_wrong_marker_fatal",
+    "test_kernel_replay.WrapperTests.test_module_names_and_unknown_fields_rejected",
+    "test_kernel_replay.WrapperTests.test_new_private_part_rejected",
+    "test_kernel_replay.WrapperTests.test_nonzero_exit_fatal_even_with_marker",
+    "test_kernel_replay.WrapperTests.test_one_child_at_a_time_and_exact_coverage",
+    "test_kernel_replay.WrapperTests.test_part_change_rejected",
+    "test_kernel_replay.WrapperTests.test_resource_boolean_arguments_rejected",
+    "test_kernel_replay.WrapperTests.test_resource_cleanup_exceptions_remain_structured",
+    "test_kernel_replay.WrapperTests.test_resource_memory_hard_limit_before_spawn",
+    "test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn",
+    "test_kernel_replay.WrapperTests.test_resource_oversized_cli_arguments_emit_non_green_report",
+    "test_kernel_replay.WrapperTests.test_resource_real_preexec_failure_is_structured",
+    "test_kernel_replay.WrapperTests.test_resource_spawn_exceptions_are_structured_errors",
+    "test_kernel_replay.WrapperTests.test_resource_timeout_kills_and_reaps_real_child",
+    "test_kernel_replay.WrapperTests.test_resource_timeout_upper_bounds_before_spawn",
+    "test_kernel_replay.WrapperTests.test_resource_unreapable_child_cleanup_is_bounded",
+    "test_kernel_replay.WrapperTests.test_resource_unreaped_child_stops_further_modules",
+    "test_kernel_replay.WrapperTests.test_resource_valid_integer_and_float_timeouts",
+    "test_kernel_replay.WrapperTests.test_resource_wait_error_kills_and_reaps_real_child",
+    "test_kernel_replay.WrapperTests.test_resource_wait_errors_cannot_become_success",
+    "test_kernel_replay.WrapperTests.test_search_root_and_part_symlinks_rejected",
+    "test_kernel_replay.WrapperTests.test_source_change_rejected",
+    "test_kernel_replay.WrapperTests.test_strict_cli",
+    "test_kernel_replay.WrapperTests.test_timeout_fatal",
+    "test_kernel_replay.WrapperTests.test_tool_binding_change_rejected",
+    "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+    "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+    "test_mutation_harness.IdentityHarnessTests.test_custom_testcase_run_is_refused_before_execution",
+    "test_mutation_harness.IdentityHarnessTests.test_identity_change_during_body_is_not_a_clean_kill",
+    "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+    "test_mutation_harness.IdentityHarnessTests.test_named_class_and_method_selection_preserve_exact_population",
+    "test_mutation_harness.IdentityHarnessTests.test_postload_substitution_refused_before_any_fixture",
+    "test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects",
+    "test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution",
+    "test_mutation_harness.LazyBodyHarnessTests.test_decorator_without_wrapped_metadata_cannot_hide_lazy_return",
+    "test_mutation_harness.LazyBodyHarnessTests.test_ordinary_synchronous_body_positives_remain_supported",
+    "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+    "test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution",
+    "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish",
+    "test_mutation_harness.MutationHarnessTests.test_body_scoped_subtest_assertions_kill_without_changing_parent_population",
+    "test_mutation_harness.MutationHarnessTests.test_checker_origin_assertion_is_not_a_kill",
+    "test_mutation_harness.MutationHarnessTests.test_clean_identity_survives",
+    "test_mutation_harness.MutationHarnessTests.test_dispatch_hook_assertion_without_selected_method_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_errors_skips_and_expected_failures_are_errors",
+    "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion",
+    "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion",
+    "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors",
+    "test_mutation_harness.MutationHarnessTests.test_population_listing_does_not_execute_fixtures_or_bodies",
+    "test_mutation_harness.MutationHarnessTests.test_selected_method_invoked_from_lifecycle_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill",
+    "test_mutation_harness.MutationHarnessTests.test_summary_without_lifecycle_receipt_fails_closed",
+    "test_real_lean.RealLeanTests.test_cli_prepare_and_run",
+    "test_real_lean.RealLeanTests.test_driver_missing_request_and_binding_rejected",
+    "test_real_lean.RealLeanTests.test_exact_module_no_prefix_glob",
+    "test_real_lean.RealLeanTests.test_good_public_private_inductive_all_parts",
+    "test_real_lean.RealLeanTests.test_private_self_reference_rejected",
+    "test_real_lean.RealLeanTests.test_public_self_reference_rejected",
+    "test_real_lean.RealLeanTests.test_real_private_body_cannot_hide_behind_olean_symlink",
+    "test_real_lean.RealLeanTests.test_unapproved_axiom_kernel_valid_but_independent_policy_rejects",
+    "test_real_lean.RealLeanTests.test_user_lean_path_cannot_shadow_checker"
+  ],
+  "body_entered_ids": [
+    "test_kernel_replay.WrapperTests.test_duplicate_modules_rejected",
+    "test_kernel_replay.WrapperTests.test_empty_coverage_rejected",
+    "test_kernel_replay.WrapperTests.test_expected_coverage_mismatch_rejected",
+    "test_kernel_replay.WrapperTests.test_individual_olean_symlink_rejected",
+    "test_kernel_replay.WrapperTests.test_memory_limit_applied",
+    "test_kernel_replay.WrapperTests.test_missing_module_rejected",
+    "test_kernel_replay.WrapperTests.test_missing_or_wrong_marker_fatal",
+    "test_kernel_replay.WrapperTests.test_module_names_and_unknown_fields_rejected",
+    "test_kernel_replay.WrapperTests.test_new_private_part_rejected",
+    "test_kernel_replay.WrapperTests.test_nonzero_exit_fatal_even_with_marker",
+    "test_kernel_replay.WrapperTests.test_one_child_at_a_time_and_exact_coverage",
+    "test_kernel_replay.WrapperTests.test_part_change_rejected",
+    "test_kernel_replay.WrapperTests.test_resource_boolean_arguments_rejected",
+    "test_kernel_replay.WrapperTests.test_resource_cleanup_exceptions_remain_structured",
+    "test_kernel_replay.WrapperTests.test_resource_memory_hard_limit_before_spawn",
+    "test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn",
+    "test_kernel_replay.WrapperTests.test_resource_oversized_cli_arguments_emit_non_green_report",
+    "test_kernel_replay.WrapperTests.test_resource_real_preexec_failure_is_structured",
+    "test_kernel_replay.WrapperTests.test_resource_spawn_exceptions_are_structured_errors",
+    "test_kernel_replay.WrapperTests.test_resource_timeout_kills_and_reaps_real_child",
+    "test_kernel_replay.WrapperTests.test_resource_timeout_upper_bounds_before_spawn",
+    "test_kernel_replay.WrapperTests.test_resource_unreapable_child_cleanup_is_bounded",
+    "test_kernel_replay.WrapperTests.test_resource_unreaped_child_stops_further_modules",
+    "test_kernel_replay.WrapperTests.test_resource_valid_integer_and_float_timeouts",
+    "test_kernel_replay.WrapperTests.test_resource_wait_error_kills_and_reaps_real_child",
+    "test_kernel_replay.WrapperTests.test_resource_wait_errors_cannot_become_success",
+    "test_kernel_replay.WrapperTests.test_search_root_and_part_symlinks_rejected",
+    "test_kernel_replay.WrapperTests.test_source_change_rejected",
+    "test_kernel_replay.WrapperTests.test_strict_cli",
+    "test_kernel_replay.WrapperTests.test_timeout_fatal",
+    "test_kernel_replay.WrapperTests.test_tool_binding_change_rejected",
+    "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+    "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+    "test_mutation_harness.IdentityHarnessTests.test_custom_testcase_run_is_refused_before_execution",
+    "test_mutation_harness.IdentityHarnessTests.test_identity_change_during_body_is_not_a_clean_kill",
+    "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+    "test_mutation_harness.IdentityHarnessTests.test_named_class_and_method_selection_preserve_exact_population",
+    "test_mutation_harness.IdentityHarnessTests.test_postload_substitution_refused_before_any_fixture",
+    "test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects",
+    "test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution",
+    "test_mutation_harness.LazyBodyHarnessTests.test_decorator_without_wrapped_metadata_cannot_hide_lazy_return",
+    "test_mutation_harness.LazyBodyHarnessTests.test_ordinary_synchronous_body_positives_remain_supported",
+    "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+    "test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution",
+    "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish",
+    "test_mutation_harness.MutationHarnessTests.test_body_scoped_subtest_assertions_kill_without_changing_parent_population",
+    "test_mutation_harness.MutationHarnessTests.test_checker_origin_assertion_is_not_a_kill",
+    "test_mutation_harness.MutationHarnessTests.test_clean_identity_survives",
+    "test_mutation_harness.MutationHarnessTests.test_dispatch_hook_assertion_without_selected_method_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_errors_skips_and_expected_failures_are_errors",
+    "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion",
+    "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion",
+    "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors",
+    "test_mutation_harness.MutationHarnessTests.test_population_listing_does_not_execute_fixtures_or_bodies",
+    "test_mutation_harness.MutationHarnessTests.test_selected_method_invoked_from_lifecycle_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill",
+    "test_mutation_harness.MutationHarnessTests.test_summary_without_lifecycle_receipt_fails_closed",
+    "test_real_lean.RealLeanTests.test_cli_prepare_and_run",
+    "test_real_lean.RealLeanTests.test_driver_missing_request_and_binding_rejected",
+    "test_real_lean.RealLeanTests.test_exact_module_no_prefix_glob",
+    "test_real_lean.RealLeanTests.test_good_public_private_inductive_all_parts",
+    "test_real_lean.RealLeanTests.test_private_self_reference_rejected",
+    "test_real_lean.RealLeanTests.test_public_self_reference_rejected",
+    "test_real_lean.RealLeanTests.test_real_private_body_cannot_hide_behind_olean_symlink",
+    "test_real_lean.RealLeanTests.test_unapproved_axiom_kernel_valid_but_independent_policy_rejects",
+    "test_real_lean.RealLeanTests.test_user_lean_path_cannot_shadow_checker"
+  ],
+  "body_finished_ids": [
+    "test_kernel_replay.WrapperTests.test_duplicate_modules_rejected",
+    "test_kernel_replay.WrapperTests.test_empty_coverage_rejected",
+    "test_kernel_replay.WrapperTests.test_expected_coverage_mismatch_rejected",
+    "test_kernel_replay.WrapperTests.test_individual_olean_symlink_rejected",
+    "test_kernel_replay.WrapperTests.test_memory_limit_applied",
+    "test_kernel_replay.WrapperTests.test_missing_module_rejected",
+    "test_kernel_replay.WrapperTests.test_missing_or_wrong_marker_fatal",
+    "test_kernel_replay.WrapperTests.test_module_names_and_unknown_fields_rejected",
+    "test_kernel_replay.WrapperTests.test_new_private_part_rejected",
+    "test_kernel_replay.WrapperTests.test_nonzero_exit_fatal_even_with_marker",
+    "test_kernel_replay.WrapperTests.test_one_child_at_a_time_and_exact_coverage",
+    "test_kernel_replay.WrapperTests.test_part_change_rejected",
+    "test_kernel_replay.WrapperTests.test_resource_boolean_arguments_rejected",
+    "test_kernel_replay.WrapperTests.test_resource_cleanup_exceptions_remain_structured",
+    "test_kernel_replay.WrapperTests.test_resource_memory_hard_limit_before_spawn",
+    "test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn",
+    "test_kernel_replay.WrapperTests.test_resource_oversized_cli_arguments_emit_non_green_report",
+    "test_kernel_replay.WrapperTests.test_resource_real_preexec_failure_is_structured",
+    "test_kernel_replay.WrapperTests.test_resource_spawn_exceptions_are_structured_errors",
+    "test_kernel_replay.WrapperTests.test_resource_timeout_kills_and_reaps_real_child",
+    "test_kernel_replay.WrapperTests.test_resource_timeout_upper_bounds_before_spawn",
+    "test_kernel_replay.WrapperTests.test_resource_unreapable_child_cleanup_is_bounded",
+    "test_kernel_replay.WrapperTests.test_resource_unreaped_child_stops_further_modules",
+    "test_kernel_replay.WrapperTests.test_resource_valid_integer_and_float_timeouts",
+    "test_kernel_replay.WrapperTests.test_resource_wait_error_kills_and_reaps_real_child",
+    "test_kernel_replay.WrapperTests.test_resource_wait_errors_cannot_become_success",
+    "test_kernel_replay.WrapperTests.test_search_root_and_part_symlinks_rejected",
+    "test_kernel_replay.WrapperTests.test_source_change_rejected",
+    "test_kernel_replay.WrapperTests.test_strict_cli",
+    "test_kernel_replay.WrapperTests.test_timeout_fatal",
+    "test_kernel_replay.WrapperTests.test_tool_binding_change_rejected",
+    "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+    "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+    "test_mutation_harness.IdentityHarnessTests.test_custom_testcase_run_is_refused_before_execution",
+    "test_mutation_harness.IdentityHarnessTests.test_identity_change_during_body_is_not_a_clean_kill",
+    "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+    "test_mutation_harness.IdentityHarnessTests.test_named_class_and_method_selection_preserve_exact_population",
+    "test_mutation_harness.IdentityHarnessTests.test_postload_substitution_refused_before_any_fixture",
+    "test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects",
+    "test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution",
+    "test_mutation_harness.LazyBodyHarnessTests.test_decorator_without_wrapped_metadata_cannot_hide_lazy_return",
+    "test_mutation_harness.LazyBodyHarnessTests.test_ordinary_synchronous_body_positives_remain_supported",
+    "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+    "test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution",
+    "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish",
+    "test_mutation_harness.MutationHarnessTests.test_body_scoped_subtest_assertions_kill_without_changing_parent_population",
+    "test_mutation_harness.MutationHarnessTests.test_checker_origin_assertion_is_not_a_kill",
+    "test_mutation_harness.MutationHarnessTests.test_clean_identity_survives",
+    "test_mutation_harness.MutationHarnessTests.test_dispatch_hook_assertion_without_selected_method_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_errors_skips_and_expected_failures_are_errors",
+    "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion",
+    "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion",
+    "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors",
+    "test_mutation_harness.MutationHarnessTests.test_population_listing_does_not_execute_fixtures_or_bodies",
+    "test_mutation_harness.MutationHarnessTests.test_selected_method_invoked_from_lifecycle_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill",
+    "test_mutation_harness.MutationHarnessTests.test_summary_without_lifecycle_receipt_fails_closed",
+    "test_real_lean.RealLeanTests.test_cli_prepare_and_run",
+    "test_real_lean.RealLeanTests.test_driver_missing_request_and_binding_rejected",
+    "test_real_lean.RealLeanTests.test_exact_module_no_prefix_glob",
+    "test_real_lean.RealLeanTests.test_good_public_private_inductive_all_parts",
+    "test_real_lean.RealLeanTests.test_private_self_reference_rejected",
+    "test_real_lean.RealLeanTests.test_public_self_reference_rejected",
+    "test_real_lean.RealLeanTests.test_real_private_body_cannot_hide_behind_olean_symlink",
+    "test_real_lean.RealLeanTests.test_unapproved_axiom_kernel_valid_but_independent_policy_rejects",
+    "test_real_lean.RealLeanTests.test_user_lean_path_cannot_shadow_checker"
+  ],
+  "body_assertion_ids": [],
+  "lifecycle_failures": 0,
+  "subtests": 135,
+  "subtest_events": [
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_missing_or_wrong_marker_fatal",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_missing_or_wrong_marker_fatal",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_module_names_and_unknown_fields_rejected",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_module_names_and_unknown_fields_rejected",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_module_names_and_unknown_fields_rejected",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_module_names_and_unknown_fields_rejected",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_module_names_and_unknown_fields_rejected",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_boolean_arguments_rejected",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_boolean_arguments_rejected",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_cleanup_exceptions_remain_structured",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_cleanup_exceptions_remain_structured",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_cleanup_exceptions_remain_structured",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_cleanup_exceptions_remain_structured",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_memory_upper_bounds_before_spawn",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_oversized_cli_arguments_emit_non_green_report",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_oversized_cli_arguments_emit_non_green_report",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_spawn_exceptions_are_structured_errors",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_spawn_exceptions_are_structured_errors",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_spawn_exceptions_are_structured_errors",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_spawn_exceptions_are_structured_errors",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_timeout_upper_bounds_before_spawn",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_timeout_upper_bounds_before_spawn",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_timeout_upper_bounds_before_spawn",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_timeout_upper_bounds_before_spawn",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_timeout_upper_bounds_before_spawn",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_valid_integer_and_float_timeouts",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_valid_integer_and_float_timeouts",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_wait_errors_cannot_become_success",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_wait_errors_cannot_become_success",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_wait_errors_cannot_become_success",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_kernel_replay.WrapperTests.test_resource_wait_errors_cannot_become_success",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_named_class_and_method_selection_preserve_exact_population",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_named_class_and_method_selection_preserve_exact_population",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_checker_origin_assertion_is_not_a_kill",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_checker_origin_assertion_is_not_a_kill",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_errors_skips_and_expected_failures_are_errors",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_errors_skips_and_expected_failures_are_errors",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_errors_skips_and_expected_failures_are_errors",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_errors_skips_and_expected_failures_are_errors",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_errors_skips_and_expected_failures_are_errors",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "parent_id": "test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion",
+      "phase": "body",
+      "outcome": "success"
+    }
+  ],
+  "assertion_events": []
+}

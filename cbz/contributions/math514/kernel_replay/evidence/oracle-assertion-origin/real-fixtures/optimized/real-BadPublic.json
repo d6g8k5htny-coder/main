@@ -1,0 +1,129 @@
+{
+  "schema": "cbz-kernel-replay/v1",
+  "gate": "G4-scoped-adapter",
+  "started": "2026-11-01T00:06:05.217254+00:00",
+  "ok": false,
+  "results": [
+    {
+      "module": "BadPublic",
+      "command": [
+        "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "-j1",
+        "/workspace/cbz/contributions/math514/kernel_replay/ExactReplay.lean"
+      ],
+      "started": "2026-11-01T00:06:05.220026+00:00",
+      "status": "FAIL",
+      "ok": false,
+      "returncode": 1,
+      "memory_mib": 8192,
+      "timeout_seconds": 60,
+      "source": {
+        "path": "/workspace/cbz/contributions/math514/kernel_replay/tests/fixtures/BadPublic.lean",
+        "sha256": "9b636915c4c868091d72b6c72337b6c255cab8ede30b8b394b43389e1fdd95d5"
+      },
+      "parts": [
+        {
+          "path": "/workspace/cbz/contributions/math514/kernel_replay/evidence/compiled-fixtures/BadPublic.olean",
+          "sha256": "964baf2b19c4c8f766910851d8f8aa615f26fa4c04929c3b11cd7b0e4304d3cf"
+        },
+        {
+          "path": "/workspace/cbz/contributions/math514/kernel_replay/evidence/compiled-fixtures/BadPublic.olean.server",
+          "sha256": "f269ad0781ece6de0f8a24bdd1f4bbd84f971026ba273fedadd454e9bef07539"
+        },
+        {
+          "path": "/workspace/cbz/contributions/math514/kernel_replay/evidence/compiled-fixtures/BadPublic.olean.private",
+          "sha256": "79545f034e10fc850477f2feaf564e62f8f396fca76e98244ebdeb4d7d74cfce"
+        }
+      ],
+      "pid": 5767,
+      "stdout": "/workspace/cbz/contributions/math514/kernel_replay/ExactReplay.lean:33:0: error: while replaying declaration 'malformedPublic':\n(kernel) unknown constant 'malformedPublic'\n",
+      "stdout_bytes": 172,
+      "stderr": "",
+      "stderr_bytes": 0,
+      "ended": "2026-11-01T00:06:06.238944+00:00",
+      "elapsed_seconds": 1.018936849000056
+    }
+  ],
+  "completed_count": 0,
+  "expected_count": 1,
+  "manifest": {
+    "schema": "cbz-kernel-replay/v1",
+    "lean": {
+      "path": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+      "sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550"
+    },
+    "sysroot": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1",
+    "lean_path": [
+      "/workspace/cbz/contributions/math514/kernel_replay/evidence/compiled-fixtures"
+    ],
+    "expected_modules": [
+      "BadPublic"
+    ],
+    "modules": [
+      {
+        "name": "BadPublic",
+        "source": {
+          "path": "/workspace/cbz/contributions/math514/kernel_replay/tests/fixtures/BadPublic.lean",
+          "sha256": "9b636915c4c868091d72b6c72337b6c255cab8ede30b8b394b43389e1fdd95d5"
+        },
+        "parts": [
+          {
+            "path": "/workspace/cbz/contributions/math514/kernel_replay/evidence/compiled-fixtures/BadPublic.olean",
+            "sha256": "964baf2b19c4c8f766910851d8f8aa615f26fa4c04929c3b11cd7b0e4304d3cf"
+          },
+          {
+            "path": "/workspace/cbz/contributions/math514/kernel_replay/evidence/compiled-fixtures/BadPublic.olean.server",
+            "sha256": "f269ad0781ece6de0f8a24bdd1f4bbd84f971026ba273fedadd454e9bef07539"
+          },
+          {
+            "path": "/workspace/cbz/contributions/math514/kernel_replay/evidence/compiled-fixtures/BadPublic.olean.private",
+            "sha256": "79545f034e10fc850477f2feaf564e62f8f396fca76e98244ebdeb4d7d74cfce"
+          }
+        ]
+      }
+    ],
+    "context": [],
+    "tool": [
+      {
+        "path": "/workspace/cbz/contributions/math514/kernel_replay/kernel_replay.py",
+        "sha256": "27da13a9455a62c2b192ff62f6222266cb483d323cf680f3d81d3b19b260b8ce"
+      },
+      {
+        "path": "/workspace/cbz/contributions/math514/kernel_replay/ExactReplay.lean",
+        "sha256": "24e55f5e99c83a46f9f908bbc90f22292a94305294e287d9b2eccbf24e8e6b66"
+      },
+      {
+        "path": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/src/lean/LeanChecker.lean",
+        "sha256": "2d18ec111d73c536b0bdee2533556bb9548c349f386797d3d3837b1f84d55dae"
+      },
+      {
+        "path": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/src/lean/Lean/Replay.lean",
+        "sha256": "c434b5b2bc5047ca58d4a095fcf1d9935d413c788ae98a4f21948e6a95ca3fb0"
+      },
+      {
+        "path": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/LeanChecker.olean",
+        "sha256": "d6829015630328e3c70909a4cba004a7933f6d52cad3721488a2efaa14c1bbbe"
+      },
+      {
+        "path": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean",
+        "sha256": "66cb6f6d0bd6f9faee0205ddf0e289d1936e40f7808dfe9ad6eba412a5d8b427"
+      },
+      {
+        "path": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean.server",
+        "sha256": "46026af21aa760fb2343c15336f6e1476d37e4829e4e0ec529ab499fd0a2b010"
+      },
+      {
+        "path": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean.private",
+        "sha256": "fadad15c5bb080fee117b7fd049b6f54e3077b5b258902fe47cad8dbf76649a1"
+      }
+    ]
+  },
+  "g2_status": "NOT_ASSESSED",
+  "full_cbz": false,
+  "resource_limits": {
+    "memory_mib_max": 8796093022207,
+    "timeout_seconds_max": 2147483,
+    "cleanup_timeout_seconds": 1.0
+  },
+  "ended": "2026-11-01T00:06:06.240963+00:00"
+}

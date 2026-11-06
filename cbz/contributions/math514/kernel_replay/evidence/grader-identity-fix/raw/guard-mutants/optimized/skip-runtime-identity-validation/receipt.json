@@ -1,0 +1,73 @@
+{
+  "receipt_schema": "cbz-unittest-lifecycle-v1",
+  "selection": [
+    "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused"
+  ],
+  "selected_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused"
+  ],
+  "invalid_population": [],
+  "tests_run": 1,
+  "assertion_failures": 4,
+  "errors": 0,
+  "skipped": 0,
+  "expected_failures": 0,
+  "unexpected_successes": 0,
+  "successful": false,
+  "log": "test_class_fixture_function_and_code_substitutions_are_refused (test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused) ... \n  test_class_fixture_function_and_code_substitutions_are_refused (test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused) (change='function') ... FAIL\n  test_class_fixture_function_and_code_substitutions_are_refused (test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused) (change='code') ... FAIL\n  test_class_fixture_function_and_code_substitutions_are_refused (test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused) (change='same-code-function') ... FAIL\ntest_class_fixture_function_and_code_substitutions_are_refused (test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused) ... FAIL\n\n======================================================================\nFAIL: test_class_fixture_function_and_code_substitutions_are_refused (test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused) (change='function')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/optimized/skip-runtime-identity-validation/tests/test_mutation_harness.py\", line 372, in test_class_fixture_function_and_code_substitutions_are_refused\n    self.assertEqual(outcome,'ERROR',value)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['discover:test_*.py'], 'selected_ids': ['test_identity.C.test_one'], 'invalid_population': [], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (test_identity.C.test_one) ... FAIL\\n\\n======================================================================\\nFAIL: test_one (test_identity.C.test_one)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmpnbu2x5i0/run_tests.py\", line 275, in dispatch\\n    return original_dispatch(*args, **kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: original body retained\\n\\nRan 1 tests\\n', 'started_ids': ['test_identity.C.test_one'], 'finished_ids': ['test_identity.C.test_one'], 'body_entered_ids': ['test_identity.C.test_one'], 'body_finished_ids': ['test_identity.C.test_one'], 'body_assertion_ids': ['test_identity.C.test_one'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'test_identity.C.test_one', 'origin': 'body'}]}\n\n======================================================================\nFAIL: test_class_fixture_function_and_code_substitutions_are_refused (test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused) (change='code')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/optimized/skip-runtime-identity-validation/tests/test_mutation_harness.py\", line 372, in test_class_fixture_function_and_code_substitutions_are_refused\n    self.assertEqual(outcome,'ERROR',value)\nAssertionError: 'SURVIVED' != 'ERROR'\n- SURVIVED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['discover:test_*.py'], 'selected_ids': ['test_identity.C.test_one'], 'invalid_population': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_identity.C.test_one) ... ok\\n\\nRan 1 tests\\n', 'started_ids': ['test_identity.C.test_one'], 'finished_ids': ['test_identity.C.test_one'], 'body_entered_ids': ['test_identity.C.test_one'], 'body_finished_ids': ['test_identity.C.test_one'], 'body_assertion_ids': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': []}\n\n======================================================================\nFAIL: test_class_fixture_function_and_code_substitutions_are_refused (test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused) (change='same-code-function')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/optimized/skip-runtime-identity-validation/tests/test_mutation_harness.py\", line 372, in test_class_fixture_function_and_code_substitutions_are_refused\n    self.assertEqual(outcome,'ERROR',value)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['discover:test_*.py'], 'selected_ids': ['test_identity.C.test_one'], 'invalid_population': [], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (test_identity.C.test_one) ... FAIL\\n\\n======================================================================\\nFAIL: test_one (test_identity.C.test_one)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmpq5i2k2a4/run_tests.py\", line 275, in dispatch\\n    return original_dispatch(*args, **kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: original body retained\\n\\nRan 1 tests\\n', 'started_ids': ['test_identity.C.test_one'], 'finished_ids': ['test_identity.C.test_one'], 'body_entered_ids': ['test_identity.C.test_one'], 'body_finished_ids': ['test_identity.C.test_one'], 'body_assertion_ids': ['test_identity.C.test_one'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'test_identity.C.test_one', 'origin': 'body'}]}\n\n======================================================================\nFAIL: test_class_fixture_function_and_code_substitutions_are_refused (test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/optimized/skip-runtime-identity-validation/run_tests.py\", line 275, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['discover:test_*.py'], 'selected_ids': ['test_identity.C.test_one'], 'invalid_population': [], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (test_identity.C.test_one) ... FAIL\\n\\n======================================================================\\nFAIL: test_one (test_identity.C.test_one)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmpve6yf16w/run_tests.py\", line 275, in dispatch\\n    return original_dispatch(*args, **kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: original body retained\\n\\nRan 1 tests\\n', 'started_ids': ['test_identity.C.test_one'], 'finished_ids': ['test_identity.C.test_one'], 'body_entered_ids': ['test_identity.C.test_one'], 'body_finished_ids': ['test_identity.C.test_one'], 'body_assertion_ids': ['test_identity.C.test_one'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'test_identity.C.test_one', 'origin': 'body'}]}\n\nRan 1 tests\n",
+  "started_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused"
+  ],
+  "finished_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused"
+  ],
+  "body_entered_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused"
+  ],
+  "body_finished_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused"
+  ],
+  "body_assertion_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+    "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+    "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+    "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused"
+  ],
+  "lifecycle_failures": 0,
+  "subtests": 3,
+  "subtest_events": [
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+      "phase": "body",
+      "outcome": "assertion"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+      "phase": "body",
+      "outcome": "assertion"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+      "phase": "body",
+      "outcome": "assertion"
+    }
+  ],
+  "assertion_events": [
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+      "origin": "subtest"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+      "origin": "subtest"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+      "origin": "subtest"
+    },
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused",
+      "origin": "body"
+    }
+  ]
+}
