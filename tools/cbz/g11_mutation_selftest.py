@@ -621,6 +621,11 @@ NEW_MUTATIONS = [
      "            if True:",
      "tests.test_g11_census.ToolChecks.test_js_uncalled_helper_chain_is_not_reachable",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("node test callback root ignored", "census",
+     "                if callback.search(prefix):\n                    return None",
+     "                if False:\n                    return None",
+     "tests.test_g11_census.ToolChecks.test_js_node_test_callback_is_a_reachable_root",
+     'self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()},'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -763,6 +768,7 @@ EXPECTED_MUTATION_NAMES = (
     "JavaScript unreachable child-process call accepted",
     "deferred caller uses final module binding",
     "JavaScript uncalled helper chain accepted",
+    "node test callback root ignored",
 )
 
 
@@ -941,7 +947,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 87
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 88
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

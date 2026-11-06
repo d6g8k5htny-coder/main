@@ -1598,6 +1598,16 @@ def _js_function_scope_key(text, position):
 def _js_call_is_reachable(text, position):
     """Bound child-process calls to literal-live blocks and invoked helpers."""
     searchable, scopes = _js_function_scopes(text)
+    trusted_test_names = set()
+    for match in re.finditer(
+            r"\bimport\s+([A-Za-z_$][\w$]*)\s+from\s+['\"]node:test['\"]", text):
+        trusted_test_names.add(match.group(1))
+    for match in re.finditer(
+            r"\bimport\s*\{([^}]*)\}\s*from\s*['\"]node:test['\"]", text):
+        for item in match.group(1).split(","):
+            parts = re.split(r"\s+as\s+", item.strip())
+            if parts and parts[0] == "test":
+                trusted_test_names.add(parts[-1])
 
     def in_literal_false_block(candidate):
         pattern = re.compile(r"\bif\s*\(\s*false\s*\)\s*\{")
@@ -1618,6 +1628,13 @@ def _js_call_is_reachable(text, position):
         header = re.search(
             r"\bfunction\s+([A-Za-z_$][\w$]*)\s*\($", searchable[:param_start])
         if header is None:
+            prefix = searchable[:open_brace + 1]
+            for name in trusted_test_names:
+                callback = re.compile(
+                    r"(?<![\w$.])" + re.escape(name) +
+                    r"(?![\w$])\s*\([^{};]*=>\s*\{$")
+                if callback.search(prefix):
+                    return None
             return ()
         return header.group(1), header.start(1), open_brace, close_brace
 

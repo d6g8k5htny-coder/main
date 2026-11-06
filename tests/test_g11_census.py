@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "e785365f880f716508a8b379b852e70cedff40b2e179f3361aef980b2db841e9"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "d9d444881a03129236467119be6231e219392e668de56e6cd16d06564b523d7e"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -1161,6 +1161,26 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
+    def test_js_node_test_callback_is_a_reachable_root(self):
+        tree = {
+            "tools/live.mjs": "export const live = true;\n",
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/live.mjs tools/unused.mjs\n",
+            "tests/node-callback.test.mjs": (
+                "import test from 'node:test';\n"
+                "import {spawnSync} from 'node:child_process';\n"
+                "const live=new URL('../tools/live.mjs',import.meta.url);\n"
+                "const unused=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "function launch() { spawnSync(process.execPath,[live]); }\n"
+                "function fake() { spawnSync(process.execPath,[unused]); }\n"
+                "test('reachable',()=>{ launch(); });\n"
+                "notTest('untrusted',()=>{ fake(); });\n"
+            ),
+        }
+        self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
+            "tools/live.mjs": True, "tools/unused.mjs": False,
+        })
+
     def test_tests_and_init_files_are_not_tools(self):
         report = self.tools({"tools/__init__.py": "", "tools/x/test_y.py": "x = 1\n", "tools/a.py": "x = 1\n"})
         self.assertEqual(sorted(report), ["tools/a.py"])
@@ -1477,7 +1497,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 139)
+        self.assertEqual(len(cases), 140)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:
