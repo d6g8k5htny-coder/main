@@ -323,6 +323,41 @@ census was rerun from a native archive: after normalising only the environment-s
 all 16 JSON reports match the stored receipts exactly, so **0 of 3,782 verdicts changed**. The additive
 machine-readable receipt is `declaration_scope_repair_20261106.json`; no historical receipt was rebound.
 
+**Finite-vector backend (6 November; unit `CBZ0-G12-FINVEC-01N-20261106`; receipts `*_r5*` and
+[`census_math_dfa9b30a_20261106/`](census_math_dfa9b30a_20261106/CENSUS.md)).** The census's largest reachable
+UNSUPPORTED class was binders over finite vectors: `(j : Fin 6 → ℝ)`, `(n : Fin d → ℤ)`, `(i : Fin 6)`,
+`(S : Matrix (Fin 2) (Fin 2) ℝ)`, `EuclideanSpace ℝ (Fin n)` and abbreviations of them (`abbrev DM2Jet := Fin 9 → ℝ`) —
+428 declarations named one as their first unsupported binder. They are now sampled exactly: structured
+vectors (zero, ones, unit vectors, the pool along the diagonal, alternating signs, constants), components at
+the boundaries the hypotheses give them (`v 0 ∈ Set.Ioo a b`), random pool / rational entries; indices
+0 … n-1; a ℕ binder that is a later vector's dimension from {0, 1, 2, 3, 4} (a `Fin 0` sample is rejected,
+never counted). The interpreter reads `![…]` and `!![…]` literals, `∑` / `∏` over a finite index set (the
+binder type, a `Finset.range k` / `Finset.univ` domain, or the vectors the index applies to — otherwise
+UNSUPPORTED; Mathlib's `r:67` binding, so `∑ i, f i ≤ 1` is `(∑ i, f i) ≤ 1`), `.det` (Laplace expansion,
+≤ 6×6), `.trace`, `‖·‖` (the sup norm on the Pi type, the Euclidean norm on `EuclideanSpace`, exact in ℚ(√d)),
+`Pi.single` / `EuclideanSpace.single` (the dimension from the context or from the sum's index), `dotProduct` /
+`⬝ᵥ`, `•`, pointwise `+ - * /`, the Pi order `v ≤ w`, `v ≠ 0`, `↑i` / `(i : ℕ)`, `fun i => …` where a vector is
+expected, definitions with vector / matrix results applied to an index, and implicit dimension parameters
+(`def gm8Radius {n : ℕ} (j : Fin n → ℝ)`, `{n}` read off the argument's length). Prop-valued definitions
+(`def dm2Negative (H) : Prop := ∀ v, …`) are inlined, so their quantifier over ℝ² is named as the limit.
+Refused, fail-closed: arithmetic in `Fin n` (it wraps: `(2 : Fin 3) + 1 = 0`) and a numeral at `Fin n` not
+below n; products of vectors; matrix norms; orders on `EuclideanSpace`; `*ᵥ`, `Matrix.of`, `∑'` (tsum).
+
+Soundness run: the 16-group census at `dfa9b30a` re-taken — **17 PASS · 203 CORROBORATED · 0 FAIL ·
+3,562 UNSUPPORTED**; 85 verdicts moved, all from UNSUPPORTED (75 → CORROBORATED, 10 → PASS, among them two
+exact Taylor-sum identities over `Finset.range` with `Nat.factorial`), **none to FAIL on these kernel-proved
+statements**, and no 4 November verdict changed
+(`verdict_changes_20261104_to_20261106.json`). Both package receipts (`main_formal_ec6962ff_r5.json`,
+`math_formal_19a55750_r5.json`) equal r4 per target; the 58 adversarial probes of #742 still match. The
+#695 index annotation re-bound to these receipts reads **34 PASS · 73 CORROBORATED · 260 not applicable**
+(the determinant family 13 → 16 CORROBORATED, `smooth` 0 → 1). Tests 86 → **93** (`FiniteVectorTests`:
+types and aliases, the determinant-package statements with their misstatements refuted at printed
+witnesses — `j = ![0, 0, 0, 0, 0, 0], i = 0`, `n = 1, p = ![1]`, `v = ![0, 0]` — big-operator binding,
+norms, literals, `Pi.single`, implicit dimensions, Fin wrapping, the mutation contract on vector statements),
+normal, `-O`, `-W error`. One landed expectation changes: `∑ i ∈ Finset.range 3, (i : ℝ) = 3` is now PASS
+(the package test keeps its UNSUPPORTED anchor on `Real.exp 0 = 1`), and `(v : Fin 3 → ℝ)` is no longer the
+example of an unsampled binder (`Fin 3 → ℝ≥0` is).
+
 **Proposed registration amendment (for Root; the landed GOVERNANCE.md section of #741 governs until
 amended):** the coverage row for Math- `formal/` at `19a55750` becomes `63 | 3 PASS | 56 CORROBORATED |
 4 UNSUPPORTED`; the sentence "The tool does not cover Mathlib real analysis, binders before the colon or

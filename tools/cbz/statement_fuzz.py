@@ -86,8 +86,8 @@ class Token:
 
 
 _ASCII_DIGITS = set('0123456789')
-_MULTI_OPS = ('<=', '>=', '!=', '->', ':=', '=>', '/\\', '\\/', '<->', '||', '&&', '..', '⁻¹')
-_SINGLE = set('+-*/%^=<>()[],:|.{}!∀∃∧∨¬→↔≤≥≠∈∉λ√∫∂ᵐ•⊆≪∩∪ᶜ∅')
+_MULTI_OPS = ('<=', '>=', '!=', '->', ':=', '=>', '/\\', '\\/', '<->', '||', '&&', '..', '⁻¹', '⬝ᵥ')
+_SINGLE = set('+-*/%^=<>()[],:|.{}!∀∃∧∨¬→↔≤≥≠∈∉λ√∫∂ᵐ•⊆≪∩∪ᶜ∅;‖∑∏↑')
 _IDENT_START = re.compile(r'[A-Za-z_α-ωΑ-Ωℕℤℚℝℂ«]')
 _IDENT_CHAR = re.compile(r'[A-Za-z0-9_\'!?α-ωΑ-Ωℕℤℚℝℂ₀-₉»]')
 
@@ -253,10 +253,35 @@ class AERel:
     right: object
     measure: object
 
+@dataclasses.dataclass
+class VecLit:
+    items: list             # `![a, b, c]` : Fin 3 → α
+
+@dataclasses.dataclass
+class MatLit:
+    rows: list              # `!![a, b; c, d]` : Matrix (Fin 2) (Fin 2) α
+
+@dataclasses.dataclass
+class BigOp:
+    op: str                 # '∑' or '∏'
+    var: str
+    type: str | None        # `∑ i : Fin n, …`
+    domain: object | None   # `∑ i ∈ s, …` / `∑ i in s, …`
+    body: object
+
+@dataclasses.dataclass
+class Norm:
+    expr: object            # `‖v‖`: the sup norm on `Fin n → ℝ`, the Euclidean norm on `EuclideanSpace ℝ (Fin n)`
+
+@dataclasses.dataclass
+class Coe:
+    expr: object            # `↑e`: the coercion Lean inserts, elaborated at the context's type
+
 
 _NORMALIZE = {'<=': '≤', '>=': '≥', '!=': '≠', '->': '→', '/\\': '∧', '\\/': '∨', '<->': '↔'}
 _PREC = {'→': 25, '↔': 20, '∨': 30, '∧': 35, '||': 30, '&&': 35, '=': 50, '≠': 50, '<': 50, '>': 50, '≤': 50, '≥': 50,
-         '∈': 50, '∉': 50, '⊆': 50, '≪': 50, '+': 65, '-': 65, '∪': 65, '*': 70, '/': 70, '%': 70, '∩': 70, '•': 73, '^': 75}
+         '∈': 50, '∉': 50, '⊆': 50, '≪': 50, '+': 65, '-': 65, '∪': 65, '*': 70, '/': 70, '%': 70, '∩': 70, '⬝ᵥ': 72, '•': 73,
+         '^': 75}
 _RIGHT = {'→', '↔', '∨', '∧', '||', '&&', '^', '•'}
 _COMPARISONS = {'=', '≠', '<', '>', '≤', '≥', '∈', '∉', '⊆', '≪'}
 _AE_OPS = {'=', '≠', '<', '>', '≤', '≥'}
@@ -273,6 +298,7 @@ class Parser:
         self.i = start
         self.end = len(toks) if end is None else end
         self.abs_depth = 0
+        self.norm_depth = 0
 
     def peek(self, k=0):
         j = self.i + k
@@ -322,9 +348,14 @@ class Parser:
         if t.value == '¬':
             self.i += 1
             return Not(self.parse_expr(40))
-        if t.value == '!':
+        if t.value == '!' and not self._at_vector_literal(0):
             self.i += 1
             return BoolNot(self.parse_expr(80))
+        if t.value in ('∑', '∏'):
+            return self.parse_bigop()
+        if t.value == '↑':
+            self.i += 1
+            return Coe(self.parse_atom())
         if t.value == 'if':
             self.i += 1
             cond = self.parse_expr(0)
@@ -366,6 +397,79 @@ class Parser:
         self.eat(',')
         body = self.parse_expr(0)
         return Forall(var, typ, domain, body)
+
+    def _at_vector_literal(self, k):
+        """Whether the tokens at offset k start `![` or `!![`."""
+        a, b, c = self.peek(k), self.peek(k + 1), self.peek(k + 2)
+        return a is not None and a.value == '!' and b is not None and (
+            b.value == '[' or (b.value == '!' and c is not None and c.value == '['))
+
+    def parse_vector_literal(self):
+        """`![a, b, c]` (Mathlib `Matrix.vecCons` notation): the opening `![` has been consumed."""
+        items = []
+        while not self.at(']'):
+            items.append(self.parse_expr(0))
+            if self.at(','):
+                self.eat(',')
+        self.eat(']')
+        return VecLit(items)
+
+    def parse_matrix_literal(self):
+        """`!![a, b; c, d]` (Mathlib `Matrix.of` notation): rows separated by `;`, entries by `,`."""
+        rows, row = [], []
+        while not self.at(']'):
+            row.append(self.parse_expr(0))
+            if self.at(','):
+                self.eat(',')
+            elif self.at(';'):
+                self.eat(';')
+                rows.append(row)
+                row = []
+        self.eat(']')
+        if row:
+            rows.append(row)
+        if rows and any(len(r) != len(rows[0]) for r in rows):
+            raise Unsupported('ragged matrix literal')
+        return MatLit(rows)
+
+    def parse_bigop(self):
+        """`∑ i, f i`, `∑ i : Fin n, f i`, `∑ i ∈ s, f i`, `∑ i in s, f i` (and `∏`): BigOperators notation
+        over a finite type or a Finset. A single binder only; the body extends as far as an expression does."""
+        op = self.eat().value
+        if self.at("'"):
+            raise Unsupported(f"infinite {'sum' if op == '∑' else 'product'} {op}' (tsum / tprod) is outside the interpreter")
+        if self.at('('):
+            self.eat('(')
+            var = self.eat().value
+            typ = None
+            if self.at(':'):
+                self.eat(':')
+                parts = []
+                while not self.at(')'):
+                    parts.append(self.eat().value)
+                typ = ' '.join(parts)
+            self.eat(')')
+            domain = None
+        else:
+            vt = self.eat()
+            if vt.kind != 'ident':
+                raise Unsupported(f'big operator binder {vt.value!r}')
+            var = vt.value
+            typ, domain = None, None
+            if self.at(':'):
+                self.eat(':')
+                parts = []
+                while not self.at(','):
+                    parts.append(self.eat().value)
+                typ = ' '.join(parts)
+            elif self.at('∈') or self.at('in'):
+                self.eat()
+                domain = self.parse_expr(51)
+            elif not self.at(','):
+                raise Unsupported('big operator with several binders')
+        self.eat(',')
+        body = self.parse_expr(67)       # Mathlib `notation3 "∑ " … r:67`: `∑ i, f i ≤ 1` is `(∑ i, f i) ≤ 1`
+        return BigOp(op, var, typ, domain, body)
 
     def parse_integral(self):
         """`∫ x, f x ∂μ` and `∫ x in A, f x ∂μ` (the Bochner integral and the set integral); the binder may be
@@ -439,8 +543,13 @@ class Parser:
                 break
             if t.kind == 'ident' and t.value in ('if', 'then', 'else', 'fun', 'λ', 'in'):
                 break
-            if t.kind in ('num', 'ident') or (t.kind == 'op' and t.value in ('(', '[')):
+            if t.kind in ('num', 'ident') or (t.kind == 'op' and t.value in ('(', '[')) or self._at_vector_literal(0) \
+                    or (t.kind == 'op' and t.value == '‖' and self.norm_depth == 0):
                 args.append(self.parse_atom())
+                continue
+            if t.kind == 'op' and t.value == '↑':
+                self.i += 1
+                args.append(Coe(self.parse_atom()))
                 continue
             # `f |x|`: an opening bar is an argument only outside any `|…|` and when, as in Lean's
             # `atomic("|" noWs)`, no whitespace separates it from the next token
@@ -513,6 +622,22 @@ class Parser:
                 self.eat('}')
                 return SetBuilder(var, body)
             raise Unsupported('brace term that is not a set-builder')
+        if t.value == '‖':
+            # `‖e‖`: inside the bars a `‖` closes (as for `|e|`); outside, it opens an argument
+            self.norm_depth += 1
+            e = self.parse_expr(0)
+            self.norm_depth -= 1
+            self.eat('‖')
+            return Norm(e)
+        if t.value == '!':
+            if self.at('['):
+                self.eat('[')
+                return self.parse_vector_literal()
+            if self.at('!') and self.peek(1) is not None and self.peek(1).value == '[':
+                self.eat('!')
+                self.eat('[')
+                return self.parse_matrix_literal()
+            raise SyntaxError("'!' is not an atom")
         if t.value == '|':
             # Mathlib absolute value `|e|`; the inner expression stops at the closing bar because `|` is
             # not an infix operator of the subset (`||x| - |y||` is not parsed: Lean needs parentheses too)
@@ -557,12 +682,13 @@ class Parser:
 @dataclasses.dataclass
 class Def:
     name: str
-    params: list            # [(name, type)]
+    params: list            # [(name, type)] explicit parameters
     result_type: str | None
     body: object | None     # expression, or None when pattern-matching
     clauses: list           # [(patterns, expr)] for pattern-matching defs
     namespace: str = ''     # names in the body resolve from the declaration's namespace, not the caller's
     opens: tuple = ()       # namespaces `open`ed where the definition was declared
+    implicits: list = dataclasses.field(default_factory=list)   # [(name, type)] `{n : ℕ}`: inferred from the arguments
 
 @dataclasses.dataclass
 class Binder:
@@ -650,13 +776,17 @@ def share_definitions(modules):
     """Package / census: a group's modules import one another, so every module sees the group's definitions
     (resolved by qualified name, ambiguity fail-closed) and carrier types."""
     shared, points = {}, set()
+    aliases = {}
     for rel, m in modules.items():
         for q, d in m.defs.items():
             shared.setdefault(q, []).append((rel, d))
         points |= m.point_types
-    for m in modules.values():
+        for k, v in m.aliases.items():
+            aliases.setdefault(k, v)            # a type abbreviation defined twice differently stays the first;
+    for m in modules.values():                  # the binder then names a type the interpreter checks structurally
         m.defs = DefTable(m.defs.local, shared)
         m.point_types = points
+        m.aliases = {**aliases, **m.aliases}
 
 
 @dataclasses.dataclass
@@ -665,6 +795,7 @@ class Module:
     defs: DefTable
     theorems: list
     point_types: set = dataclasses.field(default_factory=set)   # `variable {Ω : Type*}`: finite-model carriers
+    aliases: dict = dataclasses.field(default_factory=dict)     # `abbrev DM2Jet := Fin 9 → ℝ`: type abbreviations
 
 
 _DECL_KEYWORDS = {'theorem', 'lemma', 'def', 'abbrev', 'example', 'instance', 'structure', 'inductive',
@@ -743,21 +874,38 @@ def _matching(toks, k, end):
     return -1
 
 
-def _parse_binders(toks, start, end):
-    """(name : T) (m : T) ... -> [(name, T)], position after binders."""
+def _parse_binders(toks, start, end, implicits=None):
+    """`(name : T) {m : U} [inst] …` → explicit [(name, T)] and the position after the binders; implicit binders
+    `{m : U}` / `⦃m : U⦄` are appended to ``implicits`` (inferred at application: a `{n : ℕ}` that is the
+    dimension of a vector argument takes that vector's length); instance binders are skipped."""
     params, k = [], start
-    while k < end and toks[k].value == '(':
+    closers = {'(': ')', '{': '}', '[': ']', '⦃': '⦄'}
+    while k < end and toks[k].value in closers:
+        opener = toks[k].value
         close = k
-        while close < end and toks[close].value != ')':
+        depth = 0
+        while close < end:
+            if toks[close].value == opener:
+                depth += 1
+            elif toks[close].value == closers[opener]:
+                depth -= 1
+                if depth == 0:
+                    break
             close += 1
         if close >= end:
             break
+        if opener == '[':
+            k = close + 1
+            continue
         names = []
         j = k + 1
-        while toks[j].value != ':':
+        while j < close and toks[j].value != ':':
             names.append(toks[j].value); j += 1
         typ = ' '.join(t.value for t in toks[j + 1:close])
-        params.extend((nm, typ) for nm in names)
+        if opener == '(':
+            params.extend((nm, typ) for nm in names)
+        elif implicits is not None:
+            implicits.extend((nm, typ) for nm in names)
         k = close + 1
     return params, k
 
@@ -777,6 +925,7 @@ def parse_module(source: str) -> Module:
     toks = tokenize(source)
     defs, theorems = {}, []
     point_types = set()
+    aliases = {}                     # type abbreviations by short name (and qualified name)
     scopes = []                      # [(kind, name)], kind in ('namespace', 'section')
     opens = [()]                     # `open` namespaces per scope depth
     pending_opens = ()               # `open X in` applies to the next declaration only
@@ -844,7 +993,8 @@ def parse_module(source: str) -> Module:
             continue
         if kw in ('def', 'abbrev'):
             name = toks[k + 1].value
-            params, j = _parse_binders(toks, k + 2, end)
+            implicits = []
+            params, j = _parse_binders(toks, k + 2, end, implicits)
             result_type = None
             assign = _find(toks, ':=', j, end)
             bar = _find(toks, '|', j, end)
@@ -856,8 +1006,13 @@ def parse_module(source: str) -> Module:
                     body = Parser(toks, assign + 1, end).parse_expr(0)
                 except (SyntaxError, Unsupported, ValueError, IndexError, RecursionError):
                     body = None
+                rhs = ' '.join(t.value for t in toks[assign + 1:end])
+                if not params and (result_type is None or result_type.split()[0] == 'Type') \
+                        and _kind_of_type(rhs, point_types, aliases) is not None:
+                    aliases[name] = rhs                      # `abbrev DM2Jet := Fin 9 → ℝ`
+                    aliases[_qualify(namespace, name)] = rhs
                 defs[_qualify(namespace, name)] = Def(_qualify(namespace, name), params, result_type, body, [],
-                                                      namespace, scope)
+                                                      namespace, scope, implicits)
             elif bar != -1:
                 clauses = []
                 bars = [m for m in range(j, end) if toks[m].value == '|' and toks[m].col <= 2]
@@ -876,7 +1031,7 @@ def parse_module(source: str) -> Module:
                 except (Unsupported, SyntaxError, IndexError, ValueError, RecursionError):
                     clauses = []
                 defs[_qualify(namespace, name)] = Def(_qualify(namespace, name), params, result_type, None, clauses,
-                                                      namespace, scope)
+                                                      namespace, scope, implicits)
             continue
         if kw in ('theorem', 'lemma'):
             name = toks[k + 1].value
@@ -892,7 +1047,7 @@ def parse_module(source: str) -> Module:
                 text = f'{binder_text} : {text}'
             try:
                 binders, binder_error = _parse_theorem_binders(toks, k + 2, colon, DefTable(defs), point_types,
-                                                               namespace, scope)
+                                                               namespace, scope, aliases)
             except (SyntaxError, Unsupported, ValueError, IndexError, RecursionError) as e:
                 binders, binder_error = [], f'unparsed binders: {type(e).__name__}: {e}'
             if binder_error:
@@ -910,7 +1065,7 @@ def parse_module(source: str) -> Module:
                 theorems.append(Theorem(full, None, f'unparsed statement: {type(e).__name__}: {e}', text, binders,
                                         namespace, scope))
             continue
-    return Module(namespace_of(scopes), DefTable(defs), theorems, point_types)
+    return Module(namespace_of(scopes), DefTable(defs), theorems, point_types, aliases)
 
 
 def _split_patterns(toks):
@@ -961,6 +1116,76 @@ _BUILTIN_NAMES = {'true', 'false', 'True', 'False', 'abs', 'min', 'max', 'Real.s
                   'Set.Ioi', 'Set.Iio', 'Set.univ', '∅', 'ENNReal.ofReal', 'ENNReal.toReal'} | _MEASURE_PREDICATES
 
 _MODEL_KINDS = ('Measure', 'Func', 'Set')     # binder kinds sampled as finite discrete models
+_VECTOR_KINDS = ('Vec', 'Fin', 'Mat')         # binder kinds sampled as exact finite vectors, indices and matrices
+_DIM_RE = re.compile(r'^(?:\d+|[A-Za-z_][A-Za-z0-9_\']*)$')
+
+
+def _base(typ: str) -> str:
+    """The kind of an interpreter type string: 'Vec:Real:6' → 'Vec' (plain kinds are their own base)."""
+    return typ.split(':', 1)[0] if isinstance(typ, str) else typ
+
+
+def _vec_info(typ: str):
+    """(element type, dimension token, space) of a 'Vec:…' type; the dimension token is a literal or the name
+    of the ℕ binder that carries it; space is 'pi' (`Fin n → ℝ`, sup norm, pointwise order) or 'euclid'
+    (`EuclideanSpace ℝ (Fin n)`, L² norm)."""
+    parts = typ.split(':')
+    return parts[1], parts[2], (parts[3] if len(parts) > 3 else 'pi')
+
+
+def _mat_info(typ: str):
+    parts = typ.split(':')
+    return parts[1], parts[2], parts[3]
+
+
+def _dims_of(typ: str) -> list:
+    """The dimension tokens of a vector / index / matrix type ('Fin:d' → ['d']; 'Mat:Real:2:n' → ['2', 'n'])."""
+    b = _base(typ)
+    if b == 'Fin':
+        return [typ.split(':')[1]]
+    if b == 'Vec':
+        return [_vec_info(typ)[1]]
+    if b == 'Mat':
+        return list(_mat_info(typ)[1:])
+    return []
+
+
+def _expand_aliases(t: str, aliases) -> str:
+    """Replace type abbreviations (`abbrev DM2Jet := Fin 9 → ℝ`) by their right-hand side, whole words only."""
+    if not aliases:
+        return t
+    out = []
+    for w in t.split():
+        a = aliases.get(w) or aliases.get(w.rsplit('.', 1)[-1])
+        out.append(f'( {a} )' if a is not None and a != w else w)
+    return ' '.join(out)
+
+
+def _strip_parens(t: str) -> str:
+    t = t.strip()
+    while t.startswith('(') and t.endswith(')') and _matching_paren(t, 0) == len(t) - 1:
+        t = t[1:-1].strip()
+    return t
+
+
+def _matching_paren(t: str, i: int) -> int:
+    depth = 0
+    for j in range(i, len(t)):
+        if t[j] == '(':
+            depth += 1
+        elif t[j] == ')':
+            depth -= 1
+            if depth == 0:
+                return j
+    return -1
+
+
+def _fin_dim(t: str):
+    """'Fin 6' / 'Fin d' / '( Fin 6 )' → the dimension token, else None."""
+    w = _strip_parens(t).split()
+    if len(w) == 2 and w[0] == 'Fin' and _DIM_RE.match(w[1]):
+        return w[1]
+    return None
 
 
 def _arrow_parts(t: str) -> list:
@@ -980,16 +1205,41 @@ def _arrow_parts(t: str) -> list:
     return parts
 
 
-def _kind_of_type(t: str, point_types) -> str | None:
+def _kind_of_type(t: str, point_types, aliases=None) -> str | None:
     """The interpreter's kind for a Lean type written as a string: a numeric type ('Nat', 'Int', 'Rat', 'Real'),
     'ENNReal', 'Bool', 'Point' (a finite-model carrier Ω), 'Measure' (`Measure Ω`), 'Set' (`Set Ω`), 'Func'
-    (`Ω → ℝ`, a table on the carrier), or None when the type is outside the interpreter (`ℝ → Measure Ω`,
-    `Fin n → ℝ`, `Ω → Ω`, structures)."""
-    t = t.strip()
+    (`Ω → ℝ`, a table on the carrier); a finite vector 'Vec:<elem>:<dim>[:euclid]' (`Fin 6 → ℝ`, `Fin d → ℤ`,
+    `EuclideanSpace ℝ (Fin n)`), an index 'Fin:<dim>' (`Fin 6`), a matrix 'Mat:<elem>:<rows>:<cols>'
+    (`Matrix (Fin 2) (Fin 2) ℝ`); or None when the type is outside the interpreter (`ℝ → Measure Ω`,
+    `Ω → Ω`, structures). Type abbreviations are expanded first."""
+    t = _strip_parens(_expand_aliases(t.strip(), aliases))
     parts = _arrow_parts(t)
     if len(parts) == 2 and parts[0] in point_types:
         return 'Func' if parts[1] in _SAMPLED_TYPE_TOKENS or parts[1] in ('ENNReal', 'ℝ≥0∞') else None
+    if len(parts) == 2 and _fin_dim(parts[0]) is not None and _strip_parens(parts[1]) in _SAMPLED_TYPE_TOKENS:
+        return f'Vec:{_SAMPLED_TYPE_TOKENS[_strip_parens(parts[1])]}:{_fin_dim(parts[0])}'
     if len(parts) >= 2:
+        return None
+    dim = _fin_dim(t)
+    if dim is not None:
+        return f'Fin:{dim}'
+    words = t.split()
+    if len(words) >= 3 and words[0] == 'EuclideanSpace' and words[1] in _REAL_TYPES:
+        d = _fin_dim(' '.join(words[2:]))
+        if d is not None:
+            return f'Vec:Real:{d}:euclid'
+    if words and words[0] == 'Matrix':
+        rest = t[len('Matrix'):].strip()
+        # Matrix ( Fin m ) ( Fin n ) α
+        if rest.startswith('('):
+            c1 = _matching_paren(rest, 0)
+            r2 = rest[c1 + 1:].strip()
+            if c1 != -1 and r2.startswith('('):
+                c2 = _matching_paren(r2, 0)
+                elem = r2[c2 + 1:].strip() if c2 != -1 else ''
+                m_, n_ = _fin_dim(rest[:c1 + 1]), _fin_dim(r2[:c2 + 1]) if c2 != -1 else None
+                if m_ is not None and n_ is not None and elem in _SAMPLED_TYPE_TOKENS:
+                    return f'Mat:{_SAMPLED_TYPE_TOKENS[elem]}:{m_}:{n_}'
         return None
     if t in _SAMPLED_TYPE_TOKENS:
         return _SAMPLED_TYPE_TOKENS[t]
@@ -1007,7 +1257,7 @@ def _kind_of_type(t: str, point_types) -> str | None:
     return None
 
 
-def _parse_theorem_binders(toks, start, end, defs, point_types=frozenset(), namespace='', opens=()):
+def _parse_theorem_binders(toks, start, end, defs, point_types=frozenset(), namespace='', opens=(), aliases=None):
     """Binder groups between the theorem name and its colon → ([Binder], error or None).
 
     `(x y : ℝ)` / `{x : ℕ}` with a sampled numeric type declare variables; `(h : p)` whose type parses as a
@@ -1016,6 +1266,7 @@ def _parse_theorem_binders(toks, start, end, defs, point_types=frozenset(), name
     `(f : Ω → ℝ)`, `(μ : Measure Ω)`, a predicate the interpreter does not define — makes the theorem
     UNSUPPORTED, fail-closed, naming the binder."""
     binders, declared = [], set()
+    nat_vars = {}                 # declared variable → kind (dimension binders must be ℕ)
     point_types = set(point_types)
     k = start
     while k < end:
@@ -1060,11 +1311,17 @@ def _parse_theorem_binders(toks, start, end, defs, point_types=frozenset(), name
             point_types.update(names)          # `{Ω : Type*}` declared on the theorem itself
             k = close + 1
             continue
-        kind = _kind_of_type(' '.join(x.value for x in type_toks), point_types)
-        if kind in _SAMPLED_TYPE_TOKENS.values() or kind in _MODEL_KINDS:
+        kind = _kind_of_type(' '.join(x.value for x in type_toks), point_types, aliases)
+        if kind is not None and _base(kind) in _VECTOR_KINDS:
+            # a dimension that is a name must be a ℕ binder declared before it (`(n : ℕ) (j : Fin n → ℝ)`)
+            for dim in _dims_of(kind):
+                if not dim.isdigit() and nat_vars.get(dim) != 'Nat':
+                    return binders, f'binder {txt}: dimension {dim} is not a ℕ binder declared before it'
+        if kind in _SAMPLED_TYPE_TOKENS.values() or kind in _MODEL_KINDS or (kind is not None and _base(kind) in _VECTOR_KINDS):
             for nm in names:
                 binders.append(Binder('var', nm, kind, txt))
                 declared.add(nm)
+                nat_vars[nm] = kind
             k = close + 1
             continue
         try:
@@ -1368,6 +1625,48 @@ class Func:
         return '[' + ', '.join(_fmt(v) if not isinstance(v, ENN) else repr(v) for v in self.table) + ']'
 
 
+class Vec:
+    """An exact finite vector `Fin n → α` (entries are ints, Fractions or Alg); ``space`` is 'pi' for the Pi type
+    (sup norm, pointwise order) or 'euclid' for `EuclideanSpace ℝ (Fin n)` (L² norm, no order)."""
+    __slots__ = ('entries', 'elem', 'space')
+
+    def __init__(self, entries, elem='Real', space='pi'):
+        self.entries, self.elem, self.space = tuple(entries), elem, space
+
+    def __eq__(self, other):
+        return isinstance(other, Vec) and self.entries == other.entries
+
+    def __hash__(self):
+        return hash(('Vec', self.entries))
+
+    def __len__(self):
+        return len(self.entries)
+
+    def __repr__(self):
+        return '![' + ', '.join(_fmt(v) for v in self.entries) + ']'
+
+
+class Mat:
+    """An exact matrix `Matrix (Fin m) (Fin n) α` as rows."""
+    __slots__ = ('rows', 'elem')
+
+    def __init__(self, rows, elem='Real'):
+        self.rows, self.elem = tuple(tuple(r) for r in rows), elem
+
+    def __eq__(self, other):
+        return isinstance(other, Mat) and self.rows == other.rows
+
+    def __hash__(self):
+        return hash(('Mat', self.rows))
+
+    @property
+    def shape(self):
+        return len(self.rows), (len(self.rows[0]) if self.rows else 0)
+
+    def __repr__(self):
+        return '!![' + '; '.join(', '.join(_fmt(v) for v in r) for r in self.rows) + ']'
+
+
 def _fmt_set(points, n=None) -> str:
     return '{' + ', '.join(str(i) for i in sorted(points)) + '}'
 
@@ -1375,7 +1674,7 @@ def _fmt_set(points, n=None) -> str:
 def _fmt_value(v) -> str:
     if isinstance(v, frozenset):
         return _fmt_set(v)
-    if isinstance(v, (Meas, Func, ENN)):
+    if isinstance(v, (Meas, Func, ENN, Vec, Mat)):
         return repr(v)
     return _fmt(v)
 
@@ -1442,7 +1741,7 @@ class Evaluator:
                 return 'Rat'
             if node.type in _REAL_TYPES:
                 return 'Real'
-            kind = _kind_of_type(node.type, self.module.point_types)
+            kind = _kind_of_type(node.type, self.module.point_types, self.module.aliases)
             if kind is not None:
                 return kind
             raise Unsupported(f'ascription to {node.type}')
@@ -1460,12 +1759,30 @@ class Evaluator:
             if d is not None and d.result_type:
                 return self._type_name(d.result_type)
             return 'Nat'
-        if isinstance(node, (Integral,)):
+        if isinstance(node, (Integral, Norm)):
             return 'Real'
         if isinstance(node, SetBuilder):
             return 'Set'
         if isinstance(node, AERel):
             return 'Prop'
+        if isinstance(node, Coe):
+            t = self.arith_type(node.expr, env)
+            return 'Nat' if _base(t) == 'Fin' else t
+        if isinstance(node, VecLit):
+            elem = 'Nat'
+            for x in node.items:
+                elem = _max_type(elem, self.arith_type(x, env))
+            if _base(elem) in ('Vec', 'Mat', 'Set', 'Func', 'Measure', 'Point', 'Function'):
+                raise Unsupported('vector literal of non-scalar entries')
+            return f'Vec:{"Real" if elem in ("Sci", "Bool") else elem}:{len(node.items)}'
+        if isinstance(node, MatLit):
+            elem = 'Nat'
+            for r in node.rows:
+                for x in r:
+                    elem = _max_type(elem, self.arith_type(x, env))
+            return f'Mat:{"Real" if elem in ("Sci", "Bool") else elem}:{len(node.rows)}:{len(node.rows[0]) if node.rows else 0}'
+        if isinstance(node, BigOp):
+            return self.arith_type(node.body, {**env, node.var: Bound(0, 'Fin:?')})
         if isinstance(node, (BinOp,)):
             if node.op in _COMPARISONS or node.op in _LOGIC:
                 return 'Prop'
@@ -1473,6 +1790,9 @@ class Evaluator:
                 return self.arith_type(node.left, env)      # the exponent is typed on its own (Lean `rightact%`)
             if node.op == '•':
                 return self.arith_type(node.right, env)
+            if node.op == '⬝ᵥ':
+                t = _max_type(self.arith_type(node.left, env), self.arith_type(node.right, env))
+                return _vec_info(t)[0] if _base(t) == 'Vec' else 'Real'
             if node.op in ('∩', '∪'):
                 return 'Set'
             return _max_type(self.arith_type(node.left, env), self.arith_type(node.right, env))
@@ -1491,14 +1811,32 @@ class Evaluator:
                         return 'ENNReal'                      # `μ A`
                     if b.type == 'Func':
                         return b.value.codomain if isinstance(b.value, Func) else 'Real'
+                    if _base(b.type) == 'Vec':
+                        return _vec_info(b.type)[0]           # `v i`
+                    if _base(b.type) == 'Mat':
+                        elem, _, cols = _mat_info(b.type)
+                        return elem if len(node.args) >= 2 else f'Vec:{elem}:{cols}'   # `M i k`, `M i`
                 d = self.defn(fn.name)
                 if d is not None and d.result_type:
                     rt = self._type_name(d.result_type)
                     if rt == 'Measure' and len(node.args) == len(d.params) + 1:
                         return 'ENNReal'                      # a defined measure applied to a set
-                    if not d.clauses and len(_arrow_parts(d.result_type)) > 1 and len(node.args) == len(d.params):
+                    if _base(rt) == 'Vec' and len(node.args) == len(d.params) + 1:
+                        return _vec_info(rt)[0]               # a defined vector applied to an index
+                    if _base(rt) == 'Mat' and len(node.args) >= len(d.params) + 2:
+                        return _mat_info(rt)[0]
+                    if not d.clauses and _base(rt) not in ('Vec', 'Mat') and len(_arrow_parts(d.result_type)) > 1 \
+                            and len(node.args) == len(d.params):
                         return 'Function'                     # a function value, not carried
                     return rt
+                if fn.name in ('.det', 'Matrix.det', '.trace', 'Matrix.trace') and node.args:
+                    t = self.arith_type(node.args[-1], env)
+                    return _mat_info(t)[0] if _base(t) == 'Mat' else 'Real'
+                if fn.name in ('Pi.single', 'EuclideanSpace.single') and len(node.args) == 2:
+                    return f'Vec:{self.arith_type(node.args[1], env)}:?'
+                if fn.name in ('dotProduct', 'Matrix.dotProduct', 'inner') and node.args:
+                    t = self.arith_type(node.args[-1], env)
+                    return _vec_info(t)[0] if _base(t) == 'Vec' else 'Real'
                 if fn.name == 'Real.sqrt':
                     return 'Real'
                 if fn.name in ('.toReal', 'ENNReal.toReal'):
@@ -1525,7 +1863,7 @@ class Evaluator:
         return 'Nat'
 
     def _type_name(self, t: str) -> str:
-        kind = _kind_of_type(t, self.module.point_types)
+        kind = _kind_of_type(t, self.module.point_types, self.module.aliases)
         if kind is not None:
             return kind
         last = _arrow_parts(t)[-1]
@@ -1541,7 +1879,7 @@ class Evaluator:
             return 'Bool'
         if last.startswith('List') or '×' in last:
             return 'Nat'   # containers: element arithmetic defaults to Nat
-        kind = _kind_of_type(last, self.module.point_types)
+        kind = _kind_of_type(last, self.module.point_types, self.module.aliases)
         if kind is not None:
             return kind
         raise Unsupported(f'result type {t}')
@@ -1557,6 +1895,27 @@ class Evaluator:
                 if node.value == 0:
                     return Meas(tuple(ENN(Fraction(0)) for _ in self.points()))
                 raise Unsupported('a nonzero numeral where a measure is expected')
+            if _base(typ) == 'Vec':
+                # a numeral in a Pi type is the constant function (`0 : Fin n → ℝ` is the zero vector)
+                elem, dim, space = _vec_info(typ)
+                n = self._dim(dim, env)
+                c = self.num(node, env, elem)
+                return Vec([c] * n, elem, space)
+            if _base(typ) == 'Mat':
+                elem, m_, n_ = _mat_info(typ)
+                m, n = self._dim(m_, env), self._dim(n_, env)
+                zero, one = self.num(Num(0), env, elem), self.num(Num(1), env, elem)
+                if node.value == 0:
+                    return Mat([[zero] * n for _ in range(m)], elem)
+                if node.value == 1 and m == n:
+                    return Mat([[one if i == k else zero for k in range(n)] for i in range(m)], elem)
+                raise Unsupported('a numeral other than 0 or 1 where a matrix is expected')
+            if _base(typ) == 'Fin':
+                # a numeral at `Fin n` is a `Fin n` literal: `(7 : Fin 6) = 1` wraps, so only numerals below n are read
+                n = _resolve_dim(typ.split(':')[1], env)
+                if not isinstance(node.value, int) or (n is not None and node.value >= n):
+                    raise Unsupported(f'numeral {node.value} as a Fin {n} literal wraps modulo {n}')
+                return self._rec(node.value)
             if not isinstance(node.value, int):
                 raise Unsupported('scientific literal outside a rational or real context (Lean defaults it to Float)')
             return self._rec(node.value)
@@ -1566,6 +1925,20 @@ class Evaluator:
             return frozenset(i for i in self.points() if self.prop(node.body, {**env, node.var: Bound(i, 'Point')}))
         if isinstance(node, Lambda) and typ == 'Func':
             return self.materialize(Closure(node.params, node.body, env, node.types, self.namespace, self.opens))
+        if isinstance(node, Lambda) and _base(typ) == 'Vec':
+            return self._rec(self.vector_of_lambda(node, env, typ))
+        if isinstance(node, VecLit):
+            return self._rec(self.vector_literal(node, env, typ))
+        if isinstance(node, MatLit):
+            return self._rec(self.matrix_literal(node, env, typ))
+        if isinstance(node, BigOp):
+            return self._rec(self.bigop(node, env, typ))
+        if isinstance(node, Norm):
+            return self._rec(self.norm(node, env))
+        if isinstance(node, Coe):
+            src = self.arith_type(node.expr, env)
+            v = self.num(node.expr, env, 'Nat' if _base(src) == 'Fin' else src)
+            return self._rec(_coerce(v, src, typ))
         if isinstance(node, Ascribe):
             # `(e : T)` elaborates e at T (Lean pushes the expected type to the leaves: `(n - 1 : ℝ)` is real
             # subtraction of ↑n, `((n - 1 : ℕ) : ℝ)` casts a truncated Nat); the value is then used at typ
@@ -1598,16 +1971,42 @@ class Evaluator:
         if isinstance(node, Neg):
             if typ == 'Nat':
                 raise Unsupported('negation at type Nat')
+            if _base(typ) in ('Vec', 'Mat'):
+                v = self.num(node.expr, env, typ)
+                if isinstance(v, Vec):
+                    return Vec([-x for x in v.entries], v.elem, v.space)
+                if isinstance(v, Mat):
+                    return Mat([[-x for x in r] for r in v.rows], v.elem)
+                raise Unsupported('negation of a non-vector at a vector type')
             return self._rec(-self.num(node.expr, env, typ))
         if isinstance(node, BinOp):
+            if _base(typ) == 'Fin' and node.op in ('+', '-', '*', '/', '%', '^'):
+                # arithmetic in `Fin n` wraps around (`(2 : Fin 3) + 1 = 0`); only `(i : ℕ)` / `↑i` arithmetic is read
+                raise Unsupported('arithmetic on Fin values wraps modulo n: outside the interpreter (cast with (i : ℕ))')
             if node.op == '^':
                 return self._rec(self._power(node, env, typ))
             if node.op == '•':
+                rt = self.arith_type(node.right, env)
+                if _base(rt) in ('Vec', 'Mat'):
+                    target = typ if _base(typ) == _base(rt) and '?' not in typ else rt
+                    lt = self.arith_type(node.left, env)
+                    if _base(lt) in ('Vec', 'Mat', 'Set', 'Func', 'Measure', 'Point'):
+                        raise Unsupported('scalar action by a non-scalar')
+                    c = self.num(node.left, env, lt if lt not in ('Sci', 'Bool', 'Fin') else 'Nat')
+                    v = self.num(node.right, env, target)
+                    return self._scale(c, v)
                 c = self.num(node.left, env, 'ENNReal')
                 m = self.num(node.right, env, 'Measure')
                 if not isinstance(m, Meas):
                     raise Unsupported('scalar action on a non-measure')
                 return Meas(tuple(_enn(c) * w for w in m.weights))
+            if node.op == '⬝ᵥ':
+                return self._rec(self.apply(App(Var('dotProduct'), [node.left, node.right]), env, typ))
+            if _base(typ) in ('Vec', 'Mat') and node.op in ('+', '-', '*', '/'):
+                return self._rec(self.vector_arith(node.op, node.left, node.right, env, typ))
+            if node.op in ('+', '-', '*', '/', '%') and (_base(self.arith_type(node.left, env)) == 'Fin'
+                                                         or _base(self.arith_type(node.right, env)) == 'Fin'):
+                raise Unsupported('arithmetic on Fin values wraps modulo n: outside the interpreter (cast with (i : ℕ))')
             if node.op in ('∩', '∪'):
                 a, b = self.num(node.left, env, 'Set'), self.num(node.right, env, 'Set')
                 if not isinstance(a, frozenset) or not isinstance(b, frozenset):
@@ -1632,6 +2031,271 @@ class Evaluator:
         if isinstance(node, BoolNot):
             return not self.truth(node.expr, env)
         raise Unsupported(f'expression {type(node).__name__}')
+
+    # ---- finite vectors, indices and matrices (exact; `Fin n → ℝ`, `Fin n`, `Matrix (Fin m) (Fin n) ℝ`)
+    def _dim(self, token: str, env) -> int:
+        """The value of a dimension token: a literal, or a ℕ variable bound in ``env`` (`(n : ℕ) (j : Fin n → ℝ)`)."""
+        if token == '?':
+            raise Unsupported('a vector whose dimension the context does not fix')
+        if token.isdigit():
+            return int(token)
+        if token in env and isinstance(env[token], Bound) and isinstance(env[token].value, int) \
+                and not isinstance(env[token].value, bool):
+            return env[token].value
+        d = self.defn(token)
+        if d is not None and not d.params and d.body is not None:
+            v = self.num(d.body, {}, 'Nat')
+            if isinstance(v, int) and not isinstance(v, bool):
+                return v
+        raise Unsupported(f'dimension {token} is not bound')
+
+    def _scale(self, c, v):
+        if isinstance(v, Vec):
+            return Vec([_exact(c) * _exact(x) if v.elem in _FIELD_TYPES else c * x for x in v.entries], v.elem, v.space)
+        if isinstance(v, Mat):
+            return Mat([[_exact(c) * _exact(x) if v.elem in _FIELD_TYPES else c * x for x in r] for r in v.rows], v.elem)
+        raise Unsupported('scalar action on a non-vector')
+
+    def vector_arith(self, op, left, right, env, typ):
+        a, b = self.num(left, env, typ), self.num(right, env, typ)
+        if isinstance(a, Vec) and isinstance(b, Vec):
+            if len(a) != len(b):
+                raise Unsupported('vectors of different dimensions')
+            if op == '*' and (a.space == 'euclid' or b.space == 'euclid'):
+                raise Unsupported('pointwise product on EuclideanSpace (no Mul instance)')
+            elem = a.elem
+            return Vec([self._arith(op, x, y, elem) for x, y in zip(a.entries, b.entries)], elem, a.space)
+        if isinstance(a, Mat) and isinstance(b, Mat):
+            if op in ('+', '-'):
+                if a.shape != b.shape:
+                    raise Unsupported('matrices of different shapes')
+                return Mat([[self._arith(op, x, y, a.elem) for x, y in zip(ra, rb)] for ra, rb in zip(a.rows, b.rows)], a.elem)
+            if op == '*':
+                m, k = a.shape
+                k2, n = b.shape
+                if k != k2:
+                    raise Unsupported('matrix product of incompatible shapes')
+                rows = []
+                for i in range(m):
+                    row = []
+                    for j in range(n):
+                        acc = self.num(Num(0), env, a.elem)
+                        for t in range(k):
+                            acc = self._arith('+', acc, self._arith('*', a.rows[i][t], b.rows[t][j], a.elem), a.elem)
+                        row.append(acc)
+                    rows.append(row)
+                return Mat(rows, a.elem)
+            raise Unsupported(f'operator {op} on matrices')
+        raise Unsupported(f'operator {op} between a vector and a non-vector')
+
+    def vector_literal(self, node: VecLit, env, typ):
+        if _base(typ) == 'Vec':
+            elem, dim, space = _vec_info(typ)
+            n = _resolve_dim(dim, env) if dim != '?' else None
+            if n is not None and n != len(node.items):
+                raise Unsupported(f'vector literal of {len(node.items)} entries where Fin {dim} is expected')
+        else:
+            elem, space = _vec_info(self.arith_type(node, env))[0], 'pi'
+        return Vec([self.num(x, env, elem) for x in node.items], elem, space)
+
+    def matrix_literal(self, node: MatLit, env, typ):
+        if _base(typ) == 'Mat':
+            elem, m_, n_ = _mat_info(typ)
+            if self._dim(m_, env) != len(node.rows) or (node.rows and self._dim(n_, env) != len(node.rows[0])):
+                raise Unsupported('matrix literal of a different shape than its type')
+        else:
+            elem = _mat_info(self.arith_type(node, env))[0]
+        return Mat([[self.num(x, env, elem) for x in r] for r in node.rows], elem)
+
+    def vector_of_lambda(self, node: Lambda, env, typ):
+        """`fun i => e` where a vector `Fin n → α` is expected: the table of e over i = 0 … n-1."""
+        if len(node.params) != 1:
+            raise Unsupported('a vector given as a lambda of several parameters')
+        elem, dim, space = _vec_info(typ)
+        n = self._dim(dim, env)
+        fin = f'Fin:{dim}'
+        return Vec([self.num(node.body, {**env, node.params[0]: Bound(k, fin)}, elem) for k in range(n)], elem, space)
+
+    def fix_unknown_dimension(self, typ, sides, env):
+        """A vector type whose dimension the operands did not fix ('Vec:Real:?', a sum of `Pi.single`s against a
+        lambda) takes the dimension of the index a big operator on either side ranges over."""
+        if _base(typ) != 'Vec' or '?' not in typ:
+            return typ
+        elem, _, space = _vec_info(typ)
+        for side in sides:
+            if isinstance(side, BigOp):
+                try:
+                    idx, _ = self.finite_index_domain(side.var, side.type, side.domain, side.body, env)
+                except Unsupported:
+                    continue
+                return f'Vec:{elem}:{len(idx)}' + (':euclid' if space == 'euclid' else '')
+        return typ
+
+    def index_dimension(self, var: str, body, env):
+        """The dimension of the vector (or the rows / columns of the matrix) that ``var`` indexes in ``body``, when
+        exactly one such application fixes it: `∑ i, |j i|` sums over `Fin 6` when `j : Fin 6 → ℝ`."""
+        found = set()
+
+        def walk(node):
+            if isinstance(node, App) and isinstance(node.fn, Var):
+                positions = [k for k, a in enumerate(node.args) if isinstance(a, Var) and a.name == var]
+                if positions:
+                    fn = node.fn.name
+                    if fn in env and isinstance(env[fn], Bound):
+                        bt, bv = env[fn].type, env[fn].value
+                        if _base(bt) == 'Vec' and positions == [0]:
+                            found.add(str(len(bv)) if isinstance(bv, Vec) else _vec_info(bt)[1])
+                        elif _base(bt) == 'Mat':
+                            _, rows, cols = _mat_info(bt)
+                            for pos in positions:
+                                if isinstance(bv, Mat):
+                                    found.add(str(bv.shape[0] if pos == 0 else bv.shape[1]))
+                                else:
+                                    found.add(rows if pos == 0 else cols)
+                    else:
+                        d = self.defn(fn)
+                        if d is not None and d.result_type:
+                            rt = self._type_name(d.result_type)
+                            extra = [pos - len(d.params) for pos in positions if pos >= len(d.params)]
+                            if _base(rt) == 'Vec' and extra == [0]:
+                                found.add(_vec_info(rt)[1])
+                            elif _base(rt) == 'Mat' and extra:
+                                _, rows, cols = _mat_info(rt)
+                                for pos in extra:
+                                    found.add(rows if pos == 0 else cols)
+            if dataclasses.is_dataclass(node):
+                for f in dataclasses.fields(node):
+                    walk(getattr(node, f.name))
+            elif isinstance(node, (list, tuple)):
+                for x in node:
+                    walk(x)
+        walk(body)
+        dims = {self._dim(t, env) for t in found}
+        if len(dims) == 1:
+            return dims.pop()
+        if len(dims) > 1:
+            raise Unsupported(f'{var} indexes vectors of different dimensions {sorted(dims)}')
+        return None
+
+    def finite_index_domain(self, var, type_text, domain_node, body, env):
+        """Indices of a big operator or a quantifier and the type the index is bound at: `Fin n` from the binder
+        type, a `Finset.range k` domain (a ℕ index) or `Finset.univ`, or the vectors the variable indexes."""
+        if type_text is not None:
+            kind = _kind_of_type(type_text, self.module.point_types, self.module.aliases)
+            if kind is not None and _base(kind) == 'Fin':
+                return list(range(self._dim(kind.split(':')[1], env))), kind
+            if kind == 'Bool':
+                raise Unsupported('sum over Bool')
+            raise Unsupported(f'big operator over {type_text}')
+        if domain_node is not None:
+            if isinstance(domain_node, Var) and domain_node.name in ('Finset.univ', 'univ'):
+                n = self.index_dimension(var, body, env)
+                if n is None:
+                    raise Unsupported(f'{var} ranges over Finset.univ of an unknown type')
+                return list(range(n)), f'Fin:{n}'
+            dom = self.num(domain_node, env, 'Nat')
+            if isinstance(dom, list):
+                return dom, 'Nat'
+            raise Unsupported('big operator over a non-finite domain')
+        n = self.index_dimension(var, body, env)
+        if n is None:
+            raise Unsupported(f'unbounded big operator over {var}')
+        return list(range(n)), f'Fin:{n}'
+
+    def bigop(self, node: BigOp, env, typ):
+        """`∑ i, e` / `∏ i, e` over a finite index set, exactly, at the context's type (a vector-valued sum adds
+        vectors). The empty sum is 0 and the empty product 1 (the constant vector at a vector type)."""
+        idx, index_type = self.finite_index_domain(node.var, node.type, node.domain, node.body, env)
+        if len(idx) > _MAX_LOOP:
+            raise Infeasible(f'big operator over {len(idx)} indices exceeds the loop cap')
+        if _base(typ) == 'Fin':
+            typ = 'Nat'
+        acc = self.num(Num(0 if node.op == '∑' else 1), env, typ)
+        for k in idx:
+            term = self.num(node.body, {**env, node.var: Bound(k, index_type)}, typ)
+            if isinstance(acc, Vec) or isinstance(acc, Mat):
+                if node.op == '∑':
+                    acc = self._vm_arith('+', acc, term)
+                else:
+                    raise Unsupported('product of vectors')
+            else:
+                acc = self._arith('+' if node.op == '∑' else '*', acc, term, typ)
+        return acc
+
+    def _vm_arith(self, op, a, b):
+        if isinstance(a, Vec) and isinstance(b, Vec) and len(a) == len(b):
+            return Vec([self._arith(op, x, y, a.elem) for x, y in zip(a.entries, b.entries)], a.elem, a.space)
+        if isinstance(a, Mat) and isinstance(b, Mat) and a.shape == b.shape:
+            return Mat([[self._arith(op, x, y, a.elem) for x, y in zip(ra, rb)] for ra, rb in zip(a.rows, b.rows)], a.elem)
+        raise Unsupported(f'operator {op} on vectors of different shapes')
+
+    def norm(self, node: Norm, env):
+        """`‖v‖`: the sup norm on the Pi type `Fin n → ℝ`, the Euclidean norm on `EuclideanSpace ℝ (Fin n)`
+        (exact in ℚ(√d)), the absolute value on a scalar."""
+        t = self.arith_type(node.expr, env)
+        if _base(t) == 'Vec':
+            v = self.num(node.expr, env, t)
+            if not isinstance(v, Vec):
+                raise Unsupported('norm of a non-vector')
+            if v.space == 'euclid':
+                total = Fraction(0)
+                for x in v.entries:
+                    total = total + _exact(x) * _exact(x)
+                return _real_sqrt(total)
+            out = Fraction(0)
+            for x in v.entries:
+                ax = _abs(_exact(x))
+                if ax > out:                  # Alg orders exactly against Fractions and other Alg values
+                    out = ax
+            return out
+        if _base(t) == 'Mat':
+            raise Unsupported('matrix norm')
+        if _base(t) not in ('Nat', 'Int', 'Rat', 'Real', 'Fin', 'Sci'):
+            raise Unsupported(f'norm of a {_base(t)} value')
+        v = self.num(node.expr, env, 'Real' if _base(t) in ('Nat', 'Int', 'Fin', 'Sci') else t)
+        if isinstance(v, (list, tuple, bool, Vec, Mat, ENN)):
+            raise Unsupported('norm of a non-numeric value')
+        return _abs(v)
+
+    def index_vector(self, v, index_node, env, typ):
+        i = self.num(index_node, env, 'Nat')
+        if isinstance(i, bool) or not isinstance(i, int):
+            raise Unsupported('a non-integer index')
+        if isinstance(v, Vec):
+            if not 0 <= i < len(v):
+                raise Unsupported(f'index {i} outside Fin {len(v)}')
+            return _coerce(v.entries[i], v.elem, typ)
+        if isinstance(v, Mat):
+            if not 0 <= i < v.shape[0]:
+                raise Unsupported(f'row index {i} outside Fin {v.shape[0]}')
+            return Vec(v.rows[i], v.elem)
+        raise Unsupported('indexing a non-vector')
+
+    def determinant(self, m: Mat):
+        rows, cols = m.shape
+        if rows != cols:
+            raise Unsupported('determinant of a non-square matrix')
+        if rows > 6:
+            raise Infeasible(f'determinant of a {rows}×{rows} matrix exceeds the expansion cap')
+        elem = m.elem
+
+        def det(a):
+            n = len(a)
+            if n == 0:
+                return self.num(Num(1), {}, elem)
+            if n == 1:
+                return a[0][0]
+            total = None
+            for j in range(n):
+                minor = [r[:j] + r[j + 1:] for r in a[1:]]
+                term = self._arith('*', a[0][j], det(minor), elem)
+                if j % 2:
+                    term = -term if elem != 'Nat' else term
+                    if elem == 'Nat':
+                        raise Unsupported('determinant over ℕ')
+                total = term if total is None else self._arith('+', total, term, elem)
+            return total
+        return det([list(r) for r in m.rows])
 
     def truth(self, node, env) -> bool:
         """A Bool-valued expression (`true`, `!`, `&&`, `||`, a Bool def) or a decidable proposition."""
@@ -1660,6 +2324,15 @@ class Evaluator:
             for x in v:
                 if isinstance(x, float):
                     raise AssertionError('floating point value produced')  # pragma: no cover - A3 guard
+        if isinstance(v, Vec):
+            for x in v.entries:
+                if isinstance(x, float):
+                    raise AssertionError('floating point value produced')  # pragma: no cover - A3 guard
+        if isinstance(v, Mat):
+            for r in v.rows:
+                for x in r:
+                    if isinstance(x, float):
+                        raise AssertionError('floating point value produced')  # pragma: no cover - A3 guard
         return v
 
     @staticmethod
@@ -1735,6 +2408,12 @@ class Evaluator:
             return self.call_closure(Closure(fn.params, fn.body, env, fn.types, self.namespace, self.opens),
                                      args, env, typ)
         if not isinstance(fn, Var):
+            ft = self.arith_type(fn, env)
+            if _base(ft) in ('Vec', 'Mat') and len(args) in (1, 2):
+                value = self.num(fn, env, ft)
+                for a in args:
+                    value = self.index_vector(value, a, env, typ if a is args[-1] else ft)
+                return value
             raise Unsupported('application of a non-name')
         name = fn.name
         if '.' in name and not name.startswith('.'):
@@ -1747,6 +2426,57 @@ class Evaluator:
             return self.measure_apply(env[name].value, args[0], env)
         if name in env and isinstance(env[name], Bound) and env[name].type == 'Func' and len(args) == 1:
             return self.func_apply(env[name].value, args[0], env)
+        if name in env and isinstance(env[name], Bound) and _base(env[name].type) == 'Vec' and len(args) == 1:
+            return self.index_vector(env[name].value, args[0], env, typ)
+        if name in env and isinstance(env[name], Bound) and _base(env[name].type) == 'Mat' and len(args) in (1, 2):
+            row = self.index_vector(env[name].value, args[0], env, typ)
+            return row if len(args) == 1 else self.index_vector(row, args[1], env, typ)
+        if name in ('.det', 'Matrix.det') and len(args) == 1:
+            mt = self.arith_type(args[0], env)
+            m = self.num(args[0], env, mt if _base(mt) == 'Mat' else 'Mat:Real:?:?')
+            if not isinstance(m, Mat):
+                raise Unsupported('determinant of a non-matrix')
+            return _coerce(self.determinant(m), m.elem, typ)
+        if name in ('.trace', 'Matrix.trace') and len(args) == 1:
+            mt = self.arith_type(args[0], env)
+            m = self.num(args[0], env, mt)
+            if not isinstance(m, Mat) or m.shape[0] != m.shape[1]:
+                raise Unsupported('trace of a non-square matrix')
+            acc = self.num(Num(0), env, m.elem)
+            for i in range(m.shape[0]):
+                acc = self._arith('+', acc, m.rows[i][i], m.elem)
+            return _coerce(acc, m.elem, typ)
+        if name in ('Pi.single', 'EuclideanSpace.single') and len(args) == 2:
+            if _base(typ) != 'Vec':
+                raise Unsupported(f'{name} outside a vector context')
+            elem, dim, space = _vec_info(typ)
+            n = self._dim(dim, env)
+            i = self.num(args[0], env, 'Nat')
+            if isinstance(i, bool) or not isinstance(i, int) or not 0 <= i < n:
+                raise Unsupported(f'{name} at an index outside Fin {n}')
+            zero = self.num(Num(0), env, elem)
+            x = self.num(args[1], env, elem)
+            return Vec([x if k == i else zero for k in range(n)], elem, space)
+        if name in ('dotProduct', 'Matrix.dotProduct', 'inner') and len(args) in (2, 3):
+            va, vb = args[-2], args[-1]
+            ta, tb = self.arith_type(va, env), self.arith_type(vb, env)
+            vt = _max_type(ta, tb) if _base(ta) == 'Vec' or _base(tb) == 'Vec' else None
+            if vt is None or _base(vt) != 'Vec':
+                raise Unsupported(f'{name} of non-vectors')
+            a, b = self.num(va, env, vt), self.num(vb, env, vt)
+            if not isinstance(a, Vec) or not isinstance(b, Vec) or len(a) != len(b):
+                raise Unsupported(f'{name} of vectors of different dimensions')
+            acc = self.num(Num(0), env, a.elem)
+            for x, y in zip(a.entries, b.entries):
+                acc = self._arith('+', acc, self._arith('*', x, y, a.elem), a.elem)
+            return _coerce(acc, a.elem, typ)
+        if name == 'Finset.range' and len(args) == 1:
+            n = self.num(args[0], env, 'Nat')
+            if isinstance(n, bool) or not isinstance(n, int):
+                raise Unsupported('Finset.range of a non-natural')
+            if n > _MAX_LOOP:
+                raise Infeasible(f'Finset.range {n} exceeds the loop cap')
+            return list(range(n))
         if name in _TRANSCENDENTAL:
             raise Unsupported(f'transcendental {name} is outside the exact algebraic backend')
         if name in ('.toReal', 'ENNReal.toReal') and len(args) == 1:
@@ -1865,7 +2595,12 @@ class Evaluator:
         if dtyp == 'Measure' and not d.clauses and len(args) == len(d.params) + 1:
             measure = self.apply(App(fn, list(args[:-1])), env, 'Measure')
             return self.measure_apply(measure, args[-1], env)
-        if not d.clauses and d.result_type and len(_arrow_parts(d.result_type)) > 1:
+        if _base(dtyp) in ('Vec', 'Mat') and len(args) > len(d.params):
+            value = self.apply(App(fn, list(args[:len(d.params)])), env, dtyp)
+            for a in args[len(d.params):]:
+                value = self.index_vector(value, a, env, typ if a is args[-1] else dtyp)
+            return value
+        if not d.clauses and d.result_type and _base(dtyp) not in ('Vec', 'Mat') and len(_arrow_parts(d.result_type)) > 1:
             # `def f (L : ℝ) : ℝ → ℝ := fun x => …`: the result is a function; extra arguments are applied to it
             arity = len(_arrow_parts(d.result_type)) - 1
             if len(args) == len(d.params):
@@ -1873,10 +2608,7 @@ class Evaluator:
             if len(args) == len(d.params) + arity:
                 if d.body is None:
                     raise Unsupported(f'definition {name} has an unparsed body')
-                local = {}
-                for (pname, ptype), a in zip(d.params, args[:len(d.params)]):
-                    pt = self._type_name(ptype)
-                    local[pname] = Bound(self.num(a, env, pt), pt)
+                local = self.bind_parameters(d, args[:len(d.params)], env)
                 fn_value = d.body
                 if not isinstance(fn_value, Lambda):
                     raise Unsupported(f'{name} returns a function that is not a lambda')
@@ -1894,10 +2626,7 @@ class Evaluator:
             n_pats = len(d.clauses[0][0])
             if len(args) != n_lead + n_pats:
                 raise Unsupported(f'{name} applied to {len(args)} of {n_lead + n_pats} arguments')
-            local = {}
-            for (pname, ptype), a in zip(d.params, args[:n_lead]):
-                pt = self._type_name(ptype)
-                local[pname] = Bound(self.num(a, env, pt), pt)
+            local = self.bind_parameters(d, args[:n_lead], env)
             arrow_types = _arrow_parts(d.result_type)[:-1] if d.result_type else []
             vals = []
             for k, a in enumerate(args[n_lead:]):
@@ -1919,12 +2648,36 @@ class Evaluator:
             raise Unsupported(f'definition {name} has an unparsed body')
         if len(args) != len(d.params):
             raise Unsupported(f'{name} applied to {len(args)} of {len(d.params)} arguments')
+        local = self.bind_parameters(d, args, env)
+        with self.declaration_scope(d.namespace, d.opens):
+            return self.num(d.body, local, dtyp)
+
+    def bind_parameters(self, d: Def, args, env) -> dict:
+        """The local environment of a definition applied to ``args``: explicit parameters at their declared types,
+        then every implicit `{n : ℕ}` that is the dimension of a vector / index / matrix parameter, read off the
+        argument's actual size (`def gm8Radius {n : ℕ} (j : Fin n → ℝ)` applied to a `Fin 6 → ℝ` binds n = 6).
+        An implicit the arguments do not fix stays unbound: a body that mentions it is UNSUPPORTED."""
         local = {}
         for (pname, ptype), a in zip(d.params, args):
             pt = self._type_name(ptype)
             local[pname] = Bound(self.num(a, env, pt), pt)
-        with self.declaration_scope(d.namespace, d.opens):
-            return self.num(d.body, local, dtyp)
+        for iname, itype in d.implicits:
+            if itype.strip() not in _NAT_TYPES:
+                continue
+            for pname, ptype in d.params:
+                pt = local[pname].type
+                v = local[pname].value
+                dims = _dims_of(pt)
+                if iname not in dims:
+                    continue
+                if isinstance(v, Vec) and _base(pt) == 'Vec':
+                    local[iname] = Bound(len(v), 'Nat')
+                elif isinstance(v, Mat) and _base(pt) == 'Mat':
+                    rows, cols = _mat_info(pt)[1:]
+                    local[iname] = Bound(v.shape[0] if rows == iname else v.shape[1], 'Nat')
+                if iname in local:
+                    break
+        return local
 
     # ---- finite models
     def integral(self, node: Integral, env):
@@ -2104,7 +2857,7 @@ class Evaluator:
     def forall(self, node: 'Forall', env) -> bool:
         var_type = 'Int' if node.type in _INT_TYPES else 'Nat'
         if node.type is not None and node.type not in _INT_TYPES | _NAT_TYPES:
-            kind = _kind_of_type(node.type, self.module.point_types)
+            kind = _kind_of_type(node.type, self.module.point_types, self.module.aliases)
             if kind == 'Set':
                 # every subset of the finite carrier: 2^n instances
                 pts = list(self.points())
@@ -2112,8 +2865,15 @@ class Evaluator:
                 return self._forall_over(node, env, subsets, 'Set')
             if kind == 'Point':
                 return self._forall_over(node, env, list(self.points()), 'Point')
+            if kind is not None and _base(kind) == 'Fin':
+                n = self._dim(kind.split(':')[1], env)
+                return self._forall_over(node, env, list(range(n)), kind)
             raise Unsupported(f'quantifier over {node.type}')
         domain, body = _domain_of(node, self, env)
+        if domain is None and node.type is None and node.domain is None:
+            n = self.index_dimension(node.var, node.body, env)
+            if n is not None:
+                return self._forall_over(node, env, list(range(n)), f'Fin:{n}')
         if domain is None:
             raise Unsupported(f'unbounded quantifier over {node.var}')
         self.instances += len(domain)
@@ -2161,6 +2921,8 @@ class Evaluator:
             return self.ae_rel(node, env)
         if isinstance(node, App) and isinstance(node.fn, Var) and node.fn.name in _MEASURE_PREDICATES:
             return self.predicate(node, env)
+        if isinstance(node, Var) and node.name in ('True', 'False'):
+            return node.name == 'True'
         if isinstance(node, (BoolNot, Var)) or (isinstance(node, BinOp) and node.op in ('&&', '||')):
             if isinstance(node, Var) and node.name not in ('true', 'false'):
                 v = self.num(node, env, 'Nat')
@@ -2203,7 +2965,14 @@ class Evaluator:
                 return all(w_nu == ENN(Fraction(0)) for w_nu, w_mu in zip(nu.weights, mu.weights)
                            if w_mu == ENN(Fraction(0)))
             if node.op in _COMPARISONS:
-                typ = _max_type(self.arith_type(node.left, env), self.arith_type(node.right, env))
+                lt, rt = self.arith_type(node.left, env), self.arith_type(node.right, env)
+                typ = _max_type(lt, rt)
+                # a `Fin n` index against numerals only: the numerals are `Fin n` literals (`i = 2`, `i ≠ 7 - 5`),
+                # which wrap; against a ℕ term Lean coerces the index (`↑i < n`)
+                if _base(lt) == 'Fin' and rt == 'Nat' and _literal_only(node.right):
+                    typ = lt
+                elif _base(rt) == 'Fin' and lt == 'Nat' and _literal_only(node.left):
+                    typ = rt
                 if typ == 'Bool':
                     typ = 'Nat'
                 if typ == 'Sci':
@@ -2216,6 +2985,21 @@ class Evaluator:
                     if node.op == '≠':
                         return a != b
                     raise Unsupported(f'ordering of {typ} values')
+                if _base(typ) in ('Vec', 'Mat'):
+                    typ = self.fix_unknown_dimension(typ, (node.left, node.right), env)
+                    a = self.num(node.left, env, typ)
+                    b = self.num(node.right, env, typ)
+                    if node.op == '=':
+                        return a == b
+                    if node.op == '≠':
+                        return a != b
+                    if isinstance(a, Vec) and isinstance(b, Vec) and a.space == 'pi' and b.space == 'pi' and len(a) == len(b):
+                        # the Pi order: v ≤ w ↔ ∀ i, v i ≤ w i; v < w ↔ v ≤ w ∧ ¬ w ≤ v
+                        le = lambda x, y: all(_exact(p) <= _exact(q) if a.elem in _FIELD_TYPES else p <= q
+                                              for p, q in zip(x.entries, y.entries))
+                        return {'≤': le(a, b), '≥': le(b, a), '<': le(a, b) and not le(b, a),
+                                '>': le(b, a) and not le(a, b)}[node.op]
+                    raise Unsupported(f'ordering of {_base(typ)} values' + (' on EuclideanSpace' if isinstance(a, Vec) else ''))
                 a = self.num(node.left, env, typ)
                 b = self.num(node.right, env, typ)
                 if isinstance(a, (list, tuple, bool)) or isinstance(b, (list, tuple, bool)):
@@ -2232,6 +3016,17 @@ class Evaluator:
             return node.name == 'True'
         if isinstance(node, Ascribe):
             return self.prop(node.expr, env)
+        if isinstance(node, App) and isinstance(node.fn, Var):
+            d = self.defn(node.fn.name)
+            if d is not None and d.result_type and d.result_type.strip() == 'Prop' and not d.clauses:
+                # `def dm2Negative (H : …) : Prop := ∀ v, …`: the proposition is the body at the arguments
+                if d.body is None:
+                    raise Unsupported(f'definition {node.fn.name} has an unparsed body')
+                if len(node.args) != len(d.params):
+                    raise Unsupported(f'{node.fn.name} applied to {len(node.args)} of {len(d.params)} arguments')
+                local = self.bind_parameters(d, node.args, env)
+                with self.declaration_scope(d.namespace, d.opens):
+                    return self.prop(d.body, local)
         raise Unsupported(f'proposition of form {type(node).__name__}')
 
 
@@ -2243,19 +3038,28 @@ def _ediv(a: int, b: int) -> int:
     return a // b if b > 0 else -(a // (-b))
 
 
+_TYPE_ORDER = {'Sci': -2, 'Bool': -1, 'Fin': -0.5, 'Nat': 0, 'Int': 1, 'Rat': 2, 'Real': 3, 'ENNReal': 4, 'Point': 5,
+               'Set': 6, 'Vec': 6.5, 'Mat': 6.7, 'Func': 7, 'Measure': 8, 'Function': 9, 'Prop': 10}
+
+
 def _max_type(a, b):
-    order = {'Sci': -2, 'Bool': -1, 'Nat': 0, 'Int': 1, 'Rat': 2, 'Real': 3, 'ENNReal': 4, 'Point': 5, 'Set': 6,
-             'Func': 7, 'Measure': 8, 'Function': 9, 'Prop': 10}
-    if 'Prop' in (a, b):
+    """The `binop%` maximal type of two operand types; vector / matrix types carry their dimension, and when
+    both sides are vectors the one whose dimension is known wins ('Vec:Real:?' is a `Pi.single` without
+    context)."""
+    ba, bb = _base(a), _base(b)
+    if 'Prop' in (ba, bb):
         raise Unsupported('arithmetic on propositions')
-    return a if order[a] >= order[b] else b
+    if ba == bb and ba in ('Vec', 'Mat'):
+        return b if '?' in a else a
+    return a if _TYPE_ORDER[ba] >= _TYPE_ORDER[bb] else b
 
 
 def _coerce(v, from_type, to_type):
-    """Value of type ``from_type`` used where ``to_type`` is expected: ℕ/ℤ embed into ℚ/ℝ; a rational or
-    real value has no coercion back to ℕ/ℤ in Lean (the statement would not elaborate)."""
-    if isinstance(v, (list, tuple, bool)):
+    """Value of type ``from_type`` used where ``to_type`` is expected: ℕ/ℤ (and a `Fin n` index, `↑i`) embed into
+    ℚ/ℝ; a rational or real value has no coercion back to ℕ/ℤ in Lean (the statement would not elaborate)."""
+    if isinstance(v, (list, tuple, bool, Vec, Mat)):
         return v
+    from_type, to_type = _base(from_type), _base(to_type)
     if to_type in _FIELD_TYPES and from_type not in _FIELD_TYPES:
         return Fraction(v)
     if from_type in _FIELD_TYPES and to_type not in _FIELD_TYPES and to_type != 'Sci':
@@ -2808,6 +3612,9 @@ _INT_POOL = [0, 1, -1, 2, -2, 10 ** 6, -10 ** 6, 3, -3, 7, -7, 10, -10, 100, -10
 _NAT_POOL = [0, 1, 2, 3, 4, 5, 10 ** 6, 6, 7, 8, 9, 10, 16, 31, 32, 63, 64, 100, 127, 128, 255, 256, 1000, 1023,
              1024, 65535, 65536, 2 ** 31 - 1, 2 ** 31, 2 ** 32, 2 ** 63, 10 ** 18, 12, 24, 60]
 _POOLS = {'Real': _REAL_POOL, 'Rat': _REAL_POOL, 'Int': _INT_POOL, 'Nat': _NAT_POOL}
+# a ℕ binder that is the dimension of a later `Fin n → ℝ` / `Fin n` binder is drawn from here: statements over
+# every dimension are tested at the small ones (0 included), where a vector is enumerable and a witness readable
+_DIM_POOL = [2, 1, 3, 0, 2, 4, 1, 3]
 _DIAGONAL = 8                   # structured points first: every variable takes pool[i] for i < _DIAGONAL
 _DRAW_RETRIES = 24              # redraws of one variable against the hypotheses it completes
 _MAX_ATTEMPTS_PER_SAMPLE = 16
@@ -2896,6 +3703,102 @@ def _random_model_value(kind, rng: random.Random, n, probability):
     raise Unsupported(f'model kind {kind}')
 
 
+def _resolve_dim(token: str, env):
+    """A dimension token's value under the current sample, or None when its ℕ binder is not yet drawn."""
+    if token.isdigit():
+        return int(token)
+    b = env.get(token)
+    return b.value if isinstance(b, Bound) and isinstance(b.value, int) and not isinstance(b.value, bool) else None
+
+
+def _structured_vector(typ, i, env):
+    """The i-th structured value of a vector / index / matrix binder (deterministic): the zero vector, the ones,
+    a unit vector, the pool along the diagonal, alternating signs, a constant; the first / last / middle index;
+    the zero / identity / pool-diagonal matrix. None when a dimension is not drawn yet or is empty for an index."""
+    b = _base(typ)
+    if b == 'Fin':
+        n = _resolve_dim(typ.split(':')[1], env)
+        if not n:
+            return None
+        return [0, n - 1, 1 % n, n // 2, 0, n - 1, 2 % n, (n - 2) % n][i % 8]
+    if b == 'Vec':
+        elem, dim, space = _vec_info(typ)
+        n = _resolve_dim(dim, env)
+        if n is None:
+            return None
+        pool = _POOLS[elem]
+        def pv(k):
+            v = _coerce_sample(pool[k % len(pool)], elem)
+            return v if v is not None else _coerce_sample(0, elem)
+        patterns = [
+            lambda k: _coerce_sample(0, elem),
+            lambda k: _coerce_sample(1, elem),
+            lambda k: _coerce_sample(1 if k == 0 else 0, elem),
+            lambda k: pv(k + 1),
+            lambda k: _coerce_sample(1 if k % 2 == 0 else -1, elem) if elem != 'Nat' else _coerce_sample(k % 2, elem),
+            lambda k: pv(7),
+            lambda k: pv(2 * k + 3),
+            lambda k: _coerce_sample(1 if k == n - 1 else 0, elem),
+        ]
+        return Vec([patterns[i % 8](k) for k in range(n)], elem, space)
+    if b == 'Mat':
+        elem, m_, n_ = _mat_info(typ)
+        m, n = _resolve_dim(m_, env), _resolve_dim(n_, env)
+        if m is None or n is None:
+            return None
+        pool = _POOLS[elem]
+        def pv(k):
+            v = _coerce_sample(pool[k % len(pool)], elem)
+            return v if v is not None else _coerce_sample(0, elem)
+        if i % 4 == 0:
+            rows = [[_coerce_sample(0, elem) for _ in range(n)] for _ in range(m)]
+        elif i % 4 == 1:
+            rows = [[_coerce_sample(1 if r == c else 0, elem) for c in range(n)] for r in range(m)]
+        elif i % 4 == 2:
+            rows = [[pv(r * n + c + 1) for c in range(n)] for r in range(m)]
+        else:
+            rows = [[pv(r + c + i) for c in range(n)] for r in range(m)]
+        return Mat(rows, elem)
+    return None
+
+
+def _random_vector(typ, rng: random.Random, env, boundaries=None):
+    """A random vector / index / matrix: each entry a pool value, a hypothesis boundary of that component when
+    one is known, or a random rational; None when a dimension is not drawn yet or is empty for an index."""
+    b = _base(typ)
+    if b == 'Fin':
+        n = _resolve_dim(typ.split(':')[1], env)
+        return None if not n else rng.randrange(n)
+    boundaries = boundaries or {}
+
+    def entry(elem, k):
+        bs = boundaries.get(k)
+        r = rng.random()
+        if bs and r < 0.4:
+            return rng.choice(bs)
+        if r < 0.8:
+            v = _coerce_sample(rng.choice(_POOLS[elem]), elem)
+            if v is not None:
+                return v
+        return _random_value(rng, elem)
+    if b == 'Vec':
+        elem, dim, space = _vec_info(typ)
+        n = _resolve_dim(dim, env)
+        if n is None:
+            return None
+        if rng.random() < 0.15:
+            c = entry(elem, 0)
+            return Vec([c] * n, elem, space)
+        return Vec([entry(elem, k) for k in range(n)], elem, space)
+    if b == 'Mat':
+        elem, m_, n_ = _mat_info(typ)
+        m, n = _resolve_dim(m_, env), _resolve_dim(n_, env)
+        if m is None or n is None:
+            return None
+        return Mat([[entry(elem, r * n + c) for c in range(n)] for r in range(m)], elem)
+    return None
+
+
 def _coerce_sample(v, typ):
     """A pool value as a sample of ``typ`` (None when it is not representable there)."""
     if typ in _FIELD_TYPES:
@@ -2918,6 +3821,17 @@ def _random_value(rng: random.Random, typ):
     return abs(num) if typ == 'Nat' else num
 
 
+def _literal_only(node) -> bool:
+    """Whether an expression is built from numerals alone (its type comes from the other side of a comparison)."""
+    if isinstance(node, Num):
+        return isinstance(node.value, int)
+    if isinstance(node, BinOp):
+        return _literal_only(node.left) and _literal_only(node.right)
+    if isinstance(node, Neg):
+        return _literal_only(node.expr)
+    return False
+
+
 def _split_conjuncts(node):
     if isinstance(node, BinOp) and node.op == '∧':
         return _split_conjuncts(node.left) + _split_conjuncts(node.right)
@@ -2934,15 +3848,23 @@ def _structural_conclusion(stmt):
     return None
 
 
-def _boundary_candidates(var: str, typ: str, hyps: list, ev: Evaluator, env: dict, var_names: set) -> list:
+def _boundary_candidates(var: str, typ: str, hyps: list, ev: Evaluator, env: dict, var_names: set,
+                         component=None) -> list:
     """Exact values at and next to the boundaries that the hypotheses give ``var`` once every other
-    variable they mention is assigned: `c ≤ x`, `x < c`, `x = c`, `x ≠ c`, `|x - e| ≤ c` (and `|e - x|`)."""
+    variable they mention is assigned: `c ≤ x`, `x < c`, `x = c`, `x ≠ c`, `|x - e| ≤ c` (and `|e - x|`).
+    With ``component`` = k the target is the entry `var k` of a vector binder (`v 0 ∈ Set.Ioo a b`)."""
     out = []
     eps = [Fraction(0), Fraction(1), Fraction(-1), Fraction(1, 10 ** 6), Fraction(-1, 10 ** 6)] if typ in _FIELD_TYPES \
         else [0, 1, -1]
 
+    def is_target(node):
+        if component is None:
+            return isinstance(node, Var) and node.name == var
+        return (isinstance(node, App) and isinstance(node.fn, Var) and node.fn.name == var and len(node.args) == 1
+                and isinstance(node.args[0], Num) and node.args[0].value == component)
+
     def closed(node):
-        return all(v in env for v in _free_vars(node) & var_names)
+        return all(v in env for v in _free_vars(node) & var_names) and not (component is not None and var in _free_vars(node))
 
     def value(node):
         try:
@@ -2958,7 +3880,7 @@ def _boundary_candidates(var: str, typ: str, hyps: list, ev: Evaluator, env: dic
         if isinstance(node, App) and isinstance(node.fn, Var) and node.fn.name == 'abs' and len(node.args) == 1 \
                 and isinstance(node.args[0], BinOp) and node.args[0].op == '-':
             l, r = node.args[0].left, node.args[0].right
-            e = r if isinstance(l, Var) and l.name == var else (l if isinstance(r, Var) and r.name == var else None)
+            e = r if is_target(l) else (l if is_target(r) else None)
             if e is not None and closed(e) and closed(other):
                 ev_, ov = value(e), value(other)
                 if ev_ is not None and ov is not None:
@@ -2970,7 +3892,7 @@ def _boundary_candidates(var: str, typ: str, hyps: list, ev: Evaluator, env: dic
             if not (isinstance(h, BinOp) and h.op in ('≤', '<', '≥', '>', '=', '≠')):
                 continue
             for side, other in ((h.left, h.right), (h.right, h.left)):
-                if isinstance(side, Var) and side.name == var and closed(other):
+                if is_target(side) and closed(other):
                     c = value(other)
                     if c is not None:
                         out.extend(c + e for e in eps)
@@ -2996,6 +3918,8 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
     model = any(t in _MODEL_KINDS for _, t in variables)
     probability = {h.args[0].name for h in hyps if isinstance(h, App) and isinstance(h.fn, Var)
                    and h.fn.name == 'IsProbabilityMeasure' and len(h.args) == 1 and isinstance(h.args[0], Var)}
+    vectors = any(_base(t) in _VECTOR_KINDS for _, t in variables)
+    dim_vars = {d for _, t in variables if _base(t) in _VECTOR_KINDS for d in _dims_of(t) if not d.isdigit()}
     try:
         if not variables:
             # hypotheses only: a closed statement under closed hypotheses
@@ -3029,6 +3953,29 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
 
         def draw(index, env):
             name, typ = variables[index]
+            if _base(typ) in _VECTOR_KINDS:
+                bounds = {}
+                if _base(typ) == 'Vec':
+                    elem, dim, _ = _vec_info(typ)
+                    n = _resolve_dim(dim, env)
+                    for k in range(n or 0):
+                        bs = _boundary_candidates(name, elem, hyps, ev, env, var_names, component=k)
+                        if bs:
+                            bounds[k] = bs
+                for _ in range(_DRAW_RETRIES):
+                    v = _random_vector(typ, rng, env, bounds)
+                    if v is None:
+                        return False
+                    env[name] = Bound(v, typ)
+                    if hyps_hold(completed[index], env):
+                        return True
+                return False
+            if name in dim_vars:
+                for _ in range(_DRAW_RETRIES):
+                    env[name] = Bound(rng.choice(_DIM_POOL), 'Nat')
+                    if hyps_hold(completed[index], env):
+                        return True
+                return False
             if typ in _MODEL_KINDS:
                 others = [env[n].value for n, t in variables[:index] if t == typ and n in env] if typ != 'Measure' else []
                 for _ in range(_DRAW_RETRIES):
@@ -3094,6 +4041,15 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
                 if typ in _MODEL_KINDS:
                     env[name] = Bound(_structured_model_value(typ, i, ev.model_n, name in probability), typ)
                     continue
+                if _base(typ) in _VECTOR_KINDS:
+                    v = _structured_vector(typ, i, env)
+                    if v is None:
+                        break
+                    env[name] = Bound(v, typ)
+                    continue
+                if name in dim_vars:
+                    env[name] = Bound(_DIM_POOL[i % len(_DIM_POOL)], 'Nat')
+                    continue
                 v = _coerce_sample(_POOLS[typ][i], typ)
                 if v is None:
                     break
@@ -3121,7 +4077,7 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
                 return refuted(env)
         # information only (A6): the conclusion at hypothesis boundaries the hypotheses exclude
         for name, typ in variables:
-            if len(probes) >= 8 or model:
+            if len(probes) >= 8 or model or vectors:
                 break
             env = {n: Bound(_coerce_sample(_POOLS[t][1], t), t) for n, t in variables}
             for v in _boundary_candidates(name, typ, hyps, ev, env, var_names):
@@ -3201,6 +4157,12 @@ def _static_typing(module: Module, thm: Theorem):
     for b in thm.binders:
         if b.kind == 'var':
             placeholder = Func((), 'Real') if b.type == 'Func' else None
+            if _base(b.type) == 'Vec':
+                placeholder = Vec((), _vec_info(b.type)[0], _vec_info(b.type)[2])
+            elif _base(b.type) == 'Mat':
+                placeholder = Mat((), _mat_info(b.type)[0])
+            elif _base(b.type) == 'Fin':
+                placeholder = 0
             env[b.name] = Bound(placeholder, b.type)
 
     def typing(node):

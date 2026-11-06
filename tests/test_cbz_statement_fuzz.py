@@ -321,15 +321,17 @@ class PackageTests(unittest.TestCase):
                 'import Mathlib\nnamespace Y\n'
                 'theorem a : ∑ i ∈ Finset.range 3, (i : ℝ) = 3 := by\n  rw [← Finset.sum_range_succ]\n  norm_num\n'
                 'theorem b : (2 : Nat) + 2 = 4 := by decide\n'
-                'lemma c (x : ℝ) : x ^ 2 ≥ 0 := by positivity\nend Y\n')
+                'lemma c (x : ℝ) : x ^ 2 ≥ 0 := by positivity\n'
+                'theorem d : Real.exp 0 = 1 := by simp\nend Y\n')
             (root / 'manifest.json').write_text(json.dumps({'source_modules': ['Y/Core.lean'], 'targets': [
                 {'name': 'Y.a', 'module': 'Y/Core.lean'}, {'name': 'Y.b', 'module': 'Y/Core.lean'},
-                {'name': 'Y.c', 'module': 'Y/Core.lean'}]}))
+                {'name': 'Y.c', 'module': 'Y/Core.lean'}, {'name': 'Y.d', 'module': 'Y/Core.lean'}]}))
             report = sf.check_package(root)
-            self.assertEqual(report['per_target']['Y.a']['status'], 'UNSUPPORTED')
+            self.assertEqual(report['per_target']['Y.a']['status'], 'PASS')        # a finite sum is exact
             self.assertEqual(report['per_target']['Y.b']['status'], 'PASS')
-            # `(x : ℝ)` before the colon is sampled, never PASS: the package still fails on Y.a
+            # `(x : ℝ)` before the colon is sampled, never PASS: the package still fails on Y.d
             self.assertEqual(report['per_target']['Y.c']['status'], 'CORROBORATED')
+            self.assertEqual(report['per_target']['Y.d']['status'], 'UNSUPPORTED')
             self.assertEqual(report['exit_code'], 1)
 
     def test_manifest_targets_may_be_bare_names(self):
@@ -565,7 +567,7 @@ class SampledBinderSemanticsTests(unittest.TestCase):
         self.assertIn('Real.exp', r.detail)
 
     def test_type_tokens_inside_a_binder_type_are_types_not_hypotheses(self):
-        for b in ('(x : ℝ≥0)', '(n : ℕ+)', '(v : Fin 3 → ℝ)'):
+        for b in ('(x : ℝ≥0)', '(n : ℕ+)', '(v : Fin 3 → ℝ≥0)'):
             with self.subTest(b=b):
                 r = self.ev(b, '(1 : ℝ) = 1')
                 self.assertEqual(r.status, 'UNSUPPORTED')
@@ -912,6 +914,144 @@ class NameResolutionTests(unittest.TestCase):
             self.assertEqual(report['targets'], 7)
             self.assertEqual(report['status_counts'], {'PASS': 5, 'FAIL': 1, 'UNSUPPORTED': 1})
             self.assertEqual(report['unsupported_reasons'], {'declaration not reached by the parser': 1})
+
+
+VEC = """
+abbrev DM2Jet := Fin 9 → ℝ
+def dm2Radius (j : DM2Jet) : ℝ := 1 + ∑ i, |j i|
+def gm8Radius {n : ℕ} (j : Fin n → ℝ) : ℝ := 1 + ∑ i, |j i|
+def egm_HM (r : ℝ) (j : Fin 6 → ℝ) : Matrix (Fin 2) (Fin 2) ℝ :=
+  !![r * j 0, r * j 1; r * j 1, j 2]
+def egm_HS (r : ℝ) (j : Fin 6 → ℝ) : Matrix (Fin 2) (Fin 2) ℝ :=
+  !![r * j 3, r * j 4; r * j 4, j 5]
+def enb_permutation (j : Fin 6 → ℝ) : Fin 6 → ℝ :=
+  ![j 0, j 3, j 1, j 4, j 2, j 5]
+def dm2Negative (H : Matrix (Fin 2) (Fin 2) ℝ) : Prop :=
+  ∀ v : Fin 2 → ℝ, v ≠ 0 → ∑ i, ∑ k, v i * H i k * v k < 0
+"""
+
+
+class FiniteVectorTests(unittest.TestCase):
+    """Exact finite vectors `Fin n → ℝ/ℤ/ℕ`, indices `Fin n`, matrices `Matrix (Fin m) (Fin n) ℝ`: sampled binders,
+    `![…]` / `!![…]` literals, `∑`/`∏` over finite index sets, `.det`, norms, `Pi.single`, implicit dimensions."""
+
+    def ev(self, binders, text, defs=VEC, samples=40):
+        module = sf.parse_module(after(defs, f'theorem t {binders} : {text} := by sorry'))
+        return sf.evaluate_theorem(module, module.theorems[-1], samples=samples)
+
+    def test_types_and_aliases(self):
+        k = lambda t: sf._kind_of_type(t, set(), {'DM2Jet': 'Fin 9 → ℝ'})
+        self.assertEqual(k('Fin 6 → ℝ'), 'Vec:Real:6')
+        self.assertEqual(k('Fin d → ℤ'), 'Vec:Int:d')
+        self.assertEqual(k('Fin 6'), 'Fin:6')
+        self.assertEqual(k('EuclideanSpace ℝ ( Fin 2 )'), 'Vec:Real:2:euclid')
+        self.assertEqual(k('Matrix ( Fin 2 ) ( Fin 3 ) ℚ'), 'Mat:Rat:2:3')
+        self.assertEqual(k('DM2Jet'), 'Vec:Real:9')
+        self.assertIsNone(k('Fin 2 → ℝ ≥ 0'))
+        self.assertIsNone(k('Set ( Fin d → ℤ )'))
+        self.assertIsNone(k('( Fin 2 → ℝ ) → ℝ'))
+        m = sf.parse_module(VEC)
+        self.assertEqual(m.aliases.get('DM2Jet'), 'Fin 9 → ℝ')
+        self.assertEqual([p for p, _ in m.defs.get('gm8Radius').implicits], ['n'])
+
+    def test_determinant_package_statements_are_corroborated_and_their_misstatements_refuted(self):
+        self.assertEqual(self.ev('(j : Fin 6 → ℝ) (i : Fin 6)', '|j i| ≤ gm8Radius j').status, 'CORROBORATED')
+        r = self.ev('(j : Fin 6 → ℝ) (i : Fin 6)', '|j i| < gm8Radius j - 1')
+        self.assertEqual(r.status, 'FAIL')
+        self.assertIn('j = ![0, 0, 0, 0, 0, 0], i = 0', r.detail)
+        self.assertEqual(self.ev('(r : ℝ) (j : Fin 6 → ℝ) (hr : 0 < r)',
+                                 '(egm_HS r j).det < 0 ↔ j 3 * j 5 - r * j 4 ^ 2 < 0').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(r : ℝ) (j : Fin 6 → ℝ) (hr : 0 < r)',
+                                 '(egm_HS r j).det < 0 ↔ j 3 * j 5 + r * j 4 ^ 2 < 0').status, 'FAIL')
+        self.assertEqual(self.ev('(r : ℝ) (j : Fin 6 → ℝ) (hr : 0 < r) (hr1 : r ≤ 1)',
+                                 '((egm_HM r j).det * (egm_HS r j).det) ^ 2 ≤ 16 * r ^ 4 * gm8Radius j ^ 8').status,
+                         'CORROBORATED')
+        self.assertEqual(self.ev('(j : Fin 6 → ℝ)', 'enb_permutation j 1 = j 3').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(j : Fin 6 → ℝ)', 'enb_permutation j 1 = j 1').status, 'FAIL')
+        self.assertEqual(self.ev('(j : DM2Jet)', '1 ≤ dm2Radius j').status, 'CORROBORATED')     # through the alias
+        # an implicit `{n : ℕ}` is read off the argument: gm8Radius on a vector of a sampled dimension
+        self.assertEqual(self.ev('(n : ℕ) (j : Fin n → ℝ)',
+                                 'gm8Radius j ^ 8 ≤ ((n + 1 : ℕ) : ℝ) ^ 7 * (1 + ∑ i, |j i| ^ 8)').status, 'CORROBORATED')
+        # a Prop-valued definition is inlined; its quantifier over ℝ² stays unsupported, named
+        r = self.ev('(r : ℝ) (j : Fin 6 → ℝ) (hr : 0 < r)', 'dm2Negative (egm_HM r j) ↔ j 0 < 0 ∧ 0 < j 0 * j 2 - r * j 1 ^ 2')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('quantifier over Fin 2 → ℝ', r.detail)
+
+    def test_big_operators_bind_like_mathlib_and_products_hypotheses_filter(self):
+        # `∏ i, p i ≤ 1` is `(∏ i, p i) ≤ 1` (r:67), and `∀ j, …` over the index of p is bounded by its dimension
+        self.assertEqual(self.ev('(n : ℕ) (p : Fin n → ℝ) (hp : ∀ j, 0 ≤ p j ∧ p j ≤ 1)', '∏ i, p i ≤ 1').status, 'CORROBORATED')
+        r = self.ev('(n : ℕ) (p : Fin n → ℝ) (hp : ∀ j, 0 ≤ p j ∧ p j ≤ 1)', '∏ i, p i < 1')
+        self.assertEqual(r.status, 'FAIL')
+        self.assertIn('n = 1, p = ![1]', r.detail)
+        self.assertEqual(self.ev('(v : Fin 3 → ℝ)', '∑ i, v i + 1 = (∑ i, v i) + 1').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(v : Fin 3 → ℝ)', '∑ i, (v i + 1) = (∑ i, v i) + 3').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(b : ℕ) (d : Fin b → ℕ) (i : Fin b)', 'd i ≤ ∑ k, d k').status, 'CORROBORATED')
+        self.assertEqual(self.ev('', '∑ i ∈ Finset.range 4, (i : ℝ) ^ 2 = 14').status, 'PASS')
+        self.assertEqual(self.ev('', '∑ i ∈ Finset.range 4, (i + 1) = 10').status, 'PASS')      # a ℕ index, not Fin
+        self.assertEqual(self.ev('', '∑ i ∈ Finset.range 0, (i : ℝ) = 0 ∧ ∏ i ∈ Finset.range 0, (i : ℝ) = 1').status, 'PASS')
+        self.assertEqual(self.ev('(v : Fin 2 → ℝ) (h : v ≠ 0)', '0 < ∑ i, v i ^ 2').status, 'CORROBORATED')
+        r = self.ev('(v : Fin 2 → ℝ)', '0 < ∑ i, v i ^ 2')
+        self.assertEqual(r.status, 'FAIL')
+        self.assertIn('v = ![0, 0]', r.detail)
+
+    def test_norms_pi_versus_euclidean(self):
+        self.assertEqual(self.ev('(v : Fin 3 → ℝ) (i : Fin 3)', '|v i| ≤ ‖v‖').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(v : Fin 2 → ℝ)', '‖v‖ = |v 0| + |v 1|').status, 'FAIL')          # sup norm
+        self.assertEqual(self.ev('(v : EuclideanSpace ℝ (Fin 2))', '‖v‖ ^ 2 = v 0 ^ 2 + v 1 ^ 2').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(v : EuclideanSpace ℝ (Fin 2))', '‖v‖ = |v 0| + |v 1|').status, 'FAIL')
+        self.assertEqual(self.ev('(v w : Fin 4 → ℝ)', '‖v + w‖ ≤ ‖v‖ + ‖w‖').status, 'CORROBORATED')
+        r = self.ev('(v w : EuclideanSpace ℝ (Fin 2))', 'v ≤ w')
+        self.assertEqual(r.status, 'UNSUPPORTED')          # no order on EuclideanSpace
+        self.assertEqual(self.ev('(v w : Fin 2 → ℝ) (h : v ≤ w)', 'v 0 ≤ w 0 ∧ v 1 ≤ w 1').status, 'CORROBORATED')
+
+    def test_literals_singles_scalars_and_dot_products(self):
+        self.assertEqual(self.ev('(a b c d : ℝ)', '(!![a, b; c, d]).det = a * d - b * c').status, 'CORROBORATED')
+        r = self.ev('(a b c d : ℝ)', '(!![a, b; c, d]).det = a * d + b * c')
+        self.assertEqual(r.status, 'FAIL')
+        self.assertEqual(self.ev('(a b c : ℝ)', 'Matrix.det !![a, b, c; 0, a, b; 0, 0, a] = a ^ 3').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(c : ℝ) (v : Fin 2 → ℝ)', '(c • v) 0 = c * v 0').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(v w : Fin 4 → ℝ)', 'dotProduct v w = dotProduct w v').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(v w : Fin 4 → ℝ)', 'v ⬝ᵥ w = ∑ i, v i * w i').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(d : ℕ) (L : ℝ) (n : Fin d → ℤ)',
+                                 '(fun i => L * (n i : ℝ)) = ∑ i, Pi.single i (L * (n i : ℝ))').status, 'CORROBORATED')
+        r = self.ev('(d : ℕ) (L : ℝ) (n : Fin d → ℤ)', '(fun i => L * (n i : ℝ)) = ∑ i, Pi.single i (L * (n i : ℝ) + 1)')
+        self.assertEqual(r.status, 'FAIL')
+        self.assertEqual(self.ev('', '![1, 2] + ![3, 4] = ![4, 6] ∧ (2 : ℝ) • ![1, 2] = ![2, 4]').status, 'PASS')
+        self.assertEqual(self.ev('', '(!![(1 : ℝ), 2; 3, 4] * !![1, 0; 0, 1]).det = -2').status, 'PASS')
+        self.assertEqual(self.ev('', '(!![1, 2; 3, 4]).det = 2').status, 'UNSUPPORTED')     # ℕ is no CommRing
+
+    def test_indices_and_dimension_variables(self):
+        r = self.ev('(n : ℕ) (i : Fin n)', '(i : ℕ) < n')
+        self.assertEqual(r.status, 'CORROBORATED')
+        self.assertIn('sampled instances', r.detail)
+        self.assertEqual(self.ev('(n : ℕ) (i : Fin n)', '(i : ℕ) + 1 < n').status, 'FAIL')
+        self.assertEqual(self.ev('(i : Fin 2)', '(if i = 0 then (1 : ℝ) else -1) * (if i = 0 then 1 else -1) = 1').status,
+                         'CORROBORATED')
+        # a dimension must be a ℕ binder declared before the vector
+        r = self.ev('(j : Fin m → ℝ)', 'j = j')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('dimension m is not a ℕ binder declared before it', r.detail)
+        # Fin 0 has no element: samples with n = 0 are rejected, never counted as holding
+        r = self.ev('(n : ℕ) (i : Fin n)', 'False')
+        self.assertEqual(r.status, 'FAIL')
+        # Fin arithmetic wraps in Lean (`(2 : Fin 3) + 1 = 0`): refused rather than read as ℕ arithmetic
+        r = self.ev('(i : Fin 3)', 'i + 1 ≠ 0')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('wraps modulo', r.detail)
+        r = self.ev('(i : Fin 3)', 'i ≠ 7')             # `(7 : Fin 3) = 1`
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertEqual(self.ev('(i : Fin 3)', '(i : ℕ) + 1 ≠ 0').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(i : Fin 3)', 'i ≠ 7 - 5 ∨ i = 2').status, 'UNSUPPORTED')   # 7 - 5 is Fin arithmetic too
+        r = self.ev('(v : Fin 2 → ℝ)', '∑ i, (1 : ℝ) = 2')
+        self.assertEqual(r.status, 'UNSUPPORTED')        # nothing fixes the index set
+        self.assertIn('unbounded big operator', r.detail)
+
+    def test_vector_mutants_are_killed_and_weakenings_kept(self):
+        m = sf.parse_module(VEC + 'theorem t (j : Fin 6 → ℝ) (i : Fin 6) : |j i| ≤ gm8Radius j := by sorry\n'
+                            'theorem u (v : Fin 2 → ℝ) (h : v ≠ 0) : 0 < ∑ i, v i ^ 2 := by sorry\n')
+        report = sf.mutation_selftest(m)
+        self.assertTrue(report['harness_ok'], report)
+        self.assertEqual(report['survivors'], [])
 
 
 if __name__ == '__main__':
