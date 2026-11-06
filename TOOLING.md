@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`e649fd8ca9acda9694bf3d0d5890c87906ef970d`, based on Main default
+`5460251fa9dbfa9066cbb59d43539e74955c7a93`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,14 +263,14 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`e649fd8ca9acda9694bf3d0d5890c87906ef970d` (tree
-`fcf809bb6e0619d99a768e6019b8d4e6207b3b89`) recognizes explicit local path
+`5460251fa9dbfa9066cbb59d43539e74955c7a93` (tree
+`e0e3f3fb71695f662798e903a4b39d0d30bff5d8`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-67/67 controls and 119/119 designated mutations passed in both modes. The exact
+71/71 controls and 123/123 designated mutations passed in both modes. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`773b7dd390b92c83c8701fb9c6b37f4abac93c5ee102d1ef6e596b8c1d2fe0ca`,
-56,063 bytes each),
+`257a4871ca18342d81134c16811609f4d0fbcbaabe67922a1e8cdfb50cfa2e10`,
+56,065 bytes each),
 with zero production findings and exactly 29 no-current-exercise tool
 candidates; both runs exited 1. Adverse controls refuse mere path
 mentions, fake same-named APIs, interpreter command-mode arguments, unreachable
@@ -295,7 +295,11 @@ intervening JavaScript assignment invalidates an earlier URL binding. The
 entire argument list of `pathlib.Path` participates in resolution, element or
 slice assignment clears its root static aggregate, and a function parameter
 shadowing a named JavaScript child-process import blocks attribution within
-that function. The
+that function. Interpreter mode switches are interpreted only before the
+selected script; wrapper element writes invalidate forwarding; helper-local
+invalidations remain unresolved instead of inheriting module bindings; and
+JavaScript default initializer references do not shadow their imported
+callees. The
 stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the former
 28-tool result remains historical and is not rebound. Static evidence is not
 runtime proof. Exact dormant dispositions and the final orchestrator remain

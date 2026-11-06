@@ -126,18 +126,18 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`e649fd8ca9acda9694bf3d0d5890c87906ef970d` (tree
-`fcf809bb6e0619d99a768e6019b8d4e6207b3b89`) extends the existing bounded
+`5460251fa9dbfa9066cbb59d43539e74955c7a93` (tree
+`e0e3f3fb71695f662798e903a4b39d0d30bff5d8`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 67/67 controls and killed 119/119 designated
+The exact source commit passed 71/71 controls and killed 123/123 designated
 mutants in each mode. Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`773b7dd390b92c83c8701fb9c6b37f4abac93c5ee102d1ef6e596b8c1d2fe0ca`,
-56,063 bytes each):
+`257a4871ca18342d81134c16811609f4d0fbcbaabe67922a1e8cdfb50cfa2e10`,
+56,065 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
 interpreter command-mode payload arguments and unreachable wrapper bodies,
@@ -167,7 +167,11 @@ and a JavaScript URL binding loses provenance after an intervening assignment.
 All `pathlib.Path` constructor components must resolve before a path is
 credited; a subscript or slice assignment clears the root static aggregate;
 and a named child-process import is not credited inside a function whose
-parameter shadows that import.
+parameter shadows that import. Interpreter mode switches are rejected only
+before script selection, so later `-c`/`-m` tokens remain program arguments.
+Element and slice writes invalidate wrapper forwarding as well as direct
+aggregates; helper-local invalidation cannot fall back to a module binding;
+and JavaScript default initializer references are not parameter bindings.
 The stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the
 earlier 28-tool result remains historical and is not rebound.
 

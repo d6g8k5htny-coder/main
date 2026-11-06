@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has native source parent
-`e649fd8ca9acda9694bf3d0d5890c87906ef970d`; its isolated work began from the
+`5460251fa9dbfa9066cbb59d43539e74955c7a93`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,12 +37,12 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `e649fd8ca9acda9694bf3d0d5890c87906ef970d` (tree
-`fcf809bb6e0619d99a768e6019b8d4e6207b3b89`) passed 67/67 tests and killed
-119/119 designated mutants in both modes. Its byte-identical normal/optimized
+native source `5460251fa9dbfa9066cbb59d43539e74955c7a93` (tree
+`e0e3f3fb71695f662798e903a4b39d0d30bff5d8`) passed 71/71 tests and killed
+123/123 designated mutants in both modes. Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`773b7dd390b92c83c8701fb9c6b37f4abac93c5ee102d1ef6e596b8c1d2fe0ca`,
-56,063 bytes each)
+`257a4871ca18342d81134c16811609f4d0fbcbaabe67922a1e8cdfb50cfa2e10`,
+56,065 bytes each)
 contain zero production findings and retain exactly 29 no-current-exercise
 tool candidates; both census runs exit 1. The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
@@ -72,7 +72,12 @@ result. Three subsequent exact-head findings are also repaired: every
 `pathlib.Path` constructor component participates in path resolution; assigning
 through a command element or slice invalidates its aggregate static binding;
 and a JavaScript function parameter cannot impersonate a same-named imported
-child-process callee. No intermediate result is rebound as a passing gate.
+child-process callee. Four latest exact-head findings are also repaired:
+interpreter mode switches are interpreted only before the selected script;
+element or slice writes invalidate wrapper forwarding as well as direct static
+bindings; a helper-local invalidation cannot fall back to a same-named module
+binding; and identifiers in JavaScript default initializers are references,
+not parameter bindings. No intermediate result is rebound as a passing gate.
 
 ## Current verification boundary
 
