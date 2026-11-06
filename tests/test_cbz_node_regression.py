@@ -966,7 +966,7 @@ class SourceMutationTests(unittest.TestCase):
             ("fixture-exit", 'if variables.get("observed_exit") != 0:', "if False:",
              "test_fixture_receipt_requires_successful_node_exit"),
             ("selected-test-count",
-             'len(runs) != 1 or not re.fullmatch(r"Ran 1 test in [0-9]+(?:\.[0-9]+)?s", runs[0])',
+             r'len(runs) != 1 or not re.fullmatch(r"Ran 1 test in [0-9]+(?:\.[0-9]+)?s", runs[0])',
              "False", "test_selected_control_must_run_exactly_one_test"),
             ("fixture-tap", "not one_pass_tap(transcript.read_text())", "False",
              "test_fixture_receipt_rejects_ambiguous_or_incomplete_tap"),
@@ -1032,11 +1032,21 @@ class SourceMutationTests(unittest.TestCase):
     def test_outer_empty_guard_mutation_is_rejected(self):
         launcher = ROOT / "tools/cbz_node_controls.py"
         source = launcher.read_text()
-        old = 'not re.fullmatch(r"Ran [1-9][0-9]* tests? in [0-9]+(?:\.[0-9]+)?s", runs[0])'
+        old = r'not re.fullmatch(r"Ran [1-9][0-9]* tests? in [0-9]+(?:\.[0-9]+)?s", runs[0])'
         self.assertEqual(source.count(old), 1)
+        bootstrap_anchor = "_BOOTSTRAP, str(root)"
+        self.assertEqual(source.count(bootstrap_anchor), 1)
+        # Python 3.12 exits 5 for an empty discovery. Make the other launcher
+        # predicates green so this mutant still isolates the nonempty guard.
+        zero_test_success = (
+            "import sys\n"
+            "sys.stderr.write('\\n' + '-' * 70 + "
+            "'\\nRan 0 tests in 0.000s\\n\\nOK\\n')\n"
+        )
         with tempfile.TemporaryDirectory(prefix="cbz-node-empty-mutant-") as directory:
             mutant = Path(directory) / "controls-mutant.py"
-            mutant.write_text(source.replace(old, "False", 1))
+            mutant.write_text(source.replace(old, "False", 1).replace(
+                bootstrap_anchor, repr(zero_test_success) + ", str(root)", 1))
             environment = dict(os.environ, CBZ_NODE_CONTROL_LAUNCHER=str(mutant))
             result = subprocess.run(
                 [sys.executable, *(["-O"] if sys.flags.optimize else []), "-I", "-B", "-S",
