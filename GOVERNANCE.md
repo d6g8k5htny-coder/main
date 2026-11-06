@@ -126,19 +126,19 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`0d15a60bee38f0b2b9a1406a8dbf58cb2867881b` (tree
-`cd779310a725025fa5767e719a708ae67d9aa13b`) extends the existing bounded
+`818fb92fa40cc6df33e047ac001ec7e7e10ac3c5` (tree
+`fefbd3f7987565ee1ba018fe035951442e810e47`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 97/97 controls and killed 148/148 designated
+The exact source commit passed 100/100 controls and killed 151/151 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`0636c8aaec666c6898706ffcdce7e5c4ab97f0614ba95dbeac511c68c277b701`.
+`f6de27b4f13e27b4187d6c2ef9bf1d7ebbd3f96f905f5b4f266b1a71fabc011e`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`36b480bd5a87fcf29411bbf42114acb8d65900ddf9bae27ceb0d9a7454bccbf3`,
+`1c05ced3086872729cd40d15feef83044c5e457cb6ec03f32017bf3488ee5a44`,
 56,078 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
@@ -221,6 +221,11 @@ Declared `global` writes update module bindings, element/slice deletion
 invalidates resolved command aliases, and JavaScript helper reachability is
 discarded after the helper binding is replaced. Each rule has a dedicated
 adverse control and designated mutant.
+Deletion inside a forwarding wrapper invalidates its forwarded provenance;
+declared globals are excluded from helper-local static-shadow bindings; and a
+JavaScript helper call resolves the nearest lexical declaration before module
+helper reachability is admitted. These bounded rules likewise have dedicated
+adverse controls and designated mutants.
 The stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the
 earlier 28-tool result remains historical and is not rebound.
 
