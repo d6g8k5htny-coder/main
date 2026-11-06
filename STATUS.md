@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has native source parent
-`66552b4241b473a61ac9a8c502122e21db40fc7b`; its isolated work began from the
+`ed03b33d0ff2d9bb01048fa0be841c9964e044e8`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,11 +37,11 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `66552b4241b473a61ac9a8c502122e21db40fc7b` (tree
-`9c6f24db6243b10889e679152ceb7fdae1fdae3e`) passed 51/51 tests and killed
-102/102 designated mutants in both modes. Its byte-identical normal/optimized
+native source `ed03b33d0ff2d9bb01048fa0be841c9964e044e8` (tree
+`ac5c07cd3768c0decac1d55f9f5fdd682ee34b83`) passed 54/54 tests and killed
+105/105 designated mutants in both modes. Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`714dc5bd9129b660b7376647a316f370954d4c1304d2ebb22380804ef1c3f276`)
+`9a2d61dae7107edbb703ca2d4044d3055ef741dd3fc80ba184550a6dbe418df3`)
 contain zero production findings and retain exactly 28 no-current-exercise
 browser-tool candidates; both census runs exit 1. The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
@@ -51,7 +51,10 @@ function-local process imports are recognized. Destructured assignments bind
 only corresponding values and do not credit the unused aggregate. Rebound
 wrapper parameters, unresolved local shadows, and JavaScript names occurring
 only in strings or properties cannot credit a tool. No final G11 or combined
-G0–G11 pass is claimed.
+G0–G11 pass is claimed. Forwarded interpreter command payloads receive the
+same command-mode filtering as direct calls; augmented assignments replace or
+clear prior static values; and property calls cannot impersonate a named
+child-process import.
 
 ## Current verification boundary
 
