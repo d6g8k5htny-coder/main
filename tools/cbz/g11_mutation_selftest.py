@@ -312,13 +312,13 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("spec loader path ignored", "census",
-     "            if call_name == \"importlib.util.spec_from_file_location\" and len(node.args) >= 2:\n                value = _python_static_value(node.args[1], local, module_bindings, source_path,\n                                             active_imports, static_shadowed)\n                references.update(_tool_values(value, tools))",
-     "            if call_name == \"importlib.util.spec_from_file_location\" and len(node.args) >= 2:\n                value = _python_static_value(node.args[1], local, module_bindings, source_path,\n                                             active_imports, static_shadowed)\n                references.update(())",
+     "            if call_name == \"importlib.util.spec_from_file_location\" and len(node.args) >= 2:\n                value = argument_value(1)\n                references.update(_tool_values(value, tools))",
+     "            if call_name == \"importlib.util.spec_from_file_location\" and len(node.args) >= 2:\n                value = argument_value(1)\n                references.update(())",
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("runpy path ignored", "census",
-     "            if call_name == \"runpy.run_path\" and node.args:\n                value = _python_static_value(node.args[0], local, module_bindings, source_path,\n                                             active_imports, static_shadowed)\n                references.update(_tool_values(value, tools))",
-     "            if call_name == \"runpy.run_path\" and node.args:\n                value = _python_static_value(node.args[0], local, module_bindings, source_path,\n                                             active_imports, static_shadowed)\n                references.update(())",
+     "            if call_name == \"runpy.run_path\" and node.args:\n                value = argument_value(0)\n                references.update(_tool_values(value, tools))",
+     "            if call_name == \"runpy.run_path\" and node.args:\n                value = argument_value(0)\n                references.update(())",
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("subprocess path list ignored", "census",
@@ -547,7 +547,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_interpreter_option_operands_do_not_hide_the_script",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("command alias survives element write", "census",
-     "    if isinstance(prior, list):\n        environments = (destination,) if destination is module else (destination, module)\n        for environment in environments:\n            for bound_name, bound in list(environment.items()):\n                if bound is prior:\n                    environment[bound_name] = _UNRESOLVED_STATIC",
+     "    if isinstance(prior, list):\n        # Previously evaluated arguments hold the same list object. Mark that\n        # object unresolved so later in-place mutations cannot retain stale\n        # command provenance.\n        prior[:] = [_UNRESOLVED_STATIC]\n        environments = (destination,) if destination is module else (destination, module)\n        for environment in environments:\n            for bound_name, bound in list(environment.items()):\n                if bound is prior:\n                    environment[bound_name] = _UNRESOLVED_STATIC",
      "    if False:\n        environments = (destination,) if destination is module else (destination, module)\n        for environment in environments:\n            for bound_name, bound in list(environment.items()):\n                if bound is prior:\n                    environment[bound_name] = _UNRESOLVED_STATIC",
      "tests.test_g11_census.ToolChecks.test_command_alias_element_write_invalidates_all_aliases",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
@@ -682,8 +682,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_lexically_shadowed_helper_is_not_reachable",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("keyword argument helper effects deferred", "census",
-     "            for argument in node.args:\n                visit(argument, owner, scope, activation_line)\n            for keyword in node.keywords:\n                visit(keyword.value, owner, scope, activation_line)",
-     "            for argument in node.args:\n                visit(argument, owner, scope, activation_line)\n            for keyword in ():\n                visit(keyword.value, owner, scope, activation_line)",
+     "                nodes.append((marker, scope, execution_line))\n            for keyword in node.keywords:\n                visit(keyword.value, owner, scope, activation_line)",
+     "                nodes.append((marker, scope, execution_line))\n            for keyword in ():\n                visit(keyword.value, owner, scope, activation_line)",
      "tests.test_g11_census.ToolChecks.test_call_argument_helper_effects_precede_process_attribution",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("reassigned Python helper identity ignored", "census",
@@ -696,6 +696,16 @@ NEW_MUTATIONS = [
      "            cutoffs = {call_start}",
      "tests.test_g11_census.ToolChecks.test_js_deferred_helper_uses_activation_time_url_binding",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("earlier argument value reevaluated after later effects", "census",
+     "                if value is not missing_argument:\n                    return value",
+     "                if False:\n                    return value",
+     "tests.test_g11_census.ToolChecks.test_call_preserves_earlier_argument_value_before_later_rebinding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("assignment target invalidated before RHS helper", "census",
+     "            if getattr(node, \"value\", None) is not None:\n                visit(node.value, owner, scope, activation_line)\n            targets = node.targets if isinstance(node, ast.Assign) else [node.target]\n            for target in targets:\n                for name in _target_names(target):\n                    active_functions.pop((scope, name), None)",
+     "            targets = node.targets if isinstance(node, ast.Assign) else [node.target]\n            for target in targets:\n                for name in _target_names(target):\n                    active_functions.pop((scope, name), None)\n            if getattr(node, \"value\", None) is not None:\n                visit(node.value, owner, scope, activation_line)",
+     "tests.test_g11_census.ToolChecks.test_assignment_rhs_helper_executes_before_target_rebinding",
+     'self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -853,6 +863,8 @@ EXPECTED_MUTATION_NAMES = (
     "keyword argument helper effects deferred",
     "reassigned Python helper identity ignored",
     "JavaScript deferred binding checked at definition",
+    "earlier argument value reevaluated after later effects",
+    "assignment target invalidated before RHS helper",
 )
 
 
@@ -1031,7 +1043,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 103
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 105
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

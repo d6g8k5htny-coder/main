@@ -824,7 +824,24 @@ def _reachable_python_nodes(tree, mode):
                 visit(node.test, owner, scope, activation_line)
             return
 
-        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign, ast.Delete)):
+        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
+            # Assignment targets are rebound only after their value expressions
+            # finish. A helper invoked by the RHS still resolves the prior
+            # function binding.
+            if isinstance(node, ast.AugAssign):
+                visit(node.target, owner, scope, activation_line)
+            if getattr(node, "value", None) is not None:
+                visit(node.value, owner, scope, activation_line)
+            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            for target in targets:
+                for name in _target_names(target):
+                    active_functions.pop((scope, name), None)
+            execution_line = (getattr(node, "lineno", 0)
+                              if activation_line is None else activation_line)
+            nodes.append((node, scope, execution_line))
+            return
+
+        if isinstance(node, ast.Delete):
             targets = (node.targets if isinstance(node, (ast.Assign, ast.Delete))
                        else [node.target])
             for target in targets:
@@ -836,8 +853,15 @@ def _reachable_python_nodes(tree, mode):
             # the enclosing call. Helper effects in those expressions must be
             # visible to process attribution at the call itself.
             visit(node.func, owner, scope, activation_line)
-            for argument in node.args:
+            for index, argument in enumerate(node.args):
                 visit(argument, owner, scope, activation_line)
+                marker = ast.Expr(value=argument)
+                marker.lineno = getattr(argument, "lineno", getattr(node, "lineno", 0))
+                marker._g11_call_id = id(node)
+                marker._g11_argument_index = index
+                execution_line = (marker.lineno if activation_line is None
+                                  else activation_line)
+                nodes.append((marker, scope, execution_line))
             for keyword in node.keywords:
                 visit(keyword.value, owner, scope, activation_line)
             execution_line = (getattr(node, "lineno", 0)
@@ -1028,6 +1052,10 @@ def _invalidate_python_binding(name, local, module, scope, global_names=()):
     destination = module if scope is None or name in global_names else local
     prior = destination.get(name, module.get(name))
     if isinstance(prior, list):
+        # Previously evaluated arguments hold the same list object. Mark that
+        # object unresolved so later in-place mutations cannot retain stale
+        # command provenance.
+        prior[:] = [_UNRESOLVED_STATIC]
         environments = (destination,) if destination is module else (destination, module)
         for environment in environments:
             for bound_name, bound in list(environment.items()):
@@ -1252,6 +1280,8 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
     scope_globals = {id(node): _python_scope_global_names(node) for node in ast.walk(tree)
                      if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
     module_bindings, scope_bindings, scope_imports = {}, {}, {}
+    evaluated_arguments = {}
+    missing_argument = object()
     reachable_nodes = sorted(_reachable_python_nodes(tree, mode), key=lambda item: item[2])
     wrapper_reassignments = {}
     for node, scope, _execution_line in reachable_nodes:
@@ -1274,6 +1304,11 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
         locally_imported = set(local_imports["modules"]) | set(local_imports["symbols"])
         static_shadowed = (scope_shadowed.get(scope, set())
                            - locally_imported - global_names)
+        if hasattr(node, "_g11_call_id"):
+            evaluated_arguments[(node._g11_call_id, node._g11_argument_index)] = (
+                _python_static_value(node.value, local, module_bindings, source_path,
+                                     active_imports, static_shadowed))
+            continue
         if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
             value_node = (ast.BinOp(left=node.target, op=node.op, right=node.value)
                           if isinstance(node, ast.AugAssign) else node.value)
@@ -1316,6 +1351,14 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     if path:
                         references.add(path)
         elif isinstance(node, ast.Call):
+            def argument_value(index):
+                value = evaluated_arguments.get((id(node), index), missing_argument)
+                if value is not missing_argument:
+                    return value
+                return _python_static_value(
+                    node.args[index], local, module_bindings, source_path,
+                    active_imports, static_shadowed)
+
             mutated_root = _python_mutated_root_name(node)
             if mutated_root:
                 _invalidate_python_binding(
@@ -1335,25 +1378,21 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                              and not reassigned and call_line > wrapper[1] else ())
                 for position in positions:
                     if position < len(node.args):
-                        value = _python_static_value(node.args[position], local, module_bindings,
-                                                     source_path, active_imports, static_shadowed)
+                        value = argument_value(position)
                         references.update(_command_tool_values(value, tools))
             if call_name == "importlib.util.spec_from_file_location" and len(node.args) >= 2:
-                value = _python_static_value(node.args[1], local, module_bindings, source_path,
-                                             active_imports, static_shadowed)
+                value = argument_value(1)
                 references.update(_tool_values(value, tools))
                 continue
             if call_name == "runpy.run_path" and node.args:
-                value = _python_static_value(node.args[0], local, module_bindings, source_path,
-                                             active_imports, static_shadowed)
+                value = argument_value(0)
                 references.update(_tool_values(value, tools))
                 continue
             if call_name in {"subprocess.run", "subprocess.call", "subprocess.Popen",
                              "subprocess.check_call", "subprocess.check_output", "os.system",
                              "runpy.run_path"}:
-                for arg in node.args:
-                    value = _python_static_value(arg, local, module_bindings, source_path,
-                                                 active_imports, static_shadowed)
+                for index, arg in enumerate(node.args):
+                    value = argument_value(index)
                     if isinstance(value, (list, _StaticAlternatives)):
                         references.update(_command_tool_values(value, tools))
                         continue

@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "cfacfa031f57b075a44cae3e0c741786a0a906c82ec74d9948bab70c7b04fbde"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "d4cab4976fb9b491bdfdc6b5350ad2318273fcbeac340ad4178791a86698dc19"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -689,6 +689,22 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
+    def test_call_preserves_earlier_argument_value_before_later_rebinding(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_argument_capture.py": (
+                "import runpy\n"
+                "script = 'other.py'\n"
+                "def change():\n"
+                "    global script\n"
+                "    script = 'tools/unused.py'\n"
+                "    return {}\n"
+                "runpy.run_path(script, init_globals=change())\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
     def test_reassigned_python_helper_is_not_executed(self):
         tree = {
             "tools/unused.py": "x = 1\n",
@@ -703,6 +719,19 @@ class ToolChecks(unittest.TestCase):
             ),
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_assignment_rhs_helper_executes_before_target_rebinding(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/README.md": "tools/live.py\n",
+            "tests/test_rhs_helper.py": (
+                "import runpy\n"
+                "def launch():\n"
+                "    runpy.run_path('tools/live.py')\n"
+                "launch = launch()\n"
+            ),
+        }
+        self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])
 
     def test_wrapper_rebinding_invalidates_forwarding(self):
         tree = {
@@ -1731,7 +1760,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 154)
+        self.assertEqual(len(cases), 156)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:
