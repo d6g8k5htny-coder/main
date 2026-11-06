@@ -4669,14 +4669,22 @@ def _boundary_candidates(var: str, typ: str, hyps: list, ev: Evaluator, env: dic
     def closed(node):
         return all(v in env for v in _free_vars(node) & var_names) and not (component is not None and var in _free_vars(node))
 
-    def value(node):
+    def values(node):
+        """The exact value of a closed bound, as a list of rational candidates: a transcendental bound (`r ≤ Real.exp (-1)`)
+        contributes the two endpoints of its 64-bit enclosure — exact rationals just inside and just outside it."""
         try:
             v = ev.num(node, env, typ)
         except Unsupported:
-            return None
+            return []
+        if isinstance(v, (ExpPoly, Iv)):
+            try:
+                enclosure = Iv.of(v, _ENCLOSURE_BITS[0]).round(_ENCLOSURE_BITS[0])     # short dyadic endpoints
+            except Unsupported:
+                return []
+            return [enclosure.lo, enclosure.hi]
         if isinstance(v, (list, tuple, bool, Alg)):
-            return None
-        return v
+            return []
+        return [v]
 
     def centre(node, other):
         # node is `|x - e|` or `|e - x|`: candidates e ± other
@@ -4685,9 +4693,7 @@ def _boundary_candidates(var: str, typ: str, hyps: list, ev: Evaluator, env: dic
             l, r = node.args[0].left, node.args[0].right
             e = r if is_target(l) else (l if is_target(r) else None)
             if e is not None and closed(e) and closed(other):
-                ev_, ov = value(e), value(other)
-                if ev_ is not None and ov is not None:
-                    return [ev_ + ov, ev_ - ov, ev_]
+                return [c for ev_ in values(e) for ov in values(other) for c in (ev_ + ov, ev_ - ov, ev_)]
         return []
 
     for hyp in hyps:
@@ -4696,8 +4702,7 @@ def _boundary_candidates(var: str, typ: str, hyps: list, ev: Evaluator, env: dic
                 continue
             for side, other in ((h.left, h.right), (h.right, h.left)):
                 if is_target(side) and closed(other):
-                    c = value(other)
-                    if c is not None:
+                    for c in values(other):
                         out.extend(c + e for e in eps)
                 else:
                     out.extend(centre(side, other))
@@ -4751,11 +4756,19 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
         def hyps_hold(hs, env):
             nonlocal hyp_undecided
             try:
-                return all(ev.prop(h, env) for h in hs)
+                try:
+                    ev.bits = _ENCLOSURE_BITS[0]
+                    return all(ev.prop(h, env) for h in hs)
+                except Undecided:
+                    ev.bits = _ENCLOSURE_BITS[2]        # a boundary sample sits within 2^-64 of a transcendental bound:
+                    try:                                # 256 bits usually decide it; an identity stays undecided
+                        return all(ev.prop(h, env) for h in hs)
+                    except Undecided:
+                        hyp_undecided += 1              # not decided: the sample is not used (never counted as holding)
+                        return False
+                    finally:
+                        ev.bits = _ENCLOSURE_BITS[0]
             except Infeasible:
-                return False
-            except Undecided:
-                hyp_undecided += 1      # a sample whose admissibility the enclosures do not decide is not used
                 return False
 
         def draw(index, env):

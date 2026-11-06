@@ -1230,6 +1230,16 @@ class TranscendentalTests(unittest.TestCase):
         self.assertIn('did not decide the hypotheses', r.detail)
         self.assertGreater(r.sampling['hypotheses_undecided'], 0)
         self.assertEqual(self.ev('x ≤ 0', '(x : ℝ) (hx : Real.exp x ≤ 1)').status, 'CORROBORATED')
+        # a transcendental bound in a hypothesis contributes its enclosure endpoints as boundary samples (exact
+        # rationals within 2^-64 of the bound); their admissibility is decided at 256 bits, never counted as undecided
+        r = self.ev('1 ≤ Real.log (1 / r)', '{r : ℝ} (hr : 0 < r) (hre : r ≤ Real.exp (-1))')
+        self.assertEqual(r.status, 'CORROBORATED')
+        self.assertNotIn('hypotheses_undecided', r.sampling)
+        self.assertEqual(self.ev('1 < Real.log (1 / r) + 1 / 10 ^ 12', '{r : ℝ} (hr : 0 < r) (hre : r ≤ Real.exp (-1))').status, 'CORROBORATED')
+        self.assertEqual(self.ev('Real.cos x < 0', '(x : ℝ) (hx : |x - Real.pi| ≤ 1)').status, 'CORROBORATED')
+        r = self.ev('Real.cos x < -3 / 5', '(x : ℝ) (hx : |x - Real.pi| ≤ 1)')         # cos(π ± 1) = −0.5403… > −3/5
+        self.assertEqual(r.status, 'FAIL')
+        self.assertIn('refuted at x =', r.detail)                                        # at a boundary sample near π ± 1
 
     def test_transcendental_mutants_are_killed(self):
         m = sf.parse_module(P15_TRANS + 'theorem w : Real.sin 1 < Real.exp 1 - 1 := by sorry\n')
