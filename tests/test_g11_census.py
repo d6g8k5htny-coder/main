@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "d9d444881a03129236467119be6231e219392e668de56e6cd16d06564b523d7e"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "6f9ebd7c35004bd1982796e079ec0d21fc2aa694752b14fe4614d6154d417fa0"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -289,6 +289,26 @@ class ToolChecks(unittest.TestCase):
             "tools/runpy_tool.py", "tools/wrapped_tool.py",
             "tools/spec_tool.py", "tools/subprocess_tool.py",
         })
+
+    def test_none_guard_branches_do_not_combine_impossible_bindings(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_cache.py": (
+                "import runpy, unittest\n"
+                "prefix = 'other/'\n"
+                "suffix = 'other.py'\n"
+                "cache = None\n"
+                "if cache is None:\n"
+                "    prefix = 'tools/'\n"
+                "else:\n"
+                "    suffix = 'unused.py'\n"
+                "class Cache(unittest.TestCase):\n"
+                "    def test_load(self):\n"
+                "        runpy.run_path(prefix + suffix)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
     def test_path_values_need_reachable_execution_not_mentions(self):
         tree = {
@@ -1181,6 +1201,37 @@ class ToolChecks(unittest.TestCase):
             "tools/live.mjs": True, "tools/unused.mjs": False,
         })
 
+    def test_js_node_test_registration_must_be_reachable(self):
+        tree = {
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/node-callback.test.mjs": (
+                "import test from 'node:test';\n"
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "function unused() {\n"
+                "  test('unreachable',()=>{ spawnSync('echo',[script]); });\n"
+                "}\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
+    def test_js_node_test_registrar_must_resolve_to_import(self):
+        tree = {
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/node-callback.test.mjs": (
+                "import test from 'node:test';\n"
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "function exercise(test) {\n"
+                "  test('shadowed',()=>{ spawnSync('echo',[script]); });\n"
+                "}\n"
+                "exercise(()=>{});\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
     def test_tests_and_init_files_are_not_tools(self):
         report = self.tools({"tools/__init__.py": "", "tools/x/test_y.py": "x = 1\n", "tools/a.py": "x = 1\n"})
         self.assertEqual(sorted(report), ["tools/a.py"])
@@ -1497,7 +1548,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 140)
+        self.assertEqual(len(cases), 143)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

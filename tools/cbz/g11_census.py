@@ -688,6 +688,32 @@ def _is_none_guard(node):
             and node.comparators[0].value is None)
 
 
+def _branch_assigned_names(body):
+    """Return names assigned in one branch without entering nested scopes."""
+    names = set()
+
+    class Collector(ast.NodeVisitor):
+        def visit_FunctionDef(self, node):
+            return
+
+        visit_AsyncFunctionDef = visit_FunctionDef
+
+        def visit_ClassDef(self, node):
+            return
+
+        def visit_Lambda(self, node):
+            return
+
+        def visit_Name(self, node):
+            if isinstance(node.ctx, (ast.Store, ast.Del)):
+                names.add(node.id)
+
+    collector = Collector()
+    for statement in body:
+        collector.visit(statement)
+    return names
+
+
 def _reachable_python_nodes(tree, mode):
     functions, methods = {}, {}
 
@@ -740,6 +766,7 @@ def _reachable_python_nodes(tree, mode):
             return
         if isinstance(node, ast.If):
             visit(node.test, owner, scope, activation_line)
+            truth = None
             if _is_main_guard(node.test):
                 branch = node.body if mode == "script" else node.orelse
             else:
@@ -752,6 +779,18 @@ def _reachable_python_nodes(tree, mode):
                     branch = node.body if truth else node.orelse
             for statement in branch:
                 visit(statement, owner, scope, activation_line)
+            if truth is None and _is_none_guard(node.test):
+                # Both cache-guard outcomes are reachable, but their assignments
+                # are mutually exclusive.  Clear branch-written values at the
+                # join rather than combining an impossible cross-branch state.
+                names = _branch_assigned_names(node.body) | _branch_assigned_names(node.orelse)
+                if names:
+                    marker = ast.Delete(targets=[ast.Name(id=name, ctx=ast.Del())
+                                                 for name in sorted(names)])
+                    marker.lineno = getattr(node, "end_lineno", node.lineno)
+                    execution_line = (marker.lineno if activation_line is None
+                                      else activation_line)
+                    nodes.append((marker, scope, execution_line))
             return
         if isinstance(node, (ast.For, ast.AsyncFor, ast.While)):
             if isinstance(node, (ast.For, ast.AsyncFor)):
@@ -1174,6 +1213,10 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     prior[:] = value
                     value = prior
             _bind_python_value(node, value, local, module_bindings, scope)
+        elif isinstance(node, ast.Delete):
+            for target in node.targets:
+                for name in _target_names(target):
+                    _invalidate_python_binding(name, local, module_bindings, scope)
         if isinstance(node, ast.Import):
             for alias in node.names:
                 path = _tool_for_module(alias.name, tools, unique)
@@ -1633,8 +1676,13 @@ def _js_call_is_reachable(text, position):
                 callback = re.compile(
                     r"(?<![\w$.])" + re.escape(name) +
                     r"(?![\w$])\s*\([^{};]*=>\s*\{$")
-                if callback.search(prefix):
-                    return None
+                match = callback.search(prefix)
+                if match:
+                    call_start = match.start()
+                    if (_js_parameter_shadows(searchable, call_start, name)
+                            or _js_local_declaration_shadows(searchable, call_start, name)):
+                        return ()
+                    return ("test-callback", call_start, open_brace, close_brace, name)
             return ()
         return header.group(1), header.start(1), open_brace, close_brace
 
@@ -1646,6 +1694,12 @@ def _js_call_is_reachable(text, position):
             return True
         if not function:
             return False
+        if len(function) == 5:
+            _kind, call_start, open_brace, close_brace, name = function
+            identity = (name, open_brace, close_brace)
+            if identity in seen:
+                return False
+            return reachable(call_start, seen | {identity})
         name, definition_start, open_brace, close_brace = function
         identity = (name, open_brace, close_brace)
         if identity in seen:

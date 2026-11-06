@@ -622,10 +622,25 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_uncalled_helper_chain_is_not_reachable",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("node test callback root ignored", "census",
-     "                if callback.search(prefix):\n                    return None",
-     "                if False:\n                    return None",
+     "                    return (\"test-callback\", call_start, open_brace, close_brace, name)",
+     "                    return ()",
      "tests.test_g11_census.ToolChecks.test_js_node_test_callback_is_a_reachable_root",
      'self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()},'),
+    ("none guard branch states combined", "census",
+     "                if names:\n                    marker = ast.Delete(targets=[ast.Name(id=name, ctx=ast.Del())",
+     "                if False:\n                    marker = ast.Delete(targets=[ast.Name(id=name, ctx=ast.Del())",
+     "tests.test_g11_census.ToolChecks.test_none_guard_branches_do_not_combine_impossible_bindings",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("node test registration reachability ignored", "census",
+     "            return reachable(call_start, seen | {identity})",
+     "            return True",
+     "tests.test_g11_census.ToolChecks.test_js_node_test_registration_must_be_reachable",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("node test registrar shadow ignored", "census",
+     "                    if (_js_parameter_shadows(searchable, call_start, name)\n                            or _js_local_declaration_shadows(searchable, call_start, name)):\n                        return ()",
+     "                    if False:\n                        return ()",
+     "tests.test_g11_census.ToolChecks.test_js_node_test_registrar_must_resolve_to_import",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -769,6 +784,9 @@ EXPECTED_MUTATION_NAMES = (
     "deferred caller uses final module binding",
     "JavaScript uncalled helper chain accepted",
     "node test callback root ignored",
+    "none guard branch states combined",
+    "node test registration reachability ignored",
+    "node test registrar shadow ignored",
 )
 
 
@@ -947,7 +965,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 88
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 91
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
