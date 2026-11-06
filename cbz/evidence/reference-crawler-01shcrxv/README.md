@@ -352,6 +352,7 @@ reproducible evidence.
 | F10: the mutation result was unqualified | Hermetic fixtures, a baseline before and after the mutants, and the kept 74-of-75 run (all at `1ead96bc`), plus F11 | below |
 | F11: a run with errors only could count as a kill, and any test's failure counted | A kill now needs at least one assertion failure, and an error-only run is invalid. A new control, a copy whose `crawl()` raises, must come out invalid (`errors=42`) or the harness exits 2. Each mutant is also bound to its designated tests (B-011), and each kill line names the designated test that failed. | the harness's controls |
 | F12: the PR's stated disposition was stale | The PR body records every review and finding. | not applicable |
+| F13 (2026-11-06): a subject, helper or nested callback `AssertionError` was still attributed to the designated test by formatted `unittest` text | Capture the live traceback and selected method code identity before `unittest` cleanup; authorize only the selected-body/direct-`unittest` path; require fail-map schema v2 provenance. The older 108/108 campaign is retained with its narrower text-attribution limit and is not rebound. | eight grader tests in both interpreter modes; 3/3 grader-source mutants; fresh provenance-safe 108-source-mutant campaign pending |
 | DCL at `c7e89aaa` ([#721/6529091412](https://github.com/d6g8k5htny-coder/main/pull/721#issuecomment-6529091412)): the suite's population was not frozen, so an added test, or a deleted undesignated one, went unnoticed | The harness freezes `EXPECTED_TESTS` (all 44 method names) and `TEST_SHA256` (the test file's exact bytes). Both must match before anything runs, and the baseline must run exactly 44 tests. With `--write-failmap` the harness writes the fail-map from the same run, records the population in it and checks it; `--failmap` checks a committed map. Four new mutants designate the four tests no mutant designated, so every test is designated. | controls for an added method, a deleted undesignated method and a corrupted fail-map; 93 mutants |
 | DCL at `0160e740` ([#721/6530232961](https://github.com/d6g8k5htny-coder/main/pull/721#issuecomment-6530232961)): P2-A, the test hash was taken over newline-translated text; P2-B, the fail-map validator accepted unknown test ids and wrong field types, and did not require every test to be designated | `TEST_SHA256` is now taken over the file's raw bytes (`read_bytes()`), and names are read from the bytes decoded without newline translation. The fail-map's `fail` and `error` fields must be lists of frozen test names. `DESIGNATED` must cover every frozen test. | controls for a CRLF-only rewrite, an unknown fail id, an unknown error id, and a designation map that leaves a test uncovered |
 | ATW's G7 note at `0160e740` ([#666/6530428834](https://github.com/d6g8k5htny-coder/main/issues/666#issuecomment-6530428834)): the proposed G7 command ran without `--strict`, so interface drift never blocked, and the choice was left to Root | The proposed G7 command runs `--strict --acknowledged tools/cbz/reference_crawler_acknowledged.json`. Interface drift, now also a removed Lean, Python or JSON file, blocks unless its citing file is a reviewed historical citation. The 21 entries cover every drifting citation at the pins and at the tips. Each finding records whether it blocked, and the log lists each blocking finding. See "Interface drift under `--strict`". | `test_acknowledged_drift_does_not_block_under_strict`, `test_a_directory_source_acknowledges_only_files_under_it`, `test_strict_blocks_on_a_removed_interface_file_unless_acknowledged`, `test_malformed_acknowledgements_stop_the_run_before_crawling`; 15 new mutants, and "strict ignored" retargeted |
@@ -396,26 +397,36 @@ objects, without fetching:
 
 ## Self-verification (A8, B-006)
 
-**Tests.** `tests/test_cbz_reference_crawler.py` has 48 tests, run on local multi-repository
-Git fixtures with no network. The output is in `tests-normal.txt` and `tests-optimized.txt`.
+**Tests.** `tests/test_cbz_reference_crawler.py` has 48 crawler tests, run on local
+multi-repository Git fixtures with no network. The grader also has eight adverse tests in
+`tests/test_reference_crawler_mutation_check.py`. On 2026-11-06 the combined 56-test
+population passed in both normal and optimized interpreter modes.
 
 ```
 python3 -B -S -m unittest -v tests.test_cbz_reference_crawler
 python3 -B -S -O -m unittest -v tests.test_cbz_reference_crawler
+python3 -B -S -m unittest -v tests.test_reference_crawler_mutation_check
+python3 -B -S -O -m unittest -v tests.test_reference_crawler_mutation_check
 ```
 
-**Mutation check.** `tools/cbz/reference_crawler_mutation_check.py` applies 108 mutants, and
-each must apply exactly once. Each mutant is bound to its designated tests: the tests written
-for its behaviour (`DESIGNATED`). A mutant counts as killed only if one of its designated tests
-fails by assertion, as #695's statute B-011 requires. A run with errors only is invalid. A run
-in which only other tests fail is a survivor. Every mutant must have designated tests, and every
-designated test must exist in the suite, or the harness exits 2. Every one of the 48 tests is
-designated by at least one mutant.
+**Mutation check.** `tools/cbz/reference_crawler_mutation_check.py` first applies three mutations
+to its own grading logic, then applies 108 crawler-source mutants; every mutation must apply
+exactly once. Each crawler mutant is bound to its designated tests: the tests written for its
+behaviour (`DESIGNATED`). A crawler mutant counts as killed only if one of its designated tests
+fails by assertion *and the actual traceback proves that the assertion originated in the
+selected test body or its direct `unittest` assertion call*. A subject, helper, or nested
+callback assertion is unauthorized. The traceback and selected code identity are captured by a
+custom `TestResult` before `unittest` clears the exception. A run with errors or unauthorized
+assertion origins is invalid. A run in which only other tests fail is a survivor. Every mutant
+must have designated tests, and every designated test must exist in the suite, or the harness
+exits 2. Every one of the 48 crawler tests is designated by at least one mutant.
 
 **The suite's population is frozen** in the harness, as `EXPECTED_TESTS` (the 48 method names) and
 `TEST_SHA256`, which is taken over the file's raw bytes, so a CRLF rewrite counts as a change. The live test file must match both before anything runs, and the baseline must run
 exactly 48 tests. The run that produced `mutation.txt` also wrote `mutant-failmap.json`
-(`--write-failmap`): the population, plus every failing and erroring test under each mutant. It
+(`--write-failmap`): the population, plus every failing and erroring test under each mutant. That
+historical map has the older schema. New maps use
+`reference-crawler-mutant-failmap/v2` and include captured traceback/code provenance. It
 then checked that map against the population and `DESIGNATED`. There are four suite controls:
 - the unmutated copy must pass before the mutants;
 - it must pass again after them;
@@ -432,7 +443,9 @@ There are eight population, designation and fail-map controls. Each of these mus
 - a fail-map with an unknown test id in an `error` list;
 - a fail-map whose `error` field is not a list of test names.
 
-The output is in `mutation.txt`. Its result line: `108/108 mutants killed`.
+The historical output is in `mutation.txt`. Its result line is `108/108 mutants killed`, but the
+2026-11-06 incident below narrows what that output qualifies. It is not a fresh qualification
+of the provenance-safe grader.
 
 ```
 python3 -B -S tools/cbz/reference_crawler_mutation_check.py --write-failmap mutant-failmap.json
@@ -461,6 +474,25 @@ candidate equal to main's tip, so pin skew could never appear. That output is ke
 `mutation.txt` is the full re-run on these final bytes: 75 of 75, with both baselines passing. Every
 kill includes at least one assertion failure; five also raise errors in some tests. That head was also committed unsigned, because the signer itself had failed;
 no rule on the branch requires signatures.
+
+**Assertion-origin incident and provenance repair (2026-11-06).** Adverse fixtures showed that
+the then-current grader accepted an `AssertionError` raised by the crawler subject, a test
+helper, or a nested callback merely because `unittest` reported it as a failure of the
+designated test. Before the repair, the three new negative tests failed: all three false origins
+were accepted. The repair records the live exception traceback and selected method's code
+identity before `unittest` cleanup, accepts only the selected body/direct `unittest` assertion
+path, and carries that provenance in fail-map schema v2. After the repair:
+
+- 56 of 56 tests passed in normal mode and 56 of 56 passed with `-O`;
+- all three grader-source mutants were killed in each mode;
+- subject, helper and nested-callback assertions were refused as invalid;
+- fail maps missing schema/provenance, or containing unauthorized provenance, were refused.
+
+The preserved `mutation.txt` and `mutant-failmap.json` remain evidence for the older,
+text-attributed phase only. They are not rebound to the repaired grader. A fresh 108-mutant
+campaign with provenance-safe attribution is still required before this draft can claim current
+G0/G6 qualification. No mathematical statement, crawler result, or scientific conclusion is
+changed by this grader repair.
 
 The mutation check runs the suite in normal mode. Neither the tool nor its tests contain an
 `assert` statement or a `__debug__` branch, so `-O` cannot change what the tool decides. The
@@ -492,15 +524,16 @@ judgement.
 > unless `tools/cbz/reference_crawler_acknowledged.json` records the citing file as a reviewed
 > historical citation. An incomplete census (an unparseable or unread file) also blocks. Its
 > domain is in its docstring. `--at NAME=REV` crawls one repository at a candidate head, so a
-> pull request can be gated against the federation. Self-verification: 48 tests in both
-> interpreter modes, and 108 mutants with 100% required kills, each by its designated test's
-> assertion, against a frozen 48-test population.
+> pull request can be gated against the federation. Self-verification: 56 tests in both
+> interpreter modes and 3 of 3 grader-source mutants killed. The preserved 108-of-108
+> crawler-source campaign predates provenance-safe assertion attribution; a fresh campaign is
+> pending and this draft is not yet current G0/G6 qualification.
 
 **TOOLING.md.** Add this row, in the columns of the #695 candidate:
 
 | Tool | Usage/purpose | Actual verification/boundary | Owner/criterion |
 |---|---|---|---|
-| Main tools/cbz/reference_crawler.py | `python3 -B -S tools/cbz/reference_crawler.py --workspace ULW --cache DIR [--at main=HEAD] --strict --acknowledged tools/cbz/reference_crawler_acknowledged.json --json OUT`. Resolves every cross-repository reference record and commit-pinned URL in the federation; exit 1 on a broken reference, unacknowledged interface drift or an incomplete census. | 48 tests per mode (frozen population); 108 of 108 intended source mutants killed, each by its designated test's assertion failure (`reference_crawler_mutation_check.py`). Live runs at ULW `a4b01682`, strict with the 21 acknowledgements: 28,123 references at the pins and 28,636 at current tips, 1 blocking in each (Math- `rn_status`), 0 with Math-#548's current head `542cadbc`. Boundary: Git-object and text identity only; no Lean elaboration or mathematical certification. | none, self-contained; 8 (G7), 10 |
+| Main tools/cbz/reference_crawler.py | `python3 -B -S tools/cbz/reference_crawler.py --workspace ULW --cache DIR [--at main=HEAD] --strict --acknowledged tools/cbz/reference_crawler_acknowledged.json --json OUT`. Resolves every cross-repository reference record and commit-pinned URL in the federation; exit 1 on a broken reference, unacknowledged interface drift or an incomplete census. | Current local repair: 56 tests per mode and 3/3 grader-source mutants; fresh provenance-safe 108-mutant campaign pending. Historical 108/108 source-mutant output is retained with its older text-attribution boundary. Live runs at ULW `a4b01682`, strict with the 21 acknowledgements: 28,123 references at the pins and 28,636 at current tips, 1 blocking in each (Math- `rn_status`), 0 with Math-#548's current head `542cadbc`. Boundary: Git-object and text identity only; no Lean elaboration or mathematical certification. | none, self-contained; 8 (G7), 10 |
 
 **Gate matrix §10, G7.** Proposed wording: "PASS when, in the final run, both
 `tools/cbz_drift/crawl.py --at pins` and

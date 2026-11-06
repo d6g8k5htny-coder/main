@@ -4,7 +4,11 @@
 Each mutant disables or corrupts one detection, policy rule, extractor or topology
 behaviour. A mutant counts as killed only when tests/test_cbz_reference_crawler.py ran
 at least one test and one of the mutant's designated tests (DESIGNATED, governance B-011)
-failed by assertion. An error-only run is invalid, and a run in which only other tests
+failed from an authorized assertion in that selected test body's actual code. A child
+result captures traceback frame/code provenance before unittest cleanup. The selected
+test may raise a plain assertion itself or directly invoke unittest's assertion machinery;
+any intervening subject, helper or nested-callback frame makes the run invalid. An
+error-only or unauthorized-assertion run is invalid, and a run in which only other tests
 fail is a survivor, never a kill. Each kill is printed with its failure and error counts
 and the designated test that failed. Every mutant must have designated tests, and each
 designated test must exist in the suite.
@@ -18,8 +22,9 @@ the file and a designation map that leaves a test uncovered are all refused.
 With --failmap FILE, the evidence fail-map must record the same population and mutant
 set, list every designated test among its mutant's assertion failures, and name only
 frozen tests, as lists of strings, in every fail and error field. With
---write-failmap FILE, this run records which tests fail and error under each mutant,
-writes that fail-map with the frozen population, and checks it the same way. Corrupted
+--write-failmap FILE, this run records which tests fail and error under each mutant plus
+the pre-cleanup traceback/code provenance for every outcome, writes that v2 fail-map with
+the frozen population, and checks it the same way. Corrupted
 copies of it (one designated failure removed, an unknown test id added to a fail or an
 error list, or an error field that is not a list) must be refused. Two controls must come out invalid, never killed: a syntax-broken copy,
 and an error-only copy whose crawl() raises. The unmutated suite
@@ -33,6 +38,7 @@ Run from the repository root:
 import argparse
 import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -43,6 +49,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 TOOL = ROOT / "tools" / "cbz" / "reference_crawler.py"
 TEST = ROOT / "tests" / "test_cbz_reference_crawler.py"
+GRADER_TEST = ROOT / "tests" / "test_reference_crawler_mutation_check.py"
 RAN = re.compile(r"^Ran (\d+) tests? in ", re.M)
 FAILED = re.compile(r"^FAILED \(([^)]*)\)$", re.M)
 FAILURES = re.compile(r"\bfailures=(\d+)")
@@ -50,6 +57,96 @@ FAIL_NAME = re.compile(r"^FAIL: (\w+) ", re.M)
 ERROR_NAME = re.compile(r"^ERROR: (\w+) ", re.M)
 TEST_NAME = re.compile(r"^    def (test_\w+)\(", re.M)
 CRAWL_START = "    findings = []\n    overrides = overrides or {}\n"
+ORIGIN_SENTINEL = "ORIGIN_JSON="
+LAST_ORIGIN_REPORT = None
+ORIGIN_RUNNER = r'''
+import importlib
+import json
+import os
+import sys
+import traceback
+import unittest
+from pathlib import Path
+
+module = importlib.import_module(sys.argv[1])
+suite = unittest.defaultTestLoader.loadTestsFromModule(module)
+unittest_root = str(Path(unittest.__file__).resolve().parent) + os.sep
+
+
+class ProvenanceResult(unittest.TestResult):
+    def __init__(self):
+        super().__init__()
+        self.events = []
+
+    @staticmethod
+    def selected_case(test):
+        return getattr(test, "test_case", test)
+
+    def record(self, test, err, kind):
+        case = self.selected_case(test)
+        method_name = getattr(case, "_testMethodName", "")
+        method = getattr(case, method_name, None)
+        selected = getattr(method, "__func__", method)
+        selected_code = getattr(selected, "__code__", None)
+        frames = []
+        tb = err[2]
+        while tb is not None:
+            code = tb.tb_frame.f_code
+            frames.append({
+                "filename": str(Path(code.co_filename).resolve()),
+                "firstlineno": code.co_firstlineno,
+                "name": code.co_name,
+                "qualname": getattr(code, "co_qualname", code.co_name),
+                "lineno": tb.tb_lineno,
+                "selected": code is selected_code,
+            })
+            tb = tb.tb_next
+        selected_at = max((i for i, frame in enumerate(frames) if frame["selected"]), default=-1)
+        tail = frames[selected_at + 1:] if selected_at >= 0 else frames
+        authorized = kind == "failure" and selected_at >= 0 and all(
+            frame["filename"].startswith(unittest_root) for frame in tail
+        )
+        self.events.append({
+            "test": method_name or test.id(),
+            "kind": kind,
+            "authorized": authorized,
+            "exception": err[0].__name__,
+            "selected": {
+                "filename": str(Path(selected_code.co_filename).resolve()) if selected_code else None,
+                "firstlineno": selected_code.co_firstlineno if selected_code else None,
+                "name": selected_code.co_name if selected_code else None,
+            },
+            "frames": frames,
+        })
+
+    def addFailure(self, test, err):
+        self.record(test, err, "failure")
+        super().addFailure(test, err)
+
+    def addError(self, test, err):
+        self.record(test, err, "error")
+        super().addError(test, err)
+
+    def addSubTest(self, test, subtest, err):
+        if err is not None:
+            kind = "failure" if issubclass(err[0], test.failureException) else "error"
+            self.record(subtest, err, kind)
+        super().addSubTest(test, subtest, err)
+
+
+result = ProvenanceResult()
+suite.run(result)
+authorized = sorted({event["test"] for event in result.events if event["kind"] == "failure" and event["authorized"]})
+unauthorized = sorted({event["test"] for event in result.events if event["kind"] == "failure" and not event["authorized"]})
+errors = sorted({event["test"] for event in result.events if event["kind"] == "error"})
+print("ORIGIN_JSON=" + json.dumps({
+    "tests_run": result.testsRun,
+    "authorized_failures": authorized,
+    "unauthorized_failures": unauthorized,
+    "errors": errors,
+    "events": result.events,
+}, sort_keys=True))
+'''
 MUTANTS = [
     ("blob identity ignored", "for b in ref.blobs if b != oid]", "for b in ref.blobs if False]"),
     ("sha256 ignored", "for d in ref.sha256s if d != digest]", "for d in ref.sha256s if False]"),
@@ -387,27 +484,56 @@ EXPECTED_TESTS = (
     "test_url_paths_keep_balanced_parentheses_and_stop_at_backslashes",
 )
 
+GRADER_MUTANTS = (
+    (
+        "authorize an assertion through any intervening frame",
+        'and all(\n            frame["filename"].startswith(unittest_root) for frame in tail\n        )',
+        "and True",
+        "test_subject_assertion_is_not_an_authorized_kill",
+    ),
+    (
+        "ignore the fail-map provenance schema",
+        'if doc.get(' + '"schema") != "reference-crawler-mutant-failmap/v2":',
+        "if False:",
+        "test_failmap_requires_origin_schema_and_provenance",
+    ),
+    (
+        "accept explicitly unauthorized assertion provenance",
+        '            elif event.get("kind") == ' + '"failure":\n                problems.append(f"{name}: provenance[{index}] records an unauthorized assertion failure")',
+        "            elif False:\n                problems.append(f\"{name}: provenance[{index}] records an unauthorized assertion failure\")",
+        "test_failmap_rejects_unauthorized_provenance",
+    ),
+)
+
 
 def run_suite(tool_dir):
     """Run the crawler tests against the copy of the tool in tool_dir."""
+    global LAST_ORIGIN_REPORT
+    LAST_ORIGIN_REPORT = None
     work = Path(tool_dir)
     (work / "tests").mkdir(exist_ok=True)
     shutil.copy(TEST, work / "tests" / TEST.name)
-    proc = subprocess.run([sys.executable, "-B", "-S", "-m", "unittest", f"tests.{TEST.stem}"],
-                          cwd=work, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-    ran = RAN.search(proc.stdout)
-    errored = set(ERROR_NAME.findall(proc.stdout))
-    if not ran or int(ran.group(1)) == 0:
-        return "invalid", "", set(), errored
-    if proc.returncode == 0 and "\nOK" in proc.stdout:
-        return "pass", f"ran={ran.group(1)}", set(), errored
-    failed = FAILED.search(proc.stdout)
-    if not failed:
-        return "invalid", "", set(), errored
-    failures = FAILURES.search(failed.group(1))
-    if not failures or int(failures.group(1)) == 0:
-        return "invalid", failed.group(1), set(), errored  # errors alone are not evidence that a check caught the mutant
-    return "fail", failed.group(1), set(FAIL_NAME.findall(proc.stdout)), errored
+    proc = subprocess.run([sys.executable, "-B", "-S", "-c", ORIGIN_RUNNER, f"tests.{TEST.stem}"],
+                          cwd=work, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    encoded = next((line[len(ORIGIN_SENTINEL):] for line in reversed(proc.stdout.splitlines())
+                    if line.startswith(ORIGIN_SENTINEL)), None)
+    if proc.returncode != 0 or encoded is None:
+        return "invalid", f"runner_exit={proc.returncode}", set(), set()
+    try:
+        report = json.loads(encoded)
+    except (TypeError, ValueError):
+        return "invalid", "invalid origin report", set(), set()
+    LAST_ORIGIN_REPORT = report
+    ran = report.get("tests_run")
+    failed = set(report.get("authorized_failures") or ())
+    unauthorized = set(report.get("unauthorized_failures") or ())
+    errored = set(report.get("errors") or ())
+    detail = f"failures={len(failed)}, errors={len(errored)}, unauthorized={len(unauthorized)}"
+    if not isinstance(ran, int) or ran == 0 or errored or unauthorized:
+        return "invalid", detail, set(), errored
+    if failed:
+        return "fail", detail, failed, errored
+    return "pass", f"ran={ran}", set(), errored
 
 
 def with_tool(source):
@@ -445,6 +571,8 @@ def failmap_problems(doc):
     """Every way an evidence fail-map disagrees with the frozen population and DESIGNATED."""
     population = doc.get("population") or {}
     problems = []
+    if doc.get("schema") != "reference-crawler-mutant-failmap/v2":
+        problems.append("the fail-map schema is not reference-crawler-mutant-failmap/v2")
     if population.get("test_file_sha256") != TEST_SHA256 or tuple(population.get("tests") or ()) != EXPECTED_TESTS:
         problems.append("the fail-map records a different test population")
     mutants = doc.get("mutants") or {}
@@ -460,11 +588,76 @@ def failmap_problems(doc):
                 problems.append(f"{name}: {field} is not a list of test names")
             elif set(ids) - set(EXPECTED_TESTS):
                 problems.append(f"{name}: unknown test ids in {field}: {sorted(set(ids) - set(EXPECTED_TESTS))}")
+        provenance = entry.get("provenance")
+        if not isinstance(provenance, list):
+            problems.append(f"{name}: provenance is not a list")
+            provenance = []
+        authorized = set()
+        for index, event in enumerate(provenance):
+            if not isinstance(event, dict):
+                problems.append(f"{name}: provenance[{index}] is not an object")
+                continue
+            test = event.get("test")
+            if test not in EXPECTED_TESTS:
+                problems.append(f"{name}: provenance[{index}] names unknown test {test!r}")
+            if event.get("kind") == "failure" and event.get("authorized") is True:
+                selected = event.get("selected")
+                frames = event.get("frames")
+                if (not isinstance(selected, dict) or not isinstance(selected.get("filename"), str)
+                        or not isinstance(selected.get("firstlineno"), int)
+                        or selected.get("name") != test):
+                    problems.append(f"{name}: provenance[{index}] lacks the selected test code identity")
+                if (not isinstance(frames, list) or not frames
+                        or not any(isinstance(frame, dict) and frame.get("selected") is True
+                                   for frame in frames)):
+                    problems.append(f"{name}: provenance[{index}] lacks selected-frame traceback provenance")
+                authorized.add(test)
+            elif event.get("kind") == "failure":
+                problems.append(f"{name}: provenance[{index}] records an unauthorized assertion failure")
+        missing = set(entry.get("fail") or ()) - authorized
+        if missing:
+            problems.append(f"{name}: assertion failures lack authorized provenance: {sorted(missing)}")
     for name, tests in DESIGNATED.items():
         entry = mutants.get(name)
         if isinstance(entry, dict) and not set(tests) <= set(entry.get("fail") or ()):
             problems.append(f"{name}: a designated test is not among the fail-map's assertion failures")
     return problems
+
+
+def grader_mutation_selftest():
+    """Kill bounded mutations of this grader's assertion-origin and provenance policy."""
+    if os.environ.get("CBZ_GRADER_MUTANT_CHILD") == "1":
+        return len(GRADER_MUTANTS), len(GRADER_MUTANTS)
+    source = Path(__file__).read_text()
+    killed = 0
+    for name, old, new, expected_test in GRADER_MUTANTS:
+        if source.count(old) != 1:
+            print(f"GRADER NOT APPLICABLE {name} ({source.count(old)} matches)")
+            continue
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            target = root / "tools" / "cbz" / Path(__file__).name
+            target.parent.mkdir(parents=True)
+            target.write_text(source.replace(old, new))
+            test_target = root / "tests" / GRADER_TEST.name
+            test_target.parent.mkdir()
+            shutil.copy(GRADER_TEST, test_target)
+            env = dict(os.environ, CBZ_GRADER_MUTANT_CHILD="1", PYTHONDONTWRITEBYTECODE="1")
+            proc = subprocess.run(
+                [sys.executable, "-B", "-S", "-m", "unittest", "-v", f"tests.{GRADER_TEST.stem}"],
+                cwd=root,
+                env=env,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+            )
+        expected = re.search(rf"^FAIL: {re.escape(expected_test)} ", proc.stdout, re.M)
+        if proc.returncode and expected:
+            killed += 1
+            print(f"GRADER KILLED {name} ({expected_test})")
+        else:
+            print(f"GRADER SURVIVED {name} (exit={proc.returncode})")
+    return killed, len(GRADER_MUTANTS)
 
 
 def main(argv=None):
@@ -488,6 +681,11 @@ def main(argv=None):
         if expected not in population_problems(data):
             print(f"CONTROL FAIL: {label} was not refused by the population check")
             return 2
+    grader_killed, grader_total = grader_mutation_selftest()
+    if grader_killed != grader_total:
+        print(f"GRADER MUTATION FAIL: {grader_killed}/{grader_total} killed")
+        return 2
+    print(f"GRADER MUTATIONS OK: {grader_killed}/{grader_total} killed")
     if args.failmap is not None:
         problems = failmap_problems(json.loads(args.failmap.read_text()))
         if problems:
@@ -537,7 +735,8 @@ def main(argv=None):
             continue
         with with_tool(source.replace(old, new)) as tmp:
             outcome, detail, failed, errored = run_suite(tmp)
-        observed[name] = {"fail": sorted(failed), "error": sorted(errored)}
+        observed[name] = {"fail": sorted(failed), "error": sorted(errored),
+                          "provenance": (LAST_ORIGIN_REPORT or {}).get("events", [])}
         hit = sorted(failed & set(DESIGNATED[name]))
         if outcome == "fail" and hit:
             killed += 1
@@ -549,7 +748,9 @@ def main(argv=None):
     if not baseline("after"):
         return 2
     if args.write_failmap is not None:
-        doc = {"population": {"test_file_sha256": TEST_SHA256, "tests": list(EXPECTED_TESTS)}, "mutants": observed}
+        doc = {"schema": "reference-crawler-mutant-failmap/v2",
+               "population": {"test_file_sha256": TEST_SHA256, "tests": list(EXPECTED_TESTS)},
+               "mutants": observed}
         problems = failmap_problems(doc)
         name = next(iter(DESIGNATED))
         for label, field, change in (("missing a designated failure", "fail", lambda ids: [t for t in ids if t not in DESIGNATED[name]]),
