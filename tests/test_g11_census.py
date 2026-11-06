@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "2bc5b77fb1698b863d94babc2172b659b5622f3dc67669582172da65bf844705"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "e785365f880f716508a8b379b852e70cedff40b2e179f3361aef980b2db841e9"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -555,6 +555,21 @@ class ToolChecks(unittest.TestCase):
             ),
         }
         self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])
+
+    def test_deferred_caller_uses_module_value_at_invocation(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_deferred_value.py": (
+                "import runpy\n"
+                "script = 'other.py'\n"
+                "def exercise():\n"
+                "    runpy.run_path(script)\n"
+                "exercise()\n"
+                "script = 'tools/unused.py'\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
     def test_wrapper_rebinding_invalidates_forwarding(self):
         tree = {
@@ -1133,6 +1148,19 @@ class ToolChecks(unittest.TestCase):
             "tools/branch.mjs": False, "tools/helper.mjs": False,
         })
 
+    def test_js_uncalled_helper_chain_is_not_reachable(self):
+        tree = {
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/helper-chain.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "function launch() { spawnSync(process.execPath,[script]); }\n"
+                "function unused() { launch(); }\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
     def test_tests_and_init_files_are_not_tools(self):
         report = self.tools({"tools/__init__.py": "", "tools/x/test_y.py": "x = 1\n", "tools/a.py": "x = 1\n"})
         self.assertEqual(sorted(report), ["tools/a.py"])
@@ -1449,7 +1477,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 137)
+        self.assertEqual(len(cases), 139)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

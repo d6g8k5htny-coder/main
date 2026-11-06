@@ -611,6 +611,16 @@ NEW_MUTATIONS = [
      "        if False:\n            continue",
      "tests.test_g11_census.ToolChecks.test_js_unreachable_child_process_calls_are_not_references",
      'self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()},'),
+    ("deferred caller uses final module binding", "census",
+     "    reachable_nodes = sorted(_reachable_python_nodes(tree, mode), key=lambda item: item[2])",
+     "    reachable_nodes = _reachable_python_nodes(tree, mode)",
+     "tests.test_g11_census.ToolChecks.test_deferred_caller_uses_module_value_at_invocation",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("JavaScript uncalled helper chain accepted", "census",
+     "            if reachable(call.start(), seen | {identity}):",
+     "            if True:",
+     "tests.test_g11_census.ToolChecks.test_js_uncalled_helper_chain_is_not_reachable",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -751,6 +761,8 @@ EXPECTED_MUTATION_NAMES = (
     "later nonforwarding wrapper definition retains registration",
     "list augmented assignment breaks alias identity",
     "JavaScript unreachable child-process call accepted",
+    "deferred caller uses final module binding",
+    "JavaScript uncalled helper chain accepted",
 )
 
 
@@ -929,7 +941,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 85
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 87
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

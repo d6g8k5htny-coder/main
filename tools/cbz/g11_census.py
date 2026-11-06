@@ -1142,7 +1142,7 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
     scope_shadowed = {id(node): _scope_bindings(node) for node in ast.walk(tree)
                       if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
     module_bindings, scope_bindings, scope_imports = {}, {}, {}
-    reachable_nodes = _reachable_python_nodes(tree, mode)
+    reachable_nodes = sorted(_reachable_python_nodes(tree, mode), key=lambda item: item[2])
     wrapper_reassignments = {}
     for node, scope, _execution_line in reachable_nodes:
         if not isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
@@ -1608,32 +1608,43 @@ def _js_call_is_reachable(text, position):
                 return True
         return False
 
-    if in_literal_false_block(position):
-        return False
-    containing = sorted(
-        (scope for scope in scopes if scope[2] < position < scope[3]),
-        key=lambda item: item[2], reverse=True)
-    for param_start, _param_end, open_brace, close_brace in containing:
+    def containing_named_function(candidate):
+        containing = sorted(
+            (scope for scope in scopes if scope[2] < candidate < scope[3]),
+            key=lambda item: item[2], reverse=True)
+        if not containing:
+            return None
+        param_start, _param_end, open_brace, close_brace = containing[0]
         header = re.search(
             r"\bfunction\s+([A-Za-z_$][\w$]*)\s*\($", searchable[:param_start])
         if header is None:
+            return ()
+        return header.group(1), header.start(1), open_brace, close_brace
+
+    def reachable(candidate, seen):
+        if in_literal_false_block(candidate):
             return False
-        name = header.group(1)
+        function = containing_named_function(candidate)
+        if function is None:
+            return True
+        if not function:
+            return False
+        name, definition_start, open_brace, close_brace = function
+        identity = (name, open_brace, close_brace)
+        if identity in seen:
+            return False
         calls = re.compile(
             r"(?<![\w$.])" + re.escape(name) + r"(?![\w$])\s*\(")
-        invoked = False
         for call in calls.finditer(searchable):
-            if call.start() == header.start(1):
+            if call.start() == definition_start:
                 continue
             if open_brace < call.start() < close_brace:
                 continue
-            if in_literal_false_block(call.start()):
-                continue
-            invoked = True
-            break
-        if not invoked:
-            return False
-    return True
+            if reachable(call.start(), seen | {identity}):
+                return True
+        return False
+
+    return reachable(position, set())
 
 
 def _js_parameter_shadows(text, position, name):
