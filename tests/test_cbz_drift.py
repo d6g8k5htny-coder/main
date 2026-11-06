@@ -267,6 +267,99 @@ class LeanDriftTests(FedCase):
         self.assertEqual(codes(self.fed.crawl(at='tips'), 'BLOCK'), ['LEAN-DRIFT'])
 
 
+class ExemptionTests(FedCase):
+    """Reviewed LEAN-DRIFT exemptions match the complete location set by interface hash."""
+
+    STALE = LEAN_A.replace('n + 0 = n', '0 + n = n')
+
+    def drifted(self):
+        self.fed.build(b_lean=self.STALE)
+        rep = self.fed.crawl()
+        return [f for f in rep['findings'] if f['code'] == 'LEAN-DRIFT'][0]
+
+    @staticmethod
+    def doc(f, **kw):
+        locs = []
+        for v in f['variants']:
+            for loc in v['locations']:
+                repo, rest = loc.split('@', 1)
+                locs.append({'repository': repo, 'path': rest.split(':', 1)[1].rsplit(':', 1)[0],
+                             'kind': v['kind'], 'interface_sha256': v['interface_sha256']})
+        ent = dict({'id': 'T-01', 'name': f['name'], 'rationale': 'reviewed in a test', 'locations': locs}, **kw)
+        return {'schema': crawl.EXEMPTIONS_SCHEMA, 'exemptions': [ent]}
+
+    def test_exact_exemption_turns_the_drift_into_info(self):
+        doc = self.doc(self.drifted())
+        rep = self.fed.crawl(exemptions=doc)
+        self.assertEqual(codes(rep, 'BLOCK'), [])
+        self.assertEqual([f['exemption'] for f in rep['findings'] if f['code'] == 'LEAN-EXEMPT'], ['T-01'])
+        self.assertNotIn('EXEMPT-UNUSED', codes(rep, 'INFO'))
+
+    def test_changed_interface_blocks_again_and_reports_the_entry_unused(self):
+        doc = self.doc(self.drifted())
+        self.fed.pins['b'] = self.fed.commit('b', {'Copy/A.lean': LEAN_A.replace('n + 0 = n', 'n = n + 0')})
+        self.fed.write_seed()
+        rep = self.fed.crawl(exemptions=doc)
+        self.assertEqual(codes(rep, 'BLOCK'), ['LEAN-DRIFT'])
+        self.assertIn('EXEMPT-UNUSED', codes(rep, 'INFO'))
+
+    def test_proof_and_comment_edits_stay_exempt(self):
+        doc = self.doc(self.drifted())
+        edited = self.STALE.replace(':= by simp', ':= by\n  omega -- another proof').replace('/-- doc -/', '/-- edited -/')
+        self.fed.pins['b'] = self.fed.commit('b', {'Copy/A.lean': edited})
+        self.fed.write_seed()
+        rep = self.fed.crawl(exemptions=doc)
+        self.assertEqual(codes(rep, 'BLOCK'), [])
+        self.assertIn('LEAN-EXEMPT', codes(rep, 'INFO'))
+
+    def test_changed_kind_invalidates_exemption(self):
+        # theorem and axiom keep the same header interface, so the kind must be bound too
+        doc = self.doc(self.drifted())
+        edited = self.STALE.replace('theorem t (n : Nat) : 0 + n = n := by simp', 'axiom t (n : Nat) : 0 + n = n')
+        self.assertNotEqual(edited, self.STALE)
+        self.fed.pins['b'] = self.fed.commit('b', {'Copy/A.lean': edited})
+        self.fed.write_seed()
+        self.assertEqual(codes(self.fed.crawl(), 'BLOCK'), ['LEAN-DRIFT'])
+        rep = self.fed.crawl(exemptions=doc)
+        self.assertEqual(codes(rep, 'BLOCK'), ['LEAN-DRIFT'])
+        self.assertIn('EXEMPT-UNUSED', codes(rep, 'INFO'))
+
+    def test_a_new_location_blocks_again(self):
+        doc = self.doc(self.drifted())
+        self.fed.pins['b'] = self.fed.commit('b', {'Copy2/A.lean': self.STALE})
+        self.fed.write_seed()
+        self.assertEqual(codes(self.fed.crawl(exemptions=doc), 'BLOCK'), ['LEAN-DRIFT'])
+
+    def test_an_entry_for_another_name_does_not_exempt(self):
+        doc = self.doc(self.drifted())
+        doc['exemptions'][0]['name'] = 'Fed.f'
+        rep = self.fed.crawl(exemptions=doc)
+        self.assertEqual(codes(rep, 'BLOCK'), ['LEAN-DRIFT'])
+        self.assertIn('EXEMPT-UNUSED', codes(rep, 'INFO'))
+
+    def test_malformed_exemptions_block(self):
+        f = self.drifted()
+        one = self.doc(f)
+        one['exemptions'][0]['locations'] = one['exemptions'][0]['locations'][:1]
+        bad_hash = self.doc(f)
+        bad_hash['exemptions'][0]['locations'][0]['interface_sha256'] = 'x' * 64
+        no_kind = self.doc(f)
+        del no_kind['exemptions'][0]['locations'][0]['kind']
+        empty_kind = self.doc(f)
+        empty_kind['exemptions'][0]['locations'][0]['kind'] = ''
+        for doc in ({'schema': 'other', 'exemptions': []}, {'error': 'not json'}, one, bad_hash, no_kind, empty_kind):
+            rep = self.fed.crawl(exemptions=doc)
+            self.assertIn('MALFORMED', codes(rep, 'BLOCK'), doc)
+            self.assertIn('LEAN-DRIFT', codes(rep, 'BLOCK'), doc)
+
+    def test_shipped_exemptions_file_is_valid(self):
+        doc = crawl.load_exemptions(crawl.DEFAULT_EXEMPTIONS)
+        c = crawl.Crawl({}, exemptions=doc)
+        self.assertEqual(c.exemption_errors, [])
+        self.assertTrue(c.exemptions)
+        self.assertTrue(all(len(e['key']) >= 2 for e in c.exemptions))
+
+
 class PinTests(FedCase):
     def test_gitlink_disagreeing_with_pins_blocks(self):
         self.fed.build()
@@ -731,6 +824,10 @@ class LeanDeclTests(unittest.TestCase):
 
 # Each mutant: (label, exact source substring, replacement, file, designated test).
 MUTANTS = [
+    ('exemption ignores kind', "key = frozenset((l['repo'], l['path'], l['kind'], hashlib", "key = frozenset((l['repo'], l['path'], 'theorem', hashlib",
+     'crawl.py', 'ExemptionTests.test_changed_kind_invalidates_exemption'),
+    ('empty exemption kind accepted', "and isinstance(l.get('kind'), str) and l.get('kind')\n", "and isinstance(l.get('kind'), str)\n",
+     'crawl.py', 'ExemptionTests.test_malformed_exemptions_block'),
     ('theorem statement ignored', "'interface': header if dkind in STATEMENT_ONLY else", "'interface': '' if dkind in STATEMENT_ONLY else",
      'lean_decls.py', 'LeanDriftTests.test_changed_theorem_statement_blocks'),
     ('definition value ignored', "else ' '.join(hdr + body)", "else header", 'lean_decls.py',

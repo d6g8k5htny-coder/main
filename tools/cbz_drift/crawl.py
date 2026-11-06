@@ -32,6 +32,9 @@ commit, different Lean toolchains); it never fails the run.
   LEAN-SYNTAX     a Lean file could not be lexed or its scopes do not balance       BLOCK
   LEAN-EVIDENCE   Lean files under an evidence directory are frozen copies, not     INFO
                   compared (sealed checker inputs, snapshots, mutation controls)
+  LEAN-EXEMPT     a LEAN-DRIFT matched a reviewed exemption exactly (every          INFO
+                  location's repository, path, declaration kind and interface SHA-256)
+  EXEMPT-UNUSED   a reviewed exemption matched no drift this run (it is stale)      INFO
   LAKE-DEP        a lake dependency on a crawled repository pins another rev        INFO
   PIN-DIVERGENT   two reached repositories pin one repository differently           INFO
   FETCH-FAILED    --fetch could not refresh a repository, so its tips are not current BLOCK
@@ -46,6 +49,16 @@ holds (so a CI job needs only the seed). The crawl reads each repository at one 
 pinned repository at its pin (`--at pins`, the default) or at its default tip
 (`--at tips`), and `--override NAME=REV` replaces one repository's ref (to test a
 candidate head against the rest of the federation).
+
+Reviewed exemptions. `reviewed_exemptions.json` beside this file (or `--exemptions FILE`)
+lists LEAN-DRIFT findings that a review has accepted. An entry names one declaration and
+the complete set of its locations, each as repository, path, declaration kind (theorem,
+def, axiom, ...) and the SHA-256 of the interface the crawl computes there. A drift is exempt
+only when its location set equals an entry's exactly; any change to either interface or
+kind, or a new or removed location, blocks again. The kind is bound separately because
+theorem and axiom both keep only the header as their interface. Comments, whitespace and proof bodies are outside the interface, so they do not.
+A malformed exemptions file is a BLOCK. The list lives with the tool, not in a crawled
+repository, so a crawled repository cannot exempt itself.
 
 Standard library only. Exit: 0 no BLOCK, 1 BLOCK findings, 2 usage or internal error.
 """
@@ -65,6 +78,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lean_decls  # noqa: E402
 
 BLOCK, INFO = 'BLOCK', 'INFO'
+EXEMPTIONS_SCHEMA = 'cbz.drift.exemptions.v1'
+DEFAULT_EXEMPTIONS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'reviewed_exemptions.json')
 # A path segment named `evidence` or ending in `-evidence` (cbz/evidence/<slice>/, kernel/cbz-evidence/,
 # formal-evidence/) holds frozen copies: sealed checker inputs, snapshots of earlier commits and mutation
 # controls. They are deliberately different from the live sources, so they are not compared.
@@ -196,8 +211,9 @@ def parse_gitmodules(text):
 
 
 class Crawl:
-    def __init__(self, local, at='pins', overrides=None, fetch=False, clone_into=None):
+    def __init__(self, local, at='pins', overrides=None, fetch=False, clone_into=None, exemptions=None):
         self.local, self.at, self.overrides, self.fetch = local, at, dict(overrides or {}), fetch
+        self.exemptions = self.parse_exemptions(exemptions)
         self.clone_into, self.urls = clone_into, {}
         self.findings, self.repos, self.refs = [], {}, {}
         self.pins, self.optional, self.edges = {}, set(), []
@@ -207,6 +223,34 @@ class Crawl:
 
     def add(self, level, code, msg, **where):
         self.findings.append(dict(where, level=level, code=code, message=msg))
+
+    def parse_exemptions(self, doc):
+        """Validate a reviewed-exemptions document; None means no exemptions."""
+        self.exemption_errors = []
+        if doc is None:
+            return []
+        entries = doc.get('exemptions') if isinstance(doc, dict) else None
+        if not isinstance(entries, list) or doc.get('schema') != EXEMPTIONS_SCHEMA:
+            self.exemption_errors.append('exemptions document is not %s with an exemptions list' % EXEMPTIONS_SCHEMA)
+            return []
+        out, seen = [], set()
+        for ent in entries:
+            locs = ent.get('locations') if isinstance(ent, dict) else None
+            ok = (isinstance(ent, dict) and all(isinstance(ent.get(k), str) and ent.get(k) for k in ('id', 'name', 'rationale'))
+                  and isinstance(locs, list) and len(locs) >= 2
+                  and all(isinstance(l, dict) and isinstance(l.get('repository'), str) and isinstance(l.get('path'), str)
+                          and isinstance(l.get('kind'), str) and l.get('kind')
+                          and re.fullmatch(r'[0-9a-f]{64}', str(l.get('interface_sha256', ''))) for l in locs))
+            if not ok or ent['id'] in seen:
+                self.exemption_errors.append('exemption %r is malformed or duplicated' % (ent.get('id') if isinstance(ent, dict) else ent))
+                continue
+            seen.add(ent['id'])
+            key = frozenset((repo_key(l['repository']), l['path'], l['kind'], l['interface_sha256']) for l in locs)
+            if len(key) != len(locs):
+                self.exemption_errors.append('exemption %r lists a location twice' % ent['id'])
+                continue
+            out.append(dict(id=ent['id'], name=ent['name'], key=key, used=False))
+        return out
 
     def open(self, key, why):
         if key in self.repos:
@@ -628,10 +672,27 @@ class Crawl:
             for l in locs:
                 variants.setdefault((l['kind'], l['interface']), []).append(l)
             if len(variants) > 1:
-                self.add(BLOCK, 'LEAN-DRIFT', '%s has %d different interfaces across %d locations' % (name, len(variants), len(locs)),
-                         name=name, variants=[{'kind': k, 'interface': i, 'locations': ['%s@%s:%s:%d' % (
-                             l['repo'], l['ref'][:12], l['path'], l['line']) for l in ls]} for (k, i), ls in variants.items()])
+                key = frozenset((l['repo'], l['path'], l['kind'], hashlib.sha256(l['interface'].encode('utf-8')).hexdigest())
+                                for l in locs)
+                ex = next((e for e in self.exemptions if e['name'] == name and e['key'] == key), None)
+                detail = [{'kind': k, 'interface': i, 'interface_sha256': hashlib.sha256(i.encode('utf-8')).hexdigest(),
+                           'locations': ['%s@%s:%s:%d' % (l['repo'], l['ref'][:12], l['path'], l['line']) for l in ls]}
+                          for (k, i), ls in variants.items()]
+                if ex is not None:
+                    ex['used'] = True
+                    self.add(INFO, 'LEAN-EXEMPT', '%s has %d different interfaces across %d locations; reviewed exemption %s matches '
+                             'every location exactly' % (name, len(variants), len(locs), ex['id']), name=name, exemption=ex['id'],
+                             variants=detail)
+                else:
+                    self.add(BLOCK, 'LEAN-DRIFT', '%s has %d different interfaces across %d locations' % (name, len(variants), len(locs)),
+                             name=name, variants=detail)
         self.stats['lean_shared_names'] = shared
+        for msg in self.exemption_errors:
+            self.add(BLOCK, 'MALFORMED', msg, path='reviewed_exemptions.json')
+        for e in self.exemptions:
+            if not e['used']:
+                self.add(INFO, 'EXEMPT-UNUSED', 'reviewed exemption %s (%s) matched no drift; remove it if the copies now agree'
+                         % (e['id'], e['name']), exemption=e['id'])
         for (a, b) in sorted({tuple(sorted((x, y))) for x, ys in coupled.items() for y in ys}):
             if packages.get(a) != packages.get(b):
                 self.add(INFO, 'TOOLCHAIN', 'packages %s:%s and %s:%s share declarations but use %s and %s' % (
@@ -651,9 +712,17 @@ class Crawl:
         }
 
 
-def run(seed, search, at='pins', seed_ref=None, overrides=None, fetch=False, clone_into=None):
+def load_exemptions(path):
+    """Read a reviewed-exemptions file; an unreadable or non-JSON file is returned as a document that fails validation."""
+    try:
+        return json.loads(pathlib.Path(path).read_text(encoding='utf-8'))
+    except (OSError, ValueError) as exc:
+        return {'error': str(exc)}
+
+
+def run(seed, search, at='pins', seed_ref=None, overrides=None, fetch=False, clone_into=None, exemptions=None):
     local = find_local_repos(search)
-    c = Crawl(local, at=at, overrides=overrides, fetch=fetch, clone_into=clone_into)
+    c = Crawl(local, at=at, overrides=overrides, fetch=fetch, clone_into=clone_into, exemptions=exemptions)
     c.seed(repo_key(seed) if '/' in seed else _match_name(seed, local), seed_ref)
     c.close_graph()
     c.check_pins()
@@ -679,6 +748,8 @@ def main(argv=None):
     ap.add_argument('--fetch', action='store_true', help='git fetch commits missing locally')
     ap.add_argument('--clone-into', metavar='DIR', help='clone discovered repositories that no --search directory holds')
     ap.add_argument('--json', metavar='FILE', help='write the full report here')
+    ap.add_argument('--exemptions', metavar='FILE', default=DEFAULT_EXEMPTIONS,
+                    help='reviewed LEAN-DRIFT exemptions (default: reviewed_exemptions.json beside this file)')
     args = ap.parse_args(argv)
     try:
         ov = {}
@@ -690,7 +761,7 @@ def main(argv=None):
         if args.clone_into:
             pathlib.Path(args.clone_into).mkdir(parents=True, exist_ok=True)
         rep = run(args.seed, args.search, at=args.at, seed_ref=args.seed_ref, overrides=ov, fetch=args.fetch,
-                  clone_into=args.clone_into)
+                  clone_into=args.clone_into, exemptions=load_exemptions(args.exemptions))
     except CrawlError as exc:
         print('drift crawler error: %s' % exc, file=sys.stderr)
         return 2
