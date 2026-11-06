@@ -399,8 +399,8 @@ objects, without fetching:
 ## Self-verification (A8, B-006)
 
 **Tests.** `tests/test_cbz_reference_crawler.py` has 50 crawler tests, run on local
-multi-repository Git fixtures with no network. The grader also has nine adverse tests in
-`tests/test_reference_crawler_mutation_check.py`. On 2026-11-06 the combined 59-test
+multi-repository Git fixtures with no network. The grader also has eleven adverse tests in
+`tests/test_reference_crawler_mutation_check.py`. On 2026-11-06 the combined 61-test
 population passed in both normal and optimized interpreter modes.
 
 ```
@@ -454,6 +454,17 @@ python3 -B -S tools/cbz/reference_crawler_mutation_check.py --failmap cbz/eviden
 ```
 
 The first command records the fail-map. The second rechecks a committed one.
+For bounded runners, the same population can be partitioned deterministically and merged;
+each shard runs its own grader mutations, controls, and before/after baselines, and the merger
+refuses missing, duplicate, overlapping, malformed, or differently partitioned shards:
+
+```
+python3 -B -S tools/cbz/reference_crawler_mutation_check.py --shard 1/3 --write-failmap shard-1.json
+python3 -B -S tools/cbz/reference_crawler_mutation_check.py --shard 2/3 --write-failmap shard-2.json
+python3 -B -S tools/cbz/reference_crawler_mutation_check.py --shard 3/3 --write-failmap shard-3.json
+python3 -B -S tools/cbz/reference_crawler_mutation_check.py --merge-failmaps shard-1.json shard-2.json shard-3.json --write-failmap mutant-failmap.json
+python3 -B -S tools/cbz/reference_crawler_mutation_check.py --failmap mutant-failmap.json
+```
 
 Fixture repositories set `commit.gpgsign=false`, so the suite is hermetic and never calls a host
 signer. The harness runs the unmutated suite both before and after the mutants. If the final

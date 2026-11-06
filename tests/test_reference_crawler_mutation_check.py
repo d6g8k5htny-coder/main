@@ -1,4 +1,5 @@
 import importlib.util
+import json
 import tempfile
 import textwrap
 import unittest
@@ -118,6 +119,36 @@ class AssertionOrigin(unittest.TestCase):
         self.assertTrue(
             any("unauthorized assertion failure" in problem for problem in MUTATION.failmap_problems(doc))
         )
+
+    def test_shard_partition_covers_each_mutant_once(self):
+        names = [name for name, _, _ in MUTATION.MUTANTS]
+        shards = [MUTATION.mutants_for_shard(MUTATION.MUTANTS, index, 3) for index in range(3)]
+        flattened = [name for shard in shards for name, _, _ in shard]
+        self.assertCountEqual(flattened, names)
+        self.assertEqual(len(flattened), len(set(flattened)))
+        self.assertEqual([len(shard) for shard in shards], [37, 36, 36])
+
+    def test_merge_shard_failmaps_requires_and_combines_complete_partition(self):
+        full = self.origin_failmap()
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = []
+            for index in range(3):
+                selected = MUTATION.mutants_for_shard(MUTATION.MUTANTS, index, 3)
+                names = [name for name, _, _ in selected]
+                shard = {
+                    "schema": "reference-crawler-mutant-failmap-shard/v2",
+                    "population": full["population"],
+                    "shard": {"index": index, "count": 3},
+                    "mutants": {name: full["mutants"][name] for name in names},
+                }
+                path = Path(tmp) / f"shard-{index}.json"
+                path.write_text(json.dumps(shard))
+                paths.append(path)
+            merged, problems = MUTATION.merge_shard_failmaps(paths)
+            self.assertEqual(problems, [])
+            self.assertEqual(MUTATION.failmap_problems(merged), [])
+            _, incomplete = MUTATION.merge_shard_failmaps(paths[:-1])
+            self.assertTrue(any("missing shard" in problem for problem in incomplete), incomplete)
 
     def test_grader_source_mutants_are_killed(self):
         self.assertTrue(hasattr(MUTATION, "grader_mutation_selftest"))

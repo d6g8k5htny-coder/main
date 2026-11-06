@@ -33,6 +33,8 @@ that errors could pass for kills, the run is invalid (exit 2). Exit 0 only if ev
 mutant is killed.
 Run from the repository root:
   python3 -B -S tools/cbz/reference_crawler_mutation_check.py [--failmap FILE] [--write-failmap FILE]
+  python3 -B -S tools/cbz/reference_crawler_mutation_check.py --shard 1/3 --write-failmap shard-1.json
+  python3 -B -S tools/cbz/reference_crawler_mutation_check.py --merge-failmaps shard-1.json shard-2.json shard-3.json --write-failmap complete.json
 """
 
 import argparse
@@ -507,7 +509,7 @@ GRADER_MUTANTS = (
     ),
     (
         "ignore the fail-map provenance schema",
-        'if doc.get(' + '"schema") != "reference-crawler-mutant-failmap/v2":',
+        'if doc.get(' + '"schema") != schema:',
         "if False:",
         "test_failmap_requires_origin_schema_and_provenance",
     ),
@@ -582,16 +584,17 @@ def designation_problems(designated, mutant_names):
     return problems
 
 
-def failmap_problems(doc):
+def failmap_problems(doc, expected_names=None, schema="reference-crawler-mutant-failmap/v2"):
     """Every way an evidence fail-map disagrees with the frozen population and DESIGNATED."""
+    expected_names = set(DESIGNATED) if expected_names is None else set(expected_names)
     population = doc.get("population") or {}
     problems = []
-    if doc.get("schema") != "reference-crawler-mutant-failmap/v2":
-        problems.append("the fail-map schema is not reference-crawler-mutant-failmap/v2")
+    if doc.get("schema") != schema:
+        problems.append(f"the fail-map schema is not {schema}")
     if population.get("test_file_sha256") != TEST_SHA256 or tuple(population.get("tests") or ()) != EXPECTED_TESTS:
         problems.append("the fail-map records a different test population")
     mutants = doc.get("mutants") or {}
-    if sorted(mutants) != sorted(DESIGNATED):
+    if set(mutants) != expected_names:
         problems.append("the fail-map covers a different mutant set")
     for name, entry in sorted(mutants.items()):
         if not isinstance(entry, dict):
@@ -633,10 +636,79 @@ def failmap_problems(doc):
         if missing:
             problems.append(f"{name}: assertion failures lack authorized provenance: {sorted(missing)}")
     for name, tests in DESIGNATED.items():
+        if name not in expected_names:
+            continue
         entry = mutants.get(name)
         if isinstance(entry, dict) and not set(tests) <= set(entry.get("fail") or ()):
             problems.append(f"{name}: a designated test is not among the fail-map's assertion failures")
     return problems
+
+
+def mutants_for_shard(mutants, index, count):
+    """Return one deterministic, balanced zero-based shard of the mutant sequence."""
+    if count < 1 or index < 0 or index >= count:
+        raise ValueError(f"invalid shard {index}/{count}")
+    return list(mutants[index::count])
+
+
+def parse_shard(value):
+    """Parse the user-facing one-based INDEX/COUNT form into a zero-based pair."""
+    try:
+        index_text, count_text = value.split("/", 1)
+        index, count = int(index_text), int(count_text)
+    except (AttributeError, TypeError, ValueError) as exc:
+        raise argparse.ArgumentTypeError("shard must be INDEX/COUNT, for example 1/3") from exc
+    if count < 1 or index < 1 or index > count:
+        raise argparse.ArgumentTypeError("shard INDEX must be between 1 and COUNT")
+    return index - 1, count
+
+
+def shard_failmap_problems(doc):
+    """Validate one independently executable fail-map shard and its exact partition."""
+    shard = doc.get("shard") or {}
+    index, count = shard.get("index"), shard.get("count")
+    if not isinstance(index, int) or not isinstance(count, int) or count < 1 or index < 0 or index >= count:
+        return ["the fail-map has invalid shard metadata"]
+    expected = [name for name, _, _ in mutants_for_shard(MUTANTS, index, count)]
+    return failmap_problems(doc, expected, "reference-crawler-mutant-failmap-shard/v2")
+
+
+def merge_shard_failmaps(paths):
+    """Merge a complete, non-overlapping shard partition into one fully validated fail-map."""
+    docs, problems = [], []
+    for path in paths:
+        try:
+            doc = json.loads(Path(path).read_text())
+        except (OSError, json.JSONDecodeError) as exc:
+            problems.append(f"cannot read shard {path}: {exc}")
+            continue
+        docs.append(doc)
+        problems += [f"{path}: {problem}" for problem in shard_failmap_problems(doc)]
+    counts = {doc.get("shard", {}).get("count") for doc in docs}
+    if len(counts) != 1 or not counts or not isinstance(next(iter(counts)), int):
+        problems.append("shards do not declare one common count")
+        count = 0
+    else:
+        count = next(iter(counts))
+    indices = [doc.get("shard", {}).get("index") for doc in docs]
+    if len(indices) != len(set(indices)):
+        problems.append("duplicate shard index")
+    missing = sorted(set(range(count)) - set(i for i in indices if isinstance(i, int)))
+    if missing:
+        problems.append(f"missing shard indices {missing}")
+    merged_mutants = {}
+    for doc in docs:
+        for name, entry in (doc.get("mutants") or {}).items():
+            if name in merged_mutants:
+                problems.append(f"duplicate mutant {name!r} across shards")
+            merged_mutants[name] = entry
+    merged = {
+        "schema": "reference-crawler-mutant-failmap/v2",
+        "population": {"test_file_sha256": TEST_SHA256, "tests": list(EXPECTED_TESTS)},
+        "mutants": merged_mutants,
+    }
+    problems += failmap_problems(merged)
+    return merged, problems
 
 
 def grader_mutation_selftest():
@@ -679,7 +751,20 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description="Adverse mutation check for tools/cbz/reference_crawler.py")
     parser.add_argument("--failmap", type=Path, help="evidence fail-map to check against the frozen population")
     parser.add_argument("--write-failmap", type=Path, help="write this run's fail-map (population and per-mutant failures)")
+    parser.add_argument("--shard", type=parse_shard, help="run one bounded one-based INDEX/COUNT mutant shard")
+    parser.add_argument("--merge-failmaps", type=Path, nargs="+", metavar="SHARD",
+                        help="merge a complete set of fail-map shards instead of running mutants")
     args = parser.parse_args(argv)
+    if args.merge_failmaps is not None:
+        if args.write_failmap is None or args.shard is not None or args.failmap is not None:
+            parser.error("--merge-failmaps requires --write-failmap and cannot be combined with --shard or --failmap")
+        merged, problems = merge_shard_failmaps(args.merge_failmaps)
+        if problems:
+            print(f"FAILMAP MERGE FAIL: {'; '.join(problems)}")
+            return 2
+        args.write_failmap.write_text(json.dumps(merged, indent=1, sort_keys=True) + "\n")
+        print(f"FAILMAP MERGE OK: {len(merged['mutants'])}/{len(MUTANTS)} mutants in {args.write_failmap.name}")
+        return 0
     source = TOOL.read_text()
     test_bytes = TEST.read_bytes()
     problems = population_problems(test_bytes)
@@ -743,8 +828,9 @@ def main(argv=None):
     if f"test {sole} is designated by no mutant" not in designation_problems(uncovering, names):
         print("CONTROL FAIL: a designation map that leaves a test uncovered was not refused")
         return 2
+    selected_mutants = MUTANTS if args.shard is None else mutants_for_shard(MUTANTS, *args.shard)
     killed, observed = 0, {}
-    for name, old, new in MUTANTS:
+    for name, old, new in selected_mutants:
         if source.count(old) != 1:
             print(f"NOT APPLICABLE {name} ({source.count(old)} matches)")
             continue
@@ -763,11 +849,15 @@ def main(argv=None):
     if not baseline("after"):
         return 2
     if args.write_failmap is not None:
-        doc = {"schema": "reference-crawler-mutant-failmap/v2",
+        shard_mode = args.shard is not None
+        doc = {"schema": ("reference-crawler-mutant-failmap-shard/v2" if shard_mode
+                          else "reference-crawler-mutant-failmap/v2"),
                "population": {"test_file_sha256": TEST_SHA256, "tests": list(EXPECTED_TESTS)},
                "mutants": observed}
-        problems = failmap_problems(doc)
-        name = next(iter(DESIGNATED))
+        if shard_mode:
+            doc["shard"] = {"index": args.shard[0], "count": args.shard[1]}
+        problems = shard_failmap_problems(doc) if shard_mode else failmap_problems(doc)
+        name = selected_mutants[0][0]
         for label, field, change in (("missing a designated failure", "fail", lambda ids: [t for t in ids if t not in DESIGNATED[name]]),
                                      ("with an unknown fail id", "fail", lambda ids: ids + ["test_not_in_the_suite"]),
                                      ("with an unknown error id", "error", lambda ids: ids + ["test_not_in_the_suite"]),
@@ -780,8 +870,9 @@ def main(argv=None):
                 return 2
         args.write_failmap.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
         print(f"FAILMAP {'OK' if not problems else 'FAIL: ' + '; '.join(problems)}: {args.write_failmap.name}")
-    print(f"{killed}/{len(MUTANTS)} mutants killed")
-    return 0 if killed == len(MUTANTS) else 1
+    suffix = "" if args.shard is None else f" (shard {args.shard[0] + 1}/{args.shard[1]})"
+    print(f"{killed}/{len(selected_mutants)} selected mutants killed{suffix}")
+    return 0 if killed == len(selected_mutants) else 1
 
 
 if __name__ == "__main__":
