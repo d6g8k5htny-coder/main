@@ -1359,10 +1359,12 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_completed_standalone_block_propagates_termination",
      '{"tools/live.mjs": True, "tools/unused.mjs": False}'),
     ("unresolved definition-time effects ignored", "census",
+     "            names.add(node.name)\n"
      "            for expression in node.decorator_list:\n"
      "                self.visit(expression)\n"
      "            for expression in node.args.defaults:\n"
      "                self.visit(expression)",
+     "            names.add(node.name)\n"
      "            for expression in node.decorator_list:\n"
      "                self.visit(expression)\n"
      "            for expression in ():\n"
@@ -1414,14 +1416,18 @@ NEW_MUTATIONS = [
      "            for expression in node.args.kw_defaults:\n"
      "                if expression is not None:\n"
      "                    self.visit(expression)\n"
-     "            return",
+     "            return\n\n"
+     "        def visit_Name(self, node):",
      "        def visit_Lambda(self, node):\n"
-     "            return",
+     "            return\n\n"
+     "        def visit_Name(self, node):",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_lambda_defaults_invalidate_downstream_bindings",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("optional JavaScript property chains activated", "census",
-     '        r"\\?\\.\\s*(?:[A-Za-z_$][\\w$]*\\s*)?(?P<opening>[\\[(])")',
-     '        r"\\?\\.\\s*(?P<opening>\\()")',
+     '        r"\\?\\.\\s*(?:[A-Za-z_$][\\w$]*\\s*)?"\n'
+     '        r"(?:\\.\\s*[A-Za-z_$][\\w$]*\\s*)*(?P<opening>[\\[(])")',
+     '        r"\\?\\.\\s*"\n'
+     '        r"(?P<opening>\\()")',
      "tests.test_g11_census.ToolChecks.test_js_optional_property_chains_require_proven_evaluation",
      '"tools/property-unused.mjs": False'),
     ("JavaScript instance field initializer treated as module execution", "census",
@@ -1436,6 +1442,40 @@ NEW_MUTATIONS = [
      "                return False",
      "tests.test_g11_census.ToolChecks.test_js_regular_expression_after_control_header_is_not_a_process_call",
      '"tools/live.mjs": True, "tools/regex-unused.mjs": False'),
+    ("unresolved class-construction effects ignored", "census",
+     "            for keyword in node.keywords:\n"
+     "                self.visit(keyword.value)\n"
+     "            for statement in node.body:\n"
+     "                self.visit(statement)",
+     "            for keyword in node.keywords:\n"
+     "                self.visit(keyword.value)\n"
+     "            for statement in ():\n"
+     "                self.visit(statement)",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_class_construction_invalidates_downstream_bindings",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("helper definition-time parameter mutation ignored", "census",
+     "        def visit_ClassDef(self, node):\n"
+     "            return\n\n"
+     "        def visit_Lambda(self, node):\n"
+     "            for expression in node.args.defaults:\n"
+     "                self.visit(expression)",
+     "        def visit_ClassDef(self, node):\n"
+     "            return\n\n"
+     "        def visit_Lambda(self, node):\n"
+     "            for expression in ():\n"
+     "                self.visit(expression)",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_definition_time_parameter_mutation_invalidates_caller",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("continuous optional JavaScript property chain activated", "census",
+     '        r"(?:\\.\\s*[A-Za-z_$][\\w$]*\\s*)*(?P<opening>[\\[(])")',
+     '        r"(?P<opening>[\\[(])")',
+     "tests.test_g11_census.ToolChecks.test_js_continuous_optional_property_chain_requires_proven_evaluation",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("computed JavaScript instance field initializer treated as module execution", "census",
+     '            r"(?:[#A-Za-z_$][\\w$#]*|\\[[^\\]\\r\\n]*\\])\\s*=")',
+     '            r"[#A-Za-z_$][\\w$#]*\\s*=")',
+     "tests.test_g11_census.ToolChecks.test_js_unconstructed_computed_instance_field_initializer_is_deferred",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1722,6 +1762,10 @@ EXPECTED_MUTATION_NAMES = (
     "optional JavaScript property chains activated",
     "JavaScript instance field initializer treated as module execution",
     "JavaScript regex after control header treated as code",
+    "unresolved class-construction effects ignored",
+    "helper definition-time parameter mutation ignored",
+    "continuous optional JavaScript property chain activated",
+    "computed JavaScript instance field initializer treated as module execution",
 )
 
 
@@ -1900,7 +1944,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 216
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 220
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

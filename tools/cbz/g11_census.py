@@ -918,6 +918,14 @@ def _branch_assigned_names(body, call_effects=None):
 
         def visit_ClassDef(self, node):
             names.add(node.name)
+            for expression in node.decorator_list:
+                self.visit(expression)
+            for expression in node.bases:
+                self.visit(expression)
+            for keyword in node.keywords:
+                self.visit(keyword.value)
+            for statement in node.body:
+                self.visit(statement)
             return
 
         def visit_Lambda(self, node):
@@ -999,6 +1007,13 @@ def _branch_mutated_names(body, call_effects=None):
 
     class Collector(ast.NodeVisitor):
         def visit_FunctionDef(self, node):
+            for expression in node.decorator_list:
+                self.visit(expression)
+            for expression in node.args.defaults:
+                self.visit(expression)
+            for expression in node.args.kw_defaults:
+                if expression is not None:
+                    self.visit(expression)
             return
 
         visit_AsyncFunctionDef = visit_FunctionDef
@@ -1007,6 +1022,11 @@ def _branch_mutated_names(body, call_effects=None):
             return
 
         def visit_Lambda(self, node):
+            for expression in node.args.defaults:
+                self.visit(expression)
+            for expression in node.args.kw_defaults:
+                if expression is not None:
+                    self.visit(expression)
             return
 
         def visit_Call(self, node):
@@ -3437,7 +3457,8 @@ def _js_short_circuit_call_reachable(searchable, position):
 def _js_optional_call_argument_reachable(searchable, position):
     """Fail closed for expressions suppressed by an unproven optional chain."""
     optional = re.compile(
-        r"\?\.\s*(?:[A-Za-z_$][\w$]*\s*)?(?P<opening>[\[(])")
+        r"\?\.\s*(?:[A-Za-z_$][\w$]*\s*)?"
+        r"(?:\.\s*[A-Za-z_$][\w$]*\s*)*(?P<opening>[\[(])")
     for match in optional.finditer(searchable):
         opening = match.group("opening")
         open_delimiter = match.start("opening")
@@ -3465,7 +3486,7 @@ def _js_in_deferred_instance_field(searchable, position):
             continue
         member = re.compile(
             r"(?:^|[;{}])\s*(?!static\b)(?:accessor\s+)?"
-            r"[#A-Za-z_$][\w$#]*\s*=")
+            r"(?:[#A-Za-z_$][\w$#]*|\[[^\]\r\n]*\])\s*=")
         for field in member.finditer(searchable, open_brace, position):
             value_start = field.end()
             value_end = _js_bounded_expression_end(
