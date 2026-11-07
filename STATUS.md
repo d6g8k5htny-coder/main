@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 7 November 2026
 
 The Main candidate containing this file has native source parent
-`983d9ecb4eafebdebb099bf45a9bcc8d138aac0b`; its isolated work began from the
+`701cbc79b4c745ea0215fc851f321678a28ccf2b`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,16 +37,18 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `983d9ecb4eafebdebb099bf45a9bcc8d138aac0b` (parent
-`6f509d22bd7ff3dd3642089c4d81559da74b760f`, tree
-`646d24410e37e26660d2a1bb07845480dc00f5a4`) is blob-for-blob identical to
-local exact-tree qualification `a84557d2b1b1380a3706fa8eb4c1215802b84170`.
-Fresh execution on the native commit passed 236/236 tests and killed
-303/303 designated mutants in both modes with zero skips; the sealed
+native source `701cbc79b4c745ea0215fc851f321678a28ccf2b` (parent
+`b6b406fe47c49d8c6c85c0992cf656f77c032cdf`, tree
+`d78a79c3ae9a9945bfce03da97d50523752e9c48`) is blob-for-blob identical to
+local exact-tree qualification `85ce93aaaaab5c2cb96790ab2ca8a2cb07bf5997`.
+Fresh execution on the native commit passed 240/240 tests and killed
+307/307 designated mutants in both modes with zero skips; the sealed
 mutation-inventory SHA-256 is
-`bbd01ae73462756d1398c8a315a9861d4d24ba57bbff92117dc7c9531a57e0c1`.
+`aa0989b2070aeb64d97bad3bc542d0091087a55ba9b13e039282ec933c4bc1e3`.
+The normal and optimized mutation receipts are byte-identical, 37,350 bytes,
+SHA-256 `c8cd78804492527f17cb4636f75a6364932fce351ba8889698451bb078dd1233`.
 The native commit's byte-identical normal/optimized whole-tree reports (SHA-256
-`d8af2a5153343593a7ba8cea9c0db198537ebe61a210b4261bde01e97dc1b34e`,
+`5ce4881c329a4b7f95c6972a1b117b4b0af735d82cb45e4707d63b3fa402dd3f`,
 56,059 bytes each)
 contain zero production findings and retain exactly 32 no-current-exercise
 or documentation tool candidates; both census runs exit 1. The stricter
@@ -120,7 +122,11 @@ unconditional termination inside executable JavaScript class static blocks.
 Two newest exact-head review controls recognize exponent, leading-decimal and
 numeric-separator JavaScript instance-field names as deferred until construction,
 and evaluate the operand of a direct static-block `throw` before suppressing its
-unreachable tail. The current total is 187 distinct review/adverse defects. The former 20 active
+unreachable tail. Four further exact-head controls propagate mutation through an
+omitted mutable-default helper parameter, discover helper-parameter aliases
+inside nested statements, defer numeric-name class/object methods, and
+distinguish an instance field literally named `static` from the static modifier.
+The current total is 191 distinct review/adverse defects. The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
 interpreter command payloads, same-line JavaScript decoys or unreachable code.
 Generator methods are not credited from object creation/closure alone;

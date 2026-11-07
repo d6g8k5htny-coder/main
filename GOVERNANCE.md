@@ -126,23 +126,25 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired through 2026-11-07; G11 admission remains
 pending.** The repair at source commit
-`983d9ecb4eafebdebb099bf45a9bcc8d138aac0b` (parent
-`6f509d22bd7ff3dd3642089c4d81559da74b760f`, tree
-`646d24410e37e26660d2a1bb07845480dc00f5a4`) extends the existing bounded
+`701cbc79b4c745ea0215fc851f321678a28ccf2b` (parent
+`b6b406fe47c49d8c6c85c0992cf656f77c032cdf`, tree
+`d78a79c3ae9a9945bfce03da97d50523752e9c48`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
 Its blobs and tree exactly match local qualification
-`a84557d2b1b1380a3706fa8eb4c1215802b84170`. Fresh native execution passed
-236/236 controls and killed 303/303 designated mutants in each mode with zero
+`85ce93aaaaab5c2cb96790ab2ca8a2cb07bf5997`. Fresh native execution passed
+240/240 controls and killed 307/307 designated mutants in each mode with zero
 skips; the sealed
 mutation-inventory SHA-256 is
-`bbd01ae73462756d1398c8a315a9861d4d24ba57bbff92117dc7c9531a57e0c1`.
+`aa0989b2070aeb64d97bad3bc542d0091087a55ba9b13e039282ec933c4bc1e3`.
+The normal and optimized mutation receipts are byte-identical, 37,350 bytes,
+SHA-256 `c8cd78804492527f17cb4636f75a6364932fce351ba8889698451bb078dd1233`.
 The native commit's normal and optimized whole-tree reports were byte-identical
 (SHA-256
-`d8af2a5153343593a7ba8cea9c0db198537ebe61a210b4261bde01e97dc1b34e`,
+`5ce4881c329a4b7f95c6972a1b117b4b0af735d82cb45e4707d63b3fa402dd3f`,
 56,059 bytes each):
 zero production findings and 32 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The latest bounded rules
@@ -196,7 +198,11 @@ only when reached, defer quoted and numeric JavaScript instance-field
 initializers, and apply direct termination inside executable class static
 blocks. Extended numeric literal field names are also deferred, while a
 terminating static-block `throw` still evaluates its operand before the
-unreachable tail is suppressed. The distinct defect total is 187.
+unreachable tail is suppressed. Four further controls map mutation through an
+omitted mutable-default helper parameter, discover parameter aliases inside
+nested helper statements, defer numeric-name class/object methods, and treat
+`static = ...` as an instance field rather than a modifier. The distinct defect
+total is 191.
 The bounded rules also
 evaluate executable assignment-target subexpressions before rebinding; apply
 possible-effect invalidation to unresolved comparison suffixes and unresolved
