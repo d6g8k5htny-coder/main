@@ -126,22 +126,22 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired through 2026-11-07; G11 admission remains
 pending.** The repair at source commit
-`cf247d1d9a543aa7ab9c493ab8e160c82e9a29c5` (parent
-`12fba20955441c2155ca3f466b6fcc3636765453`, tree
-`bea49b97ecc5f885a4fccde9f3a5fa4a82676ef7`) extends the existing bounded
+`a97489bbdfe904cf28726fc3cef0c68d2849b7a9` (parent
+`6869bac4349f21001e899c29e71d7180898fb5cf`, tree
+`4d42aa2e8d36cce55f6679491cbf1e0a4f211ae7`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
 Its blobs and tree exactly match local qualification
-`4ee257dfb7882d04ce1ba08ef1e878275fefa21a`. Fresh native execution passed
-191/191 controls and killed 259/259 designated mutants in each mode; the sealed
+`4d93f03f7b2d5184714b6fb4350630185313740d`. Fresh native execution passed
+193/193 controls and killed 260/260 designated mutants in each mode; the sealed
 mutation-inventory SHA-256 is
-`b6c7c122b6f5fa3e78788324e14d57466883d686d8727bff3e1ded2a594be1ce`.
+`06d9f29c4a24dcbef6f94f3ec458680b09aa2b80230d31f6b519a078c0793213`.
 The native commit's normal and optimized whole-tree reports were byte-identical
 (SHA-256
-`8d61de98e77776e87e86d170e08c42e8fee65ac4642facf0247e5fdce39e13ea`,
+`0fc2e90dc829c25fed2ae9ac52e4208e7451d659ab8fb77d47785486e6d0ec13`,
 56,059 bytes each):
 zero production findings and 32 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The latest bounded rules
@@ -149,8 +149,11 @@ include helper-mediated possible effects in unresolved Python branches, reject
 quoted JavaScript import text as trusted process provenance, and require a
 reachable JavaScript URL initializer before recording its binding. The
 function-scope control executes the defining helper and still proves that its
-local binding cannot escape. The latest three review/adverse repairs bring the
-distinct defect total to 143.
+local binding cannot escape. Those three review/adverse repairs account for
+defects 141–143. A subsequent adjacent adverse case maps
+aggregate mutation through a helper parameter back to its caller argument on an
+unresolved branch while a positive control proves that local parameter
+rebinding stays local. The distinct defect total is 144.
 The bounded rules also
 evaluate executable assignment-target subexpressions before rebinding; apply
 possible-effect invalidation to unresolved comparison suffixes and unresolved

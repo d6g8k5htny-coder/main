@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 7 November 2026
 
 The Main candidate containing this file has native source parent
-`cf247d1d9a543aa7ab9c493ab8e160c82e9a29c5`; its isolated work began from the
+`a97489bbdfe904cf28726fc3cef0c68d2849b7a9`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,15 +37,15 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `cf247d1d9a543aa7ab9c493ab8e160c82e9a29c5` (parent
-`12fba20955441c2155ca3f466b6fcc3636765453`, tree
-`bea49b97ecc5f885a4fccde9f3a5fa4a82676ef7`) is blob-for-blob identical to
-local exact-tree qualification `4ee257dfb7882d04ce1ba08ef1e878275fefa21a`.
-Fresh execution on the native commit passed 191/191 tests and killed
-259/259 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `b6c7c122b6f5fa3e78788324e14d57466883d686d8727bff3e1ded2a594be1ce`.
+native source `a97489bbdfe904cf28726fc3cef0c68d2849b7a9` (parent
+`6869bac4349f21001e899c29e71d7180898fb5cf`, tree
+`4d42aa2e8d36cce55f6679491cbf1e0a4f211ae7`) is blob-for-blob identical to
+local exact-tree qualification `4d93f03f7b2d5184714b6fb4350630185313740d`.
+Fresh execution on the native commit passed 193/193 tests and killed
+260/260 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `06d9f29c4a24dcbef6f94f3ec458680b09aa2b80230d31f6b519a078c0793213`.
 The native commit's byte-identical normal/optimized whole-tree reports (SHA-256
-`8d61de98e77776e87e86d170e08c42e8fee65ac4642facf0247e5fdce39e13ea`,
+`0fc2e90dc829c25fed2ae9ac52e4208e7451d659ab8fb77d47785486e6d0ec13`,
 56,059 bytes each)
 contain zero production findings and retain exactly 32 no-current-exercise
 or documentation tool candidates; both census runs exit 1. The stricter
@@ -63,7 +63,11 @@ history but counted once. Three subsequent exact-head defects are also
 repaired: helper-mediated writes on unresolved Python branches invalidate
 downstream provenance; quoted JavaScript child-process imports are not trusted;
 and unreachable JavaScript URL initializers cannot create provenance. The
-adverse total is therefore 143 distinct review/adverse defects.
+An adjacent adverse control then exposed parameter-alias mutation through a
+helper called on an unresolved branch. The repair maps only aggregate mutation,
+not local parameter rebinding, back to the caller argument. A paired positive
+control preserves the latter distinction. The adverse total is therefore 144
+distinct review/adverse defects.
 The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
 interpreter command payloads, same-line JavaScript decoys or unreachable code.

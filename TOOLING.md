@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`cf247d1d9a543aa7ab9c493ab8e160c82e9a29c5`, based on Main default
+`a97489bbdfe904cf28726fc3cef0c68d2849b7a9`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,26 +263,30 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`cf247d1d9a543aa7ab9c493ab8e160c82e9a29c5` (parent
-`12fba20955441c2155ca3f466b6fcc3636765453`, tree
-`bea49b97ecc5f885a4fccde9f3a5fa4a82676ef7`) recognizes explicit local path
+`a97489bbdfe904cf28726fc3cef0c68d2849b7a9` (parent
+`6869bac4349f21001e899c29e71d7180898fb5cf`, tree
+`4d42aa2e8d36cce55f6679491cbf1e0a4f211ae7`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its blobs
 and tree exactly match local qualification
-`4ee257dfb7882d04ce1ba08ef1e878275fefa21a`. Fresh native execution passed
-191/191 controls and killed 259/259 designated mutations in both modes; the
+`4d93f03f7b2d5184714b6fb4350630185313740d`. Fresh native execution passed
+193/193 controls and killed 260/260 designated mutations in both modes; the
 sealed mutation-inventory SHA-256 is
-`b6c7c122b6f5fa3e78788324e14d57466883d686d8727bff3e1ded2a594be1ce`. The exact
+`06d9f29c4a24dcbef6f94f3ec458680b09aa2b80230d31f6b519a078c0793213`. The exact
 native normal and optimized censuses were byte-identical (SHA-256
-`8d61de98e77776e87e86d170e08c42e8fee65ac4642facf0247e5fdce39e13ea`,
+`0fc2e90dc829c25fed2ae9ac52e4208e7451d659ab8fb77d47785486e6d0ec13`,
 56,059 bytes each),
 with zero production findings and exactly 32 no-current-exercise or documentation tool
 candidates; both runs exited 1. Adverse controls refuse mere path
 credit from helper-mediated writes on unresolved Python branches, quoted
 JavaScript import text and unreachable JavaScript URL initializers. The
 function-scope URL control invokes the defining helper so scope leakage remains
-independently mutation-tested. These three repairs bring the distinct
-review/adverse defect count to 143. Adverse controls also refuse mere path
+independently mutation-tested. Those three repairs account for review/adverse
+defects 141–143. An additional adverse control maps an
+aggregate mutation through a helper parameter back to the caller argument on
+an unresolved branch; a paired positive control proves local parameter
+rebinding does not leak. The distinct defect count is 144. Adverse controls
+also refuse mere path
 credit from stale assignment-target effects, unresolved comparison suffixes,
 unresolved eager-comprehension effects, uninvoked JavaScript method bodies and
 literal-true dead `else` arms. They also refuse mere path
