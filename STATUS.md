@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 7 November 2026
 
 The Main candidate containing this file has native source parent
-`98c69c92da2b6b173a65139f385bc9a30f12b40e`; its isolated work began from the
+`30202abaaa24f32fdb2c5a7f770b74b69d2cd475`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -31,23 +31,23 @@ The five canonical reading surfaces are this file,
 [TOOLING.md](TOOLING.md) and [BASELINE.md](BASELINE.md). The proof index is
 explicitly incomplete; the tooling registry has no admitted final G0–G11
 orchestrator; and the baseline ledger marks every unawarded criterion. The
-latest durable v79 receipt is
+latest Git-native durable receipt is v79 at
 [Main #684 comment 6685706413](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6685706413).
 Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `98c69c92da2b6b173a65139f385bc9a30f12b40e` (parent
-`1430523247c35da0e46ce055ca44641e2ed1b42c`, tree
-`b5776030e0f35204f8a829e20d532f5b93da1e24`) is blob-for-blob identical to
-local exact-tree qualification `630784c09eba603b54ab4026c5bdc25a0e897d39`.
-Fresh execution on the native commit passed 211/211 tests and killed
-278/278 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `e72c1baf756a4a2c3f2dca073d13e309ba771cfdeacfd16c6f9a09ec210fe1e2`.
-The normal/optimized mutation logs are byte-identical at 33,449 bytes with
-SHA-256 `6bb65df8d49dd020d7b7178963f44144c3ed0c9a8350e637026c54e5e0670a6d`.
+native source `30202abaaa24f32fdb2c5a7f770b74b69d2cd475` (parent
+`1bbdcad0f23b8ea9ee5415e8f5146b65982c5a89`, tree
+`8db103f929c272fd80f7edf58232b4b92033f922`) is blob-for-blob identical to
+local exact-tree qualification `6499a968e60da831b529d8b84907288a873b6110`.
+Fresh execution on the native commit passed 216/216 tests and killed
+283/283 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `c509d568bed566b9955f000774839efb0e7e79cf6e3c6e00af65fc44afd89ee1`.
+The normal/optimized mutation logs are byte-identical at 34,111 bytes with
+SHA-256 `cdf2f27595e856024fa23c9459a1e6d8169b6aa64164c4655a5a62addfdd954a`.
 The native commit's byte-identical normal/optimized whole-tree reports (SHA-256
-`d22c75863f0ad13a4add089a266b18aaa8bb5975d13bf82b7148601ba0715737`,
+`ae845b15879fcec54cdf457e63f960e8810a9d77443f499850958dc456c20710`,
 56,013 bytes each)
 contain zero production findings and retain exactly 32 no-current-exercise
 or documentation tool candidates; both census runs exit 1. The stricter
@@ -95,8 +95,13 @@ propagate direct termination from completed standalone blocks. Three further
 exact-head findings retain definition-time effects of functions declared on
 unresolved branches, map aggregate mutation through a helper-local alias back
 to the bound caller argument, and refuse optional-call argument credit without
-proof that the call executes. The current
-total is 162 distinct review/adverse defects. The former 20 active
+proof that the call executes. Five latest controls interleave
+chained-assignment target stores with later
+target evaluation, retain lambda-default effects in unresolved branches,
+reject optional property/computed-chain subexpressions without proven
+evaluation, defer unconstructed JavaScript instance-field initializers, and
+mask regular-expression literals following control headers. The current
+total is 167 distinct review/adverse defects. The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
 interpreter command payloads, same-line JavaScript decoys or unreachable code.
 Generator methods are not credited from object creation/closure alone;
