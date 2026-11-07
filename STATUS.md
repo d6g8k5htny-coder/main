@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 7 November 2026
 
 The Main candidate containing this file has native source parent
-`6bfc1c1874163af8ba78401dc2718a41357739a4`; its isolated work began from the
+`98c69c92da2b6b173a65139f385bc9a30f12b40e`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,17 +37,17 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `6bfc1c1874163af8ba78401dc2718a41357739a4` (parent
-`1f04baabce4585f88546d6f4540ad92d131d35c4`, tree
-`0e60a5585680c33dff8e9b145eb6fa89875912c7`) is blob-for-blob identical to
-local exact-tree qualification `17424076be031a697b7dc2ee3dd17d4edff49cd6`.
-Fresh execution on the native commit passed 208/208 tests and killed
-275/275 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `47c7779e485af76706bfdf1a6b437ef75b42a180d30d2e42a6763642224795a4`.
-The normal/optimized mutation logs are byte-identical at 33,075 bytes with
-SHA-256 `43d075ea980e34d02b0eaf757af61278530bef793d53d8a86b2f8c703a01bdb3`.
+native source `98c69c92da2b6b173a65139f385bc9a30f12b40e` (parent
+`1430523247c35da0e46ce055ca44641e2ed1b42c`, tree
+`b5776030e0f35204f8a829e20d532f5b93da1e24`) is blob-for-blob identical to
+local exact-tree qualification `630784c09eba603b54ab4026c5bdc25a0e897d39`.
+Fresh execution on the native commit passed 211/211 tests and killed
+278/278 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `e72c1baf756a4a2c3f2dca073d13e309ba771cfdeacfd16c6f9a09ec210fe1e2`.
+The normal/optimized mutation logs are byte-identical at 33,449 bytes with
+SHA-256 `6bb65df8d49dd020d7b7178963f44144c3ed0c9a8350e637026c54e5e0670a6d`.
 The native commit's byte-identical normal/optimized whole-tree reports (SHA-256
-`bfa21cca98a39ec117fdf3e04de039fcd5ea49e915c86e590333841801f4790c`,
+`d22c75863f0ad13a4add089a266b18aaa8bb5975d13bf82b7148601ba0715737`,
 56,013 bytes each)
 contain zero production findings and retain exactly 32 no-current-exercise
 or documentation tool candidates; both census runs exit 1. The stricter
@@ -91,8 +91,12 @@ default initializers execute only for a missing or explicit `undefined`
 argument; and unproven `catch` handlers receive no execution credit. Three
 adjacent exact-head findings now exclude skipped nullish-coalescing operands,
 mask JavaScript regular-expression literals before call discovery, and
-propagate direct termination from completed standalone blocks. The current
-total is 159 distinct review/adverse defects. The former 20 active
+propagate direct termination from completed standalone blocks. Three further
+exact-head findings retain definition-time effects of functions declared on
+unresolved branches, map aggregate mutation through a helper-local alias back
+to the bound caller argument, and refuse optional-call argument credit without
+proof that the call executes. The current
+total is 162 distinct review/adverse defects. The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
 interpreter command payloads, same-line JavaScript decoys or unreachable code.
 Generator methods are not credited from object creation/closure alone;

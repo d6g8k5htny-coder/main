@@ -126,24 +126,24 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired through 2026-11-07; G11 admission remains
 pending.** The repair at source commit
-`6bfc1c1874163af8ba78401dc2718a41357739a4` (parent
-`1f04baabce4585f88546d6f4540ad92d131d35c4`, tree
-`0e60a5585680c33dff8e9b145eb6fa89875912c7`) extends the existing bounded
+`98c69c92da2b6b173a65139f385bc9a30f12b40e` (parent
+`1430523247c35da0e46ce055ca44641e2ed1b42c`, tree
+`b5776030e0f35204f8a829e20d532f5b93da1e24`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
 Its blobs and tree exactly match local qualification
-`17424076be031a697b7dc2ee3dd17d4edff49cd6`. Fresh native execution passed
-208/208 controls and killed 275/275 designated mutants in each mode; the sealed
+`630784c09eba603b54ab4026c5bdc25a0e897d39`. Fresh native execution passed
+211/211 controls and killed 278/278 designated mutants in each mode; the sealed
 mutation-inventory SHA-256 is
-`47c7779e485af76706bfdf1a6b437ef75b42a180d30d2e42a6763642224795a4`.
-The normal/optimized mutation logs are byte-identical at 33,075 bytes with
-SHA-256 `43d075ea980e34d02b0eaf757af61278530bef793d53d8a86b2f8c703a01bdb3`.
+`e72c1baf756a4a2c3f2dca073d13e309ba771cfdeacfd16c6f9a09ec210fe1e2`.
+The normal/optimized mutation logs are byte-identical at 33,449 bytes with
+SHA-256 `6bb65df8d49dd020d7b7178963f44144c3ed0c9a8350e637026c54e5e0670a6d`.
 The native commit's normal and optimized whole-tree reports were byte-identical
 (SHA-256
-`bfa21cca98a39ec117fdf3e04de039fcd5ea49e915c86e590333841801f4790c`,
+`d22c75863f0ad13a4add089a266b18aaa8bb5975d13bf82b7148601ba0715737`,
 56,013 bytes each):
 zero production findings and 32 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The latest bounded rules
@@ -171,7 +171,10 @@ scopes, default-initializer activation only for missing or explicit
 `undefined` arguments, and fail-closed unproven `catch` handlers. Three
 adjacent controls reject skipped nullish-coalescing operands, regular-expression
 literal decoys and calls after terminating completed standalone blocks. The
-distinct defect total is 159. The bounded rules also
+latest three controls retain unresolved-branch function definition-time
+effects, propagate aggregate mutation through a helper-local parameter alias,
+and reject optional-call argument activation without a proven call. The
+distinct defect total is 162. The bounded rules also
 evaluate executable assignment-target subexpressions before rebinding; apply
 possible-effect invalidation to unresolved comparison suffixes and unresolved
 eager-comprehension bodies/guards without awarding execution; keep uninvoked
