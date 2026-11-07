@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "753e0a479f36915a7e68132e2268501352bd78c7b7d1846de4198913366ddd92"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "bbd01ae73462756d1398c8a315a9861d4d24ba57bbff92117dc7c9531a57e0c1"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -3828,6 +3828,33 @@ class ToolChecks(unittest.TestCase):
              "tools/quoted-unused.mjs": False},
         )
 
+    def test_js_unconstructed_extended_numeric_instance_fields_are_deferred(self):
+        tree = {
+            "tools/exponent-unused.mjs": "export const value = 1;\n",
+            "tools/decimal-unused.mjs": "export const value = 2;\n",
+            "tools/separator-unused.mjs": "export const value = 3;\n",
+            "tools/README.md": (
+                "tools/exponent-unused.mjs tools/decimal-unused.mjs "
+                "tools/separator-unused.mjs\n"),
+            "tests/extended-numeric-instance-fields.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const exponent=new URL('../tools/exponent-unused.mjs',import.meta.url);\n"
+                "const decimal=new URL('../tools/decimal-unused.mjs',import.meta.url);\n"
+                "const separator=new URL('../tools/separator-unused.mjs',import.meta.url);\n"
+                "class Settings {\n"
+                "  1e2 = spawnSync('echo',[exponent]);\n"
+                "  .5 = spawnSync('echo',[decimal]);\n"
+                "  1_000 = spawnSync('echo',[separator]);\n"
+                "}\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/decimal-unused.mjs": False,
+             "tools/exponent-unused.mjs": False,
+             "tools/separator-unused.mjs": False},
+        )
+
     def test_js_static_block_computed_assignment_executes_at_class_definition(self):
         tree = {
             "tools/live.mjs": "export const value = 1;\n",
@@ -3926,6 +3953,30 @@ class ToolChecks(unittest.TestCase):
             ),
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
+    def test_js_static_block_throw_operand_executes_before_termination(self):
+        tree = {
+            "tools/thrown.mjs": "export const value = 1;\n",
+            "tools/tail-unused.mjs": "export const value = 2;\n",
+            "tools/README.md": "tools/thrown.mjs tools/tail-unused.mjs\n",
+            "tests/static-block-throw-operand.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const thrown=new URL('../tools/thrown.mjs',import.meta.url);\n"
+                "const tailUnused=new URL('../tools/tail-unused.mjs',import.meta.url);\n"
+                "try {\n"
+                "  class Settings {\n"
+                "    static {\n"
+                "      throw spawnSync('echo',[thrown]);\n"
+                "      spawnSync('echo',[tailUnused]);\n"
+                "    }\n"
+                "  }\n"
+                "} catch {}\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/tail-unused.mjs": False, "tools/thrown.mjs": True},
+        )
 
     def test_js_quoted_url_declaration_is_not_a_binding(self):
         tree = {
@@ -4441,7 +4492,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 301)
+        self.assertEqual(len(cases), 303)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

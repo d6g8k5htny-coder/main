@@ -3684,7 +3684,10 @@ def _js_in_deferred_instance_field(searchable, position, text=None):
             r"(?:^|[;{}\r\n])\s*(?!static\b)(?:accessor\s+)?"
             r"(?:[#A-Za-z_$][\w$#]*|\[[^\]\r\n]*\]|"
             r"'[^'\r\n]*'|\"[^\"\r\n]*\"|"
-            r"(?:0[xX][0-9A-Fa-f]+|0[bB][01]+|0[oO][0-7]+|\d+(?:\.\d+)?))"
+            r"(?:0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*|"
+            r"0[bB][01](?:_?[01])*|0[oO][0-7](?:_?[0-7])*|"
+            r"(?:\d(?:_?\d)*(?:\.(?:\d(?:_?\d)*)?)?|"
+            r"\.\d(?:_?\d)*)(?:[eE][+-]?\d(?:_?\d)*)?))"
             r"\s*=")
         for field in member.finditer(member_searchable, open_brace, position):
             value_start = field.end()
@@ -3980,6 +3983,10 @@ def _js_call_activation_points(text, position):
                     opening = closing[value]
                     depths[opening] = max(0, depths[opening] - 1)
                 elif not any(depths.values()):
+                    operand_end = _js_bounded_expression_end(
+                        searchable, match.end(), comma_ends=False)
+                    if candidate < operand_end:
+                        continue
                     return True
         return False
 

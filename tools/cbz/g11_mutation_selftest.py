@@ -1589,9 +1589,15 @@ NEW_MUTATIONS = [
     ("literal-named JavaScript instance field treated as module execution", "census",
      "            r\"(?:[#A-Za-z_$][\\w$#]*|\\[[^\\]\\r\\n]*\\]|\"\n"
      "            r\"'[^'\\r\\n]*'|\\\"[^\\\"\\r\\n]*\\\"|\"\n"
-     "            r\"(?:0[xX][0-9A-Fa-f]+|0[bB][01]+|0[oO][0-7]+|\\d+(?:\\.\\d+)?))\"",
+     "            r\"(?:0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*|\"\n"
+     "            r\"0[bB][01](?:_?[01])*|0[oO][0-7](?:_?[0-7])*|\"\n"
+     "            r\"(?:\\d(?:_?\\d)*(?:\\.(?:\\d(?:_?\\d)*)?)?|\"\n"
+     "            r\"\\.\\d(?:_?\\d)*)(?:[eE][+-]?\\d(?:_?\\d)*)?))\"",
      "            r\"(?:[#A-Za-z_$][\\w$#]*|\\[[^\\]\\r\\n]*\\]|\"\n"
-     "            r\"(?:0[xX][0-9A-Fa-f]+|0[bB][01]+|0[oO][0-7]+|\\d+(?:\\.\\d+)?))\"",
+     "            r\"(?:0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*|\"\n"
+     "            r\"0[bB][01](?:_?[01])*|0[oO][0-7](?:_?[0-7])*|\"\n"
+     "            r\"(?:\\d(?:_?\\d)*(?:\\.(?:\\d(?:_?\\d)*)?)?|\"\n"
+     "            r\"\\.\\d(?:_?\\d)*)(?:[eE][+-]?\\d(?:_?\\d)*)?))\"",
      "tests.test_g11_census.ToolChecks.test_js_unconstructed_literal_named_instance_fields_are_deferred",
      '{"tools/numeric-unused.mjs": False,'),
     ("JavaScript static-block termination ignored", "census",
@@ -1599,6 +1605,25 @@ NEW_MUTATIONS = [
      "    static_block_scopes = []",
      "tests.test_g11_census.ToolChecks.test_js_static_block_termination_precedes_process_activation",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("extended-numeric JavaScript instance field treated as module execution", "census",
+     "            r\"(?:0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*|\"\n"
+     "            r\"0[bB][01](?:_?[01])*|0[oO][0-7](?:_?[0-7])*|\"\n"
+     "            r\"(?:\\d(?:_?\\d)*(?:\\.(?:\\d(?:_?\\d)*)?)?|\"\n"
+     "            r\"\\.\\d(?:_?\\d)*)(?:[eE][+-]?\\d(?:_?\\d)*)?))\"",
+     "            r\"(?:0[xX][0-9A-Fa-f]+|0[bB][01]+|0[oO][0-7]+|\\d+(?:\\.\\d+)?))\"",
+     "tests.test_g11_census.ToolChecks.test_js_unconstructed_extended_numeric_instance_fields_are_deferred",
+     '{"tools/decimal-unused.mjs": False,'),
+    ("JavaScript static-block throw operand suppressed", "census",
+     "                elif not any(depths.values()):\n"
+     "                    operand_end = _js_bounded_expression_end(\n"
+     "                        searchable, match.end(), comma_ends=False)\n"
+     "                    if candidate < operand_end:\n"
+     "                        continue\n"
+     "                    return True",
+     "                elif not any(depths.values()):\n"
+     "                    return True",
+     "tests.test_g11_census.ToolChecks.test_js_static_block_throw_operand_executes_before_termination",
+     '{"tools/tail-unused.mjs": False, "tools/thrown.mjs": True}'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1903,6 +1928,8 @@ EXPECTED_MUTATION_NAMES = (
     "nested destructuring values captured before nested target",
     "literal-named JavaScript instance field treated as module execution",
     "JavaScript static-block termination ignored",
+    "extended-numeric JavaScript instance field treated as module execution",
+    "JavaScript static-block throw operand suppressed",
 )
 
 
@@ -2081,7 +2108,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 234
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 236
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
