@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "d7021d5cc7e464c423335c7b56b67b5ef1844c09865683d728a998e1661a5652"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "cbea8a86d2ddd35357e19e38f79d83dadd014da45a3f287f4190960b4dd5c02d"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -1984,6 +1984,24 @@ class ToolChecks(unittest.TestCase):
                 "command = ['python3', 'tools/unused.py']\n"
                 "def replace(argv):\n"
                 "    alias = argv\n"
+                "    alias[:] = ['echo']\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    replace(command)\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_unknown_branch_helper_destructured_parameter_alias_invalidates_caller_binding(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_destructured_parameter_alias.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "def replace(argv):\n"
+                "    alias, = (argv,)\n"
                 "    alias[:] = ['echo']\n"
                 "flag = True\n"
                 "if flag:\n"
@@ -4060,6 +4078,28 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
+    def test_js_unconstructed_unicode_and_escaped_instance_fields_are_deferred(self):
+        tree = {
+            "tools/unicode-unused.mjs": "export const value = 1;\n",
+            "tools/escaped-unused.mjs": "export const value = 2;\n",
+            "tools/README.md": (
+                "tools/unicode-unused.mjs tools/escaped-unused.mjs\n"),
+            "tests/identifier-instance-fields.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const unicodeScript=new URL('../tools/unicode-unused.mjs',import.meta.url);\n"
+                "const escapedScript=new URL('../tools/escaped-unused.mjs',import.meta.url);\n"
+                "class Settings {\n"
+                "  é = spawnSync('echo',[unicodeScript]);\n"
+                "  \\u0066ield = spawnSync('echo',[escapedScript]);\n"
+                "}\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/escaped-unused.mjs": False,
+             "tools/unicode-unused.mjs": False},
+        )
+
     def test_js_class_heritage_object_brace_precedes_deferred_instance_field(self):
         tree = {
             "tools/unused.mjs": "export const value = 1;\n",
@@ -4129,6 +4169,21 @@ class ToolChecks(unittest.TestCase):
             "tests/x.mjs": "const value=1; export {value as class};\n",
             "tests/import-specifier.test.mjs": (
                 "import {class as klass} from './x.mjs';\n"
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/live.mjs',import.meta.url);\n"
+                "spawnSync('echo',[script]);\n"
+            ),
+        }
+        self.assertTrue(self.tools(tree)["tools/live.mjs"]["referenced"])
+
+    def test_js_default_and_named_import_specifier_class_is_not_class_keyword(self):
+        tree = {
+            "tools/live.mjs": "export const value = 1;\n",
+            "tools/README.md": "tools/live.mjs\n",
+            "tests/x.mjs": (
+                "export default 0; const value=1; export {value as class};\n"),
+            "tests/import-default-specifier.test.mjs": (
+                "import unused, {class as klass} from './x.mjs';\n"
                 "import {spawnSync} from 'node:child_process';\n"
                 "const script=new URL('../tools/live.mjs',import.meta.url);\n"
                 "spawnSync('echo',[script]);\n"
@@ -4879,7 +4934,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 321)
+        self.assertEqual(len(cases), 324)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

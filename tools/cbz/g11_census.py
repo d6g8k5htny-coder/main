@@ -1205,6 +1205,38 @@ def _reachable_python_nodes(tree, mode):
                     if include_name and isinstance(target, ast.Name):
                         self._record_mutation_name(target.id)
 
+                def _clear_alias_target(self, target):
+                    if isinstance(target, ast.Name):
+                        formal_aliases.pop(target.id, None)
+                    elif isinstance(target, (ast.Tuple, ast.List)):
+                        for element in target.elts:
+                            self._clear_alias_target(element)
+                    elif isinstance(target, ast.Starred):
+                        self._clear_alias_target(target.value)
+
+                def _bind_alias_target(self, target, value):
+                    if isinstance(target, ast.Name):
+                        roots = (set(formal_aliases[value.id])
+                                 if (isinstance(value, ast.Name)
+                                     and value.id in formal_aliases)
+                                 else None)
+                        if roots is None:
+                            formal_aliases.pop(target.id, None)
+                        else:
+                            formal_aliases[target.id] = roots
+                        return
+                    if (isinstance(target, (ast.Tuple, ast.List))
+                            and isinstance(value, (ast.Tuple, ast.List))
+                            and len(target.elts) == len(value.elts)
+                            and not any(isinstance(element, ast.Starred)
+                                        for element in target.elts)):
+                        for target_element, value_element in zip(
+                                target.elts, value.elts):
+                            self._bind_alias_target(
+                                target_element, value_element)
+                        return
+                    self._clear_alias_target(target)
+
                 def visit_Call(self, node):
                     for mutated_name in helper_call_mutations.get(id(node), ()):
                         self._record_mutation_name(mutated_name)
@@ -1215,18 +1247,10 @@ def _reachable_python_nodes(tree, mode):
 
                 def visit_Assign(self, node):
                     self.visit(node.value)
-                    roots = (set(formal_aliases[node.value.id])
-                             if (isinstance(node.value, ast.Name)
-                                 and node.value.id in formal_aliases)
-                             else None)
                     for target in node.targets:
                         self._record_mutation_target(target)
                         self.visit(target)
-                        if isinstance(target, ast.Name):
-                            if roots is None:
-                                formal_aliases.pop(target.id, None)
-                            else:
-                                formal_aliases[target.id] = set(roots)
+                        self._bind_alias_target(target, node.value)
 
                 def visit_AnnAssign(self, node):
                     if node.value is not None:
@@ -3695,7 +3719,8 @@ def _js_in_import_export_specifier(searchable, position):
     """Return whether a token is inside an import/export ``{...}`` list."""
     for open_brace, close_brace in _js_block_scopes(searchable):
         if (open_brace < position < close_brace
-                and re.search(r"\b(?:import|export)\s*$",
+                and re.search(
+                    r"(?:\bexport|\bimport(?:\s+[A-Za-z_$][\w$]*\s*,)?)\s*$",
                               searchable[:open_brace])):
             return True
     return False
@@ -3910,9 +3935,14 @@ def _js_in_deferred_instance_field(searchable, position, text=None):
                     depth -= 1
             return depth == 0
 
+        identifier_escape = (
+            r"\\u(?:[0-9A-Fa-f]{4}|\{[0-9A-Fa-f]+\})")
+        identifier_name = (
+            r"(?:(?:[#$_]|[^\W\d]|" + identifier_escape + r")"
+            r"(?:[\w$#]|" + identifier_escape + r")*)")
         member = re.compile(
             r"(?:^|[;{}\r\n])\s*(?!static\b(?!\s*=))(?:accessor\s+)?"
-            r"(?:[#A-Za-z_$][\w$#]*|\[[^\]\r\n]*\]|"
+            r"(?:" + identifier_name + r"|\[[^\]\r\n]*\]|"
             r"'[^'\r\n]*'|\"[^\"\r\n]*\"|"
             r"(?:0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*|"
             r"0[bB][01](?:_?[01])*|0[oO][0-7](?:_?[0-7])*|"

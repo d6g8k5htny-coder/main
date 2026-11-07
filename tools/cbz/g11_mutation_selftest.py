@@ -1476,8 +1476,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_continuous_optional_property_chain_requires_proven_evaluation",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("computed JavaScript instance field initializer treated as module execution", "census",
-     '            r"(?:[#A-Za-z_$][\\w$#]*|\\[[^\\]\\r\\n]*\\]|"',
-     '            r"(?:[#A-Za-z_$][\\w$#]*|"',
+     '            r"(?:" + identifier_name + r"|\\[[^\\]\\r\\n]*\\]|"',
+     '            r"(?:" + identifier_name + r"|"',
      "tests.test_g11_census.ToolChecks.test_js_unconstructed_computed_instance_field_initializer_is_deferred",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("optional JavaScript computed or call continuation activated", "census",
@@ -1604,17 +1604,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_nested_destructuring_unpacks_when_nested_target_is_reached",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("literal-named JavaScript instance field treated as module execution", "census",
-     "            r\"(?:[#A-Za-z_$][\\w$#]*|\\[[^\\]\\r\\n]*\\]|\"\n"
-     "            r\"'[^'\\r\\n]*'|\\\"[^\\\"\\r\\n]*\\\"|\"\n"
-     "            r\"(?:0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*|\"\n"
-     "            r\"0[bB][01](?:_?[01])*|0[oO][0-7](?:_?[0-7])*|\"\n"
-     "            r\"(?:\\d(?:_?\\d)*(?:\\.(?:\\d(?:_?\\d)*)?)?|\"\n"
-     "            r\"\\.\\d(?:_?\\d)*)(?:[eE][+-]?\\d(?:_?\\d)*)?))\"",
-     "            r\"(?:[#A-Za-z_$][\\w$#]*|\\[[^\\]\\r\\n]*\\]|\"\n"
-     "            r\"(?:0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*|\"\n"
-     "            r\"0[bB][01](?:_?[01])*|0[oO][0-7](?:_?[0-7])*|\"\n"
-     "            r\"(?:\\d(?:_?\\d)*(?:\\.(?:\\d(?:_?\\d)*)?)?|\"\n"
-     "            r\"\\.\\d(?:_?\\d)*)(?:[eE][+-]?\\d(?:_?\\d)*)?))\"",
+     "            r\"'[^'\\r\\n]*'|\\\"[^\\\"\\r\\n]*\\\"|\"",
+     "            r\"\"",
      "tests.test_g11_census.ToolChecks.test_js_unconstructed_literal_named_instance_fields_are_deferred",
      '{"tools/numeric-unused.mjs": False,'),
     ("JavaScript static-block termination ignored", "census",
@@ -1748,13 +1739,18 @@ NEW_MUTATIONS = [
     ("assignment RHS helper mutation visited after alias rebinding", "census",
      "                def visit_Assign(self, node):\n"
      "                    self.visit(node.value)\n"
-     "                    roots = (",
+     "                    for target in node.targets:\n"
+     "                        self._record_mutation_target(target)\n"
+     "                        self.visit(target)\n"
+     "                        self._bind_alias_target(target, node.value)\n",
      "                def visit_Assign(self, node):\n"
      "                    for target in node.targets:\n"
-     "                        if isinstance(target, ast.Name):\n"
-     "                            formal_aliases.pop(target.id, None)\n"
+     "                        self._bind_alias_target(target, node.value)\n"
      "                    self.visit(node.value)\n"
-     "                    roots = (",
+     "                    for target in node.targets:\n"
+     "                        self._record_mutation_target(target)\n"
+     "                        self.visit(target)\n"
+     "                        self._bind_alias_target(target, node.value)\n",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_nested_helper_rhs_mutation_precedes_alias_rebinding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("multiline computed JavaScript names skipped by balanced fallback", "census",
@@ -1796,6 +1792,27 @@ NEW_MUTATIONS = [
      "        return False\n",
      "tests.test_g11_census.ToolChecks.test_js_import_export_specifier_class_is_not_class_keyword",
      'self.assertTrue(self.tools(tree)["tools/live.mjs"]["referenced"])'),
+    ("JavaScript default and named import specifier treated as class keyword", "census",
+     '                    r"(?:\\bexport|\\bimport(?:\\s+[A-Za-z_$][\\w$]*\\s*,)?)\\s*$",\n',
+     '                    r"\\b(?:import|export)\\s*$",\n',
+     "tests.test_g11_census.ToolChecks.test_js_default_and_named_import_specifier_class_is_not_class_keyword",
+     'self.assertTrue(self.tools(tree)["tools/live.mjs"]["referenced"])'),
+    ("Unicode and escaped JavaScript instance field identifiers ignored", "census",
+     '        identifier_escape = (\n'
+     '            r"\\\\u(?:[0-9A-Fa-f]{4}|\\{[0-9A-Fa-f]+\\})")\n'
+     '        identifier_name = (\n'
+     '            r"(?:(?:[#$_]|[^\\W\\d]|" + identifier_escape + r")"\n'
+     '            r"(?:[\\w$#]|" + identifier_escape + r")*)")\n',
+     '        identifier_name = r"[#A-Za-z_$][\\w$#]*"\n',
+     "tests.test_g11_census.ToolChecks.test_js_unconstructed_unicode_and_escaped_instance_fields_are_deferred",
+     'self.assertEqual('),
+    ("helper destructuring alias origin ignored", "census",
+     "                    if (isinstance(target, (ast.Tuple, ast.List))\n"
+     "                            and isinstance(value, (ast.Tuple, ast.List))\n",
+     "                    if (isinstance(target, (ast.Tuple, ast.List))\n"
+     "                            and False\n",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_destructured_parameter_alias_invalidates_caller_binding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -2120,6 +2137,9 @@ EXPECTED_MUTATION_NAMES = (
     "private JavaScript heritage name treated as expression keyword",
     "malformed JavaScript class structure accepted as module execution",
     "JavaScript import specifier treated as class keyword",
+    "JavaScript default and named import specifier treated as class keyword",
+    "Unicode and escaped JavaScript instance field identifiers ignored",
+    "helper destructuring alias origin ignored",
 )
 
 
@@ -2298,7 +2318,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 256
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 259
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
