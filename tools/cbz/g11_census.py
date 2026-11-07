@@ -794,11 +794,24 @@ def _branch_assigned_names(body):
             self.generic_visit(node)
 
         def _target_root(self, target):
+            if isinstance(target, (ast.Tuple, ast.List)):
+                for element in target.elts:
+                    self._target_root(element)
+                return
+            if isinstance(target, ast.Starred):
+                self._target_root(target.value)
+                return
             root = target
             while isinstance(root, (ast.Subscript, ast.Attribute)):
                 root = root.value
             if isinstance(root, ast.Name):
                 names.add(root.id)
+
+        def visit_For(self, node):
+            self._target_root(node.target)
+            self.generic_visit(node)
+
+        visit_AsyncFor = visit_For
 
         def visit_Assign(self, node):
             for target in node.targets:
@@ -859,11 +872,11 @@ def _reachable_python_nodes(tree, mode):
     active_functions = {}
     function_scope_bindings = {
         id(node): _scope_bindings(node) for node in ast.walk(tree)
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
     }
     function_scope_globals = {
         id(node): _python_scope_global_names(node) for node in ast.walk(tree)
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
     }
     function_scope_nonlocals = {
         id(node): _python_scope_nonlocal_names(node) for node in ast.walk(tree)
@@ -909,6 +922,13 @@ def _reachable_python_nodes(tree, mode):
             return
         active_calls.add(identity)
         try:
+            for key in [key for key in active_functions if key[0] == id(function)]:
+                active_functions.pop(key, None)
+            marker = ast.Pass()
+            marker.lineno = (getattr(function, "lineno", 0)
+                             if activation_line is None else activation_line)
+            marker._g11_scope_start = True
+            nodes.append((marker, id(function), marker.lineno))
             visit_statement_sequence(function.body, owner, id(function), activation_line)
         finally:
             active_calls.remove(identity)
@@ -958,8 +978,14 @@ def _reachable_python_nodes(tree, mode):
                 visit(base, owner, scope, activation_line)
             for keyword in node.keywords:
                 visit(keyword.value, owner, scope, activation_line)
+            class_scope = id(node)
+            marker = ast.Pass()
+            marker.lineno = (getattr(node, "lineno", 0)
+                             if activation_line is None else activation_line)
+            marker._g11_scope_start = True
+            nodes.append((marker, class_scope, marker.lineno))
             for statement in node.body:
-                visit(statement, node.name, scope, activation_line)
+                visit(statement, node.name, class_scope, activation_line)
             return
         if isinstance(node, ast.If):
             visit(node.test, owner, scope, activation_line)
@@ -1005,6 +1031,13 @@ def _reachable_python_nodes(tree, mode):
                 visit(node.iter, owner, scope, activation_line)
             else:
                 visit(node.test, owner, scope, activation_line)
+            possible_effects = _branch_assigned_names([node])
+            if possible_effects:
+                marker = ast.Delete(
+                    targets=[ast.Name(id=name, ctx=ast.Del())
+                             for name in sorted(possible_effects)])
+                marker.lineno = getattr(node, "end_lineno", node.lineno)
+                visit(marker, owner, scope, activation_line)
             return
 
         if isinstance(node, (ast.Try, getattr(ast, "TryStar", ast.Try))):
@@ -1444,6 +1477,29 @@ def _python_function_parent_scopes(tree):
     return parents
 
 
+def _python_class_parent_scopes(tree):
+    """Map each class scope to its nearest enclosing function, if any."""
+    parents = {}
+
+    class Collector(ast.NodeVisitor):
+        def __init__(self):
+            self.functions = []
+
+        def visit_FunctionDef(self, node):
+            self.functions.append(id(node))
+            self.generic_visit(node)
+            self.functions.pop()
+
+        visit_AsyncFunctionDef = visit_FunctionDef
+
+        def visit_ClassDef(self, node):
+            parents[id(node)] = self.functions[-1] if self.functions else None
+            self.generic_visit(node)
+
+    Collector().visit(tree)
+    return parents
+
+
 def _invalidate_python_binding(name, local, module, scope, global_names=(),
                                destination_for_name=None, recursive=False):
     destination = (destination_for_name(name) if destination_for_name is not None
@@ -1579,11 +1635,30 @@ def _command_tool_values(value, tools):
     return set()
 
 
+def _subprocess_uses_supported_argv(node):
+    """Return whether subprocess uses the bounded ordinary-argv semantics."""
+    if len(node.args) != 1:
+        return False
+    for keyword in node.keywords:
+        if keyword.arg is None:
+            return False
+        if (keyword.arg == "executable"
+                and not (isinstance(keyword.value, ast.Constant)
+                         and keyword.value.value is None)):
+            return False
+        if (keyword.arg == "shell"
+                and not (isinstance(keyword.value, ast.Constant)
+                         and keyword.value.value in (False, None))):
+            return False
+    return True
+
+
 def _python_execution_wrappers(tree, imports):
     """Return reachable-call argument positions forwarded to a trusted process API."""
     wrappers = {}
-    process_calls = {"subprocess.run", "subprocess.call", "subprocess.Popen",
-                     "subprocess.check_call", "subprocess.check_output", "os.system"}
+    subprocess_calls = {"subprocess.run", "subprocess.call", "subprocess.Popen",
+                         "subprocess.check_call", "subprocess.check_output"}
+    process_calls = subprocess_calls | {"os.system"}
     path_calls = {"importlib.util.spec_from_file_location": 1, "runpy.run_path": 0}
 
     def wrapper_positions(function):
@@ -1642,6 +1717,9 @@ def _python_execution_wrappers(tree, imports):
                 branch = node.body if truth else node.orelse
                 return visit_body(branch)
             if isinstance(node, (ast.For, ast.AsyncFor, ast.While)):
+                visit(node.iter if isinstance(node, (ast.For, ast.AsyncFor)) else node.test)
+                for name in _branch_assigned_names([node]):
+                    invalidate(name)
                 return False
             if isinstance(node, (ast.Try, getattr(ast, "TryStar", ast.Try))):
                 body_terminates = visit_body(node.body)
@@ -1725,7 +1803,10 @@ def _python_execution_wrappers(tree, imports):
                 if node.args:
                     resolved = _resolved_import_name(
                         node.func, active_imports, active_shadowed)
-                    forwarded = node.args[0] if resolved in process_calls else None
+                    forwarded = (node.args[0] if resolved in process_calls
+                                 and (resolved not in subprocess_calls
+                                      or _subprocess_uses_supported_argv(node))
+                                 else None)
                     if resolved in path_calls and len(node.args) > path_calls[resolved]:
                         forwarded = node.args[path_calls[resolved]]
                     if isinstance(forwarded, ast.Name):
@@ -1798,15 +1879,19 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                              ast.GeneratorExp)) and node.generators
     })
     scope_globals = {id(node): _python_scope_global_names(node) for node in ast.walk(tree)
-                     if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
+                     if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef,
+                                          ast.ClassDef))}
     scope_nonlocals = {id(node): _python_scope_nonlocal_names(node) for node in ast.walk(tree)
                        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
     scope_parents = _python_function_parent_scopes(tree)
+    class_scope_parents = _python_class_parent_scopes(tree)
     module_bindings, scope_bindings, scope_imports = {}, {}, {}
     evaluated_arguments = {}
     evaluated_sequence_elements = {}
     missing_argument = object()
-    reachable_nodes = sorted(_reachable_python_nodes(tree, mode), key=lambda item: item[2])
+    # Reachability traversal already emits semantic evaluation order. Sorting
+    # by source line reorders multiline call effects ahead of their arguments.
+    reachable_nodes = _reachable_python_nodes(tree, mode)
     wrapper_reassignments = {}
 
     def binding_destination_scope(scope, name):
@@ -1845,28 +1930,45 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     wrapper_reassignments.setdefault(key, []).append(
                         (execution_line, node.lineno))
     for node, scope, execution_line in reachable_nodes:
+        if hasattr(node, "_g11_scope_start"):
+            scope_bindings[scope] = {}
+            scope_imports[scope] = _empty_import_bindings()
+            continue
         local = scope_bindings.setdefault(scope, {}) if scope is not None else module_bindings
         global_names = scope_globals.get(scope, set())
         local_imports = scope_imports.setdefault(scope, _empty_import_bindings())
         destination_for_name = lambda name: binding_destination(scope, name)
         if scope is not None:
             _update_local_import_bindings(node, local_imports)
+        visible_module_bindings = module_bindings
+        visible_imports = imports
+        visible_shadowed = scope_shadowed.get(scope, set())
+        if scope in class_scope_parents:
+            visible_shadowed = set()
+            parent_scope = class_scope_parents[scope]
+            if parent_scope is not None:
+                visible_module_bindings = dict(module_bindings)
+                visible_module_bindings.update(scope_bindings.get(parent_scope, {}))
+                visible_imports, _ = _combined_import_bindings(
+                    imports,
+                    scope_imports.get(parent_scope, _empty_import_bindings()),
+                    scope_shadowed.get(parent_scope, set()))
         active_imports, _ = _combined_import_bindings(
-            imports, local_imports, scope_shadowed.get(scope, set()))
+            visible_imports, local_imports, visible_shadowed)
         locally_imported = set(local_imports["modules"]) | set(local_imports["symbols"])
-        static_shadowed = (scope_shadowed.get(scope, set())
+        static_shadowed = ((visible_shadowed | set(local_imports["shadowed"]))
                            - locally_imported - global_names)
         if hasattr(node, "_g11_binary_id"):
             evaluated_sequence_elements[(
                 "binary", node._g11_binary_id, node._g11_binary_index)] = (
                     _python_sequence_static_value(
                         node.value, evaluated_sequence_elements, local,
-                        module_bindings, source_path, active_imports,
+                        visible_module_bindings, source_path, active_imports,
                         static_shadowed))
             continue
         if hasattr(node, "_g11_sequence_id"):
             value = _python_sequence_static_value(
-                node.value, evaluated_sequence_elements, local, module_bindings,
+                node.value, evaluated_sequence_elements, local, visible_module_bindings,
                 source_path, active_imports, static_shadowed)
             if node._g11_sequence_starred and isinstance(value, list):
                 value = list(value)
@@ -1877,18 +1979,19 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
             evaluated_arguments[(node._g11_call_id, node._g11_argument_index)] = (
                 _python_sequence_static_value(
                     node.value, evaluated_sequence_elements, local,
-                    module_bindings, source_path, active_imports,
+                    visible_module_bindings, source_path, active_imports,
                     static_shadowed))
             continue
         if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign, ast.NamedExpr)):
             value_node = (ast.BinOp(left=node.target, op=node.op, right=node.value)
                           if isinstance(node, ast.AugAssign) else node.value)
             value = _python_sequence_static_value(
-                value_node, evaluated_sequence_elements, local, module_bindings,
+                value_node, evaluated_sequence_elements, local, visible_module_bindings,
                 source_path, active_imports, static_shadowed)
             if isinstance(node, ast.AugAssign) and isinstance(node.target, ast.Name):
                 destination = destination_for_name(node.target.id)
-                prior = destination.get(node.target.id, module_bindings.get(node.target.id))
+                prior = destination.get(
+                    node.target.id, visible_module_bindings.get(node.target.id))
                 if isinstance(prior, list) and isinstance(value, list):
                     prior[:] = value
                     value = prior
@@ -1930,7 +2033,7 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     return value
                 return _python_sequence_static_value(
                     node.args[index], evaluated_sequence_elements, local,
-                    module_bindings, source_path, active_imports,
+                    visible_module_bindings, source_path, active_imports,
                     static_shadowed)
 
             mutated_root = _python_mutated_root_name(node)
@@ -1964,9 +2067,11 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                 value = argument_value(0)
                 references.update(_tool_values(value, tools))
                 continue
-            if call_name in {"subprocess.run", "subprocess.call", "subprocess.Popen",
-                             "subprocess.check_call", "subprocess.check_output", "os.system",
-                             "runpy.run_path"}:
+            subprocess_calls = {"subprocess.run", "subprocess.call", "subprocess.Popen",
+                                 "subprocess.check_call", "subprocess.check_output"}
+            if call_name in subprocess_calls and not _subprocess_uses_supported_argv(node):
+                continue
+            if call_name in subprocess_calls | {"os.system", "runpy.run_path"}:
                 for index, arg in enumerate(node.args):
                     value = argument_value(index)
                     if isinstance(value, (list, _StaticAlternatives)):
@@ -2054,6 +2159,62 @@ def _strip_js_comments(text):
     return "".join(out)
 
 
+def _js_builtin_name_unshadowed(text, position, name):
+    """Require a bounded unshadowed global built-in identifier."""
+    if (_js_parameter_shadows(text, position, name)
+            or _js_local_declaration_shadows(text, position, name)):
+        return False
+    searchable, _scopes = _js_function_scopes(text)
+    blocks = _js_block_scopes(searchable)
+
+    import_from = re.compile(r"\bimport\s+([^;'\"]+?)\s+from\s*['\"]")
+    for imported in import_from.finditer(text):
+        clause = imported.group(1).strip()
+        default = re.match(r"([A-Za-z_$][\w$]*)", clause)
+        if default is not None and default.group(1) == name:
+            return False
+        namespace = re.search(r"\*\s+as\s+([A-Za-z_$][\w$]*)", clause)
+        if namespace is not None and namespace.group(1) == name:
+            return False
+        named = re.search(r"\{([^}]*)\}", clause)
+        if named is not None:
+            for item in named.group(1).split(","):
+                parts = re.split(r"\s+as\s+", item.strip())
+                if parts and parts[-1] == name:
+                    return False
+
+    def at_module_root(candidate):
+        return not any(start < candidate < end for start, end in blocks)
+
+    declaration = re.compile(
+        r"\b(?:const|let|var|function|class)\s+" + re.escape(name) +
+        r"(?![\w$])")
+    if any(at_module_root(match.start()) for match in declaration.finditer(searchable)):
+        return False
+    assignment = re.compile(
+        r"(?<![\w$.])" + re.escape(name) +
+        r"(?![\w$])\s*(?:=(?!=|>)|\+\+|--|(?:\+|-|\*|/|%|&|\||\^|<<|>>)\s*=)")
+    if any(at_module_root(match.start())
+           for match in assignment.finditer(searchable, 0, position)):
+        return False
+    return True
+
+
+def _js_binding_or_property_written(segment, name):
+    """Return whether a URL binding or a value rooted at it may be mutated."""
+    root = r"(?<![\w$.])" + re.escape(name) + r"(?![\w$])"
+    update = r"(?:=(?!=|>)|\+\+|--|(?:\+|-|\*|/|%|&|\||\^|<<|>>)\s*=)"
+    if re.search(root + r"\s*" + update, segment):
+        return True
+    property_root = (root +
+                     r"\s*(?:(?:\.\s*[A-Za-z_$][\w$]*)|(?:\[[^\]\n]+\]))+")
+    if re.search(r"\bdelete\s+" + property_root, segment):
+        return True
+    return bool(re.search(
+        property_root + r"\s*(?:" + update + r"|\()",
+        segment))
+
+
 def js_tool_references(text, source_path, tools):
     references = set()
     visible = _strip_js_comments(text)
@@ -2078,9 +2239,12 @@ def js_tool_references(text, source_path, tools):
     url_binding = re.compile(
         r"\b(?P<kind>const|let|var)\s+(?P<name>[A-Za-z_$][\w$]*)\s*=\s*"
         r"(?:(?P<converter>[A-Za-z_$][\w$]*)\s*\(\s*)?"
-        r"new\s+URL\s*\(\s*['\"](?P<specifier>[^'\"]+)['\"]\s*,\s*"
+        r"new\s+(?P<constructor>URL)\s*\(\s*['\"](?P<specifier>[^'\"]+)['\"]\s*,\s*"
         r"import\.meta\.url\s*\)(?(converter)\s*\))")
     for match in url_binding.finditer(visible):
+        if not _js_builtin_name_unshadowed(
+                visible, match.start("constructor"), match.group("constructor")):
+            continue
         converter = match.group("converter")
         if converter:
             import_end = url_converters.get(converter)
@@ -2146,12 +2310,10 @@ def js_tool_references(text, source_path, tools):
             if _js_local_declaration_shadows(
                     visible, call_start, name, declaration_end):
                 continue
-            assignment = re.compile(
-                r"(?<![\w$.])" + re.escape(name) +
-                r"(?![\w$])\s*(?:=(?!=|>)|\+\+|--|(?:\+|-|\*|/|%|&|\||\^|<<|>>)\s*=)")
             cutoffs = ({call_start} if declaration_scope is not None
                        else activation_points)
-            if any(not assignment.search(visible[declaration_end:cutoff])
+            if any(not _js_binding_or_property_written(
+                       visible[declaration_end:cutoff], name)
                    for cutoff in cutoffs if cutoff >= declaration_end):
                 references.add(target)
     return references
@@ -2467,6 +2629,25 @@ def _js_block_scopes(searchable):
     return scopes
 
 
+def _js_short_circuit_call_reachable(searchable, position):
+    """Bound a call reached through one literal short-circuit operator."""
+    boundary = max(searchable.rfind(token, 0, position) for token in (";", "{", "}"))
+    prefix = searchable[boundary + 1:position]
+    operators = list(re.finditer(r"&&|\|\|", prefix))
+    if not operators:
+        return True
+    if len(operators) != 1:
+        return False
+    operator = operators[0]
+    if prefix[operator.end():].strip(" \t\r\n("):
+        return False
+    literal = re.search(r"\b(true|false)\s*$", prefix[:operator.start()])
+    if literal is None:
+        return False
+    return ((literal.group(1) == "true" and operator.group() == "&&")
+            or (literal.group(1) == "false" and operator.group() == "||"))
+
+
 def _js_call_activation_points(text, position):
     """Return module-root activation points for one reachable process call."""
     searchable, scopes = _js_function_scopes(text)
@@ -2529,6 +2710,8 @@ def _js_call_activation_points(text, position):
         return True
 
     def reachable(candidate, seen, binding_guards=()):
+        if not _js_short_circuit_call_reachable(searchable, candidate):
+            return set()
         if in_literal_false_block(candidate):
             return set()
         function = containing_named_function(candidate)

@@ -357,8 +357,14 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("nonprocess wrapper accepted", "census",
-     "                forwarded = node.args[0] if resolved in process_calls else None",
-     "                forwarded = node.args[0]",
+     "                    forwarded = (node.args[0] if resolved in process_calls\n"
+     "                                 and (resolved not in subprocess_calls\n"
+     "                                      or _subprocess_uses_supported_argv(node))\n"
+     "                                 else None)",
+     "                    forwarded = (node.args[0] if True\n"
+     "                                 and (resolved not in subprocess_calls\n"
+     "                                      or _subprocess_uses_supported_argv(node))\n"
+     "                                 else None)",
      "tests.test_g11_census.ToolChecks.test_path_values_need_reachable_execution_not_mentions",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("sibling with_name path ignored", "census",
@@ -502,7 +508,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_conditional_command_lists_select_only_the_taken_branch",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("reassigned JavaScript URL binding retains stale path", "census",
-     "            if any(not assignment.search(visible[declaration_end:cutoff])\n                   for cutoff in cutoffs if cutoff >= declaration_end):\n                references.add(target)",
+     "            if any(not _js_binding_or_property_written(\n                       visible[declaration_end:cutoff], name)\n                   for cutoff in cutoffs if cutoff >= declaration_end):\n                references.add(target)",
      "            if True:\n                references.add(target)",
      "tests.test_g11_census.ToolChecks.test_js_reassigned_url_binding_does_not_keep_its_old_path",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
@@ -613,7 +619,7 @@ NEW_MUTATIONS = [
      'self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()},'),
     ("deferred caller uses final module binding", "census",
      "                    execute(function, None, execution_line)",
-     "                    execute(function, None, float(\"inf\"))",
+     "                    queue.append((function, None, float(\"inf\")))",
      "tests.test_g11_census.ToolChecks.test_deferred_caller_uses_module_value_at_invocation",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript uncalled helper chain accepted", "census",
@@ -672,8 +678,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_wrapper_element_delete_invalidates_forwarding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("declared global remains a local static shadow", "census",
-     "        static_shadowed = (scope_shadowed.get(scope, set())\n                           - locally_imported - global_names)",
-     "        static_shadowed = (scope_shadowed.get(scope, set())\n                           - locally_imported)",
+     "        static_shadowed = ((visible_shadowed | set(local_imports[\"shadowed\"]))\n                           - locally_imported - global_names)",
+     "        static_shadowed = ((visible_shadowed | set(local_imports[\"shadowed\"]))\n                           - locally_imported)",
      "tests.test_g11_census.ToolChecks.test_nested_helper_global_assignment_is_read_in_same_scope",
      'self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])'),
     ("JavaScript lexical helper shadow ignored", "census",
@@ -712,8 +718,12 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_sequence_preserves_earlier_element_value_before_later_effects",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript module block shadow ignored", "census",
-     "    blocks = _js_block_scopes(searchable)",
-     "    blocks = [(scope[2], scope[3]) for scope in function_scopes]",
+     "    searchable, function_scopes = _js_function_scopes(text)\n"
+     "    blocks = _js_block_scopes(searchable)\n"
+     "    containing = sorted(",
+     "    searchable, function_scopes = _js_function_scopes(text)\n"
+     "    blocks = [(scope[2], scope[3]) for scope in function_scopes]\n"
+     "    containing = sorted(",
      "tests.test_g11_census.ToolChecks.test_js_module_block_declaration_shadows_named_child_process_import",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("captured sequence values lost through concatenation", "census",
@@ -857,8 +867,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_try_handlers_require_proven_reachability_but_finally_executes",
      'self.assertEqual(\n            {\n                "tools/body-live.py": True,'),
     ("skipped exception branch effects ignored", "census",
-     "            if possible_effects:\n                marker = ast.Delete(",
-     "            if False:\n                marker = ast.Delete(",
+     "            possible_effects = _exception_possible_effects(node)\n            if possible_effects:\n                marker = ast.Delete(",
+     "            possible_effects = _exception_possible_effects(node)\n            if False:\n                marker = ast.Delete(",
      "tests.test_g11_census.ToolChecks.test_unproven_exception_branches_invalidate_downstream_bindings",
      '{"tools/else-unused.py": False, "tools/handler-unused.py": False},'),
     ("wrapper exception-handler reachability ignored", "census",
@@ -966,6 +976,79 @@ NEW_MUTATIONS = [
      "            identifiers.update(part for part in parts if identifier.fullmatch(part))\n    identifiers.update(argument for argument in arguments[2:] if identifier.fullmatch(argument))\n    return identifiers",
      "tests.test_g11_census.ToolChecks.test_js_url_binding_requires_command_argument_position",
      '{"tools/live.mjs": True, "tools/unused.mjs": False},'),
+    ("reachable events resorted by source line", "census",
+     "    reachable_nodes = _reachable_python_nodes(tree, mode)",
+     "    reachable_nodes = sorted(_reachable_python_nodes(tree, mode),\n"
+     "                             key=lambda item: item[2])",
+     "tests.test_g11_census.ToolChecks.test_multiline_calls_preserve_argument_effect_order",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("direct loop effects ignored", "census",
+     "            possible_effects = _branch_assigned_names([node])",
+     "            possible_effects = set()",
+     "tests.test_g11_census.ToolChecks.test_possible_loop_writes_invalidate_static_bindings",
+     '{"tools/body-unused.py": False, "tools/else-unused.py": False,'),
+    ("forwarding wrapper loop effects ignored", "census",
+     "                for name in _branch_assigned_names([node]):",
+     "                for name in ():",
+     "tests.test_g11_census.ToolChecks.test_possible_loop_writes_invalidate_static_bindings",
+     '{"tools/body-unused.py": False, "tools/else-unused.py": False,'),
+    ("subprocess executable override ignored", "census",
+     "    for keyword in node.keywords:\n        if keyword.arg is None:\n            return False",
+     "    for keyword in ():\n        if keyword.arg is None:\n            return False",
+     "tests.test_g11_census.ToolChecks.test_subprocess_executable_override_blocks_command_credit",
+     '{"tools/direct-unused.py": False, "tools/dynamic-unused.py": False,'),
+    ("class body bindings leak into enclosing scope", "census",
+     "            class_scope = id(node)",
+     "            class_scope = scope",
+     "tests.test_g11_census.ToolChecks.test_class_body_bindings_do_not_replace_module_bindings",
+     '{"tools/class-live.py": True, "tools/method-live.py": True,'),
+    ("class runtime shadows ignored", "census",
+     "        static_shadowed = ((visible_shadowed | set(local_imports[\"shadowed\"]))\n"
+     "                           - locally_imported - global_names)",
+     "        static_shadowed = (visible_shadowed\n"
+     "                           - locally_imported - global_names)",
+     "tests.test_g11_census.ToolChecks.test_class_body_bindings_do_not_replace_module_bindings",
+     '{"tools/class-live.py": True, "tools/method-live.py": True,'),
+    ("subprocess shell mode ignored", "census",
+     "        if (keyword.arg == \"shell\"\n                and not (isinstance(keyword.value, ast.Constant)",
+     "        if (False\n                and not (isinstance(keyword.value, ast.Constant)",
+     "tests.test_g11_census.ToolChecks.test_subprocess_shell_mode_blocks_command_credit",
+     '{"tools/dynamic-unused.py": False, "tools/kwargs-unused.py": False,'),
+    ("subprocess positional options accepted", "census",
+     "    if len(node.args) != 1:\n        return False",
+     "    if False:\n        return False",
+     "tests.test_g11_census.ToolChecks.test_subprocess_shell_mode_blocks_command_credit",
+     '{"tools/dynamic-unused.py": False, "tools/kwargs-unused.py": False,'),
+    ("JavaScript URL constructor identity ignored", "census",
+     "        if not _js_builtin_name_unshadowed(\n                visible, match.start(\"constructor\"), match.group(\"constructor\")):\n            continue",
+     "        if False:\n            continue",
+     "tests.test_g11_census.ToolChecks.test_js_url_constructor_requires_unshadowed_builtin_identity",
+     '{"tools/block-unused.mjs": False, "tools/import-unused.mjs": False,'),
+    ("JavaScript URL property write retains stale provenance", "census",
+     "    property_root = (root +\n                     r\"\\s*(?:(?:\\.\\s*[A-Za-z_$][\\w$]*)|(?:\\[[^\\]\\n]+\\]))+\")",
+     "    return False\n    property_root = (root +\n                     r\"\\s*(?:(?:\\.\\s*[A-Za-z_$][\\w$]*)|(?:\\[[^\\]\\n]+\\]))+\")",
+     "tests.test_g11_census.ToolChecks.test_js_url_property_mutation_invalidates_path_provenance",
+     '{"tools/live.mjs": True, "tools/unused.mjs": False},'),
+    ("JavaScript expression short-circuit reachability ignored", "census",
+     "        if not _js_short_circuit_call_reachable(searchable, candidate):\n            return set()",
+     "        if False:\n            return set()",
+     "tests.test_g11_census.ToolChecks.test_js_unreachable_child_process_calls_are_not_references",
+     '{\n            "tools/branch.mjs": False, "tools/falseor-live.mjs": True,'),
+    ("helper invocation binding frame reused", "census",
+     "            scope_bindings[scope] = {}",
+     "            scope_bindings.setdefault(scope, {})",
+     "tests.test_g11_census.ToolChecks.test_helper_invocations_use_fresh_local_binding_environments",
+     '{"tools/helper-unused.py": False, "tools/import-unused.py": False,'),
+    ("helper invocation import frame reused", "census",
+     "            scope_imports[scope] = _empty_import_bindings()",
+     "            scope_imports.setdefault(scope, _empty_import_bindings())",
+     "tests.test_g11_census.ToolChecks.test_helper_invocations_use_fresh_local_binding_environments",
+     '{"tools/helper-unused.py": False, "tools/import-unused.py": False,'),
+    ("helper invocation nested definitions reused", "census",
+     "            for key in [key for key in active_functions if key[0] == id(function)]:",
+     "            for key in []:",
+     "tests.test_g11_census.ToolChecks.test_helper_invocations_use_fresh_local_binding_environments",
+     '{"tools/helper-unused.py": False, "tools/import-unused.py": False,'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1177,6 +1260,20 @@ EXPECTED_MUTATION_NAMES = (
     "nested aggregate mutation retains reachable alias provenance",
     "decorated Python forwarding wrapper registered",
     "JavaScript URL options argument credited",
+    "reachable events resorted by source line",
+    "direct loop effects ignored",
+    "forwarding wrapper loop effects ignored",
+    "subprocess executable override ignored",
+    "class body bindings leak into enclosing scope",
+    "class runtime shadows ignored",
+    "subprocess shell mode ignored",
+    "subprocess positional options accepted",
+    "JavaScript URL constructor identity ignored",
+    "JavaScript URL property write retains stale provenance",
+    "JavaScript expression short-circuit reachability ignored",
+    "helper invocation binding frame reused",
+    "helper invocation import frame reused",
+    "helper invocation nested definitions reused",
 )
 
 
@@ -1355,7 +1452,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 156
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 164
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
