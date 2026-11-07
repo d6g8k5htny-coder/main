@@ -126,19 +126,19 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`53695c769603f48f05ab330ba6232c42917d5006` (tree
-`718569217e20913a91f9877f4a7543f2f2c548ff`) extends the existing bounded
+`03ef89f054da7a5cce24a98bf1f8612d789ffc61` (tree
+`d94653f7bfa2a30ee93264cf1175bc6eb34b1c2a`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 118/118 controls and killed 169/169 designated
+The exact source commit passed 123/123 controls and killed 174/174 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`fea08459f78eec6025aa321a999feb1b320b73c498d5962964c4ac450643d1c3`.
+`2286112d27097569d494039eebf771e8a92a9cb995cc7fa1c2f723a2f41b9063`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`f901665288d143f39595c57398d52108353674df23dbffe4ae2ad2b5d65ecc6e`,
+`0054a074d299b391c5edd096f7c5fa78d8d7db384095a4e4e0b65bea8d265386`,
 56,078 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
@@ -247,6 +247,12 @@ condition; unknown conditions establish neither arm. Async helper definitions
 are not registered as synchronous executable helpers, so coroutine creation
 alone cannot credit their bodies. The census does not attempt general coroutine
 activation analysis. Both fail-closed rules have dedicated controls and mutants.
+Async forwarding wrappers and generator functions likewise do not establish
+body execution from object creation alone. Comprehension bodies require
+statically established iteration, generator-expression bodies require actual
+consumption, chained comparisons stop after a proven false prefix, and
+JavaScript `const`/`let` URL bindings remain inside their lexical brace range.
+Each boundary has a dedicated adverse control and designated mutant.
 Python call-argument helper effects precede attribution of the enclosing call,
 reassigned Python helpers lose their former bodies, and deferred JavaScript
 helpers validate module URL bindings at reachable activation points. These

@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has native source parent
-`53695c769603f48f05ab330ba6232c42917d5006`; its isolated work began from the
+`03ef89f054da7a5cce24a98bf1f8612d789ffc61`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,13 +37,13 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `53695c769603f48f05ab330ba6232c42917d5006` (tree
-`718569217e20913a91f9877f4a7543f2f2c548ff`) passed 118/118 tests and killed
-169/169 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `fea08459f78eec6025aa321a999feb1b320b73c498d5962964c4ac450643d1c3`.
+native source `03ef89f054da7a5cce24a98bf1f8612d789ffc61` (tree
+`d94653f7bfa2a30ee93264cf1175bc6eb34b1c2a`) passed 123/123 tests and killed
+174/174 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `2286112d27097569d494039eebf771e8a92a9cb995cc7fa1c2f723a2f41b9063`.
 Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`f901665288d143f39595c57398d52108353674df23dbffe4ae2ad2b5d65ecc6e`,
+`0054a074d299b391c5edd096f7c5fa78d8d7db384095a4e4e0b65bea8d265386`,
 56,078 bytes each)
 contain zero production findings and retain exactly 29 no-current-exercise
 tool candidates; both census runs exit 1. The former 20 active
@@ -116,7 +116,7 @@ chain rooted in module execution. The stricter JavaScript rule briefly exposed
 callbacks passed to the imported `node:test` identity, restoring that actual
 test execution without treating arbitrary callback APIs as roots. The
 intermediate 30-tool census remains historical; the current review-defect total
-is 71 and exact-head review remains required before integration. Three latest
+is 76 and exact-head review remains required before integration. Three latest
 counterexamples are also repaired: mutually exclusive `is None` branches no
 longer manufacture a post-join binding; a `node:test` registration must itself
 be reachable from module execution; and a shadowed `test` name cannot inherit
@@ -184,6 +184,13 @@ left uncredited; and calling an async helper without awaiting it does not execut
 its body. The bounded scanner does not infer coroutine execution. Both supplied
 fixtures were reproduced red in normal and optimized modes and have dedicated
 controls and designated mutants.
+Five later exact-head counterexamples are also repaired: async forwarding
+wrappers and generator object creation do not execute their bodies;
+comprehension bodies require established iteration and generator expressions
+require consumption; a chained comparison stops after a proven false prefix;
+and a JavaScript `const`/`let` URL binding cannot escape its lexical block.
+Every supplied fixture was reproduced red in normal and optimized modes before
+the repair and has a dedicated designated mutant.
 
 ## Current verification boundary
 

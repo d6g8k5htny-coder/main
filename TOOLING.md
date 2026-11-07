@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`53695c769603f48f05ab330ba6232c42917d5006`, based on Main default
+`03ef89f054da7a5cce24a98bf1f8612d789ffc61`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,15 +263,15 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`53695c769603f48f05ab330ba6232c42917d5006` (tree
-`718569217e20913a91f9877f4a7543f2f2c548ff`) recognizes explicit local path
+`03ef89f054da7a5cce24a98bf1f8612d789ffc61` (tree
+`d94653f7bfa2a30ee93264cf1175bc6eb34b1c2a`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-118/118 controls and 169/169 designated mutations passed in both modes; the
+123/123 controls and 174/174 designated mutations passed in both modes; the
 sealed mutation-inventory SHA-256 is
-`fea08459f78eec6025aa321a999feb1b320b73c498d5962964c4ac450643d1c3`. The exact
+`2286112d27097569d494039eebf771e8a92a9cb995cc7fa1c2f723a2f41b9063`. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`f901665288d143f39595c57398d52108353674df23dbffe4ae2ad2b5d65ecc6e`,
+`0054a074d299b391c5edd096f7c5fa78d8d7db384095a4e4e0b65bea8d265386`,
 56,078 bytes each),
 with zero production findings and exactly 29 no-current-exercise tool
 candidates; both runs exited 1. Adverse controls refuse mere path
@@ -358,7 +358,10 @@ reassignment invalidates the module helper used by later calls; and literal
 Boolean short-circuiting excludes an unreachable operand. Literal conditional
 expressions traverse only a proven selected arm, while coroutine creation does
 not execute an async helper body; general coroutine activation remains outside
-the bounded scanner. The
+the bounded scanner. Async forwarding wrappers and generator functions are not
+executed by object creation; comprehension bodies require proven iteration,
+generator expressions require consumption, chained comparisons respect a
+proven false prefix, and lexical JavaScript URL bindings remain block-bounded. The
 stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the former
 28-tool result remains historical and is not rebound. Static evidence is not
 runtime proof. Exact dormant dispositions and the final orchestrator remain
