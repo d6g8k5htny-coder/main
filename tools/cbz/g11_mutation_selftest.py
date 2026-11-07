@@ -1715,19 +1715,10 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_unknown_branch_nested_captured_default_mutation_invalidates_child_alias",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("annotated helper alias origin ignored", "census",
-     "                def visit_AnnAssign(self, node):\n"
-     "                    self._record_mutation_target(node.target)\n"
-     "                    if (isinstance(node.target, ast.Name)\n"
-     "                            and isinstance(node.value, ast.Name)\n"
-     "                            and node.value.id in formal_aliases):\n"
-     "                        formal_aliases[node.target.id] = set(\n"
-     "                            formal_aliases[node.value.id])\n"
-     "                    elif isinstance(node.target, ast.Name) and node.value is not None:\n"
-     "                        formal_aliases.pop(node.target.id, None)\n"
-     "                    self.generic_visit(node)",
-     "                def visit_AnnAssign(self, node):\n"
-     "                    self._record_mutation_target(node.target)\n"
-     "                    self.generic_visit(node)",
+     "                    if isinstance(node.target, ast.Name) and roots is not None:\n"
+     "                        formal_aliases[node.target.id] = roots\n",
+     "                    if False:\n"
+     "                        formal_aliases[node.target.id] = roots\n",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_annotated_helper_alias_mutation_invalidates_caller",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("nested helper mutation-time alias origin ignored", "census",
@@ -1749,6 +1740,62 @@ NEW_MUTATIONS = [
      "            stack.append(char)",
      "tests.test_g11_census.ToolChecks.test_js_class_heritage_object_brace_precedes_deferred_instance_field",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("top-level JavaScript heritage expression body treated as class body", "census",
+     "            if nested_keyword is not None:\n",
+     "            if False:\n",
+     "tests.test_g11_census.ToolChecks.test_js_top_level_braced_heritage_expressions_precede_deferred_instance_field",
+     'self.assertEqual(observed, {"class": False, "function": False})'),
+    ("assignment RHS helper mutation visited after alias rebinding", "census",
+     "                def visit_Assign(self, node):\n"
+     "                    self.visit(node.value)\n"
+     "                    roots = (",
+     "                def visit_Assign(self, node):\n"
+     "                    for target in node.targets:\n"
+     "                        if isinstance(target, ast.Name):\n"
+     "                            formal_aliases.pop(target.id, None)\n"
+     "                    self.visit(node.value)\n"
+     "                    roots = (",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_nested_helper_rhs_mutation_precedes_alias_rebinding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("multiline computed JavaScript names skipped by balanced fallback", "census",
+     '    return "[" in interior or "\\r" in interior or "\\n" in interior\n',
+     '    return "[" in interior\n',
+     "tests.test_g11_census.ToolChecks.test_js_multiline_computed_method_and_field_bodies_are_deferred",
+     '"tools/method-unused.mjs": False'),
+    ("annotated assignment RHS helper mutation visited after alias rebinding", "census",
+     "                def visit_AnnAssign(self, node):\n"
+     "                    if node.value is not None:\n"
+     "                        self.visit(node.value)\n"
+     "                    roots = (",
+     "                def visit_AnnAssign(self, node):\n"
+     "                    if isinstance(node.target, ast.Name) and node.value is not None:\n"
+     "                        formal_aliases.pop(node.target.id, None)\n"
+     "                    if node.value is not None:\n"
+     "                        self.visit(node.value)\n"
+     "                    roots = (",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_nested_helper_annotated_rhs_mutation_precedes_alias_rebinding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("private JavaScript heritage name treated as expression keyword", "census",
+     '    if index and re.match(r"[\\w$#]", searchable[index - 1]):\n',
+     '    if index and re.match(r"[\\w$]", searchable[index - 1]):\n',
+     "tests.test_g11_census.ToolChecks.test_js_private_heritage_names_are_not_expression_keywords",
+     'self.assertEqual(observed, {'),
+    ("malformed JavaScript class structure accepted as module execution", "census",
+     "    if class_ranges is None:\n"
+     "        return True\n"
+     "    for _class_match, open_brace, close_brace in class_ranges:",
+     "    if class_ranges is None:\n"
+     "        return False\n"
+     "    for _class_match, open_brace, close_brace in class_ranges:",
+     "tests.test_g11_census.ToolChecks.test_js_malformed_class_structures_fail_closed",
+     'observed, {"function": False, "nested": False, "outer": False}'),
+    ("JavaScript import specifier treated as class keyword", "census",
+     "    if _js_in_import_export_specifier(searchable, index):\n"
+     "        return False\n",
+     "    if False:\n"
+     "        return False\n",
+     "tests.test_g11_census.ToolChecks.test_js_import_export_specifier_class_is_not_class_keyword",
+     'self.assertTrue(self.tools(tree)["tools/live.mjs"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -2066,6 +2113,13 @@ EXPECTED_MUTATION_NAMES = (
     "annotated helper alias origin ignored",
     "nested helper mutation-time alias origin ignored",
     "JavaScript class heritage brace treated as body",
+    "top-level JavaScript heritage expression body treated as class body",
+    "assignment RHS helper mutation visited after alias rebinding",
+    "multiline computed JavaScript names skipped by balanced fallback",
+    "annotated assignment RHS helper mutation visited after alias rebinding",
+    "private JavaScript heritage name treated as expression keyword",
+    "malformed JavaScript class structure accepted as module execution",
+    "JavaScript import specifier treated as class keyword",
 )
 
 
@@ -2244,7 +2298,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 249
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 256
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

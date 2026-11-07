@@ -1214,30 +1214,33 @@ def _reachable_python_nodes(tree, mode):
                     self.generic_visit(node)
 
                 def visit_Assign(self, node):
+                    self.visit(node.value)
+                    roots = (set(formal_aliases[node.value.id])
+                             if (isinstance(node.value, ast.Name)
+                                 and node.value.id in formal_aliases)
+                             else None)
                     for target in node.targets:
                         self._record_mutation_target(target)
-                    if (isinstance(node.value, ast.Name)
-                            and node.value.id in formal_aliases):
-                        roots = set(formal_aliases[node.value.id])
-                        for target in node.targets:
-                            if isinstance(target, ast.Name):
-                                formal_aliases[target.id] = roots
-                    else:
-                        for target in node.targets:
-                            if isinstance(target, ast.Name):
+                        self.visit(target)
+                        if isinstance(target, ast.Name):
+                            if roots is None:
                                 formal_aliases.pop(target.id, None)
-                    self.generic_visit(node)
+                            else:
+                                formal_aliases[target.id] = set(roots)
 
                 def visit_AnnAssign(self, node):
+                    if node.value is not None:
+                        self.visit(node.value)
+                    roots = (set(formal_aliases[node.value.id])
+                             if (isinstance(node.value, ast.Name)
+                                 and node.value.id in formal_aliases)
+                             else None)
                     self._record_mutation_target(node.target)
-                    if (isinstance(node.target, ast.Name)
-                            and isinstance(node.value, ast.Name)
-                            and node.value.id in formal_aliases):
-                        formal_aliases[node.target.id] = set(
-                            formal_aliases[node.value.id])
+                    self.visit(node.target)
+                    if isinstance(node.target, ast.Name) and roots is not None:
+                        formal_aliases[node.target.id] = roots
                     elif isinstance(node.target, ast.Name) and node.value is not None:
                         formal_aliases.pop(node.target.id, None)
-                    self.generic_visit(node)
 
                 def visit_AugAssign(self, node):
                     self._record_mutation_target(node.target, include_name=True)
@@ -3626,17 +3629,16 @@ def _js_function_scopes(text):
             continue
         open_scopes.append((open_paren + 1, close_paren, open_brace))
 
-    # The regular expression above deliberately handles the common simple
-    # computed name.  Nested bracket expressions require balanced scanning;
-    # stopping at their first closing bracket would expose an uncalled method
-    # body as module execution.
+    # Multiline and nested computed names require balanced scanning; the
+    # common single-line form is already covered by the regular expression.
     for computed_start, char in enumerate(searchable):
         if char != "[":
             continue
         computed_end = _js_matching_delimiter(
             searchable, computed_start, "[", "]")
         if (computed_end is None
-                or "[" not in searchable[computed_start + 1:computed_end]):
+                or not _js_computed_name_needs_balanced_fallback(
+                    searchable, computed_start, computed_end)):
             continue
         open_paren = computed_end + 1
         while (open_paren < len(searchable)
@@ -3671,6 +3673,12 @@ def _js_function_scope_key(text, position):
     return max(containing, key=lambda item: item[0]) if containing else None
 
 
+def _js_computed_name_needs_balanced_fallback(searchable, start, end):
+    """Return whether a computed member name bypasses the simple regex."""
+    interior = searchable[start + 1:end]
+    return "[" in interior or "\r" in interior or "\n" in interior
+
+
 def _js_block_scopes(searchable):
     """Return balanced lexical brace ranges from already masked JavaScript."""
     stack = []
@@ -3683,12 +3691,82 @@ def _js_block_scopes(searchable):
     return scopes
 
 
+def _js_in_import_export_specifier(searchable, position):
+    """Return whether a token is inside an import/export ``{...}`` list."""
+    for open_brace, close_brace in _js_block_scopes(searchable):
+        if (open_brace < position < close_brace
+                and re.search(r"\b(?:import|export)\s*$",
+                              searchable[:open_brace])):
+            return True
+    return False
+
+
+def _js_expression_keyword_at(searchable, index, keyword):
+    """Recognize a class/function expression keyword, not a member name."""
+    if not searchable.startswith(keyword, index):
+        return False
+    if index and re.match(r"[\w$#]", searchable[index - 1]):
+        return False
+    end = index + len(keyword)
+    if end < len(searchable) and re.match(r"[\w$]", searchable[end]):
+        return False
+    if searchable[:index].rstrip()[-1:] == ".":
+        return False
+    if _js_in_import_export_specifier(searchable, index):
+        return False
+    following = searchable[end:].lstrip()[:1]
+    if following in {":", "=", ";", ",", "}"}:
+        return False
+    if keyword == "class" and following == "(":
+        return False
+    return True
+
+
+def _js_function_body_open(searchable, start):
+    """Locate a function-expression body after its ``function`` keyword."""
+    stack = []
+    closing = {")": "(", "]": "["}
+    for index in range(start, len(searchable)):
+        char = searchable[index]
+        if char in "([":
+            stack.append(char)
+        elif char == "{":
+            if not stack:
+                return index
+        elif char in closing:
+            if not stack or stack[-1] != closing[char]:
+                return None
+            stack.pop()
+        elif char == ";" and not stack:
+            return None
+    return None
+
+
 def _js_class_body_open(searchable, start):
     """Locate a class body without mistaking nested heritage braces for it."""
     stack = []
     closing = {")": "(", "]": "[", "}": "{"}
-    for index in range(start, len(searchable)):
+    index = start
+    while index < len(searchable):
         char = searchable[index]
+        if not stack:
+            nested_keyword = next((keyword for keyword in ("class", "function")
+                                   if _js_expression_keyword_at(
+                                       searchable, index, keyword)), None)
+            if nested_keyword is not None:
+                nested_start = index + len(nested_keyword)
+                nested_open = (_js_class_body_open(searchable, nested_start)
+                               if nested_keyword == "class"
+                               else _js_function_body_open(
+                                   searchable, nested_start))
+                if nested_open is None:
+                    return None
+                nested_close = _js_matching_delimiter(
+                    searchable, nested_open, "{", "}")
+                if nested_close is None:
+                    return None
+                index = nested_close + 1
+                continue
         if char in "([":
             stack.append(char)
         elif char == "{":
@@ -3701,23 +3779,35 @@ def _js_class_body_open(searchable, start):
             stack.pop()
         elif char == ";" and not stack:
             return None
+        index += 1
     return None
+
+
+def _js_class_ranges(searchable):
+    """Return every balanced class range, or ``None`` for malformed input."""
+    ranges = []
+    for class_match in re.finditer(r"\bclass\b", searchable):
+        if not _js_expression_keyword_at(
+                searchable, class_match.start(), "class"):
+            continue
+        class_open = _js_class_body_open(searchable, class_match.end())
+        if class_open is None:
+            return None
+        class_close = _js_matching_delimiter(
+            searchable, class_open, "{", "}")
+        if class_close is None:
+            return None
+        ranges.append((class_match, class_open, class_close))
+    return ranges
 
 
 def _js_static_block_scopes(searchable):
     """Return class static blocks that execute during class definition."""
     scopes = []
-    for class_match in re.finditer(r"\bclass\b", searchable):
-        class_open = _js_class_body_open(searchable, class_match.end())
-        if class_open is None:
-            continue
-        header = searchable[class_match.end():class_open]
-        if ";" in header:
-            continue
-        class_close = _js_matching_delimiter(
-            searchable, class_open, "{", "}")
-        if class_close is None:
-            continue
+    class_ranges = _js_class_ranges(searchable)
+    if class_ranges is None:
+        return scopes
+    for _class_match, class_open, class_close in class_ranges:
         for static in re.finditer(
                 r"\bstatic\s*\{", searchable[class_open + 1:class_close]):
             static_start = class_open + 1 + static.start()
@@ -3804,16 +3894,11 @@ def _js_in_deferred_instance_field(searchable, position, text=None):
     """Return whether a call is in an unsupported instance field initializer."""
     member_searchable = (_js_mask_noncode_literals(
         text, preserve_string_delimiters=True) if text is not None else searchable)
-    for class_match in re.finditer(r"\bclass\b", searchable):
-        open_brace = _js_class_body_open(searchable, class_match.end())
-        if open_brace is None:
-            continue
-        header = searchable[class_match.end():open_brace]
-        if ";" in header:
-            continue
-        close_brace = _js_matching_delimiter(
-            searchable, open_brace, "{", "}")
-        if close_brace is None or not (open_brace < position < close_brace):
+    class_ranges = _js_class_ranges(searchable)
+    if class_ranges is None:
+        return True
+    for _class_match, open_brace, close_brace in class_ranges:
+        if not (open_brace < position < close_brace):
             continue
 
         def at_class_member_level(index):
@@ -3842,9 +3927,8 @@ def _js_in_deferred_instance_field(searchable, position, text=None):
                 searchable, value_start, comma_ends=False)
             if value_start <= position < value_end:
                 return True
-        # Nested computed names need delimiter-balanced scanning.  The common
-        # regular expression above intentionally stops at a simple closing
-        # bracket and cannot classify e.g. ``[['field'][0]] = value``.
+        # Multiline and nested computed names require balanced scanning; the
+        # common single-line form is already covered by the regular expression.
         computed_member = re.compile(
             r"(?:^|[;{}\r\n])\s*(?!static\b)(?:accessor\s+)?(?=\[)")
         for prefix in computed_member.finditer(
@@ -3853,8 +3937,8 @@ def _js_in_deferred_instance_field(searchable, position, text=None):
             computed_end = _js_matching_delimiter(
                 searchable, computed_start, "[", "]")
             if (computed_end is None
-                    or "[" not in searchable[
-                        computed_start + 1:computed_end]):
+                    or not _js_computed_name_needs_balanced_fallback(
+                        searchable, computed_start, computed_end)):
                 continue
             equals = computed_end + 1
             while equals < len(searchable) and searchable[equals].isspace():
