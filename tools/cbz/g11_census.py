@@ -1169,14 +1169,27 @@ def _reachable_python_nodes(tree, mode):
                 formal_aliases[function.args.vararg.arg] = function.args.vararg.arg
             if function.args.kwarg is not None:
                 formal_aliases[function.args.kwarg.arg] = function.args.kwarg.arg
+            class FormalAliasCollector(ast.NodeVisitor):
+                def visit_FunctionDef(self, node):
+                    return
+
+                visit_AsyncFunctionDef = visit_FunctionDef
+                visit_Lambda = visit_FunctionDef
+                visit_ClassDef = visit_FunctionDef
+
+                def visit_Assign(self, node):
+                    if (isinstance(node.value, ast.Name)
+                            and node.value.id in formal_aliases):
+                        root = formal_aliases[node.value.id]
+                        for target in node.targets:
+                            if isinstance(target, ast.Name):
+                                formal_aliases[target.id] = root
+                    self.generic_visit(node)
+
+            alias_collector = FormalAliasCollector()
             for statement in function.body:
-                if (isinstance(statement, ast.Assign)
-                        and isinstance(statement.value, ast.Name)
-                        and statement.value.id in formal_aliases):
-                    root = formal_aliases[statement.value.id]
-                    for target in statement.targets:
-                        if isinstance(target, ast.Name):
-                            formal_aliases[target.id] = root
+                alias_collector.visit(statement)
+            defaults = dict(_python_function_defaults(function))
             for mutated_name in mutations & local_only:
                 formal = formal_aliases.get(mutated_name, mutated_name)
                 key = arguments.get(formal)
@@ -1187,6 +1200,8 @@ def _reachable_python_nodes(tree, mode):
                     argument = next(
                         (keyword.value for keyword in call.keywords
                          if keyword.arg == key[1]), None)
+                elif key is None:
+                    argument = defaults.get(formal)
                 while isinstance(argument, (ast.Subscript, ast.Attribute)):
                     argument = argument.value
                 if isinstance(argument, ast.Name):
@@ -3480,7 +3495,11 @@ def _js_function_scopes(text):
         text, preserve_string_delimiters=True)
     method = re.compile(
         r"(?<![\w$])(?P<name>[A-Za-z_$][\w$]*|\[[^\]\r\n]*\]|"
-        r"'\s*'|\"\s*\")\s*\(")
+        r"'\s*'|\"\s*\"|"
+        r"(?:0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*|"
+        r"0[bB][01](?:_?[01])*|0[oO][0-7](?:_?[0-7])*|"
+        r"(?:\d(?:_?\d)*(?:\.(?:\d(?:_?\d)*)?)?|"
+        r"\.\d(?:_?\d)*)(?:[eE][+-]?\d(?:_?\d)*)?))\s*\(")
     control_names = {
         "if", "for", "while", "switch", "catch", "with", "function"
     }
@@ -3681,7 +3700,7 @@ def _js_in_deferred_instance_field(searchable, position, text=None):
             return depth == 0
 
         member = re.compile(
-            r"(?:^|[;{}\r\n])\s*(?!static\b)(?:accessor\s+)?"
+            r"(?:^|[;{}\r\n])\s*(?!static\b(?!\s*=))(?:accessor\s+)?"
             r"(?:[#A-Za-z_$][\w$#]*|\[[^\]\r\n]*\]|"
             r"'[^'\r\n]*'|\"[^\"\r\n]*\"|"
             r"(?:0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*|"

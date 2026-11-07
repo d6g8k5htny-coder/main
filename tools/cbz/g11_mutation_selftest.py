@@ -1486,14 +1486,22 @@ NEW_MUTATIONS = [
      '"tools/computed-unused.mjs": False'),
     ("computed JavaScript method body treated as module execution", "census",
      '        r"(?<![\\w$])(?P<name>[A-Za-z_$][\\w$]*|\\[[^\\]\\r\\n]*\\]|"\n'
-     '        r"\'\\s*\'|\\\"\\s*\\\")\\s*\\(")',
+     '        r"\'\\s*\'|\\\"\\s*\\\"|"\n'
+     '        r"(?:0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*|"\n'
+     '        r"0[bB][01](?:_?[01])*|0[oO][0-7](?:_?[0-7])*|"\n'
+     '        r"(?:\\d(?:_?\\d)*(?:\\.(?:\\d(?:_?\\d)*)?)?|"\n'
+     '        r"\\.\\d(?:_?\\d)*)(?:[eE][+-]?\\d(?:_?\\d)*)?))\\s*\\(")',
      '        r"(?<![\\w$])(?P<name>[A-Za-z_$][\\w$]*|\'\\s*\'|"\n'
-     '        r"\\\"\\s*\\\")\\s*\\(")',
+     '        r"\\\"\\s*\\\"|"\n'
+     '        r"(?:0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*|"\n'
+     '        r"0[bB][01](?:_?[01])*|0[oO][0-7](?:_?[0-7])*|"\n'
+     '        r"(?:\\d(?:_?\\d)*(?:\\.(?:\\d(?:_?\\d)*)?)?|"\n'
+     '        r"\\.\\d(?:_?\\d)*)(?:[eE][+-]?\\d(?:_?\\d)*)?))\\s*\\(")',
      "tests.test_g11_census.ToolChecks.test_js_uninvoked_computed_method_bodies_are_not_module_execution",
      '"tools/object-unused.mjs": False'),
     ("semicolonless JavaScript instance field boundary ignored", "census",
-     '            r"(?:^|[;{}\\r\\n])\\s*(?!static\\b)(?:accessor\\s+)?"',
-     '            r"(?:^|[;{}])\\s*(?!static\\b)(?:accessor\\s+)?"',
+     '            r"(?:^|[;{}\\r\\n])\\s*(?!static\\b(?!\\s*=))(?:accessor\\s+)?"',
+     '            r"(?:^|[;{}])\\s*(?!static\\b(?!\\s*=))(?:accessor\\s+)?"',
      "tests.test_g11_census.ToolChecks.test_js_semicolonless_instance_field_boundary_is_deferred",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("helper class-construction parameter mutation ignored", "census",
@@ -1544,8 +1552,16 @@ NEW_MUTATIONS = [
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("quoted JavaScript method name not deferred", "census",
      '        r"(?<![\\w$])(?P<name>[A-Za-z_$][\\w$]*|\\[[^\\]\\r\\n]*\\]|"\n'
-     '        r"\'\\s*\'|\\\"\\s*\\\")\\s*\\(")',
-     '        r"(?<![\\w$])(?P<name>[A-Za-z_$][\\w$]*|\\[[^\\]\\r\\n]*\\])\\s*\\(")',
+     '        r"\'\\s*\'|\\\"\\s*\\\"|"\n'
+     '        r"(?:0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*|"\n'
+     '        r"0[bB][01](?:_?[01])*|0[oO][0-7](?:_?[0-7])*|"\n'
+     '        r"(?:\\d(?:_?\\d)*(?:\\.(?:\\d(?:_?\\d)*)?)?|"\n'
+     '        r"\\.\\d(?:_?\\d)*)(?:[eE][+-]?\\d(?:_?\\d)*)?))\\s*\\(")',
+     '        r"(?<![\\w$])(?P<name>[A-Za-z_$][\\w$]*|\\[[^\\]\\r\\n]*\\]|"\n'
+     '        r"(?:0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*|"\n'
+     '        r"0[bB][01](?:_?[01])*|0[oO][0-7](?:_?[0-7])*|"\n'
+     '        r"(?:\\d(?:_?\\d)*(?:\\.(?:\\d(?:_?\\d)*)?)?|"\n'
+     '        r"\\.\\d(?:_?\\d)*)(?:[eE][+-]?\\d(?:_?\\d)*)?))\\s*\\(")',
      "tests.test_g11_census.ToolChecks.test_js_uninvoked_quoted_method_bodies_are_not_module_execution",
      '"tools/object-unused.mjs": False'),
     ("nested computed JavaScript field name unbalanced", "census",
@@ -1624,6 +1640,41 @@ NEW_MUTATIONS = [
      "                    return True",
      "tests.test_g11_census.ToolChecks.test_js_static_block_throw_operand_executes_before_termination",
      '{"tools/tail-unused.mjs": False, "tools/thrown.mjs": True}'),
+    ("helper default aggregate mutation ignored", "census",
+     "                elif key is None:\n"
+     "                    argument = defaults.get(formal)",
+     "                elif key is None:\n"
+     "                    argument = None",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_default_parameter_mutation_invalidates_captured_binding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("nested helper parameter alias mutation ignored", "census",
+     "            alias_collector = FormalAliasCollector()\n"
+     "            for statement in function.body:\n"
+     "                alias_collector.visit(statement)",
+     "            alias_collector = FormalAliasCollector()\n"
+     "            for statement in function.body:\n"
+     "                if isinstance(statement, ast.Assign):\n"
+     "                    alias_collector.visit(statement)",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_nested_helper_parameter_alias_invalidates_caller_binding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("numeric JavaScript method body treated as module execution", "census",
+     "    method = re.compile(\n"
+     "        r\"(?<![\\w$])(?P<name>[A-Za-z_$][\\w$]*|\\[[^\\]\\r\\n]*\\]|\"\n"
+     "        r\"'\\s*'|\\\"\\s*\\\"|\"\n"
+     "        r\"(?:0[xX][0-9A-Fa-f](?:_?[0-9A-Fa-f])*|\"\n"
+     "        r\"0[bB][01](?:_?[01])*|0[oO][0-7](?:_?[0-7])*|\"\n"
+     "        r\"(?:\\d(?:_?\\d)*(?:\\.(?:\\d(?:_?\\d)*)?)?|\"\n"
+     "        r\"\\.\\d(?:_?\\d)*)(?:[eE][+-]?\\d(?:_?\\d)*)?))\\s*\\(\")",
+     "    method = re.compile(\n"
+     "        r\"(?<![\\w$])(?P<name>[A-Za-z_$][\\w$]*|\\[[^\\]\\r\\n]*\\]|\"\n"
+     "        r\"'\\s*'|\\\"\\s*\\\")\\s*\\(\")",
+     "tests.test_g11_census.ToolChecks.test_js_uninvoked_numeric_method_bodies_are_not_module_execution",
+     '{"tools/class-unused.mjs": False,'),
+    ("JavaScript field named static treated as class-definition execution", "census",
+     "            r\"(?:^|[;{}\\r\\n])\\s*(?!static\\b(?!\\s*=))(?:accessor\\s+)?\"",
+     "            r\"(?:^|[;{}\\r\\n])\\s*(?!static\\b)(?:accessor\\s+)?\"",
+     "tests.test_g11_census.ToolChecks.test_js_unconstructed_field_named_static_is_deferred",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1930,6 +1981,10 @@ EXPECTED_MUTATION_NAMES = (
     "JavaScript static-block termination ignored",
     "extended-numeric JavaScript instance field treated as module execution",
     "JavaScript static-block throw operand suppressed",
+    "helper default aggregate mutation ignored",
+    "nested helper parameter alias mutation ignored",
+    "numeric JavaScript method body treated as module execution",
+    "JavaScript field named static treated as class-definition execution",
 )
 
 
@@ -2108,7 +2163,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 236
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 240
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
