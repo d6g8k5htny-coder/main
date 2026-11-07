@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "9c66ea15cca75913c33132375669018c5e4c0f40593433413b0402c81229bf24"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "c712875aa299eb193586fc85d88694faeb0690c2d3cda509619c05e6ce2935ef"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -1268,6 +1268,204 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
+    def test_unknown_conditional_expression_effects_invalidate_provenance(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/wrapper-unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py tools/wrapper-unused.py\n",
+            "tests/test_conditional_effect.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "flag = True\n"
+                "command.__setitem__(slice(None), ['echo']) if flag else None\n"
+                "subprocess.run(command, check=True)\n"
+                "def launch(arguments):\n"
+                "    other = True\n"
+                "    arguments.clear() if other else None\n"
+                "    subprocess.run(arguments, check=True)\n"
+                "launch(['python3', 'tools/wrapper-unused.py'])\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/unused.py": False, "tools/wrapper-unused.py": False})
+
+    def test_forwarding_wrapper_requires_valid_call_binding(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/unused.py\n",
+            "tests/test_wrapper_binding.py": (
+                "import subprocess\n"
+                "def launch(command, required):\n"
+                "    subprocess.run(command, check=True)\n"
+                "try:\n"
+                "    launch(['python3', 'tools/unused.py'])\n"
+                "except TypeError:\n"
+                "    pass\n"
+                "launch(['python3', 'tools/live.py'], required=True)\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.py": True, "tools/unused.py": False})
+
+    def test_named_expression_invalidates_local_import_identity(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/unused.py\n",
+            "tests/test_walrus_import.py": (
+                "class Fake:\n"
+                "    @staticmethod\n"
+                "    def run(*args, **kwargs):\n"
+                "        return None\n"
+                "def exercise():\n"
+                "    import subprocess\n"
+                "    (subprocess := Fake)\n"
+                "    subprocess.run(['python3', 'tools/unused.py'])\n"
+                "def restored():\n"
+                "    (subprocess := Fake)\n"
+                "    import subprocess\n"
+                "    subprocess.run(['python3', 'tools/live.py'])\n"
+                "exercise()\n"
+                "restored()\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.py": True, "tools/unused.py": False})
+
+    def test_annotation_only_statement_preserves_local_import_identity(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/unused.py\n",
+            "tests/test_annotation_import.py": (
+                "class Fake:\n"
+                "    @staticmethod\n"
+                "    def run(*args, **kwargs):\n"
+                "        return None\n"
+                "def live():\n"
+                "    import subprocess\n"
+                "    subprocess: object\n"
+                "    subprocess.run(['python3', 'tools/live.py'], check=True)\n"
+                "def stale():\n"
+                "    import subprocess\n"
+                "    subprocess: object = Fake\n"
+                "    subprocess.run(['python3', 'tools/unused.py'], check=True)\n"
+                "live()\n"
+                "stale()\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.py": True, "tools/unused.py": False})
+
+    def test_helper_argument_alias_mutation_updates_caller_aggregate(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/rebound-live.py": "x = 1\n",
+            "tools/unused.py": "x = 1\n",
+            "tools/keyword-unused.py": "x = 1\n",
+            "tools/default-unused.py": "x = 1\n",
+            "tools/vararg-unused.py": "x = 1\n",
+            "tools/kwarg-unused.py": "x = 1\n",
+            "tools/README.md": (
+                "tools/live.py tools/rebound-live.py tools/unused.py "
+                "tools/keyword-unused.py tools/default-unused.py "
+                "tools/vararg-unused.py tools/kwarg-unused.py\n"),
+            "tests/test_helper_alias.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "keyword_command = ['python3', 'tools/keyword-unused.py']\n"
+                "default_command = ['python3', 'tools/default-unused.py']\n"
+                "vararg_command = ['python3', 'tools/vararg-unused.py']\n"
+                "kwarg_command = ['python3', 'tools/kwarg-unused.py']\n"
+                "rebound = ['python3', 'tools/rebound-live.py']\n"
+                "def replace(argv):\n"
+                "    argv[:] = ['echo']\n"
+                "def only_rebind(argv):\n"
+                "    argv = ['echo']\n"
+                "def replace_default(argv=default_command):\n"
+                "    argv[:] = ['echo']\n"
+                "def replace_vararg(*argv):\n"
+                "    argv[0][:] = ['echo']\n"
+                "def replace_kwarg(**argv):\n"
+                "    argv['command'][:] = ['echo']\n"
+                "replace(command)\n"
+                "replace(argv=keyword_command)\n"
+                "replace_default()\n"
+                "replace_vararg(vararg_command)\n"
+                "replace_kwarg(command=kwarg_command)\n"
+                "only_rebind(rebound)\n"
+                "subprocess.run(command, check=True)\n"
+                "subprocess.run(keyword_command, check=True)\n"
+                "subprocess.run(default_command, check=True)\n"
+                "subprocess.run(vararg_command, check=True)\n"
+                "subprocess.run(kwarg_command, check=True)\n"
+                "subprocess.run(rebound, check=True)\n"
+                "subprocess.run(['python3', 'tools/live.py'], check=True)\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/default-unused.py": False,
+             "tools/keyword-unused.py": False,
+             "tools/kwarg-unused.py": False,
+             "tools/live.py": True, "tools/rebound-live.py": True,
+             "tools/unused.py": False, "tools/vararg-unused.py": False})
+
+    def test_unittest_setup_effects_precede_each_test_method(self):
+        names = ("pre", "live", "post", "setup_direct", "teardown_direct",
+                 "class_pre", "class_live", "class_post",
+                 "setupclass_direct", "teardownclass_direct")
+        tree = {
+            **{f"tools/{name}.py": "x = 1\n" for name in names},
+            "tools/README.md": " ".join(
+                f"tools/{name}.py" for name in names) + "\n",
+            "tests/test_lifecycle.py": (
+                "import subprocess\n"
+                "import unittest\n"
+                "command = ['python3', 'tools/pre.py']\n"
+                "class_command = ['python3', 'tools/class_pre.py']\n"
+                "class CommandTest(unittest.TestCase):\n"
+                "    @classmethod\n"
+                "    def tearDownClass(cls):\n"
+                "        global class_command\n"
+                "        subprocess.run(['python3', 'tools/teardownclass_direct.py'])\n"
+                "        class_command = ['python3', 'tools/class_post.py']\n"
+                "    def tearDown(self):\n"
+                "        global command\n"
+                "        subprocess.run(['python3', 'tools/teardown_direct.py'])\n"
+                "        command = ['python3', 'tools/post.py']\n"
+                "    def test_b(self):\n"
+                "        subprocess.run(command)\n"
+                "        subprocess.run(class_command)\n"
+                "    @classmethod\n"
+                "    def setUpClass(cls):\n"
+                "        global class_command\n"
+                "        subprocess.run(['python3', 'tools/setupclass_direct.py'])\n"
+                "        class_command = ['python3', 'tools/class_live.py']\n"
+                "    def setUp(self):\n"
+                "        global command\n"
+                "        subprocess.run(['python3', 'tools/setup_direct.py'])\n"
+                "        command = ['python3', 'tools/live.py']\n"
+                "    def test_a(self):\n"
+                "        subprocess.run(command)\n"
+                "        subprocess.run(class_command)\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/class_live.py": True, "tools/class_post.py": False,
+             "tools/class_pre.py": False, "tools/live.py": True,
+             "tools/post.py": False, "tools/pre.py": False,
+             "tools/setup_direct.py": True,
+             "tools/setupclass_direct.py": True,
+             "tools/teardown_direct.py": True,
+             "tools/teardownclass_direct.py": True})
+
     def test_global_helper_assignment_invalidates_forwarding_wrapper(self):
         tree = {
             "tools/unused.py": "x = 1\n",
@@ -2077,6 +2275,26 @@ class ToolChecks(unittest.TestCase):
             "tools/live.py": True, "tools/unused.py": False,
         })
 
+    def test_tuple_augmented_assignment_does_not_mutate_alias(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/unused.py\n",
+            "tests/test_tuple_alias.py": (
+                "import subprocess\n"
+                "command = ('python3',)\n"
+                "alias = command\n"
+                "command += ('tools/unused.py',)\n"
+                "subprocess.run(alias, input=b'', check=True)\n"
+                "live = ('python3',)\n"
+                "live += ('tools/live.py',)\n"
+                "subprocess.run(live, input=b'', check=True)\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.py": True, "tools/unused.py": False})
+
     def test_local_callee_shadows_do_not_inherit_module_wrappers(self):
         tree = {
             "tools/live.py": "x = 1\n",
@@ -2761,6 +2979,118 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
+    def test_js_unbraced_literal_false_branch_is_not_activated(self):
+        tree = {
+            **{"tools/p%d.mjs" % index: "export const value = %d;\n" % index
+               for index in range(1, 8)},
+            "tools/README.md": " ".join(
+                "tools/p%d.mjs" % index for index in range(1, 8)) + "\n",
+            "tests/unbraced-false.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const p1=new URL('../tools/p1.mjs',import.meta.url);\n"
+                "const p2=new URL('../tools/p2.mjs',import.meta.url);\n"
+                "const p3=new URL('../tools/p3.mjs',import.meta.url);\n"
+                "const p4=new URL('../tools/p4.mjs',import.meta.url);\n"
+                "const p5=new URL('../tools/p5.mjs',import.meta.url);\n"
+                "const p6=new URL('../tools/p6.mjs',import.meta.url);\n"
+                "const p7=new URL('../tools/p7.mjs',import.meta.url);\n"
+                "const passthrough=value=>value;\n"
+                "if(false) spawnSync('echo',[p1]);\n"
+                "if(false) passthrough\n"
+                "  (spawnSync('echo',[p2]));\n"
+                "if(false)\n"
+                "  if(true) spawnSync('echo',[p3]);\n"
+                "  else spawnSync('echo',[p4]);\n"
+                "else spawnSync('echo',[p5]);\n"
+                "spawnSync('echo',[p6]);\n"
+                "if(true) spawnSync('echo',[p7]);\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/p1.mjs": False, "tools/p2.mjs": False,
+             "tools/p3.mjs": False, "tools/p4.mjs": False,
+             "tools/p5.mjs": True, "tools/p6.mjs": True,
+             "tools/p7.mjs": True})
+
+    def test_js_quoted_url_declaration_is_not_a_binding(self):
+        tree = {
+            "tools/live.mjs": "export const value = 1;\n",
+            "tools/unused.mjs": "export const value = 2;\n",
+            "tools/README.md": "tools/live.mjs tools/unused.mjs\n",
+            "tests/quoted-url.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=\"const script=new URL('../tools/unused.mjs',import.meta.url);\";\n"
+                "const live=new URL('../tools/live.mjs',import.meta.url);\n"
+                "spawnSync(process.execPath,[script,live]);\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.mjs": True, "tools/unused.mjs": False})
+
+    def test_js_url_alias_mutation_invalidates_original_provenance(self):
+        tree = {
+            "tools/live.mjs": "export const value = 1;\n",
+            "tools/unused.mjs": "export const value = 2;\n",
+            "tools/README.md": "tools/live.mjs tools/unused.mjs\n",
+            "tests/url-alias.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "const alias=script;\n"
+                "alias.pathname='/other.py';\n"
+                "const live=new URL('../tools/live.mjs',import.meta.url);\n"
+                "spawnSync('echo',[script,live]);\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.mjs": True, "tools/unused.mjs": False})
+
+    def test_js_concise_arrow_body_is_deferred_until_invocation(self):
+        tree = {
+            "tools/arbitrary-unused.mjs": "export const value = 1;\n",
+            "tools/callback-live.mjs": "export const value = 2;\n",
+            "tools/direct-live.mjs": "export const value = 3;\n",
+            "tools/helper-unused.mjs": "export const value = 4;\n",
+            "tools/shadowed-unused.mjs": "export const value = 5;\n",
+            "tools/README.md": (
+                "tools/arbitrary-unused.mjs tools/callback-live.mjs "
+                "tools/direct-live.mjs tools/helper-unused.mjs "
+                "tools/shadowed-unused.mjs\n"),
+            "tests/concise-arrow.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "import test from 'node:test';\n"
+                "const arbitraryUnused=new URL('../tools/arbitrary-unused.mjs',import.meta.url);\n"
+                "const callbackLive=new URL('../tools/callback-live.mjs',import.meta.url);\n"
+                "const directLive=new URL('../tools/direct-live.mjs',import.meta.url);\n"
+                "const helperUnused=new URL('../tools/helper-unused.mjs',import.meta.url);\n"
+                "const shadowedUnused=new URL('../tools/shadowed-unused.mjs',import.meta.url);\n"
+                "const launch=()=>spawnSync('echo',[helperUnused]);\n"
+                "const arbitrary=(name,callback)=>callback;\n"
+                "arbitrary('x',()=>spawnSync('echo',[arbitraryUnused]));\n"
+                "test('x',()=>spawnSync('echo',[callbackLive]));\n"
+                "function exercise(test){\n"
+                "  test('x',()=>spawnSync('echo',[shadowedUnused]));\n"
+                "}\n"
+                "exercise((name,callback)=>callback);\n"
+                "spawnSync('echo',[directLive]);\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/arbitrary-unused.mjs": False,
+             "tools/callback-live.mjs": True,
+             "tools/direct-live.mjs": True,
+             "tools/helper-unused.mjs": False,
+             "tools/shadowed-unused.mjs": False})
+
+    def test_js_spaced_block_arrow_has_one_block_scope(self):
+        source = "const callback=()=> { return true; };"
+        searchable, scopes = g11._js_function_scopes(source)
+        self.assertEqual(scopes, [(16, 16, 20, 35)])
+        self.assertEqual(searchable[scopes[0][2]], "{")
+
     def test_js_rebound_helper_is_not_reachable(self):
         tree = {
             "tools/unused.mjs": "export const unused = true;\n",
@@ -3171,7 +3501,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 230)
+        self.assertEqual(len(cases), 249)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

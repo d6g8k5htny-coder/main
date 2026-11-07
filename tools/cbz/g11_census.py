@@ -55,6 +55,10 @@ class _StaticAlternatives(tuple):
     """Resolved mutually exclusive values whose active branch is not statically known."""
 
 
+class _StaticTuple(tuple):
+    """Resolved tuple elements with immutable alias semantics."""
+
+
 def _static_alternatives(values):
     distinct = []
     for value in values:
@@ -71,6 +75,9 @@ def _static_add(left, right):
         for right_value in right_values:
             if isinstance(left_value, list) and isinstance(right_value, list):
                 results.append(left_value + right_value)
+            elif (isinstance(left_value, _StaticTuple)
+                  and isinstance(right_value, _StaticTuple)):
+                results.append(_StaticTuple((*left_value, *right_value)))
             elif isinstance(left_value, str) and isinstance(right_value, str):
                 results.append(left_value + right_value)
             else:
@@ -186,7 +193,9 @@ def _import_bindings(tree):
         elif isinstance(node, ast.Assign):
             for target in node.targets:
                 shadowed.update(_target_names(target))
-        elif isinstance(node, (ast.AnnAssign, ast.AugAssign)):
+        elif isinstance(node, ast.AnnAssign) and node.value is not None:
+            shadowed.update(_target_names(node.target))
+        elif isinstance(node, ast.AugAssign):
             shadowed.update(_target_names(node.target))
     for name in shadowed:
         modules.pop(name, None)
@@ -250,7 +259,9 @@ def _update_local_import_bindings(node, bindings):
     targets = []
     if isinstance(node, ast.Assign):
         targets = node.targets
-    elif isinstance(node, (ast.AnnAssign, ast.AugAssign)):
+    elif isinstance(node, ast.AnnAssign):
+        targets = [node.target] if node.value is not None else []
+    elif isinstance(node, (ast.AugAssign, ast.NamedExpr)):
         targets = [node.target]
     for target in targets:
         for name in _target_names(target):
@@ -742,6 +753,71 @@ def _python_call_signature_binds(function, call, implicit_positional=0):
     return required_positional <= bound and required_keyword_only <= bound
 
 
+def _python_call_argument_bindings(function, call, implicit_positional=0):
+    """Map supported explicit call arguments to their formal parameter names."""
+    positional = ([argument.arg for argument in function.args.posonlyargs]
+                  + [argument.arg for argument in function.args.args])
+    bindings = []
+    for index, _argument in enumerate(call.args):
+        formal_index = implicit_positional + index
+        if formal_index < len(positional):
+            bindings.append((positional[formal_index], index))
+    bindable_keywords = (
+        {argument.arg for argument in function.args.args}
+        | {argument.arg for argument in function.args.kwonlyargs})
+    for keyword in call.keywords:
+        if keyword.arg in bindable_keywords:
+            bindings.append((keyword.arg, ("keyword", keyword.arg)))
+    return bindings
+
+
+def _python_function_defaults(function):
+    """Return formal names paired with their definition-time default nodes."""
+    positional = ([argument.arg for argument in function.args.posonlyargs]
+                  + [argument.arg for argument in function.args.args])
+    positional_defaults = zip(
+        positional[len(positional) - len(function.args.defaults):],
+        function.args.defaults)
+    keyword_defaults = (
+        (argument.arg, default)
+        for argument, default in zip(
+            function.args.kwonlyargs, function.args.kw_defaults)
+        if default is not None)
+    return [*positional_defaults, *keyword_defaults]
+
+
+def _python_call_aggregate_bindings(function, call, implicit_positional=0):
+    """Describe default, variadic-positional and variadic-keyword bindings."""
+    positional_only = [argument.arg for argument in function.args.posonlyargs]
+    positional_or_keyword = [argument.arg for argument in function.args.args]
+    positional = positional_only + positional_or_keyword
+    fixed_explicit = max(0, len(positional) - implicit_positional)
+    bound = set(positional[:implicit_positional])
+    bound.update(positional[implicit_positional:
+                            implicit_positional + min(len(call.args), fixed_explicit)])
+    keyword_only = {argument.arg for argument in function.args.kwonlyargs}
+    for keyword in call.keywords:
+        if keyword.arg in positional_or_keyword or keyword.arg in keyword_only:
+            bound.add(keyword.arg)
+
+    defaults = [(formal, id(function), formal)
+                for formal, _node in _python_function_defaults(function)
+                if formal not in bound]
+    varargs = None
+    if function.args.vararg is not None:
+        keys = list(range(fixed_explicit, len(call.args)))
+        varargs = (function.args.vararg.arg, id(call), keys)
+    kwargs = None
+    if function.args.kwarg is not None:
+        fixed_keywords = set(positional_or_keyword) | keyword_only
+        entries = [(keyword.arg, ("keyword", keyword.arg))
+                   for keyword in call.keywords
+                   if keyword.arg not in fixed_keywords
+                   or keyword.arg in positional_only]
+        kwargs = (function.args.kwarg.arg, id(call), entries)
+    return defaults, varargs, kwargs
+
+
 def _literal_comparison(left, operator, right):
     """Evaluate a comparison only when both operands are inert literals."""
     try:
@@ -909,7 +985,8 @@ def _reachable_python_nodes(tree, mode):
                             for base in statement.bases)):
                 test_classes.add(statement.name)
 
-    nodes, queue, active_calls = [], [], set()
+    nodes, active_calls = [], set()
+    lifecycle = {}
     active_functions = {}
     function_scope_bindings = {
         id(node): _scope_bindings(node) for node in ast.walk(tree)
@@ -957,7 +1034,7 @@ def _reachable_python_nodes(tree, mode):
                 parent = function_scope_parents.get(parent)
         return scope
 
-    def execute(function, owner, activation_line):
+    def execute(function, owner, activation_line, call=None, implicit_positional=0):
         identity = (id(function), owner)
         if identity in active_calls:
             return
@@ -969,6 +1046,20 @@ def _reachable_python_nodes(tree, mode):
             marker.lineno = (getattr(function, "lineno", 0)
                              if activation_line is None else activation_line)
             marker._g11_scope_start = True
+            marker._g11_argument_bindings = (
+                [(formal, id(call), key) for formal, key in
+                 _python_call_argument_bindings(
+                     function, call, implicit_positional)]
+                if call is not None else [])
+            if call is not None:
+                (marker._g11_default_bindings,
+                 marker._g11_vararg_binding,
+                 marker._g11_kwarg_binding) = _python_call_aggregate_bindings(
+                     function, call, implicit_positional)
+            else:
+                marker._g11_default_bindings = []
+                marker._g11_vararg_binding = None
+                marker._g11_kwarg_binding = None
             nodes.append((marker, id(function), marker.lineno))
             visit_statement_sequence(function.body, owner, id(function), activation_line)
         finally:
@@ -985,11 +1076,14 @@ def _reachable_python_nodes(tree, mode):
             # A definition is not a call: only decorators/defaults execute here.
             for decorator in node.decorator_list:
                 visit(decorator, owner, scope, activation_line)
-            for default in node.args.defaults:
+            for formal, default in _python_function_defaults(node):
                 visit(default, owner, scope, activation_line)
-            for default in node.args.kw_defaults:
-                if default is not None:
-                    visit(default, owner, scope, activation_line)
+                marker = ast.Expr(value=default)
+                marker.lineno = getattr(default, "lineno", getattr(node, "lineno", 0))
+                marker._g11_default_id = (id(node), formal)
+                execution_line = (marker.lineno if activation_line is None
+                                  else activation_line)
+                nodes.append((marker, scope, execution_line))
             if (owner is None and isinstance(node, ast.FunctionDef)
                     and not _function_is_generator(node)):
                 key = (scope, node.name)
@@ -1001,7 +1095,13 @@ def _reachable_python_nodes(tree, mode):
                     and mode == "tests" and owner in test_classes
                     and (node.name.startswith("test_")
                          or node.name in {"setUp", "tearDown", "setUpClass", "tearDownClass"})):
-                queue.append((node, owner, float("inf")))
+                roles = lifecycle.setdefault(
+                    owner, {"tests": [], "setUp": None, "tearDown": None,
+                            "setUpClass": None, "tearDownClass": None})
+                if node.name.startswith("test_"):
+                    roles["tests"].append(node)
+                else:
+                    roles[node.name] = node
             return
         if isinstance(node, ast.Lambda):
             # Lambda construction evaluates defaults, but the body remains
@@ -1113,6 +1213,8 @@ def _reachable_python_nodes(tree, mode):
                 visit(node.target, owner, scope, activation_line)
             if getattr(node, "value", None) is not None:
                 visit(node.value, owner, scope, activation_line)
+            elif isinstance(node, ast.AnnAssign):
+                return
             targets = node.targets if isinstance(node, ast.Assign) else [node.target]
             for target in targets:
                 for name in _target_names(target):
@@ -1150,6 +1252,14 @@ def _reachable_python_nodes(tree, mode):
             if truth is not None:
                 visit(node.body if truth else node.orelse,
                       owner, scope, activation_line)
+            else:
+                possible_effects = _branch_assigned_names((node.body, node.orelse))
+                if possible_effects:
+                    marker = ast.Delete(
+                        targets=[ast.Name(id=name, ctx=ast.Del())
+                                 for name in sorted(possible_effects)])
+                    marker.lineno = getattr(node, "end_lineno", node.lineno)
+                    visit(marker, owner, scope, activation_line)
             return
 
         if isinstance(node, ast.BoolOp):
@@ -1265,6 +1375,14 @@ def _reachable_python_nodes(tree, mode):
                 nodes.append((marker, scope, execution_line))
             for keyword in node.keywords:
                 visit(keyword.value, owner, scope, activation_line)
+                marker = ast.Expr(value=keyword.value)
+                marker.lineno = getattr(
+                    keyword.value, "lineno", getattr(node, "lineno", 0))
+                marker._g11_call_id = id(node)
+                marker._g11_argument_key = ("keyword", keyword.arg)
+                execution_line = (marker.lineno if activation_line is None
+                                  else activation_line)
+                nodes.append((marker, scope, execution_line))
             execution_line = (getattr(node, "lineno", 0)
                               if activation_line is None else activation_line)
             nodes.append((node, scope, execution_line))
@@ -1276,7 +1394,7 @@ def _reachable_python_nodes(tree, mode):
                     function = active_functions.get((None, target.id))
                 if (function is not None
                         and _python_call_signature_binds(function, node)):
-                    execute(function, None, execution_line)
+                    execute(function, None, execution_line, node)
             elif (isinstance(target, ast.Attribute) and isinstance(target.value, ast.Name)
                   and target.value.id in {"self", "cls"} and owner):
                 method = methods.get((owner, target.attr))
@@ -1284,7 +1402,8 @@ def _reachable_python_nodes(tree, mode):
                         and not _function_is_generator(method)
                         and _python_call_signature_binds(
                             method, node, implicit_positional=1)):
-                    execute(method, owner, execution_line)
+                    execute(method, owner, execution_line, node,
+                            implicit_positional=1)
             return
 
         execution_line = (getattr(node, "lineno", 0)
@@ -1295,9 +1414,26 @@ def _reachable_python_nodes(tree, mode):
 
     for statement in tree.body:
         visit(statement)
-    while queue:
-        function, owner, activation_line = queue.pop()
-        execute(function, owner, activation_line)
+    activation_line = max(
+        (getattr(node, "end_lineno", getattr(node, "lineno", 0))
+         for node in ast.walk(tree)), default=0)
+    for owner in sorted(lifecycle):
+        roles = lifecycle[owner]
+        if roles["setUpClass"] is not None:
+            activation_line += 1
+            execute(roles["setUpClass"], owner, activation_line)
+        for test in sorted(roles["tests"], key=lambda function: function.name):
+            if roles["setUp"] is not None:
+                activation_line += 1
+                execute(roles["setUp"], owner, activation_line)
+            activation_line += 1
+            execute(test, owner, activation_line)
+            if roles["tearDown"] is not None:
+                activation_line += 1
+                execute(roles["tearDown"], owner, activation_line)
+        if roles["tearDownClass"] is not None:
+            activation_line += 1
+            execute(roles["tearDownClass"], owner, activation_line)
     return nodes
 
 
@@ -1362,7 +1498,7 @@ def _python_static_value(node, local, module, source_path, imports, scope_shadow
             if isinstance(element, ast.Starred):
                 value = _python_static_value(element.value, local, module, source_path,
                                              imports, scope_shadowed)
-                if not isinstance(value, list):
+                if not isinstance(value, (list, _StaticTuple)):
                     values.append(_UNRESOLVED_STATIC)
                     continue
                 values.extend(value)
@@ -1372,7 +1508,7 @@ def _python_static_value(node, local, module, source_path, imports, scope_shadow
                 values.append(_UNRESOLVED_STATIC)
                 continue
             values.append(value)
-        return values
+        return _StaticTuple(values) if isinstance(node, ast.Tuple) else values
     if isinstance(node, ast.BoolOp) and isinstance(node.op, ast.Or):
         for value_node in node.values:
             value = _python_static_value(value_node, local, module, source_path, imports, scope_shadowed)
@@ -1452,13 +1588,13 @@ def _python_sequence_static_value(node, evaluated_elements, local, module,
                 value_node, evaluated_elements, local, module, source_path,
                 imports, scope_shadowed)
         if isinstance(element, ast.Starred):
-            if isinstance(value, list):
+            if isinstance(value, (list, _StaticTuple)):
                 values.extend(value)
             else:
                 values.append(_UNRESOLVED_STATIC)
         else:
             values.append(_UNRESOLVED_STATIC if value is None else value)
-    return values
+    return _StaticTuple(values) if isinstance(node, ast.Tuple) else values
 
 
 _MUTATING_LIST_METHODS = {"append", "clear", "extend", "insert", "pop", "remove",
@@ -1561,20 +1697,22 @@ def _invalidate_python_binding(name, local, module, scope, global_names=(),
     destination = (destination_for_name(name) if destination_for_name is not None
                    else module if scope is None or name in global_names else local)
     prior = destination.get(name, module.get(name))
-    if isinstance(prior, list):
-        # Previously evaluated arguments hold the same list object. Mark that
-        # object unresolved so later in-place mutations cannot retain stale
-        # command provenance.
+    if isinstance(prior, (list, _StaticTuple, dict)):
+        # Previously evaluated arguments hold the same aggregate objects.
+        # Poison shared mutable children so later in-place mutations cannot
+        # retain stale command provenance.
         seen = set()
 
         def poison(value):
-            if not isinstance(value, list) or id(value) in seen:
+            if not isinstance(value, (list, _StaticTuple, dict)) or id(value) in seen:
                 return
             seen.add(id(value))
             if recursive:
-                for child in list(value):
+                children = value.values() if isinstance(value, dict) else value
+                for child in list(children):
                     poison(child)
-            value[:] = [_UNRESOLVED_STATIC]
+            if isinstance(value, list):
+                value[:] = [_UNRESOLVED_STATIC]
 
         poison(prior)
         environments = (destination,) if destination is module else (destination, module)
@@ -1608,7 +1746,8 @@ def _bind_python_value(node, value, local, module, scope, global_names=(),
                     destination_for_name, recursive=recursive)
             return
         if isinstance(target, (ast.Tuple, ast.List)):
-            if not isinstance(target_value, list) or len(target.elts) != len(target_value):
+            if (not isinstance(target_value, (list, _StaticTuple))
+                    or len(target.elts) != len(target_value)):
                 for name in _target_names(target):
                     destination(name).pop(name, None)
                 return
@@ -1629,7 +1768,7 @@ def _tool_values(value, tools):
     if isinstance(value, _StaticAlternatives):
         choices = [_tool_values(choice, tools) for choice in value]
         return set.intersection(*choices) if choices else set()
-    values = value if isinstance(value, list) else [value]
+    values = value if isinstance(value, (list, _StaticTuple)) else [value]
     return {_tool_for_token(item, tools) for item in values if isinstance(item, str)} - {None}
 
 
@@ -1637,7 +1776,7 @@ def _command_tool_values(value, tools):
     if isinstance(value, _StaticAlternatives):
         choices = [_command_tool_values(choice, tools) for choice in value]
         return set.intersection(*choices) if choices else set()
-    if not isinstance(value, list) or not value:
+    if not isinstance(value, (list, _StaticTuple)) or not value:
         return _tool_values(value, tools)
     first = value[0]
     python_interpreters = {"<python>", "python", "python3", "python3.11"}
@@ -1791,6 +1930,9 @@ def _python_execution_wrappers(tree, imports):
                 truth = _literal_bool(node.test)
                 if truth is not None:
                     visit(node.body if truth else node.orelse)
+                else:
+                    for name in _branch_assigned_names((node.body, node.orelse)):
+                        invalidate(name)
                 return False
             if isinstance(node, ast.BoolOp):
                 for index, value in enumerate(node.values):
@@ -1877,7 +2019,7 @@ def _python_execution_wrappers(tree, imports):
             if isinstance(node, ast.Assign):
                 for target in node.targets:
                     update_target(target, node.value)
-            elif isinstance(node, ast.AnnAssign):
+            elif isinstance(node, ast.AnnAssign) and node.value is not None:
                 update_target(node.target, node.value)
             elif isinstance(node, ast.AugAssign):
                 update_target(node.target)
@@ -1910,7 +2052,7 @@ def _python_execution_wrappers(tree, imports):
                     continue
                 positions = wrapper_positions(statement)
                 if positions:
-                    wrappers[key] = (positions, statement.lineno)
+                    wrappers[key] = (positions, statement.lineno, statement)
                 else:
                     wrappers.pop(key, None)
                 register(statement.body, id(statement))
@@ -1947,6 +2089,7 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
     class_scope_parents = _python_class_parent_scopes(tree)
     module_bindings, scope_bindings, scope_imports = {}, {}, {}
     evaluated_arguments = {}
+    evaluated_defaults = {}
     evaluated_sequence_elements = {}
     missing_argument = object()
     # Reachability traversal already emits semantic evaluation order. Sorting
@@ -1993,6 +2136,32 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
         if hasattr(node, "_g11_scope_start"):
             scope_bindings[scope] = {}
             scope_imports[scope] = _empty_import_bindings()
+            for formal, call_id, argument_key in getattr(
+                    node, "_g11_argument_bindings", ()):
+                value = evaluated_arguments.get(
+                    (call_id, argument_key), missing_argument)
+                if value is not missing_argument:
+                    scope_bindings[scope][formal] = value
+            for formal, function_id, default_name in getattr(
+                    node, "_g11_default_bindings", ()):
+                value = evaluated_defaults.get(
+                    (function_id, default_name), missing_argument)
+                if value is not missing_argument:
+                    scope_bindings[scope][formal] = value
+            vararg = getattr(node, "_g11_vararg_binding", None)
+            if vararg is not None:
+                formal, call_id, argument_keys = vararg
+                values = [evaluated_arguments.get(
+                    (call_id, key), missing_argument) for key in argument_keys]
+                if all(value is not missing_argument for value in values):
+                    scope_bindings[scope][formal] = _StaticTuple(values)
+            kwarg = getattr(node, "_g11_kwarg_binding", None)
+            if kwarg is not None:
+                formal, call_id, entries = kwarg
+                values = {name: evaluated_arguments.get(
+                    (call_id, key), missing_argument) for name, key in entries}
+                if all(value is not missing_argument for value in values.values()):
+                    scope_bindings[scope][formal] = values
             continue
         local = scope_bindings.setdefault(scope, {}) if scope is not None else module_bindings
         global_names = scope_globals.get(scope, set())
@@ -2034,6 +2203,13 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
         static_shadowed = ((visible_shadowed | set(local_imports["shadowed"]))
                            - locally_imported - global_names
                            - scope_nonlocals.get(scope, set()))
+        if hasattr(node, "_g11_default_id"):
+            evaluated_defaults[node._g11_default_id] = (
+                _python_sequence_static_value(
+                    node.value, evaluated_sequence_elements, local,
+                    visible_module_bindings, source_path, active_imports,
+                    static_shadowed))
+            continue
         if hasattr(node, "_g11_binary_id"):
             evaluated_sequence_elements[(
                 "binary", node._g11_binary_id, node._g11_binary_index)] = (
@@ -2046,13 +2222,16 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
             value = _python_sequence_static_value(
                 node.value, evaluated_sequence_elements, local, visible_module_bindings,
                 source_path, active_imports, static_shadowed)
-            if node._g11_sequence_starred and isinstance(value, list):
+            if node._g11_sequence_starred and isinstance(value, (list, _StaticTuple)):
                 value = list(value)
             evaluated_sequence_elements[(
                 node._g11_sequence_id, node._g11_sequence_index)] = value
             continue
         if hasattr(node, "_g11_call_id"):
-            evaluated_arguments[(node._g11_call_id, node._g11_argument_index)] = (
+            argument_key = (node._g11_argument_key
+                            if hasattr(node, "_g11_argument_key")
+                            else node._g11_argument_index)
+            evaluated_arguments[(node._g11_call_id, argument_key)] = (
                 _python_sequence_static_value(
                     node.value, evaluated_sequence_elements, local,
                     visible_module_bindings, source_path, active_imports,
@@ -2130,7 +2309,8 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     wrapper_order < order < call_order
                     for order in wrapper_reassignments.get(key, ())))
                 positions = (wrapper[0] if wrapper is not None
-                             and not reassigned and call_order > wrapper_order else ())
+                             and not reassigned and call_order > wrapper_order
+                             and _python_call_signature_binds(wrapper[2], node) else ())
                 for position in positions:
                     if position < len(node.args):
                         value = argument_value(position)
@@ -2150,7 +2330,7 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
             if call_name in subprocess_calls | {"os.system", "runpy.run_path"}:
                 for index, arg in enumerate(node.args):
                     value = argument_value(index)
-                    if isinstance(value, (list, _StaticAlternatives)):
+                    if isinstance(value, (list, _StaticTuple, _StaticAlternatives)):
                         references.update(_command_tool_values(value, tools))
                         continue
                     if isinstance(arg, (ast.List, ast.Tuple)):
@@ -2276,9 +2456,17 @@ def _js_builtin_name_unshadowed(text, position, name):
     return True
 
 
-def _js_binding_or_property_written(segment, name):
+def _js_binding_or_property_written(segment, name, mutable_object=False):
     """Return whether a URL binding or a value rooted at it may be mutated."""
+    segment, _scopes = _js_function_scopes(segment)
     root = r"(?<![\w$.])" + re.escape(name) + r"(?![\w$])"
+    if mutable_object:
+        alias_assignment = (
+            r"(?<![\w$.])(?:(?:const|let|var)\s+)?"
+            r"[A-Za-z_$][\w$]*\s*=(?!=|>)\s*" + root +
+            r"\s*(?=;|,|\n|$)")
+        if re.search(alias_assignment, segment):
+            return True
     update = r"(?:=(?!=|>)|\+\+|--|(?:\+|-|\*|/|%|&|\||\^|<<|>>)\s*=)"
     if re.search(root + r"\s*" + update, segment):
         return True
@@ -2313,6 +2501,7 @@ def _js_supported_initializer_complete(text, end):
 def js_tool_references(text, source_path, tools):
     references = set()
     visible = _strip_js_comments(text)
+    searchable, function_scopes = _js_function_scopes(visible)
     pattern = re.compile(r"(?m)^\s*import\s+(?:[^'\";]+?\s+from\s+)?['\"]([^'\"]+)['\"]\s*;?")
     for match in pattern.finditer(visible):
         specifier = match.group(1)
@@ -2337,6 +2526,9 @@ def js_tool_references(text, source_path, tools):
         r"new\s+(?P<constructor>URL)\s*\(\s*['\"](?P<specifier>[^'\"]+)['\"]\s*,\s*"
         r"import\.meta\.url\s*\)(?(converter)\s*\))")
     for match in url_binding.finditer(visible):
+        if (searchable[match.start("kind"):match.end("kind")]
+                != match.group("kind")):
+            continue
         if not _js_supported_initializer_complete(visible, match.end()):
             continue
         if not _js_builtin_name_unshadowed(
@@ -2363,8 +2555,7 @@ def js_tool_references(text, source_path, tools):
             continue
         target = posixpath.normpath(posixpath.join(posixpath.dirname(source_path), specifier))
         if target in tools:
-            searchable, _function_scopes = _js_function_scopes(visible)
-            function_blocks = {(scope[2], scope[3]) for scope in _function_scopes}
+            function_blocks = {(scope[2], scope[3]) for scope in function_scopes}
             declaration_blocks = [block for block in _js_block_scopes(searchable)
                                   if block not in function_blocks
                                   and block[0] < match.start() < block[1]]
@@ -2373,7 +2564,7 @@ def js_tool_references(text, source_path, tools):
                                  else None)
             bindings.setdefault(match.group("name"), []).append(
                 (match.end(), target, _js_function_scope_key(visible, match.start()),
-                 declaration_block))
+                 declaration_block, converter is None))
     child_names = set()
     named_import = re.compile(
         r"\bimport\s*\{([^}]*)\}\s*from\s*['\"](?:node:)?child_process['\"]")
@@ -2403,14 +2594,15 @@ def js_tool_references(text, source_path, tools):
                               or declaration[3][0] < call_start < declaration[3][1])]
             if name not in identifiers or not available:
                 continue
-            declaration_end, target, declaration_scope, _declaration_block = available[-1]
+            (declaration_end, target, declaration_scope, _declaration_block,
+             mutable_object) = available[-1]
             if _js_local_declaration_shadows(
                     visible, call_start, name, declaration_end):
                 continue
             cutoffs = ({call_start} if declaration_scope is not None
                        else activation_points)
             if any(not _js_binding_or_property_written(
-                       visible[declaration_end:cutoff], name)
+                       visible[declaration_end:cutoff], name, mutable_object)
                    for cutoff in cutoffs if cutoff >= declaration_end):
                 references.add(target)
     return references
@@ -2653,8 +2845,86 @@ def _js_parameter_bindings(parameters):
                          for part in _js_top_level_parts(parameters)))
 
 
+def _js_newline_continues_expression(searchable, newline):
+    """Recognize bounded token transitions where JavaScript cannot insert a semicolon."""
+    left = newline - 1
+    while left >= 0 and searchable[left] in " \t\r":
+        left -= 1
+    right = newline + 1
+    while right < len(searchable) and searchable[right] in " \t\r\n":
+        right += 1
+    if left < 0 or right >= len(searchable):
+        return False
+    if searchable[right] in "([.?+-*/%&|^:,":
+        return True
+    if searchable[left] in "([{.,?:=+-*/%&|^!~<>":
+        return True
+    return False
+
+
+def _js_bounded_expression_end(searchable, start, comma_ends=True):
+    """Return the end of one supported delimiter-balanced JavaScript expression."""
+    stack = []
+    pairs = {")": "(", "]": "[", "}": "{"}
+    for index in range(start, len(searchable)):
+        char = searchable[index]
+        if char in "([{":
+            stack.append(char)
+        elif char in pairs:
+            if not stack:
+                return index
+            if stack[-1] != pairs[char]:
+                return index
+            stack.pop()
+        elif not stack and (char == ";" or (comma_ends and char == ",")):
+            return index
+        elif (not stack and char == "\n"
+              and not _js_newline_continues_expression(searchable, index)):
+            return index
+    return len(searchable)
+
+
+def _js_bounded_statement_end(searchable, start):
+    """Return the exclusive end of one supported JavaScript statement."""
+    while start < len(searchable) and searchable[start].isspace():
+        start += 1
+    if start >= len(searchable):
+        return start
+    if searchable[start] == "{":
+        close = _js_matching_delimiter(searchable, start, "{", "}")
+        return None if close is None else close + 1
+    if re.match(r"if\b", searchable[start:]):
+        condition_start = start + 2
+        while (condition_start < len(searchable)
+               and searchable[condition_start].isspace()):
+            condition_start += 1
+        if (condition_start >= len(searchable)
+                or searchable[condition_start] != "("):
+            return None
+        condition_end = _js_matching_delimiter(
+            searchable, condition_start, "(", ")")
+        if condition_end is None:
+            return None
+        consequent_end = _js_bounded_statement_end(searchable, condition_end + 1)
+        if consequent_end is None:
+            return None
+        alternate_start = consequent_end
+        while (alternate_start < len(searchable)
+               and searchable[alternate_start].isspace()):
+            alternate_start += 1
+        if re.match(r"else\b", searchable[alternate_start:]):
+            return _js_bounded_statement_end(searchable, alternate_start + 4)
+        return consequent_end
+    if re.match(
+            r"(?:for|while|do|switch|try|with|function|class|const|let|var|"
+            r"return|throw|break|continue|debugger)\b", searchable[start:]):
+        return None
+    end = _js_bounded_expression_end(searchable, start, comma_ends=False)
+    return end + 1 if end < len(searchable) and searchable[end] == ";" else end
+
+
 def _js_function_scopes(text):
-    """Return masked text and bounded block-bodied function/arrow scopes."""
+    """Return masked text and bounded function/arrow body scopes."""
     searchable = []
     quote = None
     escaped = False
@@ -2704,6 +2974,17 @@ def _js_function_scopes(text):
         close_brace = _js_matching_delimiter(searchable, open_brace, "{", "}")
         if close_brace is not None:
             scopes.append((param_start, param_end, open_brace, close_brace))
+    concise_arrow = re.compile(
+        r"(?:\(([^()]*)\)|([A-Za-z_$][\w$]*))\s*=>(?!\s*\{)")
+    for match in concise_arrow.finditer(searchable):
+        param_start = match.start(1) if match.group(1) is not None else match.start(2)
+        param_end = match.end(1) if match.group(1) is not None else match.end(2)
+        body_start = match.end()
+        while body_start < len(searchable) and searchable[body_start] in " \t\r":
+            body_start += 1
+        body_end = _js_bounded_expression_end(searchable, body_start)
+        if body_start < body_end:
+            scopes.append((param_start, param_end, body_start - 1, body_end))
     return searchable, scopes
 
 
@@ -2807,11 +3088,15 @@ def _js_call_activation_points(text, position):
                 trusted_test_names.add(parts[-1])
 
     def in_literal_false_block(candidate):
-        pattern = re.compile(r"\bif\s*\(\s*false\s*\)\s*\{")
+        pattern = re.compile(r"\bif\s*\(\s*false\s*\)")
         for match in pattern.finditer(searchable):
-            open_brace = match.end() - 1
-            close_brace = _js_matching_delimiter(searchable, open_brace, "{", "}")
-            if close_brace is not None and open_brace < candidate < close_brace:
+            body_start = match.end()
+            while body_start < len(searchable) and searchable[body_start].isspace():
+                body_start += 1
+            body_end = _js_bounded_statement_end(searchable, body_start)
+            if body_end is None:
+                body_end = len(searchable)
+            if body_end is not None and body_start <= candidate < body_end:
                 return True
         return False
 
@@ -2829,7 +3114,7 @@ def _js_call_activation_points(text, position):
             for name in trusted_test_names:
                 callback = re.compile(
                     r"(?<![\w$.])" + re.escape(name) +
-                    r"(?![\w$])\s*\([^{};]*=>\s*\{$")
+                    r"(?![\w$])\s*\([^{};]*=>\s*(?:\{)?$")
                 match = callback.search(prefix)
                 if match:
                     call_start = match.start()
