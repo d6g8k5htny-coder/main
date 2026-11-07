@@ -124,28 +124,35 @@ means to closure, never a reason to open a general infrastructure project.
 
 ### G11 bounded static-attribution repair
 
-**Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
+**Registered 2026-11-06; review-repaired through 2026-11-07; G11 admission remains
 pending.** The repair at source commit
-`7e9f9969d224249c61b46e8537b469ba7a7cddf1` (parent
-`01fdbefe148e4104daf96bc705c98737eb4540ba`, tree
-`6a47c8437905bb435359a2acc357a0288d8d06bd`) extends the existing bounded
+`bc32c78438aa2309b00293a56059f79a5ebf6151` (parent
+`e9118b047ae706837270377e23ca046a3e87bdfd`, tree
+`310dcabce74e8b6689f1e0a8bf9e07b879d29d47`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
 Its blobs and tree exactly match local qualification
-`0eb64c504866974cc23085c6149d0e8a159ba749`. Fresh native execution passed
-183/183 controls and killed 249/249 designated mutants in each mode; the sealed
+`60f3bf2633a21f75495f69d1a1cafa944a2a6d9f`. Fresh native execution passed
+188/188 controls and killed 256/256 designated mutants in each mode; the sealed
 mutation-inventory SHA-256 is
-`c712875aa299eb193586fc85d88694faeb0690c2d3cda509619c05e6ce2935ef`.
+`95f64956c33f1310aba94c50add5021bc99546d0b0374fa865d82cf5c13d40ad`.
 The native commit's normal and optimized whole-tree reports were byte-identical
 (SHA-256
-`6c16884de04666e832f2acbf57c1de70bd1b62539b46d349a4333ef41f919122`,
+`19ae9015d791986646b9310183a029800c1055b88d3961bb2699619ab89b4829`,
 56,059 bytes each):
 zero production findings and 32 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The latest bounded rules
-also apply possible effects from unknown Boolean operands and unknown wrapper
+evaluate executable assignment-target subexpressions before rebinding; apply
+possible-effect invalidation to unresolved comparison suffixes and unresolved
+eager-comprehension bodies/guards without awarding execution; keep uninvoked
+JavaScript class/object methods deferred; and exclude dead literal-true
+`else` arms. JavaScript property-method invocation and computed method syntax,
+custom/inherited/async `unittest` behavior, and general dynamic comprehension
+semantics remain outside the supported domain. The bounded rules also apply
+possible effects from unknown Boolean operands and unknown wrapper
 branches, require complete URL initializers, select only proven JavaScript
 conditional-expression arms, preserve aggregate string values only when the
 inputs are already strings, reject direct helper calls that do not statically

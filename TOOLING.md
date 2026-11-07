@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`7e9f9969d224249c61b46e8537b469ba7a7cddf1`, based on Main default
+`bc32c78438aa2309b00293a56059f79a5ebf6151`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,21 +263,24 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`7e9f9969d224249c61b46e8537b469ba7a7cddf1` (parent
-`01fdbefe148e4104daf96bc705c98737eb4540ba`, tree
-`6a47c8437905bb435359a2acc357a0288d8d06bd`) recognizes explicit local path
+`bc32c78438aa2309b00293a56059f79a5ebf6151` (parent
+`e9118b047ae706837270377e23ca046a3e87bdfd`, tree
+`310dcabce74e8b6689f1e0a8bf9e07b879d29d47`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its blobs
 and tree exactly match local qualification
-`0eb64c504866974cc23085c6149d0e8a159ba749`. Fresh native execution passed
-183/183 controls and killed 249/249 designated mutations in both modes; the
+`60f3bf2633a21f75495f69d1a1cafa944a2a6d9f`. Fresh native execution passed
+188/188 controls and killed 256/256 designated mutations in both modes; the
 sealed mutation-inventory SHA-256 is
-`c712875aa299eb193586fc85d88694faeb0690c2d3cda509619c05e6ce2935ef`. The exact
+`95f64956c33f1310aba94c50add5021bc99546d0b0374fa865d82cf5c13d40ad`. The exact
 native normal and optimized censuses were byte-identical (SHA-256
-`6c16884de04666e832f2acbf57c1de70bd1b62539b46d349a4333ef41f919122`,
+`19ae9015d791986646b9310183a029800c1055b88d3961bb2699619ab89b4829`,
 56,059 bytes each),
 with zero production findings and exactly 32 no-current-exercise or documentation tool
 candidates; both runs exited 1. Adverse controls refuse mere path
+credit from stale assignment-target effects, unresolved comparison suffixes,
+unresolved eager-comprehension effects, uninvoked JavaScript method bodies and
+literal-true dead `else` arms. They also refuse mere path
 credit from unknown Boolean/wrapper branches that may mutate provenance,
 incomplete URL initializers, unselected JavaScript conditional arms,
 non-string aggregate conversion, helper calls missing required arguments, and

@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 7 November 2026
 
 The Main candidate containing this file has native source parent
-`7e9f9969d224249c61b46e8537b469ba7a7cddf1`; its isolated work began from the
+`bc32c78438aa2309b00293a56059f79a5ebf6151`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,15 +37,15 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `7e9f9969d224249c61b46e8537b469ba7a7cddf1` (parent
-`01fdbefe148e4104daf96bc705c98737eb4540ba`, tree
-`6a47c8437905bb435359a2acc357a0288d8d06bd`) is blob-for-blob identical to
-local exact-tree qualification `0eb64c504866974cc23085c6149d0e8a159ba749`.
-Fresh execution on the native commit passed 183/183 tests and killed
-249/249 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `c712875aa299eb193586fc85d88694faeb0690c2d3cda509619c05e6ce2935ef`.
+native source `bc32c78438aa2309b00293a56059f79a5ebf6151` (parent
+`e9118b047ae706837270377e23ca046a3e87bdfd`, tree
+`310dcabce74e8b6689f1e0a8bf9e07b879d29d47`) is blob-for-blob identical to
+local exact-tree qualification `60f3bf2633a21f75495f69d1a1cafa944a2a6d9f`.
+Fresh execution on the native commit passed 188/188 tests and killed
+256/256 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `95f64956c33f1310aba94c50add5021bc99546d0b0374fa865d82cf5c13d40ad`.
 The native commit's byte-identical normal/optimized whole-tree reports (SHA-256
-`6c16884de04666e832f2acbf57c1de70bd1b62539b46d349a4333ef41f919122`,
+`19ae9015d791986646b9310183a029800c1055b88d3961bb2699619ab89b4829`,
 56,059 bytes each)
 contain zero production findings and retain exactly 32 no-current-exercise
 or documentation tool candidates; both census runs exit 1. The stricter
@@ -53,6 +53,13 @@ attribution newly removes false exercise credit from
 `tools/architecture_evidence_adapter.py`,
 `tools/architecture_graph_artifact_readback.py` and
 `tools/artifact_index_export.py`; the prior 29-tool result remains historical.
+Five later exact-head defects are also repaired: assignment targets evaluate
+their executable subexpressions before rebinding; unresolved chained-comparison
+suffixes and eager-comprehension bodies/guards invalidate possible effects
+without receiving execution credit; uninvoked JavaScript class/object method
+bodies remain deferred; and literal-true JavaScript conditions exclude their
+dead `else` arms. The duplicate comparison review report is retained as review
+history but counted once, for 140 distinct review/adverse defects in total.
 The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
 interpreter command payloads, same-line JavaScript decoys or unreachable code.
