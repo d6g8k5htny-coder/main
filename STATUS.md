@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 7 November 2026
 
 The Main candidate containing this file has native source parent
-`1f5bc72542adda2e25fa9152c389aa723bce5810`; its isolated work began from the
+`78756c9f1fde629b33b0b665dfbefd0febb9bd54`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,16 +37,16 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `1f5bc72542adda2e25fa9152c389aa723bce5810` (parent
-`b8bf126796dc2fd921f1f185acbdeede7dde1d0d`, tree
-`9b3a9cb7ad1e01fbb6ae5f95a4e0360e4e030be1`) is blob-for-blob identical to
-local exact-tree qualification `82dbc278352088f68fac12b151640d36d47f9746`.
-Fresh execution on the native commit passed 231/231 tests and killed
-298/298 designated mutants in both modes with zero skips; the sealed
+native source `78756c9f1fde629b33b0b665dfbefd0febb9bd54` (parent
+`6b3dda24bc8de154b115e5adb1359e77c00fd0b3`, tree
+`4fc9b66f346abc2220aed3ed475d5e81a205e918`) is blob-for-blob identical to
+local exact-tree qualification `0867d606f1191b9d5e2ed3fdd439bef4285d4f2a`.
+Fresh execution on the native commit passed 234/234 tests and killed
+301/301 designated mutants in both modes with zero skips; the sealed
 mutation-inventory SHA-256 is
-`0bdb4d9232d4d14567c03ab185e0454654357d4ff364a5057fc5ae0d08c9e776`.
+`753e0a479f36915a7e68132e2268501352bd78c7b7d1846de4198913366ddd92`.
 The native commit's byte-identical normal/optimized whole-tree reports (SHA-256
-`a3af10e6be44ba2c09466cf75c482c7e154b51e7c1f174bce96421d109ac24b0`,
+`b9b6c489e0b1e06ae9628f97f97f3a15c48b99d0d5f46d07927204ff9a519b61`,
 56,013 bytes each)
 contain zero production findings and retain exactly 32 no-current-exercise
 or documentation tool candidates; both census runs exit 1. The stricter
@@ -112,9 +112,12 @@ deferring their bodies. Five newest controls interleave every leaf store inside
 a destructuring target, defer quoted class/object methods, balance nested
 computed instance-field names, snapshot destructured leaf values before target
 effects while preserving nested aliases, and keep executable assignments in
-class static blocks at class-definition reachability. The current total is 182
-distinct review/adverse
-defects. The former 20 active
+class static blocks at class-definition reachability. Three still-newer
+exact-head controls unpack
+nested Python targets only when each nested target is reached, defer quoted and
+numeric JavaScript instance-field initializers until construction, and apply
+unconditional termination inside executable JavaScript class static blocks.
+The current total is 185 distinct review/adverse defects. The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
 interpreter command payloads, same-line JavaScript decoys or unreachable code.
 Generator methods are not credited from object creation/closure alone;

@@ -126,23 +126,23 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired through 2026-11-07; G11 admission remains
 pending.** The repair at source commit
-`1f5bc72542adda2e25fa9152c389aa723bce5810` (parent
-`b8bf126796dc2fd921f1f185acbdeede7dde1d0d`, tree
-`9b3a9cb7ad1e01fbb6ae5f95a4e0360e4e030be1`) extends the existing bounded
+`78756c9f1fde629b33b0b665dfbefd0febb9bd54` (parent
+`6b3dda24bc8de154b115e5adb1359e77c00fd0b3`, tree
+`4fc9b66f346abc2220aed3ed475d5e81a205e918`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
 Its blobs and tree exactly match local qualification
-`82dbc278352088f68fac12b151640d36d47f9746`. Fresh native execution passed
-231/231 controls and killed 298/298 designated mutants in each mode with zero
+`0867d606f1191b9d5e2ed3fdd439bef4285d4f2a`. Fresh native execution passed
+234/234 controls and killed 301/301 designated mutants in each mode with zero
 skips; the sealed
 mutation-inventory SHA-256 is
-`0bdb4d9232d4d14567c03ab185e0454654357d4ff364a5057fc5ae0d08c9e776`.
+`753e0a479f36915a7e68132e2268501352bd78c7b7d1846de4198913366ddd92`.
 The native commit's normal and optimized whole-tree reports were byte-identical
 (SHA-256
-`a3af10e6be44ba2c09466cf75c482c7e154b51e7c1f174bce96421d109ac24b0`,
+`b9b6c489e0b1e06ae9628f97f97f3a15c48b99d0d5f46d07927204ff9a519b61`,
 56,013 bytes each):
 zero production findings and 32 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The latest bounded rules
@@ -191,7 +191,10 @@ Five newest controls execute destructuring stores leaf-by-leaf from snapshotted
 right-hand-side leaf values, preserve later mutation of nested aliased values,
 defer quoted class/object methods, delimiter-balance nested computed instance
 fields, and refuse to classify executable class static-block assignments as
-deferred instance fields. The distinct defect total is 182.
+deferred instance fields. Three latest controls unpack nested Python targets
+only when reached, defer quoted and numeric JavaScript instance-field
+initializers, and apply direct termination inside executable class static
+blocks. The distinct defect total is 185.
 The bounded rules also
 evaluate executable assignment-target subexpressions before rebinding; apply
 possible-effect invalidation to unresolved comparison suffixes and unresolved

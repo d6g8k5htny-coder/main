@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`1f5bc72542adda2e25fa9152c389aa723bce5810`, based on Main default
+`78756c9f1fde629b33b0b665dfbefd0febb9bd54`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,19 +263,19 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`1f5bc72542adda2e25fa9152c389aa723bce5810` (parent
-`b8bf126796dc2fd921f1f185acbdeede7dde1d0d`, tree
-`9b3a9cb7ad1e01fbb6ae5f95a4e0360e4e030be1`) recognizes explicit local path
+`78756c9f1fde629b33b0b665dfbefd0febb9bd54` (parent
+`6b3dda24bc8de154b115e5adb1359e77c00fd0b3`, tree
+`4fc9b66f346abc2220aed3ed475d5e81a205e918`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its blobs
 and tree exactly match local qualification
-`82dbc278352088f68fac12b151640d36d47f9746`. Fresh native execution passed
-231/231 controls and killed 298/298 designated mutations in both modes with
+`0867d606f1191b9d5e2ed3fdd439bef4285d4f2a`. Fresh native execution passed
+234/234 controls and killed 301/301 designated mutations in both modes with
 zero skips; the
 sealed mutation-inventory SHA-256 is
-`0bdb4d9232d4d14567c03ab185e0454654357d4ff364a5057fc5ae0d08c9e776`. The exact
+`753e0a479f36915a7e68132e2268501352bd78c7b7d1846de4198913366ddd92`. The exact
 native normal and optimized censuses were byte-identical (SHA-256
-`a3af10e6be44ba2c09466cf75c482c7e154b51e7c1f174bce96421d109ac24b0`,
+`b9b6c489e0b1e06ae9628f97f97f3a15c48b99d0d5f46d07927204ff9a519b61`,
 56,013 bytes each),
 with zero production findings and exactly 32 no-current-exercise or documentation tool
 candidates; both runs exited 1. Adverse controls refuse mere path
@@ -309,7 +309,9 @@ their bodies. Five newest controls interleave leaf stores inside one
 destructuring target, defer quoted methods, balance nested computed field names,
 snapshot destructured values before target effects while preserving nested
 aliases, and retain execution credit for class static-block assignments. The
-distinct defect count is 182. Four preceding controls require pre-argument Python call-target capture,
+three latest controls unpack nested targets when reached, defer quoted/numeric
+instance-field initializers, and enforce termination within static blocks. The
+distinct defect count is 185. Four preceding controls require pre-argument Python call-target capture,
 balanced JavaScript parameter scopes, actual default-argument delivery, and
 fail-closed catch-handler reachability. Three adjacent controls cover nullish
 short-circuit selection, regular-expression literal masking and propagation of
