@@ -796,6 +796,21 @@ NEW_MUTATIONS = [
      "                         and True]",
      "tests.test_g11_census.ToolChecks.test_js_url_binding_does_not_escape_lexical_block",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("generator method creation treated as execution", "census",
+     "                if (isinstance(method, ast.FunctionDef)\n                        and not _function_is_generator(method)):",
+     "                if isinstance(method, ast.FunctionDef):",
+     "tests.test_g11_census.ToolChecks.test_uniterated_generator_method_body_is_not_executed",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("comprehension target shadow ignored", "census",
+     "            comprehension_scope = id(node)",
+     "            comprehension_scope = scope",
+     "tests.test_g11_census.ToolChecks.test_comprehension_target_shadows_outer_static_binding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("forwarding wrapper Boolean reachability ignored", "census",
+     "            if isinstance(node, ast.BoolOp):\n                for index, value in enumerate(node.values):",
+     "            if False:\n                for index, value in enumerate(node.values):",
+     "tests.test_g11_census.ToolChecks.test_forwarding_wrapper_respects_boolean_short_circuiting",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -973,6 +988,9 @@ EXPECTED_MUTATION_NAMES = (
     "comprehension body treated as unconditional",
     "chained comparison short circuit ignored",
     "JavaScript URL lexical block ignored",
+    "generator method creation treated as execution",
+    "comprehension target shadow ignored",
+    "forwarding wrapper Boolean reachability ignored",
 )
 
 
@@ -1151,7 +1169,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 123
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 126
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

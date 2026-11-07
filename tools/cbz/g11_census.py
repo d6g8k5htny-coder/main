@@ -1005,11 +1005,12 @@ def _reachable_python_nodes(tree, mode):
                 return
             if len(node.generators) != 1:
                 return
+            comprehension_scope = id(node)
             if isinstance(node, ast.DictComp):
-                visit(node.key, owner, scope, activation_line)
-                visit(node.value, owner, scope, activation_line)
+                visit(node.key, owner, comprehension_scope, activation_line)
+                visit(node.value, owner, comprehension_scope, activation_line)
             else:
-                visit(node.elt, owner, scope, activation_line)
+                visit(node.elt, owner, comprehension_scope, activation_line)
             return
 
         if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
@@ -1074,7 +1075,8 @@ def _reachable_python_nodes(tree, mode):
             elif (isinstance(target, ast.Attribute) and isinstance(target.value, ast.Name)
                   and target.value.id in {"self", "cls"} and owner):
                 method = methods.get((owner, target.attr))
-                if isinstance(method, ast.FunctionDef):
+                if (isinstance(method, ast.FunctionDef)
+                        and not _function_is_generator(method)):
                     execute(method, owner, execution_line)
             return
 
@@ -1451,6 +1453,19 @@ def _python_execution_wrappers(tree, imports):
                 return visit_body(branch)
             if isinstance(node, (ast.For, ast.AsyncFor, ast.While)):
                 return False
+            if isinstance(node, ast.BoolOp):
+                for index, value in enumerate(node.values):
+                    visit(value)
+                    if index == len(node.values) - 1:
+                        break
+                    truth = _literal_bool(value)
+                    if truth is None:
+                        break
+                    if isinstance(node.op, ast.And) and not truth:
+                        break
+                    if isinstance(node.op, ast.Or) and truth:
+                        break
+                return False
             if isinstance(node, ast.Assign):
                 for target in node.targets:
                     update_target(target, node.value)
@@ -1512,6 +1527,13 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
     wrappers = _python_execution_wrappers(tree, imports)
     scope_shadowed = {id(node): _scope_bindings(node) for node in ast.walk(tree)
                       if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
+    scope_shadowed.update({
+        id(node): set().union(*(_target_names(generator.target)
+                                for generator in node.generators))
+        for node in ast.walk(tree)
+        if isinstance(node, (ast.ListComp, ast.SetComp, ast.DictComp,
+                             ast.GeneratorExp)) and node.generators
+    })
     scope_globals = {id(node): _python_scope_global_names(node) for node in ast.walk(tree)
                      if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
     module_bindings, scope_bindings, scope_imports = {}, {}, {}
