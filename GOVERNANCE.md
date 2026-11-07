@@ -126,19 +126,19 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`3cfc4f772b026596a8edd5521f52ddc780d8c65d` (tree
-`06299893582ca2ff406aa3929fd8ced200dd2d6b`) extends the existing bounded
+`97a1a9dd99335c0dcba0d3c6643e36bf7289d581` (tree
+`2c470320ff04d70cc6a679ce98a2bcfa5b856c04`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 126/126 controls and killed 177/177 designated
+The exact source commit passed 131/131 controls and killed 183/183 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`18555c8e1ba9bded59ddc78927367d82aa37c3eed36bcda618f068f43339e1e4`.
+`d41d67dd54c0ec969151bd46a59c6270cf615c31d93cb47a05c09ef3e6e4bc80`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`f4100f1e40c4dc55633d9b27b36bf6eb30af382d80ad6864f9f01a84ba8633d9`,
+`2720f6af0b319e81000ca6aea52c8c871ddb059a2dab08b4210a17dddf2482ff`,
 56,078 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
@@ -255,6 +255,13 @@ statically established iteration, generator-expression bodies require actual
 consumption, chained comparisons stop after a proven false prefix, and
 JavaScript `const`/`let` URL bindings remain inside their lexical brace range.
 Each boundary has a dedicated adverse control and designated mutant.
+Forwarding-wrapper discovery follows literal conditional-expression
+reachability. A wrapper reassignment declared `global` or `nonlocal` targets
+the destination scope and is ordered by actual execution, not its helper-local
+source line. Lambda construction evaluates defaults but defers the body, and a
+declared `nonlocal` helper reassignment invalidates the nearest enclosing active
+helper identity. These four bounded repairs have five dedicated controls and
+six designated mutants; they do not claim general Python execution semantics.
 Python call-argument helper effects precede attribution of the enclosing call,
 reassigned Python helpers lose their former bodies, and deferred JavaScript
 helpers validate module URL bindings at reachable activation points. These

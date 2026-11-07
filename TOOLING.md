@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`3cfc4f772b026596a8edd5521f52ddc780d8c65d`, based on Main default
+`97a1a9dd99335c0dcba0d3c6643e36bf7289d581`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,15 +263,15 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`3cfc4f772b026596a8edd5521f52ddc780d8c65d` (tree
-`06299893582ca2ff406aa3929fd8ced200dd2d6b`) recognizes explicit local path
+`97a1a9dd99335c0dcba0d3c6643e36bf7289d581` (tree
+`2c470320ff04d70cc6a679ce98a2bcfa5b856c04`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-126/126 controls and 177/177 designated mutations passed in both modes; the
+131/131 controls and 183/183 designated mutations passed in both modes; the
 sealed mutation-inventory SHA-256 is
-`18555c8e1ba9bded59ddc78927367d82aa37c3eed36bcda618f068f43339e1e4`. The exact
+`d41d67dd54c0ec969151bd46a59c6270cf615c31d93cb47a05c09ef3e6e4bc80`. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`f4100f1e40c4dc55633d9b27b36bf6eb30af382d80ad6864f9f01a84ba8633d9`,
+`2720f6af0b319e81000ca6aea52c8c871ddb059a2dab08b4210a17dddf2482ff`,
 56,078 bytes each),
 with zero production findings and exactly 29 no-current-exercise tool
 candidates; both runs exited 1. Adverse controls refuse mere path
@@ -368,6 +368,11 @@ stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the former
 28-tool result remains historical and is not rebound. Static evidence is not
 runtime proof. Exact dormant dispositions and the final orchestrator remain
 unfinished; G11 is FAIL.
+Forwarding-wrapper conditional expressions now follow only a proven selected
+arm. Declared `global`/`nonlocal` wrapper reassignments target their destination
+scope in execution order; lambda creation evaluates defaults but not its body;
+and declared `nonlocal` helper reassignment invalidates the nearest enclosing
+active helper. Dedicated adverse controls and mutants cover these finite rules.
 
 ## Missing final orchestrator
 
