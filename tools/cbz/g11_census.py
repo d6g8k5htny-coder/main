@@ -905,6 +905,13 @@ def _branch_assigned_names(body, call_effects=None):
     class Collector(ast.NodeVisitor):
         def visit_FunctionDef(self, node):
             names.add(node.name)
+            for expression in node.decorator_list:
+                self.visit(expression)
+            for expression in node.args.defaults:
+                self.visit(expression)
+            for expression in node.args.kw_defaults:
+                if expression is not None:
+                    self.visit(expression)
             return
 
         visit_AsyncFunctionDef = visit_FunctionDef
@@ -1120,7 +1127,25 @@ def _reachable_python_nodes(tree, mode):
             visible_effects = effects - local_only
             visible_mutations = mutations - local_only
             arguments = dict(_python_call_argument_bindings(function, call))
-            for formal in mutations & local_only:
+            formal_aliases = {
+                argument.arg: argument.arg
+                for argument in (function.args.posonlyargs + function.args.args
+                                 + function.args.kwonlyargs)
+            }
+            if function.args.vararg is not None:
+                formal_aliases[function.args.vararg.arg] = function.args.vararg.arg
+            if function.args.kwarg is not None:
+                formal_aliases[function.args.kwarg.arg] = function.args.kwarg.arg
+            for statement in function.body:
+                if (isinstance(statement, ast.Assign)
+                        and isinstance(statement.value, ast.Name)
+                        and statement.value.id in formal_aliases):
+                    root = formal_aliases[statement.value.id]
+                    for target in statement.targets:
+                        if isinstance(target, ast.Name):
+                            formal_aliases[target.id] = root
+            for mutated_name in mutations & local_only:
+                formal = formal_aliases.get(mutated_name, mutated_name)
                 key = arguments.get(formal)
                 argument = None
                 if isinstance(key, int) and key < len(call.args):
@@ -3352,6 +3377,16 @@ def _js_short_circuit_call_reachable(searchable, position):
             or (literal.group(1) == "false" and operator.group() == "||"))
 
 
+def _js_optional_call_argument_reachable(searchable, position):
+    """Fail closed for arguments whose optional call may suppress evaluation."""
+    for match in re.finditer(r"\?\.\s*\(", searchable):
+        open_paren = searchable.find("(", match.start(), match.end())
+        close_paren = _js_matching_delimiter(searchable, open_paren, "(", ")")
+        if close_paren is not None and open_paren < position < close_paren:
+            return False
+    return True
+
+
 def _js_ternary_call_reachable(searchable, position):
     """Bound calls in conditional-expression arms to a proven literal arm."""
     start = max(searchable.rfind(token, 0, position) for token in (";", "{", "}")) + 1
@@ -3650,6 +3685,8 @@ def _js_call_activation_points(text, position):
         return True
 
     def reachable(candidate, seen, binding_guards=()):
+        if not _js_optional_call_argument_reachable(searchable, candidate):
+            return set()
         if not _js_short_circuit_call_reachable(searchable, candidate):
             return set()
         if not _js_ternary_call_reachable(searchable, candidate):

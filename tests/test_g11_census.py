@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "47c7779e485af76706bfdf1a6b437ef75b42a180d30d2e42a6763642224795a4"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "e72c1baf756a4a2c3f2dca073d13e309ba771cfdeacfd16c6f9a09ec210fe1e2"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -1876,6 +1876,22 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
+    def test_unknown_branch_definition_time_effects_invalidate_downstream_bindings(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_definition_effect.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    def unused(x=command.__setitem__(slice(None), ['echo'])):\n"
+                "        return x\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
     def test_unknown_branch_helper_parameter_effects_invalidate_caller_binding(self):
         tree = {
             "tools/unused.py": "x = 1\n",
@@ -1885,6 +1901,24 @@ class ToolChecks(unittest.TestCase):
                 "command = ['python3', 'tools/unused.py']\n"
                 "def replace(target):\n"
                 "    target[:] = ['echo']\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    replace(command)\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_unknown_branch_helper_parameter_alias_effects_invalidate_caller_binding(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_parameter_alias_effect.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "def replace(argv):\n"
+                "    alias = argv\n"
+                "    alias[:] = ['echo']\n"
                 "flag = True\n"
                 "if flag:\n"
                 "    replace(command)\n"
@@ -3451,6 +3485,19 @@ class ToolChecks(unittest.TestCase):
             {"tools/live.mjs": True, "tools/skipped.mjs": False},
         )
 
+    def test_js_optional_call_arguments_require_proven_evaluation(self):
+        tree = {
+            "tools/unused.mjs": "export const value = 1;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/optional-call.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "const invoke=null;\n"
+                "invoke?.(spawnSync('echo',[script]));\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
     def test_js_regular_expression_literal_is_not_a_process_call(self):
         tree = {
             "tools/regex-unused.mjs": "export const value = 1;\n",
@@ -4002,7 +4049,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 275)
+        self.assertEqual(len(cases), 278)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

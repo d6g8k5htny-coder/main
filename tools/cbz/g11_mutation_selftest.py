@@ -1244,8 +1244,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_dead_url_initializer_does_not_create_provenance",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("unknown branch helper parameter mutation ignored", "census",
-     "            for formal in mutations & local_only:",
-     "            for formal in ():",
+     "            for mutated_name in mutations & local_only:",
+     "            for mutated_name in ():",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_parameter_effects_invalidate_caller_binding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("nested selected JavaScript branch stops reachability checks", "census",
@@ -1345,6 +1345,25 @@ NEW_MUTATIONS = [
      "        token = re.compile",
      "tests.test_g11_census.ToolChecks.test_js_completed_standalone_block_propagates_termination",
      '{"tools/live.mjs": True, "tools/unused.mjs": False}'),
+    ("unresolved definition-time effects ignored", "census",
+     "            for expression in node.args.defaults:\n"
+     "                self.visit(expression)",
+     "            for expression in ():\n"
+     "                self.visit(expression)",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_definition_time_effects_invalidate_downstream_bindings",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("helper-local parameter alias mutation ignored", "census",
+     "                formal = formal_aliases.get(mutated_name, mutated_name)",
+     "                formal = mutated_name",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_parameter_alias_effects_invalidate_caller_binding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("optional JavaScript call arguments activated", "census",
+     "        if not _js_optional_call_argument_reachable(searchable, candidate):\n"
+     "            return set()",
+     "        if False:\n"
+     "            return set()",
+     "tests.test_g11_census.ToolChecks.test_js_optional_call_arguments_require_proven_evaluation",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1623,6 +1642,9 @@ EXPECTED_MUTATION_NAMES = (
     "skipped JavaScript nullish operand activated",
     "JavaScript regular-expression literal treated as code",
     "completed JavaScript block termination not propagated",
+    "unresolved definition-time effects ignored",
+    "helper-local parameter alias mutation ignored",
+    "optional JavaScript call arguments activated",
 )
 
 
@@ -1801,7 +1823,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 208
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 211
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
