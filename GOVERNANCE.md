@@ -126,23 +126,23 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired through 2026-11-07; G11 admission remains
 pending.** The repair at source commit
-`192a846bed779c14875a2abd50c11fd0620ec0f8` (parent
-`ac5d5a5916aed74ef0cc5a65cb99800b76d3eee4`, tree
-`7053e632ae6272078038176610f9fd671749b71c`) extends the existing bounded
+`daeb6fc6784aabc08d1e7c9e60bf1d698d9128f0` (parent
+`205967821dcbd85e4be7aaaa6b1e01a61ac3e81e`, tree
+`dc5d039432b9a637b4ab8a98490e5c99f66d3fed`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
 Its blobs and tree exactly match local qualification
-`cccb6be88504119c53fcc6b407b1b5919de2ab79`. Fresh native execution passed
-223/223 controls and killed 290/290 designated mutants in each mode with zero
+`2d80ada7105cc11c362ffa25d9efc712c9a8e5d5`. Fresh native execution passed
+226/226 controls and killed 293/293 designated mutants in each mode with zero
 skips; the sealed
 mutation-inventory SHA-256 is
-`3b7a76e4743d8cba2429d404ecde2876b715b134e80bcb3287235d702e91cda0`.
+`680b581938dbe08ffcc676dd14eaa4bfedfcf4d734c2db2e99ed3ebb37f1abdc`.
 The native commit's normal and optimized whole-tree reports were byte-identical
 (SHA-256
-`35fb08b67ce0dac5cf75267976b1a0def5b05aa099c7901a9352fae365952508`,
+`e4b5cd3ac9033e5ecc7d1c7da2c21e16587be1351a6df337babaee1587feb0cf`,
 56,013 bytes each):
 zero production findings and 32 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The latest bounded rules
@@ -184,7 +184,10 @@ suppression through repeated JavaScript property hops, and defer computed-name
 instance-field initializers until construction. Three latest controls extend
 that optional-chain suppression through computed accesses and intermediate
 calls, defer computed-name class/object method bodies, and recognize
-semicolonless instance-field boundaries. The distinct defect total is 174.
+semicolonless instance-field boundaries. Three newest controls propagate
+class-construction mutation through a helper parameter, reject activation after
+an unsupported JavaScript `await`, and balance nested computed method names.
+The distinct defect total is 177.
 The bounded rules also
 evaluate executable assignment-target subexpressions before rebinding; apply
 possible-effect invalidation to unresolved comparison suffixes and unresolved
