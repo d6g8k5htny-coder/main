@@ -1370,7 +1370,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_unknown_branch_definition_time_effects_invalidate_downstream_bindings",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("helper-local parameter alias mutation ignored", "census",
-     "                formals = formal_aliases.get(mutated_name, {mutated_name})",
+     "                formals = (mutation_origins.get(mutated_name)\n"
+     "                           or formal_aliases.get(mutated_name, {mutated_name}))",
      "                formals = {mutated_name}",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_parameter_alias_effects_invalidate_caller_binding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
@@ -1699,6 +1700,20 @@ NEW_MUTATIONS = [
      "                    if truth is not None:",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_proven_helper_alias_branch_preserves_origin",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("mutation-time helper alias origin ignored", "census",
+     "                formals = (mutation_origins.get(mutated_name)\n"
+     "                           or formal_aliases.get(mutated_name, {mutated_name}))",
+     "                formals = formal_aliases.get(mutated_name, {mutated_name})",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_alias_mutation_survives_later_rebinding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("nested captured default invalidation ignored", "census",
+     "                _invalidate_python_value(\n"
+     "                    captured, (module_bindings, *scope_bindings.values()),\n"
+     "                    recursive=True)",
+     "                _invalidate_python_value(\n"
+     "                    captured, (module_bindings, *scope_bindings.values()))",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_nested_captured_default_mutation_invalidates_child_alias",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -2011,6 +2026,8 @@ EXPECTED_MUTATION_NAMES = (
     "JavaScript field named static treated as class-definition execution",
     "captured default identity invalidation ignored",
     "proven helper alias branch ignored",
+    "mutation-time helper alias origin ignored",
+    "nested captured default invalidation ignored",
 )
 
 
@@ -2189,7 +2206,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 242
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 244
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

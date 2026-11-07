@@ -1172,6 +1172,7 @@ def _reachable_python_nodes(tree, mode):
             if function.args.kwarg is not None:
                 formal_aliases[function.args.kwarg.arg] = {
                     function.args.kwarg.arg}
+            mutation_origins = {}
             class FormalAliasCollector(ast.NodeVisitor):
                 def visit_FunctionDef(self, node):
                     return
@@ -1180,7 +1181,38 @@ def _reachable_python_nodes(tree, mode):
                 visit_Lambda = visit_FunctionDef
                 visit_ClassDef = visit_FunctionDef
 
+                def _record_mutation_name(self, name):
+                    origins = formal_aliases.get(name)
+                    if origins:
+                        mutation_origins.setdefault(name, set()).update(origins)
+
+                def _record_mutation_target(self, target, include_name=False):
+                    if isinstance(target, (ast.Tuple, ast.List)):
+                        for element in target.elts:
+                            self._record_mutation_target(element, include_name)
+                        return
+                    if isinstance(target, ast.Starred):
+                        self._record_mutation_target(target.value, include_name)
+                        return
+                    if isinstance(target, (ast.Subscript, ast.Attribute)):
+                        root = target
+                        while isinstance(root, (ast.Subscript, ast.Attribute)):
+                            root = root.value
+                        if isinstance(root, ast.Name):
+                            self._record_mutation_name(root.id)
+                        return
+                    if include_name and isinstance(target, ast.Name):
+                        self._record_mutation_name(target.id)
+
+                def visit_Call(self, node):
+                    mutated = _python_mutated_root_name(node)
+                    if mutated:
+                        self._record_mutation_name(mutated)
+                    self.generic_visit(node)
+
                 def visit_Assign(self, node):
+                    for target in node.targets:
+                        self._record_mutation_target(target)
                     if (isinstance(node.value, ast.Name)
                             and node.value.id in formal_aliases):
                         roots = set(formal_aliases[node.value.id])
@@ -1191,6 +1223,19 @@ def _reachable_python_nodes(tree, mode):
                         for target in node.targets:
                             if isinstance(target, ast.Name):
                                 formal_aliases.pop(target.id, None)
+                    self.generic_visit(node)
+
+                def visit_AnnAssign(self, node):
+                    self._record_mutation_target(node.target)
+                    self.generic_visit(node)
+
+                def visit_AugAssign(self, node):
+                    self._record_mutation_target(node.target, include_name=True)
+                    self.generic_visit(node)
+
+                def visit_Delete(self, node):
+                    for target in node.targets:
+                        self._record_mutation_target(target)
                     self.generic_visit(node)
 
                 def visit_If(self, node):
@@ -1226,7 +1271,8 @@ def _reachable_python_nodes(tree, mode):
                 alias_collector.visit(statement)
             defaults = dict(_python_function_defaults(function))
             for mutated_name in mutations & local_only:
-                formals = formal_aliases.get(mutated_name, {mutated_name})
+                formals = (mutation_origins.get(mutated_name)
+                           or formal_aliases.get(mutated_name, {mutated_name}))
                 for formal in formals:
                     key = arguments.get(formal)
                     argument = None
@@ -2564,7 +2610,8 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
             captured = evaluated_defaults.get(default_id, missing_argument)
             if captured is not missing_argument:
                 _invalidate_python_value(
-                    captured, (module_bindings, *scope_bindings.values()))
+                    captured, (module_bindings, *scope_bindings.values()),
+                    recursive=True)
         if hasattr(node, "_g11_scope_start"):
             scope_bindings[scope] = {}
             scope_imports[scope] = _empty_import_bindings()

@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "586a1c0293d976db8b1d45b3c9843b3146323e2553dd9bc79241d97756af632c"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "59652059969aa246bf9314a4e14282455dad2feecbb58373905dde19b2e257f6"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -2065,6 +2065,43 @@ class ToolChecks(unittest.TestCase):
                 "flag = True\n"
                 "if flag:\n"
                 "    replace(command, other)\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_unknown_branch_helper_alias_mutation_survives_later_rebinding(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_alias_mutate_then_rebind.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "def replace(argv):\n"
+                "    alias = argv\n"
+                "    alias[:] = ['echo']\n"
+                "    alias = None\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    replace(command)\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_unknown_branch_nested_captured_default_mutation_invalidates_child_alias(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_nested_default_capture.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "holder = [command]\n"
+                "def replace(argv=holder):\n"
+                "    argv[0][:] = ['echo']\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    replace()\n"
                 "subprocess.run(command, check=True)\n"
             ),
         }
@@ -4600,7 +4637,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 309)
+        self.assertEqual(len(cases), 311)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:
