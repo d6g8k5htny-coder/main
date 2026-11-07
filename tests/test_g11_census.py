@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "d6c961dfd0cf8c41a3ebc2a42d71a2ff7adc1a3413c4cc995fc4922d4082f812"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "207bb9eeb0383d1d49e83f1a91e234ab3ac51760b09684dc528ef38a64e517b1"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -454,6 +454,25 @@ class ToolChecks(unittest.TestCase):
         self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
             "tools/direct.py": True, "tools/forwarded.py": True,
         })
+
+    def test_interpreter_attached_and_exit_only_options_do_not_select_scripts(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/attached-unused.py": "x = 1\n",
+            "tools/version-unused.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/attached-unused.py tools/version-unused.py\n",
+            "tests/test_commands.py": (
+                "import subprocess\n"
+                "subprocess.run(['python3', '-B', 'tools/live.py'])\n"
+                "subprocess.run(['python3', '-cpass', 'tools/attached-unused.py'])\n"
+                "subprocess.run(['python3', '--version', 'tools/version-unused.py'])\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/attached-unused.py": False, "tools/live.py": True,
+             "tools/version-unused.py": False},
+        )
 
     def test_unresolved_command_elements_do_not_shift_the_executable(self):
         tree = {
@@ -954,6 +973,31 @@ class ToolChecks(unittest.TestCase):
             {"tools/generator-unused.py": False, "tools/list-unused.py": False},
         )
 
+    def test_comprehension_bodies_require_supported_iterables(self):
+        tree = {
+            "tools/direct-unused.py": "x = 1\n",
+            "tools/wrapper-unused.py": "x = 1\n",
+            "tools/README.md": "tools/direct-unused.py tools/wrapper-unused.py\n",
+            "tests/test_non_iterable_comprehensions.py": (
+                "import runpy\n"
+                "direct = 'tools/direct-unused.py'\n"
+                "try:\n"
+                "    [runpy.run_path(direct) for _ in 1]\n"
+                "except TypeError:\n"
+                "    pass\n"
+                "def launch(script):\n"
+                "    [runpy.run_path(script) for _ in 1]\n"
+                "try:\n"
+                "    launch('tools/wrapper-unused.py')\n"
+                "except TypeError:\n"
+                "    pass\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/direct-unused.py": False, "tools/wrapper-unused.py": False},
+        )
+
     def test_comprehension_target_shadows_outer_static_binding(self):
         tree = {
             "tools/unused.py": "x = 1\n",
@@ -1131,6 +1175,50 @@ class ToolChecks(unittest.TestCase):
             {"tools/else-unused.py": False, "tools/handler-unused.py": False},
         )
 
+    def test_exception_boundaries_invalidate_callable_identities(self):
+        tree = {
+            "tools/helper-unused.py": "x = 1\n",
+            "tools/wrapper-unused.py": "x = 1\n",
+            "tools/README.md": "tools/helper-unused.py tools/wrapper-unused.py\n",
+            "tests/test_exception_callable_effects.py": (
+                "import runpy\n"
+                "def helper():\n"
+                "    runpy.run_path('tools/helper-unused.py')\n"
+                "def wrapper(script):\n"
+                "    runpy.run_path(script)\n"
+                "try:\n"
+                "    raise ValueError()\n"
+                "except ValueError:\n"
+                "    helper = print\n"
+                "    wrapper = print\n"
+                "helper()\n"
+                "wrapper('tools/wrapper-unused.py')\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/helper-unused.py": False, "tools/wrapper-unused.py": False},
+        )
+
+    def test_exception_target_names_invalidate_static_bindings(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_exception_target.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "try:\n"
+                "    raise ValueError()\n"
+                "except ValueError as command:\n"
+                "    pass\n"
+                "try:\n"
+                "    subprocess.run(command)\n"
+                "except NameError:\n"
+                "    pass\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
     def test_forwarding_wrapper_try_boundary_and_finally_execution(self):
         tree = {
             "tools/handler-unused.py": "x = 1\n",
@@ -1283,6 +1371,57 @@ class ToolChecks(unittest.TestCase):
         self.assertTrue(report["tools/live.py"]["referenced"])
         self.assertFalse(report["tools/old.py"]["referenced"])
         self.assertFalse(report["tools/unused.py"]["referenced"])
+
+    def test_decorated_python_wrapper_is_not_registered(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_decorated_wrapper.py": (
+                "import runpy\n"
+                "def discard(function):\n"
+                "    return print\n"
+                "@discard\n"
+                "def launch(script):\n"
+                "    runpy.run_path(script)\n"
+                "launch('tools/unused.py')\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_assignment_expressions_update_static_bindings(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_named_expression.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "(command := ['echo'])\n"
+                "subprocess.run(command)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_nested_aggregate_writes_invalidate_reachable_aliases(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/live.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/unused.py\n",
+            "tests/test_nested_aggregate.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "holder = [command]\n"
+                "holder[0][:] = ['echo']\n"
+                "subprocess.run(command)\n"
+                "live = ['python3', 'tools/live.py']\n"
+                "other = [live]\n"
+                "other[0] = ['echo']\n"
+                "subprocess.run(live)\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.py": True, "tools/unused.py": False},
+        )
 
     def test_non_string_executable_value_is_left_unresolved(self):
         tree = {
@@ -1566,7 +1705,6 @@ class ToolChecks(unittest.TestCase):
                 "def launch(arguments):\n"
                 "    return print(arguments)\n"
                 "class Dormant:\n"
-                "    @staticmethod\n"
                 "    def launch(arguments):\n"
                 "        return subprocess.run(arguments)\n"
                 "class Wrapper(unittest.TestCase):\n"
@@ -2053,6 +2191,23 @@ class ToolChecks(unittest.TestCase):
             {"tools/live.mjs": True, "tools/unused.mjs": False},
         )
 
+    def test_js_url_binding_requires_command_argument_position(self):
+        tree = {
+            "tools/live.mjs": "export const live = true;\n",
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/live.mjs tools/unused.mjs\n",
+            "tests/url-position.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const live=new URL('../tools/live.mjs',import.meta.url);\n"
+                "const unused=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "spawnSync('echo',[live],unused);\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.mjs": True, "tools/unused.mjs": False},
+        )
+
     def test_js_file_url_to_path_requires_unshadowed_node_url_import(self):
         tree = {
             "tools/live.mjs": "export const live = true;\n",
@@ -2515,7 +2670,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 199)
+        self.assertEqual(len(cases), 208)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

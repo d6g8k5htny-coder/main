@@ -746,6 +746,16 @@ def _is_none_guard(node):
             and node.comparators[0].value is None)
 
 
+def _literal_nonempty_iterable(node):
+    """Return whether a bounded literal is proven to iterate at least once."""
+    try:
+        value = ast.literal_eval(node)
+    except (ValueError, TypeError):
+        return False
+    return (type(value) in {list, tuple, set, dict, str, bytes}
+            and bool(value))
+
+
 def _branch_assigned_names(body):
     """Return names possibly rebound or mutated without entering nested scopes."""
     names = set()
@@ -812,6 +822,14 @@ def _branch_assigned_names(body):
     for statement in body:
         collector.visit(statement)
     return names
+
+
+def _exception_possible_effects(node):
+    """Return names a non-definite handler or else path may replace."""
+    return set().union(
+        *(_branch_assigned_names(handler.body) for handler in node.handlers),
+        _branch_assigned_names(node.orelse),
+        {handler.name for handler in node.handlers if handler.name})
 
 
 def _reachable_python_nodes(tree, mode):
@@ -959,9 +977,7 @@ def _reachable_python_nodes(tree, mode):
                                 targets=[ast.Name(id=name, ctx=ast.Del())
                                          for name in sorted(names)])
                             marker.lineno = getattr(node, "end_lineno", node.lineno)
-                            execution_line = (marker.lineno if activation_line is None
-                                              else activation_line)
-                            nodes.append((marker, scope, execution_line))
+                            visit(marker, owner, scope, activation_line)
                         return
                     for alternative in (node.body, node.orelse):
                         if names:
@@ -970,9 +986,7 @@ def _reachable_python_nodes(tree, mode):
                                          for name in sorted(names)])
                             marker.lineno = (getattr(alternative[0], "lineno", node.lineno)
                                              if alternative else node.lineno)
-                            execution_line = (marker.lineno if activation_line is None
-                                              else activation_line)
-                            nodes.append((marker, scope, execution_line))
+                            visit(marker, owner, scope, activation_line)
                         visit_statement_sequence(
                             alternative, owner, scope, activation_line)
                     if names:
@@ -980,9 +994,7 @@ def _reachable_python_nodes(tree, mode):
                             targets=[ast.Name(id=name, ctx=ast.Del())
                                      for name in sorted(names)])
                         marker.lineno = getattr(node, "end_lineno", node.lineno)
-                        execution_line = (marker.lineno if activation_line is None
-                                          else activation_line)
-                        nodes.append((marker, scope, execution_line))
+                        visit(marker, owner, scope, activation_line)
                     return
                 else:
                     branch = node.body if truth else node.orelse
@@ -1001,9 +1013,7 @@ def _reachable_python_nodes(tree, mode):
             # matching, neither a handler nor the no-exception else body is
             # definite execution evidence.
             visit_statement_sequence(node.body, owner, scope, activation_line)
-            possible_effects = set().union(
-                *(_branch_assigned_names(handler.body) for handler in node.handlers),
-                _branch_assigned_names(node.orelse))
+            possible_effects = _exception_possible_effects(node)
             if possible_effects:
                 marker = ast.Delete(
                     targets=[ast.Name(id=name, ctx=ast.Del())
@@ -1017,9 +1027,7 @@ def _reachable_python_nodes(tree, mode):
                     (getattr(statement, "lineno", node.lineno)
                      for statement in boundary_statements),
                     default=getattr(node, "end_lineno", node.lineno))
-                execution_line = (marker.lineno if activation_line is None
-                                  else activation_line)
-                nodes.append((marker, scope, execution_line))
+                visit(marker, owner, scope, activation_line)
             visit_statement_sequence(node.finalbody, owner, scope, activation_line)
             return
 
@@ -1036,6 +1044,17 @@ def _reachable_python_nodes(tree, mode):
                 for name in _target_names(target):
                     active_functions.pop(
                         (active_function_destination(scope, name), name), None)
+            execution_line = (getattr(node, "lineno", 0)
+                              if activation_line is None else activation_line)
+            nodes.append((node, scope, execution_line))
+            return
+
+        if isinstance(node, ast.NamedExpr):
+            # Assignment expressions evaluate their value before rebinding.
+            visit(node.value, owner, scope, activation_line)
+            for name in _target_names(node.target):
+                active_functions.pop(
+                    (active_function_destination(scope, name), name), None)
             execution_line = (getattr(node, "lineno", 0)
                               if activation_line is None else activation_line)
             nodes.append((node, scope, execution_line))
@@ -1103,11 +1122,9 @@ def _reachable_python_nodes(tree, mode):
             visit(first.iter, owner, scope, activation_line)
             if isinstance(node, ast.GeneratorExp):
                 return
-            try:
-                iterable = ast.literal_eval(first.iter)
-            except (ValueError, TypeError):
-                return
-            if not iterable or any(_literal_bool(guard) is not True for guard in first.ifs):
+            if (not _literal_nonempty_iterable(first.iter)
+                    or not isinstance(first.target, ast.Name)
+                    or any(_literal_bool(guard) is not True for guard in first.ifs)):
                 return
             if len(node.generators) != 1:
                 return
@@ -1428,7 +1445,7 @@ def _python_function_parent_scopes(tree):
 
 
 def _invalidate_python_binding(name, local, module, scope, global_names=(),
-                               destination_for_name=None):
+                               destination_for_name=None, recursive=False):
     destination = (destination_for_name(name) if destination_for_name is not None
                    else module if scope is None or name in global_names else local)
     prior = destination.get(name, module.get(name))
@@ -1436,11 +1453,22 @@ def _invalidate_python_binding(name, local, module, scope, global_names=(),
         # Previously evaluated arguments hold the same list object. Mark that
         # object unresolved so later in-place mutations cannot retain stale
         # command provenance.
-        prior[:] = [_UNRESOLVED_STATIC]
+        seen = set()
+
+        def poison(value):
+            if not isinstance(value, list) or id(value) in seen:
+                return
+            seen.add(id(value))
+            if recursive:
+                for child in list(value):
+                    poison(child)
+            value[:] = [_UNRESOLVED_STATIC]
+
+        poison(prior)
         environments = (destination,) if destination is module else (destination, module)
         for environment in environments:
             for bound_name, bound in list(environment.items()):
-                if bound is prior:
+                if id(bound) in seen:
                     environment[bound_name] = _UNRESOLVED_STATIC
     destination[name] = _UNRESOLVED_STATIC
 
@@ -1448,7 +1476,7 @@ def _invalidate_python_binding(name, local, module, scope, global_names=(),
 def _bind_python_value(node, value, local, module, scope, global_names=(),
                        destination_for_name=None):
     targets = []
-    if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
+    if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign, ast.NamedExpr)):
         targets = node.targets if isinstance(node, ast.Assign) else [node.target]
 
     def destination(name):
@@ -1459,12 +1487,13 @@ def _bind_python_value(node, value, local, module, scope, global_names=(),
     def bind(target, target_value):
         if isinstance(target, ast.Subscript):
             root = target.value
+            recursive = isinstance(root, (ast.Subscript, ast.Attribute))
             while isinstance(root, (ast.Subscript, ast.Attribute)):
                 root = root.value
             if isinstance(root, ast.Name):
                 _invalidate_python_binding(
                     root.id, local, module, scope, global_names,
-                    destination_for_name)
+                    destination_for_name, recursive=recursive)
             return
         if isinstance(target, (ast.Tuple, ast.List)):
             if not isinstance(target_value, list) or len(target.elts) != len(target_value):
@@ -1511,10 +1540,13 @@ def _command_tool_values(value, tools):
         terminating_options = {"-", "-c", "-m"}
         operand_options = {"-W", "-X", "--check-hash-based-pycs"}
         attached_options = ("-W", "-X")
+        flag_options = {"-b", "-bb", "-B", "-d", "-E", "-I", "-i", "-O",
+                        "-OO", "-P", "-q", "-R", "-s", "-S", "-u", "-v", "-x"}
     else:
         terminating_options = {"-c", "-s"}
         operand_options = {"-O", "+O", "-o", "+o", "--init-file", "--rcfile"}
         attached_options = ()
+        flag_options = set()
     consume_operand = False
     parsing_options = True
     for token in arguments:
@@ -1528,14 +1560,20 @@ def _command_tool_values(value, tools):
             continue
         if parsing_options and token in terminating_options:
             return set()
+        if (parsing_options and first in python_interpreters
+                and token not in terminating_options
+                and (token.startswith("-c") or token.startswith("-m"))):
+            return set()
         if parsing_options and token in operand_options:
             consume_operand = True
             continue
         if parsing_options and any(token.startswith(option) and token != option
                                    for option in attached_options):
             continue
-        if parsing_options and token.startswith(("-", "+")):
+        if parsing_options and token in flag_options:
             continue
+        if parsing_options and token.startswith(("-", "+")):
+            return set()
         path = _tool_for_token(token, tools)
         return {path} if path else set()
     return set()
@@ -1607,10 +1645,7 @@ def _python_execution_wrappers(tree, imports):
                 return False
             if isinstance(node, (ast.Try, getattr(ast, "TryStar", ast.Try))):
                 body_terminates = visit_body(node.body)
-                possible_effects = set().union(
-                    *(_branch_assigned_names(handler.body)
-                      for handler in node.handlers),
-                    _branch_assigned_names(node.orelse))
+                possible_effects = _exception_possible_effects(node)
                 for name in possible_effects:
                     invalidate(name)
                 finally_terminates = visit_body(node.finalbody)
@@ -1652,11 +1687,8 @@ def _python_execution_wrappers(tree, imports):
                 visit(first.iter)
                 if isinstance(node, ast.GeneratorExp):
                     return False
-                try:
-                    iterable = ast.literal_eval(first.iter)
-                except (ValueError, TypeError):
-                    return False
-                if (not iterable
+                if (not _literal_nonempty_iterable(first.iter)
+                        or not isinstance(first.target, ast.Name)
                         or any(_literal_bool(guard) is not True for guard in first.ifs)
                         or len(node.generators) != 1):
                     return False
@@ -1711,6 +1743,10 @@ def _python_execution_wrappers(tree, imports):
             elif isinstance(node, ast.Delete):
                 for target in node.targets:
                     update_target(target)
+            elif isinstance(node, ast.NamedExpr):
+                visit(node.value)
+                update_target(node.target, node.value)
+                return False
             mutated_root = _python_mutated_root_name(node)
             if mutated_root:
                 invalidate(mutated_root)
@@ -1727,10 +1763,11 @@ def _python_execution_wrappers(tree, imports):
     def register(body, containing_scope=None):
         for statement in body:
             if isinstance(statement, ast.FunctionDef):
-                if _function_is_generator(statement):
+                key = (containing_scope, statement.name)
+                if _function_is_generator(statement) or statement.decorator_list:
+                    wrappers.pop(key, None)
                     continue
                 positions = wrapper_positions(statement)
-                key = (containing_scope, statement.name)
                 if positions:
                     wrappers[key] = (positions, statement.lineno)
                 else:
@@ -1795,9 +1832,11 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
     wrapper_destination_scope = binding_destination_scope
 
     for node, scope, execution_line in reachable_nodes:
-        if not isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
+        if not isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign,
+                                 ast.Delete, ast.NamedExpr)):
             continue
-        targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+        targets = (node.targets if isinstance(node, (ast.Assign, ast.Delete))
+                   else [node.target])
         for target in targets:
             for name in _target_names(target):
                 destination_scope = wrapper_destination_scope(scope, name)
@@ -1841,7 +1880,7 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     module_bindings, source_path, active_imports,
                     static_shadowed))
             continue
-        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
+        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign, ast.NamedExpr)):
             value_node = (ast.BinOp(left=node.target, op=node.op, right=node.value)
                           if isinstance(node, ast.AugAssign) else node.value)
             value = _python_sequence_static_value(
@@ -2151,13 +2190,15 @@ def _js_expression_identifiers(text):
 
 
 def _js_direct_child_argument_identifiers(text):
-    """Return names delivered directly or as immediate array elements."""
-    masked = []
+    """Return URL names in command/file or literal argv positions only."""
+    arguments = []
+    start = 0
+    stack = []
     quote = None
     escaped = False
-    for char in text:
+    pairs = {")": "(", "]": "[", "}": "{"}
+    for index, char in enumerate(text):
         if quote:
-            masked.append("\n" if char == "\n" else " ")
             if escaped:
                 escaped = False
             elif char == "\\":
@@ -2167,39 +2208,59 @@ def _js_direct_child_argument_identifiers(text):
             continue
         if char in {'"', "'", "`"}:
             quote = char
-            masked.append(" ")
-        else:
-            masked.append(char)
-    visible = "".join(masked)
-
-    def delimiter_stack(prefix):
-        stack = []
-        pairs = {")": "(", "]": "[", "}": "{"}
-        for char in prefix:
-            if char in "([{":
-                stack.append(char)
-            elif char in pairs:
-                if not stack or stack[-1] != pairs[char]:
-                    return None
-                stack.pop()
-        return stack
-
-    identifiers = set()
-    pattern = re.compile(r"(?<![\w$])([A-Za-z_$][\w$]*)(?![\w$])")
-    for match in pattern.finditer(visible):
-        stack = delimiter_stack(visible[:match.start()])
-        if stack is None or (stack and stack != ["["]):
             continue
-        before = visible[:match.start()].rstrip()
-        after = visible[match.end():].lstrip()
-        previous = before[-1] if before else ""
-        following = after[0] if after else ""
-        if stack == []:
-            direct = previous in {"", ","} and following in {"", ","}
-        else:
-            direct = previous in {"[", ","} and following in {"]", ","}
-        if direct:
-            identifiers.add(match.group(1))
+        if char in "([{":
+            stack.append(char)
+            continue
+        if char in pairs:
+            if not stack or stack[-1] != pairs[char]:
+                return set()
+            stack.pop()
+            continue
+        if char == "," and not stack:
+            arguments.append(text[start:index].strip())
+            start = index + 1
+    if quote or stack:
+        return set()
+    arguments.append(text[start:].strip())
+
+    identifier = re.compile(r"[A-Za-z_$][\w$]*")
+    identifiers = set()
+    if arguments and identifier.fullmatch(arguments[0]):
+        identifiers.add(arguments[0])
+    if len(arguments) > 1:
+        argv = arguments[1]
+        if argv.startswith("[") and argv.endswith("]"):
+            inner = argv[1:-1]
+            part_start = 0
+            nested = []
+            quote = None
+            escaped = False
+            parts = []
+            for index, char in enumerate(inner):
+                if quote:
+                    if escaped:
+                        escaped = False
+                    elif char == "\\":
+                        escaped = True
+                    elif char == quote:
+                        quote = None
+                    continue
+                if char in {'"', "'", "`"}:
+                    quote = char
+                elif char in "([{":
+                    nested.append(char)
+                elif char in pairs:
+                    if not nested or nested[-1] != pairs[char]:
+                        return set()
+                    nested.pop()
+                elif char == "," and not nested:
+                    parts.append(inner[part_start:index].strip())
+                    part_start = index + 1
+            if quote or nested:
+                return set()
+            parts.append(inner[part_start:].strip())
+            identifiers.update(part for part in parts if identifier.fullmatch(part))
     return identifiers
 
 
