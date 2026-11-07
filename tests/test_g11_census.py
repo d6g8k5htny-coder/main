@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "20e645a3d96424ea24da16c323be97c93e173407ec3c7d5ee6ef3c3924e52873"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "9c66ea15cca75913c33132375669018c5e4c0f40593433413b0402c81229bf24"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -632,6 +632,112 @@ class ToolChecks(unittest.TestCase):
             "tools/live.py": True, "tools/unknown.py": False, "tools/unused.py": False,
         })
 
+    def test_unknown_boolean_operand_effects_invalidate_downstream_bindings(self):
+        tree = {
+            "tools/direct-unused.py": "x = 1\n",
+            "tools/live.py": "x = 1\n",
+            "tools/wrapper-unused.py": "x = 1\n",
+            "tools/README.md": (
+                "tools/direct-unused.py tools/live.py tools/wrapper-unused.py\n"
+            ),
+            "tests/test_boolean_effects.py": (
+                "import subprocess\n"
+                "flag = True\n"
+                "direct = ['python3', 'tools/direct-unused.py']\n"
+                "flag and direct.__setitem__(slice(None), ['echo'])\n"
+                "subprocess.run(direct)\n"
+                "live = ['python3', 'tools/live.py']\n"
+                "False and live.clear()\n"
+                "subprocess.run(live)\n"
+                "def launch(command):\n"
+                "    flag and command.__setitem__(slice(None), ['echo'])\n"
+                "    subprocess.run(command)\n"
+                "launch(['python3', 'tools/wrapper-unused.py'])\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/direct-unused.py": False, "tools/live.py": True,
+             "tools/wrapper-unused.py": False},
+        )
+
+    def test_nested_helper_reads_nearest_enclosing_static_binding(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/unused.py\n",
+            "tests/test_closure.py": (
+                "import runpy\n"
+                "script = 'tools/unused.py'\n"
+                "def exercise():\n"
+                "    script = 'tools/live.py'\n"
+                "    def launch():\n"
+                "        runpy.run_path(script)\n"
+                "    launch()\n"
+                "exercise()\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.py": True, "tools/unused.py": False},
+        )
+
+    def test_python_helper_requires_bindable_arguments(self):
+        tree = {
+            "tools/direct-unused.py": "x = 1\n",
+            "tools/live.py": "x = 1\n",
+            "tools/method-unused.py": "x = 1\n",
+            "tools/README.md": (
+                "tools/direct-unused.py tools/live.py tools/method-unused.py\n"
+            ),
+            "tests/test_helper_binding.py": (
+                "import runpy, unittest\n"
+                "def launch(required):\n"
+                "    runpy.run_path('tools/direct-unused.py')\n"
+                "def live(optional=None):\n"
+                "    runpy.run_path('tools/live.py')\n"
+                "try:\n"
+                "    launch()\n"
+                "except TypeError:\n"
+                "    pass\n"
+                "live()\n"
+                "class Commands(unittest.TestCase):\n"
+                "    def launch(self, required):\n"
+                "        runpy.run_path('tools/method-unused.py')\n"
+                "    def test_binding(self):\n"
+                "        try:\n"
+                "            self.launch()\n"
+                "        except TypeError:\n"
+                "            pass\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/direct-unused.py": False, "tools/live.py": True,
+             "tools/method-unused.py": False},
+        )
+
+    def test_str_conversion_does_not_preserve_aggregate_command_semantics(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/unused.py\n",
+            "tests/test_commands.py": (
+                "import pathlib, subprocess, unittest\n"
+                "class Commands(unittest.TestCase):\n"
+                "    def test_commands(self):\n"
+                "        command = ['python3', 'tools/unused.py']\n"
+                "        try:\n"
+                "            subprocess.run(str(command), check=True)\n"
+                "        except FileNotFoundError:\n"
+                "            pass\n"
+                "        subprocess.run(['python3', str(pathlib.Path('tools/live.py'))])\n"
+            ),
+        }
+        self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {
+            "tools/live.py": True, "tools/unused.py": False,
+        })
+
     def test_destructured_paths_bind_corresponding_values(self):
         tree = {
             "tools/live.py": "x = 1\n",
@@ -1129,6 +1235,22 @@ class ToolChecks(unittest.TestCase):
                 "def launch(script):\n"
                 "    False and runpy.run_path(script)\n"
                 "launch('tools/unused.py')\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_unknown_wrapper_branch_effects_invalidate_forwarding(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_wrapper_branch.py": (
+                "import subprocess\n"
+                "def launch(command):\n"
+                "    flag = True\n"
+                "    if flag:\n"
+                "        command[:] = ['echo']\n"
+                "    subprocess.run(command, check=True)\n"
+                "launch(['python3', 'tools/unused.py'])\n"
             ),
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
@@ -2524,6 +2646,29 @@ class ToolChecks(unittest.TestCase):
             {"tools/live.mjs": True, "tools/unused.mjs": False},
         )
 
+    def test_js_url_binding_requires_complete_supported_initializer(self):
+        tree = {
+            "tools/live.mjs": "export const live = true;\n",
+            "tools/continued-unused.mjs": "export const unused = true;\n",
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": (
+                "tools/live.mjs tools/continued-unused.mjs tools/unused.mjs\n"
+            ),
+            "tests/url-initializer.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const live=new URL('../tools/live.mjs',import.meta.url);\n"
+                "const unused=new URL('../tools/unused.mjs',import.meta.url).origin;\n"
+                "const continued=new URL('../tools/continued-unused.mjs',import.meta.url)\n"
+                "  .origin;\n"
+                "spawnSync('echo',[live,unused,continued]);\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/continued-unused.mjs": False, "tools/live.mjs": True,
+             "tools/unused.mjs": False},
+        )
+
     def test_js_unreachable_child_process_calls_are_not_references(self):
         tree = {
             "tools/branch.mjs": "export const branch = true;\n",
@@ -2567,6 +2712,41 @@ class ToolChecks(unittest.TestCase):
             "tools/short.mjs": False, "tools/trueand-live.mjs": True,
             "tools/trueor-unused.mjs": False, "tools/unknown-unused.mjs": False,
         })
+
+    def test_js_conditional_expression_arms_require_proven_selection(self):
+        tree = {
+            "tools/false-else-live.mjs": "export const live = true;\n",
+            "tools/false-then-unused.mjs": "export const unused = true;\n",
+            "tools/true-else-unused.mjs": "export const unused = true;\n",
+            "tools/true-then-live.mjs": "export const live = true;\n",
+            "tools/unknown-unused.mjs": "export const unused = true;\n",
+            "tools/README.md": (
+                "tools/false-else-live.mjs tools/false-then-unused.mjs "
+                "tools/true-else-unused.mjs tools/true-then-live.mjs "
+                "tools/unknown-unused.mjs\n"
+            ),
+            "tests/conditional-activation.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const falseElse=new URL('../tools/false-else-live.mjs',import.meta.url);\n"
+                "const falseThen=new URL('../tools/false-then-unused.mjs',import.meta.url);\n"
+                "const trueElse=new URL('../tools/true-else-unused.mjs',import.meta.url);\n"
+                "const trueThen=new URL('../tools/true-then-live.mjs',import.meta.url);\n"
+                "const unknown=new URL('../tools/unknown-unused.mjs',import.meta.url);\n"
+                "false ? spawnSync('echo',[falseThen]) : null;\n"
+                "true ? spawnSync('echo',[trueThen]) : null;\n"
+                "true ? null : spawnSync('echo',[trueElse]);\n"
+                "false ? null : spawnSync('echo',[falseElse]);\n"
+                "flag ? spawnSync('echo',[unknown]) : null;\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/false-else-live.mjs": True,
+             "tools/false-then-unused.mjs": False,
+             "tools/true-else-unused.mjs": False,
+             "tools/true-then-live.mjs": True,
+             "tools/unknown-unused.mjs": False},
+        )
 
     def test_js_uncalled_helper_chain_is_not_reachable(self):
         tree = {
@@ -2991,7 +3171,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 222)
+        self.assertEqual(len(cases), 230)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

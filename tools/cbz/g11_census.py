@@ -701,6 +701,47 @@ def _function_is_generator(function):
     return found
 
 
+def _python_call_signature_binds(function, call, implicit_positional=0):
+    """Prove that a statically shaped call can enter this function body."""
+    if any(isinstance(argument, ast.Starred) for argument in call.args):
+        return False
+    if any(keyword.arg is None for keyword in call.keywords):
+        return False
+    positional_only = [argument.arg for argument in function.args.posonlyargs]
+    positional_or_keyword = [argument.arg for argument in function.args.args]
+    positional = positional_only + positional_or_keyword
+    supplied = implicit_positional + len(call.args)
+    if supplied > len(positional) and function.args.vararg is None:
+        return False
+    bound = set(positional[:min(supplied, len(positional))])
+    keyword_only = {argument.arg for argument in function.args.kwonlyargs}
+    seen_keywords = set()
+    for keyword in call.keywords:
+        name = keyword.arg
+        if name in seen_keywords:
+            return False
+        seen_keywords.add(name)
+        if name in positional_only:
+            if function.args.kwarg is None:
+                return False
+            continue
+        if name in positional_or_keyword or name in keyword_only:
+            if name in bound:
+                return False
+            bound.add(name)
+        elif function.args.kwarg is None:
+            return False
+    required_positional = set(
+        positional[:len(positional) - len(function.args.defaults)])
+    required_keyword_only = {
+        argument.arg
+        for argument, default in zip(
+            function.args.kwonlyargs, function.args.kw_defaults)
+        if default is None
+    }
+    return required_positional <= bound and required_keyword_only <= bound
+
+
 def _literal_comparison(left, operator, right):
     """Evaluate a comparison only when both operands are inert literals."""
     try:
@@ -1121,6 +1162,13 @@ def _reachable_python_nodes(tree, mode):
                     break
                 truth = _literal_bool(value)
                 if truth is None:
+                    possible_effects = _branch_assigned_names(node.values[index + 1:])
+                    if possible_effects:
+                        marker = ast.Delete(
+                            targets=[ast.Name(id=name, ctx=ast.Del())
+                                     for name in sorted(possible_effects)])
+                        marker.lineno = getattr(node, "end_lineno", node.lineno)
+                        visit(marker, owner, scope, activation_line)
                     break
                 if isinstance(node.op, ast.And) and not truth:
                     break
@@ -1226,13 +1274,16 @@ def _reachable_python_nodes(tree, mode):
                 if (function is None and scope is not None
                         and target.id not in function_scope_bindings.get(scope, set())):
                     function = active_functions.get((None, target.id))
-                if function is not None:
+                if (function is not None
+                        and _python_call_signature_binds(function, node)):
                     execute(function, None, execution_line)
             elif (isinstance(target, ast.Attribute) and isinstance(target.value, ast.Name)
                   and target.value.id in {"self", "cls"} and owner):
                 method = methods.get((owner, target.attr))
                 if (isinstance(method, ast.FunctionDef)
-                        and not _function_is_generator(method)):
+                        and not _function_is_generator(method)
+                        and _python_call_signature_binds(
+                            method, node, implicit_positional=1)):
                     execute(method, owner, execution_line)
             return
 
@@ -1337,7 +1388,12 @@ def _python_static_value(node, local, module, source_path, imports, scope_shadow
     builtin_str = (call_name == "str" and "str" not in imports["shadowed"]
                    and "str" not in scope_shadowed)
     if builtin_str and node.args:
-        return _python_static_value(node.args[0], local, module, source_path, imports, scope_shadowed)
+        value = _python_static_value(
+            node.args[0], local, module, source_path, imports, scope_shadowed)
+        # The scanner represents supported paths as strings already.  Preserve
+        # only those values: converting an aggregate command produces one
+        # display string, not an argv sequence with executable semantics.
+        return value if isinstance(value, str) else None
     if resolved_call == "pathlib.Path" and node.args:
         values = [_python_static_value(arg, local, module, source_path, imports, scope_shadowed)
                   for arg in node.args]
@@ -1709,6 +1765,8 @@ def _python_execution_wrappers(tree, imports):
                 truth = _literal_bool(node.test)
                 if truth is None:
                     if not _is_none_guard(node.test):
+                        for name in _branch_assigned_names([node]):
+                            invalidate(name)
                         return False
                     body_terminates = visit_body(node.body)
                     other_terminates = visit_body(node.orelse)
@@ -1741,6 +1799,8 @@ def _python_execution_wrappers(tree, imports):
                         break
                     truth = _literal_bool(value)
                     if truth is None:
+                        for name in _branch_assigned_names(node.values[index + 1:]):
+                            invalidate(name)
                         break
                     if isinstance(node.op, ast.And) and not truth:
                         break
@@ -1943,6 +2003,21 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
         visible_module_bindings = module_bindings
         visible_imports = imports
         visible_shadowed = scope_shadowed.get(scope, set())
+        if scope is not None and scope not in class_scope_parents:
+            enclosing_scopes = []
+            parent_scope = scope_parents.get(scope)
+            while parent_scope is not None:
+                enclosing_scopes.append(parent_scope)
+                parent_scope = scope_parents.get(parent_scope)
+            if enclosing_scopes:
+                visible_module_bindings = dict(module_bindings)
+                for parent_scope in reversed(enclosing_scopes):
+                    owned = (scope_shadowed.get(parent_scope, set())
+                             - scope_globals.get(parent_scope, set())
+                             - scope_nonlocals.get(parent_scope, set()))
+                    for name in owned - global_names:
+                        visible_module_bindings[name] = scope_bindings.get(
+                            parent_scope, {}).get(name, _UNRESOLVED_STATIC)
         if scope in class_scope_parents:
             visible_shadowed = set()
             parent_scope = class_scope_parents[scope]
@@ -1957,7 +2032,8 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
             visible_imports, local_imports, visible_shadowed)
         locally_imported = set(local_imports["modules"]) | set(local_imports["symbols"])
         static_shadowed = ((visible_shadowed | set(local_imports["shadowed"]))
-                           - locally_imported - global_names)
+                           - locally_imported - global_names
+                           - scope_nonlocals.get(scope, set()))
         if hasattr(node, "_g11_binary_id"):
             evaluated_sequence_elements[(
                 "binary", node._g11_binary_id, node._g11_binary_index)] = (
@@ -2215,6 +2291,25 @@ def _js_binding_or_property_written(segment, name):
         segment))
 
 
+def _js_supported_initializer_complete(text, end):
+    """Require the matched URL/path expression to be the whole initializer."""
+    tail = text[end:]
+    horizontal = len(tail) - len(tail.lstrip(" \t\r"))
+    if horizontal == len(tail):
+        return True
+    next_char = tail[horizontal]
+    if next_char in ";,":
+        return True
+    if next_char != "\n":
+        return False
+    remainder = tail[horizontal:].lstrip()
+    if not remainder:
+        return True
+    if remainder.startswith(("in ", "in\t", "instanceof ", "instanceof\t")):
+        return False
+    return remainder[0] not in ".?[(`+-*/%&|^<>=!"
+
+
 def js_tool_references(text, source_path, tools):
     references = set()
     visible = _strip_js_comments(text)
@@ -2242,6 +2337,8 @@ def js_tool_references(text, source_path, tools):
         r"new\s+(?P<constructor>URL)\s*\(\s*['\"](?P<specifier>[^'\"]+)['\"]\s*,\s*"
         r"import\.meta\.url\s*\)(?(converter)\s*\))")
     for match in url_binding.finditer(visible):
+        if not _js_supported_initializer_complete(visible, match.end()):
+            continue
         if not _js_builtin_name_unshadowed(
                 visible, match.start("constructor"), match.group("constructor")):
             continue
@@ -2648,6 +2745,53 @@ def _js_short_circuit_call_reachable(searchable, position):
             or (literal.group(1) == "false" and operator.group() == "||"))
 
 
+def _js_ternary_call_reachable(searchable, position):
+    """Bound calls in conditional-expression arms to a proven literal arm."""
+    start = max(searchable.rfind(token, 0, position) for token in (";", "{", "}")) + 1
+    end_candidates = [candidate for token in (";", "}")
+                      if (candidate := searchable.find(token, position)) >= 0]
+    end = min(end_candidates) if end_candidates else len(searchable)
+    segment = searchable[start:end]
+    candidate = position - start
+    depths = {"(": 0, "[": 0, "{": 0}
+    closing = {")": "(", "]": "[", "}": "{"}
+    questions = []
+    pairs = []
+    for index, char in enumerate(segment):
+        if char in depths:
+            depths[char] += 1
+            continue
+        if char in closing:
+            opening = closing[char]
+            depths[opening] = max(0, depths[opening] - 1)
+            continue
+        depth = tuple(depths.values())
+        if char == "?":
+            previous = segment[index - 1] if index else ""
+            following = segment[index + 1] if index + 1 < len(segment) else ""
+            if previous == "?" or following in {"?", "."}:
+                continue
+            questions.append((index, depth))
+        elif char == ":":
+            for question_index in range(len(questions) - 1, -1, -1):
+                if questions[question_index][1] == depth:
+                    question, _question_depth = questions.pop(question_index)
+                    pairs.append((question, index))
+                    break
+    controlling = [(question, colon) for question, colon in pairs
+                   if question < candidate]
+    if not controlling:
+        return not any(question < candidate for question, _depth in questions)
+    for question, colon in controlling:
+        literal = re.search(r"\b(true|false)\s*$", segment[:question])
+        if literal is None:
+            return False
+        in_consequent = candidate < colon
+        if in_consequent != (literal.group(1) == "true"):
+            return False
+    return True
+
+
 def _js_call_activation_points(text, position):
     """Return module-root activation points for one reachable process call."""
     searchable, scopes = _js_function_scopes(text)
@@ -2711,6 +2855,8 @@ def _js_call_activation_points(text, position):
 
     def reachable(candidate, seen, binding_guards=()):
         if not _js_short_circuit_call_reachable(searchable, candidate):
+            return set()
+        if not _js_ternary_call_reachable(searchable, candidate):
             return set()
         if in_literal_false_block(candidate):
             return set()

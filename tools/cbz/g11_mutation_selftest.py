@@ -678,8 +678,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_wrapper_element_delete_invalidates_forwarding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("declared global remains a local static shadow", "census",
-     "        static_shadowed = ((visible_shadowed | set(local_imports[\"shadowed\"]))\n                           - locally_imported - global_names)",
-     "        static_shadowed = ((visible_shadowed | set(local_imports[\"shadowed\"]))\n                           - locally_imported)",
+     "        static_shadowed = ((visible_shadowed | set(local_imports[\"shadowed\"]))\n                           - locally_imported - global_names\n                           - scope_nonlocals.get(scope, set()))",
+     "        static_shadowed = ((visible_shadowed | set(local_imports[\"shadowed\"]))\n                           - locally_imported\n                           - scope_nonlocals.get(scope, set()))",
      "tests.test_g11_census.ToolChecks.test_nested_helper_global_assignment_is_read_in_same_scope",
      'self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])'),
     ("JavaScript lexical helper shadow ignored", "census",
@@ -807,8 +807,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_url_binding_does_not_escape_lexical_block",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("generator method creation treated as execution", "census",
-     "                if (isinstance(method, ast.FunctionDef)\n                        and not _function_is_generator(method)):",
-     "                if isinstance(method, ast.FunctionDef):",
+     "                if (isinstance(method, ast.FunctionDef)\n                        and not _function_is_generator(method)\n                        and _python_call_signature_binds(\n                            method, node, implicit_positional=1)):",
+     "                if (isinstance(method, ast.FunctionDef)\n                        and _python_call_signature_binds(\n                            method, node, implicit_positional=1)):",
      "tests.test_g11_census.ToolChecks.test_uniterated_generator_method_body_is_not_executed",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("comprehension target shadow ignored", "census",
@@ -988,8 +988,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_possible_loop_writes_invalidate_static_bindings",
      '{"tools/body-unused.py": False, "tools/else-unused.py": False,'),
     ("forwarding wrapper loop effects ignored", "census",
-     "                for name in _branch_assigned_names([node]):",
-     "                for name in ():",
+     "            if isinstance(node, (ast.For, ast.AsyncFor, ast.While)):\n                visit(node.iter if isinstance(node, (ast.For, ast.AsyncFor)) else node.test)\n                for name in _branch_assigned_names([node]):",
+     "            if isinstance(node, (ast.For, ast.AsyncFor, ast.While)):\n                visit(node.iter if isinstance(node, (ast.For, ast.AsyncFor)) else node.test)\n                for name in ():",
      "tests.test_g11_census.ToolChecks.test_possible_loop_writes_invalidate_static_bindings",
      '{"tools/body-unused.py": False, "tools/else-unused.py": False,'),
     ("subprocess executable override ignored", "census",
@@ -1004,9 +1004,11 @@ NEW_MUTATIONS = [
      '{"tools/class-live.py": True, "tools/method-live.py": True,'),
     ("class runtime shadows ignored", "census",
      "        static_shadowed = ((visible_shadowed | set(local_imports[\"shadowed\"]))\n"
-     "                           - locally_imported - global_names)",
+     "                           - locally_imported - global_names\n"
+     "                           - scope_nonlocals.get(scope, set()))",
      "        static_shadowed = (visible_shadowed\n"
-     "                           - locally_imported - global_names)",
+     "                           - locally_imported - global_names\n"
+     "                           - scope_nonlocals.get(scope, set()))",
      "tests.test_g11_census.ToolChecks.test_class_body_bindings_do_not_replace_module_bindings",
      '{"tools/class-live.py": True, "tools/method-live.py": True,'),
     ("subprocess shell mode ignored", "census",
@@ -1049,6 +1051,46 @@ NEW_MUTATIONS = [
      "            for key in []:",
      "tests.test_g11_census.ToolChecks.test_helper_invocations_use_fresh_local_binding_environments",
      '{"tools/helper-unused.py": False, "tools/import-unused.py": False,'),
+    ("aggregate str conversion retains argv semantics", "census",
+     "        return value if isinstance(value, str) else None",
+     "        return value",
+     "tests.test_g11_census.ToolChecks.test_str_conversion_does_not_preserve_aggregate_command_semantics",
+     '{\n            "tools/live.py": True, "tools/unused.py": False,'),
+    ("forwarding wrapper unknown branch effects ignored", "census",
+     "                        for name in _branch_assigned_names([node]):\n                            invalidate(name)",
+     "                        for name in ():\n                            invalidate(name)",
+     "tests.test_g11_census.ToolChecks.test_unknown_wrapper_branch_effects_invalidate_forwarding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("JavaScript URL initializer suffix accepted", "census",
+     "        if not _js_supported_initializer_complete(visible, match.end()):\n            continue",
+     "        if False:\n            continue",
+     "tests.test_g11_census.ToolChecks.test_js_url_binding_requires_complete_supported_initializer",
+     '{"tools/continued-unused.mjs": False, "tools/live.mjs": True,'),
+    ("JavaScript ternary arm reachability ignored", "census",
+     "        if not _js_ternary_call_reachable(searchable, candidate):\n            return set()",
+     "        if False:\n            return set()",
+     "tests.test_g11_census.ToolChecks.test_js_conditional_expression_arms_require_proven_selection",
+     '{"tools/false-else-live.mjs": True,'),
+    ("skipped Boolean operand effects ignored", "census",
+     "                    possible_effects = _branch_assigned_names(node.values[index + 1:])",
+     "                    possible_effects = set()",
+     "tests.test_g11_census.ToolChecks.test_unknown_boolean_operand_effects_invalidate_downstream_bindings",
+     '{"tools/direct-unused.py": False, "tools/live.py": True,'),
+    ("forwarding wrapper skipped Boolean operand effects ignored", "census",
+     "                        for name in _branch_assigned_names(node.values[index + 1:]):\n                            invalidate(name)",
+     "                        for name in ():\n                            invalidate(name)",
+     "tests.test_g11_census.ToolChecks.test_unknown_boolean_operand_effects_invalidate_downstream_bindings",
+     '"tools/wrapper-unused.py": False},'),
+    ("nested helper free name falls back to module binding", "census",
+     "                for parent_scope in reversed(enclosing_scopes):",
+     "                for parent_scope in ():",
+     "tests.test_g11_census.ToolChecks.test_nested_helper_reads_nearest_enclosing_static_binding",
+     '{"tools/live.py": True, "tools/unused.py": False},'),
+    ("Python helper signature binding ignored", "census",
+     "    return required_positional <= bound and required_keyword_only <= bound",
+     "    return True",
+     "tests.test_g11_census.ToolChecks.test_python_helper_requires_bindable_arguments",
+     '{"tools/direct-unused.py": False, "tools/live.py": True,'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1274,6 +1316,14 @@ EXPECTED_MUTATION_NAMES = (
     "helper invocation binding frame reused",
     "helper invocation import frame reused",
     "helper invocation nested definitions reused",
+    "aggregate str conversion retains argv semantics",
+    "forwarding wrapper unknown branch effects ignored",
+    "JavaScript URL initializer suffix accepted",
+    "JavaScript ternary arm reachability ignored",
+    "skipped Boolean operand effects ignored",
+    "forwarding wrapper skipped Boolean operand effects ignored",
+    "nested helper free name falls back to module binding",
+    "Python helper signature binding ignored",
 )
 
 
@@ -1452,7 +1502,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 164
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 171
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
