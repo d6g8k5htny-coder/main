@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "c712875aa299eb193586fc85d88694faeb0690c2d3cda509619c05e6ce2935ef"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "95f64956c33f1310aba94c50add5021bc99546d0b0374fa865d82cf5c13d40ad"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -1214,6 +1214,28 @@ class ToolChecks(unittest.TestCase):
             {"tools/direct-unused.py": False, "tools/wrapper-unused.py": False},
         )
 
+    def test_unresolved_eager_comprehension_effects_invalidate_provenance(self):
+        tree = {
+            "tools/direct-unused.py": "x = 1\n",
+            "tools/wrapper-unused.py": "x = 1\n",
+            "tools/README.md": "tools/direct-unused.py tools/wrapper-unused.py\n",
+            "tests/test_comprehension_effects.py": (
+                "import subprocess\n"
+                "values = [1]\n"
+                "direct = ['python3', 'tools/direct-unused.py']\n"
+                "[direct.__setitem__(slice(None), ['echo']) for _ in values]\n"
+                "subprocess.run(direct, check=True)\n"
+                "def launch(command, items):\n"
+                "    [command.__setitem__(slice(None), ['echo']) for _ in items]\n"
+                "    return subprocess.run(command, check=True)\n"
+                "launch(['python3', 'tools/wrapper-unused.py'], values)\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/direct-unused.py": False, "tools/wrapper-unused.py": False},
+        )
+
     def test_comprehension_target_shadows_outer_static_binding(self):
         tree = {
             "tools/unused.py": "x = 1\n",
@@ -2005,6 +2027,50 @@ class ToolChecks(unittest.TestCase):
             ),
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_unknown_chained_comparison_suffix_effect_invalidates_provenance(self):
+        tree = {
+            "tools/direct-unused.py": "x = 1\n",
+            "tools/wrapper-unused.py": "x = 1\n",
+            "tools/README.md": "tools/direct-unused.py tools/wrapper-unused.py\n",
+            "tests/test_comparison.py": (
+                "import subprocess\n"
+                "flag = object()\n"
+                "direct = ['python3', 'tools/direct-unused.py']\n"
+                "flag == 1 == direct.__setitem__(slice(None), ['echo'])\n"
+                "subprocess.run(direct, check=True)\n"
+                "def launch(command, condition):\n"
+                "    condition == 1 == command.__setitem__(slice(None), ['echo'])\n"
+                "    return subprocess.run(command, check=True)\n"
+                "launch(['python3', 'tools/wrapper-unused.py'], flag)\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/direct-unused.py": False, "tools/wrapper-unused.py": False},
+        )
+
+    def test_assignment_target_effects_follow_rhs_and_precede_later_statements(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/unused.py\n",
+            "tests/test_assignment_target.py": (
+                "import runpy, subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "holder = {}\n"
+                "def replace():\n"
+                "    runpy.run_path('tools/live.py')\n"
+                "    command[:] = ['echo']\n"
+                "    return 0\n"
+                "holder[replace()] = 1\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.py": True, "tools/unused.py": False},
+        )
 
     def test_assignment_rhs_helper_executes_before_target_rebinding(self):
         tree = {
@@ -2979,6 +3045,29 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
+    def test_js_uninvoked_method_bodies_are_not_module_execution(self):
+        tree = {
+            "tools/class-unused.mjs": "export const value = 1;\n",
+            "tools/object-unused.mjs": "export const value = 2;\n",
+            "tools/live.mjs": "export const value = 3;\n",
+            "tools/README.md": (
+                "tools/class-unused.mjs tools/object-unused.mjs tools/live.mjs\n"),
+            "tests/methods.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const classScript=new URL('../tools/class-unused.mjs',import.meta.url);\n"
+                "const objectScript=new URL('../tools/object-unused.mjs',import.meta.url);\n"
+                "const live=new URL('../tools/live.mjs',import.meta.url);\n"
+                "class Settings { launch() { spawnSync('echo',[classScript]); } }\n"
+                "const holder={ launch() { spawnSync('echo',[objectScript]); } };\n"
+                "spawnSync('echo',[live]);\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/class-unused.mjs": False, "tools/live.mjs": True,
+             "tools/object-unused.mjs": False},
+        )
+
     def test_js_unbraced_literal_false_branch_is_not_activated(self):
         tree = {
             **{"tools/p%d.mjs" % index: "export const value = %d;\n" % index
@@ -2999,7 +3088,7 @@ class ToolChecks(unittest.TestCase):
                 "if(false) passthrough\n"
                 "  (spawnSync('echo',[p2]));\n"
                 "if(false)\n"
-                "  if(true) spawnSync('echo',[p3]);\n"
+                "  if(flag) spawnSync('echo',[p3]);\n"
                 "  else spawnSync('echo',[p4]);\n"
                 "else spawnSync('echo',[p5]);\n"
                 "spawnSync('echo',[p6]);\n"
@@ -3012,6 +3101,33 @@ class ToolChecks(unittest.TestCase):
              "tools/p3.mjs": False, "tools/p4.mjs": False,
              "tools/p5.mjs": True, "tools/p6.mjs": True,
              "tools/p7.mjs": True})
+
+    def test_js_literal_if_excludes_both_unselected_braced_arms(self):
+        tree = {
+            "tools/false-then-unused.mjs": "export const value = 1;\n",
+            "tools/false-else-live.mjs": "export const value = 2;\n",
+            "tools/true-then-live.mjs": "export const value = 3;\n",
+            "tools/true-else-unused.mjs": "export const value = 4;\n",
+            "tools/README.md": (
+                "tools/false-then-unused.mjs tools/false-else-live.mjs "
+                "tools/true-then-live.mjs tools/true-else-unused.mjs\n"),
+            "tests/braced-literal-if.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const ft=new URL('../tools/false-then-unused.mjs',import.meta.url);\n"
+                "const fe=new URL('../tools/false-else-live.mjs',import.meta.url);\n"
+                "const tt=new URL('../tools/true-then-live.mjs',import.meta.url);\n"
+                "const te=new URL('../tools/true-else-unused.mjs',import.meta.url);\n"
+                "if(false){spawnSync('echo',[ft]);}else{spawnSync('echo',[fe]);}\n"
+                "if(true){spawnSync('echo',[tt]);}else{spawnSync('echo',[te]);}\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/false-else-live.mjs": True,
+             "tools/false-then-unused.mjs": False,
+             "tools/true-else-unused.mjs": False,
+             "tools/true-then-live.mjs": True},
+        )
 
     def test_js_quoted_url_declaration_is_not_a_binding(self):
         tree = {
@@ -3501,7 +3617,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 249)
+        self.assertEqual(len(cases), 256)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

@@ -863,14 +863,34 @@ def _is_none_guard(node):
             and node.comparators[0].value is None)
 
 
-def _literal_nonempty_iterable(node):
-    """Return whether a bounded literal is proven to iterate at least once."""
+def _literal_iterable_nonemptiness(node):
+    """Return literal iterable nonemptiness, or None when runtime-dependent."""
     try:
         value = ast.literal_eval(node)
     except (ValueError, TypeError):
+        return None
+    if type(value) not in {list, tuple, set, dict, str, bytes}:
         return False
-    return (type(value) in {list, tuple, set, dict, str, bytes}
-            and bool(value))
+    return bool(value)
+
+
+def _literal_nonempty_iterable(node):
+    """Return whether a bounded literal is proven to iterate at least once."""
+    return _literal_iterable_nonemptiness(node) is True
+
+
+def _comprehension_possible_effect_expressions(node):
+    """Return deferred eager-comprehension expressions that may execute."""
+    expressions = []
+    for index, generator in enumerate(node.generators):
+        if index:
+            expressions.append(generator.iter)
+        expressions.extend(generator.ifs)
+    if isinstance(node, ast.DictComp):
+        expressions.extend((node.key, node.value))
+    else:
+        expressions.append(node.elt)
+    return expressions
 
 
 def _branch_assigned_names(body):
@@ -1071,6 +1091,24 @@ def _reachable_python_nodes(tree, mode):
             if statement_terminates(statement):
                 break
 
+    def visit_assignment_target_effects(target, owner, scope, activation_line):
+        """Visit only expressions evaluated while storing into *target*."""
+        if isinstance(target, (ast.Tuple, ast.List)):
+            for element in target.elts:
+                visit_assignment_target_effects(
+                    element, owner, scope, activation_line)
+            return
+        if isinstance(target, ast.Starred):
+            visit_assignment_target_effects(
+                target.value, owner, scope, activation_line)
+            return
+        if isinstance(target, ast.Attribute):
+            visit(target.value, owner, scope, activation_line)
+            return
+        if isinstance(target, ast.Subscript):
+            visit(target.value, owner, scope, activation_line)
+            visit(target.slice, owner, scope, activation_line)
+
     def visit(node, owner=None, scope=None, activation_line=None):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             # A definition is not a call: only decorators/defaults execute here.
@@ -1216,6 +1254,10 @@ def _reachable_python_nodes(tree, mode):
             elif isinstance(node, ast.AnnAssign):
                 return
             targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            if not isinstance(node, ast.AugAssign):
+                for target in targets:
+                    visit_assignment_target_effects(
+                        target, owner, scope, activation_line)
             for target in targets:
                 for name in _target_names(target):
                     active_functions.pop(
@@ -1292,10 +1334,21 @@ def _reachable_python_nodes(tree, mode):
             # establish execution of a later comparator.
             visit(node.left, owner, scope, activation_line)
             left = node.left
-            for operator, comparator in zip(node.ops, node.comparators):
+            for index, (operator, comparator) in enumerate(
+                    zip(node.ops, node.comparators)):
                 visit(comparator, owner, scope, activation_line)
                 truth = _literal_comparison(left, operator, comparator)
-                if truth is not True:
+                if truth is None:
+                    possible_effects = _branch_assigned_names(
+                        node.comparators[index + 1:])
+                    if possible_effects:
+                        marker = ast.Delete(
+                            targets=[ast.Name(id=name, ctx=ast.Del())
+                                     for name in sorted(possible_effects)])
+                        marker.lineno = getattr(node, "end_lineno", node.lineno)
+                        visit(marker, owner, scope, activation_line)
+                    break
+                if not truth:
                     break
                 left = comparator
             return
@@ -1313,18 +1366,30 @@ def _reachable_python_nodes(tree, mode):
             visit(first.iter, owner, scope, activation_line)
             if isinstance(node, ast.GeneratorExp):
                 return
-            if (not _literal_nonempty_iterable(first.iter)
-                    or not isinstance(first.target, ast.Name)
-                    or any(_literal_bool(guard) is not True for guard in first.ifs)):
+            nonempty = _literal_iterable_nonemptiness(first.iter)
+            supported = (nonempty is True
+                         and isinstance(first.target, ast.Name)
+                         and all(_literal_bool(guard) is True
+                                 for guard in first.ifs)
+                         and len(node.generators) == 1)
+            if supported:
+                comprehension_scope = id(node)
+                if isinstance(node, ast.DictComp):
+                    visit(node.key, owner, comprehension_scope, activation_line)
+                    visit(node.value, owner, comprehension_scope, activation_line)
+                else:
+                    visit(node.elt, owner, comprehension_scope, activation_line)
                 return
-            if len(node.generators) != 1:
+            if nonempty is False:
                 return
-            comprehension_scope = id(node)
-            if isinstance(node, ast.DictComp):
-                visit(node.key, owner, comprehension_scope, activation_line)
-                visit(node.value, owner, comprehension_scope, activation_line)
-            else:
-                visit(node.elt, owner, comprehension_scope, activation_line)
+            possible_effects = _branch_assigned_names(
+                _comprehension_possible_effect_expressions(node))
+            if possible_effects:
+                marker = ast.Delete(
+                    targets=[ast.Name(id=name, ctx=ast.Del())
+                             for name in sorted(possible_effects)])
+                marker.lineno = getattr(node, "end_lineno", node.lineno)
+                visit(marker, owner, scope, activation_line)
             return
 
         if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
@@ -1952,10 +2017,16 @@ def _python_execution_wrappers(tree, imports):
             if isinstance(node, ast.Compare):
                 visit(node.left)
                 left = node.left
-                for operator, comparator in zip(node.ops, node.comparators):
+                for index, (operator, comparator) in enumerate(
+                        zip(node.ops, node.comparators)):
                     visit(comparator)
                     truth = _literal_comparison(left, operator, comparator)
-                    if truth is not True:
+                    if truth is None:
+                        for name in _branch_assigned_names(
+                                node.comparators[index + 1:]):
+                            invalidate(name)
+                        break
+                    if not truth:
                         break
                     left = comparator
                 return False
@@ -1967,10 +2038,17 @@ def _python_execution_wrappers(tree, imports):
                 visit(first.iter)
                 if isinstance(node, ast.GeneratorExp):
                     return False
-                if (not _literal_nonempty_iterable(first.iter)
-                        or not isinstance(first.target, ast.Name)
-                        or any(_literal_bool(guard) is not True for guard in first.ifs)
-                        or len(node.generators) != 1):
+                nonempty = _literal_iterable_nonemptiness(first.iter)
+                supported = (nonempty is True
+                             and isinstance(first.target, ast.Name)
+                             and all(_literal_bool(guard) is True
+                                     for guard in first.ifs)
+                             and len(node.generators) == 1)
+                if not supported:
+                    if nonempty is not False:
+                        for name in _branch_assigned_names(
+                                _comprehension_possible_effect_expressions(node)):
+                            invalidate(name)
                     return False
                 target_names = _target_names(first.target)
                 saved_aliases = {name: aliases[name] for name in target_names
@@ -2969,6 +3047,20 @@ def _js_function_scopes(text):
         param_end = match.end(1) if match.group(1) is not None else match.end(2)
         open_scopes.append((param_start, param_end, match.end() - 1))
 
+    # Class and object-literal method bodies are deferred just like functions.
+    # Invocation through property lookup is outside the bounded reachability
+    # model, so retain their scopes only to refuse module-execution credit.
+    method = re.compile(
+        r"(?<![\w$])([A-Za-z_$][\w$]*)\s*\(([^()]*)\)\s*\{")
+    control_names = {"if", "for", "while", "switch", "catch", "with"}
+    for match in method.finditer(searchable):
+        if match.group(1) in control_names:
+            continue
+        prefix = searchable[max(0, match.start(1) - 32):match.start(1)]
+        if re.search(r"\bfunction\s*$", prefix):
+            continue
+        open_scopes.append((match.start(2), match.end(2), match.end() - 1))
+
     scopes = []
     for param_start, param_end, open_brace in open_scopes:
         close_brace = _js_matching_delimiter(searchable, open_brace, "{", "}")
@@ -3087,16 +3179,35 @@ def _js_call_activation_points(text, position):
             if parts and parts[0] == "test":
                 trusted_test_names.add(parts[-1])
 
-    def in_literal_false_block(candidate):
-        pattern = re.compile(r"\bif\s*\(\s*false\s*\)")
+    def in_unselected_literal_branch(candidate):
+        pattern = re.compile(r"\bif\s*\(\s*(true|false)\s*\)")
         for match in pattern.finditer(searchable):
-            body_start = match.end()
-            while body_start < len(searchable) and searchable[body_start].isspace():
-                body_start += 1
-            body_end = _js_bounded_statement_end(searchable, body_start)
-            if body_end is None:
-                body_end = len(searchable)
-            if body_end is not None and body_start <= candidate < body_end:
+            consequent_start = match.end()
+            while (consequent_start < len(searchable)
+                   and searchable[consequent_start].isspace()):
+                consequent_start += 1
+            consequent_end = _js_bounded_statement_end(
+                searchable, consequent_start)
+            if consequent_end is None:
+                continue
+            if (match.group(1) == "false"
+                    and consequent_start <= candidate < consequent_end):
+                return True
+            alternate_start = consequent_end
+            while (alternate_start < len(searchable)
+                   and searchable[alternate_start].isspace()):
+                alternate_start += 1
+            alternate = re.match(r"else\b", searchable[alternate_start:])
+            if alternate is None:
+                continue
+            alternate_body_start = alternate_start + alternate.end()
+            while (alternate_body_start < len(searchable)
+                   and searchable[alternate_body_start].isspace()):
+                alternate_body_start += 1
+            alternate_end = _js_bounded_statement_end(
+                searchable, alternate_body_start)
+            if (match.group(1) == "true" and alternate_end is not None
+                    and alternate_body_start <= candidate < alternate_end):
                 return True
         return False
 
@@ -3143,7 +3254,7 @@ def _js_call_activation_points(text, position):
             return set()
         if not _js_ternary_call_reachable(searchable, candidate):
             return set()
-        if in_literal_false_block(candidate):
+        if in_unselected_literal_branch(candidate):
             return set()
         function = containing_named_function(candidate)
         if function is None:

@@ -708,8 +708,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_call_preserves_earlier_argument_value_before_later_rebinding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("assignment target invalidated before RHS helper", "census",
-     "            if getattr(node, \"value\", None) is not None:\n                visit(node.value, owner, scope, activation_line)\n            elif isinstance(node, ast.AnnAssign):\n                return\n            targets = node.targets if isinstance(node, ast.Assign) else [node.target]\n            for target in targets:\n                for name in _target_names(target):\n                    active_functions.pop(\n                        (active_function_destination(scope, name), name), None)",
-     "            targets = node.targets if isinstance(node, ast.Assign) else [node.target]\n            for target in targets:\n                for name in _target_names(target):\n                    active_functions.pop(\n                        (active_function_destination(scope, name), name), None)\n            if getattr(node, \"value\", None) is not None:\n                visit(node.value, owner, scope, activation_line)\n            elif isinstance(node, ast.AnnAssign):\n                return",
+     "            if getattr(node, \"value\", None) is not None:\n                visit(node.value, owner, scope, activation_line)\n            elif isinstance(node, ast.AnnAssign):\n                return\n            targets = node.targets if isinstance(node, ast.Assign) else [node.target]\n            if not isinstance(node, ast.AugAssign):\n                for target in targets:\n                    visit_assignment_target_effects(\n                        target, owner, scope, activation_line)\n            for target in targets:\n                for name in _target_names(target):\n                    active_functions.pop(\n                        (active_function_destination(scope, name), name), None)",
+     "            targets = node.targets if isinstance(node, ast.Assign) else [node.target]\n            for target in targets:\n                for name in _target_names(target):\n                    active_functions.pop(\n                        (active_function_destination(scope, name), name), None)\n            if getattr(node, \"value\", None) is not None:\n                visit(node.value, owner, scope, activation_line)\n            elif isinstance(node, ast.AnnAssign):\n                return\n            if not isinstance(node, ast.AugAssign):\n                for target in targets:\n                    visit_assignment_target_effects(\n                        target, owner, scope, activation_line)",
      "tests.test_g11_census.ToolChecks.test_assignment_rhs_helper_executes_before_target_rebinding",
      'self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])'),
     ("sequence element value reevaluated after later effects", "census",
@@ -947,8 +947,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_exception_target_names_invalidate_static_bindings",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("noniterable literal accepted as comprehension source", "census",
-     "    return (type(value) in {list, tuple, set, dict, str, bytes}\n            and bool(value))",
-     "    return bool(value)",
+     "    if type(value) not in {list, tuple, set, dict, str, bytes}:\n        return False",
+     "    if False:\n        return False",
      "tests.test_g11_census.ToolChecks.test_comprehension_bodies_require_supported_iterables",
      '{"tools/direct-unused.py": False, "tools/wrapper-unused.py": False},'),
     ("unsupported interpreter option skipped", "census",
@@ -1117,7 +1117,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_tuple_augmented_assignment_does_not_mutate_alias",
      '{"tools/live.py": True, "tools/unused.py": False}'),
     ("JavaScript unbraced literal-if reachability ignored", "census",
-     "            if body_end is not None and body_start <= candidate < body_end:\n                return True",
+     '            if (match.group(1) == "false"\n                    and consequent_start <= candidate < consequent_end):\n                return True',
      "            if False:\n                return True",
      "tests.test_g11_census.ToolChecks.test_js_unbraced_literal_false_branch_is_not_activated",
      '{"tools/p1.mjs": False, "tools/p2.mjs": False,'),
@@ -1186,6 +1186,41 @@ NEW_MUTATIONS = [
      '            if False:\n                formal, call_id, entries = kwarg',
      "tests.test_g11_census.ToolChecks.test_helper_argument_alias_mutation_updates_caller_aggregate",
      '"tools/kwarg-unused.py": False,'),
+    ("assignment target effects ignored", "census",
+     "            if not isinstance(node, ast.AugAssign):\n                for target in targets:\n                    visit_assignment_target_effects(\n                        target, owner, scope, activation_line)",
+     "            if False:\n                for target in targets:\n                    visit_assignment_target_effects(\n                        target, owner, scope, activation_line)",
+     "tests.test_g11_census.ToolChecks.test_assignment_target_effects_follow_rhs_and_precede_later_statements",
+     '{"tools/live.py": True, "tools/unused.py": False},'),
+    ("unknown chained-comparison suffix effects ignored", "census",
+     "                    possible_effects = _branch_assigned_names(\n                        node.comparators[index + 1:])",
+     "                    possible_effects = set()",
+     "tests.test_g11_census.ToolChecks.test_unknown_chained_comparison_suffix_effect_invalidates_provenance",
+     '{"tools/direct-unused.py": False, "tools/wrapper-unused.py": False},'),
+    ("forwarding wrapper unknown chained-comparison suffix effects ignored", "census",
+     "                        for name in _branch_assigned_names(\n                                node.comparators[index + 1:]):\n                            invalidate(name)",
+     "                        for name in ():\n                            invalidate(name)",
+     "tests.test_g11_census.ToolChecks.test_unknown_chained_comparison_suffix_effect_invalidates_provenance",
+     '{"tools/direct-unused.py": False, "tools/wrapper-unused.py": False},'),
+    ("unresolved eager-comprehension effects ignored", "census",
+     "            possible_effects = _branch_assigned_names(\n                _comprehension_possible_effect_expressions(node))",
+     "            possible_effects = set()",
+     "tests.test_g11_census.ToolChecks.test_unresolved_eager_comprehension_effects_invalidate_provenance",
+     '{"tools/direct-unused.py": False, "tools/wrapper-unused.py": False},'),
+    ("forwarding wrapper unresolved eager-comprehension effects ignored", "census",
+     "                        for name in _branch_assigned_names(\n                                _comprehension_possible_effect_expressions(node)):\n                            invalidate(name)",
+     "                        for name in ():\n                            invalidate(name)",
+     "tests.test_g11_census.ToolChecks.test_unresolved_eager_comprehension_effects_invalidate_provenance",
+     '{"tools/direct-unused.py": False, "tools/wrapper-unused.py": False},'),
+    ("uninvoked JavaScript methods treated as module execution", "census",
+     "    for match in method.finditer(searchable):\n        if match.group(1) in control_names:",
+     "    for match in ():\n        if match.group(1) in control_names:",
+     "tests.test_g11_census.ToolChecks.test_js_uninvoked_method_bodies_are_not_module_execution",
+     '{"tools/class-unused.mjs": False, "tools/live.mjs": True,'),
+    ("literal-true JavaScript else arm treated as reachable", "census",
+     '            if (match.group(1) == "true" and alternate_end is not None\n                    and alternate_body_start <= candidate < alternate_end):',
+     '            if (False and alternate_end is not None\n                    and alternate_body_start <= candidate < alternate_end):',
+     "tests.test_g11_census.ToolChecks.test_js_literal_if_excludes_both_unselected_braced_arms",
+     '"tools/true-else-unused.mjs": False,'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1438,6 +1473,13 @@ EXPECTED_MUTATION_NAMES = (
     "default aggregate argument binding ignored",
     "variadic positional aggregate binding ignored",
     "variadic keyword aggregate binding ignored",
+    "assignment target effects ignored",
+    "unknown chained-comparison suffix effects ignored",
+    "forwarding wrapper unknown chained-comparison suffix effects ignored",
+    "unresolved eager-comprehension effects ignored",
+    "forwarding wrapper unresolved eager-comprehension effects ignored",
+    "uninvoked JavaScript methods treated as module execution",
+    "literal-true JavaScript else arm treated as reachable",
 )
 
 
@@ -1616,7 +1658,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 183
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 188
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
