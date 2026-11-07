@@ -126,24 +126,24 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired through 2026-11-07; G11 admission remains
 pending.** The repair at source commit
-`8687f4cfe8adab1c347b50cebf619069f6d14574` (parent
-`adb3dc69e1d29ab78524b98f151207db93580bec`, tree
-`d3b4b4b5acec0e3c3311afe9d4b6d649bb2a40bd`) extends the existing bounded
+`3f175b232bedc2baf06fc0de0f3907993fc33be7` (parent
+`26fa347271d6e9f160ccfea6861342caa0d99642`, tree
+`c2f7d5e9e90cd6a973878af25eb0551859c6a989`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
 Its blobs and tree exactly match local qualification
-`55e5638d14ecb687fb2a68f981ec3530184e9ee1`. Fresh native execution passed
-201/201 controls and killed 268/268 designated mutants in each mode; the sealed
+`8462ad1005c34f7eb09a7c7428f219963d709c5a`. Fresh native execution passed
+205/205 controls and killed 272/272 designated mutants in each mode; the sealed
 mutation-inventory SHA-256 is
-`3fadcad54079e33cb6c60623cad3ec33a3fe896199eac5b188a167f8238e0fce`.
-The normal/optimized mutation logs are byte-identical at 32,155 bytes with
-SHA-256 `2fdf38942365217697cffd086cd535f99329244d7575d7f06d62d7497560e050`.
+`6bc5aa9839cc28bbf5aee4b6820c38cd0fbb9a4c145934057f5dc85fff802e55`.
+The normal/optimized mutation logs are byte-identical at 32,682 bytes with
+SHA-256 `402bc1c7da1c6a6d1322a5b9cf8f7f309916d89c6fc3aea8078ed26924276998`.
 The native commit's normal and optimized whole-tree reports were byte-identical
 (SHA-256
-`2d73a9cfd2d01cbccf5d73192238ab139f21d07f6e4d4e005f030ee56a8dfafc`,
+`e825ec1396540c21f8f95c2d3801cc97fcbee138ec0626c5c3f5f8ea63b2a3c3`,
 56,013 bytes each):
 zero production findings and 32 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The latest bounded rules
@@ -164,9 +164,12 @@ augmented-assignment targets before RHS effects and defer JavaScript parameter
 default initializers until invocation. Three older unresolved findings also
 require possible branch rebindings to invalidate Python import identity, direct
 `break`/`continue` to terminate the remaining JavaScript loop body, and
-unsupported JavaScript `switch` selection to fail closed. The distinct defect
-total is 152.
-The bounded rules also
+unsupported JavaScript `switch` selection to fail closed. Four subsequent
+review defects require Python call-target identity to be
+captured before argument effects, delimiter-balanced JavaScript parameter
+scopes, default-initializer activation only for missing or explicit
+`undefined` arguments, and fail-closed unproven `catch` handlers. The distinct
+defect total is 156. The bounded rules also
 evaluate executable assignment-target subexpressions before rebinding; apply
 possible-effect invalidation to unresolved comparison suffixes and unresolved
 eager-comprehension bodies/guards without awarding execution; keep uninvoked

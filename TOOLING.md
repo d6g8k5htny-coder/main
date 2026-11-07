@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`8687f4cfe8adab1c347b50cebf619069f6d14574`, based on Main default
+`3f175b232bedc2baf06fc0de0f3907993fc33be7`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,20 +263,20 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`8687f4cfe8adab1c347b50cebf619069f6d14574` (parent
-`adb3dc69e1d29ab78524b98f151207db93580bec`, tree
-`d3b4b4b5acec0e3c3311afe9d4b6d649bb2a40bd`) recognizes explicit local path
+`3f175b232bedc2baf06fc0de0f3907993fc33be7` (parent
+`26fa347271d6e9f160ccfea6861342caa0d99642`, tree
+`c2f7d5e9e90cd6a973878af25eb0551859c6a989`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its blobs
 and tree exactly match local qualification
-`55e5638d14ecb687fb2a68f981ec3530184e9ee1`. Fresh native execution passed
-201/201 controls and killed 268/268 designated mutations in both modes; the
+`8462ad1005c34f7eb09a7c7428f219963d709c5a`. Fresh native execution passed
+205/205 controls and killed 272/272 designated mutations in both modes; the
 sealed mutation-inventory SHA-256 is
-`3fadcad54079e33cb6c60623cad3ec33a3fe896199eac5b188a167f8238e0fce`. The exact
-normal/optimized mutation logs are byte-identical at 32,155 bytes with SHA-256
-`2fdf38942365217697cffd086cd535f99329244d7575d7f06d62d7497560e050`. The exact
+`6bc5aa9839cc28bbf5aee4b6820c38cd0fbb9a4c145934057f5dc85fff802e55`. The exact
+normal/optimized mutation logs are byte-identical at 32,682 bytes with SHA-256
+`402bc1c7da1c6a6d1322a5b9cf8f7f309916d89c6fc3aea8078ed26924276998`. The exact
 native normal and optimized censuses were byte-identical (SHA-256
-`2d73a9cfd2d01cbccf5d73192238ab139f21d07f6e4d4e005f030ee56a8dfafc`,
+`e825ec1396540c21f8f95c2d3801cc97fcbee138ec0626c5c3f5f8ea63b2a3c3`,
 56,013 bytes each),
 with zero production findings and exactly 32 no-current-exercise or documentation tool
 candidates; both runs exited 1. Adverse controls refuse mere path
@@ -297,7 +297,9 @@ default initializers until invocation. Three older unresolved findings now
 invalidate trusted Python imports after possible branch rebindings, terminate
 JavaScript loop tails after direct `break`/`continue`, and reject process-call
 credit inside unsupported `switch` selection. The distinct defect count is
-152. Adverse controls
+156. The latest four controls require pre-argument Python call-target capture,
+balanced JavaScript parameter scopes, actual default-argument delivery, and
+fail-closed catch-handler reachability. Adverse controls
 also refuse mere path
 credit from stale assignment-target effects, unresolved comparison suffixes,
 unresolved eager-comprehension effects, uninvoked JavaScript method bodies and
