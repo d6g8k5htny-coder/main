@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "18555c8e1ba9bded59ddc78927367d82aa37c3eed36bcda618f068f43339e1e4"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "d41d67dd54c0ec969151bd46a59c6270cf615c31d93cb47a05c09ef3e6e4bc80"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -978,6 +978,92 @@ class ToolChecks(unittest.TestCase):
             ),
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_forwarding_wrapper_respects_conditional_expression_reachability(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_wrapper_conditional_expression.py": (
+                "import runpy\n"
+                "def launch(script):\n"
+                "    runpy.run_path(script) if False else None\n"
+                "launch('tools/unused.py')\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_global_helper_assignment_invalidates_forwarding_wrapper(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_global_wrapper_replacement.py": (
+                "import runpy\n"
+                "def change():\n"
+                "    global launch\n"
+                "    launch = print\n"
+                "def launch(script):\n"
+                "    runpy.run_path(script)\n"
+                "change()\n"
+                "launch('tools/unused.py')\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_nonlocal_helper_assignment_invalidates_enclosing_forwarding_wrapper(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_nonlocal_wrapper_replacement.py": (
+                "import runpy\n"
+                "def outer():\n"
+                "    def change():\n"
+                "        nonlocal launch\n"
+                "        launch = print\n"
+                "    def launch(script):\n"
+                "        runpy.run_path(script)\n"
+                "    change()\n"
+                "    launch('tools/unused.py')\n"
+                "outer()\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_nonlocal_assignment_invalidates_enclosing_helper_identity(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_nonlocal_helper_replacement.py": (
+                "import runpy\n"
+                "script = 'tools/unused.py'\n"
+                "def outer():\n"
+                "    def change():\n"
+                "        nonlocal launch\n"
+                "        launch = print\n"
+                "    def launch():\n"
+                "        runpy.run_path(script)\n"
+                "    change()\n"
+                "    launch()\n"
+                "outer()\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_lambda_creation_executes_defaults_not_body(self):
+        tree = {
+            "tools/body-unused.py": "x = 1\n",
+            "tools/default-live.py": "x = 1\n",
+            "tools/README.md": "tools/body-unused.py tools/default-live.py\n",
+            "tests/test_uninvoked_lambda.py": (
+                "import runpy\n"
+                "body_script = 'tools/body-unused.py'\n"
+                "default_script = 'tools/default-live.py'\n"
+                "unused = lambda value=runpy.run_path(default_script): runpy.run_path(body_script)\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/body-unused.py": False, "tools/default-live.py": True},
+        )
 
     def test_chained_comparison_stops_after_literal_false_prefix(self):
         tree = {
@@ -2090,7 +2176,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 177)
+        self.assertEqual(len(cases), 183)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

@@ -352,7 +352,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_path_values_need_reachable_execution_not_mentions",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("process wrapper forwarding ignored", "census",
-     "                positions = (wrapper[0] if wrapper is not None\n                             and not reassigned and call_line > wrapper[1] else ())",
+     "                positions = (wrapper[0] if wrapper is not None\n                             and not reassigned and call_order > wrapper_order else ())",
      "                positions = ()",
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
@@ -577,8 +577,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_wrapper_parameter_alias_mutation_invalidates_forwarding",
      'self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()}, {'),
     ("reassigned wrapper remains registered", "census",
-     "                             and not reassigned and call_line > wrapper[1] else ())",
-     "                             and call_line > wrapper[1] else ())",
+     "                             and not reassigned and call_order > wrapper_order else ())",
+     "                             and call_order > wrapper_order else ())",
      "tests.test_g11_census.ToolChecks.test_reassigned_wrapper_binding_is_not_execution_evidence",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript enclosing declaration shadow ignored", "census",
@@ -592,8 +592,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_wrapper_process_call_after_return_is_unreachable",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("deferred wrapper availability uses source line", "census",
-     "                call_line = node.lineno if key[0] is not None else execution_line",
-     "                call_line = node.lineno",
+     "                call_order = (execution_line, node.lineno)",
+     "                call_order = (node.lineno, node.lineno)",
      "tests.test_g11_census.ToolChecks.test_deferred_caller_sees_wrapper_defined_before_invocation",
      'self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])'),
     ("later nonforwarding wrapper definition retains registration", "census",
@@ -752,8 +752,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_repeated_helper_invocations_apply_each_mutation",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("global helper reassignment invalidates local identity", "census",
-     "        return (None if name in function_scope_globals.get(scope, set())\n                else scope)",
-     "        return scope",
+     "        if name in function_scope_globals.get(scope, set()):\n            return None",
+     "        if False:\n            return None",
      "tests.test_g11_census.ToolChecks.test_global_assignment_invalidates_module_helper_identity",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("Boolean short-circuit reachability ignored", "census",
@@ -810,6 +810,36 @@ NEW_MUTATIONS = [
      "            if isinstance(node, ast.BoolOp):\n                for index, value in enumerate(node.values):",
      "            if False:\n                for index, value in enumerate(node.values):",
      "tests.test_g11_census.ToolChecks.test_forwarding_wrapper_respects_boolean_short_circuiting",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("forwarding wrapper conditional reachability ignored", "census",
+     "            if isinstance(node, ast.IfExp):\n                visit(node.test)\n                truth = _literal_bool(node.test)",
+     "            if False:\n                visit(node.test)\n                truth = _literal_bool(node.test)",
+     "tests.test_g11_census.ToolChecks.test_forwarding_wrapper_respects_conditional_expression_reachability",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("global wrapper reassignment kept in helper scope", "census",
+     "                destination_scope = wrapper_destination_scope(scope, name)",
+     "                destination_scope = scope",
+     "tests.test_g11_census.ToolChecks.test_global_helper_assignment_invalidates_forwarding_wrapper",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("wrapper reassignment uses lexical line instead of execution order", "census",
+     "                    wrapper_reassignments.setdefault(key, []).append(\n                        (execution_line, node.lineno))",
+     "                    wrapper_reassignments.setdefault(key, []).append(\n                        (node.lineno, node.lineno))",
+     "tests.test_g11_census.ToolChecks.test_global_helper_assignment_invalidates_forwarding_wrapper",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("lambda body traversed at construction", "census",
+     "        if isinstance(node, ast.Lambda):\n            # Lambda construction evaluates defaults, but the body remains",
+     "        if False:\n            # Lambda construction evaluates defaults, but the body remains",
+     "tests.test_g11_census.ToolChecks.test_lambda_creation_executes_defaults_not_body",
+     'self.assertEqual(\n            {path: item["referenced"] for path, item in self.tools(tree).items()},'),
+    ("nonlocal active function destination ignored", "census",
+     "        if name in function_scope_nonlocals.get(scope, set()):\n            parent = function_scope_parents.get(scope)",
+     "        if False:\n            parent = function_scope_parents.get(scope)",
+     "tests.test_g11_census.ToolChecks.test_nonlocal_assignment_invalidates_enclosing_helper_identity",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("nonlocal wrapper destination ignored", "census",
+     "        if name in scope_nonlocals.get(scope, set()):\n            parent = scope_parents.get(scope)",
+     "        if False:\n            parent = scope_parents.get(scope)",
+     "tests.test_g11_census.ToolChecks.test_nonlocal_helper_assignment_invalidates_enclosing_forwarding_wrapper",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
 
 ]
@@ -991,6 +1021,12 @@ EXPECTED_MUTATION_NAMES = (
     "generator method creation treated as execution",
     "comprehension target shadow ignored",
     "forwarding wrapper Boolean reachability ignored",
+    "forwarding wrapper conditional reachability ignored",
+    "global wrapper reassignment kept in helper scope",
+    "wrapper reassignment uses lexical line instead of execution order",
+    "lambda body traversed at construction",
+    "nonlocal active function destination ignored",
+    "nonlocal wrapper destination ignored",
 )
 
 
@@ -1169,7 +1205,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 126
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 131
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

@@ -805,6 +805,11 @@ def _reachable_python_nodes(tree, mode):
         id(node): _python_scope_global_names(node) for node in ast.walk(tree)
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
     }
+    function_scope_nonlocals = {
+        id(node): _python_scope_nonlocal_names(node) for node in ast.walk(tree)
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+    }
+    function_scope_parents = _python_function_parent_scopes(tree)
 
     def statement_sequence_terminates(body):
         return any(statement_terminates(statement) for statement in body)
@@ -824,8 +829,15 @@ def _reachable_python_nodes(tree, mode):
         return statement_sequence_terminates(branch)
 
     def active_function_destination(scope, name):
-        return (None if name in function_scope_globals.get(scope, set())
-                else scope)
+        if name in function_scope_globals.get(scope, set()):
+            return None
+        if name in function_scope_nonlocals.get(scope, set()):
+            parent = function_scope_parents.get(scope)
+            while parent is not None:
+                if name in function_scope_bindings.get(parent, set()):
+                    return parent
+                parent = function_scope_parents.get(parent)
+        return scope
 
     def execute(function, owner, activation_line):
         identity = (id(function), owner)
@@ -862,6 +874,15 @@ def _reachable_python_nodes(tree, mode):
                     and (node.name.startswith("test_")
                          or node.name in {"setUp", "tearDown", "setUpClass", "tearDownClass"})):
                 queue.append((node, owner, float("inf")))
+            return
+        if isinstance(node, ast.Lambda):
+            # Lambda construction evaluates defaults, but the body remains
+            # deferred until an invocation is established.
+            for default in node.args.defaults:
+                visit(default, owner, scope, activation_line)
+            for default in node.args.kw_defaults:
+                if default is not None:
+                    visit(default, owner, scope, activation_line)
             return
         if isinstance(node, ast.ClassDef):
             for decorator in node.decorator_list:
@@ -1283,6 +1304,44 @@ def _python_scope_global_names(function):
     return names
 
 
+def _python_scope_nonlocal_names(function):
+    """Return names declared nonlocal in one function, excluding nested scopes."""
+    names = set()
+
+    def visit(node):
+        if node is not function and isinstance(
+                node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef, ast.Lambda)):
+            return
+        if isinstance(node, ast.Nonlocal):
+            names.update(node.names)
+            return
+        for child in ast.iter_child_nodes(node):
+            visit(child)
+
+    visit(function)
+    return names
+
+
+def _python_function_parent_scopes(tree):
+    """Map each function scope to its nearest enclosing function scope."""
+    parents = {}
+
+    class Collector(ast.NodeVisitor):
+        def __init__(self):
+            self.stack = []
+
+        def visit_FunctionDef(self, node):
+            parents[id(node)] = self.stack[-1] if self.stack else None
+            self.stack.append(id(node))
+            self.generic_visit(node)
+            self.stack.pop()
+
+        visit_AsyncFunctionDef = visit_FunctionDef
+
+    Collector().visit(tree)
+    return parents
+
+
 def _invalidate_python_binding(name, local, module, scope, global_names=()):
     destination = module if scope is None or name in global_names else local
     prior = destination.get(name, module.get(name))
@@ -1453,6 +1512,12 @@ def _python_execution_wrappers(tree, imports):
                 return visit_body(branch)
             if isinstance(node, (ast.For, ast.AsyncFor, ast.While)):
                 return False
+            if isinstance(node, ast.IfExp):
+                visit(node.test)
+                truth = _literal_bool(node.test)
+                if truth is not None:
+                    visit(node.body if truth else node.orelse)
+                return False
             if isinstance(node, ast.BoolOp):
                 for index, value in enumerate(node.values):
                     visit(value)
@@ -1536,21 +1601,38 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
     })
     scope_globals = {id(node): _python_scope_global_names(node) for node in ast.walk(tree)
                      if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
+    scope_nonlocals = {id(node): _python_scope_nonlocal_names(node) for node in ast.walk(tree)
+                       if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
+    scope_parents = _python_function_parent_scopes(tree)
     module_bindings, scope_bindings, scope_imports = {}, {}, {}
     evaluated_arguments = {}
     evaluated_sequence_elements = {}
     missing_argument = object()
     reachable_nodes = sorted(_reachable_python_nodes(tree, mode), key=lambda item: item[2])
     wrapper_reassignments = {}
-    for node, scope, _execution_line in reachable_nodes:
+
+    def wrapper_destination_scope(scope, name):
+        if scope is None or name in scope_globals.get(scope, set()):
+            return None
+        if name in scope_nonlocals.get(scope, set()):
+            parent = scope_parents.get(scope)
+            while parent is not None:
+                if name in scope_shadowed.get(parent, set()):
+                    return parent
+                parent = scope_parents.get(parent)
+        return scope
+
+    for node, scope, execution_line in reachable_nodes:
         if not isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
             continue
         targets = node.targets if isinstance(node, ast.Assign) else [node.target]
         for target in targets:
             for name in _target_names(target):
-                key = (scope, name)
+                destination_scope = wrapper_destination_scope(scope, name)
+                key = (destination_scope, name)
                 if key in wrappers:
-                    wrapper_reassignments.setdefault(key, []).append(node.lineno)
+                    wrapper_reassignments.setdefault(key, []).append(
+                        (execution_line, node.lineno))
     for node, scope, execution_line in reachable_nodes:
         local = scope_bindings.setdefault(scope, {}) if scope is not None else module_bindings
         global_names = scope_globals.get(scope, set())
@@ -1649,12 +1731,13 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                 if wrapper is None and node.func.id not in static_shadowed:
                     key = (None, node.func.id)
                     wrapper = wrappers.get(key)
-                call_line = node.lineno if key[0] is not None else execution_line
+                call_order = (execution_line, node.lineno)
+                wrapper_order = (wrapper[1], -1) if wrapper is not None else None
                 reassigned = (wrapper is not None and any(
-                    wrapper[1] < line < call_line
-                    for line in wrapper_reassignments.get(key, ())))
+                    wrapper_order < order < call_order
+                    for order in wrapper_reassignments.get(key, ())))
                 positions = (wrapper[0] if wrapper is not None
-                             and not reassigned and call_line > wrapper[1] else ())
+                             and not reassigned and call_order > wrapper_order else ())
                 for position in positions:
                     if position < len(node.args):
                         value = argument_value(position)
