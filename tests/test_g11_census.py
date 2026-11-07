@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "adcef61a1de5798a6fed83360e417b21d501f6e0972e13887e8782419ff3346d"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "9b200ac23d2aef420e61e1a6c00c848ece1c8357c12f1f3b81e675c29a89b584"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -2487,6 +2487,23 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
+    def test_augmented_assignment_captures_target_before_rhs_effects(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_augmented_rhs.py": (
+                "import subprocess\n"
+                "command = ['echo']\n"
+                "def replace():\n"
+                "    global command\n"
+                "    command = ['python3', 'tools/unused.py']\n"
+                "    return 'extra'\n"
+                "command += ['python3', 'tools/unused.py', replace()]\n"
+                "subprocess.run(command)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
     def test_command_element_assignment_invalidates_static_sequence(self):
         tree = {
             "tools/unused.py": "x = 1\n",
@@ -2758,6 +2775,25 @@ class ToolChecks(unittest.TestCase):
             ),
         }
         self.assertTrue(self.tools(tree)["tools/live.mjs"]["referenced"])
+
+    def test_js_default_initializer_executes_only_for_invoked_helper(self):
+        tree = {
+            "tools/live.mjs": "export const live = true;\n",
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/live.mjs tools/unused.mjs\n",
+            "tests/default-execution.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const liveScript=new URL('../tools/live.mjs',import.meta.url);\n"
+                "const unusedScript=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "function unused(value=spawnSync('echo',[unusedScript])) {}\n"
+                "function live(value=spawnSync('echo',[liveScript])) {}\n"
+                "live();\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.mjs": True, "tools/unused.mjs": False},
+        )
 
     def test_js_parameter_shadows_url_binding(self):
         tree = {
@@ -3781,7 +3817,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 263)
+        self.assertEqual(len(cases), 265)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

@@ -1373,6 +1373,16 @@ def _reachable_python_nodes(tree, mode):
             # function binding.
             if isinstance(node, ast.AugAssign):
                 visit(node.target, owner, scope, activation_line)
+                if isinstance(node.target, ast.Name):
+                    # Python captures an augmented-assignment target before
+                    # evaluating the RHS.  Preserve that object even when an
+                    # RHS helper rebinds the target name.
+                    marker = ast.Expr(value=node.target)
+                    marker.lineno = getattr(node.target, "lineno", node.lineno)
+                    marker._g11_augassign_target_id = id(node)
+                    execution_line = (marker.lineno if activation_line is None
+                                      else activation_line)
+                    nodes.append((marker, scope, execution_line))
             if getattr(node, "value", None) is not None:
                 visit(node.value, owner, scope, activation_line)
             elif isinstance(node, ast.AnnAssign):
@@ -2295,6 +2305,7 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
     evaluated_arguments = {}
     evaluated_defaults = {}
     evaluated_sequence_elements = {}
+    evaluated_augassign_targets = {}
     missing_argument = object()
     # Reachability traversal already emits semantic evaluation order. Sorting
     # by source line reorders multiline call effects ahead of their arguments.
@@ -2414,6 +2425,13 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     visible_module_bindings, source_path, active_imports,
                     static_shadowed))
             continue
+        if hasattr(node, "_g11_augassign_target_id"):
+            evaluated_augassign_targets[node._g11_augassign_target_id] = (
+                _python_sequence_static_value(
+                    node.value, evaluated_sequence_elements, local,
+                    visible_module_bindings, source_path, active_imports,
+                    static_shadowed))
+            continue
         if hasattr(node, "_g11_binary_id"):
             evaluated_sequence_elements[(
                 "binary", node._g11_binary_id, node._g11_binary_index)] = (
@@ -2442,15 +2460,27 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     static_shadowed))
             continue
         if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign, ast.NamedExpr)):
-            value_node = (ast.BinOp(left=node.target, op=node.op, right=node.value)
-                          if isinstance(node, ast.AugAssign) else node.value)
-            value = _python_sequence_static_value(
-                value_node, evaluated_sequence_elements, local, visible_module_bindings,
-                source_path, active_imports, static_shadowed)
+            augmented_prior = None
+            if isinstance(node, ast.AugAssign) and isinstance(node.op, ast.Add):
+                augmented_prior = evaluated_augassign_targets.get(id(node))
+                right = _python_sequence_static_value(
+                    node.value, evaluated_sequence_elements, local,
+                    visible_module_bindings, source_path, active_imports,
+                    static_shadowed)
+                value = _static_add(augmented_prior, right)
+            else:
+                value_node = (ast.BinOp(left=node.target, op=node.op, right=node.value)
+                              if isinstance(node, ast.AugAssign) else node.value)
+                value = _python_sequence_static_value(
+                    value_node, evaluated_sequence_elements, local,
+                    visible_module_bindings, source_path, active_imports,
+                    static_shadowed)
             if isinstance(node, ast.AugAssign) and isinstance(node.target, ast.Name):
                 destination = destination_for_name(node.target.id)
-                prior = destination.get(
-                    node.target.id, visible_module_bindings.get(node.target.id))
+                prior = (augmented_prior if augmented_prior is not None
+                         else destination.get(
+                             node.target.id,
+                             visible_module_bindings.get(node.target.id)))
                 if isinstance(prior, list) and isinstance(value, list):
                     prior[:] = value
                     value = prior
@@ -3415,7 +3445,9 @@ def _js_call_activation_points(text, position):
 
     def containing_named_function(candidate):
         containing = sorted(
-            (scope for scope in scopes if scope[2] < candidate < scope[3]),
+            (scope for scope in scopes
+             if (scope[0] <= candidate < scope[1]
+                 or scope[2] < candidate < scope[3])),
             key=lambda item: item[2], reverse=True)
         if not containing:
             return None

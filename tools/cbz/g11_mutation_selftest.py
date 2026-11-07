@@ -448,8 +448,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_wrapper_forwarding_rejects_command_mode_arguments",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("augmented assignment retains stale static value", "census",
-     "        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign, ast.NamedExpr)):\n            value_node =",
-     "        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.NamedExpr)):\n            value_node =",
+     "        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign, ast.NamedExpr)):\n            augmented_prior = None",
+     "        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.NamedExpr)):\n            augmented_prior = None",
      "tests.test_g11_census.ToolChecks.test_augmented_assignment_replaces_static_path_value",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript property call accepted as imported callee", "census",
@@ -957,8 +957,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_interpreter_attached_and_exit_only_options_do_not_select_scripts",
      '{"tools/attached-unused.py": False, "tools/live.py": True,'),
     ("assignment expression write ignored", "census",
-     "        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign, ast.NamedExpr)):\n            value_node =",
-     "        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):\n            value_node =",
+     "        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign, ast.NamedExpr)):\n            augmented_prior = None",
+     "        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):\n            augmented_prior = None",
      "tests.test_g11_census.ToolChecks.test_assignment_expressions_update_static_bindings",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("nested aggregate mutation retains reachable alias provenance", "census",
@@ -1269,6 +1269,18 @@ NEW_MUTATIONS = [
      "        if False:\n            return set()",
      "tests.test_g11_census.ToolChecks.test_js_helper_termination_precedes_process_activation",
      '"tools/return-unused.mjs": False'),
+    ("augmented assignment target reloaded after RHS effects", "census",
+     "                augmented_prior = evaluated_augassign_targets.get(id(node))",
+     "                augmented_prior = visible_module_bindings.get(node.target.id)",
+     "tests.test_g11_census.ToolChecks.test_augmented_assignment_captures_target_before_rhs_effects",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("JavaScript default initializer treated as module execution", "census",
+     "            (scope for scope in scopes\n"
+     "             if (scope[0] <= candidate < scope[1]\n"
+     "                 or scope[2] < candidate < scope[3])),",
+     "            (scope for scope in scopes if scope[2] < candidate < scope[3]),",
+     "tests.test_g11_census.ToolChecks.test_js_default_initializer_executes_only_for_invoked_helper",
+     '{"tools/live.mjs": True, "tools/unused.mjs": False}'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1535,6 +1547,8 @@ EXPECTED_MUTATION_NAMES = (
     "nested selected JavaScript branch stops reachability checks",
     "unproven JavaScript loop body activated",
     "terminated JavaScript helper tail activated",
+    "augmented assignment target reloaded after RHS effects",
+    "JavaScript default initializer treated as module execution",
 )
 
 
@@ -1713,7 +1727,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 196
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 198
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
