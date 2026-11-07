@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 7 November 2026
 
 The Main candidate containing this file has native source parent
-`df4427c0482b23359e3525c4ca0ef4886c88a7bf`; its isolated work began from the
+`8263a64f61aa183c621fd1da81cbec51a55d4779`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,14 +37,14 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `df4427c0482b23359e3525c4ca0ef4886c88a7bf` (tree
-`dbaa6f8d83d7de00c8ae12b3e732b352dd2adad1`) passed 148/148 tests and killed
-199/199 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `d6c961dfd0cf8c41a3ebc2a42d71a2ff7adc1a3413c4cc995fc4922d4082f812`.
+native source `8263a64f61aa183c621fd1da81cbec51a55d4779` (tree
+`027f2dad1ff7c314972972460c35cda2a4caea3a`) passed 156/156 tests and killed
+208/208 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `207bb9eeb0383d1d49e83f1a91e234ab3ac51760b09684dc528ef38a64e517b1`.
 Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`be7912bb5e6d27f841a4c65156c76dab676d78dcffaeeb32814caaa7bab4928d`,
-55,961 bytes each)
+`cf96649ecf3b836ea9167c5be8a80cebac3379db706f2d5019087cde1782c40d`,
+56,012 bytes each)
 contain zero production findings and retain exactly 32 no-current-exercise
 or documentation tool candidates; both census runs exit 1. The stricter
 attribution newly removes false exercise credit from
@@ -222,9 +222,26 @@ comprehensions and unconsumed generators cannot prove forwarding; a definitely
 terminating `finally` stops the enclosing sequence; a destructured JavaScript
 lexical declaration shadows an outer URL binding; and Python `nonlocal` static
 assignment updates the nearest enclosing binding. The exact 140-control,
-192-mutant results and byte-identical source censuses above cover these bounded
-rules. The current review/adverse-defect total is 92; exact-final-head review
-and hosted checks remain required before integration.
+192-mutant results remain bound to that historical source stage.
+Seven later review findings were reproduced red and repaired: unknown-branch
+writes retained stale provenance; a handler-free terminating `try` did not
+terminate its enclosing sequence; destructured helper binding did not shadow a
+module helper; composite JavaScript child-process arguments credited nested URL
+names; decorated helpers retained their original bodies; an untrusted local
+`fileURLToPath` was accepted; and a non-string executable reached interpreter
+membership. Those repairs raised the bounded suite to 148 controls and 199
+mutants and truthfully exposed three additional retained tools.
+Eight further unresolved review findings were then reproduced red before the
+current repair: exception-boundary possible effects did not invalidate helper
+and forwarding-wrapper identities; exception target names left stale bindings;
+truthy non-iterable literals credited comprehension bodies; unsupported or
+exit-only interpreter options could select a later script; assignment
+expressions did not update static bindings; nested aggregate writes retained
+reachable alias provenance; decorated forwarding wrappers were registered; and
+JavaScript URL names in child-process options positions were credited. The
+current source fails closed at all eight boundaries and passes the 156-control,
+208-mutant suites above. The current review/adverse-defect total is 107;
+exact-final-head review and hosted checks remain required before integration.
 
 ## Current verification boundary
 

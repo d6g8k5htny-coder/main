@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`df4427c0482b23359e3525c4ca0ef4886c88a7bf`, based on Main default
+`8263a64f61aa183c621fd1da81cbec51a55d4779`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,18 +263,24 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`df4427c0482b23359e3525c4ca0ef4886c88a7bf` (tree
-`dbaa6f8d83d7de00c8ae12b3e732b352dd2adad1`) recognizes explicit local path
+`8263a64f61aa183c621fd1da81cbec51a55d4779` (tree
+`027f2dad1ff7c314972972460c35cda2a4caea3a`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-148/148 controls and 199/199 designated mutations passed in both modes; the
+156/156 controls and 208/208 designated mutations passed in both modes; the
 sealed mutation-inventory SHA-256 is
-`d6c961dfd0cf8c41a3ebc2a42d71a2ff7adc1a3413c4cc995fc4922d4082f812`. The exact
+`207bb9eeb0383d1d49e83f1a91e234ab3ac51760b09684dc528ef38a64e517b1`. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`be7912bb5e6d27f841a4c65156c76dab676d78dcffaeeb32814caaa7bab4928d`,
-55,961 bytes each),
+`cf96649ecf3b836ea9167c5be8a80cebac3379db706f2d5019087cde1782c40d`,
+56,012 bytes each),
 with zero production findings and exactly 32 no-current-exercise or documentation tool
 candidates; both runs exited 1. Adverse controls refuse mere path
+mentions retained through exception-boundary helper/wrapper identities or
+exception target bindings; unsupported literal comprehension sources; scripts
+after unknown, attached command-mode, or exit-only interpreter options;
+assignment-expression and nested-aggregate alias staleness; decorated
+forwarding wrappers; and URL names delivered only in child-process options.
+They also refuse mere path
 mentions caused by stale bindings after unproven exception branches, wrapper
 discovery in those branches or in empty/unconsumed comprehensions, execution
 after a terminating `finally`, outer JavaScript URL provenance hidden by a

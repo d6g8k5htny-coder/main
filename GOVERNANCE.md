@@ -126,22 +126,28 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`df4427c0482b23359e3525c4ca0ef4886c88a7bf` (tree
-`dbaa6f8d83d7de00c8ae12b3e732b352dd2adad1`) extends the existing bounded
+`8263a64f61aa183c621fd1da81cbec51a55d4779` (tree
+`027f2dad1ff7c314972972460c35cda2a4caea3a`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 148/148 controls and killed 199/199 designated
+The exact source commit passed 156/156 controls and killed 208/208 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`d6c961dfd0cf8c41a3ebc2a42d71a2ff7adc1a3413c4cc995fc4922d4082f812`.
+`207bb9eeb0383d1d49e83f1a91e234ab3ac51760b09684dc528ef38a64e517b1`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`be7912bb5e6d27f841a4c65156c76dab676d78dcffaeeb32814caaa7bab4928d`,
-55,961 bytes each):
+`cf96649ecf3b836ea9167c5be8a80cebac3379db706f2d5019087cde1782c40d`,
+56,012 bytes each):
 zero production findings and 32 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
+stale helper, wrapper and static bindings across unproven exception effects,
+including exception target names; comprehension-body credit from unsupported
+non-iterable literals; script selection after unknown, attached command-mode,
+or exit-only interpreter options; stale values after assignment expressions or
+nested aggregate mutation; decorated forwarding-wrapper registration; and URL
+credit outside child-process command/file and literal argv positions. It also rejects
 possible stale bindings after unproven exception branches, wrapper evidence
 from those branches or from empty/unconsumed comprehensions, execution after a
 terminating `finally`, outer URL provenance hidden by a destructured lexical
