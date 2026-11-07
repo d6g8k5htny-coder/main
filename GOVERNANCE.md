@@ -126,24 +126,23 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired through 2026-11-07; G11 admission remains
 pending.** The repair at source commit
-`30202abaaa24f32fdb2c5a7f770b74b69d2cd475` (parent
-`1bbdcad0f23b8ea9ee5415e8f5146b65982c5a89`, tree
-`8db103f929c272fd80f7edf58232b4b92033f922`) extends the existing bounded
+`a7d9c08c1991bd273330993a63164f8d864ca209` (parent
+`faabe96abc08ca18a11d3bac95cc6c1fa73a4797`, tree
+`07007dd983ee82018d235aeb763d854f93f1753f`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
 Its blobs and tree exactly match local qualification
-`6499a968e60da831b529d8b84907288a873b6110`. Fresh native execution passed
-216/216 controls and killed 283/283 designated mutants in each mode; the sealed
+`2daecb095f4511a21d7a28e7b8b903a3467fa061`. Fresh native execution passed
+220/220 controls and killed 287/287 designated mutants in each mode with zero
+skips; the sealed
 mutation-inventory SHA-256 is
-`c509d568bed566b9955f000774839efb0e7e79cf6e3c6e00af65fc44afd89ee1`.
-The normal/optimized mutation logs are byte-identical at 34,111 bytes with
-SHA-256 `cdf2f27595e856024fa23c9459a1e6d8169b6aa64164c4655a5a62addfdd954a`.
+`8baa52d071157b787f1fcb75d176947dd1c3de6a5ba16402cce17f814a4f099b`.
 The native commit's normal and optimized whole-tree reports were byte-identical
 (SHA-256
-`ae845b15879fcec54cdf457e63f960e8810a9d77443f499850958dc456c20710`,
+`26b3ebde436097c9073e1439649400a206ca2d2d79be5730077386e28ca59bdb`,
 56,013 bytes each):
 zero production findings and 32 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The latest bounded rules
@@ -178,7 +177,12 @@ latest controls interleave chained-assignment stores with target effects,
 retain lambda-default effects under unresolved branches, reject optional
 property/computed-chain subexpressions without proven evaluation, defer
 unconstructed instance-field initializers, and mask regular expressions after
-control headers. The distinct defect total is 167. The bounded rules also
+control headers. Four newest controls retain unresolved-branch class
+construction effects while deferring method bodies, map helper definition-time
+parameter mutation to the bound caller argument, continue optional-chain
+suppression through repeated JavaScript property hops, and defer computed-name
+instance-field initializers until construction. The distinct defect total is
+171. The bounded rules also
 evaluate executable assignment-target subexpressions before rebinding; apply
 possible-effect invalidation to unresolved comparison suffixes and unresolved
 eager-comprehension bodies/guards without awarding execution; keep uninvoked
