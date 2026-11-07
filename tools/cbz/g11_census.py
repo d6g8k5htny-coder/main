@@ -893,7 +893,7 @@ def _comprehension_possible_effect_expressions(node):
     return expressions
 
 
-def _branch_assigned_names(body):
+def _branch_assigned_names(body, call_effects=None):
     """Return names possibly rebound or mutated without entering nested scopes."""
     names = set()
 
@@ -928,6 +928,8 @@ def _branch_assigned_names(body):
             mutated = _python_mutated_root_name(node)
             if mutated:
                 names.add(mutated)
+            if call_effects is not None:
+                names.update(call_effects(node))
             self.generic_visit(node)
 
         def _target_root(self, target):
@@ -1021,6 +1023,27 @@ def _reachable_python_nodes(tree, mode):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
     }
     function_scope_parents = _python_function_parent_scopes(tree)
+
+    def branch_possible_effects(body, scope, seen=frozenset()):
+        """Return visible effects from an unproven path, including helpers."""
+        def helper_effects(call):
+            if not isinstance(call.func, ast.Name):
+                return set()
+            function = active_functions.get((scope, call.func.id))
+            if (function is None and scope is not None
+                    and call.func.id not in function_scope_bindings.get(scope, set())):
+                function = active_functions.get((None, call.func.id))
+            if (function is None or id(function) in seen
+                    or not _python_call_signature_binds(function, call)):
+                return set()
+            effects = branch_possible_effects(
+                function.body, id(function), seen | {id(function)})
+            local_only = (function_scope_bindings.get(id(function), set())
+                          - function_scope_globals.get(id(function), set())
+                          - function_scope_nonlocals.get(id(function), set()))
+            return effects - local_only
+
+        return _branch_assigned_names(body, helper_effects)
 
     def statement_sequence_terminates(body):
         return any(statement_terminates(statement) for statement in body)
@@ -1174,8 +1197,8 @@ def _reachable_python_nodes(tree, mode):
             else:
                 truth = _literal_bool(node.test)
                 if truth is None:
-                    names = (_branch_assigned_names(node.body)
-                             | _branch_assigned_names(node.orelse))
+                    names = (branch_possible_effects(node.body, scope)
+                             | branch_possible_effects(node.orelse, scope))
                     if not _is_none_guard(node.test):
                         if names:
                             marker = ast.Delete(
@@ -1210,7 +1233,7 @@ def _reachable_python_nodes(tree, mode):
                 visit(node.iter, owner, scope, activation_line)
             else:
                 visit(node.test, owner, scope, activation_line)
-            possible_effects = _branch_assigned_names([node])
+            possible_effects = branch_possible_effects([node], scope)
             if possible_effects:
                 marker = ast.Delete(
                     targets=[ast.Name(id=name, ctx=ast.Del())
@@ -1225,7 +1248,11 @@ def _reachable_python_nodes(tree, mode):
             # matching, neither a handler nor the no-exception else body is
             # definite execution evidence.
             visit_statement_sequence(node.body, owner, scope, activation_line)
-            possible_effects = _exception_possible_effects(node)
+            possible_effects = set().union(
+                *(branch_possible_effects(handler.body, scope)
+                  for handler in node.handlers),
+                branch_possible_effects(node.orelse, scope),
+                {handler.name for handler in node.handlers if handler.name})
             if possible_effects:
                 marker = ast.Delete(
                     targets=[ast.Name(id=name, ctx=ast.Del())
@@ -1295,7 +1322,8 @@ def _reachable_python_nodes(tree, mode):
                 visit(node.body if truth else node.orelse,
                       owner, scope, activation_line)
             else:
-                possible_effects = _branch_assigned_names((node.body, node.orelse))
+                possible_effects = branch_possible_effects(
+                    (node.body, node.orelse), scope)
                 if possible_effects:
                     marker = ast.Delete(
                         targets=[ast.Name(id=name, ctx=ast.Del())
@@ -1314,7 +1342,8 @@ def _reachable_python_nodes(tree, mode):
                     break
                 truth = _literal_bool(value)
                 if truth is None:
-                    possible_effects = _branch_assigned_names(node.values[index + 1:])
+                    possible_effects = branch_possible_effects(
+                        node.values[index + 1:], scope)
                     if possible_effects:
                         marker = ast.Delete(
                             targets=[ast.Name(id=name, ctx=ast.Del())
@@ -1339,8 +1368,8 @@ def _reachable_python_nodes(tree, mode):
                 visit(comparator, owner, scope, activation_line)
                 truth = _literal_comparison(left, operator, comparator)
                 if truth is None:
-                    possible_effects = _branch_assigned_names(
-                        node.comparators[index + 1:])
+                    possible_effects = branch_possible_effects(
+                        node.comparators[index + 1:], scope)
                     if possible_effects:
                         marker = ast.Delete(
                             targets=[ast.Name(id=name, ctx=ast.Del())
@@ -1382,8 +1411,8 @@ def _reachable_python_nodes(tree, mode):
                 return
             if nonempty is False:
                 return
-            possible_effects = _branch_assigned_names(
-                _comprehension_possible_effect_expressions(node))
+            possible_effects = branch_possible_effects(
+                _comprehension_possible_effect_expressions(node), scope)
             if possible_effects:
                 marker = ast.Delete(
                     targets=[ast.Name(id=name, ctx=ast.Del())
@@ -2594,6 +2623,8 @@ def js_tool_references(text, source_path, tools):
     url_import = re.compile(
         r"\bimport\s*\{([^}]*)\}\s*from\s*['\"]node:url['\"]")
     for imported in url_import.finditer(visible):
+        if searchable[imported.start():imported.start() + 6] != "import":
+            continue
         for item in imported.group(1).split(","):
             parts = re.split(r"\s+as\s+", item.strip())
             if parts and parts[0] == "fileURLToPath":
@@ -2611,6 +2642,8 @@ def js_tool_references(text, source_path, tools):
             continue
         if not _js_builtin_name_unshadowed(
                 visible, match.start("constructor"), match.group("constructor")):
+            continue
+        if not _js_call_activation_points(visible, match.start("kind")):
             continue
         converter = match.group("converter")
         if converter:
@@ -2648,6 +2681,8 @@ def js_tool_references(text, source_path, tools):
         r"\bimport\s*\{([^}]*)\}\s*from\s*['\"](?:node:)?child_process['\"]")
     allowed_child_calls = {"spawnSync", "spawn", "execFileSync", "execFile"}
     for match in named_import.finditer(visible):
+        if searchable[match.start():match.start() + 6] != "import":
+            continue
         for item in match.group(1).split(","):
             parts = re.split(r"\s+as\s+", item.strip())
             if parts and parts[0] in allowed_child_calls:
@@ -3171,18 +3206,30 @@ def _js_call_activation_points(text, position):
     trusted_test_names = set()
     for match in re.finditer(
             r"\bimport\s+([A-Za-z_$][\w$]*)\s+from\s+['\"]node:test['\"]", text):
+        if searchable[match.start():match.start() + 6] != "import":
+            continue
         trusted_test_names.add(match.group(1))
     for match in re.finditer(
             r"\bimport\s*\{([^}]*)\}\s*from\s*['\"]node:test['\"]", text):
+        if searchable[match.start():match.start() + 6] != "import":
+            continue
         for item in match.group(1).split(","):
             parts = re.split(r"\s+as\s+", item.strip())
             if parts and parts[0] == "test":
                 trusted_test_names.add(parts[-1])
 
-    def in_unselected_literal_branch(candidate):
-        pattern = re.compile(r"\bif\s*\(\s*(true|false)\s*\)")
+    def in_unselected_or_unknown_branch(candidate):
+        pattern = re.compile(r"\bif\s*\(")
         for match in pattern.finditer(searchable):
-            consequent_start = match.end()
+            condition_start = searchable.find("(", match.start(), match.end())
+            condition_end = _js_matching_delimiter(
+                searchable, condition_start, "(", ")")
+            if condition_end is None:
+                continue
+            condition = searchable[condition_start + 1:condition_end].strip()
+            truth = (condition == "true" if condition in {"true", "false"}
+                     else None)
+            consequent_start = condition_end + 1
             while (consequent_start < len(searchable)
                    and searchable[consequent_start].isspace()):
                 consequent_start += 1
@@ -3190,9 +3237,8 @@ def _js_call_activation_points(text, position):
                 searchable, consequent_start)
             if consequent_end is None:
                 continue
-            if (match.group(1) == "false"
-                    and consequent_start <= candidate < consequent_end):
-                return True
+            if consequent_start <= candidate < consequent_end:
+                return truth is not True
             alternate_start = consequent_end
             while (alternate_start < len(searchable)
                    and searchable[alternate_start].isspace()):
@@ -3206,9 +3252,9 @@ def _js_call_activation_points(text, position):
                 alternate_body_start += 1
             alternate_end = _js_bounded_statement_end(
                 searchable, alternate_body_start)
-            if (match.group(1) == "true" and alternate_end is not None
+            if (alternate_end is not None
                     and alternate_body_start <= candidate < alternate_end):
-                return True
+                return truth is not False
         return False
 
     def containing_named_function(candidate):
@@ -3254,7 +3300,7 @@ def _js_call_activation_points(text, position):
             return set()
         if not _js_ternary_call_reachable(searchable, candidate):
             return set()
-        if in_unselected_literal_branch(candidate):
+        if in_unselected_or_unknown_branch(candidate):
             return set()
         function = containing_named_function(candidate)
         if function is None:

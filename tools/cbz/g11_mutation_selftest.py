@@ -867,8 +867,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_try_handlers_require_proven_reachability_but_finally_executes",
      'self.assertEqual(\n            {\n                "tools/body-live.py": True,'),
     ("skipped exception branch effects ignored", "census",
-     "            possible_effects = _exception_possible_effects(node)\n            if possible_effects:\n                marker = ast.Delete(",
-     "            possible_effects = _exception_possible_effects(node)\n            if False:\n                marker = ast.Delete(",
+     "            possible_effects = set().union(\n                *(branch_possible_effects(handler.body, scope)\n                  for handler in node.handlers),\n                branch_possible_effects(node.orelse, scope),\n                {handler.name for handler in node.handlers if handler.name})\n            if possible_effects:\n                marker = ast.Delete(",
+     "            possible_effects = set().union(\n                *(branch_possible_effects(handler.body, scope)\n                  for handler in node.handlers),\n                branch_possible_effects(node.orelse, scope),\n                {handler.name for handler in node.handlers if handler.name})\n            if False:\n                marker = ast.Delete(",
      "tests.test_g11_census.ToolChecks.test_unproven_exception_branches_invalidate_downstream_bindings",
      '{"tools/else-unused.py": False, "tools/handler-unused.py": False},'),
     ("wrapper exception-handler reachability ignored", "census",
@@ -942,8 +942,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_exception_boundaries_invalidate_callable_identities",
      '{"tools/helper-unused.py": False, "tools/wrapper-unused.py": False},'),
     ("exception target binding effect ignored", "census",
-     "        {handler.name for handler in node.handlers if handler.name})",
-     "        set())",
+     "                branch_possible_effects(node.orelse, scope),\n                {handler.name for handler in node.handlers if handler.name})",
+     "                branch_possible_effects(node.orelse, scope),\n                set())",
      "tests.test_g11_census.ToolChecks.test_exception_target_names_invalidate_static_bindings",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("noniterable literal accepted as comprehension source", "census",
@@ -983,7 +983,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_multiline_calls_preserve_argument_effect_order",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("direct loop effects ignored", "census",
-     "            possible_effects = _branch_assigned_names([node])",
+     "            possible_effects = branch_possible_effects([node], scope)",
      "            possible_effects = set()",
      "tests.test_g11_census.ToolChecks.test_possible_loop_writes_invalidate_static_bindings",
      '{"tools/body-unused.py": False, "tools/else-unused.py": False,'),
@@ -1072,7 +1072,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_conditional_expression_arms_require_proven_selection",
      '{"tools/false-else-live.mjs": True,'),
     ("skipped Boolean operand effects ignored", "census",
-     "                    possible_effects = _branch_assigned_names(node.values[index + 1:])",
+     "                    possible_effects = branch_possible_effects(\n                        node.values[index + 1:], scope)",
      "                    possible_effects = set()",
      "tests.test_g11_census.ToolChecks.test_unknown_boolean_operand_effects_invalidate_downstream_bindings",
      '{"tools/direct-unused.py": False, "tools/live.py": True,'),
@@ -1092,7 +1092,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_python_helper_requires_bindable_arguments",
      '{"tools/direct-unused.py": False, "tools/live.py": True,'),
     ("unknown conditional expression effects ignored", "census",
-     "                possible_effects = _branch_assigned_names((node.body, node.orelse))",
+     "                possible_effects = branch_possible_effects(\n                    (node.body, node.orelse), scope)",
      "                possible_effects = set()",
      "tests.test_g11_census.ToolChecks.test_unknown_conditional_expression_effects_invalidate_provenance",
      '{"tools/unused.py": False, "tools/wrapper-unused.py": False}'),
@@ -1117,8 +1117,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_tuple_augmented_assignment_does_not_mutate_alias",
      '{"tools/live.py": True, "tools/unused.py": False}'),
     ("JavaScript unbraced literal-if reachability ignored", "census",
-     '            if (match.group(1) == "false"\n                    and consequent_start <= candidate < consequent_end):\n                return True',
-     "            if False:\n                return True",
+     "            if consequent_start <= candidate < consequent_end:\n                return truth is not True",
+     "            if consequent_start <= candidate < consequent_end:\n                return False",
      "tests.test_g11_census.ToolChecks.test_js_unbraced_literal_false_branch_is_not_activated",
      '{"tools/p1.mjs": False, "tools/p2.mjs": False,'),
     ("JavaScript newline call continuation treated as ASI", "census",
@@ -1192,7 +1192,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_assignment_target_effects_follow_rhs_and_precede_later_statements",
      '{"tools/live.py": True, "tools/unused.py": False},'),
     ("unknown chained-comparison suffix effects ignored", "census",
-     "                    possible_effects = _branch_assigned_names(\n                        node.comparators[index + 1:])",
+     "                    possible_effects = branch_possible_effects(\n                        node.comparators[index + 1:], scope)",
      "                    possible_effects = set()",
      "tests.test_g11_census.ToolChecks.test_unknown_chained_comparison_suffix_effect_invalidates_provenance",
      '{"tools/direct-unused.py": False, "tools/wrapper-unused.py": False},'),
@@ -1202,7 +1202,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_unknown_chained_comparison_suffix_effect_invalidates_provenance",
      '{"tools/direct-unused.py": False, "tools/wrapper-unused.py": False},'),
     ("unresolved eager-comprehension effects ignored", "census",
-     "            possible_effects = _branch_assigned_names(\n                _comprehension_possible_effect_expressions(node))",
+     "            possible_effects = branch_possible_effects(\n                _comprehension_possible_effect_expressions(node), scope)",
      "            possible_effects = set()",
      "tests.test_g11_census.ToolChecks.test_unresolved_eager_comprehension_effects_invalidate_provenance",
      '{"tools/direct-unused.py": False, "tools/wrapper-unused.py": False},'),
@@ -1217,10 +1217,25 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_uninvoked_method_bodies_are_not_module_execution",
      '{"tools/class-unused.mjs": False, "tools/live.mjs": True,'),
     ("literal-true JavaScript else arm treated as reachable", "census",
-     '            if (match.group(1) == "true" and alternate_end is not None\n                    and alternate_body_start <= candidate < alternate_end):',
-     '            if (False and alternate_end is not None\n                    and alternate_body_start <= candidate < alternate_end):',
+     '            if (alternate_end is not None\n                    and alternate_body_start <= candidate < alternate_end):\n                return truth is not False',
+     '            if (alternate_end is not None\n                    and alternate_body_start <= candidate < alternate_end):\n                return False',
      "tests.test_g11_census.ToolChecks.test_js_literal_if_excludes_both_unselected_braced_arms",
      '"tools/true-else-unused.mjs": False,'),
+    ("unknown branch helper effects ignored", "census",
+     "            if call_effects is not None:\n                names.update(call_effects(node))",
+     "            if False:\n                names.update(call_effects(node))",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_effects_invalidate_downstream_bindings",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("quoted JavaScript child-process import trusted", "census",
+     "    for match in named_import.finditer(visible):\n        if searchable[match.start():match.start() + 6] != \"import\":\n            continue",
+     "    for match in named_import.finditer(visible):\n        if False:\n            continue",
+     "tests.test_g11_census.ToolChecks.test_js_quoted_child_process_import_is_not_trusted",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("dead JavaScript URL initializer trusted", "census",
+     '        if not _js_call_activation_points(visible, match.start("kind")):\n            continue',
+     '        if False:\n            continue',
+     "tests.test_g11_census.ToolChecks.test_js_dead_url_initializer_does_not_create_provenance",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1480,6 +1495,9 @@ EXPECTED_MUTATION_NAMES = (
     "forwarding wrapper unresolved eager-comprehension effects ignored",
     "uninvoked JavaScript methods treated as module execution",
     "literal-true JavaScript else arm treated as reachable",
+    "unknown branch helper effects ignored",
+    "quoted JavaScript child-process import trusted",
+    "dead JavaScript URL initializer trusted",
 )
 
 
@@ -1658,7 +1676,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 188
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 191
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

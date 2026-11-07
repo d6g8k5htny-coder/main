@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "95f64956c33f1310aba94c50add5021bc99546d0b0374fa865d82cf5c13d40ad"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "b6c7c122b6f5fa3e78788324e14d57466883d686d8727bff3e1ded2a594be1ce"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -1822,6 +1822,23 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
+    def test_unknown_branch_helper_effects_invalidate_downstream_bindings(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_helper_effect.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "def replace():\n"
+                "    command[:] = ['echo']\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    replace()\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
     def test_handler_free_try_body_termination_stops_following_helper_statements(self):
         tree = {
             "tools/unused.py": "x = 1\n",
@@ -2733,6 +2750,7 @@ class ToolChecks(unittest.TestCase):
                 "function unused() {\n"
                 "  const script=new URL('../tools/unused.mjs',import.meta.url);\n"
                 "}\n"
+                "unused();\n"
                 "spawnSync('echo',[script]);\n"
             ),
         }
@@ -3144,6 +3162,32 @@ class ToolChecks(unittest.TestCase):
         self.assertEqual(
             {path: item["referenced"] for path, item in self.tools(tree).items()},
             {"tools/live.mjs": True, "tools/unused.mjs": False})
+
+    def test_js_quoted_child_process_import_is_not_trusted(self):
+        tree = {
+            "tools/unused.mjs": "export const value = 1;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/quoted-import.test.mjs": (
+                "const quoted=\"import { spawnSync } from 'node:child_process';\";\n"
+                "const spawnSync=()=>{};\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "spawnSync('echo',[script]);\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
+    def test_js_dead_url_initializer_does_not_create_provenance(self):
+        tree = {
+            "tools/unused.mjs": "export const value = 1;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/dead-url-initializer.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "var script='other';\n"
+                "if(false){var script=new URL('../tools/unused.mjs',import.meta.url);}\n"
+                "spawnSync('echo',[script]);\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
     def test_js_url_alias_mutation_invalidates_original_provenance(self):
         tree = {
@@ -3617,7 +3661,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 256)
+        self.assertEqual(len(cases), 259)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:
