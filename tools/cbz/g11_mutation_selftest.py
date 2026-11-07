@@ -307,8 +307,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.Workflows.test_job_defaults_run_mapping_is_not_a_step",
      "self.assertEqual(g11.noop_steps(text), [])"),
     ("static path assignments not bound", "census",
-     "            _bind_python_value(\n                node, value, local, module_bindings, scope, global_names)",
-     "            _bind_python_value(\n                node, None, local, module_bindings, scope, global_names)",
+     "            _bind_python_value(\n                node, value, local, module_bindings, scope, global_names,\n                destination_for_name)",
+     "            _bind_python_value(\n                node, None, local, module_bindings, scope, global_names,\n                destination_for_name)",
      "tests.test_g11_census.ToolChecks.test_reachable_python_path_values_are_execution_references",
      "self.assertEqual(referenced,"),
     ("spec loader path ignored", "census",
@@ -512,7 +512,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_path_constructor_resolves_every_component",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("command element assignment retains stale sequence", "census",
-     "                _invalidate_python_binding(\n                    root.id, local, module, scope, global_names)",
+     "                _invalidate_python_binding(\n                    root.id, local, module, scope, global_names,\n                    destination_for_name)",
      "                pass",
      "tests.test_g11_census.ToolChecks.test_command_element_assignment_invalidates_static_sequence",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
@@ -532,7 +532,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_wrapper_element_write_invalidates_forwarding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("helper element write falls back to module binding", "census",
-     "                _invalidate_python_binding(\n                    root.id, local, module, scope, global_names)",
+     "                _invalidate_python_binding(\n                    root.id, local, module, scope, global_names,\n                    destination_for_name)",
      "                local.pop(root.id, None)",
      "tests.test_g11_census.ToolChecks.test_helper_element_write_invalidates_module_binding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
@@ -652,8 +652,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_nested_helper_effects_precede_caller_continuation",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("global assignment stored in helper local binding", "census",
-     "        return module if scope is None or name in global_names else local",
-     "        return module if scope is None else local",
+     "        if scope is None or name in scope_globals.get(scope, set()):\n            return None",
+     "        if scope is None:\n            return None",
      "tests.test_g11_census.ToolChecks.test_nested_helper_global_assignment_updates_module_binding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("command element deletion retains stale sequence", "census",
@@ -856,6 +856,36 @@ NEW_MUTATIONS = [
      "        if False:\n            # The try body executes, and a finally body executes regardless of",
      "tests.test_g11_census.ToolChecks.test_try_handlers_require_proven_reachability_but_finally_executes",
      'self.assertEqual(\n            {\n                "tools/body-live.py": True,'),
+    ("skipped exception branch effects ignored", "census",
+     "            if possible_effects:\n                marker = ast.Delete(",
+     "            if False:\n                marker = ast.Delete(",
+     "tests.test_g11_census.ToolChecks.test_unproven_exception_branches_invalidate_downstream_bindings",
+     '{"tools/else-unused.py": False, "tools/handler-unused.py": False},'),
+    ("wrapper exception-handler reachability ignored", "census",
+     "            if isinstance(node, (ast.Try, getattr(ast, \"TryStar\", ast.Try))):\n                body_terminates = visit_body(node.body)",
+     "            if False:\n                body_terminates = visit_body(node.body)",
+     "tests.test_g11_census.ToolChecks.test_forwarding_wrapper_try_boundary_and_finally_execution",
+     '{"tools/finally-live.py": True, "tools/handler-unused.py": False},'),
+    ("forwarding wrapper comprehension reachability ignored", "census",
+     "            if isinstance(node, (ast.ListComp, ast.SetComp, ast.DictComp,\n                                 ast.GeneratorExp)):\n                if not node.generators:",
+     "            if False:\n                if not node.generators:",
+     "tests.test_g11_census.ToolChecks.test_forwarding_wrapper_requires_established_comprehension_iteration",
+     '"tools/generator-unused.py": False,'),
+    ("finally termination not propagated", "census",
+     "        if isinstance(statement, (ast.Try, getattr(ast, \"TryStar\", ast.Try))):\n            return statement_sequence_terminates(statement.finalbody)",
+     "        if isinstance(statement, (ast.Try, getattr(ast, \"TryStar\", ast.Try))):\n            return False",
+     "tests.test_g11_census.ToolChecks.test_finally_termination_stops_following_helper_statements",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("JavaScript URL destructured lexical shadow ignored", "census",
+     "            if _js_local_declaration_shadows(\n                    visible, call_start, name, declaration_end):\n                continue",
+     "            if False:\n                continue",
+     "tests.test_g11_census.ToolChecks.test_js_destructured_lexical_binding_shadows_outer_url_argument",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("nonlocal static assignment kept in helper scope", "census",
+     "        destination_for_name = lambda name: binding_destination(scope, name)",
+     "        destination_for_name = lambda name: (\n            module_bindings if scope is None or name in global_names else local)",
+     "tests.test_g11_census.ToolChecks.test_nonlocal_assignment_updates_enclosing_static_command_binding",
+     '{"tools/live.py": True, "tools/unused.py": False},'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1045,6 +1075,12 @@ EXPECTED_MUTATION_NAMES = (
     "wrapper keyword argument effects deferred",
     "forwarding wrapper chained-comparison reachability ignored",
     "exception handler reachability ignored",
+    "skipped exception branch effects ignored",
+    "wrapper exception-handler reachability ignored",
+    "forwarding wrapper comprehension reachability ignored",
+    "finally termination not propagated",
+    "JavaScript URL destructured lexical shadow ignored",
+    "nonlocal static assignment kept in helper scope",
 )
 
 
@@ -1223,7 +1259,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 134
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 140
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

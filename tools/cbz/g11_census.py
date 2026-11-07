@@ -747,16 +747,18 @@ def _is_none_guard(node):
 
 
 def _branch_assigned_names(body):
-    """Return names assigned in one branch without entering nested scopes."""
+    """Return names possibly rebound or mutated without entering nested scopes."""
     names = set()
 
     class Collector(ast.NodeVisitor):
         def visit_FunctionDef(self, node):
+            names.add(node.name)
             return
 
         visit_AsyncFunctionDef = visit_FunctionDef
 
         def visit_ClassDef(self, node):
+            names.add(node.name)
             return
 
         def visit_Lambda(self, node):
@@ -765,6 +767,46 @@ def _branch_assigned_names(body):
         def visit_Name(self, node):
             if isinstance(node.ctx, (ast.Store, ast.Del)):
                 names.add(node.id)
+
+        def visit_Import(self, node):
+            for alias in node.names:
+                names.add(alias.asname or alias.name.split(".", 1)[0])
+
+        def visit_ImportFrom(self, node):
+            for alias in node.names:
+                if alias.name != "*":
+                    names.add(alias.asname or alias.name)
+
+        def visit_Call(self, node):
+            mutated = _python_mutated_root_name(node)
+            if mutated:
+                names.add(mutated)
+            self.generic_visit(node)
+
+        def _target_root(self, target):
+            root = target
+            while isinstance(root, (ast.Subscript, ast.Attribute)):
+                root = root.value
+            if isinstance(root, ast.Name):
+                names.add(root.id)
+
+        def visit_Assign(self, node):
+            for target in node.targets:
+                self._target_root(target)
+            self.generic_visit(node)
+
+        def visit_AnnAssign(self, node):
+            self._target_root(node.target)
+            self.generic_visit(node)
+
+        def visit_AugAssign(self, node):
+            self._target_root(node.target)
+            self.generic_visit(node)
+
+        def visit_Delete(self, node):
+            for target in node.targets:
+                self._target_root(target)
+            self.generic_visit(node)
 
     collector = Collector()
     for statement in body:
@@ -817,6 +859,8 @@ def _reachable_python_nodes(tree, mode):
     def statement_terminates(statement):
         if isinstance(statement, (ast.Return, ast.Raise)):
             return True
+        if isinstance(statement, (ast.Try, getattr(ast, "TryStar", ast.Try))):
+            return statement_sequence_terminates(statement.finalbody)
         if not isinstance(statement, ast.If):
             return False
         if _is_main_guard(statement.test):
@@ -944,6 +988,25 @@ def _reachable_python_nodes(tree, mode):
             # matching, neither a handler nor the no-exception else body is
             # definite execution evidence.
             visit_statement_sequence(node.body, owner, scope, activation_line)
+            possible_effects = set().union(
+                *(_branch_assigned_names(handler.body) for handler in node.handlers),
+                _branch_assigned_names(node.orelse))
+            if possible_effects:
+                marker = ast.Delete(
+                    targets=[ast.Name(id=name, ctx=ast.Del())
+                             for name in sorted(possible_effects)])
+                boundary_statements = [
+                    *(handler.body[0] for handler in node.handlers if handler.body),
+                    *(node.orelse[:1]),
+                    *(node.finalbody[:1]),
+                ]
+                marker.lineno = min(
+                    (getattr(statement, "lineno", node.lineno)
+                     for statement in boundary_statements),
+                    default=getattr(node, "end_lineno", node.lineno))
+                execution_line = (marker.lineno if activation_line is None
+                                  else activation_line)
+                nodes.append((marker, scope, execution_line))
             visit_statement_sequence(node.finalbody, owner, scope, activation_line)
             return
 
@@ -1351,8 +1414,10 @@ def _python_function_parent_scopes(tree):
     return parents
 
 
-def _invalidate_python_binding(name, local, module, scope, global_names=()):
-    destination = module if scope is None or name in global_names else local
+def _invalidate_python_binding(name, local, module, scope, global_names=(),
+                               destination_for_name=None):
+    destination = (destination_for_name(name) if destination_for_name is not None
+                   else module if scope is None or name in global_names else local)
     prior = destination.get(name, module.get(name))
     if isinstance(prior, list):
         # Previously evaluated arguments hold the same list object. Mark that
@@ -1367,12 +1432,15 @@ def _invalidate_python_binding(name, local, module, scope, global_names=()):
     destination[name] = _UNRESOLVED_STATIC
 
 
-def _bind_python_value(node, value, local, module, scope, global_names=()):
+def _bind_python_value(node, value, local, module, scope, global_names=(),
+                       destination_for_name=None):
     targets = []
     if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
         targets = node.targets if isinstance(node, ast.Assign) else [node.target]
 
     def destination(name):
+        if destination_for_name is not None:
+            return destination_for_name(name)
         return module if scope is None or name in global_names else local
 
     def bind(target, target_value):
@@ -1382,7 +1450,8 @@ def _bind_python_value(node, value, local, module, scope, global_names=()):
                 root = root.value
             if isinstance(root, ast.Name):
                 _invalidate_python_binding(
-                    root.id, local, module, scope, global_names)
+                    root.id, local, module, scope, global_names,
+                    destination_for_name)
             return
         if isinstance(target, (ast.Tuple, ast.List)):
             if not isinstance(target_value, list) or len(target.elts) != len(target_value):
@@ -1521,6 +1590,16 @@ def _python_execution_wrappers(tree, imports):
                 return visit_body(branch)
             if isinstance(node, (ast.For, ast.AsyncFor, ast.While)):
                 return False
+            if isinstance(node, (ast.Try, getattr(ast, "TryStar", ast.Try))):
+                body_terminates = visit_body(node.body)
+                possible_effects = set().union(
+                    *(_branch_assigned_names(handler.body)
+                      for handler in node.handlers),
+                    _branch_assigned_names(node.orelse))
+                for name in possible_effects:
+                    invalidate(name)
+                finally_terminates = visit_body(node.finalbody)
+                return finally_terminates or (body_terminates and not node.handlers)
             if isinstance(node, ast.IfExp):
                 visit(node.test)
                 truth = _literal_bool(node.test)
@@ -1549,6 +1628,36 @@ def _python_execution_wrappers(tree, imports):
                     if truth is not True:
                         break
                     left = comparator
+                return False
+            if isinstance(node, (ast.ListComp, ast.SetComp, ast.DictComp,
+                                 ast.GeneratorExp)):
+                if not node.generators:
+                    return False
+                first = node.generators[0]
+                visit(first.iter)
+                if isinstance(node, ast.GeneratorExp):
+                    return False
+                try:
+                    iterable = ast.literal_eval(first.iter)
+                except (ValueError, TypeError):
+                    return False
+                if (not iterable
+                        or any(_literal_bool(guard) is not True for guard in first.ifs)
+                        or len(node.generators) != 1):
+                    return False
+                target_names = _target_names(first.target)
+                saved_aliases = {name: aliases[name] for name in target_names
+                                 if name in aliases}
+                for name in target_names:
+                    aliases.pop(name, None)
+                try:
+                    if isinstance(node, ast.DictComp):
+                        visit(node.key)
+                        visit(node.value)
+                    else:
+                        visit(node.elt)
+                finally:
+                    aliases.update(saved_aliases)
                 return False
             if isinstance(node, ast.Call):
                 # Python evaluates the callee, positional arguments and
@@ -1648,16 +1757,27 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
     reachable_nodes = sorted(_reachable_python_nodes(tree, mode), key=lambda item: item[2])
     wrapper_reassignments = {}
 
-    def wrapper_destination_scope(scope, name):
+    def binding_destination_scope(scope, name):
         if scope is None or name in scope_globals.get(scope, set()):
             return None
         if name in scope_nonlocals.get(scope, set()):
             parent = scope_parents.get(scope)
             while parent is not None:
-                if name in scope_shadowed.get(parent, set()):
+                owns_binding = (
+                    name in scope_shadowed.get(parent, set())
+                    and name not in scope_globals.get(parent, set())
+                    and name not in scope_nonlocals.get(parent, set()))
+                if owns_binding:
                     return parent
                 parent = scope_parents.get(parent)
         return scope
+
+    def binding_destination(scope, name):
+        destination_scope = binding_destination_scope(scope, name)
+        return (module_bindings if destination_scope is None
+                else scope_bindings.setdefault(destination_scope, {}))
+
+    wrapper_destination_scope = binding_destination_scope
 
     for node, scope, execution_line in reachable_nodes:
         if not isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
@@ -1674,6 +1794,7 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
         local = scope_bindings.setdefault(scope, {}) if scope is not None else module_bindings
         global_names = scope_globals.get(scope, set())
         local_imports = scope_imports.setdefault(scope, _empty_import_bindings())
+        destination_for_name = lambda name: binding_destination(scope, name)
         if scope is not None:
             _update_local_import_bindings(node, local_imports)
         active_imports, _ = _combined_import_bindings(
@@ -1712,14 +1833,14 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                 value_node, evaluated_sequence_elements, local, module_bindings,
                 source_path, active_imports, static_shadowed)
             if isinstance(node, ast.AugAssign) and isinstance(node.target, ast.Name):
-                destination = (module_bindings if scope is None or node.target.id in global_names
-                               else local)
+                destination = destination_for_name(node.target.id)
                 prior = destination.get(node.target.id, module_bindings.get(node.target.id))
                 if isinstance(prior, list) and isinstance(value, list):
                     prior[:] = value
                     value = prior
             _bind_python_value(
-                node, value, local, module_bindings, scope, global_names)
+                node, value, local, module_bindings, scope, global_names,
+                destination_for_name)
         elif isinstance(node, ast.Delete):
             for target in node.targets:
                 names = _target_names(target)
@@ -1731,7 +1852,8 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                         names = {root.id}
                 for name in names:
                     _invalidate_python_binding(
-                        name, local, module_bindings, scope, global_names)
+                        name, local, module_bindings, scope, global_names,
+                        destination_for_name)
         if isinstance(node, ast.Import):
             for alias in node.names:
                 path = _tool_for_module(alias.name, tools, unique)
@@ -1760,7 +1882,8 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
             mutated_root = _python_mutated_root_name(node)
             if mutated_root:
                 _invalidate_python_binding(
-                    mutated_root, local, module_bindings, scope, global_names)
+                    mutated_root, local, module_bindings, scope, global_names,
+                    destination_for_name)
             call_name = _resolved_import_name(node.func, active_imports, static_shadowed)
             if isinstance(node.func, ast.Name):
                 key = (scope, node.func.id)
@@ -1941,6 +2064,9 @@ def js_tool_references(text, source_path, tools):
             if name not in identifiers or not available:
                 continue
             declaration_end, target, declaration_scope, _declaration_block = available[-1]
+            if _js_local_declaration_shadows(
+                    visible, call_start, name, declaration_end):
+                continue
             assignment = re.compile(
                 r"(?<![\w$.])" + re.escape(name) +
                 r"(?![\w$])\s*(?:=(?!=|>)|\+\+|--|(?:\+|-|\*|/|%|&|\||\^|<<|>>)\s*=)")
@@ -2304,7 +2430,8 @@ def _js_parameter_shadows(text, position, name):
     return False
 
 
-def _js_local_declaration_shadows(text, position, name):
+def _js_local_declaration_shadows(text, position, name,
+                                  after_position=None):
     """Return true for a declaration in a containing lexical block."""
     searchable, function_scopes = _js_function_scopes(text)
     blocks = _js_block_scopes(searchable)
@@ -2317,6 +2444,8 @@ def _js_local_declaration_shadows(text, position, name):
         r"\b(?:function|class)\s+" + re.escape(name) + r"(?![\w$])")
     for block in containing:
         for declaration in direct_pattern.finditer(searchable, block[0] + 1, block[1]):
+            if after_position is not None and declaration.start() < after_position:
+                continue
             declaration_blocks = [candidate for candidate in blocks
                                   if candidate[0] < declaration.start() < candidate[1]]
             declaration_block = (max(declaration_blocks, key=lambda item: item[0])
@@ -2325,6 +2454,8 @@ def _js_local_declaration_shadows(text, position, name):
                 return True
         variable_pattern = re.compile(r"\b(?:const|let|var)\b")
         for declaration in variable_pattern.finditer(searchable, block[0] + 1, block[1]):
+            if after_position is not None and declaration.start() < after_position:
+                continue
             declaration_blocks = [candidate for candidate in blocks
                                   if candidate[0] < declaration.start() < candidate[1]]
             declaration_block = (max(declaration_blocks, key=lambda item: item[0])
