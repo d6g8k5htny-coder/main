@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`296dd6ed84f5ba5f496bdb9b6fa13344d38e97d0`, based on Main default
+`df4427c0482b23359e3525c4ca0ef4886c88a7bf`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,17 +263,17 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`296dd6ed84f5ba5f496bdb9b6fa13344d38e97d0` (tree
-`3544762c7e816c73c89f426ed1fcfe7a8ce7d707`) recognizes explicit local path
+`df4427c0482b23359e3525c4ca0ef4886c88a7bf` (tree
+`dbaa6f8d83d7de00c8ae12b3e732b352dd2adad1`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-140/140 controls and 192/192 designated mutations passed in both modes; the
+148/148 controls and 199/199 designated mutations passed in both modes; the
 sealed mutation-inventory SHA-256 is
-`56bca3b149ea06f9401a108ee197a6908085afef7ffded06e1cc7ea242a00ca6`. The exact
+`d6c961dfd0cf8c41a3ebc2a42d71a2ff7adc1a3413c4cc995fc4922d4082f812`. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`7d4f0886d8cc2ded53ac69f4a66429390ca82ca14c0f6097abf62e796653f365`,
-56,078 bytes each),
-with zero production findings and exactly 29 no-current-exercise tool
+`be7912bb5e6d27f841a4c65156c76dab676d78dcffaeeb32814caaa7bab4928d`,
+55,961 bytes each),
+with zero production findings and exactly 32 no-current-exercise or documentation tool
 candidates; both runs exited 1. Adverse controls refuse mere path
 mentions caused by stale bindings after unproven exception branches, wrapper
 discovery in those branches or in empty/unconsumed comprehensions, execution

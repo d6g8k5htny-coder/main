@@ -12,7 +12,7 @@ Observed sequentially on 6 November 2026:
 
 | Repository | Default revision |
 |---|---|
-| Main | Candidate containing this file; native source parent `296dd6ed84f5ba5f496bdb9b6fa13344d38e97d0`, based on default `299c7fad72f1079b87b2d044b2d30f2098678f29` |
+| Main | Candidate containing this file; native source parent `df4427c0482b23359e3525c4ca0ef4886c88a7bf`, based on default `299c7fad72f1079b87b2d044b2d30f2098678f29` |
 | Math- | `f532c3e2d91a0c7679a37c733741660917a9b21b` |
 | Universal-Law-Workspace | `05f3096d077a6fa4ff6cf763c074451cb1ac9972` (pins Main `299c7fad72f1079b87b2d044b2d30f2098678f29`) |
 
@@ -38,7 +38,7 @@ is an incomplete handoff, not proof of this baseline.
 | 6 | Lean/build/kernel/approved axioms; no sorry | **BLOCKED.** Fresh current-composition results for the entire admitted proof scope are absent. |
 | 7 | Declared mutation threshold met | **BLOCKED.** Component mutation receipts do not establish one federation threshold. |
 | 8 | Pins resolve and current tips agree | **BLOCKED.** Workspace passed at its recorded merge, but its Main pin predates the current source parent. A guarded strict-current refresh is still required. |
-| 9 | Tools complete, documented and self-verified | **BLOCKED.** The adverse-tested G11 attribution repair closes the 20 active gaps, while [TOOLING.md](TOOLING.md) retains 29 no-current-exercise tool candidates and the missing final orchestrator. |
+| 9 | Tools complete, documented and self-verified | **BLOCKED.** The adverse-tested G11 attribution repair closes the 20 active gaps and 99 review/adverse defects, while [TOOLING.md](TOOLING.md) retains 32 no-current-exercise or documentation tool candidates and the missing final orchestrator. |
 | 10 | Five canonical surfaces truthful and consistent | **PARTIAL.** All five surfaces exist and record the current source relation and residue, but a final same-snapshot consistency and cold-start readback is absent. |
 | 11 | Fresh clone reads STATUS alone and reruns every gate | **BLOCKED.** No STATUS-only cold-start execution over this revision is recorded. |
 | 12 | Decisions complete; no pending administration | **BLOCKED.** Retained refs, proof reconciliation and final integration remain pending. |
@@ -63,7 +63,7 @@ Component evidence, cached output and skipped or partial jobs cannot substitute.
 | G8 | Canonical status consistency | Candidate documentation change; final gate absent |
 | G9 | STATUS-only cold start | Not run |
 | G10 | Git/ref administration | Local root and remote census only; retained-ref disposition incomplete |
-| G11 | Tooling completeness | Workflow-scope and active-attribution repairs passed their adverse suites; 29 no-current-exercise tool candidates and final-orchestrator residue remain |
+| G11 | Tooling completeness | Workflow-scope and active-attribution repairs passed their adverse suites; 32 no-current-exercise or documentation tool candidates and final-orchestrator residue remain |
 
 ## Cold-start order
 

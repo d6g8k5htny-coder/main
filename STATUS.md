@@ -8,10 +8,10 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
-## Current maintenance snapshot — 6 November 2026
+## Current maintenance snapshot — 7 November 2026
 
 The Main candidate containing this file has native source parent
-`296dd6ed84f5ba5f496bdb9b6fa13344d38e97d0`; its isolated work began from the
+`df4427c0482b23359e3525c4ca0ef4886c88a7bf`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,16 +37,21 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `296dd6ed84f5ba5f496bdb9b6fa13344d38e97d0` (tree
-`3544762c7e816c73c89f426ed1fcfe7a8ce7d707`) passed 140/140 tests and killed
-192/192 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `56bca3b149ea06f9401a108ee197a6908085afef7ffded06e1cc7ea242a00ca6`.
+native source `df4427c0482b23359e3525c4ca0ef4886c88a7bf` (tree
+`dbaa6f8d83d7de00c8ae12b3e732b352dd2adad1`) passed 148/148 tests and killed
+199/199 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `d6c961dfd0cf8c41a3ebc2a42d71a2ff7adc1a3413c4cc995fc4922d4082f812`.
 Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`7d4f0886d8cc2ded53ac69f4a66429390ca82ca14c0f6097abf62e796653f365`,
-56,078 bytes each)
-contain zero production findings and retain exactly 29 no-current-exercise
-tool candidates; both census runs exit 1. The former 20 active
+`be7912bb5e6d27f841a4c65156c76dab676d78dcffaeeb32814caaa7bab4928d`,
+55,961 bytes each)
+contain zero production findings and retain exactly 32 no-current-exercise
+or documentation tool candidates; both census runs exit 1. The stricter
+attribution newly removes false exercise credit from
+`tools/architecture_evidence_adapter.py`,
+`tools/architecture_graph_artifact_readback.py` and
+`tools/artifact_index_export.py`; the prior 29-tool result remains historical.
+The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
 interpreter command payloads, same-line JavaScript decoys or unreachable code.
 Generator methods are not credited from object creation/closure alone;
