@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "0bdb4d9232d4d14567c03ab185e0454654357d4ff364a5057fc5ae0d08c9e776"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "753e0a479f36915a7e68132e2268501352bd78c7b7d1846de4198913366ddd92"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -2070,6 +2070,25 @@ class ToolChecks(unittest.TestCase):
             tree("command[:] = ['echo']")
         )["tools/live.py"]["referenced"])
 
+    def test_nested_destructuring_unpacks_when_nested_target_is_reached(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_nested_destructuring_timing.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "nested = [command]\n"
+                "source = [0, nested]\n"
+                "holder = [None]\n"
+                "def mutate():\n"
+                "    nested[:] = [['echo']]\n"
+                "    return 0\n"
+                "holder[mutate()], (selected,) = source\n"
+                "subprocess.run(selected, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
     def test_handler_free_try_body_termination_stops_following_helper_statements(self):
         tree = {
             "tools/unused.py": "x = 1\n",
@@ -3787,6 +3806,28 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
+    def test_js_unconstructed_literal_named_instance_fields_are_deferred(self):
+        tree = {
+            "tools/quoted-unused.mjs": "export const value = 1;\n",
+            "tools/numeric-unused.mjs": "export const value = 2;\n",
+            "tools/README.md": (
+                "tools/quoted-unused.mjs tools/numeric-unused.mjs\n"),
+            "tests/literal-instance-fields.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const quoted=new URL('../tools/quoted-unused.mjs',import.meta.url);\n"
+                "const numeric=new URL('../tools/numeric-unused.mjs',import.meta.url);\n"
+                "class Settings {\n"
+                "  'field' = spawnSync('echo',[quoted]);\n"
+                "  123 = spawnSync('echo',[numeric]);\n"
+                "}\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/numeric-unused.mjs": False,
+             "tools/quoted-unused.mjs": False},
+        )
+
     def test_js_static_block_computed_assignment_executes_at_class_definition(self):
         tree = {
             "tools/live.mjs": "export const value = 1;\n",
@@ -3869,6 +3910,22 @@ class ToolChecks(unittest.TestCase):
             {path: item["referenced"] for path, item in self.tools(tree).items()},
             {"tools/live.mjs": True, "tools/unused.mjs": False},
         )
+
+    def test_js_static_block_termination_precedes_process_activation(self):
+        tree = {
+            "tools/unused.mjs": "export const value = 1;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/static-block-termination.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "try {\n"
+                "  class Settings {\n"
+                "    static { throw 0; spawnSync('echo',[script]); }\n"
+                "  }\n"
+                "} catch {}\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
     def test_js_quoted_url_declaration_is_not_a_binding(self):
         tree = {
@@ -4384,7 +4441,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 298)
+        self.assertEqual(len(cases), 301)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

@@ -423,8 +423,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_url_child_process_execution_is_a_reference",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("destructured path values rebound as aggregate", "census",
-     "            assign(element, element_value)",
-     "            assign(element, target_value)",
+     "        values[id(element)] = element_value",
+     "        values[id(element)] = value",
      "tests.test_g11_census.ToolChecks.test_destructured_paths_bind_corresponding_values",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("rebound wrapper parameter still forwarded", "census",
@@ -1408,7 +1408,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_optional_property_chains_require_proven_evaluation",
      '"tools/property-unused.mjs": False'),
     ("JavaScript instance field initializer treated as module execution", "census",
-     "        if _js_in_deferred_instance_field(searchable, candidate):\n"
+     "        if _js_in_deferred_instance_field(searchable, candidate, text):\n"
      "            return set()",
      "        if False:\n"
      "            return set()",
@@ -1475,8 +1475,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_continuous_optional_property_chain_requires_proven_evaluation",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("computed JavaScript instance field initializer treated as module execution", "census",
-     '            r"(?:[#A-Za-z_$][\\w$#]*|\\[[^\\]\\r\\n]*\\])\\s*=")',
-     '            r"[#A-Za-z_$][\\w$#]*\\s*=")',
+     '            r"(?:[#A-Za-z_$][\\w$#]*|\\[[^\\]\\r\\n]*\\]|"',
+     '            r"(?:[#A-Za-z_$][\\w$#]*|"',
      "tests.test_g11_census.ToolChecks.test_js_unconstructed_computed_instance_field_initializer_is_deferred",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("optional JavaScript computed or call continuation activated", "census",
@@ -1537,13 +1537,9 @@ NEW_MUTATIONS = [
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("destructuring assignment element stores delayed", "census",
      "                if isinstance(target, (ast.Tuple, ast.List)):\n"
-     "                    for element in target.elts:\n"
-     "                        store_assignment_target(element, root_target)\n"
-     "                    return",
+     "                    unpack = ast.copy_location(",
      "                if False:\n"
-     "                    for element in target.elts:\n"
-     "                        store_assignment_target(element, root_target)\n"
-     "                    return",
+     "                    unpack = ast.copy_location(",
      "tests.test_g11_census.ToolChecks.test_destructuring_assignment_interleaves_element_stores_and_effects",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("quoted JavaScript method name not deferred", "census",
@@ -1574,6 +1570,35 @@ NEW_MUTATIONS = [
      "            return True",
      "tests.test_g11_census.ToolChecks.test_js_static_block_computed_assignment_executes_at_class_definition",
      'self.assertTrue(self.tools(tree)["tools/live.mjs"]["referenced"])'),
+    ("nested destructuring values captured before nested target", "census",
+     "            target_values.update(\n"
+     "                _python_assignment_target_values(target, target_value))",
+     "            if node._g11_assignment_unpack_is_root:\n"
+     "                def capture_all(pattern, pattern_value):\n"
+     "                    captured = _python_assignment_target_values(\n"
+     "                        pattern, pattern_value)\n"
+     "                    for element in getattr(pattern, 'elts', ()):\n"
+     "                        if isinstance(element, (ast.Tuple, ast.List)):\n"
+     "                            captured.update(capture_all(\n"
+     "                                element, captured.get(\n"
+     "                                    id(element), _UNRESOLVED_STATIC)))\n"
+     "                    return captured\n"
+     "                target_values.update(capture_all(target, target_value))",
+     "tests.test_g11_census.ToolChecks.test_nested_destructuring_unpacks_when_nested_target_is_reached",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("literal-named JavaScript instance field treated as module execution", "census",
+     "            r\"(?:[#A-Za-z_$][\\w$#]*|\\[[^\\]\\r\\n]*\\]|\"\n"
+     "            r\"'[^'\\r\\n]*'|\\\"[^\\\"\\r\\n]*\\\"|\"\n"
+     "            r\"(?:0[xX][0-9A-Fa-f]+|0[bB][01]+|0[oO][0-7]+|\\d+(?:\\.\\d+)?))\"",
+     "            r\"(?:[#A-Za-z_$][\\w$#]*|\\[[^\\]\\r\\n]*\\]|\"\n"
+     "            r\"(?:0[xX][0-9A-Fa-f]+|0[bB][01]+|0[oO][0-7]+|\\d+(?:\\.\\d+)?))\"",
+     "tests.test_g11_census.ToolChecks.test_js_unconstructed_literal_named_instance_fields_are_deferred",
+     '{"tools/numeric-unused.mjs": False,'),
+    ("JavaScript static-block termination ignored", "census",
+     "    static_block_scopes = _js_static_block_scopes(searchable)",
+     "    static_block_scopes = []",
+     "tests.test_g11_census.ToolChecks.test_js_static_block_termination_precedes_process_activation",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1875,6 +1900,9 @@ EXPECTED_MUTATION_NAMES = (
     "nested computed JavaScript field name unbalanced",
     "destructuring leaf values recomputed after target effects",
     "JavaScript static-block assignment treated as instance field",
+    "nested destructuring values captured before nested target",
+    "literal-named JavaScript instance field treated as module execution",
+    "JavaScript static-block termination ignored",
 )
 
 
@@ -2053,7 +2081,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 231
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 234
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

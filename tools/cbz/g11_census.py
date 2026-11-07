@@ -1445,8 +1445,17 @@ def _reachable_python_nodes(tree, mode):
                 # Unpacking stores proceed left-to-right.  A later target may
                 # call a helper that observes or mutates an earlier store, so
                 # do not defer every element store until the whole target's
-                # evaluation has completed.
+                # evaluation has completed.  Each unpacking level captures
+                # its direct elements when that level is reached: the outer
+                # level is fixed before its first store, while a nested level
+                # still observes in-place mutations by earlier outer stores.
                 if isinstance(target, (ast.Tuple, ast.List)):
+                    unpack = ast.copy_location(
+                        ast.Expr(value=node.value), target)
+                    unpack._g11_assignment_unpack_id = id(node)
+                    unpack._g11_assignment_unpack_target = target
+                    unpack._g11_assignment_unpack_is_root = target is root_target
+                    nodes.append((unpack, scope, execution_line))
                     for element in target.elts:
                         store_assignment_target(element, root_target)
                     return
@@ -2033,46 +2042,38 @@ def _invalidate_python_binding(name, local, module, scope, global_names=(),
 
 
 def _python_assignment_target_values(pattern, value):
-    """Map each unpacking leaf to the RHS value stored at that point."""
+    """Map one unpacking level to values captured when that level starts."""
     values = {}
 
     def unresolved(target):
-        if isinstance(target, (ast.Tuple, ast.List)):
-            for element in target.elts:
-                unresolved(element)
-        else:
-            values[id(target)] = _UNRESOLVED_STATIC
+        for element in pattern.elts:
+            values[id(element)] = _UNRESOLVED_STATIC
 
-    def assign(target, target_value):
-        if not isinstance(target, (ast.Tuple, ast.List)):
-            values[id(target)] = target_value
-            return
-        if not isinstance(target_value, (list, _StaticTuple)):
-            unresolved(target)
-            return
-        starred = [index for index, element in enumerate(target.elts)
-                   if isinstance(element, ast.Starred)]
-        if not starred:
-            if len(target.elts) != len(target_value):
-                unresolved(target)
-                return
-            element_values = list(target_value)
-        elif len(starred) == 1 and len(target_value) >= len(target.elts) - 1:
-            star = starred[0]
-            trailing = len(target.elts) - star - 1
-            element_values = [
-                *target_value[:star],
-                list(target_value[star:len(target_value) - trailing]),
-                *(target_value[len(target_value) - trailing:]
-                  if trailing else []),
-            ]
-        else:
-            unresolved(target)
-            return
-        for element, element_value in zip(target.elts, element_values):
-            assign(element, element_value)
-
-    assign(pattern, value)
+    if not isinstance(pattern, (ast.Tuple, ast.List)):
+        return values
+    if not isinstance(value, (list, _StaticTuple)):
+        unresolved(pattern)
+        return values
+    starred = [index for index, element in enumerate(pattern.elts)
+               if isinstance(element, ast.Starred)]
+    if not starred:
+        if len(pattern.elts) != len(value):
+            unresolved(pattern)
+            return values
+        element_values = list(value)
+    elif len(starred) == 1 and len(value) >= len(pattern.elts) - 1:
+        star = starred[0]
+        trailing = len(pattern.elts) - star - 1
+        element_values = [
+            *value[:star],
+            list(value[star:len(value) - trailing]),
+            *(value[len(value) - trailing:] if trailing else []),
+        ]
+    else:
+        unresolved(pattern)
+        return values
+    for element, element_value in zip(pattern.elts, element_values):
+        values[id(element)] = element_value
     return values
 
 
@@ -2585,12 +2586,21 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                 visible_module_bindings, source_path, active_imports,
                 static_shadowed)
             evaluated_assignment_values[node._g11_assignment_value_id] = assignment_value
-            target_values = {}
-            for root_target in node._g11_assignment_roots:
-                target_values.update(_python_assignment_target_values(
-                    root_target, assignment_value))
             evaluated_assignment_target_values[
-                node._g11_assignment_value_id] = target_values
+                node._g11_assignment_value_id] = {}
+            continue
+        if hasattr(node, "_g11_assignment_unpack_id"):
+            assignment_id = node._g11_assignment_unpack_id
+            target = node._g11_assignment_unpack_target
+            target_values = evaluated_assignment_target_values.setdefault(
+                assignment_id, {})
+            target_value = (
+                evaluated_assignment_values.get(
+                    assignment_id, _UNRESOLVED_STATIC)
+                if node._g11_assignment_unpack_is_root
+                else target_values.get(id(target), _UNRESOLVED_STATIC))
+            target_values.update(
+                _python_assignment_target_values(target, target_value))
             continue
         if hasattr(node, "_g11_augassign_target_id"):
             evaluated_augassign_targets[node._g11_augassign_target_id] = (
@@ -3549,6 +3559,39 @@ def _js_block_scopes(searchable):
     return scopes
 
 
+def _js_static_block_scopes(searchable):
+    """Return class static blocks that execute during class definition."""
+    scopes = []
+    for class_match in re.finditer(r"\bclass\b", searchable):
+        class_open = searchable.find("{", class_match.end())
+        if class_open < 0:
+            continue
+        header = searchable[class_match.end():class_open]
+        if ";" in header:
+            continue
+        class_close = _js_matching_delimiter(
+            searchable, class_open, "{", "}")
+        if class_close is None:
+            continue
+        for static in re.finditer(
+                r"\bstatic\s*\{", searchable[class_open + 1:class_close]):
+            static_start = class_open + 1 + static.start()
+            static_open = class_open + 1 + static.end() - 1
+            depth = 0
+            for char in searchable[class_open + 1:static_start]:
+                if char == "{":
+                    depth += 1
+                elif char == "}":
+                    depth -= 1
+            if depth != 0:
+                continue
+            static_close = _js_matching_delimiter(
+                searchable, static_open, "{", "}")
+            if static_close is not None and static_close < class_close:
+                scopes.append((static_open, static_close))
+    return scopes
+
+
 def _js_short_circuit_call_reachable(searchable, position):
     """Bound a call reached through one literal short-circuit operator."""
     boundary = max(searchable.rfind(token, 0, position) for token in (";", "{", "}"))
@@ -3612,8 +3655,10 @@ def _js_optional_call_argument_reachable(searchable, position):
     return True
 
 
-def _js_in_deferred_instance_field(searchable, position):
+def _js_in_deferred_instance_field(searchable, position, text=None):
     """Return whether a call is in an unsupported instance field initializer."""
+    member_searchable = (_js_mask_noncode_literals(
+        text, preserve_string_delimiters=True) if text is not None else searchable)
     for class_match in re.finditer(r"\bclass\b", searchable):
         open_brace = searchable.find("{", class_match.end())
         if open_brace < 0:
@@ -3637,8 +3682,11 @@ def _js_in_deferred_instance_field(searchable, position):
 
         member = re.compile(
             r"(?:^|[;{}\r\n])\s*(?!static\b)(?:accessor\s+)?"
-            r"(?:[#A-Za-z_$][\w$#]*|\[[^\]\r\n]*\])\s*=")
-        for field in member.finditer(searchable, open_brace, position):
+            r"(?:[#A-Za-z_$][\w$#]*|\[[^\]\r\n]*\]|"
+            r"'[^'\r\n]*'|\"[^\"\r\n]*\"|"
+            r"(?:0[xX][0-9A-Fa-f]+|0[bB][01]+|0[oO][0-7]+|\d+(?:\.\d+)?))"
+            r"\s*=")
+        for field in member.finditer(member_searchable, open_brace, position):
             value_start = field.end()
             if not at_class_member_level(value_start):
                 continue
@@ -3725,6 +3773,7 @@ def _js_ternary_call_reachable(searchable, position):
 def _js_call_activation_points(text, position):
     """Return module-root activation points for one reachable process call."""
     searchable, scopes = _js_function_scopes(text)
+    static_block_scopes = _js_static_block_scopes(searchable)
     trusted_test_names = set()
     for match in re.finditer(
             r"\bimport\s+([A-Za-z_$][\w$]*)\s+from\s+['\"]node:test['\"]", text):
@@ -3888,13 +3937,16 @@ def _js_call_activation_points(text, position):
 
     def after_unconditional_termination(candidate):
         """Reject calls after direct or completed-block return/throw."""
-        containing_functions = [
-            scope for scope in scopes
+        containing_execution_scopes = [
+            (scope[2], scope[3]) for scope in scopes
             if scope[2] < candidate < scope[3] and searchable[scope[2]] == "{"]
-        if not containing_functions:
+        containing_execution_scopes.extend(
+            scope for scope in static_block_scopes
+            if scope[0] < candidate < scope[1])
+        if not containing_execution_scopes:
             return False
-        _params_start, _params_end, function_open, function_close = max(
-            containing_functions, key=lambda item: item[2])
+        function_open, function_close = max(
+            containing_execution_scopes, key=lambda item: item[0])
         all_blocks = _js_block_scopes(searchable)
         blocks = [(function_open, function_close)]
         blocks.extend(
@@ -3985,7 +4037,7 @@ def _js_call_activation_points(text, position):
     def reachable(candidate, seen, binding_guards=()):
         if not _js_optional_call_argument_reachable(searchable, candidate):
             return set()
-        if _js_in_deferred_instance_field(searchable, candidate):
+        if _js_in_deferred_instance_field(searchable, candidate, text):
             return set()
         if not _js_short_circuit_call_reachable(searchable, candidate):
             return set()
