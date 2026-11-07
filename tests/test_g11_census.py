@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "56bca3b149ea06f9401a108ee197a6908085afef7ffded06e1cc7ea242a00ca6"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "d6c961dfd0cf8c41a3ebc2a42d71a2ff7adc1a3413c4cc995fc4922d4082f812"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -1223,6 +1223,82 @@ class ToolChecks(unittest.TestCase):
             {"tools/live.py": True, "tools/unused.py": False},
         )
 
+    def test_unknown_branch_effects_invalidate_downstream_bindings(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_effect.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "alias = command\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    alias.clear()\n"
+                "subprocess.run(command)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_handler_free_try_body_termination_stops_following_helper_statements(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_try_return.py": (
+                "import runpy\n"
+                "script = 'tools/unused.py'\n"
+                "def exercise():\n"
+                "    try:\n"
+                "        return\n"
+                "    finally:\n"
+                "        value = 1\n"
+                "    runpy.run_path(script)\n"
+                "exercise()\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_decorated_python_helper_does_not_retain_original_body(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/old.py": "x = 1\n",
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/live.py tools/old.py tools/unused.py\n",
+            "tests/test_decorated_helper.py": (
+                "import runpy\n"
+                "script = 'tools/unused.py'\n"
+                "def launch():\n"
+                "    runpy.run_path('tools/old.py')\n"
+                "def discard(function):\n"
+                "    return print\n"
+                "@discard\n"
+                "def launch():\n"
+                "    runpy.run_path(script)\n"
+                "def live():\n"
+                "    runpy.run_path('tools/live.py')\n"
+                "launch()\n"
+                "live()\n"
+            ),
+        }
+        report = self.tools(tree)
+        self.assertTrue(report["tools/live.py"]["referenced"])
+        self.assertFalse(report["tools/old.py"]["referenced"])
+        self.assertFalse(report["tools/unused.py"]["referenced"])
+
+    def test_non_string_executable_value_is_left_unresolved(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_bad_command_shape.py": (
+                "import subprocess\n"
+                "import unittest\n"
+                "class CommandShape(unittest.TestCase):\n"
+                "    def test_nested_executable(self):\n"
+                "        with self.assertRaises(TypeError):\n"
+                "            subprocess.run([['python3', 'tools/unused.py']])\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
     def test_lambda_creation_executes_defaults_not_body(self):
         tree = {
             "tools/body-unused.py": "x = 1\n",
@@ -1927,6 +2003,79 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
+    def test_js_destructured_helper_binding_shadows_module_helper(self):
+        tree = {
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/helper-shadow.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "function launch(){spawnSync('echo',[script]);}\n"
+                "function exercise(){\n"
+                "  const [launch]=[()=>{}];\n"
+                "  launch();\n"
+                "}\n"
+                "exercise();\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
+    def test_js_nested_named_helper_chain_reaches_child_process_call(self):
+        tree = {
+            "tools/live.mjs": "export const live = true;\n",
+            "tools/README.md": "tools/live.mjs\n",
+            "tests/nested-helper.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/live.mjs',import.meta.url);\n"
+                "function outer(){\n"
+                "  function inner(){spawnSync('echo',[script]);}\n"
+                "  inner();\n"
+                "}\n"
+                "outer();\n"
+            ),
+        }
+        self.assertTrue(self.tools(tree)["tools/live.mjs"]["referenced"])
+
+    def test_js_url_binding_must_reach_child_process_arguments(self):
+        tree = {
+            "tools/live.mjs": "export const live = true;\n",
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/live.mjs tools/unused.mjs\n",
+            "tests/url-delivery.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const live=new URL('../tools/live.mjs',import.meta.url);\n"
+                "const unused=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "spawnSync('echo',[live,false && unused]);\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.mjs": True, "tools/unused.mjs": False},
+        )
+
+    def test_js_file_url_to_path_requires_unshadowed_node_url_import(self):
+        tree = {
+            "tools/live.mjs": "export const live = true;\n",
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/live.mjs tools/unused.mjs\n",
+            "tests/trusted-converter.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "import {fileURLToPath} from 'node:url';\n"
+                "const live=fileURLToPath(new URL('../tools/live.mjs',import.meta.url));\n"
+                "spawnSync('echo',[live]);\n"
+            ),
+            "tests/fake-converter.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "function fileURLToPath(value){return 'other.py';}\n"
+                "const unused=fileURLToPath(new URL('../tools/unused.mjs',import.meta.url));\n"
+                "spawnSync('echo',[unused]);\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.mjs": True, "tools/unused.mjs": False},
+        )
+
     def test_js_unreachable_child_process_calls_are_not_references(self):
         tree = {
             "tools/branch.mjs": "export const branch = true;\n",
@@ -2366,7 +2515,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 192)
+        self.assertEqual(len(cases), 199)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

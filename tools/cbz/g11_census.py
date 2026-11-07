@@ -860,7 +860,9 @@ def _reachable_python_nodes(tree, mode):
         if isinstance(statement, (ast.Return, ast.Raise)):
             return True
         if isinstance(statement, (ast.Try, getattr(ast, "TryStar", ast.Try))):
-            return statement_sequence_terminates(statement.finalbody)
+            return (statement_sequence_terminates(statement.finalbody)
+                    or (not statement.handlers
+                        and statement_sequence_terminates(statement.body)))
         if not isinstance(statement, ast.If):
             return False
         if _is_main_guard(statement.test):
@@ -911,7 +913,10 @@ def _reachable_python_nodes(tree, mode):
                     visit(default, owner, scope, activation_line)
             if (owner is None and isinstance(node, ast.FunctionDef)
                     and not _function_is_generator(node)):
-                active_functions[(scope, node.name)] = node
+                key = (scope, node.name)
+                active_functions.pop(key, None)
+                if not node.decorator_list:
+                    active_functions[key] = node
             if (isinstance(node, ast.FunctionDef)
                     and not _function_is_generator(node)
                     and mode == "tests" and owner in test_classes
@@ -946,10 +951,18 @@ def _reachable_python_nodes(tree, mode):
             else:
                 truth = _literal_bool(node.test)
                 if truth is None:
-                    if not _is_none_guard(node.test):
-                        return
                     names = (_branch_assigned_names(node.body)
                              | _branch_assigned_names(node.orelse))
+                    if not _is_none_guard(node.test):
+                        if names:
+                            marker = ast.Delete(
+                                targets=[ast.Name(id=name, ctx=ast.Del())
+                                         for name in sorted(names)])
+                            marker.lineno = getattr(node, "end_lineno", node.lineno)
+                            execution_line = (marker.lineno if activation_line is None
+                                              else activation_line)
+                            nodes.append((marker, scope, execution_line))
+                        return
                     for alternative in (node.body, node.orelse):
                         if names:
                             marker = ast.Delete(
@@ -1489,6 +1502,8 @@ def _command_tool_values(value, tools):
     python_interpreters = {"<python>", "python", "python3", "python3.11"}
     shell_interpreters = {"bash", "sh"}
     interpreters = python_interpreters | shell_interpreters
+    if not isinstance(first, str):
+        return set()
     if first not in interpreters:
         return _tool_values(first, tools)
     arguments = value[1:]
@@ -2013,12 +2028,37 @@ def js_tool_references(text, source_path, tools):
         if target in tools:
             references.add(target)
     bindings = {}
+    url_converters = {}
+    url_import = re.compile(
+        r"\bimport\s*\{([^}]*)\}\s*from\s*['\"]node:url['\"]")
+    for imported in url_import.finditer(visible):
+        for item in imported.group(1).split(","):
+            parts = re.split(r"\s+as\s+", item.strip())
+            if parts and parts[0] == "fileURLToPath":
+                url_converters[parts[-1]] = imported.end()
     url_binding = re.compile(
-        r"\b(const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*"
-        r"(?:fileURLToPath\s*\(\s*)?new\s+URL\s*\(\s*['\"]([^'\"]+)['\"]\s*,\s*"
-        r"import\.meta\.url\s*\)\s*\)?")
+        r"\b(?P<kind>const|let|var)\s+(?P<name>[A-Za-z_$][\w$]*)\s*=\s*"
+        r"(?:(?P<converter>[A-Za-z_$][\w$]*)\s*\(\s*)?"
+        r"new\s+URL\s*\(\s*['\"](?P<specifier>[^'\"]+)['\"]\s*,\s*"
+        r"import\.meta\.url\s*\)(?(converter)\s*\))")
     for match in url_binding.finditer(visible):
-        specifier = match.group(3)
+        converter = match.group("converter")
+        if converter:
+            import_end = url_converters.get(converter)
+            if import_end is None or import_end > match.start():
+                continue
+            changed = re.compile(
+                r"(?<![\w$.])" + re.escape(converter) +
+                r"(?![\w$])\s*(?:=(?!=|>)|\+\+|--|(?:\+|-|\*|/|%|&|\||\^|<<|>>)\s*=)"
+                r"|\b(?:const|let|var|function|class)\s+" +
+                re.escape(converter) + r"(?![\w$])")
+            if (changed.search(visible[import_end:match.start()])
+                    or _js_parameter_shadows(
+                        visible, match.start("converter"), converter)
+                    or _js_local_declaration_shadows(
+                        visible, match.start("converter"), converter, import_end)):
+                continue
+        specifier = match.group("specifier")
         if not specifier.startswith("."):
             continue
         target = posixpath.normpath(posixpath.join(posixpath.dirname(source_path), specifier))
@@ -2029,9 +2069,9 @@ def js_tool_references(text, source_path, tools):
                                   if block not in function_blocks
                                   and block[0] < match.start() < block[1]]
             declaration_block = (max(declaration_blocks, key=lambda item: item[0])
-                                 if match.group(1) != "var" and declaration_blocks
+                                 if match.group("kind") != "var" and declaration_blocks
                                  else None)
-            bindings.setdefault(match.group(2), []).append(
+            bindings.setdefault(match.group("name"), []).append(
                 (match.end(), target, _js_function_scope_key(visible, match.start()),
                  declaration_block))
     child_names = set()
@@ -2052,7 +2092,7 @@ def js_tool_references(text, source_path, tools):
         if _js_local_declaration_shadows(visible, call_start, callee):
             continue
         call_scope = _js_function_scope_key(visible, call_start)
-        identifiers = _js_expression_identifiers(arguments)
+        identifiers = _js_direct_child_argument_identifiers(arguments)
         for name, declarations in bindings.items():
             if _js_parameter_shadows(visible, call_start, name):
                 continue
@@ -2107,6 +2147,59 @@ def _js_expression_identifiers(text):
         if (before and before[-1] == ".") or (after and after[0] == ":"):
             continue
         identifiers.add(match.group(1))
+    return identifiers
+
+
+def _js_direct_child_argument_identifiers(text):
+    """Return names delivered directly or as immediate array elements."""
+    masked = []
+    quote = None
+    escaped = False
+    for char in text:
+        if quote:
+            masked.append("\n" if char == "\n" else " ")
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == quote:
+                quote = None
+            continue
+        if char in {'"', "'", "`"}:
+            quote = char
+            masked.append(" ")
+        else:
+            masked.append(char)
+    visible = "".join(masked)
+
+    def delimiter_stack(prefix):
+        stack = []
+        pairs = {")": "(", "]": "[", "}": "{"}
+        for char in prefix:
+            if char in "([{":
+                stack.append(char)
+            elif char in pairs:
+                if not stack or stack[-1] != pairs[char]:
+                    return None
+                stack.pop()
+        return stack
+
+    identifiers = set()
+    pattern = re.compile(r"(?<![\w$])([A-Za-z_$][\w$]*)(?![\w$])")
+    for match in pattern.finditer(visible):
+        stack = delimiter_stack(visible[:match.start()])
+        if stack is None or (stack and stack != ["["]):
+            continue
+        before = visible[:match.start()].rstrip()
+        after = visible[match.end():].lstrip()
+        previous = before[-1] if before else ""
+        following = after[0] if after else ""
+        if stack == []:
+            direct = previous in {"", ","} and following in {"", ","}
+        else:
+            direct = previous in {"[", ","} and following in {"]", ","}
+        if direct:
+            identifiers.add(match.group(1))
     return identifiers
 
 
@@ -2431,7 +2524,8 @@ def _js_parameter_shadows(text, position, name):
 
 
 def _js_local_declaration_shadows(text, position, name,
-                                  after_position=None):
+                                  after_position=None,
+                                  permitted_declaration=None):
     """Return true for a declaration in a containing lexical block."""
     searchable, function_scopes = _js_function_scopes(text)
     blocks = _js_block_scopes(searchable)
@@ -2441,7 +2535,7 @@ def _js_local_declaration_shadows(text, position, name,
     if not containing:
         return False
     direct_pattern = re.compile(
-        r"\b(?:function|class)\s+" + re.escape(name) + r"(?![\w$])")
+        r"\b(?:function|class)\s+(" + re.escape(name) + r")(?![\w$])")
     for block in containing:
         for declaration in direct_pattern.finditer(searchable, block[0] + 1, block[1]):
             if after_position is not None and declaration.start() < after_position:
@@ -2451,6 +2545,8 @@ def _js_local_declaration_shadows(text, position, name,
             declaration_block = (max(declaration_blocks, key=lambda item: item[0])
                                  if declaration_blocks else None)
             if declaration_block == block:
+                if declaration.start(1) == permitted_declaration:
+                    continue
                 return True
         variable_pattern = re.compile(r"\b(?:const|let|var)\b")
         for declaration in variable_pattern.finditer(searchable, block[0] + 1, block[1]):
@@ -2465,6 +2561,8 @@ def _js_local_declaration_shadows(text, position, name,
             start = declaration.end()
             simple = re.match(r"\s*([A-Za-z_$][\w$]*)", searchable[start:block[1]])
             if simple is not None and simple.group(1) == name:
+                if start + simple.start(1) == permitted_declaration:
+                    continue
                 return True
             depths = {"(": 0, "[": 0, "{": 0}
             closing = {")": "(", "]": "[", "}": "{"}
@@ -2491,6 +2589,9 @@ def _js_local_declaration_shadows(text, position, name,
 def _js_helper_call_shadowed(text, position, name, definition_start):
     """Resolve a helper call against the nearest lexical declaration scope."""
     if _js_parameter_shadows(text, position, name):
+        return True
+    if _js_local_declaration_shadows(
+            text, position, name, permitted_declaration=definition_start):
         return True
     searchable, scopes = _js_function_scopes(text)
     containing = sorted(
