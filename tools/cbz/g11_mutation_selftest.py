@@ -1222,8 +1222,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_literal_if_excludes_both_unselected_braced_arms",
      '"tools/true-else-unused.mjs": False,'),
     ("unknown branch helper effects ignored", "census",
-     "            if call_effects is not None:\n                names.update(call_effects(node))",
-     "            if False:\n                names.update(call_effects(node))",
+     "            if call_effects is not None:\n                names.update(call_effects(node))\n            self.generic_visit(node)\n\n        def _target_root",
+     "            if False:\n                names.update(call_effects(node))\n            self.generic_visit(node)\n\n        def _target_root",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_effects_invalidate_downstream_bindings",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("quoted JavaScript child-process import trusted", "census",
@@ -1236,6 +1236,11 @@ NEW_MUTATIONS = [
      '        if False:\n            continue',
      "tests.test_g11_census.ToolChecks.test_js_dead_url_initializer_does_not_create_provenance",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("unknown branch helper parameter mutation ignored", "census",
+     "            for formal in mutations & local_only:",
+     "            for formal in ():",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_parameter_effects_invalidate_caller_binding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1498,6 +1503,7 @@ EXPECTED_MUTATION_NAMES = (
     "unknown branch helper effects ignored",
     "quoted JavaScript child-process import trusted",
     "dead JavaScript URL initializer trusted",
+    "unknown branch helper parameter mutation ignored",
 )
 
 
@@ -1676,7 +1682,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 191
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 193
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

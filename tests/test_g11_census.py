@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "b6c7c122b6f5fa3e78788324e14d57466883d686d8727bff3e1ded2a594be1ce"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "06d9f29c4a24dcbef6f94f3ec458680b09aa2b80230d31f6b519a078c0793213"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -1838,6 +1838,40 @@ class ToolChecks(unittest.TestCase):
             ),
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_unknown_branch_helper_parameter_effects_invalidate_caller_binding(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_parameter_effect.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "def replace(target):\n"
+                "    target[:] = ['echo']\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    replace(command)\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_unknown_branch_helper_parameter_rebinding_stays_local(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/README.md": "tools/live.py\n",
+            "tests/test_unknown_branch_parameter_rebind.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/live.py']\n"
+                "def replace(target):\n"
+                "    target = ['echo']\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    replace(command)\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])
 
     def test_handler_free_try_body_termination_stops_following_helper_statements(self):
         tree = {
@@ -3661,7 +3695,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 259)
+        self.assertEqual(len(cases), 260)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

@@ -976,6 +976,73 @@ def _branch_assigned_names(body, call_effects=None):
     return names
 
 
+def _branch_mutated_names(body, call_effects=None):
+    """Return aggregate roots possibly mutated without entering nested scopes."""
+    names = set()
+
+    class Collector(ast.NodeVisitor):
+        def visit_FunctionDef(self, node):
+            return
+
+        visit_AsyncFunctionDef = visit_FunctionDef
+
+        def visit_ClassDef(self, node):
+            return
+
+        def visit_Lambda(self, node):
+            return
+
+        def visit_Call(self, node):
+            mutated = _python_mutated_root_name(node)
+            if mutated:
+                names.add(mutated)
+            if call_effects is not None:
+                names.update(call_effects(node))
+            self.generic_visit(node)
+
+        def visit_Assign(self, node):
+            for target in node.targets:
+                self._mutation_target(target, include_name=False)
+            self.visit(node.value)
+
+        def visit_AnnAssign(self, node):
+            self._mutation_target(node.target, include_name=False)
+            if node.value is not None:
+                self.visit(node.value)
+
+        def visit_AugAssign(self, node):
+            self._mutation_target(node.target, include_name=True)
+            self.visit(node.value)
+
+        def visit_Delete(self, node):
+            for target in node.targets:
+                self._mutation_target(target, include_name=False)
+
+        def _mutation_target(self, target, include_name):
+            if isinstance(target, (ast.Tuple, ast.List)):
+                for element in target.elts:
+                    self._mutation_target(element, include_name)
+                return
+            if isinstance(target, ast.Starred):
+                self._mutation_target(target.value, include_name)
+                return
+            if isinstance(target, (ast.Subscript, ast.Attribute)):
+                root = target
+                while isinstance(root, (ast.Subscript, ast.Attribute)):
+                    root = root.value
+                if isinstance(root, ast.Name):
+                    names.add(root.id)
+                self.visit(target)
+                return
+            if include_name and isinstance(target, ast.Name):
+                names.add(target.id)
+
+    collector = Collector()
+    for statement in body:
+        collector.visit(statement)
+    return names
+
+
 def _exception_possible_effects(node):
     """Return names a non-definite handler or else path may replace."""
     return set().union(
@@ -1024,26 +1091,56 @@ def _reachable_python_nodes(tree, mode):
     }
     function_scope_parents = _python_function_parent_scopes(tree)
 
-    def branch_possible_effects(body, scope, seen=frozenset()):
-        """Return visible effects from an unproven path, including helpers."""
-        def helper_effects(call):
+    def branch_effect_summary(body, scope, seen=frozenset()):
+        """Return possible writes and object mutations, including helpers."""
+        summaries = {}
+
+        def helper_summary(call):
+            if id(call) in summaries:
+                return summaries[id(call)]
             if not isinstance(call.func, ast.Name):
-                return set()
+                return set(), set()
             function = active_functions.get((scope, call.func.id))
             if (function is None and scope is not None
                     and call.func.id not in function_scope_bindings.get(scope, set())):
                 function = active_functions.get((None, call.func.id))
             if (function is None or id(function) in seen
                     or not _python_call_signature_binds(function, call)):
-                return set()
-            effects = branch_possible_effects(
+                return set(), set()
+            effects, mutations = branch_effect_summary(
                 function.body, id(function), seen | {id(function)})
             local_only = (function_scope_bindings.get(id(function), set())
                           - function_scope_globals.get(id(function), set())
                           - function_scope_nonlocals.get(id(function), set()))
-            return effects - local_only
+            visible_effects = effects - local_only
+            visible_mutations = mutations - local_only
+            arguments = dict(_python_call_argument_bindings(function, call))
+            for formal in mutations & local_only:
+                key = arguments.get(formal)
+                argument = None
+                if isinstance(key, int) and key < len(call.args):
+                    argument = call.args[key]
+                elif isinstance(key, tuple) and key[0] == "keyword":
+                    argument = next(
+                        (keyword.value for keyword in call.keywords
+                         if keyword.arg == key[1]), None)
+                while isinstance(argument, (ast.Subscript, ast.Attribute)):
+                    argument = argument.value
+                if isinstance(argument, ast.Name):
+                    visible_effects.add(argument.id)
+                    visible_mutations.add(argument.id)
+            summaries[id(call)] = visible_effects, visible_mutations
+            return summaries[id(call)]
 
-        return _branch_assigned_names(body, helper_effects)
+        effects = _branch_assigned_names(
+            body, lambda call: helper_summary(call)[0])
+        mutations = _branch_mutated_names(
+            body, lambda call: helper_summary(call)[1])
+        return effects, mutations
+
+    def branch_possible_effects(body, scope, seen=frozenset()):
+        """Return visible effects from an unproven path, including helpers."""
+        return branch_effect_summary(body, scope, seen)[0]
 
     def statement_sequence_terminates(body):
         return any(statement_terminates(statement) for statement in body)
