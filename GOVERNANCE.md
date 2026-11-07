@@ -126,22 +126,26 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`729de0fefa5d9ea1a7b57a2620c15a2f7b6f46a1` (tree
-`d908b0e19f5fee72aa378bf37dca8e026286005a`) extends the existing bounded
+`296dd6ed84f5ba5f496bdb9b6fa13344d38e97d0` (tree
+`3544762c7e816c73c89f426ed1fcfe7a8ce7d707`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 134/134 controls and killed 186/186 designated
+The exact source commit passed 140/140 controls and killed 192/192 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`a7a8c1fee7e5c706315760ff8756086fd333779eacdc88ee5bb28eb046f7f4a6`.
+`56bca3b149ea06f9401a108ee197a6908085afef7ffded06e1cc7ea242a00ca6`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`5b9f3a4fe60c7eefd24d3d4bfa5d41ec80de5d76e78f452aa72889e8affdd8d3`,
+`7d4f0886d8cc2ded53ac69f4a66429390ca82ca14c0f6097abf62e796653f365`,
 56,078 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
+possible stale bindings after unproven exception branches, wrapper evidence
+from those branches or from empty/unconsumed comprehensions, execution after a
+terminating `finally`, outer URL provenance hidden by a destructured lexical
+binding, and helper-local treatment of `nonlocal` static assignments. It also rejects
 generator-method object creation, comprehension-target leakage from outer
 bindings and unreachable Boolean operands during wrapper discovery. It also rejects
 interpreter command-mode payload arguments and unreachable wrapper bodies,

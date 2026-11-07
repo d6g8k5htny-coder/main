@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has native source parent
-`729de0fefa5d9ea1a7b57a2620c15a2f7b6f46a1`; its isolated work began from the
+`296dd6ed84f5ba5f496bdb9b6fa13344d38e97d0`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,13 +37,13 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `729de0fefa5d9ea1a7b57a2620c15a2f7b6f46a1` (tree
-`d908b0e19f5fee72aa378bf37dca8e026286005a`) passed 134/134 tests and killed
-186/186 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `a7a8c1fee7e5c706315760ff8756086fd333779eacdc88ee5bb28eb046f7f4a6`.
+native source `296dd6ed84f5ba5f496bdb9b6fa13344d38e97d0` (tree
+`3544762c7e816c73c89f426ed1fcfe7a8ce7d707`) passed 140/140 tests and killed
+192/192 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `56bca3b149ea06f9401a108ee197a6908085afef7ffded06e1cc7ea242a00ca6`.
 Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`5b9f3a4fe60c7eefd24d3d4bfa5d41ec80de5d76e78f452aa72889e8affdd8d3`,
+`7d4f0886d8cc2ded53ac69f4a66429390ca82ca14c0f6097abf62e796653f365`,
 56,078 bytes each)
 contain zero production findings and retain exactly 29 no-current-exercise
 tool candidates; both census runs exit 1. The former 20 active
@@ -118,8 +118,8 @@ chain rooted in module execution. The stricter JavaScript rule briefly exposed
 `tools/museum_conditionals.mjs`; an explicit adverse-tested rule admits only
 callbacks passed to the imported `node:test` identity, restoring that actual
 test execution without treating arbitrary callback APIs as roots. The
-intermediate 30-tool census remains historical; the current review-defect total
-is 76 and exact-head review remains required before integration. Three latest
+intermediate 30-tool census remains historical; the then-current review-defect
+total was 76 and exact-head review remained required. Three latest
 counterexamples are also repaired: mutually exclusive `is None` branches no
 longer manufacture a post-join binding; a `node:test` registration must itself
 be reachable from module execution; and a shadowed `test` name cannot inherit
@@ -201,15 +201,25 @@ reassignments declared `global` or `nonlocal` invalidate the destination
 binding at actual execution order rather than lexical helper order; lambda
 creation evaluates defaults but not its deferred body; and declared `nonlocal`
 helper reassignment invalidates the nearest enclosing active helper identity.
-The exact 134-control/186-mutant results and byte-identical source censuses
-above cover these bounded rules. The current review/adverse-defect total is 86;
-exact-final-head review and hosted checks remain required before integration.
+The exact results for that source stage remain historical. Exact-final-head
+review and hosted checks remain required before integration.
 Three subsequent exact-head findings are also repaired: forwarding-wrapper
 discovery evaluates callee, positional and keyword argument effects before it
 registers forwarding; chained-comparison discovery stops after a proven false
 prefix; and unproven exception handlers/`else` bodies do not count as execution
 while the `try` body and `finally` remain reachable. Each supplied fixture was
 reproduced red in both modes and has a dedicated control and designated mutant.
+Six newest exact-head findings are repaired after all supplied fixtures were
+reproduced red in both modes: possible writes in unproven exception handlers
+and `else` bodies invalidate downstream bindings without crediting those
+branches; wrapper discovery applies the same `try`/`finally` boundary; empty
+comprehensions and unconsumed generators cannot prove forwarding; a definitely
+terminating `finally` stops the enclosing sequence; a destructured JavaScript
+lexical declaration shadows an outer URL binding; and Python `nonlocal` static
+assignment updates the nearest enclosing binding. The exact 140-control,
+192-mutant results and byte-identical source censuses above cover these bounded
+rules. The current review/adverse-defect total is 92; exact-final-head review
+and hosted checks remain required before integration.
 
 ## Current verification boundary
 

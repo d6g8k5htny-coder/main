@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`729de0fefa5d9ea1a7b57a2620c15a2f7b6f46a1`, based on Main default
+`296dd6ed84f5ba5f496bdb9b6fa13344d38e97d0`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,18 +263,23 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`729de0fefa5d9ea1a7b57a2620c15a2f7b6f46a1` (tree
-`d908b0e19f5fee72aa378bf37dca8e026286005a`) recognizes explicit local path
+`296dd6ed84f5ba5f496bdb9b6fa13344d38e97d0` (tree
+`3544762c7e816c73c89f426ed1fcfe7a8ce7d707`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-134/134 controls and 186/186 designated mutations passed in both modes; the
+140/140 controls and 192/192 designated mutations passed in both modes; the
 sealed mutation-inventory SHA-256 is
-`a7a8c1fee7e5c706315760ff8756086fd333779eacdc88ee5bb28eb046f7f4a6`. The exact
+`56bca3b149ea06f9401a108ee197a6908085afef7ffded06e1cc7ea242a00ca6`. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`5b9f3a4fe60c7eefd24d3d4bfa5d41ec80de5d76e78f452aa72889e8affdd8d3`,
+`7d4f0886d8cc2ded53ac69f4a66429390ca82ca14c0f6097abf62e796653f365`,
 56,078 bytes each),
 with zero production findings and exactly 29 no-current-exercise tool
 candidates; both runs exited 1. Adverse controls refuse mere path
+mentions caused by stale bindings after unproven exception branches, wrapper
+discovery in those branches or in empty/unconsumed comprehensions, execution
+after a terminating `finally`, outer JavaScript URL provenance hidden by a
+destructured lexical binding, or helper-local treatment of a `nonlocal` static
+assignment. They also refuse mere path
 mentions through generator-method creation, comprehension-target leakage and
 unreachable Boolean operands during wrapper discovery. They also refuse mere path
 mentions, fake same-named APIs, interpreter command-mode arguments, unreachable
