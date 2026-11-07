@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`1cff4f1b7df1f0f1f29250228d2751be4220c2d0`, based on Main default
+`2d232cea28e75a2d5bfd7da8a33875799c42007c`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,18 +263,20 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`1cff4f1b7df1f0f1f29250228d2751be4220c2d0` (parent
-`7e5400b65b5441ce71155a83ed4acec6d0ce9c3e`, tree
-`2e381f0cafe42e751aa13e47c0a8387c196a1bfb`) recognizes explicit local path
+`2d232cea28e75a2d5bfd7da8a33875799c42007c` (parent
+`78dcf39716922942712b29ee715d8ca8b04c73ac`, tree
+`fa14b9ad7c4c8c45da4686474b0f445a94cb6f92`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its blobs
 and tree exactly match local qualification
-`9c25b956f6e8b52f0a81f5869b16fcac5dc685e2`. Fresh native execution passed
-196/196 controls and killed 263/263 designated mutations in both modes; the
+`2a6d2e310334b0c69ed163ef56bf19fc67d83534`. Fresh native execution passed
+198/198 controls and killed 265/265 designated mutations in both modes; the
 sealed mutation-inventory SHA-256 is
-`adcef61a1de5798a6fed83360e417b21d501f6e0972e13887e8782419ff3346d`. The exact
+`9b200ac23d2aef420e61e1a6c00c848ece1c8357c12f1f3b81e675c29a89b584`. The exact
+normal/optimized mutation logs are byte-identical at 31,792 bytes with SHA-256
+`41bd967c55627105cfb0de485a490c807b0132a73f2af66d4f6e17d34458c0bd`. The exact
 native normal and optimized censuses were byte-identical (SHA-256
-`6f851299c31fd907a61317e43cb6022e7e816c06ec67145d65b66d6d482acfc0`,
+`65b103a9bc38d785b9a7b0251b83538d0786bbac2ad06dcb820331ac30bc64b0`,
 56,013 bytes each),
 with zero production findings and exactly 32 no-current-exercise or documentation tool
 candidates; both runs exited 1. Adverse controls refuse mere path
@@ -289,7 +291,9 @@ rebinding does not leak. Three additional review controls require all enclosing
 JavaScript branches to select a call, require a proven first iteration for
 `while`/`for` bodies, and reject process calls after direct helper
 `return`/`throw`; the duplicate parameter-alias review is preserved but counted
-once. The distinct defect count is 147. Adverse controls
+once. Two older unresolved review findings additionally capture an augmented-
+assignment target before RHS helper effects and defer JavaScript parameter
+default initializers until invocation. The distinct defect count is 149. Adverse controls
 also refuse mere path
 credit from stale assignment-target effects, unresolved comparison suffixes,
 unresolved eager-comprehension effects, uninvoked JavaScript method bodies and
