@@ -1370,8 +1370,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_unknown_branch_definition_time_effects_invalidate_downstream_bindings",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("helper-local parameter alias mutation ignored", "census",
-     "                formals = (mutation_origins.get(mutated_name)\n"
-     "                           or formal_aliases.get(mutated_name, {mutated_name}))",
+     "                formals = set(formal_aliases.get(mutated_name, {mutated_name}))\n"
+     "                formals.update(mutation_origins.get(mutated_name, set()))",
      "                formals = {mutated_name}",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_parameter_alias_effects_invalidate_caller_binding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
@@ -1701,8 +1701,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_unknown_branch_proven_helper_alias_branch_preserves_origin",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("mutation-time helper alias origin ignored", "census",
-     "                formals = (mutation_origins.get(mutated_name)\n"
-     "                           or formal_aliases.get(mutated_name, {mutated_name}))",
+     "                formals = set(formal_aliases.get(mutated_name, {mutated_name}))\n"
+     "                formals.update(mutation_origins.get(mutated_name, set()))",
      "                formals = formal_aliases.get(mutated_name, {mutated_name})",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_alias_mutation_survives_later_rebinding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
@@ -1713,6 +1713,29 @@ NEW_MUTATIONS = [
      "                _invalidate_python_value(\n"
      "                    captured, (module_bindings, *scope_bindings.values()))",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_nested_captured_default_mutation_invalidates_child_alias",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("helper-induced alias mutation origins not unioned", "census",
+     "                formals = set(formal_aliases.get(mutated_name, {mutated_name}))\n"
+     "                formals.update(mutation_origins.get(mutated_name, set()))",
+     "                formals = (mutation_origins.get(mutated_name)\n"
+     "                           or formal_aliases.get(mutated_name, {mutated_name}))",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_induced_mutation_after_alias_rebinding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("annotated helper alias origin ignored", "census",
+     "                def visit_AnnAssign(self, node):\n"
+     "                    self._record_mutation_target(node.target)\n"
+     "                    if (isinstance(node.target, ast.Name)\n"
+     "                            and isinstance(node.value, ast.Name)\n"
+     "                            and node.value.id in formal_aliases):\n"
+     "                        formal_aliases[node.target.id] = set(\n"
+     "                            formal_aliases[node.value.id])\n"
+     "                    elif isinstance(node.target, ast.Name) and node.value is not None:\n"
+     "                        formal_aliases.pop(node.target.id, None)\n"
+     "                    self.generic_visit(node)",
+     "                def visit_AnnAssign(self, node):\n"
+     "                    self._record_mutation_target(node.target)\n"
+     "                    self.generic_visit(node)",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_annotated_helper_alias_mutation_invalidates_caller",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
 
 ]
@@ -2028,6 +2051,8 @@ EXPECTED_MUTATION_NAMES = (
     "proven helper alias branch ignored",
     "mutation-time helper alias origin ignored",
     "nested captured default invalidation ignored",
+    "helper-induced alias mutation origins not unioned",
+    "annotated helper alias origin ignored",
 )
 
 
@@ -2206,7 +2231,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 244
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 246
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

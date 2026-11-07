@@ -1227,6 +1227,13 @@ def _reachable_python_nodes(tree, mode):
 
                 def visit_AnnAssign(self, node):
                     self._record_mutation_target(node.target)
+                    if (isinstance(node.target, ast.Name)
+                            and isinstance(node.value, ast.Name)
+                            and node.value.id in formal_aliases):
+                        formal_aliases[node.target.id] = set(
+                            formal_aliases[node.value.id])
+                    elif isinstance(node.target, ast.Name) and node.value is not None:
+                        formal_aliases.pop(node.target.id, None)
                     self.generic_visit(node)
 
                 def visit_AugAssign(self, node):
@@ -1271,8 +1278,8 @@ def _reachable_python_nodes(tree, mode):
                 alias_collector.visit(statement)
             defaults = dict(_python_function_defaults(function))
             for mutated_name in mutations & local_only:
-                formals = (mutation_origins.get(mutated_name)
-                           or formal_aliases.get(mutated_name, {mutated_name}))
+                formals = set(formal_aliases.get(mutated_name, {mutated_name}))
+                formals.update(mutation_origins.get(mutated_name, set()))
                 for formal in formals:
                     key = arguments.get(formal)
                     argument = None

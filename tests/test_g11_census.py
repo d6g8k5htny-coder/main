@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "59652059969aa246bf9314a4e14282455dad2feecbb58373905dde19b2e257f6"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "61acda2771a1a3851a5d8a4006cac0eaf9bda768c34416b02dc4e839eed97543"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -2081,6 +2081,47 @@ class ToolChecks(unittest.TestCase):
                 "    alias = argv\n"
                 "    alias[:] = ['echo']\n"
                 "    alias = None\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    replace(command)\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_unknown_branch_helper_induced_mutation_after_alias_rebinding(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_alias_rebind_then_helper_mutate.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "other = ['echo']\n"
+                "def inner(arg):\n"
+                "    arg[:] = ['echo']\n"
+                "def replace(a, b):\n"
+                "    alias = a\n"
+                "    alias[:] = ['echo']\n"
+                "    alias = b\n"
+                "    inner(alias)\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    replace(other, command)\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_unknown_branch_annotated_helper_alias_mutation_invalidates_caller(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_annotated_parameter_alias.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "def replace(argv):\n"
+                "    alias: list = argv\n"
+                "    alias[:] = ['echo']\n"
                 "flag = True\n"
                 "if flag:\n"
                 "    replace(command)\n"
@@ -4637,7 +4678,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 311)
+        self.assertEqual(len(cases), 313)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:
