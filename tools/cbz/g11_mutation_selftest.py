@@ -1228,8 +1228,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_unresolved_eager_comprehension_effects_invalidate_provenance",
      '{"tools/direct-unused.py": False, "tools/wrapper-unused.py": False},'),
     ("uninvoked JavaScript methods treated as module execution", "census",
-     "    for match in method.finditer(searchable):\n        if match.group(1) in control_names:",
-     "    for match in ():\n        if match.group(1) in control_names:",
+     "    for match in method.finditer(searchable):\n        if match.group(\"name\") in control_names:",
+     "    for match in ():\n        if match.group(\"name\") in control_names:",
      "tests.test_g11_census.ToolChecks.test_js_uninvoked_method_bodies_are_not_module_execution",
      '{"tools/class-unused.mjs": False, "tools/live.mjs": True,'),
     ("literal-true JavaScript else arm treated as reachable", "census",
@@ -1424,10 +1424,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_unknown_branch_lambda_defaults_invalidate_downstream_bindings",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("optional JavaScript property chains activated", "census",
-     '        r"\\?\\.\\s*(?:[A-Za-z_$][\\w$]*\\s*)?"\n'
-     '        r"(?:\\.\\s*[A-Za-z_$][\\w$]*\\s*)*(?P<opening>[\\[(])")',
-     '        r"\\?\\.\\s*"\n'
-     '        r"(?P<opening>\\()")',
+     '    for optional in re.finditer(r"\\?\\.", searchable):',
+     '    for optional in ():',
      "tests.test_g11_census.ToolChecks.test_js_optional_property_chains_require_proven_evaluation",
      '"tools/property-unused.mjs": False'),
     ("JavaScript instance field initializer treated as module execution", "census",
@@ -1467,14 +1465,29 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_definition_time_parameter_mutation_invalidates_caller",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("continuous optional JavaScript property chain activated", "census",
-     '        r"(?:\\.\\s*[A-Za-z_$][\\w$]*\\s*)*(?P<opening>[\\[(])")',
-     '        r"(?P<opening>[\\[(])")',
+     '            elif index < len(searchable) and searchable[index] == ".":',
+     '            elif False:',
      "tests.test_g11_census.ToolChecks.test_js_continuous_optional_property_chain_requires_proven_evaluation",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("computed JavaScript instance field initializer treated as module execution", "census",
      '            r"(?:[#A-Za-z_$][\\w$#]*|\\[[^\\]\\r\\n]*\\])\\s*=")',
      '            r"[#A-Za-z_$][\\w$#]*\\s*=")',
      "tests.test_g11_census.ToolChecks.test_js_unconstructed_computed_instance_field_initializer_is_deferred",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("optional JavaScript computed or call continuation activated", "census",
+     '        while True:\n            index = chain_end\n',
+     '        while False:\n            index = chain_end\n',
+     "tests.test_g11_census.ToolChecks.test_js_continuous_optional_computed_and_call_chains_require_evaluation",
+     '"tools/computed-unused.mjs": False'),
+    ("computed JavaScript method body treated as module execution", "census",
+     '        r"(?<![\\w$])(?P<name>[A-Za-z_$][\\w$]*|\\[[^\\]\\r\\n]*\\])\\s*\\(")',
+     '        r"(?<![\\w$])(?P<name>[A-Za-z_$][\\w$]*)\\s*\\(")',
+     "tests.test_g11_census.ToolChecks.test_js_uninvoked_computed_method_bodies_are_not_module_execution",
+     '"tools/object-unused.mjs": False'),
+    ("semicolonless JavaScript instance field boundary ignored", "census",
+     '            r"(?:^|[;{}\\r\\n])\\s*(?!static\\b)(?:accessor\\s+)?"',
+     '            r"(?:^|[;{}])\\s*(?!static\\b)(?:accessor\\s+)?"',
+     "tests.test_g11_census.ToolChecks.test_js_semicolonless_instance_field_boundary_is_deferred",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
@@ -1766,6 +1779,9 @@ EXPECTED_MUTATION_NAMES = (
     "helper definition-time parameter mutation ignored",
     "continuous optional JavaScript property chain activated",
     "computed JavaScript instance field initializer treated as module execution",
+    "optional JavaScript computed or call continuation activated",
+    "computed JavaScript method body treated as module execution",
+    "semicolonless JavaScript instance field boundary ignored",
 )
 
 
@@ -1944,7 +1960,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 220
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 223
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

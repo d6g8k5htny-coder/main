@@ -3383,14 +3383,15 @@ def _js_function_scopes(text):
     # Class and object-literal method bodies are deferred just like functions.
     # Invocation through property lookup is outside the bounded reachability
     # model, so retain their scopes only to refuse module-execution credit.
-    method = re.compile(r"(?<![\w$])([A-Za-z_$][\w$]*)\s*\(")
+    method = re.compile(
+        r"(?<![\w$])(?P<name>[A-Za-z_$][\w$]*|\[[^\]\r\n]*\])\s*\(")
     control_names = {
         "if", "for", "while", "switch", "catch", "with", "function"
     }
     for match in method.finditer(searchable):
-        if match.group(1) in control_names:
+        if match.group("name") in control_names:
             continue
-        prefix = searchable[max(0, match.start(1) - 32):match.start(1)]
+        prefix = searchable[max(0, match.start("name") - 32):match.start("name")]
         if re.search(r"\bfunction\s*$", prefix):
             continue
         open_paren = match.end() - 1
@@ -3456,17 +3457,41 @@ def _js_short_circuit_call_reachable(searchable, position):
 
 def _js_optional_call_argument_reachable(searchable, position):
     """Fail closed for expressions suppressed by an unproven optional chain."""
-    optional = re.compile(
-        r"\?\.\s*(?:[A-Za-z_$][\w$]*\s*)?"
-        r"(?:\.\s*[A-Za-z_$][\w$]*\s*)*(?P<opening>[\[(])")
-    for match in optional.finditer(searchable):
-        opening = match.group("opening")
-        open_delimiter = match.start("opening")
-        closing = ")" if opening == "(" else "]"
-        close_delimiter = _js_matching_delimiter(
-            searchable, open_delimiter, opening, closing)
-        if (close_delimiter is not None
-                and open_delimiter < position < close_delimiter):
+    def segment_end(start):
+        index = start
+        while index < len(searchable) and searchable[index].isspace():
+            index += 1
+        identifier = re.match(r"[A-Za-z_$][\w$]*", searchable[index:])
+        if identifier is not None:
+            return index + identifier.end()
+        if index < len(searchable) and searchable[index] in "[(":
+            opening = searchable[index]
+            closing = ")" if opening == "(" else "]"
+            matched = _js_matching_delimiter(
+                searchable, index, opening, closing)
+            return None if matched is None else matched + 1
+        return None
+
+    for optional in re.finditer(r"\?\.", searchable):
+        chain_end = segment_end(optional.end())
+        if chain_end is None:
+            continue
+        while True:
+            index = chain_end
+            while index < len(searchable) and searchable[index].isspace():
+                index += 1
+            if searchable.startswith("?.", index):
+                next_end = segment_end(index + 2)
+            elif index < len(searchable) and searchable[index] == ".":
+                next_end = segment_end(index + 1)
+            elif index < len(searchable) and searchable[index] in "[(":
+                next_end = segment_end(index)
+            else:
+                break
+            if next_end is None or next_end <= chain_end:
+                break
+            chain_end = next_end
+        if optional.start() < position < chain_end:
             return False
     return True
 
@@ -3485,7 +3510,7 @@ def _js_in_deferred_instance_field(searchable, position):
         if close_brace is None or not (open_brace < position < close_brace):
             continue
         member = re.compile(
-            r"(?:^|[;{}])\s*(?!static\b)(?:accessor\s+)?"
+            r"(?:^|[;{}\r\n])\s*(?!static\b)(?:accessor\s+)?"
             r"(?:[#A-Za-z_$][\w$#]*|\[[^\]\r\n]*\])\s*=")
         for field in member.finditer(searchable, open_brace, position):
             value_start = field.end()

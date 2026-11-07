@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "8baa52d071157b787f1fcb75d176947dd1c3de6a5ba16402cce17f814a4f099b"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "3b7a76e4743d8cba2429d404ecde2876b715b134e80bcb3287235d702e91cda0"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -3349,6 +3349,25 @@ class ToolChecks(unittest.TestCase):
              "tools/object-unused.mjs": False},
         )
 
+    def test_js_uninvoked_computed_method_bodies_are_not_module_execution(self):
+        tree = {
+            "tools/class-unused.mjs": "export const value = 1;\n",
+            "tools/object-unused.mjs": "export const value = 2;\n",
+            "tools/README.md": "tools/class-unused.mjs tools/object-unused.mjs\n",
+            "tests/computed-methods.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const classScript=new URL('../tools/class-unused.mjs',import.meta.url);\n"
+                "const objectScript=new URL('../tools/object-unused.mjs',import.meta.url);\n"
+                "class Settings { ['launch']() { spawnSync('echo',[classScript]); } }\n"
+                "const holder={ ['launch']() { spawnSync('echo',[objectScript]); } };\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/class-unused.mjs": False,
+             "tools/object-unused.mjs": False},
+        )
+
     def test_js_unbraced_literal_false_branch_is_not_activated(self):
         tree = {
             **{"tools/p%d.mjs" % index: "export const value = %d;\n" % index
@@ -3598,6 +3617,26 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
+    def test_js_continuous_optional_computed_and_call_chains_require_evaluation(self):
+        tree = {
+            "tools/computed-unused.mjs": "export const value = 1;\n",
+            "tools/call-unused.mjs": "export const value = 2;\n",
+            "tools/README.md": "tools/computed-unused.mjs tools/call-unused.mjs\n",
+            "tests/continuous-optional-segments.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const computed=new URL('../tools/computed-unused.mjs',import.meta.url);\n"
+                "const called=new URL('../tools/call-unused.mjs',import.meta.url);\n"
+                "const target=null;\n"
+                "target?.['nested'].launch(spawnSync('echo',[computed]));\n"
+                "target?.nested().launch(spawnSync('echo',[called]));\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/call-unused.mjs": False,
+             "tools/computed-unused.mjs": False},
+        )
+
     def test_js_unconstructed_instance_field_initializer_is_deferred(self):
         tree = {
             "tools/unused.mjs": "export const value = 1;\n",
@@ -3618,6 +3657,19 @@ class ToolChecks(unittest.TestCase):
                 "import {spawnSync} from 'node:child_process';\n"
                 "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
                 "class Settings { ['field'] = spawnSync('echo',[script]); }\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
+    def test_js_semicolonless_instance_field_boundary_is_deferred(self):
+        tree = {
+            "tools/unused.mjs": "export const value = 1;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/semicolonless-instance-fields.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "class Settings { field = 0\n"
+                " other = spawnSync('echo',[script]); }\n"
             ),
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
@@ -4191,7 +4243,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 287)
+        self.assertEqual(len(cases), 290)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:
