@@ -921,6 +921,11 @@ def _branch_assigned_names(body, call_effects=None):
             return
 
         def visit_Lambda(self, node):
+            for expression in node.args.defaults:
+                self.visit(expression)
+            for expression in node.args.kw_defaults:
+                if expression is not None:
+                    self.visit(expression)
             return
 
         def visit_Name(self, node):
@@ -1397,7 +1402,30 @@ def _reachable_python_nodes(tree, mode):
             visit_statement_sequence(node.finalbody, owner, scope, activation_line)
             return
 
-        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
+        if isinstance(node, ast.Assign):
+            # Evaluate the RHS once, then interleave each target's evaluation
+            # and store.  Later chained targets may call helpers that observe
+            # or mutate an object already stored into an earlier target.
+            visit(node.value, owner, scope, activation_line)
+            marker = ast.copy_location(ast.Expr(value=node.value), node.value)
+            marker._g11_assignment_value_id = id(node)
+            execution_line = (getattr(node, "lineno", 0)
+                              if activation_line is None else activation_line)
+            nodes.append((marker, scope, execution_line))
+            for target in node.targets:
+                visit_assignment_target_effects(
+                    target, owner, scope, activation_line)
+                for name in _target_names(target):
+                    active_functions.pop(
+                        (active_function_destination(scope, name), name), None)
+                store = ast.copy_location(
+                    ast.Assign(targets=[target], value=node.value,
+                               type_comment=node.type_comment), node)
+                store._g11_captured_assignment_id = id(node)
+                nodes.append((store, scope, execution_line))
+            return
+
+        if isinstance(node, (ast.AnnAssign, ast.AugAssign)):
             # Assignment targets are rebound only after their value expressions
             # finish. A helper invoked by the RHS still resolves the prior
             # function binding.
@@ -1417,7 +1445,7 @@ def _reachable_python_nodes(tree, mode):
                 visit(node.value, owner, scope, activation_line)
             elif isinstance(node, ast.AnnAssign):
                 return
-            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            targets = [node.target]
             if not isinstance(node, ast.AugAssign):
                 for target in targets:
                     visit_assignment_target_effects(
@@ -2341,6 +2369,7 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
     module_bindings, scope_bindings, scope_imports = {}, {}, {}
     evaluated_arguments = {}
     evaluated_defaults = {}
+    evaluated_assignment_values = {}
     evaluated_sequence_elements = {}
     evaluated_augassign_targets = {}
     missing_argument = object()
@@ -2462,6 +2491,13 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     visible_module_bindings, source_path, active_imports,
                     static_shadowed))
             continue
+        if hasattr(node, "_g11_assignment_value_id"):
+            evaluated_assignment_values[node._g11_assignment_value_id] = (
+                _python_sequence_static_value(
+                    node.value, evaluated_sequence_elements, local,
+                    visible_module_bindings, source_path, active_imports,
+                    static_shadowed))
+            continue
         if hasattr(node, "_g11_augassign_target_id"):
             evaluated_augassign_targets[node._g11_augassign_target_id] = (
                 _python_sequence_static_value(
@@ -2505,6 +2541,9 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     visible_module_bindings, source_path, active_imports,
                     static_shadowed)
                 value = _static_add(augmented_prior, right)
+            elif hasattr(node, "_g11_captured_assignment_id"):
+                value = evaluated_assignment_values.get(
+                    node._g11_captured_assignment_id, _UNRESOLVED_STATIC)
             else:
                 value_node = (ast.BinOp(left=node.target, op=node.op, right=node.value)
                               if isinstance(node, ast.AugAssign) else node.value)
@@ -3038,6 +3077,22 @@ def _js_matching_delimiter(searchable, start, opening, closing):
     return None
 
 
+def _js_regex_follows_control_header(searchable, close_paren):
+    """Return whether a slash after `)` begins a control-body statement."""
+    depth = 1
+    cursor = close_paren - 1
+    while cursor >= 0:
+        if searchable[cursor] == ")":
+            depth += 1
+        elif searchable[cursor] == "(":
+            depth -= 1
+            if depth == 0:
+                prefix = searchable[:cursor]
+                return bool(re.search(r"\b(?:if|for|while|with)\s*$", prefix))
+        cursor -= 1
+    return False
+
+
 def _js_mask_noncode_literals(text):
     """Mask strings and bounded regular-expression literals, preserving offsets."""
     masked = list(text)
@@ -3068,7 +3123,9 @@ def _js_mask_noncode_literals(text):
                 previous -= 1
             prefix = text[:index]
             can_start = (previous < 0 or text[previous] in "=([{,:;!?&|"
-                         or re.search(r"\b(?:return|throw|case)\s*$", prefix))
+                         or re.search(r"\b(?:return|throw|case)\s*$", prefix)
+                         or (text[previous] == ")"
+                             and _js_regex_follows_control_header(text, previous)))
             if can_start:
                 cursor = index + 1
                 escaped = False
@@ -3378,13 +3435,44 @@ def _js_short_circuit_call_reachable(searchable, position):
 
 
 def _js_optional_call_argument_reachable(searchable, position):
-    """Fail closed for arguments whose optional call may suppress evaluation."""
-    for match in re.finditer(r"\?\.\s*\(", searchable):
-        open_paren = searchable.find("(", match.start(), match.end())
-        close_paren = _js_matching_delimiter(searchable, open_paren, "(", ")")
-        if close_paren is not None and open_paren < position < close_paren:
+    """Fail closed for expressions suppressed by an unproven optional chain."""
+    optional = re.compile(
+        r"\?\.\s*(?:[A-Za-z_$][\w$]*\s*)?(?P<opening>[\[(])")
+    for match in optional.finditer(searchable):
+        opening = match.group("opening")
+        open_delimiter = match.start("opening")
+        closing = ")" if opening == "(" else "]"
+        close_delimiter = _js_matching_delimiter(
+            searchable, open_delimiter, opening, closing)
+        if (close_delimiter is not None
+                and open_delimiter < position < close_delimiter):
             return False
     return True
+
+
+def _js_in_deferred_instance_field(searchable, position):
+    """Return whether a call is in an unsupported instance field initializer."""
+    for class_match in re.finditer(r"\bclass\b", searchable):
+        open_brace = searchable.find("{", class_match.end())
+        if open_brace < 0:
+            continue
+        header = searchable[class_match.end():open_brace]
+        if ";" in header:
+            continue
+        close_brace = _js_matching_delimiter(
+            searchable, open_brace, "{", "}")
+        if close_brace is None or not (open_brace < position < close_brace):
+            continue
+        member = re.compile(
+            r"(?:^|[;{}])\s*(?!static\b)(?:accessor\s+)?"
+            r"[#A-Za-z_$][\w$#]*\s*=")
+        for field in member.finditer(searchable, open_brace, position):
+            value_start = field.end()
+            value_end = _js_bounded_expression_end(
+                searchable, value_start, comma_ends=False)
+            if value_start <= position < value_end:
+                return True
+    return False
 
 
 def _js_ternary_call_reachable(searchable, position):
@@ -3686,6 +3774,8 @@ def _js_call_activation_points(text, position):
 
     def reachable(candidate, seen, binding_guards=()):
         if not _js_optional_call_argument_reachable(searchable, candidate):
+            return set()
+        if _js_in_deferred_instance_field(searchable, candidate):
             return set()
         if not _js_short_circuit_call_reachable(searchable, candidate):
             return set()

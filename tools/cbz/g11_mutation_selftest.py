@@ -708,8 +708,14 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_call_preserves_earlier_argument_value_before_later_rebinding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("assignment target invalidated before RHS helper", "census",
-     "            if getattr(node, \"value\", None) is not None:\n                visit(node.value, owner, scope, activation_line)\n            elif isinstance(node, ast.AnnAssign):\n                return\n            targets = node.targets if isinstance(node, ast.Assign) else [node.target]\n            if not isinstance(node, ast.AugAssign):\n                for target in targets:\n                    visit_assignment_target_effects(\n                        target, owner, scope, activation_line)\n            for target in targets:\n                for name in _target_names(target):\n                    active_functions.pop(\n                        (active_function_destination(scope, name), name), None)",
-     "            targets = node.targets if isinstance(node, ast.Assign) else [node.target]\n            for target in targets:\n                for name in _target_names(target):\n                    active_functions.pop(\n                        (active_function_destination(scope, name), name), None)\n            if getattr(node, \"value\", None) is not None:\n                visit(node.value, owner, scope, activation_line)\n            elif isinstance(node, ast.AnnAssign):\n                return\n            if not isinstance(node, ast.AugAssign):\n                for target in targets:\n                    visit_assignment_target_effects(\n                        target, owner, scope, activation_line)",
+     "            visit(node.value, owner, scope, activation_line)\n"
+     "            marker = ast.copy_location(ast.Expr(value=node.value), node.value)",
+     "            for target in node.targets:\n"
+     "                for name in _target_names(target):\n"
+     "                    active_functions.pop(\n"
+     "                        (active_function_destination(scope, name), name), None)\n"
+     "            visit(node.value, owner, scope, activation_line)\n"
+     "            marker = ast.copy_location(ast.Expr(value=node.value), node.value)",
      "tests.test_g11_census.ToolChecks.test_assignment_rhs_helper_executes_before_target_rebinding",
      'self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])'),
     ("sequence element value reevaluated after later effects", "census",
@@ -1190,8 +1196,15 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_helper_argument_alias_mutation_updates_caller_aggregate",
      '"tools/kwarg-unused.py": False,'),
     ("assignment target effects ignored", "census",
-     "            if not isinstance(node, ast.AugAssign):\n                for target in targets:\n                    visit_assignment_target_effects(\n                        target, owner, scope, activation_line)",
-     "            if False:\n                for target in targets:\n                    visit_assignment_target_effects(\n                        target, owner, scope, activation_line)",
+     "            for target in node.targets:\n"
+     "                visit_assignment_target_effects(\n"
+     "                    target, owner, scope, activation_line)\n"
+     "                for name in _target_names(target):",
+     "            for target in node.targets:\n"
+     "                if False:\n"
+     "                    visit_assignment_target_effects(\n"
+     "                        target, owner, scope, activation_line)\n"
+     "                for name in _target_names(target):",
      "tests.test_g11_census.ToolChecks.test_assignment_target_effects_follow_rhs_and_precede_later_statements",
      '{"tools/live.py": True, "tools/unused.py": False},'),
     ("unknown chained-comparison suffix effects ignored", "census",
@@ -1346,8 +1359,12 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_completed_standalone_block_propagates_termination",
      '{"tools/live.mjs": True, "tools/unused.mjs": False}'),
     ("unresolved definition-time effects ignored", "census",
+     "            for expression in node.decorator_list:\n"
+     "                self.visit(expression)\n"
      "            for expression in node.args.defaults:\n"
      "                self.visit(expression)",
+     "            for expression in node.decorator_list:\n"
+     "                self.visit(expression)\n"
      "            for expression in ():\n"
      "                self.visit(expression)",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_definition_time_effects_invalidate_downstream_bindings",
@@ -1364,6 +1381,61 @@ NEW_MUTATIONS = [
      "            return set()",
      "tests.test_g11_census.ToolChecks.test_js_optional_call_arguments_require_proven_evaluation",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("chained assignment stores delayed past target effects", "census",
+     "            for target in node.targets:\n"
+     "                visit_assignment_target_effects(\n"
+     "                    target, owner, scope, activation_line)\n"
+     "                for name in _target_names(target):\n"
+     "                    active_functions.pop(\n"
+     "                        (active_function_destination(scope, name), name), None)\n"
+     "                store = ast.copy_location(\n"
+     "                    ast.Assign(targets=[target], value=node.value,\n"
+     "                               type_comment=node.type_comment), node)\n"
+     "                store._g11_captured_assignment_id = id(node)\n"
+     "                nodes.append((store, scope, execution_line))",
+     "            for target in node.targets:\n"
+     "                visit_assignment_target_effects(\n"
+     "                    target, owner, scope, activation_line)\n"
+     "            for target in node.targets:\n"
+     "                for name in _target_names(target):\n"
+     "                    active_functions.pop(\n"
+     "                        (active_function_destination(scope, name), name), None)\n"
+     "                store = ast.copy_location(\n"
+     "                    ast.Assign(targets=[target], value=node.value,\n"
+     "                               type_comment=node.type_comment), node)\n"
+     "                store._g11_captured_assignment_id = id(node)\n"
+     "                nodes.append((store, scope, execution_line))",
+     "tests.test_g11_census.ToolChecks.test_chained_assignment_interleaves_target_stores_and_effects",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("unresolved lambda default effects ignored", "census",
+     "        def visit_Lambda(self, node):\n"
+     "            for expression in node.args.defaults:\n"
+     "                self.visit(expression)\n"
+     "            for expression in node.args.kw_defaults:\n"
+     "                if expression is not None:\n"
+     "                    self.visit(expression)\n"
+     "            return",
+     "        def visit_Lambda(self, node):\n"
+     "            return",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_lambda_defaults_invalidate_downstream_bindings",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("optional JavaScript property chains activated", "census",
+     '        r"\\?\\.\\s*(?:[A-Za-z_$][\\w$]*\\s*)?(?P<opening>[\\[(])")',
+     '        r"\\?\\.\\s*(?P<opening>\\()")',
+     "tests.test_g11_census.ToolChecks.test_js_optional_property_chains_require_proven_evaluation",
+     '"tools/property-unused.mjs": False'),
+    ("JavaScript instance field initializer treated as module execution", "census",
+     "        if _js_in_deferred_instance_field(searchable, candidate):\n"
+     "            return set()",
+     "        if False:\n"
+     "            return set()",
+     "tests.test_g11_census.ToolChecks.test_js_unconstructed_instance_field_initializer_is_deferred",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("JavaScript regex after control header treated as code", "census",
+     '                return bool(re.search(r"\\b(?:if|for|while|with)\\s*$", prefix))',
+     "                return False",
+     "tests.test_g11_census.ToolChecks.test_js_regular_expression_after_control_header_is_not_a_process_call",
+     '"tools/live.mjs": True, "tools/regex-unused.mjs": False'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1645,6 +1717,11 @@ EXPECTED_MUTATION_NAMES = (
     "unresolved definition-time effects ignored",
     "helper-local parameter alias mutation ignored",
     "optional JavaScript call arguments activated",
+    "chained assignment stores delayed past target effects",
+    "unresolved lambda default effects ignored",
+    "optional JavaScript property chains activated",
+    "JavaScript instance field initializer treated as module execution",
+    "JavaScript regex after control header treated as code",
 )
 
 
@@ -1823,7 +1900,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 211
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 216
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
