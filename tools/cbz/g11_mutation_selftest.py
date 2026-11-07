@@ -1281,6 +1281,26 @@ NEW_MUTATIONS = [
      "            (scope for scope in scopes if scope[2] < candidate < scope[3]),",
      "tests.test_g11_census.ToolChecks.test_js_default_initializer_executes_only_for_invoked_helper",
      '{"tools/live.mjs": True, "tools/unused.mjs": False}'),
+    ("possible branch rebind retains import identity", "census",
+     "    elif isinstance(node, ast.Delete):\n"
+     "        # Synthetic Delete nodes carry fail-closed invalidations for names\n"
+     "        # that a possible control-flow path may rebind.  They must invalidate\n"
+     "        # trusted import identities as well as static values and wrappers.\n"
+     "        targets = node.targets",
+     "    elif isinstance(node, ast.Delete):\n"
+     "        targets = []",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_rebinding_invalidates_local_import_identity",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("loop termination tail activated", "census",
+     "        if after_unconditional_loop_termination(candidate):\n            return set()",
+     "        if False:\n            return set()",
+     "tests.test_g11_census.ToolChecks.test_js_loop_termination_precedes_process_activation",
+     '{"tools/break-unused.mjs": False,'),
+    ("unselected JavaScript switch case activated", "census",
+     "        if in_unproven_switch(candidate):\n            return set()",
+     "        if False:\n            return set()",
+     "tests.test_g11_census.ToolChecks.test_js_switch_requires_proven_case_selection",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1549,6 +1569,9 @@ EXPECTED_MUTATION_NAMES = (
     "terminated JavaScript helper tail activated",
     "augmented assignment target reloaded after RHS effects",
     "JavaScript default initializer treated as module execution",
+    "possible branch rebind retains import identity",
+    "loop termination tail activated",
+    "unselected JavaScript switch case activated",
 )
 
 
@@ -1727,7 +1750,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 198
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 201
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

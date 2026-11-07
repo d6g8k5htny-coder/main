@@ -263,6 +263,11 @@ def _update_local_import_bindings(node, bindings):
         targets = [node.target] if node.value is not None else []
     elif isinstance(node, (ast.AugAssign, ast.NamedExpr)):
         targets = [node.target]
+    elif isinstance(node, ast.Delete):
+        # Synthetic Delete nodes carry fail-closed invalidations for names
+        # that a possible control-flow path may rebind.  They must invalidate
+        # trusted import identities as well as static values and wrappers.
+        targets = node.targets
     for target in targets:
         for name in _target_names(target):
             bindings["modules"].pop(name, None)
@@ -3415,6 +3420,59 @@ def _js_call_activation_points(text, position):
                 return True
         return False
 
+    def after_unconditional_loop_termination(candidate):
+        """Reject calls after a direct break/continue in a containing loop."""
+        pattern = re.compile(r"\b(?:while|for)\s*\(")
+        token = re.compile(r"\b(?:break|continue)\b|[(){}\[\]]")
+        closing = {")": "(", "]": "[", "}": "{"}
+        for match in pattern.finditer(searchable):
+            header_start = searchable.find("(", match.start(), match.end())
+            header_end = _js_matching_delimiter(
+                searchable, header_start, "(", ")")
+            if header_end is None:
+                continue
+            body_start = header_end + 1
+            while (body_start < len(searchable)
+                   and searchable[body_start].isspace()):
+                body_start += 1
+            if body_start >= len(searchable) or searchable[body_start] != "{":
+                continue
+            body_end = _js_matching_delimiter(
+                searchable, body_start, "{", "}")
+            if body_end is None or not (body_start < candidate < body_end):
+                continue
+            depths = {"(": 0, "[": 0, "{": 0}
+            for item in token.finditer(searchable, body_start + 1, candidate):
+                value = item.group()
+                if value in depths:
+                    depths[value] += 1
+                elif value in closing:
+                    opening = closing[value]
+                    depths[opening] = max(0, depths[opening] - 1)
+                elif not any(depths.values()):
+                    return True
+        return False
+
+    def in_unproven_switch(candidate):
+        """Fail closed for calls inside unsupported switch selection."""
+        for match in re.finditer(r"\bswitch\s*\(", searchable):
+            header_start = searchable.find("(", match.start(), match.end())
+            header_end = _js_matching_delimiter(
+                searchable, header_start, "(", ")")
+            if header_end is None:
+                continue
+            body_start = header_end + 1
+            while (body_start < len(searchable)
+                   and searchable[body_start].isspace()):
+                body_start += 1
+            if body_start >= len(searchable) or searchable[body_start] != "{":
+                continue
+            body_end = _js_matching_delimiter(
+                searchable, body_start, "{", "}")
+            if body_end is not None and body_start < candidate < body_end:
+                return True
+        return False
+
     def after_unconditional_termination(candidate):
         """Reject calls after direct return/throw in every containing block."""
         containing_functions = [
@@ -3491,6 +3549,10 @@ def _js_call_activation_points(text, position):
         if in_unselected_or_unknown_branch(candidate):
             return set()
         if in_unproven_loop(candidate):
+            return set()
+        if after_unconditional_loop_termination(candidate):
+            return set()
+        if in_unproven_switch(candidate):
             return set()
         if after_unconditional_termination(candidate):
             return set()

@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "9b200ac23d2aef420e61e1a6c00c848ece1c8357c12f1f3b81e675c29a89b584"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "3fadcad54079e33cb6c60623cad3ec33a3fe896199eac5b188a167f8238e0fce"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -1357,6 +1357,26 @@ class ToolChecks(unittest.TestCase):
         self.assertEqual(
             {path: item["referenced"] for path, item in self.tools(tree).items()},
             {"tools/live.py": True, "tools/unused.py": False})
+
+    def test_unknown_branch_rebinding_invalidates_local_import_identity(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_branch_import.py": (
+                "class Fake:\n"
+                "    @staticmethod\n"
+                "    def run(*args, **kwargs):\n"
+                "        return None\n"
+                "def exercise(flag):\n"
+                "    import subprocess\n"
+                "    command = ['python3', 'tools/unused.py']\n"
+                "    if flag:\n"
+                "        subprocess = Fake\n"
+                "    subprocess.run(command)\n"
+                "exercise(True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
     def test_annotation_only_statement_preserves_local_import_identity(self):
         tree = {
@@ -3278,6 +3298,42 @@ class ToolChecks(unittest.TestCase):
              "tools/unknown-unused.mjs": False},
         )
 
+    def test_js_loop_termination_precedes_process_activation(self):
+        tree = {
+            "tools/break-unused.mjs": "export const value = 1;\n",
+            "tools/continue-unused.mjs": "export const value = 2;\n",
+            "tools/live.mjs": "export const value = 3;\n",
+            "tools/README.md": (
+                "tools/break-unused.mjs tools/continue-unused.mjs tools/live.mjs\n"),
+            "tests/loop-termination.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const breakUnused=new URL('../tools/break-unused.mjs',import.meta.url);\n"
+                "const continueUnused=new URL('../tools/continue-unused.mjs',import.meta.url);\n"
+                "const live=new URL('../tools/live.mjs',import.meta.url);\n"
+                "while(true){break;spawnSync('echo',[breakUnused]);}\n"
+                "for(;;){continue;spawnSync('echo',[continueUnused]);}\n"
+                "while(true){spawnSync('echo',[live]);break;}\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/break-unused.mjs": False,
+             "tools/continue-unused.mjs": False,
+             "tools/live.mjs": True},
+        )
+
+    def test_js_switch_requires_proven_case_selection(self):
+        tree = {
+            "tools/unused.mjs": "export const value = 1;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/switch-reachability.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "switch(0){case 1:spawnSync('echo',[script]);}\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
     def test_js_helper_termination_precedes_process_activation(self):
         tree = {
             "tools/return-unused.mjs": "export const value = 1;\n",
@@ -3817,7 +3873,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 265)
+        self.assertEqual(len(cases), 268)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:
