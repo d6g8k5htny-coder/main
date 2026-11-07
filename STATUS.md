@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 7 November 2026
 
 The Main candidate containing this file has native source parent
-`b8d5472271d16aeb4fca4e4ed62e1984f51cb9c8`; its isolated work began from the
+`4ce872b03b160954dca61fbc984c87688fde0d41`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,18 +37,18 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `b8d5472271d16aeb4fca4e4ed62e1984f51cb9c8` (parent
-`131f782b415e5af12d77ca3319c04ea0859ebdea`, tree
-`6b501bc7cd2dbf92da864ef6b24a34835ad85c12`) is blob-for-blob identical to
-local exact-tree qualification `324722bf4ed73b28f12ca681e3a456a9fa5fd78c`.
-Fresh execution on the native commit passed 244/244 tests and killed
-311/311 designated mutants in both modes with zero skips; the sealed
+native source `4ce872b03b160954dca61fbc984c87688fde0d41` (parent
+`82a29b2c66845fe39be3bea825fc520aeccf84bc`, tree
+`362c14fd55eca98a9d9bd1bf5c866a81a904ee95`) was reconstructed from the
+exact hosted Git commit after transient scratch loss. Fresh execution on that
+native commit passed 246/246 tests and killed 313/313 designated mutants in
+both modes with zero skips; the sealed
 mutation-inventory SHA-256 is
-`59652059969aa246bf9314a4e14282455dad2feecbb58373905dde19b2e257f6`.
-The normal and optimized mutation receipts are byte-identical, 192,974 bytes,
-SHA-256 `1018c8d0fd1da978326f2c1989ed1d24c4661c6dd96ba33a6c7a12437e0fbb31`.
+`61acda2771a1a3851a5d8a4006cac0eaf9bda768c34416b02dc4e839eed97543`.
+The normal and optimized mutation receipts are byte-identical, 194,297 bytes,
+SHA-256 `644ac00fb6b38d22ebea860a7bed84d6053e16c8af26679538be2303a85e8d18`.
 The native commit's byte-identical normal/optimized whole-tree reports (SHA-256
-`f2467e5c1ec355cf1ff5e814c11b30a4f35e68679f38e1ae127f0809658a42ab`,
+`0897dabee804e7ec728435de65367af5c1ca4d9d45f7c7c43e68aa4203d95086`,
 56,059 bytes each)
 contain zero production findings and retain exactly 32 no-current-exercise
 or documentation tool candidates; both census runs exit 1. The stricter
@@ -133,7 +133,11 @@ branches contribute only their taken origin while unresolved branches retain
 the union of possible origins. Mutation-time origin snapshots now preserve an
 already-executed alias mutation even after a later local rebinding, and
 recursive invalidation of a captured mutable default reaches nested aggregates
-and their surviving external aliases. The current total is 195 distinct
+and their surviving external aliases. Two newest exact-head controls union
+mutation-time origins with a helper alias's final formal origins so a later
+helper-induced mutation after rebinding cannot lose either caller aggregate,
+and propagate formal aliases through value-bearing annotated assignments while
+leaving annotation-only assignments nonmutating. The current total is 197 distinct
 review/adverse defects. The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
 interpreter command payloads, same-line JavaScript decoys or unreachable code.
