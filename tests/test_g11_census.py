@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "680b581938dbe08ffcc676dd14eaa4bfedfcf4d734c2db2e99ed3ebb37f1abdc"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "0bdb4d9232d4d14567c03ab185e0454654357d4ff364a5057fc5ae0d08c9e776"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -2027,6 +2027,49 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
+    def test_destructuring_assignment_interleaves_element_stores_and_effects(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_destructuring_assignment_order.py": (
+                "import subprocess\n"
+                "command = ['echo']\n"
+                "holder = [None]\n"
+                "def replace():\n"
+                "    command[:] = ['echo']\n"
+                "    return 0\n"
+                "command, holder[replace()] = (\n"
+                "    ['python3', 'tools/unused.py'], 0)\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_destructuring_snapshots_leaf_values_before_target_effects(self):
+        def tree(mutator):
+            return {
+                "tools/live.py": "x = 1\n",
+                "tools/README.md": "tools/live.py\n",
+                "tests/test_destructuring_snapshot.py": (
+                    "import subprocess\n"
+                    "command = ['python3', 'tools/live.py']\n"
+                    "source = [0, 0, command]\n"
+                    "holder = [None]\n"
+                    "def mutate():\n"
+                    f"    {mutator}\n"
+                    "    return 0\n"
+                    "first, holder[mutate()], selected = source\n"
+                    "subprocess.run(selected, check=True)\n"
+                ),
+            }
+
+        self.assertTrue(self.tools(
+            tree("source[:] = [0, 0, ['echo']]")
+        )["tools/live.py"]["referenced"])
+        self.assertFalse(self.tools(
+            tree("command[:] = ['echo']")
+        )["tools/live.py"]["referenced"])
+
     def test_handler_free_try_body_termination_stops_following_helper_statements(self):
         tree = {
             "tools/unused.py": "x = 1\n",
@@ -3398,6 +3441,25 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
+    def test_js_uninvoked_quoted_method_bodies_are_not_module_execution(self):
+        tree = {
+            "tools/class-unused.mjs": "export const value = 1;\n",
+            "tools/object-unused.mjs": "export const value = 2;\n",
+            "tools/README.md": "tools/class-unused.mjs tools/object-unused.mjs\n",
+            "tests/quoted-methods.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const classScript=new URL('../tools/class-unused.mjs',import.meta.url);\n"
+                "const objectScript=new URL('../tools/object-unused.mjs',import.meta.url);\n"
+                "class Settings { 'launch'() { spawnSync('echo',[classScript]); } }\n"
+                "const holder={ 'launch'() { spawnSync('echo',[objectScript]); } };\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/class-unused.mjs": False,
+             "tools/object-unused.mjs": False},
+        )
+
     def test_js_process_call_after_await_is_not_proven_reachable(self):
         tree = {
             "tools/live.mjs": "export const value = 1;\n",
@@ -3712,6 +3774,33 @@ class ToolChecks(unittest.TestCase):
             ),
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
+    def test_js_unconstructed_nested_computed_instance_field_is_deferred(self):
+        tree = {
+            "tools/unused.mjs": "export const value = 1;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/nested-computed-instance-field.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "class Settings { [['field'][0]] = spawnSync('echo',[script]); }\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
+    def test_js_static_block_computed_assignment_executes_at_class_definition(self):
+        tree = {
+            "tools/live.mjs": "export const value = 1;\n",
+            "tools/README.md": "tools/live.mjs\n",
+            "tests/static-block-computed-assignment.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/live.mjs',import.meta.url);\n"
+                "const holder=[0];\n"
+                "class Settings {\n"
+                "  static { [holder[0]] = [spawnSync('echo',[script])]; }\n"
+                "}\n"
+            ),
+        }
+        self.assertTrue(self.tools(tree)["tools/live.mjs"]["referenced"])
 
     def test_js_semicolonless_instance_field_boundary_is_deferred(self):
         tree = {
@@ -4295,7 +4384,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 293)
+        self.assertEqual(len(cases), 298)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

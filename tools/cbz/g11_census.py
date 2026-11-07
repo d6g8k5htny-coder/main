@@ -1437,10 +1437,19 @@ def _reachable_python_nodes(tree, mode):
             visit(node.value, owner, scope, activation_line)
             marker = ast.copy_location(ast.Expr(value=node.value), node.value)
             marker._g11_assignment_value_id = id(node)
+            marker._g11_assignment_roots = node.targets
             execution_line = (getattr(node, "lineno", 0)
                               if activation_line is None else activation_line)
             nodes.append((marker, scope, execution_line))
-            for target in node.targets:
+            def store_assignment_target(target, root_target):
+                # Unpacking stores proceed left-to-right.  A later target may
+                # call a helper that observes or mutates an earlier store, so
+                # do not defer every element store until the whole target's
+                # evaluation has completed.
+                if isinstance(target, (ast.Tuple, ast.List)):
+                    for element in target.elts:
+                        store_assignment_target(element, root_target)
+                    return
                 visit_assignment_target_effects(
                     target, owner, scope, activation_line)
                 for name in _target_names(target):
@@ -1450,7 +1459,13 @@ def _reachable_python_nodes(tree, mode):
                     ast.Assign(targets=[target], value=node.value,
                                type_comment=node.type_comment), node)
                 store._g11_captured_assignment_id = id(node)
+                if root_target is not target:
+                    store._g11_captured_assignment_root = root_target
+                    store._g11_captured_assignment_target_id = id(target)
                 nodes.append((store, scope, execution_line))
+
+            for target in node.targets:
+                store_assignment_target(target, target)
             return
 
         if isinstance(node, (ast.AnnAssign, ast.AugAssign)):
@@ -2017,6 +2032,50 @@ def _invalidate_python_binding(name, local, module, scope, global_names=(),
     destination[name] = _UNRESOLVED_STATIC
 
 
+def _python_assignment_target_values(pattern, value):
+    """Map each unpacking leaf to the RHS value stored at that point."""
+    values = {}
+
+    def unresolved(target):
+        if isinstance(target, (ast.Tuple, ast.List)):
+            for element in target.elts:
+                unresolved(element)
+        else:
+            values[id(target)] = _UNRESOLVED_STATIC
+
+    def assign(target, target_value):
+        if not isinstance(target, (ast.Tuple, ast.List)):
+            values[id(target)] = target_value
+            return
+        if not isinstance(target_value, (list, _StaticTuple)):
+            unresolved(target)
+            return
+        starred = [index for index, element in enumerate(target.elts)
+                   if isinstance(element, ast.Starred)]
+        if not starred:
+            if len(target.elts) != len(target_value):
+                unresolved(target)
+                return
+            element_values = list(target_value)
+        elif len(starred) == 1 and len(target_value) >= len(target.elts) - 1:
+            star = starred[0]
+            trailing = len(target.elts) - star - 1
+            element_values = [
+                *target_value[:star],
+                list(target_value[star:len(target_value) - trailing]),
+                *(target_value[len(target_value) - trailing:]
+                  if trailing else []),
+            ]
+        else:
+            unresolved(target)
+            return
+        for element, element_value in zip(target.elts, element_values):
+            assign(element, element_value)
+
+    assign(pattern, value)
+    return values
+
+
 def _bind_python_value(node, value, local, module, scope, global_names=(),
                        destination_for_name=None):
     targets = []
@@ -2398,6 +2457,7 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
     evaluated_arguments = {}
     evaluated_defaults = {}
     evaluated_assignment_values = {}
+    evaluated_assignment_target_values = {}
     evaluated_sequence_elements = {}
     evaluated_augassign_targets = {}
     missing_argument = object()
@@ -2520,11 +2580,17 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     static_shadowed))
             continue
         if hasattr(node, "_g11_assignment_value_id"):
-            evaluated_assignment_values[node._g11_assignment_value_id] = (
-                _python_sequence_static_value(
-                    node.value, evaluated_sequence_elements, local,
-                    visible_module_bindings, source_path, active_imports,
-                    static_shadowed))
+            assignment_value = _python_sequence_static_value(
+                node.value, evaluated_sequence_elements, local,
+                visible_module_bindings, source_path, active_imports,
+                static_shadowed)
+            evaluated_assignment_values[node._g11_assignment_value_id] = assignment_value
+            target_values = {}
+            for root_target in node._g11_assignment_roots:
+                target_values.update(_python_assignment_target_values(
+                    root_target, assignment_value))
+            evaluated_assignment_target_values[
+                node._g11_assignment_value_id] = target_values
             continue
         if hasattr(node, "_g11_augassign_target_id"):
             evaluated_augassign_targets[node._g11_augassign_target_id] = (
@@ -2572,6 +2638,11 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
             elif hasattr(node, "_g11_captured_assignment_id"):
                 value = evaluated_assignment_values.get(
                     node._g11_captured_assignment_id, _UNRESOLVED_STATIC)
+                if hasattr(node, "_g11_captured_assignment_target_id"):
+                    value = evaluated_assignment_target_values.get(
+                        node._g11_captured_assignment_id, {}).get(
+                        node._g11_captured_assignment_target_id,
+                        _UNRESOLVED_STATIC)
             else:
                 value_node = (ast.BinOp(left=node.target, op=node.op, right=node.value)
                               if isinstance(node, ast.AugAssign) else node.value)
@@ -3121,7 +3192,7 @@ def _js_regex_follows_control_header(searchable, close_paren):
     return False
 
 
-def _js_mask_noncode_literals(text):
+def _js_mask_noncode_literals(text, preserve_string_delimiters=False):
     """Mask strings and bounded regular-expression literals, preserving offsets."""
     masked = list(text)
     index = 0
@@ -3133,7 +3204,11 @@ def _js_mask_noncode_literals(text):
             escaped = False
             while cursor < len(text):
                 current = text[cursor]
-                masked[cursor] = "\n" if current == "\n" else " "
+                closing = (cursor > index and not escaped and current == quote)
+                masked[cursor] = (
+                    current if (preserve_string_delimiters
+                                and (cursor == index or closing))
+                    else ("\n" if current == "\n" else " "))
                 if cursor > index:
                     if escaped:
                         escaped = False
@@ -3391,15 +3466,19 @@ def _js_function_scopes(text):
     # Class and object-literal method bodies are deferred just like functions.
     # Invocation through property lookup is outside the bounded reachability
     # model, so retain their scopes only to refuse module-execution credit.
+    method_searchable = _js_mask_noncode_literals(
+        text, preserve_string_delimiters=True)
     method = re.compile(
-        r"(?<![\w$])(?P<name>[A-Za-z_$][\w$]*|\[[^\]\r\n]*\])\s*\(")
+        r"(?<![\w$])(?P<name>[A-Za-z_$][\w$]*|\[[^\]\r\n]*\]|"
+        r"'\s*'|\"\s*\")\s*\(")
     control_names = {
         "if", "for", "while", "switch", "catch", "with", "function"
     }
-    for match in method.finditer(searchable):
+    for match in method.finditer(method_searchable):
         if match.group("name") in control_names:
             continue
-        prefix = searchable[max(0, match.start("name") - 32):match.start("name")]
+        prefix = method_searchable[
+            max(0, match.start("name") - 32):match.start("name")]
         if re.search(r"\bfunction\s*$", prefix):
             continue
         open_paren = match.end() - 1
@@ -3546,11 +3625,49 @@ def _js_in_deferred_instance_field(searchable, position):
             searchable, open_brace, "{", "}")
         if close_brace is None or not (open_brace < position < close_brace):
             continue
+
+        def at_class_member_level(index):
+            depth = 0
+            for char in searchable[open_brace + 1:index]:
+                if char == "{":
+                    depth += 1
+                elif char == "}":
+                    depth -= 1
+            return depth == 0
+
         member = re.compile(
             r"(?:^|[;{}\r\n])\s*(?!static\b)(?:accessor\s+)?"
             r"(?:[#A-Za-z_$][\w$#]*|\[[^\]\r\n]*\])\s*=")
         for field in member.finditer(searchable, open_brace, position):
             value_start = field.end()
+            if not at_class_member_level(value_start):
+                continue
+            value_end = _js_bounded_expression_end(
+                searchable, value_start, comma_ends=False)
+            if value_start <= position < value_end:
+                return True
+        # Nested computed names need delimiter-balanced scanning.  The common
+        # regular expression above intentionally stops at a simple closing
+        # bracket and cannot classify e.g. ``[['field'][0]] = value``.
+        computed_member = re.compile(
+            r"(?:^|[;{}\r\n])\s*(?!static\b)(?:accessor\s+)?(?=\[)")
+        for prefix in computed_member.finditer(
+                searchable, open_brace, position):
+            computed_start = prefix.end()
+            computed_end = _js_matching_delimiter(
+                searchable, computed_start, "[", "]")
+            if (computed_end is None
+                    or "[" not in searchable[
+                        computed_start + 1:computed_end]):
+                continue
+            equals = computed_end + 1
+            while equals < len(searchable) and searchable[equals].isspace():
+                equals += 1
+            if equals >= len(searchable) or searchable[equals] != "=":
+                continue
+            value_start = equals + 1
+            if not at_class_member_level(value_start):
+                continue
             value_end = _js_bounded_expression_end(
                 searchable, value_start, comma_ends=False)
             if value_start <= position < value_end:

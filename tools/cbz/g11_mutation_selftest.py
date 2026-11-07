@@ -423,8 +423,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_url_child_process_execution_is_a_reference",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("destructured path values rebound as aggregate", "census",
-     "                bind(element, element_value)",
-     "                bind(element, target_value)",
+     "            assign(element, element_value)",
+     "            assign(element, target_value)",
      "tests.test_g11_census.ToolChecks.test_destructured_paths_bind_corresponding_values",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("rebound wrapper parameter still forwarded", "census",
@@ -1196,11 +1196,9 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_helper_argument_alias_mutation_updates_caller_aggregate",
      '"tools/kwarg-unused.py": False,'),
     ("assignment target effects ignored", "census",
-     "            for target in node.targets:\n"
      "                visit_assignment_target_effects(\n"
      "                    target, owner, scope, activation_line)\n"
      "                for name in _target_names(target):",
-     "            for target in node.targets:\n"
      "                if False:\n"
      "                    visit_assignment_target_effects(\n"
      "                        target, owner, scope, activation_line)\n"
@@ -1228,7 +1226,7 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_unresolved_eager_comprehension_effects_invalidate_provenance",
      '{"tools/direct-unused.py": False, "tools/wrapper-unused.py": False},'),
     ("uninvoked JavaScript methods treated as module execution", "census",
-     "    for match in method.finditer(searchable):\n        if match.group(\"name\") in control_names:",
+     "    for match in method.finditer(method_searchable):\n        if match.group(\"name\") in control_names:",
      "    for match in ():\n        if match.group(\"name\") in control_names:",
      "tests.test_g11_census.ToolChecks.test_js_uninvoked_method_bodies_are_not_module_execution",
      '{"tools/class-unused.mjs": False, "tools/live.mjs": True,'),
@@ -1385,28 +1383,9 @@ NEW_MUTATIONS = [
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("chained assignment stores delayed past target effects", "census",
      "            for target in node.targets:\n"
-     "                visit_assignment_target_effects(\n"
-     "                    target, owner, scope, activation_line)\n"
-     "                for name in _target_names(target):\n"
-     "                    active_functions.pop(\n"
-     "                        (active_function_destination(scope, name), name), None)\n"
-     "                store = ast.copy_location(\n"
-     "                    ast.Assign(targets=[target], value=node.value,\n"
-     "                               type_comment=node.type_comment), node)\n"
-     "                store._g11_captured_assignment_id = id(node)\n"
-     "                nodes.append((store, scope, execution_line))",
-     "            for target in node.targets:\n"
-     "                visit_assignment_target_effects(\n"
-     "                    target, owner, scope, activation_line)\n"
-     "            for target in node.targets:\n"
-     "                for name in _target_names(target):\n"
-     "                    active_functions.pop(\n"
-     "                        (active_function_destination(scope, name), name), None)\n"
-     "                store = ast.copy_location(\n"
-     "                    ast.Assign(targets=[target], value=node.value,\n"
-     "                               type_comment=node.type_comment), node)\n"
-     "                store._g11_captured_assignment_id = id(node)\n"
-     "                nodes.append((store, scope, execution_line))",
+     "                store_assignment_target(target, target)",
+     "            for target in reversed(node.targets):\n"
+     "                store_assignment_target(target, target)",
      "tests.test_g11_census.ToolChecks.test_chained_assignment_interleaves_target_stores_and_effects",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("unresolved lambda default effects ignored", "census",
@@ -1506,8 +1485,10 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_continuous_optional_computed_and_call_chains_require_evaluation",
      '"tools/computed-unused.mjs": False'),
     ("computed JavaScript method body treated as module execution", "census",
-     '        r"(?<![\\w$])(?P<name>[A-Za-z_$][\\w$]*|\\[[^\\]\\r\\n]*\\])\\s*\\(")',
-     '        r"(?<![\\w$])(?P<name>[A-Za-z_$][\\w$]*)\\s*\\(")',
+     '        r"(?<![\\w$])(?P<name>[A-Za-z_$][\\w$]*|\\[[^\\]\\r\\n]*\\]|"\n'
+     '        r"\'\\s*\'|\\\"\\s*\\\")\\s*\\(")',
+     '        r"(?<![\\w$])(?P<name>[A-Za-z_$][\\w$]*|\'\\s*\'|"\n'
+     '        r"\\\"\\s*\\\")\\s*\\(")',
      "tests.test_g11_census.ToolChecks.test_js_uninvoked_computed_method_bodies_are_not_module_execution",
      '"tools/object-unused.mjs": False'),
     ("semicolonless JavaScript instance field boundary ignored", "census",
@@ -1554,6 +1535,45 @@ NEW_MUTATIONS = [
      "        if char != \"[\":",
      "tests.test_g11_census.ToolChecks.test_js_uninvoked_nested_computed_method_body_is_not_module_execution",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("destructuring assignment element stores delayed", "census",
+     "                if isinstance(target, (ast.Tuple, ast.List)):\n"
+     "                    for element in target.elts:\n"
+     "                        store_assignment_target(element, root_target)\n"
+     "                    return",
+     "                if False:\n"
+     "                    for element in target.elts:\n"
+     "                        store_assignment_target(element, root_target)\n"
+     "                    return",
+     "tests.test_g11_census.ToolChecks.test_destructuring_assignment_interleaves_element_stores_and_effects",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("quoted JavaScript method name not deferred", "census",
+     '        r"(?<![\\w$])(?P<name>[A-Za-z_$][\\w$]*|\\[[^\\]\\r\\n]*\\]|"\n'
+     '        r"\'\\s*\'|\\\"\\s*\\\")\\s*\\(")',
+     '        r"(?<![\\w$])(?P<name>[A-Za-z_$][\\w$]*|\\[[^\\]\\r\\n]*\\])\\s*\\(")',
+     "tests.test_g11_census.ToolChecks.test_js_uninvoked_quoted_method_bodies_are_not_module_execution",
+     '"tools/object-unused.mjs": False'),
+    ("nested computed JavaScript field name unbalanced", "census",
+     "        for prefix in computed_member.finditer(\n"
+     "                searchable, open_brace, position):",
+     "        for prefix in ():",
+     "tests.test_g11_census.ToolChecks.test_js_unconstructed_nested_computed_instance_field_is_deferred",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("destructuring leaf values recomputed after target effects", "census",
+     "                    value = evaluated_assignment_target_values.get(\n"
+     "                        node._g11_captured_assignment_id, {}).get(\n"
+     "                        node._g11_captured_assignment_target_id,\n"
+     "                        _UNRESOLVED_STATIC)",
+     "                    value = _python_assignment_target_values(\n"
+     "                        node._g11_captured_assignment_root, value).get(\n"
+     "                        node._g11_captured_assignment_target_id,\n"
+     "                        _UNRESOLVED_STATIC)",
+     "tests.test_g11_census.ToolChecks.test_destructuring_snapshots_leaf_values_before_target_effects",
+     "self.assertTrue(self.tools("),
+    ("JavaScript static-block assignment treated as instance field", "census",
+     "            return depth == 0",
+     "            return True",
+     "tests.test_g11_census.ToolChecks.test_js_static_block_computed_assignment_executes_at_class_definition",
+     'self.assertTrue(self.tools(tree)["tools/live.mjs"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1850,6 +1870,11 @@ EXPECTED_MUTATION_NAMES = (
     "helper class-construction parameter mutation ignored",
     "downstream JavaScript await suspension ignored",
     "nested computed JavaScript method name unbalanced",
+    "destructuring assignment element stores delayed",
+    "quoted JavaScript method name not deferred",
+    "nested computed JavaScript field name unbalanced",
+    "destructuring leaf values recomputed after target effects",
+    "JavaScript static-block assignment treated as instance field",
 )
 
 
@@ -2028,7 +2053,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 226
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 231
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
