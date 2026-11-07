@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`4e4caefd6455f6a1f684d645eb20d308e59053d5`, based on Main default
+`8038863c04cc96acfcfc0d2953ab8575ccce213e`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,20 +263,21 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`4e4caefd6455f6a1f684d645eb20d308e59053d5` (parent
-`3f3dc9166a79b7d0bb7ec97b6422621a7da90f85`, tree
-`0f0a47d015669edb0a92f80b8e2c0140d1e4026e`) recognizes explicit local path
+`8038863c04cc96acfcfc0d2953ab8575ccce213e` (parent
+`d962c4e1593cd3b35d655aee9c7a582da6b63ca3`, tree
+`de8e2c664116803643cfda2f324756e7716c57af`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. It was
-reconstructed from that exact hosted commit after transient scratch loss.
-Fresh native execution passed 249/249 controls and killed 314/314 designated mutations in both modes with
+qualified locally at exact-tree commit
+`1616b31889a8b242ff6950dbd7af4d437e54648c`. Fresh execution passed 256/256
+controls and killed 321/321 designated mutations in both modes with
 zero skips; the
 sealed mutation-inventory SHA-256 is
-`4d98c77db9bfa666cecb0bb967dc9ea5fb5f0f2b56be543684efbcd6d60174a4`.
-The normal and optimized mutation receipts are byte-identical, 194,963 bytes,
-SHA-256 `c3d778617ba328841033104cefacdf0b4fb2b4e4f414c3ec22ea1a00ade9e8e5`. The exact
-native normal and optimized censuses were byte-identical (SHA-256
-`88760e3878bce1cb2e1dfd9bad7c7deade0d8a8b33b195e1643232eb4a882007`,
+`d7021d5cc7e464c423335c7b56b67b5ef1844c09865683d728a998e1661a5652`.
+The normal and optimized mutation receipts are byte-identical, 199,677 bytes,
+SHA-256 `367a13fed18c0880fcc73590ffb1f615bb48ba1baf76ecc621f427637f31f687`. The exact-
+tree normal and optimized censuses were byte-identical (SHA-256
+`bcd9605e448a4e3d121f8e9a03733190f376367e5c2ab690b17a90675605ef8f`,
 56,059 bytes each),
 with zero production findings and exactly 32 no-current-exercise or documentation tool
 candidates; both runs exited 1. Adverse controls refuse mere path
@@ -334,7 +335,14 @@ initial native implementation `3f3dc9166a79b7d0bb7ec97b6422621a7da90f85`
 failed both whole-tree censuses with `RecursionError` and receives no credit.
 The stronger call-site capture makes the older defect-196 union mutant
 equivalent; that mutant is retired explicitly while its historical RED control
-remains. The distinct defect count is 200.
+remains. Six newest repairs skip nested class/function expression bodies during
+outer class-body discovery, visit ordinary and annotated assignment right-hand
+sides before formal-alias rebinding, balance multiline computed names, fail
+closed on malformed class structure, preserve valid `#class`/`#function`
+private-name execution, and exclude import/export specifier reserved words from
+expression-keyword reachability. Exact ordering mutants retain RHS traversal;
+the earlier 319/320-case harness attempts receive no credit. The distinct defect
+count is 206.
 Four preceding controls require pre-argument Python call-target capture,
 balanced JavaScript parameter scopes, actual default-argument delivery, and
 fail-closed catch-handler reachability. Three adjacent controls cover nullish

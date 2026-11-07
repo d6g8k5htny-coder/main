@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 7 November 2026
 
 The Main candidate containing this file has native source parent
-`4e4caefd6455f6a1f684d645eb20d308e59053d5`; its isolated work began from the
+`8038863c04cc96acfcfc0d2953ab8575ccce213e`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,18 +37,18 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `4e4caefd6455f6a1f684d645eb20d308e59053d5` (parent
-`3f3dc9166a79b7d0bb7ec97b6422621a7da90f85`, tree
-`0f0a47d015669edb0a92f80b8e2c0140d1e4026e`) was reconstructed from the
-exact hosted Git commit after transient scratch loss. Fresh execution on that
-native commit passed 249/249 tests and killed 314/314 designated mutants in
-both modes with zero skips; the sealed
+native source `8038863c04cc96acfcfc0d2953ab8575ccce213e` (parent
+`d962c4e1593cd3b35d655aee9c7a582da6b63ca3`, tree
+`de8e2c664116803643cfda2f324756e7716c57af`) was qualified locally at exact-tree
+commit `1616b31889a8b242ff6950dbd7af4d437e54648c`. Fresh execution on that exact
+tree passed 256/256 tests and killed 321/321 designated mutants in both modes
+with zero skips; the sealed
 mutation-inventory SHA-256 is
-`4d98c77db9bfa666cecb0bb967dc9ea5fb5f0f2b56be543684efbcd6d60174a4`.
-The normal and optimized mutation receipts are byte-identical, 194,963 bytes,
-SHA-256 `c3d778617ba328841033104cefacdf0b4fb2b4e4f414c3ec22ea1a00ade9e8e5`.
-The native commit's byte-identical normal/optimized whole-tree reports (SHA-256
-`88760e3878bce1cb2e1dfd9bad7c7deade0d8a8b33b195e1643232eb4a882007`,
+`d7021d5cc7e464c423335c7b56b67b5ef1844c09865683d728a998e1661a5652`.
+The normal and optimized mutation receipts are byte-identical, 199,677 bytes,
+SHA-256 `367a13fed18c0880fcc73590ffb1f615bb48ba1baf76ecc621f427637f31f687`.
+The exact-tree byte-identical normal/optimized whole-tree reports (SHA-256
+`bcd9605e448a4e3d121f8e9a03733190f376367e5c2ab690b17a90675605ef8f`,
 56,059 bytes each)
 contain zero production findings and retain exactly 32 no-current-exercise
 or documentation tool candidates; both census runs exit 1. The stricter
@@ -146,7 +146,14 @@ and receives no credit. The replacement precomputes signature-checked per-call
 mutation sets and has a recursive-helper termination control. The older
 defect-196 union mutant became behaviorally equivalent under this stronger
 call-site capture and is explicitly retired; its historical RED control remains.
-The current total is 200 distinct
+Six further exact-head repairs skip nested class/function expressions while
+locating an outer JavaScript class body, preserve helper mutation provenance by
+visiting assignment right-hand sides before ordinary or annotated rebinding,
+balance multiline computed names, fail closed on malformed class structure,
+admit valid private names `#class`/`#function`, and exclude reserved words in
+import/export specifiers from expression-keyword reachability. The strengthened
+assignment mutants preserve right-hand-side traversal and change only ordering;
+earlier 319/320-case attempts receive no credit. The current total is 206 distinct
 review/adverse defects. The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
 interpreter command payloads, same-line JavaScript decoys or unreachable code.

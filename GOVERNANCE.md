@@ -126,25 +126,25 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired through 2026-11-07; G11 admission remains
 pending.** The repair at source commit
-`4e4caefd6455f6a1f684d645eb20d308e59053d5` (parent
-`3f3dc9166a79b7d0bb7ec97b6422621a7da90f85`, tree
-`0f0a47d015669edb0a92f80b8e2c0140d1e4026e`) extends the existing bounded
+`8038863c04cc96acfcfc0d2953ab8575ccce213e` (parent
+`d962c4e1593cd3b35d655aee9c7a582da6b63ca3`, tree
+`de8e2c664116803643cfda2f324756e7716c57af`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-It was reconstructed from that exact hosted commit after transient scratch
-loss. Fresh native execution passed 249/249 controls and killed 314/314
-designated mutants in each mode with zero
-skips; the sealed
+The hosted tree was qualified locally at exact-tree commit
+`1616b31889a8b242ff6950dbd7af4d437e54648c`. Fresh execution passed 256/256
+controls and killed 321/321 designated mutants in each mode with zero skips;
+the sealed
 mutation-inventory SHA-256 is
-`4d98c77db9bfa666cecb0bb967dc9ea5fb5f0f2b56be543684efbcd6d60174a4`.
-The normal and optimized mutation receipts are byte-identical, 194,963 bytes,
-SHA-256 `c3d778617ba328841033104cefacdf0b4fb2b4e4f414c3ec22ea1a00ade9e8e5`.
-The native commit's normal and optimized whole-tree reports were byte-identical
+`d7021d5cc7e464c423335c7b56b67b5ef1844c09865683d728a998e1661a5652`.
+The normal and optimized mutation receipts are byte-identical, 199,677 bytes,
+SHA-256 `367a13fed18c0880fcc73590ffb1f615bb48ba1baf76ecc621f427637f31f687`.
+The exact-tree normal and optimized whole-tree reports were byte-identical
 (SHA-256
-`88760e3878bce1cb2e1dfd9bad7c7deade0d8a8b33b195e1643232eb4a882007`,
+`bcd9605e448a4e3d121f8e9a03733190f376367e5c2ab690b17a90675605ef8f`,
 56,059 bytes each):
 zero production findings and 32 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The latest bounded rules
@@ -201,8 +201,8 @@ terminating static-block `throw` still evaluates its operand before the
 unreachable tail is suppressed. Four further controls map mutation through an
 omitted mutable-default helper parameter, discover parameter aliases inside
 nested helper statements, defer numeric-name class/object methods, and treat
-`static = ...` as an instance field rather than a modifier. The distinct defect
-total is 200. Definition-time mutable-default identity remains attached to the
+`static = ...` as an instance field rather than a modifier. The then-current
+distinct defect total was 200. Definition-time mutable-default identity remains attached to the
 captured object after the default-expression name is rebound. Helper aliases
 assigned in branch statements select only a literal branch's origin and retain
 the union of possible origins for an unresolved branch. Mutation origins are
@@ -221,7 +221,18 @@ at `3f3dc9166a79b7d0bb7ec97b6422621a7da90f85` failed both whole-tree censuses
 with `RecursionError`; it remains a preserved failure and is not credited. The
 stronger call-site repair made the older defect-196 union mutant equivalent, so
 that mutant is explicitly retired while its historical regression control is
-retained. These additions bring the distinct review/adverse total to 200.
+retained. Six further repairs close defects 201–206: class-body discovery skips
+nested braced class/function expressions in a heritage expression; helper
+mutation collection visits ordinary and annotated assignment right-hand sides
+before rebinding the target; multiline computed JavaScript names use balanced
+delimiter discovery; malformed or unbalanced class structures fail closed;
+valid private names such as `#class` and `#function` do not impersonate
+expression keywords; and reserved words inside import/export specifiers do not
+invalidate otherwise live module execution. The assignment mutants preserve
+right-hand-side traversal while changing only the incorrect ordering. Earlier
+319/320-case mutation attempts did not meet that exact adverse contract and
+receive no credit. These additions bring the distinct review/adverse total to
+206.
 The bounded rules also
 evaluate executable assignment-target subexpressions before rebinding; apply
 possible-effect invalidation to unresolved comparison suffixes and unresolved
