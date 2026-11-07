@@ -126,25 +126,25 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired through 2026-11-07; G11 admission remains
 pending.** The repair at source commit
-`4ce872b03b160954dca61fbc984c87688fde0d41` (parent
-`82a29b2c66845fe39be3bea825fc520aeccf84bc`, tree
-`362c14fd55eca98a9d9bd1bf5c866a81a904ee95`) extends the existing bounded
+`4e4caefd6455f6a1f684d645eb20d308e59053d5` (parent
+`3f3dc9166a79b7d0bb7ec97b6422621a7da90f85`, tree
+`0f0a47d015669edb0a92f80b8e2c0140d1e4026e`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
 It was reconstructed from that exact hosted commit after transient scratch
-loss. Fresh native execution passed 246/246 controls and killed 313/313
+loss. Fresh native execution passed 249/249 controls and killed 314/314
 designated mutants in each mode with zero
 skips; the sealed
 mutation-inventory SHA-256 is
-`61acda2771a1a3851a5d8a4006cac0eaf9bda768c34416b02dc4e839eed97543`.
-The normal and optimized mutation receipts are byte-identical, 194,297 bytes,
-SHA-256 `644ac00fb6b38d22ebea860a7bed84d6053e16c8af26679538be2303a85e8d18`.
+`4d98c77db9bfa666cecb0bb967dc9ea5fb5f0f2b56be543684efbcd6d60174a4`.
+The normal and optimized mutation receipts are byte-identical, 194,963 bytes,
+SHA-256 `c3d778617ba328841033104cefacdf0b4fb2b4e4f414c3ec22ea1a00ade9e8e5`.
 The native commit's normal and optimized whole-tree reports were byte-identical
 (SHA-256
-`0897dabee804e7ec728435de65367af5c1ca4d9d45f7c7c43e68aa4203d95086`,
+`88760e3878bce1cb2e1dfd9bad7c7deade0d8a8b33b195e1643232eb4a882007`,
 56,059 bytes each):
 zero production findings and 32 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The latest bounded rules
@@ -202,7 +202,7 @@ unreachable tail is suppressed. Four further controls map mutation through an
 omitted mutable-default helper parameter, discover parameter aliases inside
 nested helper statements, defer numeric-name class/object methods, and treat
 `static = ...` as an instance field rather than a modifier. The distinct defect
-total is 197. Definition-time mutable-default identity remains attached to the
+total is 200. Definition-time mutable-default identity remains attached to the
 captured object after the default-expression name is rebound. Helper aliases
 assigned in branch statements select only a literal branch's origin and retain
 the union of possible origins for an unresolved branch. Mutation origins are
@@ -212,6 +212,16 @@ through nested aggregates and invalidates identity-sharing external aliases.
 Mutation-time and final helper-alias origin sets are unioned rather than made
 mutually exclusive, and value-bearing annotated assignments preserve formal
 alias provenance; annotation-only assignments do not mutate a binding.
+Nested helper mutations are recorded against the formal-alias set present at
+their exact call site, and recursive helper graphs consume a precomputed,
+signature-checked per-call mutation map rather than recursively re-entering the
+collector. JavaScript class bodies are located only after balanced parenthesis,
+bracket and nested heritage-expression braces. The first native implementation
+at `3f3dc9166a79b7d0bb7ec97b6422621a7da90f85` failed both whole-tree censuses
+with `RecursionError`; it remains a preserved failure and is not credited. The
+stronger call-site repair made the older defect-196 union mutant equivalent, so
+that mutant is explicitly retired while its historical regression control is
+retained. These additions bring the distinct review/adverse total to 200.
 The bounded rules also
 evaluate executable assignment-target subexpressions before rebinding; apply
 possible-effect invalidation to unresolved comparison suffixes and unresolved
