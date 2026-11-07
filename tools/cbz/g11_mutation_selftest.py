@@ -598,8 +598,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_wrapper_process_call_after_return_is_unreachable",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("deferred wrapper availability uses source line", "census",
-     '            execution_line = (getattr(node, "lineno", 0)\n                              if activation_line is None else activation_line)\n            nodes.append((node, scope, execution_line))\n            target = node.func',
-     '            execution_line = getattr(node, "lineno", 0)\n            nodes.append((node, scope, execution_line))\n            target = None',
+     '            execution_line = (getattr(node, "lineno", 0)\n                              if activation_line is None else activation_line)\n            nodes.append((node, scope, execution_line))\n            if isinstance(target, ast.Name):',
+     '            execution_line = getattr(node, "lineno", 0)\n            nodes.append((node, scope, execution_line))\n            if False:',
      "tests.test_g11_census.ToolChecks.test_deferred_caller_sees_wrapper_defined_before_invocation",
      'self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])'),
     ("later nonforwarding wrapper definition retains registration", "census",
@@ -618,8 +618,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_unreachable_child_process_calls_are_not_references",
      'self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()},'),
     ("deferred caller uses final module binding", "census",
-     "                    execute(function, None, execution_line, node)",
-     '                    lifecycle.setdefault("__mutation_deferred__", {"tests": [], "setUp": None, "tearDown": None, "setUpClass": None, "tearDownClass": None})["tests"].append(function)',
+     "                    execute(captured_function, None, execution_line, node)",
+     '                    lifecycle.setdefault("__mutation_deferred__", {"tests": [], "setUp": None, "tearDown": None, "setUpClass": None, "tearDownClass": None})["tests"].append(captured_function)',
      "tests.test_g11_census.ToolChecks.test_deferred_caller_uses_module_value_at_invocation",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript uncalled helper chain accepted", "census",
@@ -653,8 +653,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_none_guard_branch_calls_use_isolated_bindings",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("nested helper effects deferred", "census",
-     "                    execute(function, None, execution_line, node)",
-     '                    lifecycle.setdefault("__mutation_deferred__", {"tests": [], "setUp": None, "tearDown": None, "setUpClass": None, "tearDownClass": None})["tests"].append(function)',
+     "                    execute(captured_function, None, execution_line, node)",
+     '                    lifecycle.setdefault("__mutation_deferred__", {"tests": [], "setUp": None, "tearDown": None, "setUpClass": None, "tearDownClass": None})["tests"].append(captured_function)',
      "tests.test_g11_census.ToolChecks.test_nested_helper_effects_precede_caller_continuation",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("global assignment stored in helper local binding", "census",
@@ -693,8 +693,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_call_argument_helper_effects_precede_process_attribution",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("reassigned Python helper identity ignored", "census",
-     "                function = active_functions.get((scope, target.id))",
-     "                function = functions.get(target.id)",
+     "                captured_function = active_functions.get((scope, target.id))",
+     "                captured_function = functions.get(target.id)",
      "tests.test_g11_census.ToolChecks.test_reassigned_python_helper_is_not_executed",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript deferred binding checked at definition", "census",
@@ -807,8 +807,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_url_binding_does_not_escape_lexical_block",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("generator method creation treated as execution", "census",
-     "                if (isinstance(method, ast.FunctionDef)\n                        and not _function_is_generator(method)\n                        and _python_call_signature_binds(\n                            method, node, implicit_positional=1)):",
-     "                if (isinstance(method, ast.FunctionDef)\n                        and _python_call_signature_binds(\n                            method, node, implicit_positional=1)):",
+     "                if (isinstance(captured_method, ast.FunctionDef)\n                        and not _function_is_generator(captured_method)\n                        and _python_call_signature_binds(\n                            captured_method, node, implicit_positional=1)):",
+     "                if (isinstance(captured_method, ast.FunctionDef)\n                        and _python_call_signature_binds(\n                            captured_method, node, implicit_positional=1)):",
      "tests.test_g11_census.ToolChecks.test_uniterated_generator_method_body_is_not_executed",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("comprehension target shadow ignored", "census",
@@ -1135,8 +1135,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_unbraced_literal_false_branch_is_not_activated",
      '"tools/p3.mjs": False, "tools/p4.mjs": False,'),
     ("JavaScript concise arrow body treated as module execution", "census",
-     "        if body_start < body_end:\n            scopes.append((param_start, param_end, body_start - 1, body_end))",
-     "        if False:\n            scopes.append((param_start, param_end, body_start - 1, body_end))",
+     "            if body_start < body_end:\n                concise_scopes.append(\n                    (param_start, param_end, body_start - 1, body_end))",
+     "            if False:\n                concise_scopes.append(\n                    (param_start, param_end, body_start - 1, body_end))",
      "tests.test_g11_census.ToolChecks.test_js_concise_arrow_body_is_deferred_until_invocation",
      '"tools/helper-unused.mjs": False,'),
     ("JavaScript concise node-test callback not activated", "census",
@@ -1145,8 +1145,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_concise_arrow_body_is_deferred_until_invocation",
      '"tools/callback-live.mjs": True,'),
     ("JavaScript spaced block arrow registered as concise", "census",
-     '        r"(?:\\(([^()]*)\\)|([A-Za-z_$][\\w$]*))\\s*=>(?!\\s*\\{)"',
-     '        r"(?:\\(([^()]*)\\)|([A-Za-z_$][\\w$]*))\\s*=>\\s*(?!\\{)"',
+     '        if body_start < len(searchable) and searchable[body_start] == "{":',
+     '        if (body_start < len(searchable) and searchable[body_start] == "{"\n                and arrow.end() == body_start):',
      "tests.test_g11_census.ToolChecks.test_js_spaced_block_arrow_has_one_block_scope",
      "self.assertEqual(scopes, [(16, 16, 20, 35)])"),
     ("annotation-only assignment invalidates import identity", "census",
@@ -1300,6 +1300,28 @@ NEW_MUTATIONS = [
      "        if in_unproven_switch(candidate):\n            return set()",
      "        if False:\n            return set()",
      "tests.test_g11_census.ToolChecks.test_js_switch_requires_proven_case_selection",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("Python call target identity not captured before arguments", "census",
+     "                captured_function = active_functions.get((scope, target.id))",
+     "                captured_function = None",
+     "tests.test_g11_census.ToolChecks.test_helper_identity_is_captured_before_call_argument_effects",
+     'self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])'),
+    ("supplied JavaScript argument still runs default initializer", "census",
+     '                        and arguments[default_parameter].strip() != "undefined"):',
+     "                        and False):",
+     "tests.test_g11_census.ToolChecks.test_js_default_initializer_requires_missing_or_undefined_argument",
+     "self.assertEqual("),
+    ("nested JavaScript parameter scopes flattened", "census",
+     "    for param_start, param_end, open_brace in open_scopes:",
+     "    for param_start, param_end, open_brace in [\n"
+     "            scope for scope in open_scopes\n"
+     "            if '(' not in searchable[scope[0]:scope[1]]]:",
+     "tests.test_g11_census.ToolChecks.test_js_nested_parameter_scopes_are_deferred",
+     "self.assertEqual("),
+    ("unproven JavaScript catch handler activated", "census",
+     "        if in_unproven_catch(candidate):\n            return set()",
+     "        if False:\n            return set()",
+     "tests.test_g11_census.ToolChecks.test_js_unproven_catch_handler_is_not_activated",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
@@ -1572,6 +1594,10 @@ EXPECTED_MUTATION_NAMES = (
     "possible branch rebind retains import identity",
     "loop termination tail activated",
     "unselected JavaScript switch case activated",
+    "Python call target identity not captured before arguments",
+    "supplied JavaScript argument still runs default initializer",
+    "nested JavaScript parameter scopes flattened",
+    "unproven JavaScript catch handler activated",
 )
 
 
@@ -1750,7 +1776,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 201
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 205
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "3fadcad54079e33cb6c60623cad3ec33a3fe896199eac5b188a167f8238e0fce"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "6bc5aa9839cc28bbf5aee4b6820c38cd0fbb9a4c145934057f5dc85fff802e55"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -881,6 +881,23 @@ class ToolChecks(unittest.TestCase):
             ),
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_helper_identity_is_captured_before_call_argument_effects(self):
+        tree = {
+            "tools/live.py": "x = 1\n",
+            "tools/README.md": "tools/live.py\n",
+            "tests/test_helper_capture.py": (
+                "import subprocess\n"
+                "def launch(_value):\n"
+                "    subprocess.run(['python3', 'tools/live.py'])\n"
+                "def replace():\n"
+                "    global launch\n"
+                "    launch = None\n"
+                "    return None\n"
+                "launch(replace())\n"
+            ),
+        }
+        self.assertTrue(self.tools(tree)["tools/live.py"]["referenced"])
 
     def test_call_preserves_earlier_argument_value_before_later_rebinding(self):
         tree = {
@@ -2815,6 +2832,63 @@ class ToolChecks(unittest.TestCase):
             {"tools/live.mjs": True, "tools/unused.mjs": False},
         )
 
+    def test_js_default_initializer_requires_missing_or_undefined_argument(self):
+        tree = {
+            "tools/missing-live.mjs": "export const live = true;\n",
+            "tools/undefined-live.mjs": "export const live = true;\n",
+            "tools/supplied-unused.mjs": "export const unused = true;\n",
+            "tools/README.md": (
+                "tools/missing-live.mjs tools/undefined-live.mjs "
+                "tools/supplied-unused.mjs\n"),
+            "tests/default-delivery.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const missingLive=new URL('../tools/missing-live.mjs',import.meta.url);\n"
+                "const undefinedLive=new URL('../tools/undefined-live.mjs',import.meta.url);\n"
+                "const suppliedUnused=new URL('../tools/supplied-unused.mjs',import.meta.url);\n"
+                "function missing(value=spawnSync('echo',[missingLive])) {}\n"
+                "function explicit(value=spawnSync('echo',[undefinedLive])) {}\n"
+                "function supplied(value=spawnSync('echo',[suppliedUnused])) {}\n"
+                "missing();explicit(undefined);supplied(1);\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/missing-live.mjs": True,
+             "tools/supplied-unused.mjs": False,
+             "tools/undefined-live.mjs": True},
+        )
+
+    def test_js_nested_parameter_scopes_are_deferred(self):
+        tree = {
+            "tools/arrow-unused.mjs": "export const unused = true;\n",
+            "tools/method-unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/arrow-unused.mjs tools/method-unused.mjs\n",
+            "tests/nested-parameter-scope.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const arrowScript=new URL('../tools/arrow-unused.mjs',import.meta.url);\n"
+                "const methodScript=new URL('../tools/method-unused.mjs',import.meta.url);\n"
+                "const launch=(value=spawnSync('echo',[arrowScript]))=>{};\n"
+                "const holder={run(value=spawnSync('echo',[methodScript])){}};\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/arrow-unused.mjs": False,
+             "tools/method-unused.mjs": False},
+        )
+
+    def test_js_unproven_catch_handler_is_not_activated(self):
+        tree = {
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/catch-reachability.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "try{void 0;}catch(error){spawnSync('echo',[script]);}\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
     def test_js_parameter_shadows_url_binding(self):
         tree = {
             "tools/unused.mjs": "export const unused = true;\n",
@@ -3873,7 +3947,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 268)
+        self.assertEqual(len(cases), 272)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

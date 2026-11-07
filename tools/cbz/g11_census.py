@@ -1568,8 +1568,21 @@ def _reachable_python_nodes(tree, mode):
         if isinstance(node, ast.Call):
             # Python evaluates the callee and every argument before invoking
             # the enclosing call. Helper effects in those expressions must be
-            # visible to process attribution at the call itself.
+            # visible to process attribution at the call itself, but the
+            # callable identity is captured before those argument effects.
             visit(node.func, owner, scope, activation_line)
+            target = node.func
+            captured_function = None
+            captured_method = None
+            if isinstance(target, ast.Name):
+                captured_function = active_functions.get((scope, target.id))
+                if (captured_function is None and scope is not None
+                        and target.id not in function_scope_bindings.get(scope, set())):
+                    captured_function = active_functions.get((None, target.id))
+            elif (isinstance(target, ast.Attribute)
+                  and isinstance(target.value, ast.Name)
+                  and target.value.id in {"self", "cls"} and owner):
+                captured_method = methods.get((owner, target.attr))
             for index, argument in enumerate(node.args):
                 visit(argument, owner, scope, activation_line)
                 marker = ast.Expr(value=argument)
@@ -1592,23 +1605,17 @@ def _reachable_python_nodes(tree, mode):
             execution_line = (getattr(node, "lineno", 0)
                               if activation_line is None else activation_line)
             nodes.append((node, scope, execution_line))
-            target = node.func
             if isinstance(target, ast.Name):
-                function = active_functions.get((scope, target.id))
-                if (function is None and scope is not None
-                        and target.id not in function_scope_bindings.get(scope, set())):
-                    function = active_functions.get((None, target.id))
-                if (function is not None
-                        and _python_call_signature_binds(function, node)):
-                    execute(function, None, execution_line, node)
+                if (captured_function is not None
+                        and _python_call_signature_binds(captured_function, node)):
+                    execute(captured_function, None, execution_line, node)
             elif (isinstance(target, ast.Attribute) and isinstance(target.value, ast.Name)
                   and target.value.id in {"self", "cls"} and owner):
-                method = methods.get((owner, target.attr))
-                if (isinstance(method, ast.FunctionDef)
-                        and not _function_is_generator(method)
+                if (isinstance(captured_method, ast.FunctionDef)
+                        and not _function_is_generator(captured_method)
                         and _python_call_signature_binds(
-                            method, node, implicit_positional=1)):
-                    execute(method, owner, execution_line, node,
+                            captured_method, node, implicit_positional=1)):
+                    execute(captured_method, owner, execution_line, node,
                             implicit_positional=1)
             return
 
@@ -3208,42 +3215,73 @@ def _js_function_scopes(text):
             continue
         open_scopes.append((open_paren + 1, close_paren, open_brace))
 
-    arrow = re.compile(r"(?:\(([^()]*)\)|([A-Za-z_$][\w$]*))\s*=>\s*\{")
-    for match in arrow.finditer(searchable):
-        param_start = match.start(1) if match.group(1) is not None else match.start(2)
-        param_end = match.end(1) if match.group(1) is not None else match.end(2)
-        open_scopes.append((param_start, param_end, match.end() - 1))
+    concise_scopes = []
+    for arrow in re.finditer(r"=>", searchable):
+        left = arrow.start() - 1
+        while left >= 0 and searchable[left].isspace():
+            left -= 1
+        if left < 0:
+            continue
+        if searchable[left] == ")":
+            depth = 1
+            open_paren = left - 1
+            while open_paren >= 0:
+                if searchable[open_paren] == ")":
+                    depth += 1
+                elif searchable[open_paren] == "(":
+                    depth -= 1
+                    if depth == 0:
+                        break
+                open_paren -= 1
+            if open_paren < 0:
+                continue
+            param_start, param_end = open_paren + 1, left
+        else:
+            identifier = re.search(r"([A-Za-z_$][\w$]*)$", searchable[:left + 1])
+            if identifier is None:
+                continue
+            param_start, param_end = identifier.start(1), identifier.end(1)
+        body_start = arrow.end()
+        while body_start < len(searchable) and searchable[body_start].isspace():
+            body_start += 1
+        if body_start < len(searchable) and searchable[body_start] == "{":
+            open_scopes.append((param_start, param_end, body_start))
+        else:
+            body_end = _js_bounded_expression_end(searchable, body_start)
+            if body_start < body_end:
+                concise_scopes.append(
+                    (param_start, param_end, body_start - 1, body_end))
 
     # Class and object-literal method bodies are deferred just like functions.
     # Invocation through property lookup is outside the bounded reachability
     # model, so retain their scopes only to refuse module-execution credit.
-    method = re.compile(
-        r"(?<![\w$])([A-Za-z_$][\w$]*)\s*\(([^()]*)\)\s*\{")
-    control_names = {"if", "for", "while", "switch", "catch", "with"}
+    method = re.compile(r"(?<![\w$])([A-Za-z_$][\w$]*)\s*\(")
+    control_names = {
+        "if", "for", "while", "switch", "catch", "with", "function"
+    }
     for match in method.finditer(searchable):
         if match.group(1) in control_names:
             continue
         prefix = searchable[max(0, match.start(1) - 32):match.start(1)]
         if re.search(r"\bfunction\s*$", prefix):
             continue
-        open_scopes.append((match.start(2), match.end(2), match.end() - 1))
+        open_paren = match.end() - 1
+        close_paren = _js_matching_delimiter(searchable, open_paren, "(", ")")
+        if close_paren is None:
+            continue
+        open_brace = close_paren + 1
+        while open_brace < len(searchable) and searchable[open_brace].isspace():
+            open_brace += 1
+        if open_brace >= len(searchable) or searchable[open_brace] != "{":
+            continue
+        open_scopes.append((open_paren + 1, close_paren, open_brace))
 
     scopes = []
     for param_start, param_end, open_brace in open_scopes:
         close_brace = _js_matching_delimiter(searchable, open_brace, "{", "}")
         if close_brace is not None:
             scopes.append((param_start, param_end, open_brace, close_brace))
-    concise_arrow = re.compile(
-        r"(?:\(([^()]*)\)|([A-Za-z_$][\w$]*))\s*=>(?!\s*\{)")
-    for match in concise_arrow.finditer(searchable):
-        param_start = match.start(1) if match.group(1) is not None else match.start(2)
-        param_end = match.end(1) if match.group(1) is not None else match.end(2)
-        body_start = match.end()
-        while body_start < len(searchable) and searchable[body_start] in " \t\r":
-            body_start += 1
-        body_end = _js_bounded_expression_end(searchable, body_start)
-        if body_start < body_end:
-            scopes.append((param_start, param_end, body_start - 1, body_end))
+    scopes.extend(concise_scopes)
     return searchable, scopes
 
 
@@ -3473,6 +3511,29 @@ def _js_call_activation_points(text, position):
                 return True
         return False
 
+    def in_unproven_catch(candidate):
+        """Fail closed for calls in handlers without a proven throw."""
+        for match in re.finditer(r"\bcatch\b", searchable):
+            body_start = match.end()
+            while body_start < len(searchable) and searchable[body_start].isspace():
+                body_start += 1
+            if body_start < len(searchable) and searchable[body_start] == "(":
+                header_end = _js_matching_delimiter(
+                    searchable, body_start, "(", ")")
+                if header_end is None:
+                    continue
+                body_start = header_end + 1
+                while (body_start < len(searchable)
+                       and searchable[body_start].isspace()):
+                    body_start += 1
+            if body_start >= len(searchable) or searchable[body_start] != "{":
+                continue
+            body_end = _js_matching_delimiter(
+                searchable, body_start, "{", "}")
+            if body_end is not None and body_start < candidate < body_end:
+                return True
+        return False
+
     def after_unconditional_termination(candidate):
         """Reject calls after direct return/throw in every containing block."""
         containing_functions = [
@@ -3509,7 +3570,7 @@ def _js_call_activation_points(text, position):
             key=lambda item: item[2], reverse=True)
         if not containing:
             return None
-        param_start, _param_end, open_brace, close_brace = containing[0]
+        param_start, param_end, open_brace, close_brace = containing[0]
         header = re.search(
             r"\bfunction\s+([A-Za-z_$][\w$]*)\s*\($", searchable[:param_start])
         if header is None:
@@ -3526,7 +3587,8 @@ def _js_call_activation_points(text, position):
                         return ()
                     return ("test-callback", call_start, open_brace, close_brace, name)
             return ()
-        return header.group(1), header.start(1), open_brace, close_brace
+        return (header.group(1), header.start(1), param_start, param_end,
+                open_brace, close_brace)
 
     def binding_active(name, definition_end, definition_scope, activation):
         if activation <= definition_end:
@@ -3554,6 +3616,8 @@ def _js_call_activation_points(text, position):
             return set()
         if in_unproven_switch(candidate):
             return set()
+        if in_unproven_catch(candidate):
+            return set()
         if after_unconditional_termination(candidate):
             return set()
         function = containing_named_function(candidate)
@@ -3568,7 +3632,7 @@ def _js_call_activation_points(text, position):
             if identity in seen:
                 return set()
             return reachable(call_start, seen | {identity}, binding_guards)
-        name, definition_start, open_brace, close_brace = function
+        name, definition_start, param_start, param_end, open_brace, close_brace = function
         identity = (name, open_brace, close_brace)
         if identity in seen:
             return set()
@@ -3577,6 +3641,16 @@ def _js_call_activation_points(text, position):
         calls = re.compile(
             r"(?<![\w$.])" + re.escape(name) + r"(?![\w$])\s*\(")
         activations = set()
+        default_parameter = None
+        if param_start <= candidate < param_end:
+            relative = candidate - param_start
+            cursor = 0
+            for index, part in enumerate(
+                    _js_top_level_parts(searchable[param_start:param_end])):
+                if cursor <= relative <= cursor + len(part):
+                    default_parameter = index
+                    break
+                cursor += len(part) + 1
         for call in calls.finditer(searchable):
             if call.start() == definition_start:
                 continue
@@ -3585,6 +3659,18 @@ def _js_call_activation_points(text, position):
             if _js_helper_call_shadowed(
                     searchable, call.start(), name, definition_start):
                 continue
+            if default_parameter is not None:
+                call_open = call.end() - 1
+                call_close = _js_matching_delimiter(
+                    searchable, call_open, "(", ")")
+                if call_close is None:
+                    continue
+                argument_text = searchable[call_open + 1:call_close]
+                arguments = ([] if not argument_text.strip()
+                             else _js_top_level_parts(argument_text))
+                if (default_parameter < len(arguments)
+                        and arguments[default_parameter].strip() != "undefined"):
+                    continue
             activations.update(reachable(
                 call.start(), seen | {identity}, binding_guards + (guard,)))
         return activations
