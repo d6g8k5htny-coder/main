@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`8263a64f61aa183c621fd1da81cbec51a55d4779`, based on Main default
+`6487ca3d1f394f544b05057ccf75f8fde2b616e7`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,18 +263,32 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`8263a64f61aa183c621fd1da81cbec51a55d4779` (tree
-`027f2dad1ff7c314972972460c35cda2a4caea3a`) recognizes explicit local path
+`6487ca3d1f394f544b05057ccf75f8fde2b616e7` (parent
+`98f8e710bfceb6aa35f367cc13b7acdae9c3071d`, tree
+`0c961dd873745d3eb62fc6f5ee205f77a8598307`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
-reachable forwarding wrappers, or named Node child-process imports. Its
-156/156 controls and 208/208 designated mutations passed in both modes; the
+reachable forwarding wrappers, or named Node child-process imports. Its blobs
+and tree exactly match local qualification
+`cfb3082a323878bca373c90a2a0b382536def7ad`, whose 164/164 controls and 222/222
+designated mutations passed in both modes; the
 sealed mutation-inventory SHA-256 is
-`207bb9eeb0383d1d49e83f1a91e234ab3ac51760b09684dc528ef38a64e517b1`. The exact
-source normal and optimized censuses were byte-identical (SHA-256
-`cf96649ecf3b836ea9167c5be8a80cebac3379db706f2d5019087cde1782c40d`,
+`20e645a3d96424ea24da16c323be97c93e173407ec3c7d5ee6ef3c3924e52873`. The exact
+local exact-tree source normal and optimized censuses were byte-identical (SHA-256
+`01c70209d7e5d8cb8a8caffffabc363973832f72c26803e10e85628fddf0ae41`,
 56,012 bytes each),
 with zero production findings and exactly 32 no-current-exercise or documentation tool
 candidates; both runs exited 1. Adverse controls refuse mere path
+credit from multiline source-line resorting, possible loop writes, class or
+repeated-helper frame leakage, subprocess shell/positional/executable
+ambiguity, a shadowed JavaScript `URL` constructor, mutated URL properties and
+unproven JavaScript short-circuit calls. The supported subprocess surface is
+one ordinary argv positional argument with `shell` absent/false/none,
+`executable` absent/none and no `**kwargs`; unsupported forms fail closed.
+URL construction must resolve to the unshadowed intrinsic and remains valid
+only until the binding or a rooted property may be written. Repeated Python
+helper calls receive fresh local bindings, imports and nested definitions while
+declared global/nonlocal effects retain their documented destinations. Adverse
+controls also refuse mere path
 mentions retained through exception-boundary helper/wrapper identities or
 exception target bindings; unsupported literal comprehension sources; scripts
 after unknown, attached command-mode, or exit-only interpreter options;

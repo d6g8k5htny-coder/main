@@ -126,22 +126,32 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`8263a64f61aa183c621fd1da81cbec51a55d4779` (tree
-`027f2dad1ff7c314972972460c35cda2a4caea3a`) extends the existing bounded
+`6487ca3d1f394f544b05057ccf75f8fde2b616e7` (parent
+`98f8e710bfceb6aa35f367cc13b7acdae9c3071d`, tree
+`0c961dd873745d3eb62fc6f5ee205f77a8598307`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 156/156 controls and killed 208/208 designated
+Its blobs and tree exactly match local qualification
+`cfb3082a323878bca373c90a2a0b382536def7ad`, which passed 164/164 controls and
+killed 222/222 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`207bb9eeb0383d1d49e83f1a91e234ab3ac51760b09684dc528ef38a64e517b1`.
-Its normal and optimized whole-tree reports were
+`20e645a3d96424ea24da16c323be97c93e173407ec3c7d5ee6ef3c3924e52873`.
+The local exact-tree qualification's normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`cf96649ecf3b836ea9167c5be8a80cebac3379db706f2d5019087cde1782c40d`,
+`01c70209d7e5d8cb8a8caffffabc363973832f72c26803e10e85628fddf0ae41`,
 56,012 bytes each):
 zero production findings and 32 retained tool candidates, so both
-census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
+census runs correctly exited 1 and G11 remains FAIL. The latest bounded rules
+also preserve actual event order across multiline statements and loops, isolate
+class and repeated-helper runtime frames, accept subprocess calls only with one
+ordinary argv positional argument and no effective shell/executable override,
+require the intrinsic unshadowed JavaScript `URL` constructor with unmutated
+provenance, and admit only proven single-literal JavaScript short-circuit call
+paths. Dynamic or compound cases remain fail-closed rather than receiving
+manufactured execution credit. The review repair rejects
 stale helper, wrapper and static bindings across unproven exception effects,
 including exception target names; comprehension-body credit from unsupported
 non-iterable literals; script selection after unknown, attached command-mode,

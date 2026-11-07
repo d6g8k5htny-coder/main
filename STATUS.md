@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 7 November 2026
 
 The Main candidate containing this file has native source parent
-`8263a64f61aa183c621fd1da81cbec51a55d4779`; its isolated work began from the
+`6487ca3d1f394f544b05057ccf75f8fde2b616e7`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,13 +37,16 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `8263a64f61aa183c621fd1da81cbec51a55d4779` (tree
-`027f2dad1ff7c314972972460c35cda2a4caea3a`) passed 156/156 tests and killed
-208/208 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `207bb9eeb0383d1d49e83f1a91e234ab3ac51760b09684dc528ef38a64e517b1`.
-Its byte-identical normal/optimized
+native source `6487ca3d1f394f544b05057ccf75f8fde2b616e7` (parent
+`98f8e710bfceb6aa35f367cc13b7acdae9c3071d`, tree
+`0c961dd873745d3eb62fc6f5ee205f77a8598307`) is blob-for-blob identical to
+local exact-tree qualification `cfb3082a323878bca373c90a2a0b382536def7ad`,
+which passed 164/164 tests and killed
+222/222 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `20e645a3d96424ea24da16c323be97c93e173407ec3c7d5ee6ef3c3924e52873`.
+The local exact-tree qualification's byte-identical normal/optimized
 whole-tree reports (SHA-256
-`cf96649ecf3b836ea9167c5be8a80cebac3379db706f2d5019087cde1782c40d`,
+`01c70209d7e5d8cb8a8caffffabc363973832f72c26803e10e85628fddf0ae41`,
 56,012 bytes each)
 contain zero production findings and retain exactly 32 no-current-exercise
 or documentation tool candidates; both census runs exit 1. The stricter
@@ -239,8 +242,19 @@ exit-only interpreter options could select a later script; assignment
 expressions did not update static bindings; nested aggregate writes retained
 reachable alias provenance; decorated forwarding wrappers were registered; and
 JavaScript URL names in child-process options positions were credited. The
-current source fails closed at all eight boundaries and passes the 156-control,
-208-mutant suites above. The current review/adverse-defect total is 107;
+current source fails closed at all eight boundaries. Ten additional adverse
+findings were then reproduced red and repaired: multiline execution-order
+resorting, loop-write retention, subprocess executable override, class-scope
+leakage and class runtime shadowing; plus shell-command attribution, shadowed
+JavaScript `URL` construction, stale URL-property provenance, unreachable
+short-circuit calls and reused Python helper-local frames. The bounded
+subprocess rule now accepts exactly one ordinary argv positional argument,
+rejects dynamic/true `shell`, `**kwargs` and executable overrides; URL credit
+requires the intrinsic unshadowed constructor and an unmutated binding;
+JavaScript call reachability handles only proven single literal short-circuit
+operators; and each helper invocation receives fresh local bindings, imports
+and nested definitions. The current source passes the 164-control, 222-mutant
+suites above. The current review/adverse-defect total is 117;
 exact-final-head review and hosted checks remain required before integration.
 
 ## Current verification boundary
