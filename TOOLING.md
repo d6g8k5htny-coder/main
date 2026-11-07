@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`a7d9c08c1991bd273330993a63164f8d864ca209`, based on Main default
+`192a846bed779c14875a2abd50c11fd0620ec0f8`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,19 +263,19 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`a7d9c08c1991bd273330993a63164f8d864ca209` (parent
-`faabe96abc08ca18a11d3bac95cc6c1fa73a4797`, tree
-`07007dd983ee82018d235aeb763d854f93f1753f`) recognizes explicit local path
+`192a846bed779c14875a2abd50c11fd0620ec0f8` (parent
+`ac5d5a5916aed74ef0cc5a65cb99800b76d3eee4`, tree
+`7053e632ae6272078038176610f9fd671749b71c`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its blobs
 and tree exactly match local qualification
-`2daecb095f4511a21d7a28e7b8b903a3467fa061`. Fresh native execution passed
-220/220 controls and killed 287/287 designated mutations in both modes with
+`cccb6be88504119c53fcc6b407b1b5919de2ab79`. Fresh native execution passed
+223/223 controls and killed 290/290 designated mutations in both modes with
 zero skips; the
 sealed mutation-inventory SHA-256 is
-`8baa52d071157b787f1fcb75d176947dd1c3de6a5ba16402cce17f814a4f099b`. The exact
+`3b7a76e4743d8cba2429d404ecde2876b715b134e80bcb3287235d702e91cda0`. The exact
 native normal and optimized censuses were byte-identical (SHA-256
-`26b3ebde436097c9073e1439649400a206ca2d2d79be5730077386e28ca59bdb`,
+`35fb08b67ce0dac5cf75267976b1a0def5b05aa099c7901a9352fae365952508`,
 56,013 bytes each),
 with zero production findings and exactly 32 no-current-exercise or documentation tool
 candidates; both runs exited 1. Adverse controls refuse mere path
@@ -300,7 +300,10 @@ unresolved-branch class-construction effects while deferring method bodies,
 map helper definition-time parameter mutation to the bound caller argument,
 continue JavaScript optional-chain suppression through repeated named-property
 hops, and defer computed-name instance-field initializers until construction.
-The distinct defect count is 171. Four preceding controls require pre-argument Python call-target capture,
+Three latest controls extend optional-chain suppression through computed
+accesses and intermediate calls, defer computed-name class/object methods, and
+recognize semicolonless instance-field boundaries. The distinct defect count
+is 174. Four preceding controls require pre-argument Python call-target capture,
 balanced JavaScript parameter scopes, actual default-argument delivery, and
 fail-closed catch-handler reachability. Three adjacent controls cover nullish
 short-circuit selection, regular-expression literal masking and propagation of

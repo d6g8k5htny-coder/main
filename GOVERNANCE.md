@@ -126,23 +126,23 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired through 2026-11-07; G11 admission remains
 pending.** The repair at source commit
-`a7d9c08c1991bd273330993a63164f8d864ca209` (parent
-`faabe96abc08ca18a11d3bac95cc6c1fa73a4797`, tree
-`07007dd983ee82018d235aeb763d854f93f1753f`) extends the existing bounded
+`192a846bed779c14875a2abd50c11fd0620ec0f8` (parent
+`ac5d5a5916aed74ef0cc5a65cb99800b76d3eee4`, tree
+`7053e632ae6272078038176610f9fd671749b71c`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
 Its blobs and tree exactly match local qualification
-`2daecb095f4511a21d7a28e7b8b903a3467fa061`. Fresh native execution passed
-220/220 controls and killed 287/287 designated mutants in each mode with zero
+`cccb6be88504119c53fcc6b407b1b5919de2ab79`. Fresh native execution passed
+223/223 controls and killed 290/290 designated mutants in each mode with zero
 skips; the sealed
 mutation-inventory SHA-256 is
-`8baa52d071157b787f1fcb75d176947dd1c3de6a5ba16402cce17f814a4f099b`.
+`3b7a76e4743d8cba2429d404ecde2876b715b134e80bcb3287235d702e91cda0`.
 The native commit's normal and optimized whole-tree reports were byte-identical
 (SHA-256
-`26b3ebde436097c9073e1439649400a206ca2d2d79be5730077386e28ca59bdb`,
+`35fb08b67ce0dac5cf75267976b1a0def5b05aa099c7901a9352fae365952508`,
 56,013 bytes each):
 zero production findings and 32 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The latest bounded rules
@@ -181,13 +181,16 @@ control headers. Four newest controls retain unresolved-branch class
 construction effects while deferring method bodies, map helper definition-time
 parameter mutation to the bound caller argument, continue optional-chain
 suppression through repeated JavaScript property hops, and defer computed-name
-instance-field initializers until construction. The distinct defect total is
-171. The bounded rules also
+instance-field initializers until construction. Three latest controls extend
+that optional-chain suppression through computed accesses and intermediate
+calls, defer computed-name class/object method bodies, and recognize
+semicolonless instance-field boundaries. The distinct defect total is 174.
+The bounded rules also
 evaluate executable assignment-target subexpressions before rebinding; apply
 possible-effect invalidation to unresolved comparison suffixes and unresolved
 eager-comprehension bodies/guards without awarding execution; keep uninvoked
 JavaScript class/object methods deferred; and exclude dead literal-true
-`else` arms. JavaScript property-method invocation and computed method syntax,
+`else` arms. Dynamic JavaScript property-method invocation,
 custom/inherited/async `unittest` behavior, and general dynamic comprehension
 semantics remain outside the supported domain. The bounded rules also apply
 possible effects from unknown Boolean operands and unknown wrapper
