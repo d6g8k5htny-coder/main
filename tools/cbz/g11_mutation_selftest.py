@@ -1732,7 +1732,7 @@ NEW_MUTATIONS = [
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("nested helper mutation-time alias origin ignored", "census",
      "                def visit_Call(self, node):\n"
-     "                    for mutated_name in helper_summary(node)[1]:\n"
+     "                    for mutated_name in helper_call_mutations.get(id(node), ()):\n"
      "                        self._record_mutation_name(mutated_name)\n"
      "                    mutated = _python_mutated_root_name(node)",
      "                def visit_Call(self, node):\n"
@@ -2244,7 +2244,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 248
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 249
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

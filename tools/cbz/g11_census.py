@@ -1140,6 +1140,7 @@ def _reachable_python_nodes(tree, mode):
     def branch_effect_summary(body, scope, seen=frozenset()):
         """Return possible writes and object mutations, including helpers."""
         summaries = {}
+        call_mutations = {}
 
         def helper_summary(call):
             if id(call) in summaries:
@@ -1153,7 +1154,7 @@ def _reachable_python_nodes(tree, mode):
             if (function is None or id(function) in seen
                     or not _python_call_signature_binds(function, call)):
                 return set(), set()
-            effects, mutations = branch_effect_summary(
+            effects, mutations, helper_call_mutations = branch_effect_summary(
                 function.body, id(function), seen | {id(function)})
             local_only = (function_scope_bindings.get(id(function), set())
                           - function_scope_globals.get(id(function), set())
@@ -1205,7 +1206,7 @@ def _reachable_python_nodes(tree, mode):
                         self._record_mutation_name(target.id)
 
                 def visit_Call(self, node):
-                    for mutated_name in helper_summary(node)[1]:
+                    for mutated_name in helper_call_mutations.get(id(node), ()):
                         self._record_mutation_name(mutated_name)
                     mutated = _python_mutated_root_name(node)
                     if mutated:
@@ -1303,13 +1304,14 @@ def _reachable_python_nodes(tree, mode):
                         visible_effects.add(argument.id)
                         visible_mutations.add(argument.id)
             summaries[id(call)] = visible_effects, visible_mutations
+            call_mutations[id(call)] = set(visible_mutations)
             return summaries[id(call)]
 
         effects = _branch_assigned_names(
             body, lambda call: helper_summary(call)[0])
         mutations = _branch_mutated_names(
             body, lambda call: helper_summary(call)[1])
-        return effects, mutations
+        return effects, mutations, call_mutations
 
     def branch_possible_effects(body, scope, seen=frozenset()):
         """Return visible effects from an unproven path, including helpers."""

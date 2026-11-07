@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "b7b2f9d477a7428413cebbd35fa7fe911647edef0ad44f9cc2cff01819184cf6"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "4d98c77db9bfa666cecb0bb967dc9ea5fb5f0f2b56be543684efbcd6d60174a4"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -2133,6 +2133,24 @@ class ToolChecks(unittest.TestCase):
             ),
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_unknown_branch_recursive_helper_summary_terminates(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_recursive_helper.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "def inspect(argv):\n"
+                "    if argv:\n"
+                "        inspect(argv)\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    inspect(command)\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertTrue(self.tools(tree)["tools/unused.py"]["referenced"])
 
     def test_unknown_branch_annotated_helper_alias_mutation_invalidates_caller(self):
         tree = {
