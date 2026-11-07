@@ -3335,7 +3335,9 @@ def _js_call_activation_points(text, position):
             if consequent_end is None:
                 continue
             if consequent_start <= candidate < consequent_end:
-                return truth is not True
+                if truth is not True:
+                    return True
+                continue
             alternate_start = consequent_end
             while (alternate_start < len(searchable)
                    and searchable[alternate_start].isspace()):
@@ -3351,7 +3353,64 @@ def _js_call_activation_points(text, position):
                 searchable, alternate_body_start)
             if (alternate_end is not None
                     and alternate_body_start <= candidate < alternate_end):
-                return truth is not False
+                if truth is not False:
+                    return True
+                continue
+        return False
+
+    def in_unproven_loop(candidate):
+        """Reject loop bodies unless bounded syntax proves a first iteration."""
+        pattern = re.compile(r"\b(?P<kind>while|for)\s*\(")
+        for match in pattern.finditer(searchable):
+            header_start = searchable.find("(", match.start(), match.end())
+            header_end = _js_matching_delimiter(
+                searchable, header_start, "(", ")")
+            if header_end is None:
+                continue
+            body_start = header_end + 1
+            while (body_start < len(searchable)
+                   and searchable[body_start].isspace()):
+                body_start += 1
+            body_end = _js_bounded_statement_end(searchable, body_start)
+            if body_end is None or not (body_start <= candidate < body_end):
+                continue
+            header = searchable[header_start + 1:header_end].strip()
+            if match.group("kind") == "while":
+                proven = header == "true"
+            else:
+                parts = _js_top_level_parts(header, delimiter=";")
+                proven = (len(parts) == 3
+                          and parts[1].strip() in {"", "true"})
+            if not proven:
+                return True
+        return False
+
+    def after_unconditional_termination(candidate):
+        """Reject calls after direct return/throw in every containing block."""
+        containing_functions = [
+            scope for scope in scopes
+            if scope[2] < candidate < scope[3] and searchable[scope[2]] == "{"]
+        if not containing_functions:
+            return False
+        _params_start, _params_end, function_open, function_close = max(
+            containing_functions, key=lambda item: item[2])
+        blocks = [(function_open, function_close)]
+        blocks.extend(
+            block for block in _js_block_scopes(searchable)
+            if function_open < block[0] < candidate < block[1] < function_close)
+        token = re.compile(r"\b(?:return|throw)\b|[(){}\[\]]")
+        closing = {")": "(", "]": "[", "}": "{"}
+        for block_open, _block_close in blocks:
+            depths = {"(": 0, "[": 0, "{": 0}
+            for match in token.finditer(searchable, block_open + 1, candidate):
+                value = match.group()
+                if value in depths:
+                    depths[value] += 1
+                elif value in closing:
+                    opening = closing[value]
+                    depths[opening] = max(0, depths[opening] - 1)
+                elif not any(depths.values()):
+                    return True
         return False
 
     def containing_named_function(candidate):
@@ -3398,6 +3457,10 @@ def _js_call_activation_points(text, position):
         if not _js_ternary_call_reachable(searchable, candidate):
             return set()
         if in_unselected_or_unknown_branch(candidate):
+            return set()
+        if in_unproven_loop(candidate):
+            return set()
+        if after_unconditional_termination(candidate):
             return set()
         function = containing_named_function(candidate)
         if function is None:

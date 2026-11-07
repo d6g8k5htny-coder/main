@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "06d9f29c4a24dcbef6f94f3ec458680b09aa2b80230d31f6b519a078c0793213"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "adcef61a1de5798a6fed83360e417b21d501f6e0972e13887e8782419ff3346d"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -3123,9 +3123,9 @@ class ToolChecks(unittest.TestCase):
     def test_js_unbraced_literal_false_branch_is_not_activated(self):
         tree = {
             **{"tools/p%d.mjs" % index: "export const value = %d;\n" % index
-               for index in range(1, 8)},
+               for index in range(1, 11)},
             "tools/README.md": " ".join(
-                "tools/p%d.mjs" % index for index in range(1, 8)) + "\n",
+                "tools/p%d.mjs" % index for index in range(1, 11)) + "\n",
             "tests/unbraced-false.test.mjs": (
                 "import {spawnSync} from 'node:child_process';\n"
                 "const p1=new URL('../tools/p1.mjs',import.meta.url);\n"
@@ -3135,6 +3135,9 @@ class ToolChecks(unittest.TestCase):
                 "const p5=new URL('../tools/p5.mjs',import.meta.url);\n"
                 "const p6=new URL('../tools/p6.mjs',import.meta.url);\n"
                 "const p7=new URL('../tools/p7.mjs',import.meta.url);\n"
+                "const p8=new URL('../tools/p8.mjs',import.meta.url);\n"
+                "const p9=new URL('../tools/p9.mjs',import.meta.url);\n"
+                "const p10=new URL('../tools/p10.mjs',import.meta.url);\n"
                 "const passthrough=value=>value;\n"
                 "if(false) spawnSync('echo',[p1]);\n"
                 "if(false) passthrough\n"
@@ -3145,6 +3148,10 @@ class ToolChecks(unittest.TestCase):
                 "else spawnSync('echo',[p5]);\n"
                 "spawnSync('echo',[p6]);\n"
                 "if(true) spawnSync('echo',[p7]);\n"
+                "if(true)\n"
+                "  if(false) spawnSync('echo',[p8]);\n"
+                "  else spawnSync('echo',[p9]);\n"
+                "else spawnSync('echo',[p10]);\n"
             ),
         }
         self.assertEqual(
@@ -3152,7 +3159,8 @@ class ToolChecks(unittest.TestCase):
             {"tools/p1.mjs": False, "tools/p2.mjs": False,
              "tools/p3.mjs": False, "tools/p4.mjs": False,
              "tools/p5.mjs": True, "tools/p6.mjs": True,
-             "tools/p7.mjs": True})
+             "tools/p7.mjs": True, "tools/p8.mjs": False,
+             "tools/p9.mjs": True, "tools/p10.mjs": False})
 
     def test_js_literal_if_excludes_both_unselected_braced_arms(self):
         tree = {
@@ -3179,6 +3187,84 @@ class ToolChecks(unittest.TestCase):
              "tools/false-then-unused.mjs": False,
              "tools/true-else-unused.mjs": False,
              "tools/true-then-live.mjs": True},
+        )
+
+    def test_js_nested_literal_if_checks_every_enclosing_branch(self):
+        tree = {
+            "tools/nested-unused.mjs": "export const value = 1;\n",
+            "tools/nested-live.mjs": "export const value = 2;\n",
+            "tools/README.md": "tools/nested-unused.mjs tools/nested-live.mjs\n",
+            "tests/nested-literal-if.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const unused=new URL('../tools/nested-unused.mjs',import.meta.url);\n"
+                "const live=new URL('../tools/nested-live.mjs',import.meta.url);\n"
+                "if(true){if(false){spawnSync('echo',[unused]);}}\n"
+                "if(true){if(true){spawnSync('echo',[live]);}}\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/nested-live.mjs": True,
+             "tools/nested-unused.mjs": False},
+        )
+
+    def test_js_loop_body_requires_proven_execution(self):
+        tree = {
+            "tools/false-unused.mjs": "export const value = 1;\n",
+            "tools/unknown-unused.mjs": "export const value = 2;\n",
+            "tools/true-live.mjs": "export const value = 3;\n",
+            "tools/for-false-unused.mjs": "export const value = 4;\n",
+            "tools/for-true-live.mjs": "export const value = 5;\n",
+            "tools/README.md": (
+                "tools/false-unused.mjs tools/unknown-unused.mjs "
+                "tools/true-live.mjs tools/for-false-unused.mjs "
+                "tools/for-true-live.mjs\n"),
+            "tests/loop-reachability.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const falseUnused=new URL('../tools/false-unused.mjs',import.meta.url);\n"
+                "const unknownUnused=new URL('../tools/unknown-unused.mjs',import.meta.url);\n"
+                "const trueLive=new URL('../tools/true-live.mjs',import.meta.url);\n"
+                "const forFalseUnused=new URL('../tools/for-false-unused.mjs',import.meta.url);\n"
+                "const forTrueLive=new URL('../tools/for-true-live.mjs',import.meta.url);\n"
+                "while(false){spawnSync('echo',[falseUnused]);}\n"
+                "while(flag){spawnSync('echo',[unknownUnused]);}\n"
+                "while(true){spawnSync('echo',[trueLive]);break;}\n"
+                "for(;false;){spawnSync('echo',[forFalseUnused]);}\n"
+                "for(;;){spawnSync('echo',[forTrueLive]);break;}\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/false-unused.mjs": False,
+             "tools/for-false-unused.mjs": False,
+             "tools/for-true-live.mjs": True,
+             "tools/true-live.mjs": True,
+             "tools/unknown-unused.mjs": False},
+        )
+
+    def test_js_helper_termination_precedes_process_activation(self):
+        tree = {
+            "tools/return-unused.mjs": "export const value = 1;\n",
+            "tools/throw-unused.mjs": "export const value = 2;\n",
+            "tools/live.mjs": "export const value = 3;\n",
+            "tools/README.md": (
+                "tools/return-unused.mjs tools/throw-unused.mjs tools/live.mjs\n"),
+            "tests/helper-termination.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const returnUnused=new URL('../tools/return-unused.mjs',import.meta.url);\n"
+                "const throwUnused=new URL('../tools/throw-unused.mjs',import.meta.url);\n"
+                "const live=new URL('../tools/live.mjs',import.meta.url);\n"
+                "function afterReturn(){return;spawnSync('echo',[returnUnused]);}\n"
+                "function afterThrow(){throw new Error('stop');spawnSync('echo',[throwUnused]);}\n"
+                "function beforeReturn(){spawnSync('echo',[live]);return;}\n"
+                "afterReturn();afterThrow();beforeReturn();\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.mjs": True,
+             "tools/return-unused.mjs": False,
+             "tools/throw-unused.mjs": False},
         )
 
     def test_js_quoted_url_declaration_is_not_a_binding(self):
@@ -3695,7 +3781,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 260)
+        self.assertEqual(len(cases), 263)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

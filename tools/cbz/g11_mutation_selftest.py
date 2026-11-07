@@ -1117,7 +1117,10 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_tuple_augmented_assignment_does_not_mutate_alias",
      '{"tools/live.py": True, "tools/unused.py": False}'),
     ("JavaScript unbraced literal-if reachability ignored", "census",
-     "            if consequent_start <= candidate < consequent_end:\n                return truth is not True",
+     "            if consequent_start <= candidate < consequent_end:\n"
+     "                if truth is not True:\n"
+     "                    return True\n"
+     "                continue",
      "            if consequent_start <= candidate < consequent_end:\n                return False",
      "tests.test_g11_census.ToolChecks.test_js_unbraced_literal_false_branch_is_not_activated",
      '{"tools/p1.mjs": False, "tools/p2.mjs": False,'),
@@ -1217,7 +1220,11 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_uninvoked_method_bodies_are_not_module_execution",
      '{"tools/class-unused.mjs": False, "tools/live.mjs": True,'),
     ("literal-true JavaScript else arm treated as reachable", "census",
-     '            if (alternate_end is not None\n                    and alternate_body_start <= candidate < alternate_end):\n                return truth is not False',
+     '            if (alternate_end is not None\n'
+     '                    and alternate_body_start <= candidate < alternate_end):\n'
+     '                if truth is not False:\n'
+     '                    return True\n'
+     '                continue',
      '            if (alternate_end is not None\n                    and alternate_body_start <= candidate < alternate_end):\n                return False',
      "tests.test_g11_census.ToolChecks.test_js_literal_if_excludes_both_unselected_braced_arms",
      '"tools/true-else-unused.mjs": False,'),
@@ -1241,6 +1248,27 @@ NEW_MUTATIONS = [
      "            for formal in ():",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_parameter_effects_invalidate_caller_binding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("nested selected JavaScript branch stops reachability checks", "census",
+     "            if consequent_start <= candidate < consequent_end:\n"
+     "                if truth is not True:\n"
+     "                    return True\n"
+     "                continue",
+     "            if consequent_start <= candidate < consequent_end:\n"
+     "                if truth is not True:\n"
+     "                    return True\n"
+     "                return False",
+     "tests.test_g11_census.ToolChecks.test_js_nested_literal_if_checks_every_enclosing_branch",
+     '"tools/nested-unused.mjs": False'),
+    ("unproven JavaScript loop body activated", "census",
+     "        if in_unproven_loop(candidate):\n            return set()",
+     "        if False:\n            return set()",
+     "tests.test_g11_census.ToolChecks.test_js_loop_body_requires_proven_execution",
+     '"tools/false-unused.mjs": False'),
+    ("terminated JavaScript helper tail activated", "census",
+     "        if after_unconditional_termination(candidate):\n            return set()",
+     "        if False:\n            return set()",
+     "tests.test_g11_census.ToolChecks.test_js_helper_termination_precedes_process_activation",
+     '"tools/return-unused.mjs": False'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1504,6 +1532,9 @@ EXPECTED_MUTATION_NAMES = (
     "quoted JavaScript child-process import trusted",
     "dead JavaScript URL initializer trusted",
     "unknown branch helper parameter mutation ignored",
+    "nested selected JavaScript branch stops reachability checks",
+    "unproven JavaScript loop body activated",
+    "terminated JavaScript helper tail activated",
 )
 
 
@@ -1682,7 +1713,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 193
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 196
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
