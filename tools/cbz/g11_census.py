@@ -1019,6 +1019,14 @@ def _branch_mutated_names(body, call_effects=None):
         visit_AsyncFunctionDef = visit_FunctionDef
 
         def visit_ClassDef(self, node):
+            for expression in node.decorator_list:
+                self.visit(expression)
+            for expression in node.bases:
+                self.visit(expression)
+            for keyword in node.keywords:
+                self.visit(keyword.value)
+            for statement in node.body:
+                self.visit(statement)
             return
 
         def visit_Lambda(self, node):
@@ -3405,6 +3413,35 @@ def _js_function_scopes(text):
             continue
         open_scopes.append((open_paren + 1, close_paren, open_brace))
 
+    # The regular expression above deliberately handles the common simple
+    # computed name.  Nested bracket expressions require balanced scanning;
+    # stopping at their first closing bracket would expose an uncalled method
+    # body as module execution.
+    for computed_start, char in enumerate(searchable):
+        if char != "[":
+            continue
+        computed_end = _js_matching_delimiter(
+            searchable, computed_start, "[", "]")
+        if (computed_end is None
+                or "[" not in searchable[computed_start + 1:computed_end]):
+            continue
+        open_paren = computed_end + 1
+        while (open_paren < len(searchable)
+               and searchable[open_paren].isspace()):
+            open_paren += 1
+        if open_paren >= len(searchable) or searchable[open_paren] != "(":
+            continue
+        close_paren = _js_matching_delimiter(
+            searchable, open_paren, "(", ")")
+        if close_paren is None:
+            continue
+        open_brace = close_paren + 1
+        while open_brace < len(searchable) and searchable[open_brace].isspace():
+            open_brace += 1
+        if open_brace >= len(searchable) or searchable[open_brace] != "{":
+            continue
+        open_scopes.append((open_paren + 1, close_paren, open_brace))
+
     scopes = []
     for param_start, param_end, open_brace in open_scopes:
         close_brace = _js_matching_delimiter(searchable, open_brace, "{", "}")
@@ -3777,6 +3814,16 @@ def _js_call_activation_points(text, position):
                     return True
         return False
 
+    def after_unproven_await(candidate):
+        """Reject continuation after an await the bounded model cannot prove."""
+        candidate_scope = _js_function_scope_key(searchable, candidate)
+        start = candidate_scope[0] + 1 if candidate_scope is not None else 0
+        for match in re.compile(r"\bawait\b").finditer(
+                searchable, start, candidate):
+            if _js_function_scope_key(searchable, match.start()) == candidate_scope:
+                return True
+        return False
+
     def containing_named_function(candidate):
         containing = sorted(
             (scope for scope in scopes
@@ -3838,6 +3885,8 @@ def _js_call_activation_points(text, position):
         if in_unproven_catch(candidate):
             return set()
         if after_unconditional_termination(candidate):
+            return set()
+        if after_unproven_await(candidate):
             return set()
         function = containing_named_function(candidate)
         if function is None:

@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "3b7a76e4743d8cba2429d404ecde2876b715b134e80bcb3287235d702e91cda0"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "680b581938dbe08ffcc676dd14eaa4bfedfcf4d734c2db2e99ed3ebb37f1abdc"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -1940,6 +1940,24 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
+    def test_unknown_branch_helper_class_construction_parameter_mutation_invalidates_caller(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_helper_class_effect.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "def replace(argv):\n"
+                "    class Change:\n"
+                "        x = argv.__setitem__(slice(None), ['echo'])\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    replace(command)\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
     def test_unknown_branch_helper_parameter_effects_invalidate_caller_binding(self):
         tree = {
             "tools/unused.py": "x = 1\n",
@@ -3368,6 +3386,40 @@ class ToolChecks(unittest.TestCase):
              "tools/object-unused.mjs": False},
         )
 
+    def test_js_uninvoked_nested_computed_method_body_is_not_module_execution(self):
+        tree = {
+            "tools/unused.mjs": "export const value = 1;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/nested-computed-method.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "class Settings { [['launch'][0]]() { spawnSync('echo',[script]); } }\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
+    def test_js_process_call_after_await_is_not_proven_reachable(self):
+        tree = {
+            "tools/live.mjs": "export const value = 1;\n",
+            "tools/unused.mjs": "export const value = 2;\n",
+            "tools/README.md": "tools/live.mjs tools/unused.mjs\n",
+            "tests/await-suspension.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const live=new URL('../tools/live.mjs',import.meta.url);\n"
+                "const unused=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "async function launch() {\n"
+                "  spawnSync('echo',[live]);\n"
+                "  await new Promise(() => {});\n"
+                "  spawnSync('echo',[unused]);\n"
+                "}\n"
+                "launch();\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.mjs": True, "tools/unused.mjs": False},
+        )
+
     def test_js_unbraced_literal_false_branch_is_not_activated(self):
         tree = {
             **{"tools/p%d.mjs" % index: "export const value = %d;\n" % index
@@ -4243,7 +4295,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 290)
+        self.assertEqual(len(cases), 293)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

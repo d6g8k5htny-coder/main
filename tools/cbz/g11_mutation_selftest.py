@@ -1441,10 +1441,20 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_regular_expression_after_control_header_is_not_a_process_call",
      '"tools/live.mjs": True, "tools/regex-unused.mjs": False'),
     ("unresolved class-construction effects ignored", "census",
+     "            names.add(node.name)\n"
+     "            for expression in node.decorator_list:\n"
+     "                self.visit(expression)\n"
+     "            for expression in node.bases:\n"
+     "                self.visit(expression)\n"
      "            for keyword in node.keywords:\n"
      "                self.visit(keyword.value)\n"
      "            for statement in node.body:\n"
      "                self.visit(statement)",
+     "            names.add(node.name)\n"
+     "            for expression in node.decorator_list:\n"
+     "                self.visit(expression)\n"
+     "            for expression in node.bases:\n"
+     "                self.visit(expression)\n"
      "            for keyword in node.keywords:\n"
      "                self.visit(keyword.value)\n"
      "            for statement in ():\n"
@@ -1453,11 +1463,27 @@ NEW_MUTATIONS = [
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("helper definition-time parameter mutation ignored", "census",
      "        def visit_ClassDef(self, node):\n"
+     "            for expression in node.decorator_list:\n"
+     "                self.visit(expression)\n"
+     "            for expression in node.bases:\n"
+     "                self.visit(expression)\n"
+     "            for keyword in node.keywords:\n"
+     "                self.visit(keyword.value)\n"
+     "            for statement in node.body:\n"
+     "                self.visit(statement)\n"
      "            return\n\n"
      "        def visit_Lambda(self, node):\n"
      "            for expression in node.args.defaults:\n"
      "                self.visit(expression)",
      "        def visit_ClassDef(self, node):\n"
+     "            for expression in node.decorator_list:\n"
+     "                self.visit(expression)\n"
+     "            for expression in node.bases:\n"
+     "                self.visit(expression)\n"
+     "            for keyword in node.keywords:\n"
+     "                self.visit(keyword.value)\n"
+     "            for statement in node.body:\n"
+     "                self.visit(statement)\n"
      "            return\n\n"
      "        def visit_Lambda(self, node):\n"
      "            for expression in ():\n"
@@ -1488,6 +1514,45 @@ NEW_MUTATIONS = [
      '            r"(?:^|[;{}\\r\\n])\\s*(?!static\\b)(?:accessor\\s+)?"',
      '            r"(?:^|[;{}])\\s*(?!static\\b)(?:accessor\\s+)?"',
      "tests.test_g11_census.ToolChecks.test_js_semicolonless_instance_field_boundary_is_deferred",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("helper class-construction parameter mutation ignored", "census",
+     "        def visit_ClassDef(self, node):\n"
+     "            for expression in node.decorator_list:\n"
+     "                self.visit(expression)\n"
+     "            for expression in node.bases:\n"
+     "                self.visit(expression)\n"
+     "            for keyword in node.keywords:\n"
+     "                self.visit(keyword.value)\n"
+     "            for statement in node.body:\n"
+     "                self.visit(statement)\n"
+     "            return\n\n"
+     "        def visit_Lambda(self, node):",
+     "        def visit_ClassDef(self, node):\n"
+     "            for expression in node.decorator_list:\n"
+     "                self.visit(expression)\n"
+     "            for expression in node.bases:\n"
+     "                self.visit(expression)\n"
+     "            for keyword in node.keywords:\n"
+     "                self.visit(keyword.value)\n"
+     "            for statement in ():\n"
+     "                self.visit(statement)\n"
+     "            return\n\n"
+     "        def visit_Lambda(self, node):",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_class_construction_parameter_mutation_invalidates_caller",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("downstream JavaScript await suspension ignored", "census",
+     "        if after_unproven_await(candidate):\n"
+     "            return set()",
+     "        if False:\n"
+     "            return set()",
+     "tests.test_g11_census.ToolChecks.test_js_process_call_after_await_is_not_proven_reachable",
+     '"tools/unused.mjs": False'),
+    ("nested computed JavaScript method name unbalanced", "census",
+     "    for computed_start, char in enumerate(searchable):\n"
+     "        if char != \"[\":",
+     "    for computed_start, char in ():\n"
+     "        if char != \"[\":",
+     "tests.test_g11_census.ToolChecks.test_js_uninvoked_nested_computed_method_body_is_not_module_execution",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
@@ -1782,6 +1847,9 @@ EXPECTED_MUTATION_NAMES = (
     "optional JavaScript computed or call continuation activated",
     "computed JavaScript method body treated as module execution",
     "semicolonless JavaScript instance field boundary ignored",
+    "helper class-construction parameter mutation ignored",
+    "downstream JavaScript await suspension ignored",
+    "nested computed JavaScript method name unbalanced",
 )
 
 
@@ -1960,7 +2028,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 223
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 226
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
