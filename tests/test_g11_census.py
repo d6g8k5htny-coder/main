@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "6bc5aa9839cc28bbf5aee4b6820c38cd0fbb9a4c145934057f5dc85fff802e55"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "47c7779e485af76706bfdf1a6b437ef75b42a180d30d2e42a6763642224795a4"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -3433,6 +3433,61 @@ class ToolChecks(unittest.TestCase):
              "tools/throw-unused.mjs": False},
         )
 
+    def test_js_nullish_coalescing_requires_rhs_evaluation(self):
+        tree = {
+            "tools/skipped.mjs": "export const value = 1;\n",
+            "tools/live.mjs": "export const value = 2;\n",
+            "tools/README.md": "tools/skipped.mjs tools/live.mjs\n",
+            "tests/nullish-reachability.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const skipped=new URL('../tools/skipped.mjs',import.meta.url);\n"
+                "const live=new URL('../tools/live.mjs',import.meta.url);\n"
+                "true ?? spawnSync('echo',[skipped]);\n"
+                "undefined ?? spawnSync('echo',[live]);\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.mjs": True, "tools/skipped.mjs": False},
+        )
+
+    def test_js_regular_expression_literal_is_not_a_process_call(self):
+        tree = {
+            "tools/regex-unused.mjs": "export const value = 1;\n",
+            "tools/live.mjs": "export const value = 2;\n",
+            "tools/README.md": "tools/regex-unused.mjs tools/live.mjs\n",
+            "tests/regex-literal.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const regexUnused=new URL('../tools/regex-unused.mjs',import.meta.url);\n"
+                "const live=new URL('../tools/live.mjs',import.meta.url);\n"
+                "const pattern=/spawnSync('echo',[regexUnused])/;\n"
+                "spawnSync('echo',[live]);\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.mjs": True, "tools/regex-unused.mjs": False},
+        )
+
+    def test_js_completed_standalone_block_propagates_termination(self):
+        tree = {
+            "tools/unused.mjs": "export const value = 1;\n",
+            "tools/live.mjs": "export const value = 2;\n",
+            "tools/README.md": "tools/unused.mjs tools/live.mjs\n",
+            "tests/completed-block-termination.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const unused=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "const live=new URL('../tools/live.mjs',import.meta.url);\n"
+                "function stopped(){{return;}spawnSync('echo',[unused]);}\n"
+                "function running(){{spawnSync('echo',[live]);}return;}\n"
+                "stopped();running();\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/live.mjs": True, "tools/unused.mjs": False},
+        )
+
     def test_js_quoted_url_declaration_is_not_a_binding(self):
         tree = {
             "tools/live.mjs": "export const value = 1;\n",
@@ -3947,7 +4002,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 272)
+        self.assertEqual(len(cases), 275)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

@@ -2970,25 +2970,7 @@ def _js_direct_child_argument_identifiers(text):
 def _js_call_arguments(text, names):
     if not names:
         return []
-    masked = []
-    quote = None
-    escaped = False
-    for char in text:
-        if quote:
-            masked.append("\n" if char == "\n" else " ")
-            if escaped:
-                escaped = False
-            elif char == "\\":
-                escaped = True
-            elif char == quote:
-                quote = None
-            continue
-        if char in {'"', "'", "`"}:
-            quote = char
-            masked.append(" ")
-        else:
-            masked.append(char)
-    searchable = "".join(masked)
+    searchable = _js_mask_noncode_literals(text)
     starts = re.compile(
         r"(?<![\w$.])(" + "|".join(map(re.escape, sorted(names))) + r")(?![\w$])\s*\(")
     arguments = []
@@ -3029,6 +3011,68 @@ def _js_matching_delimiter(searchable, start, opening, closing):
             if depth == 0:
                 return index
     return None
+
+
+def _js_mask_noncode_literals(text):
+    """Mask strings and bounded regular-expression literals, preserving offsets."""
+    masked = list(text)
+    index = 0
+    while index < len(text):
+        char = text[index]
+        if char in {'"', "'", "`"}:
+            quote = char
+            cursor = index
+            escaped = False
+            while cursor < len(text):
+                current = text[cursor]
+                masked[cursor] = "\n" if current == "\n" else " "
+                if cursor > index:
+                    if escaped:
+                        escaped = False
+                    elif current == "\\":
+                        escaped = True
+                    elif current == quote:
+                        cursor += 1
+                        break
+                cursor += 1
+            index = cursor
+            continue
+        if char == "/" and text[index:index + 2] not in {"//", "/*"}:
+            previous = index - 1
+            while previous >= 0 and text[previous].isspace():
+                previous -= 1
+            prefix = text[:index]
+            can_start = (previous < 0 or text[previous] in "=([{,:;!?&|"
+                         or re.search(r"\b(?:return|throw|case)\s*$", prefix))
+            if can_start:
+                cursor = index + 1
+                escaped = False
+                character_class = False
+                close = None
+                while cursor < len(text) and text[cursor] not in "\r\n":
+                    current = text[cursor]
+                    if escaped:
+                        escaped = False
+                    elif current == "\\":
+                        escaped = True
+                    elif current == "[":
+                        character_class = True
+                    elif current == "]":
+                        character_class = False
+                    elif current == "/" and not character_class:
+                        close = cursor
+                        break
+                    cursor += 1
+                if close is not None:
+                    cursor = close + 1
+                    while cursor < len(text) and text[cursor].isalpha():
+                        cursor += 1
+                    for position in range(index, cursor):
+                        masked[position] = ("\n" if text[position] == "\n" else " ")
+                    index = cursor
+                    continue
+        index += 1
+    return "".join(masked)
 
 
 def _js_top_level_parts(text, delimiter=","):
@@ -3177,25 +3221,7 @@ def _js_bounded_statement_end(searchable, start):
 
 def _js_function_scopes(text):
     """Return masked text and bounded function/arrow body scopes."""
-    searchable = []
-    quote = None
-    escaped = False
-    for char in text:
-        if quote:
-            searchable.append("\n" if char == "\n" else " ")
-            if escaped:
-                escaped = False
-            elif char == "\\":
-                escaped = True
-            elif char == quote:
-                quote = None
-            continue
-        if char in {'"', "'", "`"}:
-            quote = char
-            searchable.append(" ")
-        else:
-            searchable.append(char)
-    searchable = "".join(searchable)
+    searchable = _js_mask_noncode_literals(text)
 
     open_scopes = []
     for function in re.finditer(r"\bfunction\b", searchable):
@@ -3308,7 +3334,7 @@ def _js_short_circuit_call_reachable(searchable, position):
     """Bound a call reached through one literal short-circuit operator."""
     boundary = max(searchable.rfind(token, 0, position) for token in (";", "{", "}"))
     prefix = searchable[boundary + 1:position]
-    operators = list(re.finditer(r"&&|\|\|", prefix))
+    operators = list(re.finditer(r"&&|\|\||\?\?", prefix))
     if not operators:
         return True
     if len(operators) != 1:
@@ -3316,9 +3342,12 @@ def _js_short_circuit_call_reachable(searchable, position):
     operator = operators[0]
     if prefix[operator.end():].strip(" \t\r\n("):
         return False
-    literal = re.search(r"\b(true|false)\s*$", prefix[:operator.start()])
+    literal = re.search(
+        r"\b(true|false|null|undefined)\s*$", prefix[:operator.start()])
     if literal is None:
         return False
+    if operator.group() == "??":
+        return literal.group(1) in {"null", "undefined"}
     return ((literal.group(1) == "true" and operator.group() == "&&")
             or (literal.group(1) == "false" and operator.group() == "||"))
 
@@ -3535,7 +3564,7 @@ def _js_call_activation_points(text, position):
         return False
 
     def after_unconditional_termination(candidate):
-        """Reject calls after direct return/throw in every containing block."""
+        """Reject calls after direct or completed-block return/throw."""
         containing_functions = [
             scope for scope in scopes
             if scope[2] < candidate < scope[3] and searchable[scope[2]] == "{"]
@@ -3543,15 +3572,32 @@ def _js_call_activation_points(text, position):
             return False
         _params_start, _params_end, function_open, function_close = max(
             containing_functions, key=lambda item: item[2])
+        all_blocks = _js_block_scopes(searchable)
         blocks = [(function_open, function_close)]
         blocks.extend(
-            block for block in _js_block_scopes(searchable)
+            block for block in all_blocks
             if function_open < block[0] < candidate < block[1] < function_close)
+        for block_open, block_close in all_blocks:
+            if not (function_open < block_open < block_close < candidate < function_close):
+                continue
+            parents = [block for block in all_blocks
+                       if block[0] < block_open < block_close < block[1]]
+            parent = (max(parents, key=lambda item: item[0])
+                      if parents else None)
+            if parent != (function_open, function_close):
+                continue
+            previous = block_open - 1
+            while previous > function_open and searchable[previous].isspace():
+                previous -= 1
+            if searchable[previous] not in "{;}":
+                continue
+            blocks.append((block_open, block_close))
         token = re.compile(r"\b(?:return|throw)\b|[(){}\[\]]")
         closing = {")": "(", "]": "[", "}": "{"}
-        for block_open, _block_close in blocks:
+        for block_open, block_close in blocks:
             depths = {"(": 0, "[": 0, "{": 0}
-            for match in token.finditer(searchable, block_open + 1, candidate):
+            for match in token.finditer(
+                    searchable, block_open + 1, min(candidate, block_close)):
                 value = match.group()
                 if value in depths:
                     depths[value] += 1
