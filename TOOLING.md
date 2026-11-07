@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`6487ca3d1f394f544b05057ccf75f8fde2b616e7`, based on Main default
+`0b97d2df407094cd0265ca546d4a56d47a6f7fe4`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,21 +263,25 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`6487ca3d1f394f544b05057ccf75f8fde2b616e7` (parent
-`98f8e710bfceb6aa35f367cc13b7acdae9c3071d`, tree
-`0c961dd873745d3eb62fc6f5ee205f77a8598307`) recognizes explicit local path
+`0b97d2df407094cd0265ca546d4a56d47a6f7fe4` (parent
+`e6ddeae6c324be5e6e025bd000e39df316cec4de`, tree
+`b161d7feb414329b1cd41dff4d15e5491d76e444`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its blobs
 and tree exactly match local qualification
-`cfb3082a323878bca373c90a2a0b382536def7ad`, whose 164/164 controls and 222/222
+`97560c77b18078248df99a7bb2bdec4890f356bb`, whose 171/171 controls and 230/230
 designated mutations passed in both modes; the
 sealed mutation-inventory SHA-256 is
-`20e645a3d96424ea24da16c323be97c93e173407ec3c7d5ee6ef3c3924e52873`. The exact
+`9c66ea15cca75913c33132375669018c5e4c0f40593433413b0402c81229bf24`. The exact
 local exact-tree source normal and optimized censuses were byte-identical (SHA-256
-`01c70209d7e5d8cb8a8caffffabc363973832f72c26803e10e85628fddf0ae41`,
+`13ae3cc3dbd6f2f6d9285523219cacd1268d849b0bb6a0dec82133179f4abeb3`,
 56,012 bytes each),
 with zero production findings and exactly 32 no-current-exercise or documentation tool
 candidates; both runs exited 1. Adverse controls refuse mere path
+credit from unknown Boolean/wrapper branches that may mutate provenance,
+incomplete URL initializers, unselected JavaScript conditional arms,
+non-string aggregate conversion, helper calls missing required arguments, and
+module-name fallback through an enclosing closure binding. They also refuse mere path
 credit from multiline source-line resorting, possible loop writes, class or
 repeated-helper frame leakage, subprocess shell/positional/executable
 ambiguity, a shadowed JavaScript `URL` constructor, mutated URL properties and

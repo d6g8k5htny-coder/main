@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 7 November 2026
 
 The Main candidate containing this file has native source parent
-`6487ca3d1f394f544b05057ccf75f8fde2b616e7`; its isolated work began from the
+`0b97d2df407094cd0265ca546d4a56d47a6f7fe4`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,16 +37,16 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `6487ca3d1f394f544b05057ccf75f8fde2b616e7` (parent
-`98f8e710bfceb6aa35f367cc13b7acdae9c3071d`, tree
-`0c961dd873745d3eb62fc6f5ee205f77a8598307`) is blob-for-blob identical to
-local exact-tree qualification `cfb3082a323878bca373c90a2a0b382536def7ad`,
-which passed 164/164 tests and killed
-222/222 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `20e645a3d96424ea24da16c323be97c93e173407ec3c7d5ee6ef3c3924e52873`.
+native source `0b97d2df407094cd0265ca546d4a56d47a6f7fe4` (parent
+`e6ddeae6c324be5e6e025bd000e39df316cec4de`, tree
+`b161d7feb414329b1cd41dff4d15e5491d76e444`) is blob-for-blob identical to
+local exact-tree qualification `97560c77b18078248df99a7bb2bdec4890f356bb`,
+which passed 171/171 tests and killed
+230/230 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `9c66ea15cca75913c33132375669018c5e4c0f40593433413b0402c81229bf24`.
 The local exact-tree qualification's byte-identical normal/optimized
 whole-tree reports (SHA-256
-`01c70209d7e5d8cb8a8caffffabc363973832f72c26803e10e85628fddf0ae41`,
+`13ae3cc3dbd6f2f6d9285523219cacd1268d849b0bb6a0dec82133179f4abeb3`,
 56,012 bytes each)
 contain zero production findings and retain exactly 32 no-current-exercise
 or documentation tool candidates; both census runs exit 1. The stricter
@@ -253,8 +253,17 @@ rejects dynamic/true `shell`, `**kwargs` and executable overrides; URL credit
 requires the intrinsic unshadowed constructor and an unmutated binding;
 JavaScript call reachability handles only proven single literal short-circuit
 operators; and each helper invocation receives fresh local bindings, imports
-and nested definitions. The current source passes the 164-control, 222-mutant
-suites above. The current review/adverse-defect total is 117;
+and nested definitions. Seven further exact-head review findings were then
+reproduced red and repaired. Unknown Boolean operands and unknown wrapper
+branches now apply possible effects and invalidate stale direct and forwarding
+bindings; URL attribution requires a complete initializer rather than a
+property suffix; JavaScript conditional expressions traverse only the selected
+literal arm; aggregate `str(...)` conversion preserves only values already
+known to be strings; direct helper calls must statically satisfy the required
+signature before their bodies are traversed; and nested closures resolve
+lexical bindings from their enclosing owned scopes without falling back to an
+unrelated module name. The current source passes the 171-control, 230-mutant
+suites above. The current review/adverse-defect total is 124;
 exact-final-head review and hosted checks remain required before integration.
 
 ## Current verification boundary

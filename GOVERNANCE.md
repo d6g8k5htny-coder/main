@@ -126,25 +126,31 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`6487ca3d1f394f544b05057ccf75f8fde2b616e7` (parent
-`98f8e710bfceb6aa35f367cc13b7acdae9c3071d`, tree
-`0c961dd873745d3eb62fc6f5ee205f77a8598307`) extends the existing bounded
+`0b97d2df407094cd0265ca546d4a56d47a6f7fe4` (parent
+`e6ddeae6c324be5e6e025bd000e39df316cec4de`, tree
+`b161d7feb414329b1cd41dff4d15e5491d76e444`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
 Its blobs and tree exactly match local qualification
-`cfb3082a323878bca373c90a2a0b382536def7ad`, which passed 164/164 controls and
-killed 222/222 designated
+`97560c77b18078248df99a7bb2bdec4890f356bb`, which passed 171/171 controls and
+killed 230/230 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`20e645a3d96424ea24da16c323be97c93e173407ec3c7d5ee6ef3c3924e52873`.
+`9c66ea15cca75913c33132375669018c5e4c0f40593433413b0402c81229bf24`.
 The local exact-tree qualification's normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`01c70209d7e5d8cb8a8caffffabc363973832f72c26803e10e85628fddf0ae41`,
+`13ae3cc3dbd6f2f6d9285523219cacd1268d849b0bb6a0dec82133179f4abeb3`,
 56,012 bytes each):
 zero production findings and 32 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The latest bounded rules
+also apply possible effects from unknown Boolean operands and unknown wrapper
+branches, require complete URL initializers, select only proven JavaScript
+conditional-expression arms, preserve aggregate string values only when the
+inputs are already strings, reject direct helper calls that do not statically
+bind required arguments, and resolve nested-closure names from enclosing owned
+scopes before any module fallback. They
 also preserve actual event order across multiline statements and loops, isolate
 class and repeated-helper runtime frames, accept subprocess calls only with one
 ordinary argv positional argument and no effective shell/executable override,
