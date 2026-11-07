@@ -1122,6 +1122,7 @@ def _reachable_python_nodes(tree, mode):
     nodes, active_calls = [], set()
     lifecycle = {}
     active_functions = {}
+    captured_default_effects = {}
     function_scope_bindings = {
         id(node): _scope_bindings(node) for node in ast.walk(tree)
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
@@ -1161,14 +1162,16 @@ def _reachable_python_nodes(tree, mode):
             visible_mutations = mutations - local_only
             arguments = dict(_python_call_argument_bindings(function, call))
             formal_aliases = {
-                argument.arg: argument.arg
+                argument.arg: {argument.arg}
                 for argument in (function.args.posonlyargs + function.args.args
                                  + function.args.kwonlyargs)
             }
             if function.args.vararg is not None:
-                formal_aliases[function.args.vararg.arg] = function.args.vararg.arg
+                formal_aliases[function.args.vararg.arg] = {
+                    function.args.vararg.arg}
             if function.args.kwarg is not None:
-                formal_aliases[function.args.kwarg.arg] = function.args.kwarg.arg
+                formal_aliases[function.args.kwarg.arg] = {
+                    function.args.kwarg.arg}
             class FormalAliasCollector(ast.NodeVisitor):
                 def visit_FunctionDef(self, node):
                     return
@@ -1180,33 +1183,70 @@ def _reachable_python_nodes(tree, mode):
                 def visit_Assign(self, node):
                     if (isinstance(node.value, ast.Name)
                             and node.value.id in formal_aliases):
-                        root = formal_aliases[node.value.id]
+                        roots = set(formal_aliases[node.value.id])
                         for target in node.targets:
                             if isinstance(target, ast.Name):
-                                formal_aliases[target.id] = root
+                                formal_aliases[target.id] = roots
+                    else:
+                        for target in node.targets:
+                            if isinstance(target, ast.Name):
+                                formal_aliases.pop(target.id, None)
                     self.generic_visit(node)
+
+                def visit_If(self, node):
+                    self.visit(node.test)
+                    truth = _literal_bool(node.test)
+                    if truth is not None:
+                        for statement in (node.body if truth else node.orelse):
+                            self.visit(statement)
+                        return
+                    before = {
+                        name: set(origins)
+                        for name, origins in formal_aliases.items()}
+                    branches = []
+                    for statements in (node.body, node.orelse):
+                        formal_aliases.clear()
+                        formal_aliases.update({
+                            name: set(origins)
+                            for name, origins in before.items()})
+                        for statement in statements:
+                            self.visit(statement)
+                        branches.append({
+                            name: set(origins)
+                            for name, origins in formal_aliases.items()})
+                    formal_aliases.clear()
+                    for name in set().union(*(branch.keys() for branch in branches)):
+                        origins = set().union(*(
+                            branch.get(name, set()) for branch in branches))
+                        if origins:
+                            formal_aliases[name] = origins
 
             alias_collector = FormalAliasCollector()
             for statement in function.body:
                 alias_collector.visit(statement)
             defaults = dict(_python_function_defaults(function))
             for mutated_name in mutations & local_only:
-                formal = formal_aliases.get(mutated_name, mutated_name)
-                key = arguments.get(formal)
-                argument = None
-                if isinstance(key, int) and key < len(call.args):
-                    argument = call.args[key]
-                elif isinstance(key, tuple) and key[0] == "keyword":
-                    argument = next(
-                        (keyword.value for keyword in call.keywords
-                         if keyword.arg == key[1]), None)
-                elif key is None:
-                    argument = defaults.get(formal)
-                while isinstance(argument, (ast.Subscript, ast.Attribute)):
-                    argument = argument.value
-                if isinstance(argument, ast.Name):
-                    visible_effects.add(argument.id)
-                    visible_mutations.add(argument.id)
+                formals = formal_aliases.get(mutated_name, {mutated_name})
+                for formal in formals:
+                    key = arguments.get(formal)
+                    argument = None
+                    if isinstance(key, int) and key < len(call.args):
+                        argument = call.args[key]
+                    elif isinstance(key, tuple) and key[0] == "keyword":
+                        argument = next(
+                            (keyword.value for keyword in call.keywords
+                             if keyword.arg == key[1]), None)
+                    elif key is None and formal in defaults:
+                        token = f"@g11-default:{id(function)}:{formal}"
+                        captured_default_effects[token] = (id(function), formal)
+                        visible_effects.add(token)
+                        visible_mutations.add(token)
+                        continue
+                    while isinstance(argument, (ast.Subscript, ast.Attribute)):
+                        argument = argument.value
+                    if isinstance(argument, ast.Name):
+                        visible_effects.add(argument.id)
+                        visible_mutations.add(argument.id)
             summaries[id(call)] = visible_effects, visible_mutations
             return summaries[id(call)]
 
@@ -1219,6 +1259,19 @@ def _reachable_python_nodes(tree, mode):
     def branch_possible_effects(body, scope, seen=frozenset()):
         """Return visible effects from an unproven path, including helpers."""
         return branch_effect_summary(body, scope, seen)[0]
+
+    def possible_effect_marker(names, lineno):
+        """Build an invalidation marker for names and captured defaults."""
+        marker = ast.Delete(targets=[
+            ast.Name(id=name, ctx=ast.Del())
+            for name in sorted(names)
+            if name not in captured_default_effects])
+        marker._g11_default_mutations = sorted({
+            captured_default_effects[name]
+            for name in names
+            if name in captured_default_effects})
+        marker.lineno = lineno
+        return marker
 
     def statement_sequence_terminates(body):
         return any(statement_terminates(statement) for statement in body)
@@ -1376,27 +1429,22 @@ def _reachable_python_nodes(tree, mode):
                              | branch_possible_effects(node.orelse, scope))
                     if not _is_none_guard(node.test):
                         if names:
-                            marker = ast.Delete(
-                                targets=[ast.Name(id=name, ctx=ast.Del())
-                                         for name in sorted(names)])
-                            marker.lineno = getattr(node, "end_lineno", node.lineno)
+                            marker = possible_effect_marker(
+                                names, getattr(node, "end_lineno", node.lineno))
                             visit(marker, owner, scope, activation_line)
                         return
                     for alternative in (node.body, node.orelse):
                         if names:
-                            marker = ast.Delete(
-                                targets=[ast.Name(id=name, ctx=ast.Del())
-                                         for name in sorted(names)])
-                            marker.lineno = (getattr(alternative[0], "lineno", node.lineno)
-                                             if alternative else node.lineno)
+                            marker = possible_effect_marker(
+                                names,
+                                (getattr(alternative[0], "lineno", node.lineno)
+                                 if alternative else node.lineno))
                             visit(marker, owner, scope, activation_line)
                         visit_statement_sequence(
                             alternative, owner, scope, activation_line)
                     if names:
-                        marker = ast.Delete(
-                            targets=[ast.Name(id=name, ctx=ast.Del())
-                                     for name in sorted(names)])
-                        marker.lineno = getattr(node, "end_lineno", node.lineno)
+                        marker = possible_effect_marker(
+                            names, getattr(node, "end_lineno", node.lineno))
                         visit(marker, owner, scope, activation_line)
                     return
                 else:
@@ -1410,10 +1458,8 @@ def _reachable_python_nodes(tree, mode):
                 visit(node.test, owner, scope, activation_line)
             possible_effects = branch_possible_effects([node], scope)
             if possible_effects:
-                marker = ast.Delete(
-                    targets=[ast.Name(id=name, ctx=ast.Del())
-                             for name in sorted(possible_effects)])
-                marker.lineno = getattr(node, "end_lineno", node.lineno)
+                marker = possible_effect_marker(
+                    possible_effects, getattr(node, "end_lineno", node.lineno))
                 visit(marker, owner, scope, activation_line)
             return
 
@@ -1429,18 +1475,15 @@ def _reachable_python_nodes(tree, mode):
                 branch_possible_effects(node.orelse, scope),
                 {handler.name for handler in node.handlers if handler.name})
             if possible_effects:
-                marker = ast.Delete(
-                    targets=[ast.Name(id=name, ctx=ast.Del())
-                             for name in sorted(possible_effects)])
                 boundary_statements = [
                     *(handler.body[0] for handler in node.handlers if handler.body),
                     *(node.orelse[:1]),
                     *(node.finalbody[:1]),
                 ]
-                marker.lineno = min(
+                marker = possible_effect_marker(possible_effects, min(
                     (getattr(statement, "lineno", node.lineno)
                      for statement in boundary_statements),
-                    default=getattr(node, "end_lineno", node.lineno))
+                    default=getattr(node, "end_lineno", node.lineno)))
                 visit(marker, owner, scope, activation_line)
             visit_statement_sequence(node.finalbody, owner, scope, activation_line)
             return
@@ -1557,10 +1600,8 @@ def _reachable_python_nodes(tree, mode):
                 possible_effects = branch_possible_effects(
                     (node.body, node.orelse), scope)
                 if possible_effects:
-                    marker = ast.Delete(
-                        targets=[ast.Name(id=name, ctx=ast.Del())
-                                 for name in sorted(possible_effects)])
-                    marker.lineno = getattr(node, "end_lineno", node.lineno)
+                    marker = possible_effect_marker(
+                        possible_effects, getattr(node, "end_lineno", node.lineno))
                     visit(marker, owner, scope, activation_line)
             return
 
@@ -1577,10 +1618,9 @@ def _reachable_python_nodes(tree, mode):
                     possible_effects = branch_possible_effects(
                         node.values[index + 1:], scope)
                     if possible_effects:
-                        marker = ast.Delete(
-                            targets=[ast.Name(id=name, ctx=ast.Del())
-                                     for name in sorted(possible_effects)])
-                        marker.lineno = getattr(node, "end_lineno", node.lineno)
+                        marker = possible_effect_marker(
+                            possible_effects,
+                            getattr(node, "end_lineno", node.lineno))
                         visit(marker, owner, scope, activation_line)
                     break
                 if isinstance(node.op, ast.And) and not truth:
@@ -1603,10 +1643,9 @@ def _reachable_python_nodes(tree, mode):
                     possible_effects = branch_possible_effects(
                         node.comparators[index + 1:], scope)
                     if possible_effects:
-                        marker = ast.Delete(
-                            targets=[ast.Name(id=name, ctx=ast.Del())
-                                     for name in sorted(possible_effects)])
-                        marker.lineno = getattr(node, "end_lineno", node.lineno)
+                        marker = possible_effect_marker(
+                            possible_effects,
+                            getattr(node, "end_lineno", node.lineno))
                         visit(marker, owner, scope, activation_line)
                     break
                 if not truth:
@@ -1646,10 +1685,8 @@ def _reachable_python_nodes(tree, mode):
             possible_effects = branch_possible_effects(
                 _comprehension_possible_effect_expressions(node), scope)
             if possible_effects:
-                marker = ast.Delete(
-                    targets=[ast.Name(id=name, ctx=ast.Del())
-                             for name in sorted(possible_effects)])
-                marker.lineno = getattr(node, "end_lineno", node.lineno)
+                marker = possible_effect_marker(
+                    possible_effects, getattr(node, "end_lineno", node.lineno))
                 visit(marker, owner, scope, activation_line)
             return
 
@@ -2025,34 +2062,39 @@ def _python_class_parent_scopes(tree):
     return parents
 
 
+def _invalidate_python_value(value, environments, recursive=False):
+    """Poison one captured aggregate and every binding sharing its identity."""
+    if not isinstance(value, (list, _StaticTuple, dict)):
+        return
+    seen = set()
+
+    def poison(current):
+        if (not isinstance(current, (list, _StaticTuple, dict))
+                or id(current) in seen):
+            return
+        seen.add(id(current))
+        if recursive:
+            children = current.values() if isinstance(current, dict) else current
+            for child in list(children):
+                poison(child)
+        if isinstance(current, list):
+            current[:] = [_UNRESOLVED_STATIC]
+
+    poison(value)
+    for environment in environments:
+        for bound_name, bound in list(environment.items()):
+            if id(bound) in seen:
+                environment[bound_name] = _UNRESOLVED_STATIC
+
+
 def _invalidate_python_binding(name, local, module, scope, global_names=(),
                                destination_for_name=None, recursive=False):
     destination = (destination_for_name(name) if destination_for_name is not None
                    else module if scope is None or name in global_names else local)
     prior = destination.get(name, module.get(name))
-    if isinstance(prior, (list, _StaticTuple, dict)):
-        # Previously evaluated arguments hold the same aggregate objects.
-        # Poison shared mutable children so later in-place mutations cannot
-        # retain stale command provenance.
-        seen = set()
-
-        def poison(value):
-            if not isinstance(value, (list, _StaticTuple, dict)) or id(value) in seen:
-                return
-            seen.add(id(value))
-            if recursive:
-                children = value.values() if isinstance(value, dict) else value
-                for child in list(children):
-                    poison(child)
-            if isinstance(value, list):
-                value[:] = [_UNRESOLVED_STATIC]
-
-        poison(prior)
-        environments = (destination,) if destination is module else (destination, module)
-        for environment in environments:
-            for bound_name, bound in list(environment.items()):
-                if id(bound) in seen:
-                    environment[bound_name] = _UNRESOLVED_STATIC
+    environments = ((destination,) if destination is module
+                    else (destination, module))
+    _invalidate_python_value(prior, environments, recursive)
     destination[name] = _UNRESOLVED_STATIC
 
 
@@ -2518,6 +2560,11 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     wrapper_reassignments.setdefault(key, []).append(
                         (execution_line, node.lineno))
     for node, scope, execution_line in reachable_nodes:
+        for default_id in getattr(node, "_g11_default_mutations", ()):
+            captured = evaluated_defaults.get(default_id, missing_argument)
+            if captured is not missing_argument:
+                _invalidate_python_value(
+                    captured, (module_bindings, *scope_bindings.values()))
         if hasattr(node, "_g11_scope_start"):
             scope_bindings[scope] = {}
             scope_imports[scope] = _empty_import_bindings()

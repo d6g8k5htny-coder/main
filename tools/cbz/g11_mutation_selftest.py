@@ -553,8 +553,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_interpreter_option_operands_do_not_hide_the_script",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("command alias survives element write", "census",
-     "    if isinstance(prior, (list, _StaticTuple, dict)):\n        # Previously evaluated arguments hold the same aggregate objects.",
-     "    if False:\n        # Previously evaluated arguments hold the same aggregate objects.",
+     "    if not isinstance(value, (list, _StaticTuple, dict)):\n        return",
+     "    if True:\n        return",
      "tests.test_g11_census.ToolChecks.test_command_alias_element_write_invalidates_all_aliases",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("JavaScript URL binding parameter shadow ignored", "census",
@@ -633,8 +633,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_node_test_callback_is_a_reachable_root",
      'self.assertEqual({path: item["referenced"] for path, item in self.tools(tree).items()},'),
     ("none guard branch states combined", "census",
-     "                    if names:\n                        marker = ast.Delete(\n",
-     "                    if False:\n                        marker = ast.Delete(\n",
+     "                    if names:\n                        marker = possible_effect_marker(\n",
+     "                    if False:\n                        marker = possible_effect_marker(\n",
      "tests.test_g11_census.ToolChecks.test_none_guard_join_invalidates_alternative_values",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("node test registration reachability ignored", "census",
@@ -873,8 +873,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_try_handlers_require_proven_reachability_but_finally_executes",
      'self.assertEqual(\n            {\n                "tools/body-live.py": True,'),
     ("skipped exception branch effects ignored", "census",
-     "            possible_effects = set().union(\n                *(branch_possible_effects(handler.body, scope)\n                  for handler in node.handlers),\n                branch_possible_effects(node.orelse, scope),\n                {handler.name for handler in node.handlers if handler.name})\n            if possible_effects:\n                marker = ast.Delete(",
-     "            possible_effects = set().union(\n                *(branch_possible_effects(handler.body, scope)\n                  for handler in node.handlers),\n                branch_possible_effects(node.orelse, scope),\n                {handler.name for handler in node.handlers if handler.name})\n            if False:\n                marker = ast.Delete(",
+     "            possible_effects = set().union(\n                *(branch_possible_effects(handler.body, scope)\n                  for handler in node.handlers),\n                branch_possible_effects(node.orelse, scope),\n                {handler.name for handler in node.handlers if handler.name})\n            if possible_effects:\n                boundary_statements = [",
+     "            possible_effects = set().union(\n                *(branch_possible_effects(handler.body, scope)\n                  for handler in node.handlers),\n                branch_possible_effects(node.orelse, scope),\n                {handler.name for handler in node.handlers if handler.name})\n            if False:\n                boundary_statements = [",
      "tests.test_g11_census.ToolChecks.test_unproven_exception_branches_invalidate_downstream_bindings",
      '{"tools/else-unused.py": False, "tools/handler-unused.py": False},'),
     ("wrapper exception-handler reachability ignored", "census",
@@ -1370,8 +1370,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_unknown_branch_definition_time_effects_invalidate_downstream_bindings",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("helper-local parameter alias mutation ignored", "census",
-     "                formal = formal_aliases.get(mutated_name, mutated_name)",
-     "                formal = mutated_name",
+     "                formals = formal_aliases.get(mutated_name, {mutated_name})",
+     "                formals = {mutated_name}",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_parameter_alias_effects_invalidate_caller_binding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("optional JavaScript call arguments activated", "census",
@@ -1641,10 +1641,14 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_static_block_throw_operand_executes_before_termination",
      '{"tools/tail-unused.mjs": False, "tools/thrown.mjs": True}'),
     ("helper default aggregate mutation ignored", "census",
-     "                elif key is None:\n"
-     "                    argument = defaults.get(formal)",
-     "                elif key is None:\n"
-     "                    argument = None",
+     "                    elif key is None and formal in defaults:\n"
+     "                        token = f\"@g11-default:{id(function)}:{formal}\"\n"
+     "                        captured_default_effects[token] = (id(function), formal)\n"
+     "                        visible_effects.add(token)\n"
+     "                        visible_mutations.add(token)\n"
+     "                        continue",
+     "                    elif key is None and formal in defaults:\n"
+     "                        continue",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_default_parameter_mutation_invalidates_captured_binding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("nested helper parameter alias mutation ignored", "census",
@@ -1675,6 +1679,26 @@ NEW_MUTATIONS = [
      "            r\"(?:^|[;{}\\r\\n])\\s*(?!static\\b)(?:accessor\\s+)?\"",
      "tests.test_g11_census.ToolChecks.test_js_unconstructed_field_named_static_is_deferred",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
+    ("captured default identity invalidation ignored", "census",
+     "        marker._g11_default_mutations = sorted({\n"
+     "            captured_default_effects[name]\n"
+     "            for name in names\n"
+     "            if name in captured_default_effects})",
+     "        marker._g11_default_mutations = []",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_default_mutation_uses_definition_time_capture",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("proven helper alias branch ignored", "census",
+     "                def visit_If(self, node):\n"
+     "                    self.visit(node.test)\n"
+     "                    truth = _literal_bool(node.test)\n"
+     "                    if truth is not None:",
+     "                def visit_If(self, node):\n"
+     "                    self.generic_visit(node)\n"
+     "                    return\n"
+     "                    truth = _literal_bool(node.test)\n"
+     "                    if truth is not None:",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_proven_helper_alias_branch_preserves_origin",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1985,6 +2009,8 @@ EXPECTED_MUTATION_NAMES = (
     "nested helper parameter alias mutation ignored",
     "numeric JavaScript method body treated as module execution",
     "JavaScript field named static treated as class-definition execution",
+    "captured default identity invalidation ignored",
+    "proven helper alias branch ignored",
 )
 
 
@@ -2163,7 +2189,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 240
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 242
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
