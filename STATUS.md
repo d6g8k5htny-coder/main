@@ -8,19 +8,21 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
-## Current maintenance snapshot — 6 November 2026
+## Current maintenance snapshot — 7 November 2026
 
-The Main default for this status is the revision containing this file; its
-source parent was `c4db7562640817ab5f23119571030851b964472c`.
+The Main candidate containing this file has native source parent
+`daeb6fc6784aabc08d1e7c9e60bf1d698d9128f0`; its isolated work began from the
+then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
-`ed9a1e0106d616bc3a1eabb213fe4605f9e30813`. The Workspace pin still names
-the earlier Main `04989724b5142f8eea8d41946d0367d0372d845a`; strict-current
-pin agreement is therefore not claimed until a guarded Workspace refresh
-lands. Open-PR counts are dynamic and must be read from native refs rather
+`05f3096d077a6fa4ff6cf763c074451cb1ac9972`. Workspace #41 refreshed its
+Main pin to `299c7fad72f1079b87b2d044b2d30f2098678f29`, but this later isolated
+Main candidate is newer, so strict-current pin agreement is again unawarded
+until a guarded post-integration refresh lands. Open-PR counts are dynamic and must be read from native refs rather
 than inferred from this file. The 12:04 UTC local checkout observation found
-14/14 clean checkouts, zero stashes, valid HEADs and no missing registered
-worktree paths; later isolated worktrees are outside that instant. The exact
+14/14 clean checkouts; the later v79 observation found 19 checkouts, zero
+dirty trees, zero stashes, valid HEADs and no missing registered worktree
+paths. This current isolated worktree is outside those instants. The exact
 remote census still contains 2,049 non-default branches requiring explicit
 integration, archival or dormant disposition.
 
@@ -29,15 +31,303 @@ The five canonical reading surfaces are this file,
 [TOOLING.md](TOOLING.md) and [BASELINE.md](BASELINE.md). The proof index is
 explicitly incomplete; the tooling registry has no admitted final G0–G11
 orchestrator; and the baseline ledger marks every unawarded criterion. The
-latest durable v78 receipt is
-[Main #684 comment 6684436967](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6684436967).
+latest Git-native durable receipt is v79 at
+[Main #684 comment 6685706413](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6685706413).
 Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
-39/39 tests and 76/76 designated mutants passing in both modes. Its fresh
-whole-tree census remains red on 55 tool documentation/exercise findings.
-Eleven active tools are registered in [TOOLING.md](TOOLING.md); 20 active
-static-attribution gaps and 28 no-current-exercise browser-tool candidates
-remain explicit residue. No final G11 or combined G0–G11 pass is claimed.
+39/39 tests and 76/76 designated mutants passing in both modes; #763 then
+closed seven documentation-only gaps. The review-repaired G11 attribution
+native source `daeb6fc6784aabc08d1e7c9e60bf1d698d9128f0` (parent
+`205967821dcbd85e4be7aaaa6b1e01a61ac3e81e`, tree
+`dc5d039432b9a637b4ab8a98490e5c99f66d3fed`) is blob-for-blob identical to
+local exact-tree qualification `2d80ada7105cc11c362ffa25d9efc712c9a8e5d5`.
+Fresh execution on the native commit passed 226/226 tests and killed
+293/293 designated mutants in both modes with zero skips; the sealed
+mutation-inventory SHA-256 is
+`680b581938dbe08ffcc676dd14eaa4bfedfcf4d734c2db2e99ed3ebb37f1abdc`.
+The native commit's byte-identical normal/optimized whole-tree reports (SHA-256
+`e4b5cd3ac9033e5ecc7d1c7da2c21e16587be1351a6df337babaee1587feb0cf`,
+56,013 bytes each)
+contain zero production findings and retain exactly 32 no-current-exercise
+or documentation tool candidates; both census runs exit 1. The stricter
+attribution newly removes false exercise credit from
+`tools/architecture_evidence_adapter.py`,
+`tools/architecture_graph_artifact_readback.py` and
+`tools/artifact_index_export.py`; the prior 29-tool result remains historical.
+Five later exact-head defects are also repaired: assignment targets evaluate
+their executable subexpressions before rebinding; unresolved chained-comparison
+suffixes and eager-comprehension bodies/guards invalidate possible effects
+without receiving execution credit; uninvoked JavaScript class/object method
+bodies remain deferred; and literal-true JavaScript conditions exclude their
+dead `else` arms. The duplicate comparison review report is retained as review
+history but counted once. Three subsequent exact-head defects are also
+repaired: helper-mediated writes on unresolved Python branches invalidate
+downstream provenance; quoted JavaScript child-process imports are not trusted;
+and unreachable JavaScript URL initializers cannot create provenance. An
+adjacent adverse control then exposed parameter-alias mutation through a
+helper called on an unresolved branch. The repair maps only aggregate mutation,
+not local parameter rebinding, back to the caller argument. A paired positive
+control preserves the latter distinction. Three further review defects now
+require every enclosing JavaScript branch to select a call, reject `while` and
+`for` bodies without a proven first iteration, and refuse process calls after
+direct `return` or `throw` in an invoked helper. The duplicate parameter-alias
+review record is preserved but counted once. The adverse total is therefore
+147 distinct review/adverse defects. Two older unresolved review findings then
+required augmented-assignment targets to be captured before RHS helper effects
+and JavaScript parameter default initializers to remain deferred until their
+declaring helper is actually invoked. Both were reproduced red in normal and
+optimized modes before repair, bringing the then-current total to 149 distinct defects.
+Three still-older unresolved review findings were then reproduced red in both
+modes: a possible Python branch rebind retained trusted import identity; a
+proven JavaScript loop credited calls after direct `break`/`continue`; and an
+unselected `switch` case received module-root activation. Possible-effect
+deletions now invalidate local imports, direct loop termination cuts off the
+remaining loop body, and unsupported switch selection fails closed. Four fresh
+review findings were then reproduced red in both modes. Python now
+captures a helper's callable identity before evaluating side-effecting call
+arguments; JavaScript parameter scopes use delimiter-balanced discovery;
+default initializers execute only for a missing or explicit `undefined`
+argument; and unproven `catch` handlers receive no execution credit. Three
+adjacent exact-head findings now exclude skipped nullish-coalescing operands,
+mask JavaScript regular-expression literals before call discovery, and
+propagate direct termination from completed standalone blocks. Three further
+exact-head findings retain definition-time effects of functions declared on
+unresolved branches, map aggregate mutation through a helper-local alias back
+to the bound caller argument, and refuse optional-call argument credit without
+proof that the call executes. Five latest controls interleave
+chained-assignment target stores with later
+target evaluation, retain lambda-default effects in unresolved branches,
+reject optional property/computed-chain subexpressions without proven
+evaluation, defer unconstructed JavaScript instance-field initializers, and
+mask regular-expression literals following control headers. Four newest
+controls include unresolved-branch class construction, helper definition-time
+parameter mutation, continuous optional property chains and computed instance
+fields. Three latest controls continue suppression through computed accesses
+and intermediate calls in one optional chain, defer computed-name class and
+object methods, and recognize semicolonless instance-field boundaries. The
+newest three controls propagate helper class-construction mutations through
+bound caller arguments, refuse downstream child-process activation after an
+unsupported JavaScript `await`, and balance nested computed method names before
+deferring their bodies. The current total is 177 distinct review/adverse
+defects. The former 20 active
+static-attribution gaps are closed without crediting mere mentions, fake APIs,
+interpreter command payloads, same-line JavaScript decoys or unreachable code.
+Generator methods are not credited from object creation/closure alone;
+comprehension targets are isolated from same-named outer static bindings; and
+forwarding-wrapper discovery obeys literal Boolean short-circuit reachability.
+Absolute-parent traversal now stops at the filesystem root and reachable
+function-local process imports are recognized. Destructured assignments bind
+only corresponding values and do not credit the unused aggregate. Rebound
+wrapper parameters, unresolved local shadows, and JavaScript names occurring
+only in strings or properties cannot credit a tool. No final G11 or combined
+G0–G11 pass is claimed. Forwarded interpreter command payloads receive the
+same command-mode filtering as direct calls; augmented assignments replace or
+clear prior static values; and property calls cannot impersonate a named
+child-process import. Four further exact-head review findings are repaired:
+unresolved command elements cannot shift the executable, Boolean `or` follows
+left-to-right short-circuit order, a local callee cannot inherit a same-named
+module wrapper, and quoted JavaScript call text is not a call. Position-preserved
+dynamic suffixes after an already proven tool path, resolved starred command
+elements, `unittest` lifecycle methods and trusted loader-wrapper paths are now
+recognized with dedicated negative controls. Three final-head review findings
+are also repaired: class methods cannot register as same-named module wrappers;
+known conditional commands select only their taken branch while unknown
+alternatives earn credit only when every branch selects the same tool; and an
+intervening JavaScript assignment invalidates a prior URL binding. The stricter
+source newly exposes `tools/atlas_formal_source_bridge.py`, so the earlier
+28-tool report remains historical rather than being rebound to this 29-tool
+result. Three subsequent exact-head findings are also repaired: every
+`pathlib.Path` constructor component participates in path resolution; assigning
+through a command element or slice invalidates its aggregate static binding;
+and a JavaScript function parameter cannot impersonate a same-named imported
+child-process callee. Four latest exact-head findings are also repaired:
+interpreter mode switches are interpreted only before the selected script;
+element or slice writes invalidate wrapper forwarding as well as direct static
+bindings; a helper-local invalidation cannot fall back to a same-named module
+binding; and identifiers in JavaScript default initializers are references,
+not parameter bindings. Three subsequent review findings are repaired as well:
+recognized interpreter options consume their operands before script selection;
+an element write invalidates every resolved identity alias of the command list;
+and a function parameter shadowing a JavaScript URL binding blocks that stale
+module binding inside the function. No intermediate result is rebound as a
+passing gate. Three additional exact-head findings are now repaired: supported
+command-list mutator calls invalidate the list and all resolved aliases before
+direct or forwarded attribution; a function-local JavaScript declaration
+shadows a same-named child-process import across its function scope; and a
+function-local `new URL` binding cannot escape to an outer call. The supported
+Python mutator set is finite and documented; this remains bounded static
+analysis rather than general Python or JavaScript execution.
+Three later exact-head findings are also repaired: a write through an alias of
+a wrapper parameter invalidates the shared forwarding proof; reassignment of a
+registered wrapper binding prevents later calls from inheriting the original
+function's evidence; and a JavaScript declaration in any enclosing function
+shadows a same-named child-process import for nested calls. Each counterexample
+was reproduced red and has a dedicated control and designated mutant. Two
+further exact-head defects are now repaired: wrapper discovery stops after an
+unconditional `return` or `raise`, and module-wrapper availability inside a
+deferred caller is evaluated at that caller's actual activation point rather
+than the nested call's earlier source line. Both counterexamples were
+reproduced red and have dedicated controls and designated mutants.
+Three later exact-head findings are also repaired: a non-forwarding duplicate
+function definition clears an earlier wrapper registration; list augmented
+assignment preserves Python's shared list identity so later alias mutation is
+visible; and bounded JavaScript reachability refuses literal-false branches
+and uncalled named helpers. Each supplied counterexample was reproduced red in
+both modes and now has a dedicated control and designated mutant.
+Two newer review counterexamples are also repaired. Deferred Python function
+bodies now consume module bindings in activation order instead of the final
+module environment, and JavaScript helper reachability requires an invocation
+chain rooted in module execution. The stricter JavaScript rule briefly exposed
+`tools/museum_conditionals.mjs`; an explicit adverse-tested rule admits only
+callbacks passed to the imported `node:test` identity, restoring that actual
+test execution without treating arbitrary callback APIs as roots. The
+intermediate 30-tool census remains historical; the then-current review-defect
+total was 76 and exact-head review remained required. Three latest
+counterexamples are also repaired: mutually exclusive `is None` branches no
+longer manufacture a post-join binding; a `node:test` registration must itself
+be reachable from module execution; and a shadowed `test` name cannot inherit
+the imported registrar's identity. Each was reproduced red in both modes and
+now has a dedicated control and designated mutant.
+Two subsequent exact-head defects are also repaired: mutually exclusive
+cache-guard alternatives use isolated fail-closed binding environments before
+their results are joined, and a nested Python helper's binding effects occur at
+its call position before analysis resumes in the caller. Both supplied
+counterexamples were reproduced red in both modes and now have dedicated
+controls and designated mutants.
+Three still-later exact-head defects are repaired as well: a Python helper's
+declared `global` assignment updates the module binding used by later calls;
+deleting a command element or slice invalidates the aggregate and its resolved
+identity aliases; and a JavaScript helper invocation cannot provide execution
+evidence after that helper binding has been replaced. Each supplied
+counterexample was reproduced red in both modes and now has a dedicated
+control and designated mutant.
+Three final exact-head counterexamples are also repaired: deletion inside a
+forwarding wrapper invalidates that wrapper's command provenance; a declared
+Python `global` is excluded from the helper's local static-shadow set so a
+same-scope read observes the module write; and JavaScript helper calls resolve
+the nearest lexical declaration instead of a shadowed module helper. Each was
+reproduced red in both modes and now has a dedicated control and designated
+mutant.
+Three newer exact-head counterexamples are repaired as well: helper side
+effects in Python call arguments are applied before attribution of the enclosing
+process call; a reassigned Python helper cannot execute its former body; and a
+deferred JavaScript helper validates module URL bindings at its reachable
+activation points rather than the child call's textual position. Each was
+reproduced red in both modes and has a dedicated control and designated mutant.
+Two latest exact-head counterexamples are repaired: each Python call argument's
+static value is captured at its evaluation point while later in-place list
+mutation still invalidates the shared object, and assignment RHS expressions
+execute before their targets invalidate active helper bindings. Both were
+reproduced red in both modes and have dedicated controls and designated mutants.
+Two still-newer exact-head counterexamples are repaired: list and tuple element
+values are captured in left-to-right evaluation order before later element
+effects can rebind their source names; and a declaration in a module-level
+JavaScript lexical block shadows a same-named imported child-process callee.
+Both were reproduced red in normal and optimized modes and have dedicated
+controls and designated mutants.
+Three subsequent exact-head counterexamples are repaired as well: captured
+sequence-element values survive supported list concatenation; ordinary helper
+expansion stops after unconditional `return`/`raise`, including termination in
+a selected literal branch; and destructured declarations in a JavaScript
+lexical block shadow same-named imported child-process callees. All three were
+reproduced red in both modes and have dedicated controls and designated mutants.
+Three newest exact-head counterexamples are repaired too: a named operand in a
+supported concatenation is captured before later operand effects can rebind its
+source name; traversal of a selected Python branch stops after definite
+termination inside that branch; and a semicolonless JavaScript lexical
+declaration shadows the imported child-process callee under ASI. All three were
+reproduced red in normal and optimized modes and have dedicated controls and
+designated mutants.
+Three latest exact-head counterexamples are also repaired: sequential calls to
+the same helper are each expanded while direct recursion remains bounded by an
+active-call guard; a helper's declared `global` reassignment invalidates the
+module helper identity used by later calls; and literal Boolean short-circuiting
+refuses an unreachable loader operand. All three were reproduced red in normal
+and optimized modes and have dedicated controls and designated mutants.
+Two subsequent exact-head counterexamples are repaired as well: a literal
+conditional expression traverses only its selected arm, with unknown conditions
+left uncredited; and calling an async helper without awaiting it does not execute
+its body. The bounded scanner does not infer coroutine execution. Both supplied
+fixtures were reproduced red in normal and optimized modes and have dedicated
+controls and designated mutants.
+Five later exact-head counterexamples are also repaired: async forwarding
+wrappers and generator object creation do not execute their bodies;
+comprehension bodies require established iteration and generator expressions
+require consumption; a chained comparison stops after a proven false prefix;
+and a JavaScript `const`/`let` URL binding cannot escape its lexical block.
+Every supplied fixture was reproduced red in normal and optimized modes before
+the repair and has a dedicated designated mutant.
+Four final source defects are repaired after three exact-head review findings
+and one adjacent adverse case were reproduced red: forwarding-wrapper
+discovery now follows literal conditional-expression reachability; wrapper
+reassignments declared `global` or `nonlocal` invalidate the destination
+binding at actual execution order rather than lexical helper order; lambda
+creation evaluates defaults but not its deferred body; and declared `nonlocal`
+helper reassignment invalidates the nearest enclosing active helper identity.
+The exact results for that source stage remain historical. Exact-final-head
+review and hosted checks remain required before integration.
+Three subsequent exact-head findings are also repaired: forwarding-wrapper
+discovery evaluates callee, positional and keyword argument effects before it
+registers forwarding; chained-comparison discovery stops after a proven false
+prefix; and unproven exception handlers/`else` bodies do not count as execution
+while the `try` body and `finally` remain reachable. Each supplied fixture was
+reproduced red in both modes and has a dedicated control and designated mutant.
+Six newest exact-head findings are repaired after all supplied fixtures were
+reproduced red in both modes: possible writes in unproven exception handlers
+and `else` bodies invalidate downstream bindings without crediting those
+branches; wrapper discovery applies the same `try`/`finally` boundary; empty
+comprehensions and unconsumed generators cannot prove forwarding; a definitely
+terminating `finally` stops the enclosing sequence; a destructured JavaScript
+lexical declaration shadows an outer URL binding; and Python `nonlocal` static
+assignment updates the nearest enclosing binding. The exact 140-control,
+192-mutant results remain bound to that historical source stage.
+Seven later review findings were reproduced red and repaired: unknown-branch
+writes retained stale provenance; a handler-free terminating `try` did not
+terminate its enclosing sequence; destructured helper binding did not shadow a
+module helper; composite JavaScript child-process arguments credited nested URL
+names; decorated helpers retained their original bodies; an untrusted local
+`fileURLToPath` was accepted; and a non-string executable reached interpreter
+membership. Those repairs raised the bounded suite to 148 controls and 199
+mutants and truthfully exposed three additional retained tools.
+Eight further unresolved review findings were then reproduced red before the
+current repair: exception-boundary possible effects did not invalidate helper
+and forwarding-wrapper identities; exception target names left stale bindings;
+truthy non-iterable literals credited comprehension bodies; unsupported or
+exit-only interpreter options could select a later script; assignment
+expressions did not update static bindings; nested aggregate writes retained
+reachable alias provenance; decorated forwarding wrappers were registered; and
+JavaScript URL names in child-process options positions were credited. The
+current source fails closed at all eight boundaries. Ten additional adverse
+findings were then reproduced red and repaired: multiline execution-order
+resorting, loop-write retention, subprocess executable override, class-scope
+leakage and class runtime shadowing; plus shell-command attribution, shadowed
+JavaScript `URL` construction, stale URL-property provenance, unreachable
+short-circuit calls and reused Python helper-local frames. The bounded
+subprocess rule now accepts exactly one ordinary argv positional argument,
+rejects dynamic/true `shell`, `**kwargs` and executable overrides; URL credit
+requires the intrinsic unshadowed constructor and an unmutated binding;
+JavaScript call reachability handles only proven single literal short-circuit
+operators; and each helper invocation receives fresh local bindings, imports
+and nested definitions. Seven further exact-head review findings were then
+reproduced red and repaired. Unknown Boolean operands and unknown wrapper
+branches now apply possible effects and invalidate stale direct and forwarding
+bindings; URL attribution requires a complete initializer rather than a
+property suffix; JavaScript conditional expressions traverse only the selected
+literal arm; aggregate `str(...)` conversion preserves only values already
+known to be strings; direct helper calls must statically satisfy the required
+signature before their bodies are traversed; and nested closures resolve
+lexical bindings from their enclosing owned scopes without falling back to an
+unrelated module name. Six further review findings then closed unknown
+conditional-expression effects, wrapper calls that cannot bind, stale import
+identity after assignment expressions, tuple/list augmented-assignment
+conflation, unbraced literal-false JavaScript branches, and deferred concise
+arrow bodies. The final five findings preserve annotation-only imports, bind
+positional, keyword, default, `*args` and `**kwargs` aggregates by identity,
+apply `unittest` lifecycle effects in execution order for each test, exclude
+quoted URL declarations, and invalidate mutable URL-object aliases on escape.
+The current source passes the 183-control, 249-mutant suites above. The current
+review/adverse-defect total is 135;
+exact-final-head review and hosted checks remain required before integration.
 
 ## Current verification boundary
 
