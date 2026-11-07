@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has native source parent
-`97a1a9dd99335c0dcba0d3c6643e36bf7289d581`; its isolated work began from the
+`729de0fefa5d9ea1a7b57a2620c15a2f7b6f46a1`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,13 +37,13 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `97a1a9dd99335c0dcba0d3c6643e36bf7289d581` (tree
-`2c470320ff04d70cc6a679ce98a2bcfa5b856c04`) passed 131/131 tests and killed
-183/183 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `d41d67dd54c0ec969151bd46a59c6270cf615c31d93cb47a05c09ef3e6e4bc80`.
+native source `729de0fefa5d9ea1a7b57a2620c15a2f7b6f46a1` (tree
+`d908b0e19f5fee72aa378bf37dca8e026286005a`) passed 134/134 tests and killed
+186/186 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `a7a8c1fee7e5c706315760ff8756086fd333779eacdc88ee5bb28eb046f7f4a6`.
 Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`2720f6af0b319e81000ca6aea52c8c871ddb059a2dab08b4210a17dddf2482ff`,
+`5b9f3a4fe60c7eefd24d3d4bfa5d41ec80de5d76e78f452aa72889e8affdd8d3`,
 56,078 bytes each)
 contain zero production findings and retain exactly 29 no-current-exercise
 tool candidates; both census runs exit 1. The former 20 active
@@ -201,9 +201,15 @@ reassignments declared `global` or `nonlocal` invalidate the destination
 binding at actual execution order rather than lexical helper order; lambda
 creation evaluates defaults but not its deferred body; and declared `nonlocal`
 helper reassignment invalidates the nearest enclosing active helper identity.
-The exact 131-control/183-mutant results and byte-identical source censuses
-above cover these bounded rules. The current review/adverse-defect total is 83;
+The exact 134-control/186-mutant results and byte-identical source censuses
+above cover these bounded rules. The current review/adverse-defect total is 86;
 exact-final-head review and hosted checks remain required before integration.
+Three subsequent exact-head findings are also repaired: forwarding-wrapper
+discovery evaluates callee, positional and keyword argument effects before it
+registers forwarding; chained-comparison discovery stops after a proven false
+prefix; and unproven exception handlers/`else` bodies do not count as execution
+while the `try` body and `finally` remain reachable. Each supplied fixture was
+reproduced red in both modes and has a dedicated control and designated mutant.
 
 ## Current verification boundary
 

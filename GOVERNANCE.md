@@ -126,19 +126,19 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`97a1a9dd99335c0dcba0d3c6643e36bf7289d581` (tree
-`2c470320ff04d70cc6a679ce98a2bcfa5b856c04`) extends the existing bounded
+`729de0fefa5d9ea1a7b57a2620c15a2f7b6f46a1` (tree
+`d908b0e19f5fee72aa378bf37dca8e026286005a`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 131/131 controls and killed 183/183 designated
+The exact source commit passed 134/134 controls and killed 186/186 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`d41d67dd54c0ec969151bd46a59c6270cf615c31d93cb47a05c09ef3e6e4bc80`.
+`a7a8c1fee7e5c706315760ff8756086fd333779eacdc88ee5bb28eb046f7f4a6`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`2720f6af0b319e81000ca6aea52c8c871ddb059a2dab08b4210a17dddf2482ff`,
+`5b9f3a4fe60c7eefd24d3d4bfa5d41ec80de5d76e78f452aa72889e8affdd8d3`,
 56,078 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
@@ -262,6 +262,11 @@ source line. Lambda construction evaluates defaults but defers the body, and a
 declared `nonlocal` helper reassignment invalidates the nearest enclosing active
 helper identity. These four bounded repairs have five dedicated controls and
 six designated mutants; they do not claim general Python execution semantics.
+Wrapper discovery evaluates call-argument effects before forwarding, applies
+the bounded chained-comparison short-circuit rule, and refuses unproven
+exception-handler/`else` paths while retaining `try` and `finally` execution.
+These three rules have dedicated controls and mutants and do not establish
+general exception-flow analysis.
 Python call-argument helper effects precede attribution of the enclosing call,
 reassigned Python helpers lose their former bodies, and deferred JavaScript
 helpers validate module URL bindings at reachable activation points. These
