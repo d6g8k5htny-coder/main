@@ -67,7 +67,7 @@ jobs:
           python3 -B -S -m unittest discover -s formal/tests -v
           python3 -B -O -S -m unittest discover -s formal/tests -v
           python3 -B -S formal/gate.py
-      - uses: leanprover/lean-action@24581d74d674803a25a81b10b059c5c0cdd344c6
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
         with:
           lake-package-directory: primary/formal
           auto-config: 'false'
