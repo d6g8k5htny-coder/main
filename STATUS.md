@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 6 November 2026
 
 The Main candidate containing this file has native source parent
-`03ef89f054da7a5cce24a98bf1f8612d789ffc61`; its isolated work began from the
+`3cfc4f772b026596a8edd5521f52ddc780d8c65d`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,18 +37,21 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `03ef89f054da7a5cce24a98bf1f8612d789ffc61` (tree
-`d94653f7bfa2a30ee93264cf1175bc6eb34b1c2a`) passed 123/123 tests and killed
-174/174 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `2286112d27097569d494039eebf771e8a92a9cb995cc7fa1c2f723a2f41b9063`.
+native source `3cfc4f772b026596a8edd5521f52ddc780d8c65d` (tree
+`06299893582ca2ff406aa3929fd8ced200dd2d6b`) passed 126/126 tests and killed
+177/177 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `18555c8e1ba9bded59ddc78927367d82aa37c3eed36bcda618f068f43339e1e4`.
 Its byte-identical normal/optimized
 whole-tree reports (SHA-256
-`0054a074d299b391c5edd096f7c5fa78d8d7db384095a4e4e0b65bea8d265386`,
+`f4100f1e40c4dc55633d9b27b36bf6eb30af382d80ad6864f9f01a84ba8633d9`,
 56,078 bytes each)
 contain zero production findings and retain exactly 29 no-current-exercise
 tool candidates; both census runs exit 1. The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
 interpreter command payloads, same-line JavaScript decoys or unreachable code.
+Generator methods are not credited from object creation/closure alone;
+comprehension targets are isolated from same-named outer static bindings; and
+forwarding-wrapper discovery obeys literal Boolean short-circuit reachability.
 Absolute-parent traversal now stops at the filesystem root and reachable
 function-local process imports are recognized. Destructured assignments bind
 only corresponding values and do not credit the unused aggregate. Rebound

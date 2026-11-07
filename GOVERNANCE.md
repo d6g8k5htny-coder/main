@@ -126,22 +126,24 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`03ef89f054da7a5cce24a98bf1f8612d789ffc61` (tree
-`d94653f7bfa2a30ee93264cf1175bc6eb34b1c2a`) extends the existing bounded
+`3cfc4f772b026596a8edd5521f52ddc780d8c65d` (tree
+`06299893582ca2ff406aa3929fd8ced200dd2d6b`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
-The exact source commit passed 123/123 controls and killed 174/174 designated
+The exact source commit passed 126/126 controls and killed 177/177 designated
 mutants in each mode; the sealed mutation-inventory SHA-256 is
-`2286112d27097569d494039eebf771e8a92a9cb995cc7fa1c2f723a2f41b9063`.
+`18555c8e1ba9bded59ddc78927367d82aa37c3eed36bcda618f068f43339e1e4`.
 Its normal and optimized whole-tree reports were
 byte-identical (SHA-256
-`0054a074d299b391c5edd096f7c5fa78d8d7db384095a4e4e0b65bea8d265386`,
+`f4100f1e40c4dc55633d9b27b36bf6eb30af382d80ad6864f9f01a84ba8633d9`,
 56,078 bytes each):
 zero production findings and 29 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The review repair rejects
+generator-method object creation, comprehension-target leakage from outer
+bindings and unreachable Boolean operands during wrapper discovery. It also rejects
 interpreter command-mode payload arguments and unreachable wrapper bodies,
 binds JavaScript references only inside the selected child-process call,
 stops absolute-parent traversal at the filesystem root, and recognizes

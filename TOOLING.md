@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in the Main revision
 that contains this file. Its candidate source parent is
-`03ef89f054da7a5cce24a98bf1f8612d789ffc61`, based on Main default
+`3cfc4f772b026596a8edd5521f52ddc780d8c65d`, based on Main default
 `299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -263,18 +263,20 @@ At #762's qualified head, both modes produced byte-identical reports
 The seven false `defaults.run` findings were absent, while 55 documentation or
 static-exercise findings remained. Main #763 closed the seven
 documentation-only gaps. The subsequent review-repaired attribution source
-`03ef89f054da7a5cce24a98bf1f8612d789ffc61` (tree
-`d94653f7bfa2a30ee93264cf1175bc6eb34b1c2a`) recognizes explicit local path
+`3cfc4f772b026596a8edd5521f52ddc780d8c65d` (tree
+`06299893582ca2ff406aa3929fd8ced200dd2d6b`) recognizes explicit local path
 bindings only when delivered to trusted Python execution/loading APIs,
 reachable forwarding wrappers, or named Node child-process imports. Its
-123/123 controls and 174/174 designated mutations passed in both modes; the
+126/126 controls and 177/177 designated mutations passed in both modes; the
 sealed mutation-inventory SHA-256 is
-`2286112d27097569d494039eebf771e8a92a9cb995cc7fa1c2f723a2f41b9063`. The exact
+`18555c8e1ba9bded59ddc78927367d82aa37c3eed36bcda618f068f43339e1e4`. The exact
 source normal and optimized censuses were byte-identical (SHA-256
-`0054a074d299b391c5edd096f7c5fa78d8d7db384095a4e4e0b65bea8d265386`,
+`f4100f1e40c4dc55633d9b27b36bf6eb30af382d80ad6864f9f01a84ba8633d9`,
 56,078 bytes each),
 with zero production findings and exactly 29 no-current-exercise tool
 candidates; both runs exited 1. Adverse controls refuse mere path
+mentions through generator-method creation, comprehension-target leakage and
+unreachable Boolean operands during wrapper discovery. They also refuse mere path
 mentions, fake same-named APIs, interpreter command-mode arguments, unreachable
 helpers, arbitrary unknown branches and JavaScript same-line decoys outside the
 selected child-process call. Filesystem-root traversal terminates and reachable
