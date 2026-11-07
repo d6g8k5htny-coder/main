@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 7 November 2026
 
 The Main candidate containing this file has native source parent
-`daeb6fc6784aabc08d1e7c9e60bf1d698d9128f0`; its isolated work began from the
+`1f5bc72542adda2e25fa9152c389aa723bce5810`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,16 +37,16 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `daeb6fc6784aabc08d1e7c9e60bf1d698d9128f0` (parent
-`205967821dcbd85e4be7aaaa6b1e01a61ac3e81e`, tree
-`dc5d039432b9a637b4ab8a98490e5c99f66d3fed`) is blob-for-blob identical to
-local exact-tree qualification `2d80ada7105cc11c362ffa25d9efc712c9a8e5d5`.
-Fresh execution on the native commit passed 226/226 tests and killed
-293/293 designated mutants in both modes with zero skips; the sealed
+native source `1f5bc72542adda2e25fa9152c389aa723bce5810` (parent
+`b8bf126796dc2fd921f1f185acbdeede7dde1d0d`, tree
+`9b3a9cb7ad1e01fbb6ae5f95a4e0360e4e030be1`) is blob-for-blob identical to
+local exact-tree qualification `82dbc278352088f68fac12b151640d36d47f9746`.
+Fresh execution on the native commit passed 231/231 tests and killed
+298/298 designated mutants in both modes with zero skips; the sealed
 mutation-inventory SHA-256 is
-`680b581938dbe08ffcc676dd14eaa4bfedfcf4d734c2db2e99ed3ebb37f1abdc`.
+`0bdb4d9232d4d14567c03ab185e0454654357d4ff364a5057fc5ae0d08c9e776`.
 The native commit's byte-identical normal/optimized whole-tree reports (SHA-256
-`e4b5cd3ac9033e5ecc7d1c7da2c21e16587be1351a6df337babaee1587feb0cf`,
+`a3af10e6be44ba2c09466cf75c482c7e154b51e7c1f174bce96421d109ac24b0`,
 56,013 bytes each)
 contain zero production findings and retain exactly 32 no-current-exercise
 or documentation tool candidates; both census runs exit 1. The stricter
@@ -108,7 +108,12 @@ object methods, and recognize semicolonless instance-field boundaries. The
 newest three controls propagate helper class-construction mutations through
 bound caller arguments, refuse downstream child-process activation after an
 unsupported JavaScript `await`, and balance nested computed method names before
-deferring their bodies. The current total is 177 distinct review/adverse
+deferring their bodies. Five newest controls interleave every leaf store inside
+a destructuring target, defer quoted class/object methods, balance nested
+computed instance-field names, snapshot destructured leaf values before target
+effects while preserving nested aliases, and keep executable assignments in
+class static blocks at class-definition reachability. The current total is 182
+distinct review/adverse
 defects. The former 20 active
 static-attribution gaps are closed without crediting mere mentions, fake APIs,
 interpreter command payloads, same-line JavaScript decoys or unreachable code.

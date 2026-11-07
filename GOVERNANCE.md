@@ -126,23 +126,23 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired through 2026-11-07; G11 admission remains
 pending.** The repair at source commit
-`daeb6fc6784aabc08d1e7c9e60bf1d698d9128f0` (parent
-`205967821dcbd85e4be7aaaa6b1e01a61ac3e81e`, tree
-`dc5d039432b9a637b4ab8a98490e5c99f66d3fed`) extends the existing bounded
+`1f5bc72542adda2e25fa9152c389aa723bce5810` (parent
+`b8bf126796dc2fd921f1f185acbdeede7dde1d0d`, tree
+`9b3a9cb7ad1e01fbb6ae5f95a4e0360e4e030be1`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
 Its blobs and tree exactly match local qualification
-`2d80ada7105cc11c362ffa25d9efc712c9a8e5d5`. Fresh native execution passed
-226/226 controls and killed 293/293 designated mutants in each mode with zero
+`82dbc278352088f68fac12b151640d36d47f9746`. Fresh native execution passed
+231/231 controls and killed 298/298 designated mutants in each mode with zero
 skips; the sealed
 mutation-inventory SHA-256 is
-`680b581938dbe08ffcc676dd14eaa4bfedfcf4d734c2db2e99ed3ebb37f1abdc`.
+`0bdb4d9232d4d14567c03ab185e0454654357d4ff364a5057fc5ae0d08c9e776`.
 The native commit's normal and optimized whole-tree reports were byte-identical
 (SHA-256
-`e4b5cd3ac9033e5ecc7d1c7da2c21e16587be1351a6df337babaee1587feb0cf`,
+`a3af10e6be44ba2c09466cf75c482c7e154b51e7c1f174bce96421d109ac24b0`,
 56,013 bytes each):
 zero production findings and 32 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The latest bounded rules
@@ -187,7 +187,11 @@ calls, defer computed-name class/object method bodies, and recognize
 semicolonless instance-field boundaries. Three newest controls propagate
 class-construction mutation through a helper parameter, reject activation after
 an unsupported JavaScript `await`, and balance nested computed method names.
-The distinct defect total is 177.
+Five newest controls execute destructuring stores leaf-by-leaf from snapshotted
+right-hand-side leaf values, preserve later mutation of nested aliased values,
+defer quoted class/object methods, delimiter-balance nested computed instance
+fields, and refuse to classify executable class static-block assignments as
+deferred instance fields. The distinct defect total is 182.
 The bounded rules also
 evaluate executable assignment-target subexpressions before rebinding; apply
 possible-effect invalidation to unresolved comparison suffixes and unresolved
