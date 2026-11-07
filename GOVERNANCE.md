@@ -126,25 +126,25 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired through 2026-11-07; G11 admission remains
 pending.** The repair at source commit
-`701cbc79b4c745ea0215fc851f321678a28ccf2b` (parent
-`b6b406fe47c49d8c6c85c0992cf656f77c032cdf`, tree
-`d78a79c3ae9a9945bfce03da97d50523752e9c48`) extends the existing bounded
+`1ce69f6ddb918e760a48854d3a70fe77a6e910f0` (parent
+`c6ed86ac2934874923a125d24dae8aded38befb2`, tree
+`22a76fc7ec035602305e847708b921688e0fd998`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
 Its blobs and tree exactly match local qualification
-`85ce93aaaaab5c2cb96790ab2ca8a2cb07bf5997`. Fresh native execution passed
-240/240 controls and killed 307/307 designated mutants in each mode with zero
+`c3e30da6fe9306c0d4cd7fca9bc256271e141d0c`. Fresh native execution passed
+242/242 controls and killed 309/309 designated mutants in each mode with zero
 skips; the sealed
 mutation-inventory SHA-256 is
-`aa0989b2070aeb64d97bad3bc542d0091087a55ba9b13e039282ec933c4bc1e3`.
-The normal and optimized mutation receipts are byte-identical, 37,350 bytes,
-SHA-256 `c8cd78804492527f17cb4636f75a6364932fce351ba8889698451bb078dd1233`.
+`586a1c0293d976db8b1d45b3c9843b3146323e2553dd9bc79241d97756af632c`.
+The normal and optimized mutation receipts are byte-identical, 191,631 bytes,
+SHA-256 `e50f6ac04d730f9b588482c9e8cd2d352361b79aa16e5eb97ba558310f3a73a8`.
 The native commit's normal and optimized whole-tree reports were byte-identical
 (SHA-256
-`5ce4881c329a4b7f95c6972a1b117b4b0af735d82cb45e4707d63b3fa402dd3f`,
+`551f06a88c827920e5975c586c9eecac70fbd5f58ca2cfd73b274abedd3a34b7`,
 56,059 bytes each):
 zero production findings and 32 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The latest bounded rules
@@ -202,7 +202,10 @@ unreachable tail is suppressed. Four further controls map mutation through an
 omitted mutable-default helper parameter, discover parameter aliases inside
 nested helper statements, defer numeric-name class/object methods, and treat
 `static = ...` as an instance field rather than a modifier. The distinct defect
-total is 191.
+total is 193. Definition-time mutable-default identity remains attached to the
+captured object after the default-expression name is rebound. Helper aliases
+assigned in branch statements select only a literal branch's origin and retain
+the union of possible origins for an unresolved branch.
 The bounded rules also
 evaluate executable assignment-target subexpressions before rebinding; apply
 possible-effect invalidation to unresolved comparison suffixes and unresolved
