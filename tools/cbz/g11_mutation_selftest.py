@@ -367,8 +367,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_sibling_tool_path_execution_is_a_reference",
      "self.assertTrue(report[\"tools/family/worker.py\"][\"referenced\"])"),
     ("JavaScript URL tool binding ignored", "census",
-     "        if target in tools:\n            bindings.setdefault(match.group(1), []).append(\n                (match.end(), target, _js_function_scope_key(visible, match.start())))",
-     "        if False:\n            bindings.setdefault(match.group(1), []).append(\n                (match.end(), target, _js_function_scope_key(visible, match.start())))",
+     "        if target in tools:\n            searchable, _function_scopes = _js_function_scopes(visible)",
+     "        if False:\n            searchable, _function_scopes = _js_function_scopes(visible)",
      "tests.test_g11_census.ToolChecks.test_js_url_child_process_execution_is_a_reference",
      "self.assertEqual({path: item[\"referenced\"] for path, item in report.items()},"),
     ("JavaScript URL mention accepted without child process", "census",
@@ -567,8 +567,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_local_declaration_shadows_named_child_process_import",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("JavaScript URL declaration escapes function scope", "census",
-     "                         if declaration[0] <= call_start\n                         and (declaration[2] is None or declaration[2] == call_scope)]",
-     "                         if declaration[0] <= call_start]",
+     "                         if declaration[0] <= call_start\n                         and (declaration[2] is None or declaration[2] == call_scope)\n                         and (declaration[3] is None\n                              or declaration[3][0] < call_start < declaration[3][1])]",
+     "                         if declaration[0] <= call_start\n                         and (declaration[3] is None\n                              or declaration[3][0] < call_start < declaration[3][1])]",
      "tests.test_g11_census.ToolChecks.test_js_url_binding_does_not_escape_function_scope",
      'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
     ("wrapper parameter alias mutation retains caller provenance", "census",
@@ -767,10 +767,35 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_conditional_expression_skips_unreachable_loader",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("async helper creation treated as execution", "census",
-     "            if owner is None and isinstance(node, ast.FunctionDef):",
-     "            if owner is None:",
+     "            if (owner is None and isinstance(node, ast.FunctionDef)\n                    and not _function_is_generator(node)):",
+     "            if (owner is None and isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))\n                    and not _function_is_generator(node)):",
      "tests.test_g11_census.ToolChecks.test_unawaited_async_helper_body_is_not_executed",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("async forwarding wrapper treated as execution", "census",
+     "            if isinstance(statement, ast.FunctionDef):\n                if _function_is_generator(statement):",
+     "            if isinstance(statement, (ast.FunctionDef, ast.AsyncFunctionDef)):\n                if _function_is_generator(statement):",
+     "tests.test_g11_census.ToolChecks.test_async_forwarding_wrapper_is_not_executed",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("generator helper creation treated as execution", "census",
+     "            if (owner is None and isinstance(node, ast.FunctionDef)\n                    and not _function_is_generator(node)):",
+     "            if (owner is None and isinstance(node, ast.FunctionDef)):",
+     "tests.test_g11_census.ToolChecks.test_uniterated_generator_helper_body_is_not_executed",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("comprehension body treated as unconditional", "census",
+     "        if isinstance(node, (ast.ListComp, ast.SetComp, ast.DictComp,\n                             ast.GeneratorExp)):",
+     "        if False:",
+     "tests.test_g11_census.ToolChecks.test_comprehension_bodies_need_established_iteration",
+     "self.assertEqual("),
+    ("chained comparison short circuit ignored", "census",
+     "        if isinstance(node, ast.Compare):\n            # Chained comparisons evaluate one comparator at a time",
+     "        if False:\n            # Chained comparisons evaluate one comparator at a time",
+     "tests.test_g11_census.ToolChecks.test_chained_comparison_stops_after_literal_false_prefix",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("JavaScript URL lexical block ignored", "census",
+     "                         and (declaration[3] is None\n                              or declaration[3][0] < call_start < declaration[3][1])]",
+     "                         and True]",
+     "tests.test_g11_census.ToolChecks.test_js_url_binding_does_not_escape_lexical_block",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -943,6 +968,11 @@ EXPECTED_MUTATION_NAMES = (
     "Boolean short-circuit reachability ignored",
     "conditional expression reachability ignored",
     "async helper creation treated as execution",
+    "async forwarding wrapper treated as execution",
+    "generator helper creation treated as execution",
+    "comprehension body treated as unconditional",
+    "chained comparison short circuit ignored",
+    "JavaScript URL lexical block ignored",
 )
 
 
@@ -1121,7 +1151,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 118
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 123
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

@@ -673,6 +673,64 @@ def _literal_bool(node):
         return None
 
 
+def _function_is_generator(function):
+    """Return whether a function body yields, without entering nested scopes."""
+    found = False
+
+    class Finder(ast.NodeVisitor):
+        def visit_Yield(self, node):
+            nonlocal found
+            found = True
+
+        visit_YieldFrom = visit_Yield
+
+        def visit_FunctionDef(self, node):
+            return
+
+        visit_AsyncFunctionDef = visit_FunctionDef
+
+        def visit_ClassDef(self, node):
+            return
+
+        def visit_Lambda(self, node):
+            return
+
+    finder = Finder()
+    for statement in function.body:
+        finder.visit(statement)
+    return found
+
+
+def _literal_comparison(left, operator, right):
+    """Evaluate a comparison only when both operands are inert literals."""
+    try:
+        left_value = ast.literal_eval(left)
+        right_value = ast.literal_eval(right)
+        if isinstance(operator, ast.Eq):
+            return left_value == right_value
+        if isinstance(operator, ast.NotEq):
+            return left_value != right_value
+        if isinstance(operator, ast.Lt):
+            return left_value < right_value
+        if isinstance(operator, ast.LtE):
+            return left_value <= right_value
+        if isinstance(operator, ast.Gt):
+            return left_value > right_value
+        if isinstance(operator, ast.GtE):
+            return left_value >= right_value
+        if isinstance(operator, ast.Is):
+            return left_value is right_value
+        if isinstance(operator, ast.IsNot):
+            return left_value is not right_value
+        if isinstance(operator, ast.In):
+            return left_value in right_value
+        if isinstance(operator, ast.NotIn):
+            return left_value not in right_value
+    except (ValueError, TypeError):
+        pass
+    return None
+
+
 def _is_main_guard(node):
     return (isinstance(node, ast.Compare) and isinstance(node.left, ast.Name)
             and node.left.id == "__name__" and len(node.ops) == 1
@@ -795,9 +853,11 @@ def _reachable_python_nodes(tree, mode):
             for default in node.args.kw_defaults:
                 if default is not None:
                     visit(default, owner, scope, activation_line)
-            if owner is None and isinstance(node, ast.FunctionDef):
+            if (owner is None and isinstance(node, ast.FunctionDef)
+                    and not _function_is_generator(node)):
                 active_functions[(scope, node.name)] = node
             if (isinstance(node, ast.FunctionDef)
+                    and not _function_is_generator(node)
                     and mode == "tests" and owner in test_classes
                     and (node.name.startswith("test_")
                          or node.name in {"setUp", "tearDown", "setUpClass", "tearDownClass"})):
@@ -908,6 +968,48 @@ def _reachable_python_nodes(tree, mode):
                     break
                 if isinstance(node.op, ast.Or) and truth:
                     break
+            return
+
+        if isinstance(node, ast.Compare):
+            # Chained comparisons evaluate one comparator at a time and stop
+            # after the first false result. Unknown comparison truth does not
+            # establish execution of a later comparator.
+            visit(node.left, owner, scope, activation_line)
+            left = node.left
+            for operator, comparator in zip(node.ops, node.comparators):
+                visit(comparator, owner, scope, activation_line)
+                truth = _literal_comparison(left, operator, comparator)
+                if truth is not True:
+                    break
+                left = comparator
+            return
+
+        if isinstance(node, (ast.ListComp, ast.SetComp, ast.DictComp,
+                             ast.GeneratorExp)):
+            # Comprehension bodies are deferred until iteration. The outermost
+            # iterable expression is evaluated at construction; a generator
+            # expression is otherwise entirely deferred. For eager
+            # comprehensions, only a statically non-empty inert iterable with
+            # literal-true guards establishes one body execution.
+            if not node.generators:
+                return
+            first = node.generators[0]
+            visit(first.iter, owner, scope, activation_line)
+            if isinstance(node, ast.GeneratorExp):
+                return
+            try:
+                iterable = ast.literal_eval(first.iter)
+            except (ValueError, TypeError):
+                return
+            if not iterable or any(_literal_bool(guard) is not True for guard in first.ifs):
+                return
+            if len(node.generators) != 1:
+                return
+            if isinstance(node, ast.DictComp):
+                visit(node.key, owner, scope, activation_line)
+                visit(node.value, owner, scope, activation_line)
+            else:
+                visit(node.elt, owner, scope, activation_line)
             return
 
         if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
@@ -1383,7 +1485,9 @@ def _python_execution_wrappers(tree, imports):
 
     def register(body, containing_scope=None):
         for statement in body:
-            if isinstance(statement, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            if isinstance(statement, ast.FunctionDef):
+                if _function_is_generator(statement):
+                    continue
                 positions = wrapper_positions(statement)
                 key = (containing_scope, statement.name)
                 if positions:
@@ -1645,17 +1749,26 @@ def js_tool_references(text, source_path, tools):
             references.add(target)
     bindings = {}
     url_binding = re.compile(
-        r"\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*"
+        r"\b(const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*"
         r"(?:fileURLToPath\s*\(\s*)?new\s+URL\s*\(\s*['\"]([^'\"]+)['\"]\s*,\s*"
         r"import\.meta\.url\s*\)\s*\)?")
     for match in url_binding.finditer(visible):
-        specifier = match.group(2)
+        specifier = match.group(3)
         if not specifier.startswith("."):
             continue
         target = posixpath.normpath(posixpath.join(posixpath.dirname(source_path), specifier))
         if target in tools:
-            bindings.setdefault(match.group(1), []).append(
-                (match.end(), target, _js_function_scope_key(visible, match.start())))
+            searchable, _function_scopes = _js_function_scopes(visible)
+            function_blocks = {(scope[2], scope[3]) for scope in _function_scopes}
+            declaration_blocks = [block for block in _js_block_scopes(searchable)
+                                  if block not in function_blocks
+                                  and block[0] < match.start() < block[1]]
+            declaration_block = (max(declaration_blocks, key=lambda item: item[0])
+                                 if match.group(1) != "var" and declaration_blocks
+                                 else None)
+            bindings.setdefault(match.group(2), []).append(
+                (match.end(), target, _js_function_scope_key(visible, match.start()),
+                 declaration_block))
     child_names = set()
     named_import = re.compile(
         r"\bimport\s*\{([^}]*)\}\s*from\s*['\"](?:node:)?child_process['\"]")
@@ -1680,10 +1793,12 @@ def js_tool_references(text, source_path, tools):
                 continue
             available = [declaration for declaration in declarations
                          if declaration[0] <= call_start
-                         and (declaration[2] is None or declaration[2] == call_scope)]
+                         and (declaration[2] is None or declaration[2] == call_scope)
+                         and (declaration[3] is None
+                              or declaration[3][0] < call_start < declaration[3][1])]
             if name not in identifiers or not available:
                 continue
-            declaration_end, target, declaration_scope = available[-1]
+            declaration_end, target, declaration_scope, _declaration_block = available[-1]
             assignment = re.compile(
                 r"(?<![\w$.])" + re.escape(name) +
                 r"(?![\w$])\s*(?:=(?!=|>)|\+\+|--|(?:\+|-|\*|/|%|&|\||\^|<<|>>)\s*=)")

@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "fea08459f78eec6025aa321a999feb1b320b73c498d5962964c4ac450643d1c3"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "2286112d27097569d494039eebf771e8a92a9cb995cc7fa1c2f723a2f41b9063"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -891,6 +891,64 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
+    def test_async_forwarding_wrapper_is_not_executed(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_async_wrapper.py": (
+                "import runpy\n"
+                "async def launch(script):\n"
+                "    runpy.run_path(script)\n"
+                "launch('tools/unused.py').close()\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_uniterated_generator_helper_body_is_not_executed(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_generator_helper.py": (
+                "import runpy\n"
+                "script = 'tools/unused.py'\n"
+                "def launch():\n"
+                "    runpy.run_path(script)\n"
+                "    yield None\n"
+                "launch().close()\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_comprehension_bodies_need_established_iteration(self):
+        tree = {
+            "tools/list-unused.py": "x = 1\n",
+            "tools/generator-unused.py": "x = 1\n",
+            "tools/README.md": "tools/list-unused.py tools/generator-unused.py\n",
+            "tests/test_comprehensions.py": (
+                "import runpy\n"
+                "list_script = 'tools/list-unused.py'\n"
+                "generator_script = 'tools/generator-unused.py'\n"
+                "[runpy.run_path(list_script) for item in []]\n"
+                "(runpy.run_path(generator_script) for item in [1])\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/generator-unused.py": False, "tools/list-unused.py": False},
+        )
+
+    def test_chained_comparison_stops_after_literal_false_prefix(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_comparison.py": (
+                "import runpy\n"
+                "script = 'tools/unused.py'\n"
+                "0 > 1 > runpy.run_path(script)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
     def test_assignment_rhs_helper_executes_before_target_rebinding(self):
         tree = {
             "tools/live.py": "x = 1\n",
@@ -1538,6 +1596,19 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
+    def test_js_url_binding_does_not_escape_lexical_block(self):
+        tree = {
+            "tools/unused.mjs": "export const unused = true;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/url-block.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script='other.py';\n"
+                "{ const script=new URL('../tools/unused.mjs',import.meta.url); }\n"
+                "spawnSync('echo',[script]);\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
     def test_js_unreachable_child_process_calls_are_not_references(self):
         tree = {
             "tools/branch.mjs": "export const branch = true;\n",
@@ -1977,7 +2048,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 169)
+        self.assertEqual(len(cases), 174)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:
