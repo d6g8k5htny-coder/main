@@ -11,7 +11,7 @@ Its mathematical statements, source cuts and review limits are preserved.
 ## Current maintenance snapshot — 7 November 2026
 
 The Main candidate containing this file has native source parent
-`0b97d2df407094cd0265ca546d4a56d47a6f7fe4`; its isolated work began from the
+`7e9f9969d224249c61b46e8537b469ba7a7cddf1`; its isolated work began from the
 then-current Main default `299c7fad72f1079b87b2d044b2d30f2098678f29`.
 The sequentially observed Math- and Workspace defaults are
 `f532c3e2d91a0c7679a37c733741660917a9b21b` and
@@ -37,17 +37,16 @@ Neither that checkpoint nor this documentation repair establishes CBZ-0.
 Main #762 repaired the G11 `defaults.run` workflow-scope false positive with
 39/39 tests and 76/76 designated mutants passing in both modes; #763 then
 closed seven documentation-only gaps. The review-repaired G11 attribution
-native source `0b97d2df407094cd0265ca546d4a56d47a6f7fe4` (parent
-`e6ddeae6c324be5e6e025bd000e39df316cec4de`, tree
-`b161d7feb414329b1cd41dff4d15e5491d76e444`) is blob-for-blob identical to
-local exact-tree qualification `97560c77b18078248df99a7bb2bdec4890f356bb`,
-which passed 171/171 tests and killed
-230/230 designated mutants in both modes; the sealed mutation-inventory
-SHA-256 is `9c66ea15cca75913c33132375669018c5e4c0f40593433413b0402c81229bf24`.
-The local exact-tree qualification's byte-identical normal/optimized
-whole-tree reports (SHA-256
-`13ae3cc3dbd6f2f6d9285523219cacd1268d849b0bb6a0dec82133179f4abeb3`,
-56,012 bytes each)
+native source `7e9f9969d224249c61b46e8537b469ba7a7cddf1` (parent
+`01fdbefe148e4104daf96bc705c98737eb4540ba`, tree
+`6a47c8437905bb435359a2acc357a0288d8d06bd`) is blob-for-blob identical to
+local exact-tree qualification `0eb64c504866974cc23085c6149d0e8a159ba749`.
+Fresh execution on the native commit passed 183/183 tests and killed
+249/249 designated mutants in both modes; the sealed mutation-inventory
+SHA-256 is `c712875aa299eb193586fc85d88694faeb0690c2d3cda509619c05e6ce2935ef`.
+The native commit's byte-identical normal/optimized whole-tree reports (SHA-256
+`6c16884de04666e832f2acbf57c1de70bd1b62539b46d349a4333ef41f919122`,
+56,059 bytes each)
 contain zero production findings and retain exactly 32 no-current-exercise
 or documentation tool candidates; both census runs exit 1. The stricter
 attribution newly removes false exercise credit from
@@ -262,8 +261,16 @@ literal arm; aggregate `str(...)` conversion preserves only values already
 known to be strings; direct helper calls must statically satisfy the required
 signature before their bodies are traversed; and nested closures resolve
 lexical bindings from their enclosing owned scopes without falling back to an
-unrelated module name. The current source passes the 171-control, 230-mutant
-suites above. The current review/adverse-defect total is 124;
+unrelated module name. Six further review findings then closed unknown
+conditional-expression effects, wrapper calls that cannot bind, stale import
+identity after assignment expressions, tuple/list augmented-assignment
+conflation, unbraced literal-false JavaScript branches, and deferred concise
+arrow bodies. The final five findings preserve annotation-only imports, bind
+positional, keyword, default, `*args` and `**kwargs` aggregates by identity,
+apply `unittest` lifecycle effects in execution order for each test, exclude
+quoted URL declarations, and invalidate mutable URL-object aliases on escape.
+The current source passes the 183-control, 249-mutant suites above. The current
+review/adverse-defect total is 135;
 exact-final-head review and hosted checks remain required before integration.
 
 ## Current verification boundary

@@ -12,7 +12,7 @@ placed in a complete dormant quarantine.
 
 | Repository | Bound revision | Role |
 |---|---|---|
-| Main | Candidate containing this file; native source parent `0b97d2df407094cd0265ca546d4a56d47a6f7fe4`, based on default `299c7fad72f1079b87b2d044b2d30f2098678f29` | This index and Main formal/tool sources; no proof status changed by the G11 repair |
+| Main | Candidate containing this file; native source parent `7e9f9969d224249c61b46e8537b469ba7a7cddf1`, based on default `299c7fad72f1079b87b2d044b2d30f2098678f29` | This index and Main formal/tool sources; no proof status changed by the G11 repair |
 | Math- | `f532c3e2d91a0c7679a37c733741660917a9b21b` | Repository-local mathematical proof catalogue and retained evidence |
 | Universal-Law-Workspace | `05f3096d077a6fa4ff6cf763c074451cb1ac9972` | Federation pin snapshot; its Main pin is the preceding default, not this later candidate |
 

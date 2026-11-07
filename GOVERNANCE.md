@@ -126,23 +126,23 @@ means to closure, never a reason to open a general infrastructure project.
 
 **Registered 2026-11-06; review-repaired 2026-11-06; G11 admission remains
 pending.** The repair at source commit
-`0b97d2df407094cd0265ca546d4a56d47a6f7fe4` (parent
-`e6ddeae6c324be5e6e025bd000e39df316cec4de`, tree
-`b161d7feb414329b1cd41dff4d15e5491d76e444`) extends the existing bounded
+`7e9f9969d224249c61b46e8537b469ba7a7cddf1` (parent
+`01fdbefe148e4104daf96bc705c98737eb4540ba`, tree
+`6a47c8437905bb435359a2acc357a0288d8d06bd`) extends the existing bounded
 G11 census only far enough to recognize explicit tool paths delivered to
 trusted Python execution/loading APIs or named Node child-process imports.
 Run `python3 -B -S [-O] -m unittest tests.test_g11_census`,
 `python3 -B -S [-O] tools/cbz/g11_mutation_selftest.py`, and then
 `python3 -B -S [-O] tools/cbz/g11_census.py --rev <commit> --json <path>`.
 Its blobs and tree exactly match local qualification
-`97560c77b18078248df99a7bb2bdec4890f356bb`, which passed 171/171 controls and
-killed 230/230 designated
-mutants in each mode; the sealed mutation-inventory SHA-256 is
-`9c66ea15cca75913c33132375669018c5e4c0f40593433413b0402c81229bf24`.
-The local exact-tree qualification's normal and optimized whole-tree reports were
-byte-identical (SHA-256
-`13ae3cc3dbd6f2f6d9285523219cacd1268d849b0bb6a0dec82133179f4abeb3`,
-56,012 bytes each):
+`0eb64c504866974cc23085c6149d0e8a159ba749`. Fresh native execution passed
+183/183 controls and killed 249/249 designated mutants in each mode; the sealed
+mutation-inventory SHA-256 is
+`c712875aa299eb193586fc85d88694faeb0690c2d3cda509619c05e6ce2935ef`.
+The native commit's normal and optimized whole-tree reports were byte-identical
+(SHA-256
+`6c16884de04666e832f2acbf57c1de70bd1b62539b46d349a4333ef41f919122`,
+56,059 bytes each):
 zero production findings and 32 retained tool candidates, so both
 census runs correctly exited 1 and G11 remains FAIL. The latest bounded rules
 also apply possible effects from unknown Boolean operands and unknown wrapper
@@ -150,7 +150,17 @@ branches, require complete URL initializers, select only proven JavaScript
 conditional-expression arms, preserve aggregate string values only when the
 inputs are already strings, reject direct helper calls that do not statically
 bind required arguments, and resolve nested-closure names from enclosing owned
-scopes before any module fallback. They
+scopes before any module fallback. They also require wrapper calls to satisfy
+their signatures, invalidate possible effects in unknown conditional
+expressions and stale import identities after assignment expressions, preserve
+tuple rebinding semantics, and keep unbraced literal-false branches and concise
+arrow bodies deferred. Annotation-only statements preserve imports; helper
+frames bind positional, keyword, default, variadic-positional and
+variadic-keyword aggregates by identity; supported `unittest` class/test
+lifecycle methods execute in bounded runtime order; quoted URL declarations
+are not bindings; and mutable URL-object aliases fail closed on escape. These
+are the adverse-tested limits of the bounded analyzer, not general Python,
+`unittest`, or JavaScript semantics. They
 also preserve actual event order across multiline statements and loops, isolate
 class and repeated-helper runtime frames, accept subprocess calls only with one
 ordinary argv positional argument and no effective shell/executable override,
