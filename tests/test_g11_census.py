@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "d41d67dd54c0ec969151bd46a59c6270cf615c31d93cb47a05c09ef3e6e4bc80"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "a7a8c1fee7e5c706315760ff8756086fd333779eacdc88ee5bb28eb046f7f4a6"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -1047,6 +1047,61 @@ class ToolChecks(unittest.TestCase):
             ),
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_forwarding_wrapper_applies_argument_effects_before_forwarding(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_wrapper_argument_effects.py": (
+                "import subprocess\n"
+                "def launch(command):\n"
+                "    subprocess.run(command, check=command.clear())\n"
+                "launch(['python3', 'tools/unused.py'])\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_forwarding_wrapper_respects_chained_comparison_short_circuiting(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_wrapper_comparison.py": (
+                "import runpy\n"
+                "def launch(script):\n"
+                "    0 > 1 > runpy.run_path(script)\n"
+                "launch('tools/unused.py')\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_try_handlers_require_proven_reachability_but_finally_executes(self):
+        tree = {
+            "tools/body-live.py": "x = 1\n",
+            "tools/handler-unused.py": "x = 1\n",
+            "tools/finally-live.py": "x = 1\n",
+            "tools/README.md": (
+                "tools/body-live.py\n"
+                "tools/handler-unused.py\n"
+                "tools/finally-live.py\n"
+            ),
+            "tests/test_try_reachability.py": (
+                "import runpy\n"
+                "try:\n"
+                "    runpy.run_path('tools/body-live.py')\n"
+                "except ValueError:\n"
+                "    runpy.run_path('tools/handler-unused.py')\n"
+                "finally:\n"
+                "    runpy.run_path('tools/finally-live.py')\n"
+            ),
+        }
+        self.assertEqual(
+            {
+                "tools/body-live.py": True,
+                "tools/handler-unused.py": False,
+                "tools/finally-live.py": True,
+            },
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+        )
 
     def test_lambda_creation_executes_defaults_not_body(self):
         tree = {
@@ -2176,7 +2231,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 183)
+        self.assertEqual(len(cases), 186)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

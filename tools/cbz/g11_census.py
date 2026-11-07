@@ -938,6 +938,15 @@ def _reachable_python_nodes(tree, mode):
                 visit(node.test, owner, scope, activation_line)
             return
 
+        if isinstance(node, (ast.Try, getattr(ast, "TryStar", ast.Try))):
+            # The try body executes, and a finally body executes regardless of
+            # whether an exception is raised. Without sound exception-flow
+            # matching, neither a handler nor the no-exception else body is
+            # definite execution evidence.
+            visit_statement_sequence(node.body, owner, scope, activation_line)
+            visit_statement_sequence(node.finalbody, owner, scope, activation_line)
+            return
+
         if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
             # Assignment targets are rebound only after their value expressions
             # finish. A helper invoked by the RHS still resolves the prior
@@ -1531,6 +1540,43 @@ def _python_execution_wrappers(tree, imports):
                     if isinstance(node.op, ast.Or) and truth:
                         break
                 return False
+            if isinstance(node, ast.Compare):
+                visit(node.left)
+                left = node.left
+                for operator, comparator in zip(node.ops, node.comparators):
+                    visit(comparator)
+                    truth = _literal_comparison(left, operator, comparator)
+                    if truth is not True:
+                        break
+                    left = comparator
+                return False
+            if isinstance(node, ast.Call):
+                # Python evaluates the callee, positional arguments and
+                # keyword values before invoking the enclosing call. A nested
+                # mutation can therefore invalidate forwarding before the
+                # process API receives its argument.
+                visit(node.func)
+                for argument in node.args:
+                    visit(argument)
+                for keyword in node.keywords:
+                    visit(keyword.value)
+                mutated_root = _python_mutated_root_name(node)
+                if mutated_root:
+                    invalidate(mutated_root)
+                _update_local_import_bindings(node, local_imports)
+                active_imports, active_shadowed = _combined_import_bindings(
+                    imports, local_imports, shadowed)
+                if node.args:
+                    resolved = _resolved_import_name(
+                        node.func, active_imports, active_shadowed)
+                    forwarded = node.args[0] if resolved in process_calls else None
+                    if resolved in path_calls and len(node.args) > path_calls[resolved]:
+                        forwarded = node.args[path_calls[resolved]]
+                    if isinstance(forwarded, ast.Name):
+                        parameter = aliases.get(forwarded.id)
+                        if parameter is not None and parameter not in rebound:
+                            positions.add(parameters.index(parameter))
+                return False
             if isinstance(node, ast.Assign):
                 for target in node.targets:
                     update_target(target, node.value)
@@ -1547,15 +1593,6 @@ def _python_execution_wrappers(tree, imports):
             _update_local_import_bindings(node, local_imports)
             active_imports, active_shadowed = _combined_import_bindings(
                 imports, local_imports, shadowed)
-            if isinstance(node, ast.Call) and node.args:
-                resolved = _resolved_import_name(node.func, active_imports, active_shadowed)
-                forwarded = node.args[0] if resolved in process_calls else None
-                if resolved in path_calls and len(node.args) > path_calls[resolved]:
-                    forwarded = node.args[path_calls[resolved]]
-                if isinstance(forwarded, ast.Name):
-                    parameter = aliases.get(forwarded.id)
-                    if parameter is not None and parameter not in rebound:
-                        positions.add(parameters.index(parameter))
             for child in ast.iter_child_nodes(node):
                 visit(child)
             return isinstance(node, (ast.Return, ast.Raise))

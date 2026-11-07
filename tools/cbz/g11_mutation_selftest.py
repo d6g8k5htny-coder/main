@@ -841,6 +841,21 @@ NEW_MUTATIONS = [
      "        if False:\n            parent = scope_parents.get(scope)",
      "tests.test_g11_census.ToolChecks.test_nonlocal_helper_assignment_invalidates_enclosing_forwarding_wrapper",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("wrapper keyword argument effects deferred", "census",
+     "                for keyword in node.keywords:\n                    visit(keyword.value)\n                mutated_root = _python_mutated_root_name(node)",
+     "                for keyword in ():\n                    visit(keyword.value)\n                mutated_root = _python_mutated_root_name(node)",
+     "tests.test_g11_census.ToolChecks.test_forwarding_wrapper_applies_argument_effects_before_forwarding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("forwarding wrapper chained-comparison reachability ignored", "census",
+     "            if isinstance(node, ast.Compare):\n                visit(node.left)\n                left = node.left",
+     "            if False:\n                visit(node.left)\n                left = node.left",
+     "tests.test_g11_census.ToolChecks.test_forwarding_wrapper_respects_chained_comparison_short_circuiting",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("exception handler reachability ignored", "census",
+     "        if isinstance(node, (ast.Try, getattr(ast, \"TryStar\", ast.Try))):\n            # The try body executes, and a finally body executes regardless of",
+     "        if False:\n            # The try body executes, and a finally body executes regardless of",
+     "tests.test_g11_census.ToolChecks.test_try_handlers_require_proven_reachability_but_finally_executes",
+     'self.assertEqual(\n            {\n                "tools/body-live.py": True,'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -1027,6 +1042,9 @@ EXPECTED_MUTATION_NAMES = (
     "lambda body traversed at construction",
     "nonlocal active function destination ignored",
     "nonlocal wrapper destination ignored",
+    "wrapper keyword argument effects deferred",
+    "forwarding wrapper chained-comparison reachability ignored",
+    "exception handler reachability ignored",
 )
 
 
@@ -1205,7 +1223,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 131
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 134
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
