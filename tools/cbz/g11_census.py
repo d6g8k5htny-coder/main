@@ -1205,6 +1205,8 @@ def _reachable_python_nodes(tree, mode):
                         self._record_mutation_name(target.id)
 
                 def visit_Call(self, node):
+                    for mutated_name in helper_summary(node)[1]:
+                        self._record_mutation_name(mutated_name)
                     mutated = _python_mutated_root_name(node)
                     if mutated:
                         self._record_mutation_name(mutated)
@@ -3679,12 +3681,33 @@ def _js_block_scopes(searchable):
     return scopes
 
 
+def _js_class_body_open(searchable, start):
+    """Locate a class body without mistaking nested heritage braces for it."""
+    stack = []
+    closing = {")": "(", "]": "[", "}": "{"}
+    for index in range(start, len(searchable)):
+        char = searchable[index]
+        if char in "([":
+            stack.append(char)
+        elif char == "{":
+            if not stack:
+                return index
+            stack.append(char)
+        elif char in closing:
+            if not stack or stack[-1] != closing[char]:
+                return None
+            stack.pop()
+        elif char == ";" and not stack:
+            return None
+    return None
+
+
 def _js_static_block_scopes(searchable):
     """Return class static blocks that execute during class definition."""
     scopes = []
     for class_match in re.finditer(r"\bclass\b", searchable):
-        class_open = searchable.find("{", class_match.end())
-        if class_open < 0:
+        class_open = _js_class_body_open(searchable, class_match.end())
+        if class_open is None:
             continue
         header = searchable[class_match.end():class_open]
         if ";" in header:
@@ -3780,8 +3803,8 @@ def _js_in_deferred_instance_field(searchable, position, text=None):
     member_searchable = (_js_mask_noncode_literals(
         text, preserve_string_delimiters=True) if text is not None else searchable)
     for class_match in re.finditer(r"\bclass\b", searchable):
-        open_brace = searchable.find("{", class_match.end())
-        if open_brace < 0:
+        open_brace = _js_class_body_open(searchable, class_match.end())
+        if open_brace is None:
             continue
         header = searchable[class_match.end():open_brace]
         if ";" in header:

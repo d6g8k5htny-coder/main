@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "61acda2771a1a3851a5d8a4006cac0eaf9bda768c34416b02dc4e839eed97543"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "b7b2f9d477a7428413cebbd35fa7fe911647edef0ad44f9cc2cff01819184cf6"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -2112,6 +2112,28 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
 
+    def test_unknown_branch_nested_helper_mutation_before_alias_rebinding(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_nested_mutate_then_rebind.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "other = ['echo']\n"
+                "def inner(arg):\n"
+                "    arg[:] = ['echo']\n"
+                "def replace(a, b):\n"
+                "    alias = a\n"
+                "    inner(alias)\n"
+                "    alias = b\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    replace(command, other)\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
     def test_unknown_branch_annotated_helper_alias_mutation_invalidates_caller(self):
         tree = {
             "tools/unused.py": "x = 1\n",
@@ -3956,6 +3978,20 @@ class ToolChecks(unittest.TestCase):
         }
         self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
 
+    def test_js_class_heritage_object_brace_precedes_deferred_instance_field(self):
+        tree = {
+            "tools/unused.mjs": "export const value = 1;\n",
+            "tools/README.md": "tools/unused.mjs\n",
+            "tests/class-heritage-object.test.mjs": (
+                "import {spawnSync} from 'node:child_process';\n"
+                "const script=new URL('../tools/unused.mjs',import.meta.url);\n"
+                "class Settings extends ({base:Object}).base {\n"
+                "  field=spawnSync('echo',[script]);\n"
+                "}\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])
+
     def test_js_unconstructed_computed_instance_field_initializer_is_deferred(self):
         tree = {
             "tools/unused.mjs": "export const value = 1;\n",
@@ -4678,7 +4714,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 313)
+        self.assertEqual(len(cases), 314)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

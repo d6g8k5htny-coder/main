@@ -1714,13 +1714,6 @@ NEW_MUTATIONS = [
      "                    captured, (module_bindings, *scope_bindings.values()))",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_nested_captured_default_mutation_invalidates_child_alias",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
-    ("helper-induced alias mutation origins not unioned", "census",
-     "                formals = set(formal_aliases.get(mutated_name, {mutated_name}))\n"
-     "                formals.update(mutation_origins.get(mutated_name, set()))",
-     "                formals = (mutation_origins.get(mutated_name)\n"
-     "                           or formal_aliases.get(mutated_name, {mutated_name}))",
-     "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_induced_mutation_after_alias_rebinding",
-     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("annotated helper alias origin ignored", "census",
      "                def visit_AnnAssign(self, node):\n"
      "                    self._record_mutation_target(node.target)\n"
@@ -1737,6 +1730,25 @@ NEW_MUTATIONS = [
      "                    self.generic_visit(node)",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_annotated_helper_alias_mutation_invalidates_caller",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("nested helper mutation-time alias origin ignored", "census",
+     "                def visit_Call(self, node):\n"
+     "                    for mutated_name in helper_summary(node)[1]:\n"
+     "                        self._record_mutation_name(mutated_name)\n"
+     "                    mutated = _python_mutated_root_name(node)",
+     "                def visit_Call(self, node):\n"
+     "                    mutated = _python_mutated_root_name(node)",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_nested_helper_mutation_before_alias_rebinding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("JavaScript class heritage brace treated as body", "census",
+     "        elif char == \"{\":\n"
+     "            if not stack:\n"
+     "                return index\n"
+     "            stack.append(char)",
+     "        elif char == \"{\":\n"
+     "            return index\n"
+     "            stack.append(char)",
+     "tests.test_g11_census.ToolChecks.test_js_class_heritage_object_brace_precedes_deferred_instance_field",
+     'self.assertFalse(self.tools(tree)["tools/unused.mjs"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -2051,8 +2063,9 @@ EXPECTED_MUTATION_NAMES = (
     "proven helper alias branch ignored",
     "mutation-time helper alias origin ignored",
     "nested captured default invalidation ignored",
-    "helper-induced alias mutation origins not unioned",
     "annotated helper alias origin ignored",
+    "nested helper mutation-time alias origin ignored",
+    "JavaScript class heritage brace treated as body",
 )
 
 
@@ -2231,7 +2244,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 246
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 248
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:
