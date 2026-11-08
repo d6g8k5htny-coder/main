@@ -412,10 +412,10 @@ class ArchitectureGraphArtifactReadbackContract(unittest.TestCase):
             path.write_bytes(raw)
         expected = self.expected(raw, members) if expected is None else expected
         arguments = self.arguments(path, expected) if arguments is None else arguments
-        flags = ["-B", "-S"]
-        if sys.flags.optimize:
-            flags.append("-" + "O" * sys.flags.optimize)
-        command = [sys.executable, *flags, str(CLI), *arguments]
+        flags = (["-B", "-S"]
+                 + (["-O"] if sys.flags.optimize else [])
+                 + (["-O"] if sys.flags.optimize > 1 else []))
+        command = [sys.executable] + flags + [str(CLI), *arguments]
         if audit:
             command = [sys.executable, *flags, "-I", "-c", AUDIT_LAUNCHER, str(self.cwd), str(path),
                        str(self.cwd / "TEST-private-secret"), str(self.cwd / "TEST-observer.json"), str(CLI),
@@ -483,6 +483,22 @@ class ArchitectureGraphArtifactReadbackContract(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0, "invalid archive was accepted")
         self.assertEqual(result.stdout, b"", "refusal published partial or success JSON")
         self.assertEqual(result.stderr, REFUSAL, "refusal exposed paths/member data or variable diagnostics")
+
+    def test_direct_cli_smoke_is_statically_attributed_and_accepts_valid_archive(self):
+        raw = classic_zip(self.entries(self.base))
+        path = self.cwd / "TEST-direct-input.zip"
+        path.write_bytes(raw)
+        expected = self.expected(raw, self.base)
+        arguments = self.arguments(path, expected)
+        flags = (["-B", "-S"]
+                 + (["-O"] if sys.flags.optimize else [])
+                 + (["-O"] if sys.flags.optimize > 1 else []))
+        result = subprocess.run(
+            [sys.executable] + flags + [str(CLI), *arguments],
+            cwd=self.cwd, capture_output=True, timeout=20, check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout[-2000:] + result.stderr)
+        self.assertEqual(result.stderr, b"")
 
     def test_valid_archive_is_one_stable_non_scientific_unit_with_original_receipt(self):
         first, one = self.accepted()

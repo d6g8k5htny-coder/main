@@ -248,9 +248,9 @@ class ArtifactIndexProjectionContractTests(unittest.TestCase):
         packet = self.packet if packet is None else packet
         expected = pins_for(packet) if expected is None else expected
         raw = canonical(packet) + b"\n" if raw is None else raw
-        flags = ["-B", "-S"]
-        if sys.flags.optimize:
-            flags.append("-" + "O" * sys.flags.optimize)
+        flags = (["-B", "-S"]
+                 + (["-O"] if sys.flags.optimize else [])
+                 + (["-O"] if sys.flags.optimize > 1 else []))
         env = dict(os.environ)
         env.pop("PYTHONOPTIMIZE", None)
         arguments = self.flag_args(expected) if args is None else args
@@ -262,7 +262,7 @@ class ArtifactIndexProjectionContractTests(unittest.TestCase):
             )
 
         if audit is None:
-            return launch([sys.executable, *flags, str(CLI), *arguments])
+            return launch([sys.executable] + flags + [str(CLI), *arguments])
         with tempfile.TemporaryDirectory(prefix="TEST-audit-report-") as report_directory:
             report_root = Path(report_directory)
             launcher = report_root / "trusted_launcher.py"

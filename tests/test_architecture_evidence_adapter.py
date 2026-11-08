@@ -272,13 +272,13 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
             arguments = []
             for name in ("repository", "commit", "run-id", "run-attempt"):
                 arguments.extend(["--expected-" + name, identity[name]])
-        flags = ["-B", "-S"]
-        if sys.flags.optimize:
-            flags.append("-" + "O" * sys.flags.optimize)
+        flags = (["-B", "-S"]
+                 + (["-O"] if sys.flags.optimize else [])
+                 + (["-O"] if sys.flags.optimize > 1 else []))
         env = os.environ.copy()
         env.pop("PYTHONOPTIMIZE", None)
         try:
-            return subprocess.run([sys.executable, *flags, str(CLI), *arguments], input=raw,
+            return subprocess.run([sys.executable] + flags + [str(CLI), *arguments], input=raw,
                                   cwd=self.cwd, env=env, capture_output=True, text=True, encoding="utf-8",
                                   timeout=20, check=False)
         except subprocess.TimeoutExpired:
