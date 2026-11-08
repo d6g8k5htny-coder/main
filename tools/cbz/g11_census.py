@@ -49,6 +49,7 @@ LEGIT_BASES = {"Protocol", "ABC"}
 NOOP_RUN = {"true", ":", "exit 0"}
 PRODUCTION = {"tooling", "site"}
 _UNRESOLVED_STATIC = object()
+_UNKNOWN_AGGREGATE_EFFECT = "@g11-unknown-aggregate-mutation"
 
 
 class _StaticAlternatives(tuple):
@@ -1073,10 +1074,16 @@ def _branch_mutated_names(body, call_effects=None):
                 return
             if isinstance(target, (ast.Subscript, ast.Attribute)):
                 root = target
+                nested_attribute = False
                 while isinstance(root, (ast.Subscript, ast.Attribute)):
+                    if isinstance(root, ast.Attribute):
+                        nested_attribute = True
                     root = root.value
                 if isinstance(root, ast.Name):
                     names.add(root.id)
+                if (isinstance(target, ast.Subscript) and nested_attribute
+                        or include_name and isinstance(target, ast.Attribute)):
+                    names.add(_UNKNOWN_AGGREGATE_EFFECT)
                 self.visit(target)
                 return
             if include_name and isinstance(target, ast.Name):
@@ -1214,13 +1221,24 @@ def _reachable_python_nodes(tree, mode):
                     elif isinstance(target, ast.Starred):
                         self._clear_alias_target(target.value)
 
+                def _alias_expression_roots(self, value):
+                    if isinstance(value, ast.Name):
+                        return set(formal_aliases.get(value.id, ()))
+                    if isinstance(value, ast.Call):
+                        children = [*value.args,
+                                    *(keyword.value for keyword in value.keywords)]
+                    elif isinstance(value, ast.Subscript):
+                        children = [value.value]
+                    else:
+                        children = ast.iter_child_nodes(value)
+                    return set().union(*(
+                        self._alias_expression_roots(child)
+                        for child in children))
+
                 def _bind_alias_target(self, target, value):
                     if isinstance(target, ast.Name):
-                        roots = (set(formal_aliases[value.id])
-                                 if (isinstance(value, ast.Name)
-                                     and value.id in formal_aliases)
-                                 else None)
-                        if roots is None:
+                        roots = self._alias_expression_roots(value)
+                        if not roots:
                             formal_aliases.pop(target.id, None)
                         else:
                             formal_aliases[target.id] = roots
@@ -1255,16 +1273,10 @@ def _reachable_python_nodes(tree, mode):
                 def visit_AnnAssign(self, node):
                     if node.value is not None:
                         self.visit(node.value)
-                    roots = (set(formal_aliases[node.value.id])
-                             if (isinstance(node.value, ast.Name)
-                                 and node.value.id in formal_aliases)
-                             else None)
                     self._record_mutation_target(node.target)
                     self.visit(node.target)
-                    if isinstance(node.target, ast.Name) and roots is not None:
-                        formal_aliases[node.target.id] = roots
-                    elif isinstance(node.target, ast.Name) and node.value is not None:
-                        formal_aliases.pop(node.target.id, None)
+                    if node.value is not None:
+                        self._bind_alias_target(node.target, node.value)
 
                 def visit_AugAssign(self, node):
                     self._record_mutation_target(node.target, include_name=True)
@@ -1338,6 +1350,8 @@ def _reachable_python_nodes(tree, mode):
             body, lambda call: helper_summary(call)[0])
         mutations = _branch_mutated_names(
             body, lambda call: helper_summary(call)[1])
+        if _UNKNOWN_AGGREGATE_EFFECT in mutations:
+            effects.add(_UNKNOWN_AGGREGATE_EFFECT)
         return effects, mutations, call_mutations
 
     def branch_possible_effects(body, scope, seen=frozenset()):
@@ -1349,11 +1363,14 @@ def _reachable_python_nodes(tree, mode):
         marker = ast.Delete(targets=[
             ast.Name(id=name, ctx=ast.Del())
             for name in sorted(names)
-            if name not in captured_default_effects])
+            if (name not in captured_default_effects
+                and name != _UNKNOWN_AGGREGATE_EFFECT)])
         marker._g11_default_mutations = sorted({
             captured_default_effects[name]
             for name in names
             if name in captured_default_effects})
+        marker._g11_unknown_aggregate_mutation = (
+            _UNKNOWN_AGGREGATE_EFFECT in names)
         marker.lineno = lineno
         return marker
 
@@ -2644,6 +2661,12 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     wrapper_reassignments.setdefault(key, []).append(
                         (execution_line, node.lineno))
     for node, scope, execution_line in reachable_nodes:
+        if getattr(node, "_g11_unknown_aggregate_mutation", False):
+            environments = (module_bindings, *scope_bindings.values())
+            for environment in environments:
+                for value in list(environment.values()):
+                    _invalidate_python_value(
+                        value, environments, recursive=True)
         for default_id in getattr(node, "_g11_default_mutations", ()):
             captured = evaluated_defaults.get(default_id, missing_argument)
             if captured is not missing_argument:
