@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "cbea8a86d2ddd35357e19e38f79d83dadd014da45a3f287f4190960b4dd5c02d"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "97820c30570ab5dd2d72842d94495e1b0d695bd1307f43124a25db7535d09691"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -642,7 +642,7 @@ class ToolChecks(unittest.TestCase):
             ),
             "tests/test_boolean_effects.py": (
                 "import subprocess\n"
-                "flag = True\n"
+                "flag = bool(input())\n"
                 "direct = ['python3', 'tools/direct-unused.py']\n"
                 "flag and direct.__setitem__(slice(None), ['echo'])\n"
                 "subprocess.run(direct)\n"
@@ -2006,6 +2006,85 @@ class ToolChecks(unittest.TestCase):
                 "flag = True\n"
                 "if flag:\n"
                 "    replace(command)\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_unknown_branch_helper_return_alias_invalidates_caller_binding(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_helper_return_alias.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "def identity(value):\n"
+                "    return value\n"
+                "def replace(argv):\n"
+                "    alias = identity(argv)\n"
+                "    alias[:] = ['echo']\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    replace(command)\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_unknown_branch_helper_container_alias_invalidates_caller_binding(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_helper_container_alias.py": (
+                "import subprocess\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "def replace(argv):\n"
+                "    holder = [argv]\n"
+                "    alias = holder[0]\n"
+                "    alias[:] = ['echo']\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    replace(command)\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_unknown_branch_helper_nested_object_alias_fails_closed(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_helper_nested_object_alias.py": (
+                "import subprocess\n"
+                "class Box:\n"
+                "    pass\n"
+                "box = Box()\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "box.value = command\n"
+                "def replace(argv):\n"
+                "    argv.value[:] = ['echo']\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    replace(box)\n"
+                "subprocess.run(command, check=True)\n"
+            ),
+        }
+        self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])
+
+    def test_unknown_branch_direct_nested_object_alias_fails_closed(self):
+        tree = {
+            "tools/unused.py": "x = 1\n",
+            "tools/README.md": "tools/unused.py\n",
+            "tests/test_unknown_branch_direct_nested_object_alias.py": (
+                "import subprocess\n"
+                "class Box:\n"
+                "    pass\n"
+                "box = Box()\n"
+                "command = ['python3', 'tools/unused.py']\n"
+                "box.value = command\n"
+                "flag = True\n"
+                "if flag:\n"
+                "    box.value[:] = ['echo']\n"
                 "subprocess.run(command, check=True)\n"
             ),
         }
@@ -4934,7 +5013,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 324)
+        self.assertEqual(len(cases), 328)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:
