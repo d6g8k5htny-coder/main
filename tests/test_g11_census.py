@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "cbea8a86d2ddd35357e19e38f79d83dadd014da45a3f287f4190960b4dd5c02d"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "c74b6dac50f7fe37f489f0391619b2c6160247b79d14c673eab49974c9e06ef8"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -565,6 +565,69 @@ class ToolChecks(unittest.TestCase):
             "tools/bound.py": False, "tools/inline.py": False,
             "tools/live.py": True, "tools/starred.py": True,
         })
+
+    def test_explicit_finite_starred_interpreter_flags_credit_every_mode(self):
+        tree = {
+            "tools/boolean.py": "x = 1\n",
+            "tools/nested.py": "x = 1\n",
+            "tools/README.md": "tools/boolean.py tools/nested.py\n",
+            "tests/test_finite_flags.py": (
+                "import subprocess, sys\n"
+                "boolean_mode = ['-O'] if sys.flags.optimize else []\n"
+                "nested_mode = (['-OO'] if sys.flags.optimize == 2 else "
+                "(['-O'] if sys.flags.optimize == 1 else []))\n"
+                "subprocess.run([sys.executable, '-B', *boolean_mode, "
+                "'tools/boolean.py'], check=True)\n"
+                "subprocess.run([sys.executable, '-B', *nested_mode, "
+                "'tools/nested.py'], check=True)\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {"tools/boolean.py": True, "tools/nested.py": True},
+        )
+
+    def test_finite_starred_interpreter_flags_fail_closed_on_unsafe_alternatives(self):
+        tree = {
+            "tools/dynamic-unused.py": "x = 1\n",
+            "tools/mismatch-a-unused.py": "x = 1\n",
+            "tools/mismatch-b-unused.py": "x = 1\n",
+            "tools/terminating-unused.py": "x = 1\n",
+            "tools/unknown-unused.py": "x = 1\n",
+            "tools/README.md": (
+                "tools/dynamic-unused.py tools/mismatch-a-unused.py "
+                "tools/mismatch-b-unused.py tools/terminating-unused.py "
+                "tools/unknown-unused.py\n"
+            ),
+            "tests/test_unsafe_finite_flags.py": (
+                "import subprocess, sys\n"
+                "def runtime_flags(): return ['-B']\n"
+                "dynamic = runtime_flags()\n"
+                "terminating = (['-O'] if sys.flags.optimize else "
+                "['-c', 'print(1)'])\n"
+                "unknown = (['-O'] if sys.flags.optimize else ['--version'])\n"
+                "mismatch = ([sys.executable, 'tools/mismatch-a-unused.py'] "
+                "if sys.flags.optimize else "
+                "[sys.executable, 'tools/mismatch-b-unused.py'])\n"
+                "subprocess.run([sys.executable, *dynamic, "
+                "'tools/dynamic-unused.py'], check=True)\n"
+                "subprocess.run([sys.executable, *terminating, "
+                "'tools/terminating-unused.py'], check=True)\n"
+                "subprocess.run([sys.executable, *unknown, "
+                "'tools/unknown-unused.py'], check=True)\n"
+                "subprocess.run(mismatch, check=True)\n"
+            ),
+        }
+        self.assertEqual(
+            {path: item["referenced"] for path, item in self.tools(tree).items()},
+            {
+                "tools/dynamic-unused.py": False,
+                "tools/mismatch-a-unused.py": False,
+                "tools/mismatch-b-unused.py": False,
+                "tools/terminating-unused.py": False,
+                "tools/unknown-unused.py": False,
+            },
+        )
 
     def test_dynamic_command_suffix_does_not_hide_a_proven_tool_prefix(self):
         tree = {
@@ -4934,7 +4997,7 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
                          EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 324)
+        self.assertEqual(len(cases), 327)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:

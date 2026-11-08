@@ -61,8 +61,12 @@ class _StaticTuple(tuple):
 
 def _static_alternatives(values):
     distinct = []
-    for value in values:
-        if not any(value == prior for prior in distinct):
+    pending = list(values)
+    while pending:
+        value = pending.pop(0)
+        if isinstance(value, _StaticAlternatives):
+            pending[0:0] = value
+        elif not any(value == prior for prior in distinct):
             distinct.append(value)
     return distinct[0] if len(distinct) == 1 else _StaticAlternatives(distinct)
 
@@ -83,6 +87,23 @@ def _static_add(left, right):
             else:
                 return None
     return _static_alternatives(results)
+
+
+def _static_sequence(parts, tuple_result=False):
+    """Build explicit sequence alternatives, expanding starred alternatives."""
+    result = _StaticTuple() if tuple_result else []
+    for starred, value in parts:
+        choices = value if isinstance(value, _StaticAlternatives) else (value,)
+        pieces = []
+        for choice in choices:
+            if starred:
+                items = (choice if isinstance(choice, (list, _StaticTuple))
+                         else (_UNRESOLVED_STATIC,))
+            else:
+                items = (_UNRESOLVED_STATIC if choice is None else choice,)
+            pieces.append(_StaticTuple(items) if tuple_result else list(items))
+        result = _static_add(result, _static_alternatives(pieces))
+    return result
 
 
 def area(path):
@@ -1947,22 +1968,17 @@ def _python_static_value(node, local, module, source_path, imports, scope_shadow
             return None
         return _static_alternatives((body, other))
     if isinstance(node, (ast.List, ast.Tuple)):
-        values = []
+        parts = []
         for element in node.elts:
             if isinstance(element, ast.Starred):
                 value = _python_static_value(element.value, local, module, source_path,
                                              imports, scope_shadowed)
-                if not isinstance(value, (list, _StaticTuple)):
-                    values.append(_UNRESOLVED_STATIC)
-                    continue
-                values.extend(value)
-                continue
-            value = _python_static_value(element, local, module, source_path, imports, scope_shadowed)
-            if value is None:
-                values.append(_UNRESOLVED_STATIC)
-                continue
-            values.append(value)
-        return _StaticTuple(values) if isinstance(node, ast.Tuple) else values
+                parts.append((True, value))
+            else:
+                value = _python_static_value(
+                    element, local, module, source_path, imports, scope_shadowed)
+                parts.append((False, value))
+        return _static_sequence(parts, isinstance(node, ast.Tuple))
     if isinstance(node, ast.BoolOp) and isinstance(node.op, ast.Or):
         for value_node in node.values:
             value = _python_static_value(value_node, local, module, source_path, imports, scope_shadowed)
@@ -2041,14 +2057,8 @@ def _python_sequence_static_value(node, evaluated_elements, local, module,
             value = _python_sequence_static_value(
                 value_node, evaluated_elements, local, module, source_path,
                 imports, scope_shadowed)
-        if isinstance(element, ast.Starred):
-            if isinstance(value, (list, _StaticTuple)):
-                values.extend(value)
-            else:
-                values.append(_UNRESOLVED_STATIC)
-        else:
-            values.append(_UNRESOLVED_STATIC if value is None else value)
-    return _StaticTuple(values) if isinstance(node, ast.Tuple) else values
+        values.append((isinstance(element, ast.Starred), value))
+    return _static_sequence(values, isinstance(node, ast.Tuple))
 
 
 _MUTATING_LIST_METHODS = {"append", "clear", "extend", "insert", "pop", "remove",

@@ -412,9 +412,9 @@ class ArchitectureGraphArtifactReadbackContract(unittest.TestCase):
             path.write_bytes(raw)
         expected = self.expected(raw, members) if expected is None else expected
         arguments = self.arguments(path, expected) if arguments is None else arguments
-        flags = ["-B", "-S"]
-        if sys.flags.optimize:
-            flags.append("-" + "O" * sys.flags.optimize)
+        mode = (["-OO"] if sys.flags.optimize == 2 else
+                (["-O"] if sys.flags.optimize == 1 else []))
+        flags = ["-B", "-S", *mode]
         command = [sys.executable, *flags, str(CLI), *arguments]
         if audit:
             command = [sys.executable, *flags, "-I", "-c", AUDIT_LAUNCHER, str(self.cwd), str(path),
@@ -483,6 +483,23 @@ class ArchitectureGraphArtifactReadbackContract(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0, "invalid archive was accepted")
         self.assertEqual(result.stdout, b"", "refusal published partial or success JSON")
         self.assertEqual(result.stderr, REFUSAL, "refusal exposed paths/member data or variable diagnostics")
+
+    def test_no_arguments_are_refused_by_the_actual_cli(self):
+        mode = (["-OO"] if sys.flags.optimize == 2 else
+                (["-O"] if sys.flags.optimize == 1 else []))
+        environment = os.environ.copy()
+        environment.pop("PYTHONOPTIMIZE", None)
+        result = subprocess.run(
+            [sys.executable, "-B", "-S", *mode, str(CLI)],
+            cwd=self.cwd,
+            env=environment,
+            capture_output=True,
+            timeout=20,
+            check=False,
+        )
+        self.assertNotEqual(result.returncode, 0, "missing arguments were accepted")
+        self.assertEqual(result.stdout, b"", "argument refusal published partial or success JSON")
+        self.assertEqual(result.stderr, REFUSAL, "argument refusal exposed variable diagnostics")
 
     def test_valid_archive_is_one_stable_non_scientific_unit_with_original_receipt(self):
         first, one = self.accepted()

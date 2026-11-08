@@ -458,8 +458,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_property_calls_do_not_use_named_child_process_imports",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("unresolved command element dropped", "census",
-     "        else:\n            values.append(_UNRESOLVED_STATIC if value is None else value)",
-     "        else:\n            if value is not None:\n                values.append(value)",
+     "            else:\n                items = (_UNRESOLVED_STATIC if choice is None else choice,)",
+     "            else:\n                items = (() if choice is None else (choice,))",
      "tests.test_g11_census.ToolChecks.test_unresolved_command_elements_do_not_shift_the_executable",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("boolean or evaluated in reverse order", "census",
@@ -478,13 +478,13 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_js_quoted_call_text_does_not_execute_bindings",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("resolved starred command elements ignored", "census",
-     "        if isinstance(element, ast.Starred):\n            if isinstance(value, (list, _StaticTuple)):\n                values.extend(value)\n            else:\n                values.append(_UNRESOLVED_STATIC)",
-     "        if isinstance(element, ast.Starred):\n            return None",
+     "            if starred:\n                items = (choice if isinstance(choice, (list, _StaticTuple))\n                         else (_UNRESOLVED_STATIC,))",
+     "            if starred:\n                items = (_UNRESOLVED_STATIC,)",
      "tests.test_g11_census.ToolChecks.test_unresolved_command_elements_do_not_shift_the_executable",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("dynamic command suffix discards proven prefix", "census",
-     "        else:\n            values.append(_UNRESOLVED_STATIC if value is None else value)",
-     "        else:\n            if value is None:\n                return None\n            values.append(value)",
+     "            else:\n                items = (_UNRESOLVED_STATIC if choice is None else choice,)",
+     "            else:\n                if choice is None:\n                    return None\n                items = (choice,)",
      "tests.test_g11_census.ToolChecks.test_dynamic_command_suffix_does_not_hide_a_proven_tool_prefix",
      "self.assertEqual({path: item[\"referenced\"] for path, item in self.tools(tree).items()},"),
     ("unittest lifecycle methods ignored", "census",
@@ -1118,8 +1118,8 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_named_expression_invalidates_local_import_identity",
      '{"tools/live.py": True, "tools/unused.py": False}'),
     ("tuple augmented assignment mutates aliases", "census",
-     "    return _StaticTuple(values) if isinstance(node, ast.Tuple) else values\n\n\n_MUTATING_LIST_METHODS",
-     "    return values\n\n\n_MUTATING_LIST_METHODS",
+     "    return _static_sequence(values, isinstance(node, ast.Tuple))\n\n\n_MUTATING_LIST_METHODS",
+     "    return _static_sequence(values, False)\n\n\n_MUTATING_LIST_METHODS",
      "tests.test_g11_census.ToolChecks.test_tuple_augmented_assignment_does_not_mutate_alias",
      '{"tools/live.py": True, "tools/unused.py": False}'),
     ("JavaScript unbraced literal-if reachability ignored", "census",
@@ -1813,6 +1813,31 @@ NEW_MUTATIONS = [
      "                            and False\n",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_destructured_parameter_alias_invalidates_caller_binding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("nested finite alternatives not flattened", "census",
+     "        if isinstance(value, _StaticAlternatives):\n"
+     "            pending[0:0] = value\n"
+     "        elif not any(value == prior for prior in distinct):",
+     "        if False:\n"
+     "            pending[0:0] = value\n"
+     "        elif not any(value == prior for prior in distinct):",
+     "tests.test_g11_census.ToolChecks.test_explicit_finite_starred_interpreter_flags_credit_every_mode",
+     '{"tools/boolean.py": True, "tools/nested.py": True}'),
+    ("starred finite alternatives not expanded", "census",
+     "        choices = value if isinstance(value, _StaticAlternatives) else (value,)",
+     "        choices = (value,)",
+     "tests.test_g11_census.ToolChecks.test_explicit_finite_starred_interpreter_flags_credit_every_mode",
+     '{"tools/boolean.py": True, "tools/nested.py": True}'),
+    ("unsafe finite alternatives unioned", "census",
+     "def _command_tool_values(value, tools):\n"
+     "    if isinstance(value, _StaticAlternatives):\n"
+     "        choices = [_command_tool_values(choice, tools) for choice in value]\n"
+     "        return set.intersection(*choices) if choices else set()",
+     "def _command_tool_values(value, tools):\n"
+     "    if isinstance(value, _StaticAlternatives):\n"
+     "        choices = [_command_tool_values(choice, tools) for choice in value]\n"
+     "        return set.union(*choices) if choices else set()",
+     "tests.test_g11_census.ToolChecks.test_finite_starred_interpreter_flags_fail_closed_on_unsafe_alternatives",
+     '"tools/terminating-unused.py": False'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -2140,6 +2165,9 @@ EXPECTED_MUTATION_NAMES = (
     "JavaScript default and named import specifier treated as class keyword",
     "Unicode and escaped JavaScript instance field identifiers ignored",
     "helper destructuring alias origin ignored",
+    "nested finite alternatives not flattened",
+    "starred finite alternatives not expanded",
+    "unsafe finite alternatives unioned",
 )
 
 
@@ -2318,7 +2346,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 259
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 261
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

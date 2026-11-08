@@ -272,9 +272,9 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
             arguments = []
             for name in ("repository", "commit", "run-id", "run-attempt"):
                 arguments.extend(["--expected-" + name, identity[name]])
-        flags = ["-B", "-S"]
-        if sys.flags.optimize:
-            flags.append("-" + "O" * sys.flags.optimize)
+        mode = (["-OO"] if sys.flags.optimize == 2 else
+                (["-O"] if sys.flags.optimize == 1 else []))
+        flags = ["-B", "-S", *mode]
         env = os.environ.copy()
         env.pop("PYTHONOPTIMIZE", None)
         try:

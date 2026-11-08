@@ -248,9 +248,9 @@ class ArtifactIndexProjectionContractTests(unittest.TestCase):
         packet = self.packet if packet is None else packet
         expected = pins_for(packet) if expected is None else expected
         raw = canonical(packet) + b"\n" if raw is None else raw
-        flags = ["-B", "-S"]
-        if sys.flags.optimize:
-            flags.append("-" + "O" * sys.flags.optimize)
+        mode = (["-OO"] if sys.flags.optimize == 2 else
+                (["-O"] if sys.flags.optimize == 1 else []))
+        flags = ["-B", "-S", *mode]
         env = dict(os.environ)
         env.pop("PYTHONOPTIMIZE", None)
         arguments = self.flag_args(expected) if args is None else args

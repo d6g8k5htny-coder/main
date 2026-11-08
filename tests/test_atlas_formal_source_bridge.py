@@ -64,7 +64,8 @@ class SourceBridgeCLI(unittest.TestCase):
 
     def run_cli(self,*extra):
         self.input.write_text(json.dumps(self.snapshot))
-        mode=['-O'] if sys.flags.optimize else []
+        mode=(['-OO'] if sys.flags.optimize == 2 else
+              (['-O'] if sys.flags.optimize == 1 else []))
         return subprocess.run([sys.executable,'-B',*mode,str(TOOL),'--root',str(self.root),
                                '--snapshot',str(self.input),*extra],capture_output=True,text=True)
 
