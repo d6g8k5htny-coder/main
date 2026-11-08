@@ -8,22 +8,22 @@ completion certificate.
 
 ## Bound snapshot
 
-Observed sequentially on 6 November 2026:
+Observed sequentially on 6–7 November 2026:
 
 | Repository | Default revision |
 |---|---|
-| Main | Revision containing this file; source parent `c4db7562640817ab5f23119571030851b964472c` |
+| Main | Candidate containing this file; native source parent `8038863c04cc96acfcfc0d2953ab8575ccce213e`, tree-qualified locally as `1616b31889a8b242ff6950dbd7af4d437e54648c`, based on default `299c7fad72f1079b87b2d044b2d30f2098678f29` |
 | Math- | `f532c3e2d91a0c7679a37c733741660917a9b21b` |
-| Universal-Law-Workspace | `ed9a1e0106d616bc3a1eabb213fe4605f9e30813` |
+| Universal-Law-Workspace | `05f3096d077a6fa4ff6cf763c074451cb1ac9972` (pins Main `299c7fad72f1079b87b2d044b2d30f2098678f29`) |
 
-Workspace pin verification at its recorded merge observed all eight pins and
-four canonical inputs current, with 187/187 tests passing in each interpreter
-mode. Main has since advanced, so strict-current agreement is presently
+Workspace #41 refreshed the Main pin after #763 and its recorded qualification
+observed all eight pins and four canonical inputs current. This later Main
+candidate has since advanced, so strict-current agreement is presently
 unawarded. Those observations are sequential, not atomic or perpetual.
 
-The latest durable contribution receipt is
-[Main #684 comment 6684436967](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6684436967).
-It records Library checkpoint v78 and its exact hashes. The durable checkpoint
+The latest Git-native durable contribution receipt is
+[Main #684 comment 6685706413](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6685706413).
+It records durable checkpoint v79 and its exact hashes. The durable checkpoint
 is an incomplete handoff, not proof of this baseline.
 
 ## Twelve criteria
@@ -38,7 +38,7 @@ is an incomplete handoff, not proof of this baseline.
 | 6 | Lean/build/kernel/approved axioms; no sorry | **BLOCKED.** Fresh current-composition results for the entire admitted proof scope are absent. |
 | 7 | Declared mutation threshold met | **BLOCKED.** Component mutation receipts do not establish one federation threshold. |
 | 8 | Pins resolve and current tips agree | **BLOCKED.** Workspace passed at its recorded merge, but its Main pin predates the current source parent. A guarded strict-current refresh is still required. |
-| 9 | Tools complete, documented and self-verified | **BLOCKED.** [TOOLING.md](TOOLING.md) registers additional active components, while G11 retains 20 active attribution gaps, 28 dormant-tool candidates and the missing final orchestrator. |
+| 9 | Tools complete, documented and self-verified | **BLOCKED.** The adverse-tested G11 attribution repair closes the 20 active gaps and 206 distinct review/adverse defects, while [TOOLING.md](TOOLING.md) retains 32 no-current-exercise or documentation tool candidates and the missing final orchestrator. |
 | 10 | Five canonical surfaces truthful and consistent | **PARTIAL.** All five surfaces exist and record the current source relation and residue, but a final same-snapshot consistency and cold-start readback is absent. |
 | 11 | Fresh clone reads STATUS alone and reruns every gate | **BLOCKED.** No STATUS-only cold-start execution over this revision is recorded. |
 | 12 | Decisions complete; no pending administration | **BLOCKED.** Retained refs, proof reconciliation and final integration remain pending. |
@@ -63,7 +63,7 @@ Component evidence, cached output and skipped or partial jobs cannot substitute.
 | G8 | Canonical status consistency | Candidate documentation change; final gate absent |
 | G9 | STATUS-only cold start | Not run |
 | G10 | Git/ref administration | Local root and remote census only; retained-ref disposition incomplete |
-| G11 | Tooling completeness | Workflow-scope repair passed its adverse suite; active attribution, dormant-tool and final-orchestrator residue remain |
+| G11 | Tooling completeness | Workflow-scope and active-attribution repairs passed their adverse suites; 32 no-current-exercise or documentation tool candidates and final-orchestrator residue remain |
 
 ## Cold-start order
 

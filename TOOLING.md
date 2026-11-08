@@ -3,8 +3,9 @@
 **State: component registry; the final federation toolchain is incomplete.**
 
 This file lists runnable mission-relevant tools present in the Main revision
-that contains this file. Its source parent was
-`c4db7562640817ab5f23119571030851b964472c`. Each entry states purpose,
+that contains this file. Its candidate source parent is
+`8038863c04cc96acfcfc0d2953ab8575ccce213e`, based on Main default
+`299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
 
@@ -259,16 +260,241 @@ python3 -B -S -O tools/cbz/g11_census.py --rev HEAD --json /tmp/g11-opt.json
 At #762's qualified head, both modes produced byte-identical reports
 (SHA-256
 `86b7139fc1c2d308c1746132e1d3dd070fc6c393c4e0ba9a1aa0223d35c6feb2`).
-The seven false `defaults.run` findings are absent. The census still exits
-nonzero with 55 tool documentation or static-exercise findings. Read-only
-classification found seven documentation-only gaps, 20 active tools whose
-real test/workflow execution is outside the current static attribution model,
-and 28 historical one-shot browser tools with no current exercise detected.
-The registrations above close the 11 missing documentation entries, but do
-not manufacture exercise evidence for the four active attribution gaps.
-Attribution repair and exact dormant-tool quarantine remain separate adverse-
-tested work. Until those dispositions and a fresh final census pass, G11 is
-FAIL and cannot support G11 admission.
+The seven false `defaults.run` findings were absent, while 55 documentation or
+static-exercise findings remained. Main #763 closed the seven
+documentation-only gaps. The subsequent review-repaired attribution source
+`8038863c04cc96acfcfc0d2953ab8575ccce213e` (parent
+`d962c4e1593cd3b35d655aee9c7a582da6b63ca3`, tree
+`de8e2c664116803643cfda2f324756e7716c57af`) recognizes explicit local path
+bindings only when delivered to trusted Python execution/loading APIs,
+reachable forwarding wrappers, or named Node child-process imports. It was
+qualified locally at exact-tree commit
+`1616b31889a8b242ff6950dbd7af4d437e54648c`. Fresh execution passed 256/256
+controls and killed 321/321 designated mutations in both modes with
+zero skips; the
+sealed mutation-inventory SHA-256 is
+`d7021d5cc7e464c423335c7b56b67b5ef1844c09865683d728a998e1661a5652`.
+The normal and optimized mutation receipts are byte-identical, 199,677 bytes,
+SHA-256 `367a13fed18c0880fcc73590ffb1f615bb48ba1baf76ecc621f427637f31f687`. The exact-
+tree normal and optimized censuses were byte-identical (SHA-256
+`bcd9605e448a4e3d121f8e9a03733190f376367e5c2ab690b17a90675605ef8f`,
+56,059 bytes each),
+with zero production findings and exactly 32 no-current-exercise or documentation tool
+candidates; both runs exited 1. Adverse controls refuse mere path
+credit from helper-mediated writes on unresolved Python branches, quoted
+JavaScript import text and unreachable JavaScript URL initializers. The
+function-scope URL control invokes the defining helper so scope leakage remains
+independently mutation-tested. Those three repairs account for review/adverse
+defects 141–143. An additional adverse control maps an
+aggregate mutation through a helper parameter back to the caller argument on
+an unresolved branch; a paired positive control proves local parameter
+rebinding does not leak. Three additional review controls require all enclosing
+JavaScript branches to select a call, require a proven first iteration for
+`while`/`for` bodies, and reject process calls after direct helper
+`return`/`throw`; the duplicate parameter-alias review is preserved but counted
+once. Two older unresolved review findings additionally capture an augmented-
+assignment target before RHS helper effects and defer JavaScript parameter
+default initializers until invocation. Three older unresolved findings now
+invalidate trusted Python imports after possible branch rebindings, terminate
+JavaScript loop tails after direct `break`/`continue`, and reject process-call
+credit inside unsupported `switch` selection. Four newest controls retain
+unresolved-branch class-construction effects while deferring method bodies,
+map helper definition-time parameter mutation to the bound caller argument,
+continue JavaScript optional-chain suppression through repeated named-property
+hops, and defer computed-name instance-field initializers until construction.
+Three latest controls extend optional-chain suppression through computed
+accesses and intermediate calls, defer computed-name class/object methods, and
+recognize semicolonless instance-field boundaries. Three newer controls propagate helper class-construction mutation to
+the bound caller argument, reject downstream activation after unsupported
+JavaScript `await`, and balance nested computed method names before deferring
+their bodies. Five newest controls interleave leaf stores inside one
+destructuring target, defer quoted methods, balance nested computed field names,
+snapshot destructured values before target effects while preserving nested
+aliases, and retain execution credit for class static-block assignments. The
+three latest controls unpack nested targets when reached, defer quoted/numeric
+instance-field initializers, and enforce termination within static blocks. Two
+newest controls extend numeric field deferral to exponent, leading-decimal and
+separator forms, and preserve evaluation of a static-block `throw` operand
+before suppressing its tail. Four further controls propagate mutation through
+an omitted mutable-default helper parameter, discover parameter aliases inside
+nested helper statements, defer numeric-name class/object methods, and defer an
+instance field literally named `static`. Two newest controls preserve a
+definition-time captured mutable default after its expression name is rebound
+and make helper-alias origin tracking branch-sensitive, selecting literal
+branches and unioning unresolved branches. Mutation-time origin snapshots keep
+an earlier alias mutation after later local rebinding, while recursive captured-
+default invalidation reaches nested aggregates and surviving external aliases.
+Mutation-time and final helper-alias origins are unioned, so helper-induced
+mutation after a rebinding cannot suppress either caller aggregate. Annotated
+assignments with values propagate formal-alias provenance, while annotation-
+only assignments leave the existing binding unchanged. Nested helper mutations
+now retain their exact call-site formal origins, and a precomputed mutation map
+bounds recursive helper graphs. Class heritage expressions are delimiter-
+balanced before either instance fields or static blocks are classified. The
+initial native implementation `3f3dc9166a79b7d0bb7ec97b6422621a7da90f85`
+failed both whole-tree censuses with `RecursionError` and receives no credit.
+The stronger call-site capture makes the older defect-196 union mutant
+equivalent; that mutant is retired explicitly while its historical RED control
+remains. Six newest repairs skip nested class/function expression bodies during
+outer class-body discovery, visit ordinary and annotated assignment right-hand
+sides before formal-alias rebinding, balance multiline computed names, fail
+closed on malformed class structure, preserve valid `#class`/`#function`
+private-name execution, and exclude import/export specifier reserved words from
+expression-keyword reachability. Exact ordering mutants retain RHS traversal;
+the earlier 319/320-case harness attempts receive no credit. The distinct defect
+count is 206.
+Four preceding controls require pre-argument Python call-target capture,
+balanced JavaScript parameter scopes, actual default-argument delivery, and
+fail-closed catch-handler reachability. Three adjacent controls cover nullish
+short-circuit selection, regular-expression literal masking and propagation of
+termination from a completed standalone block. Three further controls retain
+function-definition-time effects under unresolved branches, map aggregate
+mutation through a helper-local parameter alias to the caller, and reject
+optional-call argument execution without a proven call. Adverse controls
+also interleave chained-assignment target stores and effects, retain
+lambda-default possible effects, reject unproven optional property/computed
+subexpressions, defer unconstructed instance-field initializers, and mask
+regular expressions after JavaScript control headers. Adverse controls
+also refuse mere path
+credit from stale assignment-target effects, unresolved comparison suffixes,
+unresolved eager-comprehension effects, uninvoked JavaScript method bodies and
+literal-true dead `else` arms. They also refuse mere path
+credit from unknown Boolean/wrapper branches that may mutate provenance,
+incomplete URL initializers, unselected JavaScript conditional arms,
+non-string aggregate conversion, helper calls missing required arguments, and
+module-name fallback through an enclosing closure binding. They also refuse
+mere path credit after unknown conditional-expression effects, calls that
+cannot bind a helper or wrapper signature, assignment-expression import
+rebinding, tuple `+=` alias conflation, unbraced literal-false JavaScript
+branches, concise arrow bodies, quoted URL declarations, or mutable URL-object
+alias escape. Positive controls cover annotation-only imports, bounded
+`unittest` lifecycle order, and positional, keyword, default, `*args` and
+`**kwargs` aggregate identity. General lifecycle mechanisms and dynamic
+language semantics remain outside this bounded static analyzer. They also
+refuse mere path credit from multiline source-line resorting, possible loop writes, class or
+repeated-helper frame leakage, subprocess shell/positional/executable
+ambiguity, a shadowed JavaScript `URL` constructor, mutated URL properties and
+unproven JavaScript short-circuit calls. The supported subprocess surface is
+one ordinary argv positional argument with `shell` absent/false/none,
+`executable` absent/none and no `**kwargs`; unsupported forms fail closed.
+URL construction must resolve to the unshadowed intrinsic and remains valid
+only until the binding or a rooted property may be written. Repeated Python
+helper calls receive fresh local bindings, imports and nested definitions while
+declared global/nonlocal effects retain their documented destinations. Adverse
+controls also refuse mere path
+mentions retained through exception-boundary helper/wrapper identities or
+exception target bindings; unsupported literal comprehension sources; scripts
+after unknown, attached command-mode, or exit-only interpreter options;
+assignment-expression and nested-aggregate alias staleness; decorated
+forwarding wrappers; and URL names delivered only in child-process options.
+They also refuse mere path
+mentions caused by stale bindings after unproven exception branches, wrapper
+discovery in those branches or in empty/unconsumed comprehensions, execution
+after a terminating `finally`, outer JavaScript URL provenance hidden by a
+destructured lexical binding, or helper-local treatment of a `nonlocal` static
+assignment. They also refuse mere path
+mentions through generator-method creation, comprehension-target leakage and
+unreachable Boolean operands during wrapper discovery. They also refuse mere path
+mentions, fake same-named APIs, interpreter command-mode arguments, unreachable
+helpers, arbitrary unknown branches and JavaScript same-line decoys outside the
+selected child-process call. Filesystem-root traversal terminates and reachable
+function-local process imports remain creditable. Destructured targets receive
+only corresponding resolved values; unsupported shapes are left unresolved.
+Reachable parameter rebinding invalidates wrapper forwarding; unresolved local
+shadows do not fall back to module values; and quoted or property-only
+JavaScript names are not expression evidence. Forwarded commands receive the
+same interpreter command-mode filtering as direct calls, augmented assignment
+replaces or clears stale static values, and property calls cannot impersonate
+trusted named imports. Unknown command elements retain position, so an unknown
+prefix refuses attribution while a dynamic suffix after a proven tool does not
+erase the proven prefix. Boolean `or` is left-to-right, local callees cannot
+inherit module wrappers, quoted JavaScript calls remain data, and resolved
+starred elements, `unittest` lifecycle methods and trusted loader wrappers are
+recognized. Class methods do not register as bare module wrappers. A known
+conditional expression selects only its taken command branch; unknown
+alternatives receive evidence only from the intersection of every branch. An
+intervening JavaScript assignment invalidates an earlier URL binding. The
+entire argument list of `pathlib.Path` participates in resolution, element or
+slice assignment clears its root static aggregate, and a function parameter
+shadowing a named JavaScript child-process import blocks attribution within
+that function. Interpreter mode switches are interpreted only before the
+selected script; wrapper element writes invalidate forwarding; helper-local
+invalidations remain unresolved instead of inheriting module bindings; and
+JavaScript default initializer references do not shadow their imported
+callees. Recognized interpreter options consume their operands before script
+selection, command-list element writes invalidate every resolved identity
+alias, and a function parameter shadows a same-named JavaScript URL binding
+within that function. Supported list-mutator calls invalidate command provenance
+and all resolved aliases; same-function JavaScript declarations shadow named
+child-process imports; and local URL declarations cannot escape their function
+scope. These are finite static rules, not general runtime semantics. The
+scanner also invalidates shared wrapper-parameter provenance through aliases,
+rejects calls through a wrapper name after that binding is reassigned, and
+checks JavaScript declarations in every lexically containing function. The
+wrapper scanner now stops after unconditional `return`/`raise` statements, and
+deferred callers carry their actual module activation point into module-wrapper
+availability and reassignment checks. The
+scanner also clears a previous forwarding registration when a later
+same-named function definition is non-forwarding, preserves list identity
+across `+=` for alias-aware mutations, and refuses JavaScript process calls in
+literal-false branches or uncalled named helpers. The
+scanner evaluates deferred Python bodies in activation order and requires
+JavaScript helper calls to have a reachable module-rooted invocation chain.
+Only callbacks passed to an imported `node:test` identity are recognized as
+test roots; this restores the actual museum-conditional test path while an
+arbitrary callback API remains untrusted. The temporary 30-tool result remains
+historical. The
+scanner also invalidates branch-written bindings at a supported `is None`
+join rather than combining mutually exclusive states. An imported `node:test`
+callback root requires both a reachable registration call and an unshadowed
+registrar identity; helper-local or nested registrations without a reachable
+module chain remain untrusted. The
+scanner analyzes supported cache-guard alternatives in isolated fail-closed
+binding environments and expands reachable Python helper effects at the call
+position before continuing the caller. Declared Python `global` writes target
+the module environment; element/slice deletion invalidates resolved command
+aliases; and rebound JavaScript helpers do not provide reachability. The
+scanner also invalidates wrapper forwarding on deletion, excludes declared
+globals from helper-local static shadows, and resolves JavaScript helper calls
+against the nearest lexical declaration. Each rule is covered by a dedicated
+control and designated mutant. The
+scanner also applies Python argument helper effects before enclosing-call
+attribution, rejects reassigned Python helper bodies, and validates deferred
+JavaScript module URL bindings at reachable activation points. The
+scanner captures each Python argument's static value at evaluation while
+invalidating shared list objects after later mutation, and evaluates assignment
+RHS helpers before target rebinding. It likewise captures list and tuple
+elements in left-to-right evaluation order and recognizes module-level
+JavaScript lexical-block declarations as shadows of imported callees. Captured
+sequence values also propagate through supported concatenation; ordinary
+helper traversal stops after definite termination, including selected literal
+branches; and destructured lexical declarations participate in JavaScript
+callee shadowing. Named concatenation operands retain their evaluation-time
+values across later operand effects; selected branch traversal stops after
+definite termination inside the branch; and semicolonless lexical declarations
+shadow imported callees under ASI. Repeated sequential Python helper calls are
+each expanded while active-call identity bounds recursion; declared `global`
+reassignment invalidates the module helper used by later calls; and literal
+Boolean short-circuiting excludes an unreachable operand. Literal conditional
+expressions traverse only a proven selected arm, while coroutine creation does
+not execute an async helper body; general coroutine activation remains outside
+the bounded scanner. Async forwarding wrappers and generator functions are not
+executed by object creation; comprehension bodies require proven iteration,
+generator expressions require consumption, chained comparisons respect a
+proven false prefix, and lexical JavaScript URL bindings remain block-bounded. The
+stricter source newly exposes `tools/atlas_formal_source_bridge.py`; the former
+28-tool result remains historical and is not rebound. Static evidence is not
+runtime proof. Exact dormant dispositions and the final orchestrator remain
+unfinished; G11 is FAIL.
+Forwarding-wrapper conditional expressions now follow only a proven selected
+arm. Declared `global`/`nonlocal` wrapper reassignments target their destination
+scope in execution order; lambda creation evaluates defaults but not its body;
+and declared `nonlocal` helper reassignment invalidates the nearest enclosing
+active helper. Dedicated adverse controls and mutants cover these finite rules.
+Wrapper forwarding is registered only after call arguments have applied their
+effects; chained comparisons stop after a proven false prefix in wrapper
+discovery; and exception handlers/`else` bodies remain uncredited without
+proven exception flow while `try`/`finally` bodies are retained.
 
 ## Missing final orchestrator
 
