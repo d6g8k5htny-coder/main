@@ -1706,10 +1706,10 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_unknown_branch_nested_captured_default_mutation_invalidates_child_alias",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("annotated helper alias origin ignored", "census",
-     "                    if isinstance(node.target, ast.Name) and roots is not None:\n"
-     "                        formal_aliases[node.target.id] = roots\n",
-     "                    if False:\n"
-     "                        formal_aliases[node.target.id] = roots\n",
+     "                    if node.value is not None:\n"
+     "                        self._bind_alias_target(node.target, node.value)\n",
+     "                    if node.value is not None:\n"
+     "                        self._clear_alias_target(node.target)\n",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_annotated_helper_alias_mutation_invalidates_caller",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("nested helper mutation-time alias origin ignored", "census",
@@ -1745,7 +1745,7 @@ NEW_MUTATIONS = [
      "                        self._bind_alias_target(target, node.value)\n",
      "                def visit_Assign(self, node):\n"
      "                    for target in node.targets:\n"
-     "                        self._bind_alias_target(target, node.value)\n"
+     "                        self._clear_alias_target(target)\n"
      "                    self.visit(node.value)\n"
      "                    for target in node.targets:\n"
      "                        self._record_mutation_target(target)\n"
@@ -1762,13 +1762,16 @@ NEW_MUTATIONS = [
      "                def visit_AnnAssign(self, node):\n"
      "                    if node.value is not None:\n"
      "                        self.visit(node.value)\n"
-     "                    roots = (",
-     "                def visit_AnnAssign(self, node):\n"
-     "                    if isinstance(node.target, ast.Name) and node.value is not None:\n"
-     "                        formal_aliases.pop(node.target.id, None)\n"
+     "                    self._record_mutation_target(node.target)\n"
+     "                    self.visit(node.target)\n"
      "                    if node.value is not None:\n"
+     "                        self._bind_alias_target(node.target, node.value)\n",
+     "                def visit_AnnAssign(self, node):\n"
+     "                    if node.value is not None:\n"
+     "                        self._clear_alias_target(node.target)\n"
      "                        self.visit(node.value)\n"
-     "                    roots = (",
+     "                    self._record_mutation_target(node.target)\n"
+     "                    self.visit(node.target)\n",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_nested_helper_annotated_rhs_mutation_precedes_alias_rebinding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("private JavaScript heritage name treated as expression keyword", "census",
@@ -1812,6 +1815,28 @@ NEW_MUTATIONS = [
      "                    if (isinstance(target, (ast.Tuple, ast.List))\n"
      "                            and False\n",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_destructured_parameter_alias_invalidates_caller_binding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("helper return alias origin ignored", "census",
+     "                    if isinstance(value, ast.Call):\n"
+     "                        children = [*value.args,\n"
+     "                                    *(keyword.value for keyword in value.keywords)]\n",
+     "                    if isinstance(value, ast.Call):\n"
+     "                        children = []\n",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_return_alias_invalidates_caller_binding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("helper container alias origin ignored", "census",
+     "                    elif isinstance(value, ast.Subscript):\n"
+     "                        children = [value.value]\n",
+     "                    elif isinstance(value, ast.Subscript):\n"
+     "                        children = []\n",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_container_alias_invalidates_caller_binding",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("unknown nested aggregate mutation ignored", "census",
+     "            if unknown_aggregate_mutation:\n"
+     "                visible_effects.add(unknown_aggregate_effect)\n",
+     "            if False:\n"
+     "                visible_effects.add(unknown_aggregate_effect)\n",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_nested_object_alias_fails_closed",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
 
 ]
@@ -2140,6 +2165,9 @@ EXPECTED_MUTATION_NAMES = (
     "JavaScript default and named import specifier treated as class keyword",
     "Unicode and escaped JavaScript instance field identifiers ignored",
     "helper destructuring alias origin ignored",
+    "helper return alias origin ignored",
+    "helper container alias origin ignored",
+    "unknown nested aggregate mutation ignored",
 )
 
 
@@ -2318,7 +2346,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 259
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 262
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

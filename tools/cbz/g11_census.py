@@ -1123,6 +1123,7 @@ def _reachable_python_nodes(tree, mode):
     lifecycle = {}
     active_functions = {}
     captured_default_effects = {}
+    unknown_aggregate_effect = "@g11-unknown-aggregate-mutation"
     function_scope_bindings = {
         id(node): _scope_bindings(node) for node in ast.walk(tree)
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
@@ -1174,6 +1175,7 @@ def _reachable_python_nodes(tree, mode):
                 formal_aliases[function.args.kwarg.arg] = {
                     function.args.kwarg.arg}
             mutation_origins = {}
+            unknown_aggregate_mutation = False
             class FormalAliasCollector(ast.NodeVisitor):
                 def visit_FunctionDef(self, node):
                     return
@@ -1188,6 +1190,7 @@ def _reachable_python_nodes(tree, mode):
                         mutation_origins.setdefault(name, set()).update(origins)
 
                 def _record_mutation_target(self, target, include_name=False):
+                    nonlocal unknown_aggregate_mutation
                     if isinstance(target, (ast.Tuple, ast.List)):
                         for element in target.elts:
                             self._record_mutation_target(element, include_name)
@@ -1197,10 +1200,15 @@ def _reachable_python_nodes(tree, mode):
                         return
                     if isinstance(target, (ast.Subscript, ast.Attribute)):
                         root = target
+                        crosses_attribute = False
                         while isinstance(root, (ast.Subscript, ast.Attribute)):
+                            crosses_attribute |= isinstance(root, ast.Attribute)
                             root = root.value
                         if isinstance(root, ast.Name):
                             self._record_mutation_name(root.id)
+                            if (crosses_attribute
+                                    and formal_aliases.get(root.id)):
+                                unknown_aggregate_mutation = True
                         return
                     if include_name and isinstance(target, ast.Name):
                         self._record_mutation_name(target.id)
@@ -1214,13 +1222,24 @@ def _reachable_python_nodes(tree, mode):
                     elif isinstance(target, ast.Starred):
                         self._clear_alias_target(target.value)
 
+                def _alias_expression_roots(self, value):
+                    if isinstance(value, ast.Name):
+                        return set(formal_aliases.get(value.id, ()))
+                    if isinstance(value, ast.Call):
+                        children = [*value.args,
+                                    *(keyword.value for keyword in value.keywords)]
+                    elif isinstance(value, ast.Subscript):
+                        children = [value.value]
+                    else:
+                        children = ast.iter_child_nodes(value)
+                    return set().union(*(
+                        self._alias_expression_roots(child)
+                        for child in children))
+
                 def _bind_alias_target(self, target, value):
                     if isinstance(target, ast.Name):
-                        roots = (set(formal_aliases[value.id])
-                                 if (isinstance(value, ast.Name)
-                                     and value.id in formal_aliases)
-                                 else None)
-                        if roots is None:
+                        roots = self._alias_expression_roots(value)
+                        if not roots:
                             formal_aliases.pop(target.id, None)
                         else:
                             formal_aliases[target.id] = roots
@@ -1255,16 +1274,10 @@ def _reachable_python_nodes(tree, mode):
                 def visit_AnnAssign(self, node):
                     if node.value is not None:
                         self.visit(node.value)
-                    roots = (set(formal_aliases[node.value.id])
-                             if (isinstance(node.value, ast.Name)
-                                 and node.value.id in formal_aliases)
-                             else None)
                     self._record_mutation_target(node.target)
                     self.visit(node.target)
-                    if isinstance(node.target, ast.Name) and roots is not None:
-                        formal_aliases[node.target.id] = roots
-                    elif isinstance(node.target, ast.Name) and node.value is not None:
-                        formal_aliases.pop(node.target.id, None)
+                    if node.value is not None:
+                        self._bind_alias_target(node.target, node.value)
 
                 def visit_AugAssign(self, node):
                     self._record_mutation_target(node.target, include_name=True)
@@ -1306,6 +1319,9 @@ def _reachable_python_nodes(tree, mode):
             alias_collector = FormalAliasCollector()
             for statement in function.body:
                 alias_collector.visit(statement)
+            if unknown_aggregate_mutation:
+                visible_effects.add(unknown_aggregate_effect)
+                visible_mutations.add(unknown_aggregate_effect)
             defaults = dict(_python_function_defaults(function))
             for mutated_name in mutations & local_only:
                 formals = set(formal_aliases.get(mutated_name, {mutated_name}))
@@ -1349,11 +1365,14 @@ def _reachable_python_nodes(tree, mode):
         marker = ast.Delete(targets=[
             ast.Name(id=name, ctx=ast.Del())
             for name in sorted(names)
-            if name not in captured_default_effects])
+            if (name not in captured_default_effects
+                and name != unknown_aggregate_effect)])
         marker._g11_default_mutations = sorted({
             captured_default_effects[name]
             for name in names
             if name in captured_default_effects})
+        marker._g11_unknown_aggregate_mutation = (
+            unknown_aggregate_effect in names)
         marker.lineno = lineno
         return marker
 
@@ -2644,6 +2663,12 @@ def python_tool_references(text, source_path, tools, unique, mode="script"):
                     wrapper_reassignments.setdefault(key, []).append(
                         (execution_line, node.lineno))
     for node, scope, execution_line in reachable_nodes:
+        if getattr(node, "_g11_unknown_aggregate_mutation", False):
+            environments = (module_bindings, *scope_bindings.values())
+            for environment in environments:
+                for value in list(environment.values()):
+                    _invalidate_python_value(
+                        value, environments, recursive=True)
         for default_id in getattr(node, "_g11_default_mutations", ()):
             captured = evaluated_defaults.get(default_id, missing_argument)
             if captured is not missing_argument:
