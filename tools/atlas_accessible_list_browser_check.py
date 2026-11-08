@@ -25,7 +25,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--site', type=Path, required=True)
     p.add_argument('--output', type=Path, required=True)
-    p.add_argument('--browser', default='/usr/bin/chromium')
+    p.add_argument('--browser')
     a = p.parse_args()
     a.output.mkdir(parents=True, exist_ok=True)
     class Handler(SimpleHTTPRequestHandler):
@@ -39,8 +39,14 @@ def main():
               'sandbox': True, 'renderer': 'Chromium SwiftShader software WebGL', 'cases': []}
     try:
         with sync_playwright() as pw:
-            browser = pw.chromium.launch(executable_path=a.browser, chromium_sandbox=True,
-                                         args=['--enable-unsafe-swiftshader'])
+            launch = {'chromium_sandbox': True,
+                      'args': ['--enable-unsafe-swiftshader']}
+            if a.browser:
+                launch['executable_path'] = a.browser
+            else:
+                launch['channel'] = 'chrome'
+            report['browser_launch'] = launch
+            browser = pw.chromium.launch(**launch)
             report['browser'] = browser.version
             for scheme in ['light', 'dark']:
                 row = {'scheme': scheme, 'passed': False}
