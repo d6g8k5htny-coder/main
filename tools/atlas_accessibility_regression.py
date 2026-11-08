@@ -16,6 +16,7 @@ from atlas_formal_evidence_browser_check import identity
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--site',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--browser',type=Path,help='Explicit Chromium/Chrome executable; default uses the installed Chrome channel')
     args=p.parse_args();site=args.site.resolve();args.output.mkdir(parents=True,exist_ok=False)
     class Handler(SimpleHTTPRequestHandler):
         def log_message(self,*unused):pass
@@ -26,8 +27,15 @@ def main():
             'served_files':{str(x.relative_to(site)):identity(x) for x in sorted(site.rglob('*')) if x.is_file()},'cases':[]}
     try:
         with sync_playwright() as pw:
-            browser=pw.chromium.launch(executable_path='/usr/bin/chromium',chromium_sandbox=True,
-                                      args=['--enable-unsafe-swiftshader','--disable-background-networking'])
+            launch={'chromium_sandbox':True,
+                    'args':['--enable-unsafe-swiftshader','--disable-background-networking']}
+            if args.browser:
+                launch['executable_path']=str(args.browser.resolve())
+            else:
+                launch['channel']='chrome'
+            report['browser_launch']=launch
+            (args.output/'accessibility-regression.json').write_text(json.dumps(report,indent=2)+'\n')
+            browser=pw.chromium.launch(**launch)
             report['browser']=browser.version
             for width,scheme in [(320,'light'),(320,'dark'),(390,'light'),(390,'dark')]:
                 row={'width':width,'scheme':scheme,'checks':[],'failures':[]};report['cases'].append(row)
