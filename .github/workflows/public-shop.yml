@@ -73,10 +73,15 @@ jobs:
           python -B tools/website_navigation_browser_check.py
           --site docs/site
           --output browser-evidence/website-navigation
+      - name: Current Atlas accessibility browser regression
+        run: >-
+          python -B tools/atlas_accessibility_regression.py
+          --site docs/site
+          --output browser-evidence/atlas-accessibility-regression
       - name: Exact Atlas browser runner controls
         run: |
-          python -B -S -m unittest tests.test_atlas_browser_regressions_runner -v
-          python -B -O -S -m unittest tests.test_atlas_browser_regressions_runner -v
+          python -B -S -m unittest tests.test_atlas_browser_regressions_runner tests.test_atlas_accessibility_regression_runner tests.test_atlas_accessibility_regression_mutations tests.test_g11_current_atlas_accessibility_regression_reference -v
+          python -B -O -S -m unittest tests.test_atlas_browser_regressions_runner tests.test_atlas_accessibility_regression_runner tests.test_atlas_accessibility_regression_mutations tests.test_g11_current_atlas_accessibility_regression_reference -v
       - name: Atlas focus and reader regressions in both modes
         run: |
           set -euo pipefail
