@@ -7,7 +7,6 @@ from hashlib import sha256
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 import json
 from pathlib import Path
-import shutil
 import subprocess
 import threading
 import traceback
@@ -30,7 +29,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--site', type=Path, default=ROOT / 'docs/site')
     ap.add_argument('--origin', help='Served origin; local checkout metadata never identifies remote code.')
-    ap.add_argument('--browser', default=shutil.which('chromium'))
+    ap.add_argument('--browser', help='Explicit Chromium-compatible executable; defaults to Playwright chrome channel.')
     ap.add_argument('--output', type=Path, required=True)
     ap.add_argument('--observe', action='store_true', help='Record baseline failures without acceptance.')
     args = ap.parse_args(); args.output.mkdir(parents=True, exist_ok=True)
@@ -153,7 +152,12 @@ def main():
                 case(f'bounded-menu-{width}-{height}-js{int(scripted)}', width, height, 'light', menu, scripted)
 
     with sync_playwright() as pw:
-        browser = pw.chromium.launch(executable_path=args.browser, chromium_sandbox=True)
+        launch = {'chromium_sandbox': True}
+        if args.browser:
+            launch['executable_path'] = args.browser
+        else:
+            launch['channel'] = 'chrome'
+        browser = pw.chromium.launch(**launch)
         report['browser'] = browser.version
         if args.origin: run(args.origin.rstrip('/') + '/', browser)
         else:
