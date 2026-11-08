@@ -1832,11 +1832,19 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_container_alias_invalidates_caller_binding",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
     ("unknown nested aggregate mutation ignored", "census",
-     "            if unknown_aggregate_mutation:\n"
-     "                visible_effects.add(unknown_aggregate_effect)\n",
-     "            if False:\n"
-     "                visible_effects.add(unknown_aggregate_effect)\n",
+     "                if (isinstance(target, ast.Subscript) and nested_attribute\n"
+     "                        or include_name and isinstance(target, ast.Attribute)):\n"
+     "                    names.add(_UNKNOWN_AGGREGATE_EFFECT)\n",
+     "                if False:\n"
+     "                    names.add(_UNKNOWN_AGGREGATE_EFFECT)\n",
      "tests.test_g11_census.ToolChecks.test_unknown_branch_helper_nested_object_alias_fails_closed",
+     'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
+    ("direct unknown nested aggregate effect ignored", "census",
+     "        if _UNKNOWN_AGGREGATE_EFFECT in mutations:\n"
+     "            effects.add(_UNKNOWN_AGGREGATE_EFFECT)\n",
+     "        if False:\n"
+     "            effects.add(_UNKNOWN_AGGREGATE_EFFECT)\n",
+     "tests.test_g11_census.ToolChecks.test_unknown_branch_direct_nested_object_alias_fails_closed",
      'self.assertFalse(self.tools(tree)["tools/unused.py"]["referenced"])'),
 
 ]
@@ -2168,6 +2176,7 @@ EXPECTED_MUTATION_NAMES = (
     "helper return alias origin ignored",
     "helper container alias origin ignored",
     "unknown nested aggregate mutation ignored",
+    "direct unknown nested aggregate effect ignored",
 )
 
 
@@ -2346,7 +2355,7 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 262
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 263
                        and baseline.get("failures") == 0 and baseline.get("errors") == 0
                        and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
         if baseline_ok:

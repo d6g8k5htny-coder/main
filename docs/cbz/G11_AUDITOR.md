@@ -269,17 +269,18 @@ The census exits 0 for no detected production finding, 1 for a detected producti
   reserved words inside import/export specifiers are not expression-keyword
   evidence; paired live calls preserve positive attribution.
 - YAML comments are scanned for marker words. Empty and comment-only `run` blocks are reported as no-op steps.
-- The mutation self-test has 327 cases. Earlier 319–324-case configurations
+- The mutation self-test has 328 cases. Earlier 319–327-case configurations
   remain historical evidence for their exact trees and do not establish this
   expanded contract. In addition to the earlier adverse controls, three
   designated cases remove helper-return alias propagation, remove
-  container/subscript alias propagation, and suppress fail-closed unknown
-  nested-aggregate invalidation. It seals the exact source slice containing
+  container/subscript alias propagation, suppress detection of unknown nested
+  aggregate mutation, and suppress its direct-branch propagation. It seals the
+  exact source slice containing
   `MUTATIONS`, `TARGETS`, `NEW_MUTATIONS` and `EXPECTED_MUTATION_NAMES` with
   test-side SHA-256
-  `1f37b99a6642ef91580a626c6a85e7e62d0123336a47fff4c26350fbb9edbde5`,
+  `97820c30570ab5dd2d72842d94495e1b0d695bd1307f43124a25db7535d09691`,
   then compares complete literal case tuples—not names alone—against the
-  harness source. A kill is admitted only when the clean full 262-test baseline
+  harness source. A kill is admitted only when the clean full 263-test baseline
   succeeds and the exact designated module/class/method reports `FAILED` with
   one `AssertionError` at its exact designated assertion line, zero errors and
   zero skips. The harness propagates the parent's optimized mode to child tests

@@ -49,6 +49,7 @@ LEGIT_BASES = {"Protocol", "ABC"}
 NOOP_RUN = {"true", ":", "exit 0"}
 PRODUCTION = {"tooling", "site"}
 _UNRESOLVED_STATIC = object()
+_UNKNOWN_AGGREGATE_EFFECT = "@g11-unknown-aggregate-mutation"
 
 
 class _StaticAlternatives(tuple):
@@ -1073,10 +1074,16 @@ def _branch_mutated_names(body, call_effects=None):
                 return
             if isinstance(target, (ast.Subscript, ast.Attribute)):
                 root = target
+                nested_attribute = False
                 while isinstance(root, (ast.Subscript, ast.Attribute)):
+                    if isinstance(root, ast.Attribute):
+                        nested_attribute = True
                     root = root.value
                 if isinstance(root, ast.Name):
                     names.add(root.id)
+                if (isinstance(target, ast.Subscript) and nested_attribute
+                        or include_name and isinstance(target, ast.Attribute)):
+                    names.add(_UNKNOWN_AGGREGATE_EFFECT)
                 self.visit(target)
                 return
             if include_name and isinstance(target, ast.Name):
@@ -1123,7 +1130,6 @@ def _reachable_python_nodes(tree, mode):
     lifecycle = {}
     active_functions = {}
     captured_default_effects = {}
-    unknown_aggregate_effect = "@g11-unknown-aggregate-mutation"
     function_scope_bindings = {
         id(node): _scope_bindings(node) for node in ast.walk(tree)
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
@@ -1175,7 +1181,6 @@ def _reachable_python_nodes(tree, mode):
                 formal_aliases[function.args.kwarg.arg] = {
                     function.args.kwarg.arg}
             mutation_origins = {}
-            unknown_aggregate_mutation = False
             class FormalAliasCollector(ast.NodeVisitor):
                 def visit_FunctionDef(self, node):
                     return
@@ -1190,7 +1195,6 @@ def _reachable_python_nodes(tree, mode):
                         mutation_origins.setdefault(name, set()).update(origins)
 
                 def _record_mutation_target(self, target, include_name=False):
-                    nonlocal unknown_aggregate_mutation
                     if isinstance(target, (ast.Tuple, ast.List)):
                         for element in target.elts:
                             self._record_mutation_target(element, include_name)
@@ -1200,15 +1204,10 @@ def _reachable_python_nodes(tree, mode):
                         return
                     if isinstance(target, (ast.Subscript, ast.Attribute)):
                         root = target
-                        crosses_attribute = False
                         while isinstance(root, (ast.Subscript, ast.Attribute)):
-                            crosses_attribute |= isinstance(root, ast.Attribute)
                             root = root.value
                         if isinstance(root, ast.Name):
                             self._record_mutation_name(root.id)
-                            if (crosses_attribute
-                                    and formal_aliases.get(root.id)):
-                                unknown_aggregate_mutation = True
                         return
                     if include_name and isinstance(target, ast.Name):
                         self._record_mutation_name(target.id)
@@ -1319,9 +1318,6 @@ def _reachable_python_nodes(tree, mode):
             alias_collector = FormalAliasCollector()
             for statement in function.body:
                 alias_collector.visit(statement)
-            if unknown_aggregate_mutation:
-                visible_effects.add(unknown_aggregate_effect)
-                visible_mutations.add(unknown_aggregate_effect)
             defaults = dict(_python_function_defaults(function))
             for mutated_name in mutations & local_only:
                 formals = set(formal_aliases.get(mutated_name, {mutated_name}))
@@ -1354,6 +1350,8 @@ def _reachable_python_nodes(tree, mode):
             body, lambda call: helper_summary(call)[0])
         mutations = _branch_mutated_names(
             body, lambda call: helper_summary(call)[1])
+        if _UNKNOWN_AGGREGATE_EFFECT in mutations:
+            effects.add(_UNKNOWN_AGGREGATE_EFFECT)
         return effects, mutations, call_mutations
 
     def branch_possible_effects(body, scope, seen=frozenset()):
@@ -1366,13 +1364,13 @@ def _reachable_python_nodes(tree, mode):
             ast.Name(id=name, ctx=ast.Del())
             for name in sorted(names)
             if (name not in captured_default_effects
-                and name != unknown_aggregate_effect)])
+                and name != _UNKNOWN_AGGREGATE_EFFECT)])
         marker._g11_default_mutations = sorted({
             captured_default_effects[name]
             for name in names
             if name in captured_default_effects})
         marker._g11_unknown_aggregate_mutation = (
-            unknown_aggregate_effect in names)
+            _UNKNOWN_AGGREGATE_EFFECT in names)
         marker.lineno = lineno
         return marker
 
