@@ -64,8 +64,10 @@ class SourceBridgeCLI(unittest.TestCase):
 
     def run_cli(self,*extra):
         self.input.write_text(json.dumps(self.snapshot))
-        mode=['-O'] if sys.flags.optimize else []
-        return subprocess.run([sys.executable,'-B',*mode,str(TOOL),'--root',str(self.root),
+        flags=(['-B']
+               + (['-O'] if sys.flags.optimize else [])
+               + (['-O'] if sys.flags.optimize > 1 else []))
+        return subprocess.run([sys.executable]+flags+[str(TOOL),'--root',str(self.root),
                                '--snapshot',str(self.input),*extra],capture_output=True,text=True)
 
     def test_current_bridge_reproduces_original_evidence_and_records_only_two_control_changes(self):
