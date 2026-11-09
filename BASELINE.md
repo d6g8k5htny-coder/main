@@ -6,6 +6,27 @@ This ledger binds the currently observed repository snapshot to the twelve
 owner criteria and final gate matrix. It records evidence and gaps; it is not a
 completion certificate.
 
+## Current G11 retirement binding — 9 November 2026
+
+Observed sequentially before this candidate:
+
+| Repository | Default revision |
+|---|---|
+| Main | `e18798544f16479436283d71689ae635a1817b20`, tree `b8a678df6ea8b03c28e1ccef0e34baf89bc7274d` |
+| Math- | `f532c3e2d91a0c7679a37c733741660917a9b21b` |
+| Universal-Law-Workspace | `400e03ca5f154e8d236e7126ea1525e78b3b595c`, pinning Main `e18798544f16479436283d71689ae635a1817b20` |
+
+The organization-visible open-pull-request search returned zero. Durable
+checkpoint v135 and its readback hashes are recorded in
+[STATUS.md](STATUS.md#current-g11-retirement-candidate--9-november-2026).
+The exact candidate G11 census has zero production findings, retains 23 tools,
+and exits 1 after one unsupported historical browser driver was removed from
+the operational surface. A merge advances Main beyond the Workspace pin until
+another guarded refresh lands. No final G7, G11, federation Lean/kernel pass,
+full regression, Layer A clearance, STATUS-only cold start or same-pass
+G0--G11 matrix is recorded. All twelve criteria remain unawarded. The older
+24- and 32-tool snapshots below remain historical and are not rebound.
+
 ## Current bound-snapshot correction — 9 November 2026
 
 Observed sequentially before this documentation-only candidate:

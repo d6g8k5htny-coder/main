@@ -8,6 +8,49 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
+## Current G11 retirement candidate — 9 November 2026
+
+This candidate starts from signed Main default
+`e18798544f16479436283d71689ae635a1817b20`, tree
+`b8a678df6ea8b03c28e1ccef0e34baf89bc7274d`. The freshly observed
+sequential defaults are Math-
+`f532c3e2d91a0c7679a37c733741660917a9b21b` and Workspace
+`400e03ca5f154e8d236e7126ea1525e78b3b595c`; the latter's published
+`repos/main` gitlink is exactly `e18798544f16479436283d71689ae635a1817b20`.
+The fresh organization-visible open-pull-request search returned zero. A merge
+of this later Main candidate will again require a guarded Workspace pin refresh
+before final G7 or criterion 8 can be awarded.
+
+`tools/atlas_formal_evidence_browser_check.py` was an unqualified historical
+acceptance driver whose only current executable references imported its byte
+identity helpers; no current workflow exercised the driver. It is removed from
+the operational tool surface and remains exactly recoverable at Git blob
+`9576fd34806528484a3898665c19cabe9eb3797c` (20,118 bytes, SHA-256
+`4ce981b7b9c0d422f099fcd8556a144d01de8a6c18de9431a6a045fecce55af7`)
+and in Main ancestry. The two current qualified browser tools now carry the
+same small hashing functions locally. Their 11 runner/adverse tests pass in
+normal and optimized modes. The bounded G11 controls pass 265/265 and the
+designated self-test kills 328/328 mutants in each mode. At exact retirement
+commit `724cb93bd6f3fdd0e407d48c5c3f267eb4c5bef0`, normal and optimized
+censuses are byte-identical at SHA-256
+`7ad72c9771a5859b465f7a4c2dc668a59c917a7a7d3770ddb0b6614ea8583455`,
+contain zero production findings, retain 23 documentation or
+no-current-exercise tools, and exit 1. G11 therefore remains FAIL.
+
+Durable checkpoint v135 preserves the preceding Main #773 and Workspace #47
+integrations. Stable status identity `libfile_9551d0182bcc819188edfe9f998165b3`
+is version 135, 536,616 bytes, SHA-256
+`c97603a63431df8cbbacf25e83cdcd908c3b246c760ead12ffd6d6ceffa09fe3`.
+Stable evidence identity `libfile_1f9ec8ce62708191972f9e2bf6295816` is
+version 135, 358,567,704 bytes, SHA-256
+`230bc21590ce8171890269201ac9cd1675d93f849a8e1f91b8d2380f2f805df6`.
+Byte readback matched; the ZIP has 13,110 unique members and zero duplicate
+names. This candidate does not rerun federation Lean/kernel checks, establish
+full-regression 100%, complete a STATUS-only cold start, or run G0--G11 in one
+pass. No theorem, proof disposition, bound, axiom, authorship, historical
+failure, kernel outcome or scientific status changes. CBZ-0 and terminal
+Partial are not established.
+
 ## Current serial integration correction — 9 November 2026
 
 This candidate starts from signed Main default
