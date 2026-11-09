@@ -12,6 +12,17 @@ Platform permissions and denials remain binding. Historical mathematical
 statements, test failures, authorship and verification outcomes are facts;
 this governance change does not rewrite them.
 
+## Pinned graph-binding execution — 9 November 2026
+
+The navigation candidate recovers the exact historical #525 Main and Math
+Git objects and requires the existing composition test to execute without
+skips in normal and optimized modes. Its exact commands, adverse controls,
+observed local runs and limited engineering scope are registered in
+[TOOLING.md](TOOLING.md#pinned-525-graph-binding-composition) and
+[STATUS.md](STATUS.md#graph-binding-recovery-and-pin-observation--9-november-2026).
+The original test body and historical binding classifications are preserved.
+This does not establish a mathematical, scientific or final-gate outcome.
+
 ## Later integrated provenance boundary — 9 November 2026
 
 Main #789 and Workspace #60 integrated the bounded mutation-origin fixes and

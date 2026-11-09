@@ -147,3 +147,28 @@ Append-only. Historical source outcomes remain in their original records.
 | 2026-11-09 22:41 | 2 | B/inventory, privacy | Publish a bounded machine-readable projection of the captured federation refs: all public branch and tag identities with source-bound ancestry observations, plus private aggregate counts. Withhold private branch names and commits from the public projection; retain the complete private observations in the owner's evidence. Native traversal covered ten public default histories, and authenticated API comparisons covered the five private branch tips. Ancestry is not semantic merge, custody, deletion eligibility, full Git hygiene or final G10. | Yes; prior refs and observations retained | [Ref observation](cbz/inventory/federation-refs-20261109.json); 2,078 captured branches, 39 tags; private Git transports previously failed. |
 | 2026-11-09 22:43 | 2 | A5/B, evidence | Preserve current observed failures on the separate Main #787 and #788 drafts, including both-mode component controls and normal-discovery failures and skips. Do not count those failed runs as qualification or change their scopes in this integration draft. | Yes; original artifacts retained | #787 head `d561405d936e81d2f77e9308b4e176cb994c77aa`, artifact `13715491858` / normal discovery `13714354922`; #788 head `f5f301b652e222395dc45cf300ae6697c4fcf8ae`, artifact `13714880889` / normal discovery `13715662136`. |
 | 2026-11-09 22:45 | 3 | A8/B, integration | Integrate Math #559 after exact current-head kernel, preserved-byte, downstream and full-regression workflows succeeded. Its full Math suite ran 1,144 tests per mode with no skips; original statements, seven actual negative controls and historical receipts retain their source identities. No continuum or scientific acceptance is inferred. Workspace's previous Math pin must be refreshed through the normal guarded path. | Yes; premerge source and failures retained | Math merge `9bdfc54b76173b57912503bfcf901a5f9d43b09c`; tested merge `79ad170de796404f6a8cd5273ce0fc4229da361e`; kernel run `42708585053`; regression run `42708585331`. |
+
+## 2026-11-09 — recover the historical #525 graph-binding test
+
+- The Main #790 tested navigation run actually completed 2,601 tests with 25
+  skips, including `Composition525Test` because its Math checkout was not
+  supplied. Preserve that result. The test's original Main data commit is
+  `29b7d5969e2cd707debb7449c69a71bbcd39cf63` and its Math commit is
+  `dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde`; no body, expected classification
+  or mathematical statement is changed.
+- Have the navigation workflow fetch the exact Math commit to a new bare Git
+  repository, verify both source commits, supply the existing environment
+  variable, require the selected normal result in original discovery, and
+  separately execute the selected optimized test. Missing sources, a skipped
+  result, an invalid final count or a failed test must fail the step; retain
+  the existing failure artifact. The normal workflow event subscription,
+  pre-existing job bytes and all other tests remain under the prior contract.
+- Local source-bound replay passed 37 normal binding tests and one selected
+  optimized test with a fresh fetched Math tree. An initial replay failed
+  because the experiment harness ran the setup outside Main; retain it. The
+  33 focused workflow/history controls passed in each mode, including eight
+  real shell-guard removals exercised with synthetic subprocess outcomes.
+  Hosted current-composition execution is still required. This is a bounded
+  engineering test, not continuum closure or independent scientific review.
+  Its disposition is reversible through Git history; prior outcomes remain
+  preserved.

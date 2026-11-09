@@ -8,6 +8,34 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
+## Graph-binding recovery and pin observation — 9 November 2026
+
+Main #790 merged as `27da96bd9546e1dcc08345ae2a0fc3842c0f5753` and
+Workspace #61 merged as `35b4a63281697e1656c63a663d8e58eb8215d2c5`,
+pinning that Main commit and Math- #559's
+`9bdfc54b76173b57912503bfcf901a5f9d43b09c`. Workspace's tested merge
+ran 254 tests per Python mode without skips and its pin job checked all eight
+current pins and four canonical inputs. The source-bound observations are
+sequential; a later Main merge requires another guarded pin refresh.
+
+The prior Main navigation run executed 2,601 tests with 25 explicit skips,
+including the historical #525 graph-binding composition. This candidate
+fetches the exact Math object `dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde`
+into a new bare Git repository, requires Main's historical data commit
+`29b7d5969e2cd707debb7449c69a71bbcd39cf63`, and refuses a missing, skipped
+or failed selected test in either Python mode. A local real-block replay
+fetched the Math object, ran 37 normal binding tests and the selected
+optimized test without skips. An earlier replay failed because its harness
+started outside the Main repository; that failure remains retained. The
+33 focused workflow and history controls passed per mode, including eight
+actual guard-removal comparisons against synthetic subprocess outcomes.
+Hosted execution of this candidate remains required. The earlier 25 skips
+are not erased, and no full G5, final G7, mathematical closure or scientific
+acceptance is inferred from this engineering check.
+
+The [tooling entry](TOOLING.md#pinned-525-graph-binding-composition) gives
+the exact standalone commands, source identities and supported scope.
+
 ## Later integrated origin and source-cut observations — 9 November 2026
 
 Main #789 merged as `b0a6c12abe87ae2a43163b3fe6ba4fa14adf389d` and

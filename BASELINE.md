@@ -6,6 +6,18 @@ This ledger binds the currently observed repository snapshot to the twelve
 owner criteria and final gate matrix. It records evidence and gaps; it is not a
 completion certificate.
 
+## Graph-binding candidate — 9 November 2026
+
+At the separately observed published boundary, Workspace
+`35b4a63281697e1656c63a663d8e58eb8215d2c5` pins Main
+`27da96bd9546e1dcc08345ae2a0fc3842c0f5753` and Math-
+`9bdfc54b76173b57912503bfcf901a5f9d43b09c`. This later Main candidate
+requires another guarded Workspace refresh if integrated. Its historical
+#525 binding test and local adverse workflow observations are described in
+[STATUS](STATUS.md#graph-binding-recovery-and-pin-observation--9-november-2026).
+The preceding 2,601-test Main run retained 25 skips. Neither that run nor the
+bounded candidate establishes full regression, final G7 or any CBZ criterion.
+
 ## Integrated origin and vector observation — 9 November 2026
 
 Main #789 and Workspace #60 were integrated with exact-head checks. Workspace

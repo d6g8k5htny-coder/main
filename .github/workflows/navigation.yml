@@ -17,6 +17,16 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: '3.11'
+      - name: Recover pinned graph-binding source
+        run: |
+          set -euo pipefail
+          math_repo="$RUNNER_TEMP/cbz-graph525-math.git"
+          test ! -e "$math_repo"
+          git init --bare "$math_repo"
+          GIT_TERMINAL_PROMPT=0 git -C "$math_repo" fetch --no-tags --no-write-fetch-head --depth=1 https://github.com/d6g8k5htny-coder/Math-.git dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde
+          git -C "$math_repo" cat-file -e 'dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde^{commit}'
+          git cat-file -e '29b7d5969e2cd707debb7449c69a71bbcd39cf63^{commit}'
+          printf 'GB_MATH_CHECKOUT=%s\n' "$math_repo" >> "$GITHUB_ENV"
       - name: Current landing and navigation controls
         run: |
           set -euo pipefail
@@ -44,6 +54,15 @@ jobs:
             method="${name##*.}"
             grep -Fxq "$method ($name) ... ok" navigation-evidence/history-reader.log || { echo "::error::required history reader test missing or incomplete: $name"; exit 1; }
           done
+      - name: Verify pinned graph-binding composition
+        run: |
+          set -euo pipefail
+          python -B -O -S -m unittest -v tests.test_graph_binding_check.Composition525Test > navigation-evidence/graph525-optimized.log 2>&1
+          grep -Fxq 'test_525_composition (test_graph_binding_check.Composition525Test.test_525_composition) ... ok' navigation-evidence/tests-normal.log || { echo '::error::normal graph-binding composition did not pass'; exit 1; }
+          grep -Fxq 'test_525_composition (tests.test_graph_binding_check.Composition525Test.test_525_composition) ... ok' navigation-evidence/graph525-optimized.log || { echo '::error::optimized graph-binding composition did not pass'; exit 1; }
+          tail -n 3 navigation-evidence/graph525-optimized.log | head -n 1 | grep -Eq '^Ran 1 test in ' || { echo '::error::optimized graph-binding test count invalid'; exit 1; }
+          tail -n 1 navigation-evidence/graph525-optimized.log | grep -Fxq 'OK' || { echo '::error::optimized graph-binding test did not finish cleanly'; exit 1; }
+          if grep -Fq ' ... skipped ' navigation-evidence/graph525-optimized.log; then echo '::error::graph-binding test or subtest skipped'; exit 1; fi
       - name: Preserve actual results including failures
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
