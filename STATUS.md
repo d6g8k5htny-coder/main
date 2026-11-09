@@ -8,6 +8,41 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
+## Latest observed inventory integration — 9 November 2026
+
+Main #780 merged at 19:26 UTC as `b1d36c80403acc96d257b9e71140a6cb83a595af`,
+tree `10bc30f82661ebdd763384496afffbe7f575459a`, with parents `f1ef3a2b…`
+and `24ad8a143862fb9255fc6e2e7bf08c12f989f71d`. Workspace default was
+subsequently observed at `1c552538e6a8952548e2bd5297a0031dda1f94e7`, still
+pinning the earlier Main `f1ef3a2b…`; it is not current with that Main merge.
+The observations are sequential and another Main merge requires another fresh
+comparison. A guarded Workspace pin update remains necessary.
+
+The recovered inventory CLI is present in the merged source, with commands and
+scope in [TOOLING.md](TOOLING.md#recovered-tracked-source-inventory--9-november-2026).
+Its ten historical designated mutation counts remain subject to the adverse
+assertion-origin findings described below. The merge does not qualify those
+classifiers as sound. No historical test or mutant outcome is reclassified.
+The #780 author separately reported a Node run with 766 passes and one failure
+among 767 cases; this report is not a passing full regression and must be
+preserved and independently resolved or isolated. See [Main #780](https://github.com/d6g8k5htny-coder/main/pull/780).
+
+The 41 T10 branch histories have since been retained in a self-contained Git
+bundle with 17,990 reachable Git objects, restored without network or
+alternates and checked with `git fsck`; this does not adopt any proposal,
+include external LFS payloads or separate submodule repositories, or authorize
+remote branch removal. Bundle SHA-256
+`d44d3d2d81be98ca27fbc2636a3a34d8d486ce1e64a8a12830a214880c6ae284`,
+Library ID `libfile_fde3_f-19a1ea0bf3ec81918654bfd1baefd2e4_59a0f9f234e48191bc19fddcc0f80648`;
+restore evidence SHA-256 `1ffc5edf89390caa6e65d587bddcf3d16dfc61247013dc55880e25503b42e7a6`.
+A later nine-repository public ref snapshot found 2,067 heads and 39 tags in
+separate observation intervals; all 41 recorded Math heads matched and eight
+Workspace pins matched the then-observed defaults. It does not establish
+current pins after #780, clean Git, full PR/admin inventory, safe deletions,
+proof truth or final G7/G10. The raw snapshot and independent parse readback
+are `libfile_fde3_f-38ba247049888191b936dde2c664f54a_59a0f9f234e48191bc19fddcc0f80648`,
+SHA-256 `8c7b6fc75f1a4b9218361adb44895166ec6b6dfc3b5e61893367b730e50e5efd`.
+
 ## Observed integration boundary — 9 November 2026
 
 This section records sequential observations through 19:02 UTC, before this
@@ -84,7 +119,7 @@ notes remain, but missing procedural review alone is not a mathematical
 blocker. The scope, commands and retained probe are in
 [TOOLING.md](TOOLING.md#t10-structural-readback-probe--9-november-2026).
 
-At the later read-only #780 A8 probe, the unmerged inventory candidate at
+At the earlier read-only #780 A8 probe, the then-unmerged inventory candidate at
 head `24ad8a143862fb9255fc6e2e7bf08c12f989f71d` accepted subject-origin
 `AssertionError` failures under its mutation classifiers. Twenty selected
 original-source baselines passed; sixteen combined nominal-mutation and
@@ -93,7 +128,7 @@ conditions in both modes. The two older inventory conditions also accepted
 all four full-suite adverse children, each reporting 81 tests, 95 failures and
 four controller skips. These are adverse probes, not the historical mutant
 results; those outcomes remain unchanged. The test-name and message checks do
-not establish selected-oracle origin. The active inventory candidate must
+not establish selected-oracle origin. The landed inventory classifier must
 qualify any later provenance repair and its own tests before future mutation
 counts are treated as sound. Source, baselines and raw adverse logs are
 retained in separately read-back evidence files identified in DECISIONS.

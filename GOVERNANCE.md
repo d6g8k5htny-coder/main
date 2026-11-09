@@ -21,6 +21,10 @@ original timestamps and outcomes; the latest directive controls future action.
 ## Observed freshness integration — 9 November 2026
 
 Main #782 and Workspace #54 integrated through normal expected-head checks.
+Main #780 later landed its bounded source inventory; its mutation classifiers
+remain unqualified under the adverse assertion-origin evidence. The inventory
+purpose, exact commands, verification and limits are registered in
+[TOOLING.md](TOOLING.md#recovered-tracked-source-inventory--9-november-2026).
 The sequential source boundary, executed checks, retained failures and
 post-merge limits are in [STATUS.md](STATUS.md#observed-integration-boundary--9-november-2026).
 The selected-body provenance rule below is now used by the landed freshness
