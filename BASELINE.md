@@ -13,8 +13,9 @@ Math- `f532c3e2d91a0c7679a37c733741660917a9b21b`, and Workspace
 `a3e6552104d89917105a668a296121680a7f03bc`, with Workspace pinning that Main
 commit. The recorded hosted navigation run has 37 skips; twelve are history
 object skip events. The candidate rejects that shallow-history outcome and
-passed the two affected classes on a full clone, but hosted candidate execution
-is pending. Other skip categories remain and criterion 5 is not awarded.
+passed the two affected classes on a full clone. Hosted candidate execution was
+not observed when this record was made. Other skip categories remain and
+criterion 5 is not awarded.
 All twelve criteria, final same-pass G0--G11, CBZ-0 and terminal Partial
 remain unawarded. Evidence and split checkpoint durability are described in
 [STATUS.md](STATUS.md#navigation-history-candidate--9-november-2026).

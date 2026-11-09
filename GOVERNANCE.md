@@ -29,7 +29,8 @@ mutation observations are recorded in
 [STATUS.md](STATUS.md#navigation-history-candidate--9-november-2026) and
 [TOOLING.md](TOOLING.md#navigation-history-guard-candidate--9-november-2026).
 This engineering rule neither changes mathematical requirements nor awards a
-final regression or federation gate. Hosted execution remains necessary.
+final regression or federation gate. Hosted execution was not yet observed
+when this record was made and must be checked for the actual current head.
 
 ## Current integrated v139 checkpoint — 9 November 2026
 

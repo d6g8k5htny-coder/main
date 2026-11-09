@@ -34,7 +34,8 @@ four origin controls excluded helper, nested callback and subject failures.
 The bounded probe source, commands, logs and limits are retained in the
 qualification archive identified in
 [STATUS.md](STATUS.md#navigation-history-candidate--9-november-2026). It is
-not a general mutation grader. Hosted execution remains pending. This is a
+not a general mutation grader. Hosted execution was not observed when this
+record was made; inspect the actual current-head checks. This is a
 source-identity engineering control, not a proof, scientific review, full
 regression, final G5 or G11 admission.
 

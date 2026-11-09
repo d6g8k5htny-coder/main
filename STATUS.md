@@ -13,8 +13,8 @@ Its mathematical statements, source cuts and review limits are preserved.
 The candidate starts from signed Main
 `5ebe5771d44160f56d4f2fd1e11726858d17dc90`. The last sequential Workspace
 default `a3e6552104d89917105a668a296121680a7f03bc` pins that Main commit;
-Math- remains `f532c3e2d91a0c7679a37c733741660917a9b21b`. The stable
-contribution status is v141. Its stable evidence archive remains v139 after
+Math- remains `f532c3e2d91a0c7679a37c733741660917a9b21b`. At 17:33 UTC the
+stable contribution status was v141. Its stable evidence archive was v139 after
 two failed v140 transfer attempts; the v140 integration supplement is
 `libfile_fde3_f-577788f2c9a88191a2493c330a8c0d2b_59a0f9f234e48191bc19fddcc0f80648`.
 The status explicitly records this split; the archives are not a matched
@@ -37,7 +37,8 @@ artifact, not a general grading service. Its source, reports and both actual
 history logs are in
 `libfile_fde3_f-f232855b2dc081919315ab3c31a32f56_59a0f9f234e48191bc19fddcc0f80648`,
 SHA-256 `6fa1b43e564baa27270e311f44b56cd2e580b2564c8253805789ab17f4c39fcf`.
-Hosted candidate execution and integration are still required; the other
+At this record's creation, hosted candidate execution and integration had not
+been observed; inspect the current pull request and its actual checks. The other
 observed skip categories remain. No full-regression 100%, final G5/G11,
 whole Layer A clearance, final G7, STATUS-only cold start, same-pass G0--G11,
 CBZ-0, terminal Partial or scientific acceptance is claimed. Any later Main
