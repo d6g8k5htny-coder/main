@@ -443,6 +443,17 @@ class ReceiptContracts(ContractCase):
         self.invalid_receipt(value, copy.deepcopy(value), "MODULE_COVERAGE")
 
 
+    def test_submicrosecond_utc_fractions_rejected_when_bindings_match(self):
+        for fraction in ("0000001", "000000001"):
+            value = receipt()
+            for item in value["steps"]:
+                # datetime truncation makes these reversed instants compare equal.
+                item["started_utc"] = "2026-11-09T00:00:00." + fraction + "Z"
+                item["ended_utc"] = "2026-11-09T00:00:00." + "0" * len(fraction) + "Z"
+            with self.subTest(fractional_digits=len(fraction)):
+                self.invalid_receipt(value, copy.deepcopy(value), "RECEIPT_SCHEMA")
+
+
 
 if __name__ == "__main__":
     unittest.main()

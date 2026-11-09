@@ -5,7 +5,7 @@ Caller-provided bindings are declarations, not independent provenance.
 """
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 import hashlib
 import json
 import math
@@ -507,8 +507,12 @@ def _receipt_keys(value, keys):
 
 
 def _utc(value):
-    _receipt_need(type(value) is str and value.endswith("Z"), "UTC timestamp required")
-    return datetime.fromisoformat(value[:-1] + "+00:00")
+    _receipt_need(type(value) is str and re.fullmatch(
+        r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\.[0-9]+)?Z", value
+    ) is not None, "full extended UTC timestamp required")
+    parsed = datetime.fromisoformat(value[:-1] + "+00:00")
+    _receipt_need(parsed.tzinfo == timezone.utc, "aware UTC timestamp required")
+    return parsed
 
 
 def _receipt_schema(value):
@@ -585,7 +589,8 @@ def classify_receipt(receipt: dict, expected: dict) -> dict:
            for value in (receipt, expected)):
         return reject("CACHE_DRIFT", "cache")
     coverage = receipt["module_coverage"]
-    if coverage != expected["module_coverage"] or len(set(coverage)) != len(coverage):
+    if (not coverage or not expected["module_coverage"]
+            or coverage != expected["module_coverage"] or len(set(coverage)) != len(coverage)):
         return reject("MODULE_COVERAGE", "modules")
     if any(value["unsafe_skipped"] or value["partial_skipped"] for value in (receipt, expected)):
         return reject("REPLAY_SKIPPED", "declarations")

@@ -187,3 +187,24 @@ Append-only. Historical source outcomes remain in their original records.
   expectsMODULE_COVERAGE. There are now22pure plus1mandatorypinned controls
   per mode. Actual semantic RED must precede the minimal two guards. No
   expected profile/source/config bytes or existing assertions are weakened.
+
+## 2026-11-09 — observed receipt RED, guarded candidate and UTC precision case
+
+- Root independently read run42706338390/attempt1/job129463995764 at f160a96:
+  both pure modes ran22 tests, original20 passed, exactly5 assertion failures
+  (four malformed UTC forms and both-empty coverage), zero errors/skips.
+  Both mandatory pinned-source tests passed. All five failures were actual
+  DECLARED_FIELDS_VALID versus INVALID, not setup or source failures.
+- Author was authorized to require full aware UTC/calendar syntax and reject
+  empty coverage at its existing priority. All22 assertions and fixed source
+  fixtures remain unchanged. That guarded source is now paired with a further
+  precision case before the final bound is implemented: Python datetime
+  truncates fractions beyond six digits, potentially losing reversed instant
+  order. This observer explicitly supports at most microsecond UTC precision;
+  duration_ns remains a separate integer observation.
+- Add one23rd pure method against unchanged candidate28ce8a145adc53fdc9f78007e871076d12081d46,
+  testing reversed seven- and nine-digit instants with matching declared
+  bindings. It must reject as RECEIPT_SCHEMA. There are now23pure+1pinned per
+  mode. Actual new semantic RED must precede the one-line precision limit.
+  No expected profile/config/source bytes or earlier test assertions changed.
+  Qualification remainsBLOCKED/NONE; no Lean or scientific credit follows.
