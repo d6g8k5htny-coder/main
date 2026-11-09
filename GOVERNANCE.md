@@ -18,6 +18,23 @@ Its team-model sections 1.5, 7.4 and 8 supersede older exclusive-owner and
 monitor-specific integration restrictions. Historical decisions retain their
 original timestamps and outcomes; the latest directive controls future action.
 
+## Freshness mutation provenance candidate — 9 November 2026
+
+An assertion is an admissible kill for the node-status freshness mutation
+experiment only when the selected synchronous unittest case actually ran and
+the pre-cleanup traceback identifies the selected body or explicitly captured
+standard assertion code as the failure origin. Subject, helper, callback,
+lifecycle, runtime, skip, malformed or incomplete outcomes do not qualify.
+The prior grader's real subject-origin false kill remains recorded and its
+historical results are not rebound. The new bounded control's purpose,
+commands, verification and limits are registered in [TOOLING.md](TOOLING.md)
+and its current observation in [STATUS.md](STATUS.md). These controls are not
+an adversarial process sandbox or mathematical/scientific review.
+Workspace #53's guarded merge pins the then-current Main `6ab126be…`;
+the newer Main freshness repair remains a draft. Later integration must use
+fresh heads and normal required checks, preserving the recorded platform
+failures. Older dated descriptions of current tips below are historical.
+
 ## Navigation history guard candidate — 9 November 2026
 
 For history-backed reader checks, the navigation workflow must obtain the

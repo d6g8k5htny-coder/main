@@ -8,6 +8,108 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
+## Freshness provenance repair candidate — 9 November 2026
+
+Main #779 merged as signed `6ab126beda65e19865b8468b52f8757ac2324e1f`,
+tree `df5509f1f25dc406bad95ab4b88c288300901a98`. This isolated repair
+began from its tree-equivalent hosted parent `2d4403838f6d697e671834f12a9a87b379a93ad6`;
+native source commit `9486c850d0c22fd1438e18fb392dbe02d7bd214f` has tree
+`d9a794488b34168cad49580a40460b44a5b33dfd`. Draft Main #782 hosted head
+`c65dc2d3ee52038a0804f6c7455ff8b5844d17ab` tested synthetic merge
+`0f76c40fac38af52aed6b32693bb3e1c6ea902d3`, tree
+`cfc7bca8d65eec3592e22be0530ddbdcc406f134`; it is not yet integrated.
+
+Workspace #53 merged as signed `2441baf051312878ca28e462d455cfbcd8e91b20`,
+tree `13dd6b73201627177c568cb4233a33fb60acbbab`, pinning Main `6ab126be…`.
+Its exact-head federation job ran 187 tests per mode; its pins job ran 187
+tests, eight network and strict-current pin checks, and four canonical-input
+checks. Post-merge pins job `129351557433` passed eight network and
+strict-current pins, four canonical inputs and 187 tests. Post-merge
+federation run `42674110867` failed before jobs with GitHub internal-server
+correlation `63dc5ffa-474e-4405-925b-574e391c43c6`; its failed-job retry
+was refused with HTTP 403. Four earlier hosted Workspace runs
+`42671456239`, `42671456244`, `42672115232`, and `42672114965`
+stopped before any job with GitHub internal-server annotations; targeted
+retries of the first two were refused with HTTP 403. Those failures remain
+evidence; they are not passing checks. Sequential tips are not atomic.
+This section supersedes older dated descriptions of current tips below.
+
+The old node-status freshness mutation grader accepted a real subject-origin
+`AssertionError` as a kill in both child modes. Its historical mutation
+results are not retroactively provenance-qualified. The candidate captures
+the actual traceback and code identities before unittest cleanup, accepts
+only the selected test body or explicitly captured standard assertion code,
+and rejects subject, helper, nested callback and lifecycle origins. The real
+adverse subject replacement was refused in both modes while its baseline
+passed. A malformed non-object report also exposed a classifier exception;
+the candidate now refuses it. Local CPython 3.12.14 runs passed 20/20 focused
+controls in each parent mode, including designated grader-guard mutations.
+The extracted workflow block exited zero and observed 22/22 authorized kills
+in each parent mode: eleven unchanged subject mutations in both child modes.
+Each parent run also observed eight authorized detections of four grader-guard
+mutations across both child modes. Separate existing subject/refresh/projection
+controls passed 72/72 per mode. These are local, bounded observations, not
+full regression. The source bundle, raw logs, original
+failures and provenance are independently read back from
+`libfile_fde3_f-0332e0543bcc819194e66f37fbd29b81_59a0f9f234e48191bc19fddcc0f80648`,
+SHA-256 `9e980d03e16d94716d62df10c00a39c88f0c0717b9de414d60a13ebc5b3d7411`.
+The hosted current-site controls job `129350315907` also passed on the tested
+merge. Its downloaded artifact `13700485135`, SHA-256
+`478e130f46398aa00756f4b78692a8a34e6897eda4d2ceb63bba43b74e71c303`,
+contains the eight expected files: 20 controls, eight guard detections and
+22/22 original-mutation kills in each parent mode, with real subject-origin
+refusals in both child modes. This observed component is not final G0 or G6.
+The exact native composed-tree G11 censuses passed in both modes with 69 tools,
+zero failing tools and zero skips; that is not the final federation G11 gate.
+The full local regressions were still running. Inspect all checks at any later
+candidate head.
+
+The hosted navigation workflow `42673203393` failed before jobs with a
+GitHub internal-server annotation; its failed-job retry was refused with
+HTTP 403. Public-shop `42673202992` and federation-drift `42673203388`
+also reported workflow failure with internal-server annotations even though
+their individual jobs succeeded. Do not erase or turn these failures into
+passing workflow checks. The hosted artifact, full job logs, actual strict
+refresh, Workspace merge and failed-run records were independently read back
+from `libfile_fde3_f-e95f98760b048191833a8514e364aab2_59a0f9f234e48191bc19fddcc0f80648`,
+SHA-256 `528f5686c2ef37c214142d5d2ab00a2a4b8a5642aae320a5304002abbde464ce`.
+
+The read-only command `python3 -B -S tools/node_status_refresh.py
+records/node_status --check` observed Math- default
+`f532c3e2d91a0c7679a37c733741660917a9b21b` on 9 November and exited 1:
+the cited directory of `eng.hard-gate` changed from tree `715449bb…`
+to `13272515…`. The other three records were fresh under the cited-content
+contract. This candidate marks only that record and its published projection
+stale while retaining the historical source pin. The strict freshness check
+remains nonzero until the stale condition is resolved; it is not a proof or
+scientific-status decision. The actual observation is retained in
+`libfile_fde3_f-ca14368b86b88191ae1d95fae1baeeba_59a0f9f234e48191bc19fddcc0f80648`;
+the original false-kill evidence is retained in
+`libfile_fde3_f-606b8b159414819198b7a213ca93d32c_59a0f9f234e48191bc19fddcc0f80648`.
+The site atlas tests passed 10/10 and both asset-release commands produced
+digest `efff4cc5ef57e4ece003e919c7e9449cae97b7e539ffb515f819de4a2621ed3e`.
+After the record correction, a second actual strict observation ran
+18:25:16–18:26:26 UTC with no input drift and again exited 1: the corrected
+record remained stale, and the other three records remained fresh under the
+cited-content contract. The report is in the hosted evidence supplement.
+
+For this bounded component run:
+
+```sh
+python3 -B -S -m unittest tests.test_node_status_mutation_grader -v
+python3 -B -O -S -m unittest tests.test_node_status_mutation_grader -v
+python3 -B -S cbz/evidence/node-status-freshness/run_mutations.py
+python3 -B -O -S cbz/evidence/node-status-freshness/run_mutations.py
+python3 -B -S tools/node_status_refresh.py records/node_status --check
+python3 -B tools/site_asset_release.py --check
+```
+
+The grader covers selected synchronous unittest cases and these explicit
+mutation/oracle patterns; it is not a sandbox against a malicious child
+process. It does not establish a full Layer A audit, complete regression,
+Lean/kernel pass, final G7/G11, STATUS-only cold start, same-pass G0–G11,
+scientific acceptance or CBZ-0. No terminal Partial is declared.
+
 ## Navigation history candidate — 9 November 2026
 
 The candidate starts from signed Main
