@@ -84,6 +84,21 @@ notes remain, but missing procedural review alone is not a mathematical
 blocker. The scope, commands and retained probe are in
 [TOOLING.md](TOOLING.md#t10-structural-readback-probe--9-november-2026).
 
+At the later read-only #780 A8 probe, the unmerged inventory candidate at
+head `24ad8a143862fb9255fc6e2e7bf08c12f989f71d` accepted subject-origin
+`AssertionError` failures under its mutation classifiers. Twenty selected
+original-source baselines passed; sixteen combined nominal-mutation and
+subject-assertion selected children met the RF312/replay/status classifier
+conditions in both modes. The two older inventory conditions also accepted
+all four full-suite adverse children, each reporting 81 tests, 95 failures and
+four controller skips. These are adverse probes, not the historical mutant
+results; those outcomes remain unchanged. The test-name and message checks do
+not establish selected-oracle origin. The active inventory candidate must
+qualify any later provenance repair and its own tests before future mutation
+counts are treated as sound. Source, baselines and raw adverse logs are
+retained in separately read-back evidence files identified in DECISIONS.
+No peer branch or mathematical disposition was changed by the probe.
+
 For available bounded checks, from a Main checkout run:
 
 ```sh

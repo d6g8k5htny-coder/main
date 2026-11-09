@@ -49,6 +49,18 @@ and both reports were byte-identical. Its literal review-word matches are
 flags for interpretation, not semantic judgments. This is not a federation
 auditor, a source-mutation qualification or a final gate.
 
+## Unmerged inventory classifier boundary — 9 November 2026
+
+Main #780 is a separate, unadmitted inventory candidate. At its observed
+head `24ad8a143862fb9255fc6e2e7bf08c12f989f71d`, an isolated A8 probe
+showed that subject-origin assertions could satisfy its mutation-result
+conditions, including the full-suite inventory conditions. This does not
+change or refute the earlier historical mutant runs. Future mutation counts
+need actual pre-cleanup traceback/code provenance and explicitly authorized
+test or oracle origins, plus fresh adverse checks. Exact observations and
+source-bound evidence are in [STATUS.md](STATUS.md#observed-integration-boundary--9-november-2026)
+and DECISIONS. This candidate is not part of the admitted Main toolchain.
+
 ## Node-status freshness origin guard candidate — 9 November 2026
 
 **Purpose:** reject false mutation kills caused by failures in the subject,
