@@ -8,6 +8,20 @@ into a kernel proof. A theorem is CLOSED only for the literal statement and
 allowed-axiom boundary actually checked. Anything else must remain OPEN or be
 placed in a complete dormant quarantine.
 
+## Freshness repair proof boundary — 9 November 2026
+
+The candidate described in
+[STATUS.md](STATUS.md#freshness-provenance-repair-candidate--9-november-2026)
+changes an engineering mutation grader and a stale engineering record. It does
+not change, close, refute or rebind any theorem, hypothesis, axiom, bound,
+quarantine, kernel result, historical mathematical statement or scientific
+disposition. The retained original false kill concerns mutation evidence,
+not the mathematical statements.
+
+The current sequential Workspace merge `2441baf0…` pins Main `6ab126be…`;
+the freshness repair remains a separate Main draft. This observation
+supersedes older dated descriptions of current tips below.
+
 ## Navigation history candidate boundary — 9 November 2026
 
 The candidate based on Main `5ebe5771d44160f56d4f2fd1e11726858d17dc90`
