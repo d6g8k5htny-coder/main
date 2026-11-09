@@ -10,15 +10,20 @@ completion certificate.
 
 The sequential observed boundary is Main signed merge
 `6ab126beda65e19865b8468b52f8757ac2324e1f`, Math-
-`f532c3e2d91a0c7679a37c733741660917a9b21b`, and Workspace default
-`a3e6552104d89917105a668a296121680a7f03bc`, which still pins the earlier
-Main. Workspace #53 proposes the updated pin, but four hosted runs failed
-before jobs and no current-tip integration is inferred. The isolated Main
+`f532c3e2d91a0c7679a37c733741660917a9b21b`, and signed Workspace merge
+`2441baf051312878ca28e462d455cfbcd8e91b20`, pinning that Main. Workspace
+#53 passed its exact-head jobs and merged normally; four prior hosted runs
+failed before jobs and are preserved. The post-merge pins job passed, while
+the post-merge federation run failed before jobs with a GitHub internal
+server error and its failed-job retry was refused with HTTP 403.
+These sequential observations are not final G7; a later Main merge will again
+require a guarded Workspace pin update. The isolated Main
 freshness-grader repair and the precisely stale engineering record are
 described in [STATUS.md](STATUS.md#freshness-provenance-repair-candidate--9-november-2026).
 The old false mutation kill remains historical and cannot receive new
 provenance credit. All twelve final criteria and a single current G0–G11
 pass remain unawarded; neither CBZ-0 nor terminal Partial is established.
+This section supersedes older dated descriptions of current tips below.
 
 ## Navigation history candidate — 9 November 2026
 

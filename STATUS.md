@@ -14,15 +14,25 @@ Main #779 merged as signed `6ab126beda65e19865b8468b52f8757ac2324e1f`,
 tree `df5509f1f25dc406bad95ab4b88c288300901a98`. This isolated repair
 began from its tree-equivalent hosted parent `2d4403838f6d697e671834f12a9a87b379a93ad6`;
 native source commit `9486c850d0c22fd1438e18fb392dbe02d7bd214f` has tree
-`d9a794488b34168cad49580a40460b44a5b33dfd`. It is not yet an integrated
-or hosted-qualified result. Workspace #53 is
-open at `bd617949f349805b87f51ede2b793553f30c542f`, based on
-`a3e6552104d89917105a668a296121680a7f03bc`, to pin Main `6ab126be…`.
-Its local 187-test suites passed in both modes. Four hosted Workspace runs
+`d9a794488b34168cad49580a40460b44a5b33dfd`. Draft Main #782 hosted head
+`c65dc2d3ee52038a0804f6c7455ff8b5844d17ab` tested synthetic merge
+`0f76c40fac38af52aed6b32693bb3e1c6ea902d3`, tree
+`cfc7bca8d65eec3592e22be0530ddbdcc406f134`; it is not yet integrated.
+
+Workspace #53 merged as signed `2441baf051312878ca28e462d455cfbcd8e91b20`,
+tree `13dd6b73201627177c568cb4233a33fb60acbbab`, pinning Main `6ab126be…`.
+Its exact-head federation job ran 187 tests per mode; its pins job ran 187
+tests, eight network and strict-current pin checks, and four canonical-input
+checks. Post-merge pins job `129351557433` passed eight network and
+strict-current pins, four canonical inputs and 187 tests. Post-merge
+federation run `42674110867` failed before jobs with GitHub internal-server
+correlation `63dc5ffa-474e-4405-925b-574e391c43c6`; its failed-job retry
+was refused with HTTP 403. Four earlier hosted Workspace runs
 `42671456239`, `42671456244`, `42672115232`, and `42672114965`
 stopped before any job with GitHub internal-server annotations; targeted
 retries of the first two were refused with HTTP 403. Those failures remain
 evidence; they are not passing checks. Sequential tips are not atomic.
+This section supersedes older dated descriptions of current tips below.
 
 The old node-status freshness mutation grader accepted a real subject-origin
 `AssertionError` as a kill in both child modes. Its historical mutation
@@ -39,11 +49,30 @@ in each parent mode: eleven unchanged subject mutations in both child modes.
 Each parent run also observed eight authorized detections of four grader-guard
 mutations across both child modes. Separate existing subject/refresh/projection
 controls passed 72/72 per mode. These are local, bounded observations, not
-hosted checks or full regression. The source bundle, raw logs, original
+full regression. The source bundle, raw logs, original
 failures and provenance are independently read back from
 `libfile_fde3_f-0332e0543bcc819194e66f37fbd29b81_59a0f9f234e48191bc19fddcc0f80648`,
 SHA-256 `9e980d03e16d94716d62df10c00a39c88f0c0717b9de414d60a13ebc5b3d7411`.
-Hosted checks and integration must be inspected at the actual candidate head.
+The hosted current-site controls job `129350315907` also passed on the tested
+merge. Its downloaded artifact `13700485135`, SHA-256
+`478e130f46398aa00756f4b78692a8a34e6897eda4d2ceb63bba43b74e71c303`,
+contains the eight expected files: 20 controls, eight guard detections and
+22/22 original-mutation kills in each parent mode, with real subject-origin
+refusals in both child modes. This observed component is not final G0 or G6.
+The exact native composed-tree G11 censuses passed in both modes with 69 tools,
+zero failing tools and zero skips; that is not the final federation G11 gate.
+The full local regressions were still running. Inspect all checks at any later
+candidate head.
+
+The hosted navigation workflow `42673203393` failed before jobs with a
+GitHub internal-server annotation; its failed-job retry was refused with
+HTTP 403. Public-shop `42673202992` and federation-drift `42673203388`
+also reported workflow failure with internal-server annotations even though
+their individual jobs succeeded. Do not erase or turn these failures into
+passing workflow checks. The hosted artifact, full job logs, actual strict
+refresh, Workspace merge and failed-run records were independently read back
+from `libfile_fde3_f-e95f98760b048191833a8514e364aab2_59a0f9f234e48191bc19fddcc0f80648`,
+SHA-256 `528f5686c2ef37c214142d5d2ab00a2a4b8a5642aae320a5304002abbde464ce`.
 
 The read-only command `python3 -B -S tools/node_status_refresh.py
 records/node_status --check` observed Math- default
@@ -59,6 +88,10 @@ the original false-kill evidence is retained in
 `libfile_fde3_f-606b8b159414819198b7a213ca93d32c_59a0f9f234e48191bc19fddcc0f80648`.
 The site atlas tests passed 10/10 and both asset-release commands produced
 digest `efff4cc5ef57e4ece003e919c7e9449cae97b7e539ffb515f819de4a2621ed3e`.
+After the record correction, a second actual strict observation ran
+18:25:16–18:26:26 UTC with no input drift and again exited 1: the corrected
+record remained stale, and the other three records remained fresh under the
+cited-content contract. The report is in the hosted evidence supplement.
 
 For this bounded component run:
 

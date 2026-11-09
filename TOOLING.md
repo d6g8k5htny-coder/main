@@ -4,7 +4,7 @@
 
 This file lists runnable mission-relevant tools present in Main. The current
 documentation candidate is based on signed Main
-`ed5d83b7eff354cd7025117f4d2371422acd816b`; older source-parent bindings are
+`6ab126beda65e19865b8468b52f8757ac2324e1f`; older source-parent bindings are
 preserved in their dated sections as history. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
@@ -31,16 +31,19 @@ adverse replacement, malformed counts and reports, failure/skip combinations,
 workflow bypass attempts, and four designated grader-guard mutations. The
 extracted workflow block exited zero: 22/22 authorized original-mutation
 kills and eight authorized grader-guard detections were recorded per parent
-mode, each covering both child modes. Hosted execution must be read at the
-actual candidate head. The previous false-kill and strict freshness
+mode, each covering both child modes. Hosted current-site job `129350315907`
+also passed, and artifact `13700485135` independently exposed the same
+20-control, eight-guard and 22-kill counts per parent mode with both real
+subject-origin refusals. These apply to tested merge `0f76c40f…` only;
+later candidate heads require fresh checks. The previous false-kill and strict freshness
 observation are retained separately as identified in
 [STATUS.md](STATUS.md#freshness-provenance-repair-candidate--9-november-2026).
 
 **Scope:** selected synchronous unittest cases and the named mutation and
 oracle patterns. It is not a general mutation framework, a hostile-process
 sandbox, a mathematical verifier or the final federation G0–G11 pass. The
-workflow attempts to retain produced stdout, stderr and JSON on failure. The strictly
-read-only freshness command is `python3 -B -S tools/node_status_refresh.py
+workflow attempts to retain produced stdout, stderr and JSON on failure.
+The strictly read-only freshness command is `python3 -B -S tools/node_status_refresh.py
 records/node_status --check`; an observed stale record makes it exit nonzero.
 
 ## Navigation history guard candidate — 9 November 2026

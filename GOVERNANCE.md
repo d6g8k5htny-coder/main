@@ -30,6 +30,10 @@ historical results are not rebound. The new bounded control's purpose,
 commands, verification and limits are registered in [TOOLING.md](TOOLING.md)
 and its current observation in [STATUS.md](STATUS.md). These controls are not
 an adversarial process sandbox or mathematical/scientific review.
+Workspace #53's guarded merge pins the then-current Main `6ab126be…`;
+the newer Main freshness repair remains a draft. Later integration must use
+fresh heads and normal required checks, preserving the recorded platform
+failures. Older dated descriptions of current tips below are historical.
 
 ## Navigation history guard candidate — 9 November 2026
 
