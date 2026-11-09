@@ -9,6 +9,26 @@ that contains this file. Its candidate source parent is
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
 
+## Current registry correction — 9 November 2026
+
+This candidate starts from Main
+`6deca3198c4b11b2d1208df904f5b942cd3e4bfb`. The exact current bounded G11
+command remains:
+
+```sh
+python3 -B -S tools/cbz/g11_census.py --rev HEAD --json /tmp/g11.json
+python3 -B -S -O tools/cbz/g11_census.py --rev HEAD --json /tmp/g11-opt.json
+```
+
+The current census contains zero production findings and exactly 24 retained
+documentation or no-current-exercise tools; it exits 1, so G11 remains FAIL.
+The older 32-tool results below remain exact historical outcomes and are not
+rebound to the current tree. Durable checkpoint v134, including exact Main and
+Workspace integration receipts and byte-readback hashes, is registered in
+[STATUS.md](STATUS.md#current-serial-integration-correction--9-november-2026).
+No final orchestrator has been admitted and no command in this registry yet
+runs G0 through G11 over one bound federation snapshot.
+
 ## Formal gate checker
 
 - **Purpose:** run the Main formal checks, including the pinned Lean toolchain,

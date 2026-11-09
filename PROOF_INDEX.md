@@ -8,6 +8,20 @@ into a kernel proof. A theorem is CLOSED only for the literal statement and
 allowed-axiom boundary actually checked. Anything else must remain OPEN or be
 placed in a complete dormant quarantine.
 
+## Current binding correction — 9 November 2026
+
+This candidate starts from Main
+`6deca3198c4b11b2d1208df904f5b942cd3e4bfb`. The latest sequentially
+observed Math- and Workspace defaults are respectively
+`f532c3e2d91a0c7679a37c733741660917a9b21b` and
+`a3d4c50b8b94ae1e02a032f68c5411007d695fa0`; the latter's published Main
+gitlink equals `6deca3198c4b11b2d1208df904f5b942cd3e4bfb`. This documentation-only
+correction does not rerun Lean, axiom closure or kernel verification and does
+not add, remove, promote, refute or rebind any proof. Durable checkpoint v134
+and its byte-readback receipt are linked from [STATUS.md](STATUS.md#current-serial-integration-correction--9-november-2026).
+The older snapshot table below is retained as historical context and is
+superseded only for current revision identities.
+
 ## Snapshot binding
 
 | Repository | Bound revision | Role |

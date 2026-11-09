@@ -6,6 +6,34 @@ This ledger binds the currently observed repository snapshot to the twelve
 owner criteria and final gate matrix. It records evidence and gaps; it is not a
 completion certificate.
 
+## Current bound-snapshot correction — 9 November 2026
+
+Observed sequentially before this documentation-only candidate:
+
+| Repository | Default revision |
+|---|---|
+| Main | `6deca3198c4b11b2d1208df904f5b942cd3e4bfb`, tree `3f615867f7d04f2b3e772760c25af479d26c7948` |
+| Math- | `f532c3e2d91a0c7679a37c733741660917a9b21b` |
+| Universal-Law-Workspace | `a3d4c50b8b94ae1e02a032f68c5411007d695fa0`, tree `a9f007b18fe496c63c74680a2005acb5766535cd`, pinning Main `6deca3198c4b11b2d1208df904f5b942cd3e4bfb` |
+
+At that sequential observation all eight strict-current public pins and all
+four canonical inputs passed, and the organization-visible open-PR search
+returned zero. These observations are not atomic or perpetual. A merge of this
+Main candidate advances Main beyond the recorded Workspace pin until another
+guarded refresh lands; criterion 8 and final G7 therefore remain unawarded.
+
+Durable checkpoint v134 is linked from
+[STATUS.md](STATUS.md#current-serial-integration-correction--9-november-2026)
+and [Main #684 comment 6730912447](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6730912447).
+The exact current G11 census retains 24 tools and exits 1. The fresh local Main
+discovery is not 100%: optimized execution ran 2,459 tests with two managed-
+Chromium socket errors and 23 preserved skips, while the direct normal replay
+failed at the same pre-page startup boundary. No final federation Lean/kernel
+pass, complete Layer A clearance, STATUS-only cold start or same-pass G0--G11
+matrix is recorded. All twelve criteria remain unawarded. The older bound
+snapshot and criterion table below remain historical context; their stale
+revision, pin, durable-version and 32-tool facts are superseded by this section.
+
 ## Bound snapshot
 
 Observed sequentially on 6–7 November 2026:
