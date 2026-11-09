@@ -143,6 +143,10 @@ class Fixture(unittest.TestCase):
     def test_ordinary_error_is_not_a_kill(self):
         self.assertEqual(self.check_case("raise ValueError('runtime error')"), [False, False])
 
+    def test_runtime_error_reclassified_as_failure_is_not_a_kill(self):
+        body = "self.failureException = ValueError\nraise ValueError('runtime error')"
+        self.assertEqual(self.check_case(body), [False, False])
+
     def test_skipped_test_is_not_a_kill(self):
         self.assertEqual(self.check_case("self.skipTest('not executed')"), [False, False])
 
@@ -156,7 +160,8 @@ class Fixture(unittest.TestCase):
                  "tests_run": 1, "failure_count": 1, "error_count": 0, "skip_count": 0,
                  "expected_failure_count": 0, "unexpected_success_count": 0, "child_exit": 1,
                  "optimize": 0, "requested_optimize": 0, "body_entered": 1,
-                 "events": [{"test_id": TEST_ID, "kind": "failure", "authorized": True}]}
+                 "events": [{"test_id": TEST_ID, "kind": "failure", "authorized": True,
+                             "exception": "AssertionError"}]}
         self.assertTrue(self.grader.qualified_kill(valid, TEST_ID))
         for key, value in (("tests_run", True), ("failure_count", True),
                            ("error_count", False), ("child_exit", True), ("body_entered", True),
@@ -169,6 +174,8 @@ class Fixture(unittest.TestCase):
             corrupted = dict(valid, optimize=mode, requested_optimize=mode)
             self.assertFalse(self.grader.qualified_kill(corrupted, TEST_ID))
         self.assertFalse(self.grader.qualified_kill(dict(valid, optimize=1), TEST_ID))
+        event = dict(valid["events"][0], exception="ValueError")
+        self.assertFalse(self.grader.qualified_kill(dict(valid, events=[event]), TEST_ID))
 
     def test_non_object_provenance_is_refused(self):
         for malformed in (None, [], "not a report", 1):
@@ -200,6 +207,10 @@ class MutationGuardSelfTests(unittest.TestCase):
              "test_corrupt_provenance_counts_are_refused"),
             ("ignore mode mismatch", "result.get('optimize') == result.get('requested_optimize')",
              "True", "test_corrupt_provenance_counts_are_refused"),
+            ("accept reclassified runtime error",
+             (("and type(err[1]) is AssertionError", "and True"),
+              ("and event.get('exception') == 'AssertionError'", "and True")),
+             None, "test_runtime_error_reclassified_as_failure_is_not_a_kill"),
             ("ignore authorization", "and event.get('authorized') is True", "and True",
              "test_subject_assertion_is_not_a_kill"),
             ("accept boolean counters", "all(type(result.get(key)) is int for key in count_keys)", "True",

@@ -45,8 +45,10 @@ A later A8 probe on Main `1902aac1` found that both the inventory and
 node-status mutation-origin graders accepted a distinct code object equal to
 an authorized unittest oracle as a kill. A separate freshness probe found
 that setup or teardown could call the selected body and have its failure
-credited as an oracle. The previous execution results and these red findings
-are retained. The candidate uses object identity and execution-phase tracking,
+credited as an oracle. A further selected test could relabel a runtime error
+as its failure type and obtain a false kill. The previous execution results
+and these red findings are retained. The candidate requires the actual
+exception to be exactly AssertionError, uses object identity and execution-phase tracking,
 and inventory rejects a skipped target; its status-isolation control again requires the
 named failure and one failure. Arbitrary test-class helper methods remain unsupported, including helper
 methods that perform assertions; a nested subject or callback is not an oracle.
@@ -68,10 +70,14 @@ the driver refused both the no-op and subject-assertion probes in both parent
 modes. The first failure remains retained. These are component observations,
 not a no-skip whole-Main G5 or a final G0/G6.
 
-On the local candidate under CPython 3.12.14, the freshness grader controls
-ran 23 tests per parent mode without skips, detecting ten grader mutations in
-both child modes; its eleven original source mutations produced 22 qualified
-child kills per parent mode. The crawler grader controls ran 23 tests per
+On earlier native candidate `5b174715bfcf035a0ed9fe8ac78e5bdab1f7bc06`,
+under CPython 3.12.14, the freshness grader controls ran 23 tests per parent
+mode without skips, detecting ten grader mutations in both child modes; its
+eleven original source mutations produced 22 qualified child kills per parent
+mode. After the exception-type correction, the local CPython 3.12.14 suite
+ran 24 tests per parent mode without skips, detected eleven grader mutants in
+both child modes, and recorded 22 original freshness-mutation kills per parent
+mode. The crawler grader controls ran 23 tests per
 parent mode without skips, including 16 grader-source mutations per parent
 mode. Its 109 source mutations and hosted execution have not yet been
 observed on this candidate. Earlier normal-parent self-mutation timeout and

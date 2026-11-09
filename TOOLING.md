@@ -17,8 +17,9 @@ record actual pre-cleanup traceback provenance and refuse subject, callback,
 lifecycle, runtime and malformed-result failures as oracle kills. Main
 `1902aac1` wrongly admitted a distinct code object equal to an authorized
 stdlib oracle in both tools; the freshness runner also accepted a selected
-body called from setup or teardown. See the later STATUS observation. The
-candidate compares live code objects by identity and tracks execution phase.
+body called from setup or teardown and a relabeled runtime error. See the
+later STATUS observation. The candidate compares live code objects by
+identity, tracks execution phase and requires an actual AssertionError.
 Inventory additionally refuses a
 skipped selected target and restores the exact status-isolation failure/count.
 Finite standard unittest callable-raise, mock-call, log and warning assertion

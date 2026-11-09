@@ -113,7 +113,8 @@ with contextlib.redirect_stdout(captured):
                 tb = tb.tb_next
             indexes = [i for i, (code, _) in enumerate(frames) if code is selected_code]
             tail = frames[indexes[-1] + 1:] if indexes else frames
-            authorized = (kind == "failure" and case is selected and selected_id == test_id
+            authorized = (kind == "failure" and type(err[1]) is AssertionError
+                          and case is selected and selected_id == test_id
                           and selected_code is not None and len(indexes) == 1
                           and state["entered"] == 1 and state["phase"] in ("body", "body-exited")
                           and all(is_oracle(code) for code, _ in tail))
@@ -192,7 +193,8 @@ def qualified_kill(result, test_id):
             and result['failure_count'] > 0
             and len(result['events']) == result['failure_count']
             and all(isinstance(event, dict) and event.get('kind') == 'failure' and event.get('test_id') == test_id
-                    and event.get('authorized') is True for event in result['events']))
+                    and event.get('authorized') is True and event.get('exception') == 'AssertionError'
+                    for event in result['events']))
 
 
 def baseline_ok(result, test_id):
