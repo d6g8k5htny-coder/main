@@ -1,0 +1,135 @@
+{
+ "schema": "claude54.errata.v1",
+ "created": "2026-11-09",
+ "boundary": "Overlay on retained QP-C54 tranche files, which are never edited; a builder applies each item field by field and tags the row errata_applied. Unchanged by design: QP-C54-T10-008 and -009, where \"review\" refers to the source recording a hypothesis defect, and the other review-language sentences of the scan, which cite a source review document while stating a substantive gap (unwritten steps, imported or unproved inputs, sketches, derivations not run).",
+ "items": [
+  {
+   "id": "E-R-T10-019-BR",
+   "source": "OpenAI Codex bounded T10 field check, main#684/6748878712 (19:07Z, 9 Nov)",
+   "target": {
+    "tranche": "t10",
+    "record": "QP-C54-T10-019"
+   },
+   "field": "blocking_reason",
+   "value": "No indexed kernel receipt binds these bytes, and the source's final02, cold01 and development compile receipts are author-side. Independently of replay, QP-C54-T2-040 keeps the P15-B claim quarantined.",
+   "previous_value_sha256": "c0b3e454daeac4d2ccbb3c455cbedf8d315d6b39c20307490732a5d72a6fac91",
+   "reason": "Its last sentence was procedural review history."
+  },
+  {
+   "id": "E-R-T10-019-PN",
+   "source": "OpenAI Codex bounded T10 field check, main#684/6748878712 (19:07Z, 9 Nov)",
+   "target": {
+    "tranche": "t10",
+    "record": "QP-C54-T10-019"
+   },
+   "field": "procedural_notes",
+   "value": "Historical note, not a mathematical blocker: the note records 'historical novelty and independent external review unresolved', and a formalization from the same contribution does not change that status.",
+   "reason": "Procedural history moved out of blocking_reason; missing procedural review is not a mathematical blocking reason under the owner directive."
+  },
+  {
+   "id": "E-R-T10-020-BR",
+   "source": "OpenAI Codex bounded T10 field check, main#684/6748878712 (19:07Z, 9 Nov)",
+   "target": {
+    "tranche": "t10",
+    "record": "QP-C54-T10-020"
+   },
+   "field": "blocking_reason",
+   "value": "No indexed kernel receipt binds these bytes. The source's final02, cold01 and development compile receipts are author-side files at the ref, not CLOSED index entries, and the source's final01 campaign failed at General.BernoulliFinner.",
+   "previous_value_sha256": "41bfb7623b38859af812f1c76e1ef63dbac4e8f0c27de46a382c8b57e71b543a",
+   "reason": "Its last sentence was procedural review history."
+  },
+  {
+   "id": "E-R-T10-020-PN",
+   "source": "OpenAI Codex bounded T10 field check, main#684/6748878712 (19:07Z, 9 Nov)",
+   "target": {
+    "tranche": "t10",
+    "record": "QP-C54-T10-020"
+   },
+   "field": "procedural_notes",
+   "value": "Historical note, not a mathematical blocker: no independent review of these general statements is recorded at the ref.",
+   "reason": "Procedural history moved out of blocking_reason; missing procedural review is not a mathematical blocking reason under the owner directive."
+  },
+  {
+   "id": "E-R-T10-049-BR",
+   "source": "OpenAI Codex bounded T10 field check, main#684/6748878712 (19:07Z, 9 Nov)",
+   "target": {
+    "tranche": "t10",
+    "record": "QP-C54-T10-049"
+   },
+   "field": "blocking_reason",
+   "value": "No Lean kernel declaration with an indexed receipt states these seven implications or the six counterexamples. The only check is Z3 UNSAT/SAT through an author runner, the faithfulness of its SMT encoding to the statements of PROOF.md is not established at the ref, and the stored run receipt does not bind the tip runner bytes. For F3_RATIONAL_MARGINS, the nearest Lean declarations (K-MAIN-P15-023 and K-MAIN-P15-024) are candidates that still lack an index receipt. They state the margins in cross-multiplied and Taylor-sum form, not as this formula.",
+   "previous_value_sha256": "70e7b7fc0f9673a5e85181f2450845df8b203fec9142e6819227979599fdb03a",
+   "reason": "The substantive point of \"no independent review covers its translation\" is an alignment gap: the SMT encoding is not shown faithful to the source statements. Restated as that."
+  },
+  {
+   "id": "E-R-T10-047-BR",
+   "source": "Claude 54 retroactive scan of every QP-C54 blocking_reason for review language, prompted by the Codex T10 field check",
+   "target": {
+    "tranche": "t10",
+    "record": "QP-C54-T10-047"
+   },
+   "field": "blocking_reason",
+   "value": "No indexed kernel receipt binds these bytes (blob 300267f5) or the core bytes they import (blob a541bcd1). The axiom audit and the 'kernel_checked' labels are unreplayed source reports. The main SIDE24 statement is reached only conditionally, on two unproved Prop specifications. The alignment of cRef and coneMoment with the informal source is not established.",
+   "previous_value_sha256": "d21bb96e72d9ce959fee811c9438514197ae334d269d191a30711ab1148c0b02",
+   "reason": "An alignment gap was phrased as a missing review; restated as the gap."
+  },
+  {
+   "id": "E-R-T2-024-BR",
+   "source": "Claude 54 retroactive scan of every QP-C54 blocking_reason for review language, prompted by the Codex T10 field check",
+   "target": {
+    "tranche": "t2",
+    "record": "QP-C54-T2-024"
+   },
+   "field": "blocking_reason",
+   "value": "A formal treatment needs statements of: the representation (1.1) of [LP]'s coefficient; the m = 4 total-trace reduction with the decoupled exponent |μ|²/4 − T²/28 = 3T²/112 + w²/48 + s²/24 + q²/8 and the exact cancellation of the Owen-type, constant and E_{3/16} terms giving F_4 in (2.2); the Taylor-with-Cauchy-remainder quadrature bound and erf bracket on (0, 80) with the tail beyond 80; Lemma S, the sandwich (4.1) with exponents 19/2 and 11/2, imported from Math-#205 and not established in the object; the d = 5 image-shell bound E^(5)_L; and the interval linear algebra over the 136 + 21 entry box. None is stated in Lean.",
+   "previous_value_sha256": "cca52d046b90de550d341df8075550928c15a8b99578b21f9179aa3dd6b51330",
+   "reason": "An unestablished imported input was phrased as not reviewed; restated as the gap."
+  },
+  {
+   "id": "E-R-T3-038-BR",
+   "source": "Claude 54 retroactive scan of every QP-C54 blocking_reason for review language, prompted by the Codex T10 field check",
+   "target": {
+    "tranche": "t3",
+    "record": "QP-C54-T3-038"
+   },
+   "field": "blocking_reason",
+   "value": "Every statement is conditional on PR176's Gaussian analytic expansion (17)/(5), its smooth even scalar representation and differentiated tail, and its coefficient identities (12), (13), (19). These are consumed, not proved here. The tail-integration, implicit-function and coefficient-bound steps have no kernel statement either.",
+   "previous_value_sha256": "d4d6bdedf5ade1aa741f84f64b89d7d51a95c01fe79c60917dd37c01fb416cf1",
+   "reason": "That sentence was procedural review history; the blocker is that the inputs are consumed, not proved."
+  },
+  {
+   "id": "E-R-T3-038-PN",
+   "source": "Claude 54 retroactive scan of every QP-C54 blocking_reason for review language, prompted by the Codex T10 field check",
+   "target": {
+    "tranche": "t3",
+    "record": "QP-C54-T3-038"
+   },
+   "field": "procedural_notes",
+   "value": "Historical note, not a mathematical blocker: the source records the Slice A/B analytic reviews of PR176's inputs as separate and pending (MOMENT_CONSEQUENCE.md:222).",
+   "reason": "Procedural history moved out of blocking_reason; missing procedural review is not a mathematical blocking reason under the owner directive."
+  },
+  {
+   "id": "E-R-T5-003-BR",
+   "source": "Claude 54 retroactive scan of every QP-C54 blocking_reason for review language, prompted by the Codex T10 field check",
+   "target": {
+    "tranche": "t5",
+    "record": "QP-C54-T5-003"
+   },
+   "field": "blocking_reason",
+   "value": "Evidentiary: at the cut, no kernel receipt for these 152 declarations exists, either CBZ-indexed or in the group's own directory. MANIFEST.json holds expected axiom lists only. The outputs of gate.py --execute and of the cap-first-exit-lean.yml workflow go to .lake/evidence or a CI artifact, and none is stored or indexed.\n\nInformal alignment: ALIGNMENT §4 keeps four interfaces informal:\n- I1: reading P's contact frame and field as φ and the periodic lift;\n- I2: identifying the H0 persistence pairing with olderPeakLevels;\n- I3: SP §2's setting on G_r;\n- I4: the probability side.\n\nALIGNMENT.md also records where Lean's hypothesis forms differ from SP's, both described as weaker than SP's:\n- the ridge_profile row (line 51), and ridge_capHyp's hconv, take convexity of F - q where SP states F'' - 1/4 > 0;\n- the ridge_source_facts/ridge_capHyp_C3 row (line 90) takes the third derivatives as derivatives of the scalar maps p ↦ D²f p [a, b].\nThe principal ridge_capHyp_E and ridge_capHyp_blocks take f ∈ C⁴ through iteratedFDeriv instead.",
+   "previous_value_sha256": "a0ab1142e1c10805ad5dec2a5ab7498209c0cf0e06020b39fdc3cd5a7bb4def9",
+   "reason": "Its last paragraph was procedural review history; the evidentiary and informal-alignment blockers stay."
+  },
+  {
+   "id": "E-R-T5-003-PN",
+   "source": "Claude 54 retroactive scan of every QP-C54 blocking_reason for review language, prompted by the Codex T10 field check",
+   "target": {
+    "tranche": "t5",
+    "record": "QP-C54-T5-003"
+   },
+   "field": "procedural_notes",
+   "value": "Historical note, not a mathematical blocker: the directory records no completed non-Claude delta alignment review for the v1.5-v2.6 rows. ALIGNMENT.md cites Codex comments 4175121617 and 4175200307 and the 'K1, K4 and K5' and 'K6' reads only as sources of wording changes.",
+   "reason": "Procedural history moved out of blocking_reason; missing procedural review is not a mathematical blocking reason under the owner directive."
+  }
+ ]
+}
