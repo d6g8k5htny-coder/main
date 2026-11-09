@@ -1,12 +1,176 @@
 # CBZ-0 execution status
 
-**State: Partial Baseline; CBZ-0 is not established.**
+**State: active intermediate baseline; CBZ-0 is not established. No terminal Partial Baseline is declared.**
 
 This entry adopts the owner's expanded [Master Directive](governance/MASTER_DIRECTIVE_20261029_SWARM.txt)
 and [team protocol](GOVERNANCE.md#team-structure-and-coordination).
 The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
+
+## Latest observed inventory integration — 9 November 2026
+
+Main #780 merged at 19:26 UTC as `b1d36c80403acc96d257b9e71140a6cb83a595af`,
+tree `10bc30f82661ebdd763384496afffbe7f575459a`, with parents `f1ef3a2b…`
+and `24ad8a143862fb9255fc6e2e7bf08c12f989f71d`. Workspace #55 subsequently merged at 19:43 UTC as
+`8a7aac8626438967830ea5a516a944ce48759018`, tree
+`d8db9ab8dd764d6f564b1d46fee03990be7b770a`, with parents `1c552538…` and
+`9f0fbbbb615c7d39207f7bfaef3fd53a7e561fc3`; its Main gitlink now pins
+`b1d36c80403acc96d257b9e71140a6cb83a595af`. The tested merge
+`238b379f671b0d0f0d4c471befdfa7dc1ebf4c35` had that exact tree. Hosted
+job `129389209449` passed eight strict-current pins, four canonical inputs
+and 187 tests; job `129389215646` ran 187 tests in each Python mode without
+skips. Local strict pins and canonical inputs also passed; local normal
+regression ran 187 tests without skips, while its optimized run was still in
+progress at this observation. These are sequential observations, not final
+G7. Post-merge jobs require their own observed outcomes. A later Main merge,
+including this documentation change, requires another guarded pin comparison.
+
+The recovered inventory CLI is present in the merged source, with commands and
+scope in [TOOLING.md](TOOLING.md#recovered-tracked-source-inventory--9-november-2026).
+Its ten historical designated mutation counts remain subject to the adverse
+assertion-origin findings described below. The merge does not qualify those
+classifiers as sound. No historical test or mutant outcome is reclassified.
+The #780 author separately reported a Node run with 766 passes and one failure
+among 767 cases; this report is not a passing full regression and must be
+preserved and independently resolved or isolated. See [Main #780](https://github.com/d6g8k5htny-coder/main/pull/780).
+
+The 41 T10 branch histories have since been retained in a self-contained Git
+bundle with 17,990 reachable Git objects, restored without network or
+alternates and checked with `git fsck`; this does not adopt any proposal,
+include external LFS payloads or separate submodule repositories, or authorize
+remote branch removal. Bundle SHA-256
+`d44d3d2d81be98ca27fbc2636a3a34d8d486ce1e64a8a12830a214880c6ae284`,
+Library ID `libfile_fde3_f-19a1ea0bf3ec81918654bfd1baefd2e4_59a0f9f234e48191bc19fddcc0f80648`;
+restore evidence SHA-256 `1ffc5edf89390caa6e65d587bddcf3d16dfc61247013dc55880e25503b42e7a6`.
+A later nine-repository public ref snapshot found 2,067 heads and 39 tags in
+separate observation intervals; all 41 recorded Math heads matched and eight
+Workspace pins matched the then-observed defaults. It does not establish
+current pins after #780, clean Git, full PR/admin inventory, safe deletions,
+proof truth or final G7/G10. The raw snapshot and independent parse readback
+are `libfile_fde3_f-38ba247049888191b936dde2c664f54a_59a0f9f234e48191bc19fddcc0f80648`,
+SHA-256 `8c7b6fc75f1a4b9218361adb44895166ec6b6dfc3b5e61893367b730e50e5efd`.
+
+## Observed integration boundary — 9 November 2026
+
+This section records sequential observations through 19:02 UTC, before this
+documentation change. Main #782 merged as
+`f1ef3a2babecca0f0d4eb35b018dc81d30e9d62c`, tree
+`5b771047cb384a9bb167ed2df505489cee1cbf7d`, with parents `6ab126be…` and
+`9bf048e9aeee3b846da92fba6e4d0708dee310e7`. Workspace #54 merged as
+`1c552538e6a8952548e2bd5297a0031dda1f94e7`, tree
+`e069b39ba25ffc2e3c6e2838a9b53c1e4e8484a6`, pinning that Main commit.
+Math- was `f532c3e2d91a0c7679a37c733741660917a9b21b`. These observations
+were not simultaneous. A later Main merge, including this documentation
+change, requires another guarded Workspace pin refresh before current-tip
+agreement may be claimed. The older dated sections below remain historical.
+
+The repaired freshness mutation grader rejects the real subject-origin false
+kill; the original failure and all eleven original mutations remain. Current
+Main #782 hosted controls job `129353108258` passed 20 focused controls,
+eight designated guard detections and 22/22 authorized original-mutation
+kills in each parent mode, with real subject-origin refusal in both child
+modes. This is selected synchronous unittest and named-pattern evidence, not
+a hostile-child sandbox, full Layer A audit or final G0/G6. Its bounded
+commands and limits are in [TOOLING.md](TOOLING.md). The old false-kill
+result is not retroactively rebound. The `eng.hard-gate` engineering record
+remains explicitly stale under the cited-content check; its historical source
+pin is preserved. A strict freshness check is expected to return nonzero
+while that observed drift remains.
+
+At earlier native tree `1c765f1aae84cd91c2d26706b967690b73823e2c`, full
+local discovery completed 2,489 tests in each Python mode with 25 explicit
+skips each. At the current tested Main #782 merge, hosted navigation ran
+2,489 tests with 25 skips and a separate 20 history tests without skips. The
+25 local skips comprised five restricted-container checks, two browser
+checks, two Lean-dependent checks, one historical composition check, four
+real-record checks with no applicable fields, one real-record live-source
+comparison not performed, and ten pytest-dependent checks. Other separately executed controls do not turn these into one
+no-skip run. Criterion 5 remains unawarded. Exact logs and limits are in
+checkpoint v152 and the independently read-back supplement
+`libfile_fde3_f-9cfc31236cd88191b63533d7eb3b0729_59a0f9f234e48191bc19fddcc0f80648`.
+
+Workspace #54's exact-head hosted federation job ran 187 tests in both modes
+without skips; its pins job passed eight network and strict-current pins,
+four canonical inputs and 187 tests. Local exact-tree tests also ran 187 per
+mode without skips. Its post-merge pins job `129366156775` passed the same
+eight current pins, four canonical inputs and 187 tests; the separate
+post-merge federation job `129366157128` subsequently ran 187 tests in
+each mode without skips. Main's post-merge required aggregate job
+`129366584981` reported success at `f1ef3a2b…`. Its current-site deployment
+job `129367351564` completed: the published-source receipt was prepared at
+`29a8b2be282ebfe02c2bc71743ac477a63f74842` and observed at
+`4a92fb8a90fa2f0a54ffdd1b009e0771201c0fe9` for 32 snapshots. The hosted
+rendered Chromium report recorded 39/39 passing cases and no page errors;
+this is bounded emulation, not physical-device, complete screen-reader or
+scientific certification, nor the STATUS-only cold-start test. Previously
+failed GitHub startup, abandoned-job and retry outcomes remain recorded
+below and are not replaced by later successes.
+
+Independent mechanical T10 readback reproduced 65 **proposed** obligation
+records and 559 other items byte for byte from retained source. It matched
+all 46 source statements in five selected records. A restored selective
+Git-object pack resolved all 1,872 recorded source bindings; it is not full
+ref/history retention and authorizes no branch deletion. Those proposals
+have not thereby been adopted or shown mathematically isolated, closed or
+scientifically accepted. The exact source, logs and selective pack were
+independently read back from
+`libfile_fde3_f-5a2970c2901881918ed36aad44f1610a_59a0f9f234e48191bc19fddcc0f80648`,
+SHA-256 `2bebe703fba2b7538e127182fb91dbd4c32d2a53ecf0d768982cb94c62a0a10a`.
+A later structural-only readback found nonempty, basic-type values for all
+eleven required fields in the 65 proposals, with 26 adverse malformed-input
+controls refused in each mode. This does not establish the truth of any
+field, an exact mathematical boundary, a blocking reason or isolation.
+Proposals 019, 020 and 049 mention absent or unresolved review/novelty in
+their blocking-reason text alongside source or proof limits. Those historical
+notes remain, but missing procedural review alone is not a mathematical
+blocker. The scope, commands and retained probe are in
+[TOOLING.md](TOOLING.md#t10-structural-readback-probe--9-november-2026).
+
+At the earlier read-only #780 A8 probe, the then-unmerged inventory candidate at
+head `24ad8a143862fb9255fc6e2e7bf08c12f989f71d` accepted subject-origin
+`AssertionError` failures under its mutation classifiers. Twenty selected
+original-source baselines passed; sixteen combined nominal-mutation and
+subject-assertion selected children met the RF312/replay/status classifier
+conditions in both modes. The two older inventory conditions also accepted
+all four full-suite adverse children, each reporting 81 tests, 95 failures and
+four controller skips. These are adverse probes, not the historical mutant
+results; those outcomes remain unchanged. The test-name and message checks do
+not establish selected-oracle origin. The landed inventory classifier must
+qualify any later provenance repair and its own tests before future mutation
+counts are treated as sound. Source, baselines and raw adverse logs are
+retained in separately read-back evidence files identified in DECISIONS.
+No peer branch or mathematical disposition was changed by the probe.
+
+For available bounded checks, from a Main checkout run:
+
+```sh
+python3 -B -S -m unittest tests.test_node_status_mutation_grader -v
+python3 -B -O -S -m unittest tests.test_node_status_mutation_grader -v
+python3 -B -S cbz/evidence/node-status-freshness/run_mutations.py
+python3 -B -O -S cbz/evidence/node-status-freshness/run_mutations.py
+python3 -B -S tools/cbz/g11_census.py --rev HEAD --json /tmp/cbz-g11.json
+python3 -B -O -S tools/cbz/g11_census.py --rev HEAD --json /tmp/cbz-g11-opt.json
+python3 -B -S tools/node_status_refresh.py records/node_status --check
+python3 -B -S -m unittest discover -s tests -p 'test_*.py' -v
+```
+
+From the Workspace checkout, run `python3 tools/verify_pins.py
+--require-current` and `python3 tools/verify_canonical_inputs.py`. These
+commands need the documented dependencies and network where applicable.
+They do not implement the complete G0–G11 matrix; no single documented
+command currently runs that final pass. Retain actual skips, errors, sources
+and exits. The proof index, quarantine inventory, whole Layer A audit,
+full regression, final kernel/axiom pass, mutation threshold, final pin and
+Git/admin inventory, tooling admission, consistent surfaces and STATUS-only
+cold start have not been observed together. No CBZ-0 or terminal Partial is
+claimed.
+
+At 19:06 UTC the independently read-back contribution checkpoint was version
+153, SHA-256 `ed780a4dd034b648f96d8e959587ef17f0270d5a85e65b52fdbfb82f1df5c7e4`;
+later versions may exist.
+The original large evidence ZIP remains at its v139 identity and SHA; newer
+supplements are separate, not a matched replacement.
 
 ## Freshness provenance repair candidate — 9 November 2026
 
@@ -17,7 +181,7 @@ native source commit `9486c850d0c22fd1438e18fb392dbe02d7bd214f` has tree
 `d9a794488b34168cad49580a40460b44a5b33dfd`. Draft Main #782 hosted head
 `c65dc2d3ee52038a0804f6c7455ff8b5844d17ab` tested synthetic merge
 `0f76c40fac38af52aed6b32693bb3e1c6ea902d3`, tree
-`cfc7bca8d65eec3592e22be0530ddbdcc406f134`; it is not yet integrated.
+`cfc7bca8d65eec3592e22be0530ddbdcc406f134`; at that earlier observation it was not yet integrated. The later integration is recorded above.
 
 Workspace #53 merged as signed `2441baf051312878ca28e462d455cfbcd8e91b20`,
 tree `13dd6b73201627177c568cb4233a33fb60acbbab`, pinning Main `6ab126be…`.
@@ -61,8 +225,7 @@ contains the eight expected files: 20 controls, eight guard detections and
 refusals in both child modes. This observed component is not final G0 or G6.
 The exact native composed-tree G11 censuses passed in both modes with 69 tools,
 zero failing tools and zero skips; that is not the final federation G11 gate.
-The full local regressions were still running. Inspect all checks at any later
-candidate head.
+At that earlier observation the full local regressions were still running. Their later outcomes are recorded above.
 
 The hosted navigation workflow `42673203393` failed before jobs with a
 GitHub internal-server annotation; its failed-job retry was refused with

@@ -18,6 +18,27 @@ Its team-model sections 1.5, 7.4 and 8 supersede older exclusive-owner and
 monitor-specific integration restrictions. Historical decisions retain their
 original timestamps and outcomes; the latest directive controls future action.
 
+## Observed freshness integration — 9 November 2026
+
+Main #782 and Workspace #54 integrated through normal expected-head checks.
+Workspace #55 subsequently refreshed the Main pin through the same guarded
+process; the sequential observation and limits are in STATUS.
+Main #780 later landed its bounded source inventory; its mutation classifiers
+remain unqualified under the adverse assertion-origin evidence. The inventory
+purpose, exact commands, verification and limits are registered in
+[TOOLING.md](TOOLING.md#recovered-tracked-source-inventory--9-november-2026).
+The sequential source boundary, executed checks, retained failures and
+post-merge limits are in [STATUS.md](STATUS.md#observed-integration-boundary--9-november-2026).
+The selected-body provenance rule below is now used by the landed freshness
+mutation component; its old false kill stays historical. No scientific review,
+whole Layer A clearance or final G0–G11 pass is implied. A subsequent Main
+merge requires a guarded Workspace pin refresh, and actual platform
+protections remain binding. The retained T10 field-shape probe is evidence
+only: nonempty fields cannot establish a mathematical obstruction or logical
+isolation, and missing procedural review alone is not a mathematical blocker.
+Its exact commands and limits are in [TOOLING.md](TOOLING.md#t10-structural-readback-probe--9-november-2026).
+This section supersedes older dated statements about current tips below.
+
 ## Freshness mutation provenance candidate — 9 November 2026
 
 An assertion is an admissible kill for the node-status freshness mutation
@@ -30,8 +51,8 @@ historical results are not rebound. The new bounded control's purpose,
 commands, verification and limits are registered in [TOOLING.md](TOOLING.md)
 and its current observation in [STATUS.md](STATUS.md). These controls are not
 an adversarial process sandbox or mathematical/scientific review.
-Workspace #53's guarded merge pins the then-current Main `6ab126be…`;
-the newer Main freshness repair remains a draft. Later integration must use
+Workspace #53's guarded merge pinned then-current Main `6ab126be…`;
+the freshness repair was a draft at that earlier observation. Later integration must use
 fresh heads and normal required checks, preserving the recorded platform
 failures. Older dated descriptions of current tips below are historical.
 
