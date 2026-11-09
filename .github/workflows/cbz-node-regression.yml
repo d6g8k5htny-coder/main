@@ -95,6 +95,25 @@ jobs:
           python -B -O -S tools/cbz_node_regression.py \
             --math-root "$GITHUB_WORKSPACE/Math-" --query-root "$GITHUB_WORKSPACE/query-" \
             --output "$RUNNER_TEMP/cbz-node-regression-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/optimized"
+      - name: Report bounded observed outcomes
+        if: ${{ !cancelled() }}
+        run: |
+          python -B -S - "$RUNNER_TEMP/cbz-node-regression-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" <<'PY'
+          import json, pathlib, sys
+          root = pathlib.Path(sys.argv[1])
+          for mode in ('normal', 'optimized'):
+              controls = root / f'helper-controls-{mode}.log'
+              if controls.is_file():
+                  print('HELPER CONTROLS ' + mode)
+                  print('\n'.join(controls.read_text(encoding='utf-8').splitlines()[-4:]))
+              report = root / mode / 'result.json'
+              if report.is_file():
+                  record = json.loads(report.read_text(encoding='utf-8'))
+                  keys = ('schema', 'status', 'summary', 'node_exit', 'source_before', 'source_after', 'fixture_files', 'fixture_tree_sha256', 'log_sha256', 'node_version')
+                  print(json.dumps({'mode': mode, **{key: record.get(key) for key in keys}}, sort_keys=True))
+              else:
+                  print(json.dumps({'mode': mode, 'report_missing': True}))
+          PY
       - name: Preserve original results, TAP and complete fixture trees
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9

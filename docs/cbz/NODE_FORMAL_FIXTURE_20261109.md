@@ -84,3 +84,9 @@ new mirror tests or package installations. Root publishes the candidate, and
 its actual hosted job must pass before merge. No future hosted outcome is
 inferred from the prior 767/767 local results or the intended guard-mutant
 failure.
+
+The job also prints bounded fields from each original result: actual TAP
+summary, Node exit, before/after source commit, fixture count/tree identity and
+TAP digest. It prints only the helper-control log footer, preserving the full
+original logs in the artifact. This exposes observed outcomes without changing
+the helper's grading or inferring a case count from a PASS line.
