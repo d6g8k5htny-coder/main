@@ -18,6 +18,20 @@ Its team-model sections 1.5, 7.4 and 8 supersede older exclusive-owner and
 monitor-specific integration restrictions. Historical decisions retain their
 original timestamps and outcomes; the latest directive controls future action.
 
+## Navigation history guard candidate — 9 November 2026
+
+For history-backed reader checks, the navigation workflow must obtain the
+required Git history and reject a missing, skipped or incomplete selected
+reader suite. Preserve the full discovery log and a separate selected-suite
+log, including failures; do not treat a successful but skipped suite as a
+source-identity pass. The candidate's focused adverse controls and bounded
+mutation observations are recorded in
+[STATUS.md](STATUS.md#navigation-history-candidate--9-november-2026) and
+[TOOLING.md](TOOLING.md#navigation-history-guard-candidate--9-november-2026).
+This engineering rule neither changes mathematical requirements nor awards a
+final regression or federation gate. Hosted execution was not yet observed
+when this record was made and must be checked for the actual current head.
+
 ## Current integrated v139 checkpoint — 9 November 2026
 
 The current serial boundary is signed Main merge

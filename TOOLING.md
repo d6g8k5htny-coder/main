@@ -9,6 +9,36 @@ preserved in their dated sections as history. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
 
+## Navigation history guard candidate — 9 November 2026
+
+Purpose: ensure the existing history-backed reader-source checks actually run
+without skips in the navigation workflow. The workflow requests a full Git
+checkout, records `navigation-evidence/history-reader.log`, requires a
+positive final test count and clean final `OK`, and requires five named
+source-identity tests. A missing suite, child error, skip or incomplete result
+fails the step; the original full discovery and failure artifact are retained.
+
+From a Main checkout containing the candidate, run:
+
+```sh
+python3 -B -S -m unittest -v tests.test_navigation_history tests.test_navigation_discovery tests.test_navigation_workflow
+python3 -B -S -O -m unittest -v tests.test_navigation_history tests.test_navigation_discovery tests.test_navigation_workflow
+python3 -B -S -m unittest -v tests.test_reader_links.FiniteH0LifetimeReading tests.test_reader_links.UniversalitySourcesReading
+```
+
+Local observations: 25/25 focused controls per mode; the actual full-history
+selected suite ran 20/20 without skips, while a depth-one checkout produced
+twelve skips and the exact shell block rejected it. Nine synthetic workflow
+mutations were killed per mode with captured test-body assertion provenance;
+four origin controls excluded helper, nested callback and subject failures.
+The bounded probe source, commands, logs and limits are retained in the
+qualification archive identified in
+[STATUS.md](STATUS.md#navigation-history-candidate--9-november-2026). It is
+not a general mutation grader. Hosted execution was not observed when this
+record was made; inspect the actual current-head checks. This is a
+source-identity engineering control, not a proof, scientific review, full
+regression, final G5 or G11 admission.
+
 ## Current integrated v139 tool binding — 9 November 2026
 
 The bounded G11 commands below were actually observed at signed Main
