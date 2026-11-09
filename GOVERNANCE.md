@@ -18,6 +18,16 @@ Its team-model sections 1.5, 7.4 and 8 supersede older exclusive-owner and
 monitor-specific integration restrictions. Historical decisions retain their
 original timestamps and outcomes; the latest directive controls future action.
 
+## Inventory mutation provenance — 9 November 2026
+
+The inventory mutation component records actual pre-cleanup traceback code
+identities and accepts only selected synchronous test bodies or its finite
+unittest assertion helpers as oracle origins. Its scope, commands, adverse
+controls, deliberate inner skips and limits are registered in
+[TOOLING.md](TOOLING.md#inventory-mutation-origin-recorder--9-november-2026).
+Historical false kills and earlier classifier outcomes remain unchanged; a
+bounded tool check is not proof of a mathematical or scientific claim.
+
 ## Observed freshness integration — 9 November 2026
 
 Main #782 and Workspace #54 integrated through normal expected-head checks.

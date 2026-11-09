@@ -8,6 +8,57 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
+## Inventory provenance and pin refresh — 9 November 2026
+
+At the sequential observation before this source change, Main #783 was signed
+merge `7738e4c2e0881dd952772421877d9854364d272f`, tree
+`486b7f3223301ffba716e6524a069b5058b188e3`; Workspace #56 was signed merge
+`5dcb544c1847ea2a0b7724201f747627c2746235`, tree
+`db4b46b06b43fed5c832696c68d04ac775044fd6`, pinning that Main. Workspace
+pre- and post-merge federation jobs each ran 187 tests in both modes without
+skips; the separate pin jobs checked eight strict-current pins and four
+canonical inputs. These observations were not atomic, and a later Main merge
+requires another guarded pin refresh. They do not award final G7.
+
+Main #783's six observed post-merge workflows succeeded. Its ordinary site
+publication recorded 33 snapshots, with prepared receipt
+`7e515b3dbc74eb8ffaf45039b2472f6e0a7124b9` and observed receipt
+`fd191f57d33cabc73aec8091df837d7695cb316a`; the restored receipt history is
+retained in the evidence below. Publication is not scientific acceptance or
+the STATUS-only cold-start gate.
+
+The inventory mutation controllers now use a bounded recorder that captures
+traceback code identities before unittest cleanup. In local CPython 3.12.14,
+the revised inventory suite ran 83 tests without top-level skips in each mode,
+with twelve authorized source-mutation kills and eleven passing baselines per
+mode. The full-suite path explicitly accounts for four inner recursion skips.
+A real subject-assertion contamination caused 83 full-suite failures in each
+mode and was refused. Four recorder mutations were killed in each child mode
+by the separately qualified node-origin checker; its driver also refused a
+no-op and a subject assertion in both parent modes. Initial missed-mutation and
+driver-parser failures are preserved. These are bounded synchronous unittest
+observations, not a hostile-code sandbox or full G0/G6 qualification.
+
+From a Main checkout, run the bounded recorder and inventory controls with:
+
+```sh
+python3 -B -S -m unittest discover -s tests -p test_cbz_inventory.py -v
+python3 -B -O -S -m unittest discover -s tests -p test_cbz_inventory.py -v
+python3 -B -S -m unittest discover -s tests -p test_cbz_inventory_origin.py -v
+python3 -B -O -S -m unittest discover -s tests -p test_cbz_inventory_origin.py -v
+python3 -B -S cbz/evidence/inventory-origin-20261109/run_self_mutations.py
+python3 -B -S cbz/evidence/inventory-origin-20261109/run_driver_adverse.py
+```
+
+The inventory CLI's source-state commands and limitations are in
+[the inventory guide](docs/cbz/INVENTORY_RECOVERY.md). The exact source,
+logs, native delta and receipt bundle were independently read back from
+`libfile_fde3_f-a1d4cb841f208191aafdc61057043076_59a0f9f234e48191bc19fddcc0f80648`,
+SHA-256 `bea63fdd7dc5e53174e2af4e08f3db91973546a45392def6763446f097f026d3`.
+Earlier dated tip descriptions and unqualified-classifier observations below
+remain historical. Whole-federation audits, no-skip regression, proof
+dispositions, final G0--G11 and the STATUS-only cold start remain unawarded.
+
 ## Latest observed inventory integration — 9 November 2026
 
 Main #780 merged at 19:26 UTC as `b1d36c80403acc96d257b9e71140a6cb83a595af`,

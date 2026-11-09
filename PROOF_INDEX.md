@@ -8,6 +8,14 @@ into a kernel proof. A theorem is CLOSED only for the literal statement and
 allowed-axiom boundary actually checked. Anything else must remain OPEN or be
 placed in a complete dormant quarantine.
 
+## Inventory provenance repair boundary — 9 November 2026
+
+The inventory mutation recorder and Main #783 / Workspace #56 integration
+are engineering and source-custody changes. They do not close, refute or
+rebind any mathematical statement, bound, axiom, quarantine, kernel outcome or
+scientific claim. The bounded execution and retained adverse results are in
+[STATUS.md](STATUS.md#inventory-provenance-and-pin-refresh--9-november-2026).
+
 ## Observed integration proof boundary — 9 November 2026
 
 The landed Main #782 freshness repair, Main #780 source inventory and

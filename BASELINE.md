@@ -6,6 +6,16 @@ This ledger binds the currently observed repository snapshot to the twelve
 owner criteria and final gate matrix. It records evidence and gaps; it is not a
 completion certificate.
 
+## Later observed source boundary — 9 November 2026
+
+Main #783 and Workspace #56 were separately observed at
+`7738e4c2e0881dd952772421877d9854364d272f` and
+`5dcb544c1847ea2a0b7724201f747627c2746235`; the latter pins the former.
+The bounded inventory origin repair and its adverse evidence are in
+[STATUS.md](STATUS.md#inventory-provenance-and-pin-refresh--9-november-2026).
+These sequential observations do not award a final criterion or gate. Any
+later Main merge requires a fresh guarded Workspace pin comparison.
+
 ## Observed integration boundary — 9 November 2026
 
 After Main #780 and Workspace #55 landed, the sequentially observed defaults

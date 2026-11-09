@@ -8,6 +8,37 @@ are preserved in their dated sections as history. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
 
+## Inventory mutation-origin recorder — 9 November 2026
+
+**Purpose and scope:** `tests/cbz_inventory_origin.py` records live traceback
+code identities for the explicitly selected synchronous unittest bodies in
+the inventory mutation controllers. Subject, helper, nested callback,
+lifecycle, unexpected skip, runtime and malformed-result failures are refused.
+The full-suite path admits only four named recursion-controller skips. It is
+not a hostile-code sandbox, a proof checker, or a federation-wide auditor.
+
+**Commands** from a Main checkout:
+
+```sh
+python3 -B -S -m unittest discover -s tests -p test_cbz_inventory.py -v
+python3 -B -O -S -m unittest discover -s tests -p test_cbz_inventory.py -v
+python3 -B -S -m unittest discover -s tests -p test_cbz_inventory_origin.py -v
+python3 -B -O -S -m unittest discover -s tests -p test_cbz_inventory_origin.py -v
+python3 -B -S cbz/evidence/inventory-origin-20261109/run_self_mutations.py
+python3 -B -S cbz/evidence/inventory-origin-20261109/run_driver_adverse.py
+```
+
+**Observed verification:** 83 contract tests passed per mode without
+top-level skips; twelve source mutants were killed per mode after eleven
+original-source baselines. A subject-contaminated full-suite child was refused
+in each mode, with 83 failures and the four declared skips retained. Four
+recorder mutants were killed per child mode using the separately qualified
+node-freshness origin checker. The driver-adverse check refused a no-op and a
+subject assertion in both parent modes; both stop at the first normal child.
+The initial missed post-status and target mutations and a driver parsing error
+are retained. Exact source hashes, logs and scope are in
+[the inventory guide](docs/cbz/INVENTORY_RECOVERY.md#inventory-assertion-origin-repair--9-november-2026).
+
 ## Observed freshness tool integration — 9 November 2026
 
 The node-status provenance guard below landed through Main #782. Workspace
