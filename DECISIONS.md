@@ -152,3 +152,20 @@ Append-only. Historical source outcomes remain in their original records.
   remain explicit. Later private/all-part inventory, missing-fatal axiom
   traversal and exact sequential replay require their own real Lean controls.
   No proof source, bound, disposition or scientific status is changed.
+
+## 2026-11-09 — observed SDGA implementation absence and pure candidate
+
+- Root independently read run42702101999/attempt1/job129449186722: both source
+  checkouts, Python and exactMathf532/treeb713 guard succeeded. All four normal/
+  optimized commands failed solely importing absent sdga_scope. Pure loaders
+  ran one failed-import test each; intended20+1 bodies did not run. No adverse,
+  mutation, live, Lean or passing credit follows.
+- Author was then authorized to implement only the pure standard-library
+  `tools/sdga_scope.py` APIs against unchanged contracts/profile/configs. The
+  source candidate has no process/Git/network/filesystem/Lean execution API;
+  all observations remainBLOCKED/NONE, receipt execution_authenticatedfalse.
+  Original raw/config/test hashes were not changed to accommodate output.
+- Root registers the library and its exact20offline+1mandatorypinned controls
+  per mode, publishes the source candidate, and requires actual hosted results
+  plus fresh complete engineering source review before integration. This is
+  tooling toward fresh owned observations, not proof or scientific acceptance.
