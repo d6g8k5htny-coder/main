@@ -2,12 +2,68 @@
 
 **State: component registry; the final federation toolchain is incomplete.**
 
-This file lists runnable mission-relevant tools present in Main. The current
-documentation candidate is based on signed Main
-`6ab126beda65e19865b8468b52f8757ac2324e1f`; older source-parent bindings are
-preserved in their dated sections as history. Each entry states purpose,
+This file lists runnable mission-relevant tools present in Main. The latest
+observed integration boundary is recorded below; older source-parent bindings
+are preserved in their dated sections as history. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
+
+## Observed freshness tool integration — 9 November 2026
+
+The node-status provenance guard below landed through Main #782. Workspace
+#55 later refreshed the Main pin; its sequential observation is in STATUS.
+Current-head
+hosted controls job `129353108258` exercised 20 focused controls, eight
+designated guard detections and 22/22 authorized original-mutation kills per
+parent mode, including real subject-origin refusals in both child modes. Its
+commands, original false kill and bounded synchronous-unittest scope remain
+documented below; historical outcomes are not rebound. See
+[STATUS.md](STATUS.md#observed-integration-boundary--9-november-2026) for
+the source boundary, current stale record, retained failures and final-gate
+limits. This section supersedes earlier dated current-tip descriptions.
+
+## T10 structural readback probe — 9 November 2026
+
+**Purpose and scope:** a one-off, non-admitted evidence probe checks that
+the eleven named fields exist with basic nonempty types in the retained T10
+proposals, that owner is `none`, maintenance is `zero`, and ids are unique.
+It does not evaluate truth, mathematical blocking reasons, exact boundaries,
+logical isolation, scientific review or adoption. The source and reports are
+in separately read-back Library file
+`libfile_fde3_f-765237bb3abc8191a41b33747a6fc852_59a0f9f234e48191bc19fddcc0f80648`,
+SHA-256 `fb4d20e9a6e653e589e3e93cf053026ba73aa290367aba9309cecb5958ed6bcb`.
+Its input `records_verified_t10.json`, SHA-256
+`2ee2f0e5d9784cfee824450efb7f8c35f9f89f2dc1199451b913122613b28722`, is in
+the retained T10 readback supplement named in STATUS.
+
+**Commands:** after extracting those two retained artifacts into the same
+working directory and supplying a new output path:
+
+```sh
+python3 -I -B check_fields.py records_verified_t10.json t10-fields-normal.json
+python3 -I -B -O check_fields.py records_verified_t10.json t10-fields-optimized.json
+cmp t10-fields-normal.json t10-fields-optimized.json
+```
+
+**Observed verification:** 65 records had no structural errors; the probe
+refused 26 missing, null, invalid-value or duplicate-id controls in each mode,
+and both reports were byte-identical. Its literal review-word matches are
+flags for interpretation, not semantic judgments. This is not a federation
+auditor, a source-mutation qualification or a final gate.
+
+## Landed inventory classifier boundary — 9 November 2026
+
+Main #780 landed as `b1d36c80403acc96d257b9e71140a6cb83a595af` with its
+tracked-source inventory CLI and its documented bounded scope. At its observed
+head `24ad8a143862fb9255fc6e2e7bf08c12f989f71d`, an isolated A8 probe
+showed that subject-origin assertions could satisfy its mutation-result
+conditions, including the full-suite inventory conditions. This does not
+change or refute the earlier historical mutant runs. Future mutation counts
+need actual pre-cleanup traceback/code provenance and explicitly authorized
+test or oracle origins, plus fresh adverse checks. Exact observations and
+source-bound evidence are in [STATUS.md](STATUS.md#observed-integration-boundary--9-november-2026)
+and DECISIONS. The inventory source is present; its mutation classifiers are
+not admitted as sound and provide no final G0 or G6 qualification.
 
 ## Node-status freshness origin guard candidate — 9 November 2026
 

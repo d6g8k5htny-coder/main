@@ -8,6 +8,25 @@ into a kernel proof. A theorem is CLOSED only for the literal statement and
 allowed-axiom boundary actually checked. Anything else must remain OPEN or be
 placed in a complete dormant quarantine.
 
+## Observed integration proof boundary — 9 November 2026
+
+The landed Main #782 freshness repair, Main #780 source inventory and
+Workspace #54 and #55 pin updates are engineering and custody changes. They do not change, close, refute or rebind
+any mathematical statement, bound, axiom, hypothesis, proof, quarantine,
+kernel result or scientific disposition. The current observed source boundary
+is described in [STATUS.md](STATUS.md#observed-integration-boundary--9-november-2026).
+
+The independent T10 readback checked byte reproduction and selected source
+quotations for 65 proposed records; it did not prove the proposals complete,
+logically isolated or scientifically accepted, and did not adopt them. A
+separate structural-only check found all eleven fields present; it did not
+validate their mathematical meaning. Proposals 019, 020 and 049 mention
+review or novelty in blocking-reason text alongside source/proof limits;
+missing procedural review itself is not a mathematical blocker. The
+selective source-object pack is not a full history backup. Whole-federation
+proof inventory and final kernel/axiom checks remain unawarded. This section
+supersedes older dated descriptions of current tips below.
+
 ## Freshness repair proof boundary — 9 November 2026
 
 The candidate described in
@@ -18,9 +37,9 @@ quarantine, kernel result, historical mathematical statement or scientific
 disposition. The retained original false kill concerns mutation evidence,
 not the mathematical statements.
 
-The current sequential Workspace merge `2441baf0…` pins Main `6ab126be…`;
-the freshness repair remains a separate Main draft. This observation
-supersedes older dated descriptions of current tips below.
+At that earlier observation, Workspace `2441baf0…` pinned Main `6ab126be…`,
+and the freshness repair was a separate Main draft. The later integration is
+recorded above.
 
 ## Navigation history candidate boundary — 9 November 2026
 
