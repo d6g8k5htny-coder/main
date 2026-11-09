@@ -9,6 +9,38 @@ that contains this file. Its candidate source parent is
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
 
+## Current G11 tool-surface closure — 9 November 2026
+
+This candidate starts from signed Main
+`848cd66bbf4a73e77a6f3e1fff64ce4796150f6d`. The registered commands are:
+
+```sh
+python3 -B -S -m unittest tests.test_g11_census
+python3 -B -S -O -m unittest tests.test_g11_census
+python3 -B -S tools/cbz/g11_mutation_selftest.py --json
+python3 -B -S -O tools/cbz/g11_mutation_selftest.py --json
+python3 tools/cbz/g11_census.py --rev HEAD --json /tmp/g11.json
+python3 -O tools/cbz/g11_census.py --rev HEAD --json /tmp/g11-opt.json
+python3 -B -S -m unittest discover -s tests
+python3 -B -S -O -m unittest discover -s tests
+```
+
+At exact deletion commit `26bd26594c6bf7d1678ae0ea40483b61e07fac61`,
+the first two commands pass 263/263 controls per mode and the mutation
+self-tests kill 328/328 designated mutants per mode. Both mutation receipts
+are byte-identical at SHA-256
+`e73ecb9f1a31208d4a92dfc5359e11ea8c6de833ab0df1495cc3c5675f05b97e`.
+Both censuses pass with 69 tools, zero unresolved tools and zero production
+findings and are byte-identical at SHA-256
+`793a7f09cdafb40b22283d284722a495628c22b707631ae0e887b10fb123adc6`.
+Both complete discoveries run 2,459 tests with exit 0 and 25 explicit skips.
+
+The thirteen removed drivers and their exact native recovery identities are
+registered in [STATUS.md](STATUS.md#current-g11-tool-surface-closure-candidate--9-november-2026).
+The G11 component is closed only for this exact candidate tree. These commands
+do not run the final federation matrix, Lean/kernel/axiom gates or a STATUS-only
+cold start, and the skipped tests prevent full-regression-100% credit.
+
 ## Current Atlas unexercised-driver consolidation — 9 November 2026
 
 This candidate starts from signed Main

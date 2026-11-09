@@ -6,6 +6,28 @@ This ledger binds the currently observed repository snapshot to the twelve
 owner criteria and final gate matrix. It records evidence and gaps; it is not a
 completion certificate.
 
+## Current G11 tool-surface closure binding — 9 November 2026
+
+Observed sequentially before this candidate:
+
+| Repository | Default revision |
+|---|---|
+| Main | `848cd66bbf4a73e77a6f3e1fff64ce4796150f6d`, tree `2f48833cbd051545be1a7d383137c99e5fa57a12` |
+| Math- | `f532c3e2d91a0c7679a37c733741660917a9b21b` |
+| Universal-Law-Workspace | `24c7c72c342d9b66275bfc5b30d3ae5df4ed55cf`, pinning Main `848cd66bbf4a73e77a6f3e1fff64ce4796150f6d` |
+
+The organization-visible open-PR search returned zero. Durable v138 and its
+byte readback are recorded in
+[STATUS.md](STATUS.md#current-g11-tool-surface-closure-candidate--9-november-2026).
+The exact candidate recoverably retires the final thirteen current-tree
+unreferenced and unexercised historical browser drivers. Its bounded G11
+census passes in both modes with 69 tools and zero unresolved or production
+findings; all 263 controls and 328 designated mutants pass per mode. Both full
+discoveries run 2,459 tests with exit 0 but preserve 25 skips, so criterion 5
+is not 100%. No final G7, federation Lean/kernel/axiom pass, Layer A clearance,
+STATUS-only cold start or same-pass G0--G11 matrix is recorded. All twelve
+criteria remain unawarded; the G11 component pass is not the final gate.
+
 ## Current Atlas consolidation binding — 9 November 2026
 
 Observed sequentially before this candidate:

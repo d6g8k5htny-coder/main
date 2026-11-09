@@ -8,6 +8,70 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
+## Current G11 tool-surface closure candidate — 9 November 2026
+
+This candidate starts from signed Main default
+`848cd66bbf4a73e77a6f3e1fff64ce4796150f6d`, tree
+`2f48833cbd051545be1a7d383137c99e5fa57a12`. Workspace default
+`24c7c72c342d9b66275bfc5b30d3ae5df4ed55cf` pins that exact Main revision;
+Math- remains `f532c3e2d91a0c7679a37c733741660917a9b21b`. The latest
+organization-visible open-pull-request search returned zero. Durable v138 was
+independently byte-read back at stable status identity
+`libfile_9551d0182bcc819188edfe9f998165b3`, 548,909 bytes, SHA-256
+`1f61a595a7bbbc0e4a3c661c3f860e0355c3fbe7db8c9d810ca42e25cff6f059`,
+and evidence identity `libfile_1f9ec8ce62708191972f9e2bf6295816`,
+358,585,987 bytes, SHA-256
+`3af309a2ca2f951e5cca74f5647776822bb0de7459b0575ea0e9b486faae169c`.
+Its ZIP has 13,122 unique members and retains all 13,118 v137 members.
+
+The final thirteen current-tree G11 failures were documented historical
+research/browser drivers with no current executable reference or exercise.
+They are removed from the operational surface while all plans, reports,
+preserved RED/GREEN artifacts, failures, authorship and product source remain
+unchanged. Their exact native recovery identities are:
+
+| Removed path | Git blob | Bytes | SHA-256 |
+|---|---|---:|---|
+| `tools/compare_experience_browser_check.py` | `75c9128806335b10e5862ecfae8eb6bab7495557` | 15,350 | `962713a9786e624b13a1e3588dae19570ab21679f4e3a25224a515836f38d80c` |
+| `tools/figure_png_browser_check.py` | `dc89bd0284727ca15a62894516ffc1b87a7732cf` | 21,400 | `67105c43d0d095d5e870c228019bc09ca351c884fde0716125735b955d0e2b8a` |
+| `tools/library_discovery_browser_check.py` | `09b0ee84ce9282cf04e0d8c346e947754f26f662` | 23,489 | `a424629d30a7f0a14635ca38f6f89493cd627023b30947348c5e4f4f81dd222c` |
+| `tools/library_source_search_browser_check.py` | `b28742869ca3088d2accb19e4177ec202a660c3a` | 9,116 | `49885136b7128ba3542bf32bc173b9a007309ea2e4d703371d92cc336d49275e` |
+| `tools/persistent_status_browser_check.py` | `b4bea1d4d4b73afd78a06c28b72939cad64029b5` | 7,466 | `c7916ef456fd5ff37d9e367f4e6b5cccc9987e05be8c1c66e463a103bf4815c7` |
+| `tools/reader_jump_browser_check.py` | `71f69d25c11acdcbd57af18d91efac0a778457d1` | 7,206 | `7c430e27c07c02e7e067192a23ea00be28b82dd6bcd443c7c631966b32064ebd` |
+| `tools/reading_list_citation_browser_check.py` | `dbfa049d2dd824235ea1d07e919fc3ca878bb05c` | 11,027 | `a34c2dd4c9823bae717f29e5fcea636f8610316dd3bb3e0cc137fe2425cb36ea` |
+| `tools/research_desk_browser_check.py` | `d03f3428ed914442c3029aaf19ab786ee40db447` | 15,882 | `c2c22f0357b3e3dab65bac784b4289dad9d94c23a800f6412cb16310b7b0451e` |
+| `tools/research_desk_continuity_browser_check.py` | `632beb9c7cad7b1cdc3523dab3caacaed88b6d51` | 13,961 | `f76679193dd4035476aa4b35afeebd05d9c12d4d8cc28ce7f3332dda981e099b` |
+| `tools/research_desk_undo_browser_check.py` | `49f2815a91806b34668d14ff133a4cb2737a3f95` | 14,222 | `09a298f133bfccd0a746b0ea9bb34bbf7bd8986f7baa07b946d401b0578e9a5f` |
+| `tools/research_reading_browser_check.py` | `516d60889a527b212c7b68b7b8292b21c576ab92` | 8,903 | `1fdb1a9804460dfb1153be7abc777b573976f8c43a484479f379aaa6860914f1` |
+| `tools/snapshot_compare_browser_check.py` | `7ffd5c6bf0769523016f0c33227edcaab23f7706` | 18,427 | `b8b4e1c49368f8ae68862d4515b7805e7219d846193b7bfc6d4c6183e7e9cdc4` |
+| `tools/source_list_continuity_browser_check.py` | `00e6a259b3579eff34fe61beaf1b515dc258798d` | 17,514 | `54cc653827ffdb48b1779b6f846046c1944c7c89678b6c06a3fcdb823cb4b0ea` |
+
+Fresh pre-change normal and optimized censuses were byte-identical at SHA-256
+`5ce8979ff1b0ba1a5c77aaefcf276d135f4cc3d4314a4a00d9756cd3d2260342`
+and both exited 1 with 82 tools, 13 unresolved tools and zero production
+findings. At exact deletion commit
+`26bd26594c6bf7d1678ae0ea40483b61e07fac61`, tree
+`473cd9a018993327536c6510ac78122eb830020f`, both censuses pass, are
+byte-identical at SHA-256
+`793a7f09cdafb40b22283d284722a495628c22b707631ae0e887b10fb123adc6`,
+and report 69 tools, zero unresolved tools and zero production findings. The
+auditor passes 263/263 controls and kills 328/328 designated mutants in each
+mode; the byte-identical mutation receipt has SHA-256
+`e73ecb9f1a31208d4a92dfc5359e11ea8c6de833ab0df1495cc3c5675f05b97e`.
+Complete discovery runs 2,459 tests in each mode with exit 0 and 25 explicit
+skips; normal and optimized log SHA-256 values are
+`1cf4c2d78b85a7317e8e60e15a6fc382cc538950c6dc9ad65b57859c8a27a411`
+and `0d0122b4080e969d1d0795dde8a912d95c6aa2c52f3726999bb66fe261fee6d3`.
+The older two-error/23-skip executions below remain their original historical
+outcomes and are not rebound.
+
+This closes the bounded current G11 component at the exact candidate tree; it
+does not establish full-regression 100% because 25 tests were skipped, rerun
+Lean/kernel/axiom checks, complete a STATUS-only cold start, or execute the
+final G0--G11 federation matrix in one pass. No theorem, proof disposition,
+bound, axiom, authorship, historical failure, kernel outcome or scientific
+status changes. CBZ-0 and terminal Partial are not established.
+
 ## Current G11 Atlas-driver consolidation candidate — 9 November 2026
 
 This candidate starts from signed Main default

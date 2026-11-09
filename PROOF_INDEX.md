@@ -8,6 +8,19 @@ into a kernel proof. A theorem is CLOSED only for the literal statement and
 allowed-axiom boundary actually checked. Anything else must remain OPEN or be
 placed in a complete dormant quarantine.
 
+## Current G11 tool-surface closure binding — 9 November 2026
+
+This tooling-only candidate starts from signed Main
+`848cd66bbf4a73e77a6f3e1fff64ce4796150f6d`; Workspace
+`24c7c72c342d9b66275bfc5b30d3ae5df4ed55cf` pins that exact revision and
+Math- remains `f532c3e2d91a0c7679a37c733741660917a9b21b`. Durable v138 and the
+exact recovery table for thirteen retired unexercised research/browser drivers
+are bound in [STATUS.md](STATUS.md#current-g11-tool-surface-closure-candidate--9-november-2026).
+Those drivers were bounded engineering checks, not theorem or proof sources.
+Their retirement and the fresh G11 PASS do not run Lean, axiom closure, kernel
+verification or statement alignment and do not add, remove, promote, refute
+or rebind any proof or quarantine. The older proof snapshot remains historical.
+
 ## Current Atlas consolidation binding — 9 November 2026
 
 This tooling-only candidate starts from signed Main
