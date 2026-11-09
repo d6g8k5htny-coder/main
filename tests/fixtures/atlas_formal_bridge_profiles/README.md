@@ -2,13 +2,17 @@
 
 These are literal data for offline source-bridge tests, never imported or
 executed. Manifest8228 is from93869215a82da60f014093e2ac28503865ed0aa3;
-manifesta22f and its two documentation files are from
+manifest8d43 and its two documentation files are from
+b7deb198722582df191006e4f47238f92e6e543d; manifesta22f and its two documentation files are from
 a30e336982ff4a9400182961ae1f8a241ceff927, unchanged at55961773.
 Their source paths are formal/manifest.json, formal/README.md and
 formal/REVIEW_LANE.md. The8228documentation bytes are already retained in
 tests/fixtures/atlas_formal_build_3b39 and are reused without alteration.
 
 SHA256:8228manifest1a09020f0706abd506824f54fca76df9daa533749350b9ab6b818e0bbe9ed744;
+8d43manifest1c86e1eed110df3ef283f3a6e402194f82f682ba06e55e3ad8fe2010f152df7e;
+8d43README1398c3c6d15476afe9d4ef01fc98fb199976907123b438ae1743f4e87e31e007;
+8d43REVIEW_LANE6a0dcdd93f1aec16ede829820b913116a5c60c2bbbd78630690599dbc5d8be41;
 a22fmanifest38eefbfdd84658cd0f6e18bd7d714458a7522b1021f73b1075e7972a63b9bcb0;
 README137e7c7ed44d732042d803eb4a0ee75f9ddc6475950a2bb6226a7711a44be14b;
 REVIEW_LANE54d32104aa012e917ef40b73fa3a40228d023249b339cf30fe4bdb7dcbfed414.

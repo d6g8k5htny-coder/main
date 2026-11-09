@@ -63,9 +63,23 @@ test('The separately pinned corrected manifest links only to historical executio
   assert.equal(connection.alignment.record.manifest_sha256,'8dfcfe4e9296bca47eede517f37b546ea420ec6b51944b7c16164a906b40e090');
 });
 
+test('The exact public-site manifest has an explicit historical bridge without inferred execution or review',()=>{
+  const data=JSON.parse(fs.readFileSync(new URL('../docs/site/current.json',import.meta.url)));
+  const connection=formalConnection(data,id);
+  assert.ok(connection,'The published site snapshot must use an exact admitted source bridge');
+  assert.equal(connection.source_bridge.projection_manifest.commit,'b7deb198722582df191006e4f47238f92e6e543d');
+  assert.equal(connection.source_bridge.projection_manifest.blob,'8d43188691c695f66e233727322484da22662a58');
+  assert.equal(connection.source_bridge.changed_control_file_count,0);
+  assert.equal(connection.source_bridge.changed_documentation_file_count,2);
+  assert.equal(connection.source_bridge.changed_manifest_metadata_count,1);
+  assert.equal(connection.execution.checked_commit,'3b39c42d6edcc98ae165270be346f0e31c57f81d');
+  assert.equal(connection.alignment.record.disposition,'REJECTED');
+});
+
 for(const [profile,blob,bytes] of [
   ['original',EVIDENCE.formal.manifest_blob,EVIDENCE.formal.manifest_bytes],
   ['8228','8228e896c728d95ab94391899320e9d44ab7cdfc',17521],
+  ['8d43','8d43188691c695f66e233727322484da22662a58',17411],
   ['a22f','a22f06a3a7b9ab451e9e344d7b2345d2e2ab0553',18104],
 ])for(const conflicting of [false,true])test(profile+' refuses '+(conflicting?'conflicting':'identical')+' duplicate proof-source entries',()=>{
   const data=fixture();

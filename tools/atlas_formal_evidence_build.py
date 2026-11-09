@@ -69,13 +69,14 @@ def bind_historical_receipt(receipt, manifest, artifact):
 def historical_source_identity(root, expected_digest=MANIFEST):
     """Check exact frozen bytes only; never certify or execute historical code.
 
-    The three fixed profiles were already retained as historical evidence. This
+    The four fixed profiles were already retained as historical evidence. This
     intentionally cannot accept a freshly refreshed manifest or a current gate
     contract in place of the historical one.
     """
     require(expected_digest in {
         MANIFEST,
         '1a09020f0706abd506824f54fca76df9daa533749350b9ab6b818e0bbe9ed744',
+        '1c86e1eed110df3ef283f3a6e402194f82f682ba06e55e3ad8fe2010f152df7e',
         '38eefbfdd84658cd0f6e18bd7d714458a7522b1021f73b1075e7972a63b9bcb0',
     }, 'unsupported historical manifest profile')
     root = Path(root).resolve()

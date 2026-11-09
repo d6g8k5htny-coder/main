@@ -28,6 +28,31 @@ export const SOURCE_BRIDGES = [
     "claim_id": "math.side24-coefficient",
     "projection_manifest": {
       "repository": "d6g8k5htny-coder/main",
+      "commit": "b7deb198722582df191006e4f47238f92e6e543d",
+      "path": "formal/manifest.json",
+      "blob": "8d43188691c695f66e233727322484da22662a58",
+      "bytes": 17411,
+      "sha256": "1c86e1eed110df3ef283f3a6e402194f82f682ba06e55e3ad8fe2010f152df7e"
+    },
+    "historical_artifact": {
+      "commit": "3b39c42d6edcc98ae165270be346f0e31c57f81d",
+      "manifest_sha256": "8dfcfe4e9296bca47eede517f37b546ea420ec6b51944b7c16164a906b40e090",
+      "evidence_sha256": "441babc5f605492b361822c26d59ebee4126e45b90695915195bf951c3c943ef",
+      "receipt_sha256": "1ae8341c86a043ba917ec1fe68bf7e66ec528cd94b15170528487009f090c7e0"
+    },
+    "scientific_effect": "NONE",
+    "identical_formal_file_count": 15,
+    "changed_control_file_count": 0,
+    "record_path": "evidence/side24-main-3b39/source-bridge-8d43.json",
+    "record_sha256": "8cd6d4bcb48874aa40a3aa1d7e36d113487a43a1608e24fd4023cbb9e0f64299",
+    "changed_documentation_file_count": 2,
+    "changed_manifest_metadata_count": 1
+  },
+  {
+    "schema_version": 1,
+    "claim_id": "math.side24-coefficient",
+    "projection_manifest": {
+      "repository": "d6g8k5htny-coder/main",
       "commit": "a30e336982ff4a9400182961ae1f8a241ceff927",
       "path": "formal/manifest.json",
       "blob": "a22f06a3a7b9ab451e9e344d7b2345d2e2ab0553",
