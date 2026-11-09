@@ -74,6 +74,15 @@ scientifically accepted. The exact source, logs and selective pack were
 independently read back from
 `libfile_fde3_f-5a2970c2901881918ed36aad44f1610a_59a0f9f234e48191bc19fddcc0f80648`,
 SHA-256 `2bebe703fba2b7538e127182fb91dbd4c32d2a53ecf0d768982cb94c62a0a10a`.
+A later structural-only readback found nonempty, basic-type values for all
+eleven required fields in the 65 proposals, with 26 adverse malformed-input
+controls refused in each mode. This does not establish the truth of any
+field, an exact mathematical boundary, a blocking reason or isolation.
+Proposals 019, 020 and 049 mention absent or unresolved review/novelty in
+their blocking-reason text alongside source or proof limits. Those historical
+notes remain, but missing procedural review alone is not a mathematical
+blocker. The scope, commands and retained probe are in
+[TOOLING.md](TOOLING.md#t10-structural-readback-probe--9-november-2026).
 
 For available bounded checks, from a Main checkout run:
 
@@ -99,8 +108,9 @@ Git/admin inventory, tooling admission, consistent surfaces and STATUS-only
 cold start have not been observed together. No CBZ-0 or terminal Partial is
 claimed.
 
-The durable contribution checkpoint is version 152, independently read back
-with SHA-256 `0158242067489b021eb889714684e4cbb6f8334871aeb10b0332b52bc0ffd839`.
+At 19:06 UTC the independently read-back contribution checkpoint was version
+153, SHA-256 `ed780a4dd034b648f96d8e959587ef17f0270d5a85e65b52fdbfb82f1df5c7e4`;
+later versions may exist.
 The original large evidence ZIP remains at its v139 identity and SHA; newer
 supplements are separate, not a matched replacement.
 

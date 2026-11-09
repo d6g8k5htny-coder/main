@@ -20,6 +20,35 @@ documented below; historical outcomes are not rebound. See
 the source boundary, current stale record, retained failures and final-gate
 limits. This section supersedes earlier dated current-tip descriptions.
 
+## T10 structural readback probe — 9 November 2026
+
+**Purpose and scope:** a one-off, non-admitted evidence probe checks that
+the eleven named fields exist with basic nonempty types in the retained T10
+proposals, that owner is `none`, maintenance is `zero`, and ids are unique.
+It does not evaluate truth, mathematical blocking reasons, exact boundaries,
+logical isolation, scientific review or adoption. The source and reports are
+in separately read-back Library file
+`libfile_fde3_f-765237bb3abc8191a41b33747a6fc852_59a0f9f234e48191bc19fddcc0f80648`,
+SHA-256 `fb4d20e9a6e653e589e3e93cf053026ba73aa290367aba9309cecb5958ed6bcb`.
+Its input `records_verified_t10.json`, SHA-256
+`2ee2f0e5d9784cfee824450efb7f8c35f9f89f2dc1199451b913122613b28722`, is in
+the retained T10 readback supplement named in STATUS.
+
+**Commands:** after extracting those two retained artifacts into the same
+working directory and supplying a new output path:
+
+```sh
+python3 -I -B check_fields.py records_verified_t10.json t10-fields-normal.json
+python3 -I -B -O check_fields.py records_verified_t10.json t10-fields-optimized.json
+cmp t10-fields-normal.json t10-fields-optimized.json
+```
+
+**Observed verification:** 65 records had no structural errors; the probe
+refused 26 missing, null, invalid-value or duplicate-id controls in each mode,
+and both reports were byte-identical. Its literal review-word matches are
+flags for interpretation, not semantic judgments. This is not a federation
+auditor, a source-mutation qualification or a final gate.
+
 ## Node-status freshness origin guard candidate — 9 November 2026
 
 **Purpose:** reject false mutation kills caused by failures in the subject,

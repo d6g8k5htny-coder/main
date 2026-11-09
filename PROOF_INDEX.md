@@ -18,7 +18,11 @@ is described in [STATUS.md](STATUS.md#observed-integration-boundary--9-november-
 
 The independent T10 readback checked byte reproduction and selected source
 quotations for 65 proposed records; it did not prove the proposals complete,
-logically isolated or scientifically accepted, and did not adopt them. The
+logically isolated or scientifically accepted, and did not adopt them. A
+separate structural-only check found all eleven fields present; it did not
+validate their mathematical meaning. Proposals 019, 020 and 049 mention
+review or novelty in blocking-reason text alongside source/proof limits;
+missing procedural review itself is not a mathematical blocker. The
 selective source-object pack is not a full history backup. Whole-federation
 proof inventory and final kernel/axiom checks remain unawarded. This section
 supersedes older dated descriptions of current tips below.

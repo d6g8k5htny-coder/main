@@ -27,8 +27,11 @@ The selected-body provenance rule below is now used by the landed freshness
 mutation component; its old false kill stays historical. No scientific review,
 whole Layer A clearance or final G0–G11 pass is implied. A subsequent Main
 merge requires a guarded Workspace pin refresh, and actual platform
-protections remain binding. This section supersedes older dated statements
-about current tips below.
+protections remain binding. The retained T10 field-shape probe is evidence
+only: nonempty fields cannot establish a mathematical obstruction or logical
+isolation, and missing procedural review alone is not a mathematical blocker.
+Its exact commands and limits are in [TOOLING.md](TOOLING.md#t10-structural-readback-probe--9-november-2026).
+This section supersedes older dated statements about current tips below.
 
 ## Freshness mutation provenance candidate — 9 November 2026
 
