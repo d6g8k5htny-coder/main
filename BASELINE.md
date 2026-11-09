@@ -6,6 +6,28 @@ This ledger binds the currently observed repository snapshot to the twelve
 owner criteria and final gate matrix. It records evidence and gaps; it is not a
 completion certificate.
 
+## Current operational-consolidation binding — 9 November 2026
+
+Observed sequentially before this candidate:
+
+| Repository | Default revision |
+|---|---|
+| Main | `7712277ced9170c8d61d8f324319f40177c145b1`, tree `1bafc1d181ddc161c51d58bfe3084a118d2d9bbf` |
+| Math- | `f532c3e2d91a0c7679a37c733741660917a9b21b` |
+| Universal-Law-Workspace | `6064d7b96eb60f5f4e50f410c89c1f0dee813a52`, pinning Main `7712277ced9170c8d61d8f324319f40177c145b1` |
+
+The organization-visible open-PR search returned zero. Durable v136 and its
+byte readback are recorded in
+[STATUS.md](STATUS.md#current-g11-consolidation-candidate--9-november-2026).
+The exact candidate removes two current-tree unreferenced and undocumented
+historical browser drivers while preserving their native blobs and the frozen
+evidence record. Its census has zero production findings, retains 21 tools and
+exits 1. Complete discovery is not green: both modes ran 2,459 tests with the
+same two managed Chromium socket errors and 23 skips. No final G7, G11,
+federation Lean/kernel pass, full regression, Layer A clearance, STATUS-only
+cold start or same-pass G0--G11 matrix is recorded. All twelve criteria remain
+unawarded. Older 23-, 24- and 32-tool snapshots below remain historical.
+
 ## Current G11 retirement binding — 9 November 2026
 
 Observed sequentially before this candidate:

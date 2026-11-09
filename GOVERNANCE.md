@@ -18,6 +18,26 @@ Its team-model sections 1.5, 7.4 and 8 supersede older exclusive-owner and
 monitor-specific integration restrictions. Historical decisions retain their
 original timestamps and outcomes; the latest directive controls future action.
 
+## Current G11 consolidation checkpoint — 9 November 2026
+
+The current candidate begins at signed Main default
+`7712277ced9170c8d61d8f324319f40177c145b1`. Workspace default
+`6064d7b96eb60f5f4e50f410c89c1f0dee813a52` pins that exact Main revision;
+the latest organization-visible open-PR search returned zero. Durable v136 is
+bound by
+[STATUS.md](STATUS.md#current-g11-consolidation-candidate--9-november-2026).
+
+An undocumented, unreferenced historical executable must not remain an
+operational tool merely because a frozen evidence manifest records its former
+byte identity. It may be retired only after current-tree reference analysis,
+exact native blob/size/digest recovery, preservation of the historical record,
+fresh committed-tree census in both modes, and the G11 control and mutation
+suites. That rule retires the two named Atlas drivers without awarding A8,
+G11 or any Layer A criterion. The exact candidate retains 21 tools and exits 1;
+the complete regression also retains two managed Chromium errors. G11 and
+full-regression-100% therefore remain false. A later Main merge again requires
+a guarded Workspace pin refresh before current-tip agreement can be claimed.
+
 ## Current G11 retirement checkpoint — 9 November 2026
 
 The current candidate begins at signed Main default

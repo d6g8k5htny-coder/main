@@ -8,6 +8,20 @@ into a kernel proof. A theorem is CLOSED only for the literal statement and
 allowed-axiom boundary actually checked. Anything else must remain OPEN or be
 placed in a complete dormant quarantine.
 
+## Current operational-retirement binding — 9 November 2026
+
+This candidate starts from Main
+`7712277ced9170c8d61d8f324319f40177c145b1`, with Math-
+`f532c3e2d91a0c7679a37c733741660917a9b21b` and Workspace
+`6064d7b96eb60f5f4e50f410c89c1f0dee813a52` sequentially observed and
+Workspace pinning that exact Main revision. Durable v136 is bound in
+[STATUS.md](STATUS.md#current-g11-consolidation-candidate--9-november-2026).
+Removing two unreferenced historical browser drivers removes no theorem or
+proof source and does not alter the frozen F973 source record that names one
+of them. This increment does not run Lean, axiom closure, kernel verification
+or statement alignment and does not add, remove, promote, refute or rebind a
+proof or quarantine. The older proof snapshot below remains historical.
+
 ## Current tooling-only binding — 9 November 2026
 
 This candidate starts from Main

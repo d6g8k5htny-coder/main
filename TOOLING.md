@@ -9,6 +9,39 @@ that contains this file. Its candidate source parent is
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
 
+## Current unreferenced-driver retirement — 9 November 2026
+
+This candidate starts from Main
+`7712277ced9170c8d61d8f324319f40177c145b1`. The registered verification
+commands are:
+
+```sh
+python3 -B -S -m unittest tests.test_g11_census tests.test_g11_current_architecture_references tests.test_g11_current_atlas_formal_bridge_reference
+python3 -B -S -O -m unittest tests.test_g11_census tests.test_g11_current_architecture_references tests.test_g11_current_atlas_formal_bridge_reference
+python3 -B -S tools/cbz/g11_mutation_selftest.py
+python3 -B -S -O tools/cbz/g11_mutation_selftest.py
+python3 -B -S tools/cbz/g11_census.py --rev HEAD --json /tmp/g11.json
+python3 -B -S -O tools/cbz/g11_census.py --rev HEAD --json /tmp/g11-opt.json
+python3 -B -m unittest discover -s tests -v
+python3 -B -O -m unittest discover -s tests -v
+```
+
+At exact deletion commit `0a36115eefd1d4d26dd575e720e6e9ded172999a`,
+both reports are byte-identical at SHA-256
+`67a6c46c4752b1a9276502dd6ebfe8c9e127a38adefc5c3f7b8da64a5d1312c5`,
+have zero production findings, retain 21 tools and exit 1. The first four
+commands pass 265/265 controls and kill 328/328 designated mutants per mode.
+The two complete discoveries each run 2,459 tests and preserve two managed
+Chromium socket errors plus 23 skips; they do not establish regression 100%.
+
+The removed accessibility audit is recoverable at blob
+`df4738e0df42b7f6ae320482be86194ce2d4bd66`; its frozen F973 evidence
+manifest is unchanged. The removed resilience driver is recoverable at blob
+`6b36d770624c846f2d6411b7a55d20885954019e`. Neither driver was documented
+or referenced by the current exercise graph. Removal is maintenance reduction,
+not accessibility, resilience, mathematical, scientific or G11 acceptance.
+No command here is the final federation G0--G11 orchestrator.
+
 ## Current retirement correction — 9 November 2026
 
 This candidate starts from Main
