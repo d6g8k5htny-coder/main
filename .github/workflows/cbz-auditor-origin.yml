@@ -1,0 +1,80 @@
+name: CBZ auditor assertion-origin controls
+'on':
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/cbz-auditor-origin.yml'
+      - 'tests/cbz_auditor_origin*'
+      - 'tests/cbz_inventory_origin.py'
+      - 'tests/test_cbz_auditor_origin*'
+      - 'tests/test_cbz_inventory_origin.py'
+      - 'tests/test_cbz_layer_a_scan*'
+      - 'tests/test_cbz_a3_float_census.py'
+      - 'tests/test_cbz_auditor_hardening.py'
+      - 'tools/cbz/layer_a_scan.py'
+      - 'tools/cbz/a3_float_census.py'
+  pull_request:
+    paths:
+      - '.github/workflows/cbz-auditor-origin.yml'
+      - 'tests/cbz_auditor_origin*'
+      - 'tests/cbz_inventory_origin.py'
+      - 'tests/test_cbz_auditor_origin*'
+      - 'tests/test_cbz_inventory_origin.py'
+      - 'tests/test_cbz_layer_a_scan*'
+      - 'tests/test_cbz_a3_float_census.py'
+      - 'tests/test_cbz_auditor_hardening.py'
+      - 'tools/cbz/layer_a_scan.py'
+      - 'tools/cbz/a3_float_census.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  origin-controls:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.11.16'
+      - name: Run both actual modes and retain each mutation observation
+        shell: bash
+        run: |
+          set -uo pipefail
+          evidence="$RUNNER_TEMP/cbz-auditor-origin"
+          mkdir "$evidence" || exit 1
+          git rev-parse HEAD > "$evidence/commit.txt" || exit 1
+          git status --porcelain=v1 --untracked-files=all > "$evidence/worktree-before.txt" || exit 1
+          if [ -s "$evidence/worktree-before.txt" ]; then echo 'source checkout is not clean' >&2; exit 1; fi
+          python --version > "$evidence/python.txt" 2>&1 || exit 1
+          sha256sum .github/workflows/cbz-auditor-origin.yml tests/cbz_auditor_origin.py tests/cbz_auditor_origin_mutation_child.py tests/cbz_inventory_origin.py tests/test_cbz_auditor_origin.py tests/test_cbz_auditor_origin_mutations.py tests/test_cbz_auditor_origin_workflow.py tests/test_cbz_inventory_origin.py tests/test_cbz_layer_a_scan.py tests/test_cbz_layer_a_scan_mutants.py tests/test_cbz_auditor_hardening.py tests/test_cbz_a3_float_census.py tools/cbz/layer_a_scan.py tools/cbz/a3_float_census.py > "$evidence/source-sha256.txt" || exit 1
+          failed=0
+          for mode in normal optimized; do
+            mkdir "$evidence/$mode" "$evidence/$mode/census" "$evidence/$mode/adapter" || exit 1
+            flags=(-B -S)
+            if [ "$mode" = optimized ]; then flags=(-B -O -S); fi
+            if CBZ_AUDITOR_ORIGIN_MUTATION_EVIDENCE_DIR="$evidence/$mode/adapter" python "${flags[@]}" -m unittest tests.test_cbz_auditor_origin tests.test_cbz_inventory_origin tests.test_cbz_auditor_origin_mutations tests.test_cbz_auditor_origin_workflow -v > "$evidence/$mode/origin.log" 2>&1; then status=0; else status=$?; failed=1; fi
+            printf '%s\n' "$status" > "$evidence/$mode/origin.exit"
+            if CBZ_AUDITOR_EVIDENCE_DIR="$evidence/$mode/census" python "${flags[@]}" -m unittest tests.test_cbz_layer_a_scan tests.test_cbz_auditor_hardening tests.test_cbz_layer_a_scan_mutants tests.test_cbz_a3_float_census -v > "$evidence/$mode/census.log" 2>&1; then status=0; else status=$?; failed=1; fi
+            printf '%s\n' "$status" > "$evidence/$mode/census.exit"
+            grep -Eq '^Ran 21 tests in ' "$evidence/$mode/origin.log" || failed=1
+            grep -Eq '^Ran 83 tests in ' "$evidence/$mode/census.log" || failed=1
+            grep -Fxq 'OK' "$evidence/$mode/origin.log" || failed=1
+            grep -Fxq 'OK' "$evidence/$mode/census.log" || failed=1
+            if grep -Fq ' ... skipped ' "$evidence/$mode/origin.log" "$evidence/$mode/census.log"; then failed=1; fi
+            [ "$(find "$evidence/$mode/adapter" -name '*.json' -type f | wc -l)" -eq 10 ] || failed=1
+            [ "$(find "$evidence/$mode/census" -maxdepth 1 -name '*.json' -type f | wc -l)" -eq 202 ] || failed=1
+          done
+          sha256sum -c "$evidence/source-sha256.txt" > "$evidence/source-readback.log" 2>&1 || failed=1
+          exit "$failed"
+      - name: Preserve complete observations including failures
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-auditor-origin-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/cbz-auditor-origin
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 90

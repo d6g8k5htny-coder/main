@@ -1,5 +1,34 @@
 # CBZ-0 execution status
 
+## Auditor-origin repair and published pin cut — 9 November 2026
+
+Main #791 merged as `05f2289478a0ee9492adc1eb501466e0f66866df`; its hosted
+navigation run executed 2,609 tests with 24 skips, and the selected historical
+#525 binding test passed in each mode. Workspace #62 merged as
+`bda15fcd29d6d484f9b2e1233663dbd8fdd8b796`, pinning that Main commit and Math
+`9bdfc54b76173b57912503bfcf901a5f9d43b09c`. The Workspace tested and
+postmerge contract runs each executed 254 tests per mode without top-level
+skips; pin checks covered eight current pins and four canonical inputs. These
+sequential observations do not establish final G5 or G7.
+
+At Main `05f22894`, actual normal and optimized subject-origin probes showed
+that both Lean and Python-census mutation graders could count a subject's
+`AssertionError` as a test-oracle kill when the subject was under `tests/`.
+The original failures and source identities are preserved in
+[the evidence record](cbz/evidence/auditor-origin-20261109/README.md). This
+candidate uses live pre-cleanup code provenance and requires a clean baseline
+for each source mutant; current-head qualification remains required. Earlier
+mutation counts are historical observations, not sound final G0 credit.
+
+The scoped Lean lexical scans found a deliberately unapproved Main test axiom,
+an `unsafe` review token and no listed tokens in 1,974 Math Lean blobs; the
+Workspace scan refused a gitlink. The Math Python census failed on one
+intentionally preserved historical writer parse error. These are scoped
+observations, not whole Layer A clearance or proof that float signals certify
+bounds. Exact commands and limits are in [TOOLING.md](TOOLING.md#auditor-origin-controls).
+No CBZ-0, terminal Partial or scientific acceptance follows.
+
+
 **State: active intermediate baseline; CBZ-0 is not established. No terminal Partial Baseline is declared.**
 
 This entry adopts the owner's expanded [Master Directive](governance/MASTER_DIRECTIVE_20261029_SWARM.txt)

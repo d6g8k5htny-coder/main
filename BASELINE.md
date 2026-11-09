@@ -1,5 +1,20 @@
 # CBZ baseline ledger
 
+## Auditor-origin candidate — 9 November 2026
+
+The observed published cut has Main `05f2289478a0ee9492adc1eb501466e0f66866df`,
+Math `9bdfc54b76173b57912503bfcf901a5f9d43b09c` and Workspace
+`bda15fcd29d6d484f9b2e1233663dbd8fdd8b796`. The Workspace pin and contract
+runs passed their bounded controls, and the Main normal discovery retained
+24 skips. A later Main merge needs a fresh guarded Workspace pin update.
+
+Two Main auditor mutation graders were observed crediting subject assertions
+as kills. The source repair and its actual current-head tests are a candidate,
+not a final G0/G1 or Layer A clearance. The intentional negative axiom fixture,
+historical unparseable Python writer and Workspace gitlink refusal remain
+visible in the scoped scan evidence. No CBZ-0 or terminal Partial is declared.
+
+
 **State: active intermediate baseline; CBZ-0 is not established. No terminal Partial Baseline is declared.**
 
 This ledger binds the currently observed repository snapshot to the twelve

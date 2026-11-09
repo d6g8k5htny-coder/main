@@ -234,7 +234,8 @@ class MutationKillClassification(unittest.TestCase):
                 with self.subTest(module=mod.__name__,out=out):
                     self.assertFalse(mod.killed(subprocess.CompletedProcess([],1,stdout='',stderr=out),'test_expected'))
             good=fail_block('test_expected')+'-'*70+'\nRan 1 test in 0.001s\n\nFAILED (failures=1)\n'
-            self.assertTrue(mod.killed(subprocess.CompletedProcess([],1,stdout='',stderr=good),'test_expected'))
+            # Formatted text alone has no live traceback/code provenance.
+            self.assertFalse(mod.killed(subprocess.CompletedProcess([],1,stdout='',stderr=good),'test_expected'))
             a8=[(2,good),  # wrong nonzero exit
                 (1,fail_block('test_expected')+fail_block('test_other')+'-'*70+'\nRan 1 test in 0.001s\n\nFAILED (failures=2)\n'),
                 (1,good.replace('Ran 1 test','Ran 3 tests')),  # the designated test must run alone

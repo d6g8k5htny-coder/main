@@ -1,5 +1,40 @@
 # CBZ mission-tool registry
 
+## Auditor origin controls
+
+**Purpose and scope.** `tests/cbz_auditor_origin.py` adapts the existing
+`tests/cbz_inventory_origin.py` pre-cleanup recorder for the Lean lexical and
+Python A3 census mutation suites. It admits only selected synchronous test
+bodies and the recorder's finite standard-unittest oracle set; it is not a
+hostile-child sandbox, a mathematical proof or a complete federation auditor.
+For each selected mutant it records unchanged subject-byte hashes and requires
+a clean selected baseline. The two historical full-suite baselines explicitly
+check and retain their two and four inner recursion-guard skips, respectively.
+
+**Commands.** From a clean Main checkout, with new evidence directories outside
+the checkout (omit either variable only when retained child evidence is not
+needed), run each group in normal and optimized mode:
+
+```sh
+mkdir /absolute/new-census-evidence /absolute/new-adapter-evidence
+CBZ_AUDITOR_ORIGIN_MUTATION_EVIDENCE_DIR=/absolute/new-adapter-evidence python3 -B -S -m unittest tests.test_cbz_auditor_origin tests.test_cbz_inventory_origin tests.test_cbz_auditor_origin_mutations tests.test_cbz_auditor_origin_workflow -v
+CBZ_AUDITOR_EVIDENCE_DIR=/absolute/new-census-evidence python3 -B -S -m unittest tests.test_cbz_layer_a_scan tests.test_cbz_auditor_hardening tests.test_cbz_layer_a_scan_mutants tests.test_cbz_a3_float_census -v
+# Repeat both commands with -O and separate new evidence directories.
+```
+
+**Verification.** The preserved pre-repair real subject-origin failures are
+[here](cbz/evidence/auditor-origin-20261109/README.md). The added controls
+exercise clean subjects, actual selected-body failures, direct and nested
+subject failures, changed source, missing provenance, forged text and
+failed evidence writes. Five adapter source mutations have designated
+clean-baseline and actual-failure controls; the two existing source campaigns
+contain 74 Lean and 27 A3 mutations. The dedicated workflow preserves original
+child reports and source snapshots in both modes. Its actual shell guards are
+also exercised with synthetic child outcomes and five guard-removal controls. Actual exact-head hosted
+execution and independent readback are required before qualification; historical
+pilot observations do not establish final G0, G1 or scientific acceptance.
+
+
 **State: component registry; the final federation toolchain is incomplete.**
 
 This file lists runnable mission-relevant tools present in Main. The latest

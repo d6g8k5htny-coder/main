@@ -14,6 +14,8 @@ import sys
 import tempfile
 import unittest
 
+from tests import cbz_auditor_origin
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 WORKSPACE = os.path.dirname(HERE)
 REAL = os.path.join(WORKSPACE, "tools", "cbz", "a3_float_census.py")
@@ -213,44 +215,20 @@ def designated_test_ids(modules=TEST_MODULES):
 
 
 def run_suite(tool_path, test_id=None):
+    if test_id is not None:
+        return cbz_auditor_origin.run_selected(tool_path, 'CBZ_A3_CENSUS', test_id)
+    with open(tool_path, 'rb') as stream:
+        before = stream.read()
     env = dict(os.environ, CBZ_A3_CENSUS=tool_path, PYTHONDONTWRITEBYTECODE="1")
-    return subprocess.run([sys.executable, *(["-O"] if sys.flags.optimize else []), "-B", "-S", "-m", "unittest", "-v",
+    result = subprocess.run([sys.executable, *(["-O"] if sys.flags.optimize else []), "-B", "-S", "-m", "unittest", "-v",
                            *([test_id] if test_id else TEST_MODULES)],
                           cwd=WORKSPACE, env=env, capture_output=True, text=True, timeout=600)
+    cbz_auditor_origin.retain_full(tool_path, 'CBZ_A3_CENSUS', result, before)
+    return result
 
 
-def killed(r, expected_test=None):
-    """A kill is exit 1 from the designated test run alone, failing only by its own assertions.
-
-    Launch/import/syntax failures, errors, skips, zero or extra tests, foreign
-    failures and failures raised outside the designated method are not kills.
-    Nor is an AssertionError raised inside the tool under test: the innermost
-    traceback frame must be test code, so a crash counts the same whatever its
-    exception type.
-    """
-    out = r.stdout + r.stderr
-    if expected_test is None or r.returncode != 1:
-        return False
-    runs = re.findall(r"^Ran [^\n]*$", out, re.M)
-    summary = re.findall(r"^FAILED \(failures=([1-9][0-9]*)\)$", out, re.M)
-    if (len(runs) != 1 or not re.fullmatch(r"Ran 1 test in [0-9]+(?:\.[0-9]+)?s", runs[0])
-            or len(summary) != 1 or re.search(r"^FAILED \((?!failures=[1-9][0-9]*\)$)", out, re.M)):
-        return False
-    failures = 0
-    for block in re.split(r"(?m)^={70}$", out)[1:]:
-        header = re.match(r"\n(FAIL|ERROR): (test_[A-Za-z0-9_]+) \(", block)
-        if header is None:
-            continue
-        if (header.group(1) != "FAIL" or header.group(2) != expected_test
-                or not re.search(r'^  File "[^"\n]+", line [0-9]+, in %s$' % re.escape(expected_test), block, re.M)
-                or not re.search(r"^AssertionError\b", block, re.M)):
-            return False
-        frames = re.findall(r'^  File "([^"\n]+)", line [0-9]+, in ', block, re.M)
-        if not frames or not re.search(r"[/\\]tests[/\\][^/\\]+\.py$", frames[-1]):
-            return False
-        failures += 1
-    return failures == int(summary[0])
-
+def killed(report, expected_test=None):
+    return cbz_auditor_origin.killed(report, expected_test)
 
 @unittest.skipIf(os.environ.get("CBZ_A3_CENSUS"), "mutant run: do not recurse")
 class SelfMutation(unittest.TestCase):
@@ -261,6 +239,16 @@ class SelfMutation(unittest.TestCase):
             shutil.copyfile(REAL, path)
             r = run_suite(path)
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            skipped = [line for line in (r.stdout + r.stderr).splitlines() if ' ... skipped ' in line]
+            names = ('test_actual_syntax_broken_tool_is_not_a_kill',
+                     'test_nonbehavioral_failures_do_not_count_as_kills')
+            expected = [f"{name} (tests.test_cbz_auditor_hardening.MutationKillClassification.{name}) ... "
+                        "skipped 'mutation subprocess: harness controls run only at top level'" for name in names]
+            names = ('test_every_mutant_is_killed', 'test_harness_control_unmutated_copy_passes')
+            expected += [f"{name} (tests.test_cbz_a3_float_census.SelfMutation.{name}) ... "
+                         "skipped 'mutant run: do not recurse'" for name in names]
+            self.assertCountEqual(skipped, expected)
+            self.assertIn('OK (skipped=4)', r.stdout + r.stderr)
 
     def test_every_mutant_is_killed(self):
         with open(REAL, encoding="utf-8") as fh:
@@ -270,10 +258,14 @@ class SelfMutation(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             for i, (name, old, new) in enumerate(MUTANTS):
                 self.assertEqual(src.count(old), 1, f"mutation point drifted: {name}")
+                test_id = ids[EXPECTED_FAILURE[name]]
+                baseline = run_suite(REAL, test_id)
+                self.assertEqual(cbz_auditor_origin.outcome(baseline, EXPECTED_FAILURE[name]),
+                                 'baseline', (name, baseline))
                 path = os.path.join(d, f"m{i:02d}.py")
                 with open(path, "w", encoding="utf-8") as fh:
                     fh.write(src.replace(old, new))
-                if not killed(run_suite(path, ids[EXPECTED_FAILURE[name]]), EXPECTED_FAILURE[name]):
+                if not killed(run_suite(path, test_id), EXPECTED_FAILURE[name]):
                     survivors.append(name)
         self.assertEqual(survivors, [])
 
