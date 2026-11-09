@@ -190,3 +190,9 @@ Append-only. Historical source outcomes remain in their original records.
   unparseable documentary snapshot and Workspace's gitlink refusal. Do not
   suppress or rewrite any of them to obtain a green audit. Exact-head hosted
   qualification remains necessary; the action is reversible in Git.
+
+- A later synthetic-producer probe of the actual workflow shell found that an
+  exit-status evidence write could fail while the shell still returned 0.
+  Preserve the red output in the evidence record and fail the job on either
+  metadata-write error; test both guard removals in each Python mode. This
+  controls evidence completeness, not mathematical truth or scientific status.

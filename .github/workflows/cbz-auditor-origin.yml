@@ -56,10 +56,10 @@ jobs:
             flags=(-B -S)
             if [ "$mode" = optimized ]; then flags=(-B -O -S); fi
             if CBZ_AUDITOR_ORIGIN_MUTATION_EVIDENCE_DIR="$evidence/$mode/adapter" python "${flags[@]}" -m unittest tests.test_cbz_auditor_origin tests.test_cbz_inventory_origin tests.test_cbz_auditor_origin_mutations tests.test_cbz_auditor_origin_workflow -v > "$evidence/$mode/origin.log" 2>&1; then status=0; else status=$?; failed=1; fi
-            printf '%s\n' "$status" > "$evidence/$mode/origin.exit"
+            printf '%s\n' "$status" > "$evidence/$mode/origin.exit" || failed=1
             if CBZ_AUDITOR_EVIDENCE_DIR="$evidence/$mode/census" python "${flags[@]}" -m unittest tests.test_cbz_layer_a_scan tests.test_cbz_auditor_hardening tests.test_cbz_layer_a_scan_mutants tests.test_cbz_a3_float_census -v > "$evidence/$mode/census.log" 2>&1; then status=0; else status=$?; failed=1; fi
-            printf '%s\n' "$status" > "$evidence/$mode/census.exit"
-            grep -Eq '^Ran 21 tests in ' "$evidence/$mode/origin.log" || failed=1
+            printf '%s\n' "$status" > "$evidence/$mode/census.exit" || failed=1
+            grep -Eq '^Ran 22 tests in ' "$evidence/$mode/origin.log" || failed=1
             grep -Eq '^Ran 83 tests in ' "$evidence/$mode/census.log" || failed=1
             grep -Fxq 'OK' "$evidence/$mode/origin.log" || failed=1
             grep -Fxq 'OK' "$evidence/$mode/census.log" || failed=1

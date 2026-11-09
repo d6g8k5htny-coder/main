@@ -30,7 +30,7 @@ failed evidence writes. Five adapter source mutations have designated
 clean-baseline and actual-failure controls; the two existing source campaigns
 contain 74 Lean and 27 A3 mutations. The dedicated workflow preserves original
 child reports and source snapshots in both modes. Its actual shell guards are
-also exercised with synthetic child outcomes and five guard-removal controls. Actual exact-head hosted
+also exercised with synthetic child outcomes and seven guard-removal controls. Actual exact-head hosted
 execution and independent readback are required before qualification; historical
 pilot observations do not establish final G0, G1 or scientific acceptance.
 

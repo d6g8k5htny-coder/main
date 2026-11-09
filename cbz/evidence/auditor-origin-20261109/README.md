@@ -49,8 +49,13 @@ signals are a census, not a verdict that a bound is or is not certified.
 The first synthetic workflow-guard control failed because its stub expected
 21 tests while the candidate shell still expected 20; that red output remains
 in `raw-failure-logs.zip` as `workflow-guards-red-normal.log`, and the workflow now includes the guard
-control in its 21-test group. Its five guard removals use synthetic child
+control in its group (now 22 tests). Its seven guard removals use synthetic child
 outcomes and do not claim real scanner or mathematical execution.
+
+A later actual shell-guard probe showed that an unwritable exit-status file
+could still produce exit 0 even though the write failed. The two raw
+synthetic-producer failures are retained unchanged in `exit-metadata-red.zip`.
+The candidate now fails if either exit-status evidence write fails.
 
 The candidate workflow runs the explicit controls and mutation suites in
 both Python modes, retains selected child evidence and full-suite logs even

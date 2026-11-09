@@ -32,9 +32,13 @@ count = 10 if origin else 202
 if os.environ.get('CBZ_GUARD_CASE') == 'missing' and not origin:
     count -= 1
 out = pathlib.Path(os.environ[key])
+if os.environ.get('CBZ_GUARD_CASE') == 'origin_exit' and origin:
+    (out.parent / 'origin.exit').mkdir()
+if os.environ.get('CBZ_GUARD_CASE') == 'census_exit' and not origin:
+    (out.parent / 'census.exit').mkdir()
 for i in range(count):
     (out / ('fixture-%03d.json' % i)).write_text('{}')
-print('Ran %d tests in 0.001s' % (21 if origin else 83))
+print('Ran %d tests in 0.001s' % (22 if origin else 83))
 if os.environ.get('CBZ_GUARD_CASE') == 'skip' and origin:
     print("test_fixture ... skipped 'synthetic'")
 print('OK')
@@ -71,6 +75,13 @@ def run_block(block, variant):
 
 
 class AuditorOriginWorkflowGuards(unittest.TestCase):
+    def test_exit_status_write_failures_are_not_green(self):
+        block = workflow_block()
+        for variant in ('origin_exit', 'census_exit'):
+            with self.subTest(variant=variant):
+                result = run_block(block, variant)
+                self.assertNotEqual(result.returncode, 0, result.stderr)
+
     def test_actual_shell_guards_and_removals(self):
         block = workflow_block()
         baseline = run_block(block, 'good')
@@ -80,6 +91,10 @@ class AuditorOriginWorkflowGuards(unittest.TestCase):
             ('failure', 'else status=$?; failed=1; fi', 'else status=$?; :; fi'),
             ('skip', "if grep -Fq ' ... skipped '", "if false && grep -Fq ' ... skipped '"),
             ('missing', '-eq 202 ] || failed=1', '-eq 201 ] || failed=1'),
+            ('origin_exit', '> "$evidence/$mode/origin.exit" || failed=1',
+             '> "$evidence/$mode/origin.exit" || :'),
+            ('census_exit', '> "$evidence/$mode/census.exit" || failed=1',
+             '> "$evidence/$mode/census.exit" || :'),
             ('hash', '"$evidence/source-sha256.txt" > "$evidence/source-readback.log" 2>&1 || failed=1',
              '"$evidence/source-sha256.txt" > "$evidence/source-readback.log" 2>&1 || :'),
         )
