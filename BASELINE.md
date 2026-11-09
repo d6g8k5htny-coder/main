@@ -6,6 +6,31 @@ This ledger binds the currently observed repository snapshot to the twelve
 owner criteria and final gate matrix. It records evidence and gaps; it is not a
 completion certificate.
 
+## Current integrated v139 binding — 9 November 2026
+
+| Repository | Current observed default revision |
+|---|---|
+| Main | signed merge `ed5d83b7eff354cd7025117f4d2371422acd816b`, tree `87fdabafadfdb1ee2b766222b6d0c313de8d9a89` |
+| Math- | `f532c3e2d91a0c7679a37c733741660917a9b21b` |
+| Universal-Law-Workspace | signed merge `7019083126d3e9fb732447dee5c2895d8c5b7475`, tree `5d591958e516a582367deb4433cbedf300207d7d`, pinning Main `ed5d83b7eff354cd7025117f4d2371422acd816b` |
+
+The organization-visible open-PR search returned zero. Durable v139 and its
+independent byte readback are bound in
+[STATUS.md](STATUS.md#current-integrated-v139-binding--9-november-2026).
+Author-observed G11 component execution passes in both modes with 69 tools,
+zero unresolved tools, zero production findings, 263/263 controls and 328/328
+designated mutant kills per mode. Complete discovery passes 2,459 tests per
+mode but preserves 25 explicit skips, so criterion 5 remains false.
+
+Exact-head Main and Workspace jobs passed. The landed Main workspace workflow
+preserves an attempt-1 HTTP-504 dependency-download failure and an attempt-2
+success on the identical signed commit. No failure is concealed or rebound.
+No fresh whole-federation Lean/axiom/kernel pass, final G7, Layer A clearance,
+STATUS-only cold start or same-pass G0--G11 matrix exists for this snapshot.
+All twelve criteria remain unawarded; CBZ-0 and terminal Partial are not
+established. This later canonical documentation merge will itself require a
+guarded Workspace pin refresh before current-tip agreement can be claimed.
+
 ## Current G11 tool-surface closure binding — 9 November 2026
 
 Observed sequentially before this candidate:
