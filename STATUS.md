@@ -8,6 +8,113 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
+## Later integrated origin and source-cut observations — 9 November 2026
+
+Main #789 merged as `b0a6c12abe87ae2a43163b3fe6ba4fa14adf389d` and
+Workspace #60 merged as `defb18ed4745432d3a2f1bc7a17cc28a1292a334`;
+the latter pins that Main commit. Math default was separately observed at
+`f532c3e2d91a0c7679a37c733741660917a9b21b` before #559 merged as
+`9bdfc54b76173b57912503bfcf901a5f9d43b09c`; Workspace's Math pin therefore
+requires refresh. These observations predate this documentation composition:
+a later Main merge also requires a fresh guarded Workspace pin comparison.
+The first #789 merge request was rejected while an
+actual required `public-intake` check was in progress; after that check
+succeeded, the normal expected-head retry merged without bypass.
+
+At Main #789's tested merge `de9db13d21b53ab33dda09818e01d53979d90f8a`,
+the hosted crawler ran 50 frozen controls and 23 grader controls per mode,
+and its six shards and merges reported 109/109 designated source mutations
+in each mode. The hosted prepared Node run had 33 helper controls and 767
+passing Node tests per mode without skips, cancellations or todo cases.
+Original artifact hashes, source identities, crawler provenance and Node TAP
+and 39 fixture bytes per mode were independently checked. These are bounded
+component results, not a no-skip whole-federation regression or final G0/G6.
+
+Workspace #60 repairs a reproduced vector mutation false kill caused by a
+subject under a directory named `unittest`. Its grader uses pre-cleanup live
+code identity for the selected body, dispatch and standard unittest helpers;
+arbitrary helpers and hostile runtime manipulation remain unsupported. At
+tested merge `1f5ae4e0c507ee2133da8dc03f16f4e0a8da63b7`, hosted contract
+run `42712020137` ran 254 tests per mode with no skips and recorded 13 clean
+baselines and 13 designated source mutants per mode. Pin run `42712020429`
+checked eight strict-current pins and four canonical inputs. The original
+artifact and all 52 nonce/source/stderr-bound events were checked. These are
+sequential observations, not a final G7 or G5.
+
+A new offline vector run on a separately observed twelve-repository cut at
+those Main, Math and Workspace commits passed its selected structural checks:
+12 commits, 30 selected inputs, eight pointers, four canonical bindings and
+nine lock packages. Receipt SHA-256
+`d5a4672c7a07835a72d4edd68ddbd670e9b0bd24f8124b601359c3ab3619ddd5`.
+Separate before/after API reads matched all twelve heads; they were not atomic.
+The earlier cut first failed on a missing historical Main Git blob; after
+recovering and verifying that exact object it passed offline. Its network run
+fetched 20 of 22 exact commits and failed because two private Git transports
+returned exit 128. No current private Git transport success, full tracked
+working parity or Git hygiene is inferred.
+
+The bounded remote inventory observed 2,078 branches and 39 tag refs across
+the twelve visible repositories. Ancestry comparisons found 1,441 branch
+tips ancestral to the captured defaults and 637 non-ancestral; neither result
+decides semantic integration or deletion eligibility. The
+[machine-readable observation](cbz/inventory/federation-refs-20261109.json)
+records public refs and private aggregate counts; private branch names and
+commit IDs are withheld from the public projection. Twenty-nine tag targets were ancestors of
+the captured defaults; ten were not. Eight non-ancestors are explicitly
+named preservation/quarantine snapshots and remain retained; non-ancestry
+does not establish that any tag is unreferenced or safe to remove. The local
+cut's clean statuses and empty stash lists cover only those checkouts and their
+registered worktrees, not every clone or orphan worktree.
+
+Math #559 merged as `9bdfc54b76173b57912503bfcf901a5f9d43b09c` after
+tested merge `79ad170de796404f6a8cd5273ce0fc4229da361e` completed its
+kernel and byte-integrity workflows. Its receipt records 66
+literal target axiom lists, seven real rejection controls and no scientific
+effect; the original conditional statements and prior outcomes are not
+rebound. Full-regression run `42708585331` completed 1,144 normal and 1,144
+optimized Math tests with no skips. This is not a full federation G5.
+Neither the parent continuum claims nor independent scientific acceptance
+follows.
+
+At the separately observed Main #787 head `d561405d936e81d2f77e9308b4e176cb994c77aa`,
+the hosted scope contract ran 23 tests per mode and failed two
+submicrosecond-fraction controls in each. Its normal discovery ran 2,599
+tests with two failures and 25 skips. At Main #788 head
+`f5f301b652e222395dc45cf300ae6697c4fcf8ae`, the hosted offline contract
+ran 23 tests per mode successfully, while the 18 CLI tests had 33 failures
+in each mode; normal discovery ran 2,617 tests with 33 failures and 25 skips.
+These are observations at those exact draft heads, not results for later
+changes. Both deliveries remain separate open scopes; the original failure
+artifacts are retained and neither is credited as a completed gate.
+
+From a clean Workspace checkout, the bounded vector commands are:
+
+```sh
+python3 -B -S -m unittest discover -s tests -p 'test_verify_federation_vector*.py' -v
+python3 -B -O -S -m unittest discover -s tests -p 'test_verify_federation_vector*.py' -v
+python3 -B -S tools/verify_federation_vector.py --root /absolute/siblings --vector /outside/vector.json --output /outside/new-offline.json
+python3 -B -S tools/verify_federation_vector.py --root /absolute/siblings --vector /outside/vector.json --network --output /outside/new-network.json
+python3 -B -S tools/verify_pins.py --require-current
+python3 -B -S tools/verify_canonical_inputs.py
+```
+
+For the vector commands, place twelve clean Git checkouts directly below the
+absolute sibling root. The JSON file must have exactly `schema` set to
+`cbz.federation-vector.v1` and `repositories` mapping these exact names to
+their selected full lowercase 40-hex commit IDs: `main`, `Math-`,
+`Universal-Law-Workspace`, `d6g8k5htny-coder`, `google-drive`, `governance-`,
+`meta-framework`, `openclaw-custodian-validation`, `query-`,
+`research-hosted-qualification`, `sandbox` and `trial`. The output must be a
+new nonsymlink file outside all checkouts. Historical canonical objects must
+also be locally present; an unavailable object or private remote is a real
+failure, not a skip.
+
+The vector is an explicitly selected immutable cut, not a default-tip or
+scientific certificate. Full proof/quarantine reconciliation, complete Layer
+A audit, no-skip regression, authenticated private transport, all final
+G0–G11 gates and the STATUS-only cold start remain open. No CBZ-0 or terminal
+Partial Baseline is declared.
+
 ## Later Node, inventory and pin observations — 9 November 2026
 
 Before this source change, Main #785 merged as

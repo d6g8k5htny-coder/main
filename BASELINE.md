@@ -6,6 +6,22 @@ This ledger binds the currently observed repository snapshot to the twelve
 owner criteria and final gate matrix. It records evidence and gaps; it is not a
 completion certificate.
 
+## Integrated origin and vector observation — 9 November 2026
+
+Main #789 and Workspace #60 were integrated with exact-head checks. Workspace
+`defb18ed4745432d3a2f1bc7a17cc28a1292a334` pins Main
+`b0a6c12abe87ae2a43163b3fe6ba4fa14adf389d`; these are sequentially observed
+parents of this later documentation work, not a permanent final vector.
+[STATUS](STATUS.md#later-integrated-origin-and-source-cut-observations--9-november-2026)
+records the bounded hosted mutation and regression evidence, offline structural
+cut, failed private Git transports, ref inventory and exact limitations. The
+[machine-readable ref observation](cbz/inventory/federation-refs-20261109.json)
+is historical and does not decide whether a non-ancestor is disposable. A
+later Main merge requires a new Workspace pin comparison. Full G0–G11, all
+twelve criteria and STATUS-only cold-start acceptance remain unawarded.
+Math #559 subsequently merged as `9bdfc54b76173b57912503bfcf901a5f9d43b09c`;
+Workspace's earlier Math pin is stale and needs a guarded update.
+
 ## Node and pin observation before this change — 9 November 2026
 
 Main `1902aac113761974c4569f78acb6a8baadabb7f1` and Workspace

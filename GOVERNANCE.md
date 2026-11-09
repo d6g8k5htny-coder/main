@@ -12,6 +12,21 @@ Platform permissions and denials remain binding. Historical mathematical
 statements, test failures, authorship and verification outcomes are facts;
 this governance change does not rewrite them.
 
+## Later integrated provenance boundary — 9 November 2026
+
+Main #789 and Workspace #60 integrated the bounded mutation-origin fixes and
+the then-current Main pin by ordinary platform-enforced merges. Workspace's
+vector mutation grader admits only the selected synchronous unittest bodies
+and its explicitly recognized standard unittest assertion helpers. Its
+commands, adverse controls, observed source cut and limitations are recorded
+in [TOOLING.md](TOOLING.md#workspace-vector-and-pin-checks--9-november-2026)
+and [STATUS.md](STATUS.md#later-integrated-origin-and-source-cut-observations--9-november-2026).
+An earlier two-private-transport failure is retained; API-reconstructed local
+Git objects do not qualify as successful remote Git fetches. No component
+result substitutes for the final same-pass federation gates.
+Math #559 has since merged after its own current kernel, byte and full-suite
+checks; Workspace's earlier Math pin needs a fresh guarded update.
+
 ## Current owner source
 
 The latest complete master is preserved [verbatim in this repository](governance/MASTER_DIRECTIVE_20261029_SWARM.txt)
