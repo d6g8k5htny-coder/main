@@ -38,6 +38,8 @@ python3 -B -S -m unittest tests.test_node_status_mutation_grader -v
 python3 -B -O -S -m unittest tests.test_node_status_mutation_grader -v
 python3 -B -S cbz/evidence/inventory-origin-20261109/run_self_mutations.py
 python3 -B -O -S cbz/evidence/inventory-origin-20261109/run_self_mutations.py
+python3 -B -S cbz/evidence/inventory-origin-20261109/run_driver_adverse.py
+python3 -B -O -S cbz/evidence/inventory-origin-20261109/run_driver_adverse.py
 python3 -B -S cbz/evidence/node-status-freshness/run_mutations.py
 python3 -B -O -S cbz/evidence/node-status-freshness/run_mutations.py
 ```

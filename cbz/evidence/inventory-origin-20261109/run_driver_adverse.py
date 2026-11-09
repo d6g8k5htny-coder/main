@@ -30,8 +30,11 @@ def main():
         (root / EVIDENCE).mkdir(parents=True)
         (root / 'cbz/evidence/node-status-freshness').mkdir(parents=True)
         (root / 'tests').mkdir()
+        (root / 'tools').mkdir()
         (root / 'tests/cbz_inventory_origin.py').write_bytes(helper)
         (root / 'tests/test_cbz_inventory_origin.py').write_bytes(controls)
+        (root / 'tests/test_cbz_inventory.py').write_bytes((ROOT / 'tests/test_cbz_inventory.py').read_bytes())
+        (root / 'tools/cbz_inventory.py').write_bytes((ROOT / 'tools/cbz_inventory.py').read_bytes())
         (root / 'cbz/evidence/node-status-freshness/run_mutations.py').write_bytes(CHECKER.read_bytes())
         target = root / EVIDENCE / DRIVER.name
         anchor = 'changed = changed.replace(before, after)'

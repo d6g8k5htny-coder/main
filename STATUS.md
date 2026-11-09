@@ -57,6 +57,17 @@ old failmaps and outcomes remain historical. The local candidate repairs
 those paths and uses a new failmap schema, but fresh crawler controls and the
 full designated mutation campaign must pass before it is treated as sound.
 
+The local inventory suite subsequently ran 83 tests in each Python mode on
+the candidate's inventory source, without top-level skips; its full-suite
+mutation children explicitly retain four declared recursion-controller skips.
+The expanded inventory recorder self-test killed 28 cases per parent mode,
+covering both child modes and binding the actual helper, controller, controls
+and freshness-checker hashes. A later driver-adverse attempt failed because
+its isolated copy omitted two newly required files; after copying those files,
+the driver refused both the no-op and subject-assertion probes in both parent
+modes. The first failure remains retained. These are component observations,
+not a no-skip whole-Main G5 or a final G0/G6.
+
 On the local candidate under CPython 3.12.14, the freshness grader controls
 ran 23 tests per parent mode without skips, detecting ten grader mutations in
 both child modes; its eleven original source mutations produced 22 qualified
