@@ -8,6 +8,37 @@ are preserved in their dated sections as history. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
 
+## Workspace vector and pin checks — 9 November 2026
+
+**Purpose.** Workspace `tools/verify_federation_vector.py` checks a selected
+twelve-repository immutable source cut, its eight Workspace pointers, four
+canonical bindings and nine lock packages. `tools/verify_pins.py --require-current`
+separately compares the eight public pins with observed
+remote defaults. `tools/verify_canonical_inputs.py` checks the four selected
+canonical source blobs. None proves mathematical statements or an atomic
+federation state.
+
+**Commands.** From a clean Workspace checkout, run:
+
+```sh
+python3 -B -S -m unittest discover -s tests -p 'test_verify_federation_vector*.py' -v
+python3 -B -O -S -m unittest discover -s tests -p 'test_verify_federation_vector*.py' -v
+python3 -B -S tools/verify_federation_vector.py --root /absolute/siblings --vector /outside/vector.json --output /outside/new-offline.json
+python3 -B -S tools/verify_federation_vector.py --root /absolute/siblings --vector /outside/vector.json --network --output /outside/new-network.json
+python3 -B -S tools/verify_pins.py --require-current
+python3 -B -S tools/verify_canonical_inputs.py
+```
+
+**Verification and scope.** Workspace #60's exact tested merge ran 254 tests
+per mode without skips and 13 actual source mutants with clean baselines per
+mode. Its adverse spoofed-path subject is refused, and removing the new guard
+reopens the false kill in both child modes. The grader uses live pre-cleanup
+code identities and supports selected synchronous unittest bodies and standard
+unittest helpers, not arbitrary helpers or hostile runtime code. Earlier
+filename-based results remain historical. The later offline and earlier
+network observations and their exact boundaries are recorded in STATUS;
+full tracked working parity and Git hygiene were not assessed.
+
 ## Later provenance and prepared Node tools — 9 November 2026
 
 **Inventory and freshness mutation provenance.** The respective tools are

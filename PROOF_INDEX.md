@@ -8,6 +8,27 @@ into a kernel proof. A theorem is CLOSED only for the literal statement and
 allowed-axiom boundary actually checked. Anything else must remain OPEN or be
 placed in a complete dormant quarantine.
 
+## Later source and custody boundary — 9 November 2026
+
+Main #789 and Workspace #60 are engineering and pin changes; they do not
+alter mathematical statements, bounds, authorship, proof outcomes or
+quarantine dispositions. The separate Math #559 tested merge
+`79ad170de796404f6a8cd5273ce0fc4229da361e` produced a kernel receipt for
+66 exact conditional targets and seven actual rejection controls, with
+axioms limited to `Classical.choice`, `Quot.sound` and `propext`. The
+original 66 statements, 78 subject bodies and historical receipts remain
+at their own source identities. No continuum parent claim or independent
+scientific acceptance follows. Math #559 subsequently merged as
+`9bdfc54b76173b57912503bfcf901a5f9d43b09c` after 1,144 repository tests
+passed in each mode without skips; this does not establish federation G5.
+
+Eight non-ancestor tags observed in the current bounded ref inventory are
+explicit preservation/quarantine snapshots. Main's three historical tags
+are referenced by [the cold-start guide](docs/cbz/COLD_START.md); five Math
+tags preserve the #535 carrier's original histories. Their existence is not
+itself proof of the eleven-field quarantine contract, logical isolation or
+kernel closure. Exact observations and limits are in STATUS.
+
 ## Later engineering boundary — 9 November 2026
 
 Main #785 and #784, Workspace #58, the prepared Node regression and the later
