@@ -129,3 +129,22 @@ Append-only. Historical source outcomes remain in their original records.
 | 2026-11-09 20:00 | 2 | B/testing, CI | Print bounded fields from original prepared-Node results and the helper-control log footers in CI, so counts and source/fixture identities are directly inspectable even when the local artifact reader cannot start. Preserve all original artifacts and grading behavior; no result is synthesized from a PASS line. | Yes | First hosted run `42687230494`, job `129397179313`, at head `63ae24f10de2e04c18c452923dff524d17b86cb7` succeeded and uploaded artifact `13705427515`; exact artifact case counts were not yet independently read. [Prepared regression contract](docs/cbz/NODE_FORMAL_FIXTURE_20261109.md). |
 | 2026-11-09 20:36 | 2 | C/integration | Compose the prepared Node regression repair with current canonical records and the compatible three-file entry-routing delivery from Main #781. Preserve the full current Main decision prefix, all Node decisions, and the original Claude commits through ordered parents; leave peer refs untouched. Fresh source-exposed engineering review found no technical findings; GitHub returns no actual review submission, so no approval or scientific independence is inferred. Require fresh checks on the complete composition before protected merge. | Yes | Main `7738e4c2e0881dd952772421877d9854364d272f`; Node head `962923a12f82e88f54ece180fbabdf05934aae78`; entry-routing head `fd08c3f77b0e13e310a424f8fd38d2df6b28d7af` and original `f2f3bd6a01e7f549b8706d9b2a362e037d5c6827`; Main #781/#784. |
 | 2026-11-09 20:40 | 2 | C/integration | Preserve the newly landed inventory oracle-provenance repair while composing the Node and entry-routing deliveries with current Main. Keep all upstream files and the complete current ledger prefix, all prior Node decisions, and original entry-delivery lineage. Earlier Node component passes remain bound to their prior compositions; require fresh protected checks on this one. | Yes | Main #785 merge `c81b7572f3c690338db9d66fdea582fc68f4a73f`; prior Node head `54ff4cc9c9a5d8f11badcc311028dc86d09d938c`; Main #784. |
+
+## 2026-11-09 — Q-9006 live companion offline contract before implementation
+
+- Phase2 / LayerB. Current real-record live-freshness method always skips.
+  Authentic current inputs exist; preserve their source pins and production
+  cited-object-content-v1 semantics rather than equating whole commit heads.
+- Root read and accepted a separate mandatory read-only live companion design.
+  First publish22 direct offline contracts and a read-only normal/optimized
+  runner with no production module or live token. Initial missing-companion
+  AssertionErrors must be observed and retained before helper implementation.
+  Synthetic external replies and constructor checks earn no live coverage.
+- Future live execution requires actual default production HTTPS observer,
+  authenticated read-only access, complete four-record validation, all three
+  declared-fresh candidates, unchanged schema/graph/record bytes, and exact
+  source/run/mode/counter observations. Stale, unknown, unavailable or partial
+  evidence fails; eng.hard-gate remains explicitly stale. No fallback/retry.
+- Existing dormant test/history and Q-9002--Q-9005 ownership/schema obligations
+  stay unchanged. No mathematical owner, record, disposition, scientific effect,
+  full G5, CBZ-0 or terminal Partial result is manufactured by this draft.
