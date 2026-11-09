@@ -18,6 +18,25 @@ Its team-model sections 1.5, 7.4 and 8 supersede older exclusive-owner and
 monitor-specific integration restrictions. Historical decisions retain their
 original timestamps and outcomes; the latest directive controls future action.
 
+## Current G11 retirement checkpoint — 9 November 2026
+
+The current candidate begins at signed Main default
+`e18798544f16479436283d71689ae635a1817b20`. Workspace default
+`400e03ca5f154e8d236e7126ea1525e78b3b595c` pins that exact Main revision;
+the latest organization-visible open-pull-request observation returned zero.
+Durable checkpoint v135 is bound by
+[STATUS.md](STATUS.md#current-g11-retirement-candidate--9-november-2026).
+
+Operational tools must not receive G11 or A8 credit merely because another
+tool imports a helper from them. The unsupported historical Atlas formal
+browser acceptance driver is therefore retired from `tools/`, recoverable by
+its exact blob and ancestry recorded in STATUS and DECISIONS. Its two live
+consumers retain only their byte-identity helpers and their existing current
+runner/adverse coverage. The exact candidate census retains 23 tools and exits
+1, so G11 remains FAIL. This retirement changes no Layer A rule and awards no
+CBZ criterion. Any later Main integration still requires a guarded Workspace
+pin refresh before current-tip agreement can be claimed.
+
 ## Current serial checkpoint — 9 November 2026
 
 The current candidate begins at signed Main default

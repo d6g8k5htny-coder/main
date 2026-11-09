@@ -5,6 +5,7 @@ unchanged. Successful software WebGL is tested separately from any fallback.
 """
 import argparse
 from functools import partial
+import hashlib
 from http.server import SimpleHTTPRequestHandler,ThreadingHTTPServer
 import importlib.metadata
 import json
@@ -15,7 +16,15 @@ from urllib.parse import urlencode
 
 from playwright.sync_api import sync_playwright,expect
 
-from atlas_formal_evidence_browser_check import identity,digest
+
+def digest(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def identity(path):
+    raw=path.read_bytes()
+    return {'bytes':len(raw),'sha256':digest(raw),
+            'git_blob':hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()}
 
 NODE='math.side24-coefficient'
 PROFILES={

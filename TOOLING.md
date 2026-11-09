@@ -9,6 +9,40 @@ that contains this file. Its candidate source parent is
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
 
+## Current retirement correction — 9 November 2026
+
+This candidate starts from Main
+`e18798544f16479436283d71689ae635a1817b20`. The bounded census commands are:
+
+```sh
+python3 -B -S tools/cbz/g11_census.py --rev HEAD --json /tmp/g11.json
+python3 -B -S -O tools/cbz/g11_census.py --rev HEAD --json /tmp/g11-opt.json
+```
+
+At exact retirement commit `724cb93bd6f3fdd0e407d48c5c3f267eb4c5bef0`,
+the reports are byte-identical at SHA-256
+`7ad72c9771a5859b465f7a4c2dc668a59c917a7a7d3770ddb0b6614ea8583455`,
+contain zero production findings and exactly 23 retained documentation or
+no-current-exercise tools, and exit 1. The current G11 verification commands
+also pass 265 tests and kill all 328 designated mutants in normal and
+optimized modes. G11 remains FAIL.
+
+The removed `tools/atlas_formal_evidence_browser_check.py` was not a current
+qualified certifier: current code imported only its `identity` and `digest`
+helpers, while no workflow exercised its acceptance path. The exact source is
+recoverable at Git blob `9576fd34806528484a3898665c19cabe9eb3797c` and the
+preceding Main tree. `tools/atlas_accessibility_regression.py` and
+`tools/atlas_source_bridge_browser_check.py` now carry those small functions
+locally; their purpose, commands and bounded scope remain in the current site
+verification guide, and their 11 runner/adverse tests pass in both modes.
+Removing an unsupported executable surface is not runtime, accessibility,
+formal-alignment, mathematical or scientific acceptance.
+
+Durable v135 and the exact sequential Main/Math-/Workspace state are recorded
+in [STATUS.md](STATUS.md#current-g11-retirement-candidate--9-november-2026).
+No final orchestrator is admitted and no registry command yet runs one bound
+federation G0--G11 pass.
+
 ## Current registry correction — 9 November 2026
 
 This candidate starts from Main

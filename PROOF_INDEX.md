@@ -8,6 +8,19 @@ into a kernel proof. A theorem is CLOSED only for the literal statement and
 allowed-axiom boundary actually checked. Anything else must remain OPEN or be
 placed in a complete dormant quarantine.
 
+## Current tooling-only binding — 9 November 2026
+
+This candidate starts from Main
+`e18798544f16479436283d71689ae635a1817b20`; the freshly observed Math- and
+Workspace defaults are `f532c3e2d91a0c7679a37c733741660917a9b21b` and
+`400e03ca5f154e8d236e7126ea1525e78b3b595c`, with Workspace pinning that
+exact Main revision. Durable checkpoint v135 is linked from
+[STATUS.md](STATUS.md#current-g11-retirement-candidate--9-november-2026).
+This operational retirement removes no theorem or proof source and does not
+rerun Lean, axiom closure, kernel verification or statement alignment. It
+does not add, remove, promote, refute or rebind a proof or quarantine. The
+older proof snapshot below remains the exact historical record.
+
 ## Current binding correction — 9 November 2026
 
 This candidate starts from Main

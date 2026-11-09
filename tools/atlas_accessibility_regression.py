@@ -5,12 +5,18 @@ only the explicitly named source-fetch failure is injected.
 """
 import argparse
 from functools import partial
+import hashlib
 from http.server import SimpleHTTPRequestHandler,ThreadingHTTPServer
 import json
 from pathlib import Path
 import threading
 from playwright.sync_api import sync_playwright,expect
-from atlas_formal_evidence_browser_check import identity
+
+
+def identity(path):
+    raw=path.read_bytes()
+    return {'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest(),
+            'git_blob':hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()}
 
 
 def main():
