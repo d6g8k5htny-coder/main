@@ -11,8 +11,10 @@ classifications, isolation assertions or canonical status documents.
 | `tools/cbz_inventory.py` | 41,329 | `58f5cafbe151f7304ee9ea35b6fc46859d35630f` |
 | `tests/test_cbz_inventory.py` | 48,756 | `ac8e5edc832ae9ded7ecad134264d3bd1f1871c5` |
 
-At restoration commit `1e58f4d9fef8ea9016fc8e46e67a5f7dd33883dd`, both files
-were unchanged from that source. The current filter-race repair below changes
+At local restoration commit `1e58f4d9fef8ea9016fc8e46e67a5f7dd33883dd`, both files
+were unchanged from that source. That local commit is not a published GitHub
+reference; the PR695 head and the original blob identities above are the
+published source anchors. The current filter-race repair below changes
 the tool and tests; the table records original provenance, not current blob
 identities. The recovery parent was Main
 `5ebe5771d44160f56d4f2fd1e11726858d17dc90`. Missing-command baseline and
@@ -24,17 +26,40 @@ commit or integration tree.
 ```sh
 python3 -B -S -m unittest discover -s tests -p test_cbz_inventory.py -v
 python3 -B -O -S -m unittest discover -s tests -p test_cbz_inventory.py -v
+python3 -B -S -m unittest discover -s tests -p test_cbz_inventory_origin.py -v
+python3 -B -O -S -m unittest discover -s tests -p test_cbz_inventory_origin.py -v
+python3 -B -S cbz/evidence/inventory-origin-20261109/run_self_mutations.py
+python3 -B -S cbz/evidence/inventory-origin-20261109/run_driver_adverse.py
 ```
 
-The retained suite has 75 test methods and nine intended source mutants:
-two tracked-inventory checks, two RF312 effective-source-map checks and five
-replay-binding checks. Three outer mutation-controller methods skip themselves
-inside their mutation subprocesses to prevent recursion; they must run at
-the ordinary suite's top level. The RF312 and replay controllers require a
-designated failure and reject an `ERROR:` result. The older two-mutant
-inventory controller requires a nonzero exit and the designated `FAIL:` header;
-it does not establish that no other error occurred. These are the preserved
-classifier boundaries, not a claim of universal mutation-harness soundness.
+The historical unchanged recovery had 75 test methods and nine intended source
+mutants; the subsequently landed #780 suite had 81 methods, ten mutants and
+four controllers. The present inventory contract suite has 83 methods and
+twelve intended source mutants, including the post-status filter check and
+fsmonitor suppression. The four outer controllers
+run at the ordinary suite's top level and are the only declared skips inside
+full-suite mutation children, with the reason `outer mutation controller only`.
+
+The historical controllers used formatted unittest failure text; that text can
+also come from an `AssertionError` raised by the subject or a helper. Their
+historical observations do not establish the origin of every reported kill.
+The current controllers use `tests/cbz_inventory_origin.py` to record actual
+traceback code identities before unittest clears them, check unmutated baselines,
+and require selected synchronous test-body or explicitly enumerated unittest
+assertion-helper origins. The full-suite path accounts for each discovered test
+and the four named recursion skips. Other skips, errors, lifecycle, subject,
+helper and nested-callback failures, deferred bodies and malformed reports are
+not accepted as kills. This helper is not a sandbox for hostile test code or a
+proof of mathematical claims; the additional origin suite above exercises its
+bounded classification contract.
+
+The self-mutation command exercises four named recorder mutations in each
+Python child mode, including a two-edit bypass of the subject-traceback checks.
+It uses the separately qualified node-freshness origin checker, so the mutated
+recorder cannot classify its own test failures. The driver-adverse command
+checks that a no-op mutant and a subject-origin assertion are refused in each
+parent interpreter mode; both probes stop at the first, normal-mode child.
+Both commands are bounded experiments, not a global audit or process sandbox.
 
 ## Generate and verify explicit source state
 
@@ -86,7 +111,8 @@ logs are 11,885 bytes each, with SHA-256:
 
 The suite captures mutant subprocess output internally; separate raw child
 transcripts are not emitted by the retained tests. The nine-mutant observation
-therefore has exactly the classifier limits described above. Full candidate
+has the historical classifier limits described above, including the inability
+to distinguish subject assertions from oracle assertions. Full candidate
 regression, committed-tree G11 assessment and engineering review are separate
 integration checks; no result for them is inferred from this focused suite.
 
@@ -191,7 +217,7 @@ in each mode, with zero top-level skips, errors or failures and all ten declared
 mutants exercised. Normal runtime was 114.730 seconds; optimized was 119.235
 seconds. Tool/test SHA-256 values matched before and after both runs:
 
-| Current repaired source | Git blob | SHA-256 |
+| Source at the earlier #780 repair | Git blob | SHA-256 |
 |---|---|---|
 | `tools/cbz_inventory.py` | `2d100b241bc9d8bc6eb5ee6e9b16df229f41c447` | `350717ac4aa66481129a2e7ed8c2fdfd29fe9e2593b48443af826595feb3d983` |
 | `tests/test_cbz_inventory.py` | `9eb45d45961169e86c3469ba81f53f5f216bae84` | `8d50ffdd4b4dac4d52279766c589407176ca99cd7226b64a30c1282fb3e43ecd` |
@@ -207,3 +233,50 @@ generated independently and has the same `c03fcaa8…` SHA-256 because the
 inventoried source states are unchanged. This smoke still binds parent Main
 `5ebe5771…`, not the repair candidate's later integration tree. Candidate-wide
 regression and committed-tree G11 remain separate checks.
+
+## Inventory assertion-origin repair — 9 November 2026
+
+The earlier #780 classifiers accepted real subject-origin `AssertionError`
+failures as kills. In an isolated repair, before adding the two new status
+mutants, 83 contract tests passed with no top-level skips in each Python mode.
+All ten original mutants had passing original-source baselines and observed
+oracle-origin kills. The two original full-suite mutants ran all 83 cases with
+four explicitly declared inner recursion skips; their failures were authorized
+test-oracle failures. A combined original mutant and subject assertion caused
+83 actual full-suite failures in each mode and was correctly refused.
+
+The post-status and fsmonitor source mutants were then added to the existing
+status controller. Each had a passing original-source baseline and was killed
+by its selected test in both Python modes. The first post-status regression
+missed its mutant because a later preflight caught the change; that failed
+probe was retained before the test was tightened at the status boundary.
+Fresh complete runs of the revised suite subsequently passed 83 tests without
+top-level skips in each mode and recorded twelve authorized mutant kills per
+mode. Each mode also recorded eleven passing original-source baselines and one
+refused full-suite subject-assertion probe; the four deliberate inner recursion
+skips are explicitly accounted for in that full-suite path.
+
+The finite recorder controls rejected subject, helper, nested callback,
+lifecycle, skip, runtime, deferred-body and malformed-report paths while
+accepting authorized synchronous test or unittest assertion failures. The
+independent node-origin checker observed four recorder self-mutations killed
+in each Python child mode. The first text-only self-mutation pass left the
+target-check mutation alive; the added forged-target control subsequently
+killed it. A separate adverse driver check refused a no-op and a subject
+assertion in both parent modes; its initial JSON parsing error and correction
+are retained. These observations are bounded to the tested code and cases;
+they do not establish full federation mutation coverage.
+
+Raw pre-addition full-suite receipts, new status-controller receipts,
+self-mutation and adverse-driver reports, failed probes, source snapshots,
+and the Workspace #56 integration observations are retained in
+`libfile_fde3_f-22e968afbc2881919f47997fc313927a_59a0f9f234e48191bc19fddcc0f80648`,
+SHA-256 `b36f5a9379ee73e267393e0c0dae5a2d29bb007743598613473ce0e7949b932b`.
+The revised twelve-mutant full-suite receipts, separately qualified recorder
+mutations, adverse driver controls and publication receipt bundle were then
+independently read back from
+`libfile_fde3_f-a1d4cb841f208191aafdc61057043076_59a0f9f234e48191bc19fddcc0f80648`,
+SHA-256 `bea63fdd7dc5e53174e2af4e08f3db91973546a45392def6763446f097f026d3`.
+The separately retained earlier false-kill results remain historical; no
+mathematical statement, bound, axiom, kernel outcome or scientific disposition
+is changed by this engineering repair.
