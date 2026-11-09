@@ -18,6 +18,22 @@ Its team-model sections 1.5, 7.4 and 8 supersede older exclusive-owner and
 monitor-specific integration restrictions. Historical decisions retain their
 original timestamps and outcomes; the latest directive controls future action.
 
+## Current serial checkpoint — 9 November 2026
+
+The current candidate begins at signed Main default
+`6deca3198c4b11b2d1208df904f5b942cd3e4bfb`. The latest sequential Workspace
+default `a3d4c50b8b94ae1e02a032f68c5411007d695fa0` pins that exact Main commit,
+and the latest organization-visible pull-request observation returned zero.
+Durable checkpoint v134 is bound by
+[STATUS.md](STATUS.md#current-serial-integration-correction--9-november-2026)
+and [Main #684 comment 6730912447](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6730912447).
+Its current G11 census still has 24 retained tools and exits 1; the full local
+Main regression remains non-green at the recorded managed-Chromium socket
+boundary. Therefore this checkpoint changes no Layer A rule, awards no CBZ
+criterion, and does not authorize a CBZ-0 claim. Merging any later Main change
+requires a guarded Workspace pin refresh before current-tip agreement can be
+claimed again.
+
 ## Mission and authority
 
 The sole mission is Clean Baseline Zero (CBZ-0), not additional research.

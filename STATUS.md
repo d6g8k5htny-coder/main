@@ -8,6 +8,48 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
+## Current serial integration correction — 9 November 2026
+
+This candidate starts from signed Main default
+`6deca3198c4b11b2d1208df904f5b942cd3e4bfb`, tree
+`3f615867f7d04f2b3e772760c25af479d26c7948`. The latest sequentially
+observed defaults are Math-
+`f532c3e2d91a0c7679a37c733741660917a9b21b` and Workspace
+`a3d4c50b8b94ae1e02a032f68c5411007d695fa0`, tree
+`a9f007b18fe496c63c74680a2005acb5766535cd`. At that observation the
+Workspace `repos/main` gitlink equalled the Main default exactly, all eight
+strict-current public pins and all four canonical inputs passed, and the
+organization-visible open-pull-request search returned zero. These facts are
+sequential, not atomic or perpetual; merging this candidate would advance Main
+again and require another guarded Workspace pin refresh before final G7 or
+criterion 8 could be awarded.
+
+Durable checkpoint v134 is recorded at
+[Main #684 comment 6730912447](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6730912447).
+The stable status identity
+`libfile_9551d0182bcc819188edfe9f998165b3` is version 134, 532,600 bytes,
+SHA-256 `a33611e2434f508e249c4effed5cbd33380c6b2bcc894ab6222cbe25101d8d5c`.
+The stable evidence identity
+`libfile_1f9ec8ce62708191972f9e2bf6295816` is version 134, 358,562,188 bytes,
+SHA-256 `f99bcae69fd7ae7d6117e66ba6454cae6423647d32c926b8a60e518f9c854e30`.
+Byte readback matched, the ZIP contains 13,106 unique members, and all 13,102
+retained v133 non-status members are byte-identical.
+
+The current exact G11 census has zero production findings and 24 retained
+documentation or no-current-exercise tools, so it exits 1 and G11 remains
+FAIL. Full local Main discovery is also not green: normal execution failed at
+Chromium startup and optimized execution observed 2,459 tests, two errors and
+23 preserved skips; both errors are the managed executor denying Chromium's
+singleton socket with `Operation not permitted`. Hosted Chrome component
+success does not convert that local failure into full-regression 100%.
+
+No fresh federation-wide Lean build, axiom audit, kernel replay, STATUS-only
+cold start or same-pass G0--G11 matrix is recorded for this candidate. No
+proof disposition, theorem statement, bound, authorship, historical failure,
+kernel outcome or scientific status is changed. The older dated maintenance
+snapshot below remains historical evidence and is superseded only for current
+repository, pin, pull-request, G11-count and durable-checkpoint facts.
+
 ## Current maintenance snapshot — 7 November 2026
 
 The Main candidate containing this file has native source parent
