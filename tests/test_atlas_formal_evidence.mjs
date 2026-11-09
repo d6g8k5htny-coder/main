@@ -38,9 +38,26 @@ test('An equal-looking different node ID is never inferred to be covered',()=>{
 test('Other actual claims keep missing mappings explicit',()=>{
   assert.equal(formalConnection(fixture(),'math.uniform-matrix-cap-lifetime'),null);
 });
-test('The actual older committed observation has a different manifest and remains unmapped',()=>{
-  const old=JSON.parse(fs.readFileSync(new URL('../docs/site/current.json',import.meta.url)));
-  assert.equal(formalConnection(old,id),null);
+test('An explicit historical 8d43 profile rejects a changed manifest identity',()=>{
+  // Controlled profile derived from the pinned fixture, not an older observed snapshot.
+  const data=fixture();
+  const manifest=data.sources.find(s=>s.repository===EVIDENCE.formal.repository
+    &&s.path===EVIDENCE.formal.manifest_path);
+  Object.assign(manifest,{commit:'b7deb198722582df191006e4f47238f92e6e543d',
+    blob:'8d43188691c695f66e233727322484da22662a58',bytes:17411});
+  const connection=formalConnection(data,id);
+  assert.ok(connection,'The explicit 8d43 profile must use its admitted historical source bridge');
+  assert.equal(connection.source_bridge.projection_manifest.commit,'b7deb198722582df191006e4f47238f92e6e543d');
+  assert.equal(connection.source_bridge.projection_manifest.blob,'8d43188691c695f66e233727322484da22662a58');
+  assert.equal(connection.source_bridge.projection_manifest.bytes,17411);
+  assert.equal(connection.source_bridge.record_sha256,'8cd6d4bcb48874aa40a3aa1d7e36d113487a43a1608e24fd4023cbb9e0f64299');
+  assert.equal(connection.formal.commit,'3b39c42d6edcc98ae165270be346f0e31c57f81d');
+  assert.equal(connection.execution.checked_commit,'3b39c42d6edcc98ae165270be346f0e31c57f81d');
+  assert.equal(connection.alignment.record.disposition,'REJECTED');
+  assert.equal(connection.alignment.record.manifest_sha256,'8dfcfe4e9296bca47eede517f37b546ea420ec6b51944b7c16164a906b40e090');
+  manifest.blob='0'.repeat(40);
+  assert.equal(formalConnection(data,id),null,
+    'An unrecognized manifest identity must not attach historical evidence');
 });
 test('An execution for another revision cannot attach to the artifact',()=>{
   const e=structuredClone(EVIDENCE);e.execution.checked_commit='0'.repeat(40);
