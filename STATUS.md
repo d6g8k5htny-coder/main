@@ -8,6 +8,75 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
+## Freshness provenance repair candidate — 9 November 2026
+
+Main #779 merged as signed `6ab126beda65e19865b8468b52f8757ac2324e1f`,
+tree `df5509f1f25dc406bad95ab4b88c288300901a98`. This isolated repair
+began from its tree-equivalent hosted parent `2d4403838f6d697e671834f12a9a87b379a93ad6`;
+native source commit `9486c850d0c22fd1438e18fb392dbe02d7bd214f` has tree
+`d9a794488b34168cad49580a40460b44a5b33dfd`. It is not yet an integrated
+or hosted-qualified result. Workspace #53 is
+open at `bd617949f349805b87f51ede2b793553f30c542f`, based on
+`a3e6552104d89917105a668a296121680a7f03bc`, to pin Main `6ab126be…`.
+Its local 187-test suites passed in both modes. Four hosted Workspace runs
+`42671456239`, `42671456244`, `42672115232`, and `42672114965`
+stopped before any job with GitHub internal-server annotations; targeted
+retries of the first two were refused with HTTP 403. Those failures remain
+evidence; they are not passing checks. Sequential tips are not atomic.
+
+The old node-status freshness mutation grader accepted a real subject-origin
+`AssertionError` as a kill in both child modes. Its historical mutation
+results are not retroactively provenance-qualified. The candidate captures
+the actual traceback and code identities before unittest cleanup, accepts
+only the selected test body or explicitly captured standard assertion code,
+and rejects subject, helper, nested callback and lifecycle origins. The real
+adverse subject replacement was refused in both modes while its baseline
+passed. A malformed non-object report also exposed a classifier exception;
+the candidate now refuses it. Local CPython 3.12.14 runs passed 20/20 focused
+controls in each parent mode, including designated grader-guard mutations.
+The extracted workflow block exited zero and observed 22/22 authorized kills
+in each parent mode: eleven unchanged subject mutations in both child modes.
+Each parent run also observed eight authorized detections of four grader-guard
+mutations across both child modes. Separate existing subject/refresh/projection
+controls passed 72/72 per mode. These are local, bounded observations, not
+hosted checks or full regression. The source bundle, raw logs, original
+failures and provenance are independently read back from
+`libfile_fde3_f-0332e0543bcc819194e66f37fbd29b81_59a0f9f234e48191bc19fddcc0f80648`,
+SHA-256 `9e980d03e16d94716d62df10c00a39c88f0c0717b9de414d60a13ebc5b3d7411`.
+Hosted checks and integration must be inspected at the actual candidate head.
+
+The read-only command `python3 -B -S tools/node_status_refresh.py
+records/node_status --check` observed Math- default
+`f532c3e2d91a0c7679a37c733741660917a9b21b` on 9 November and exited 1:
+the cited directory of `eng.hard-gate` changed from tree `715449bb…`
+to `13272515…`. The other three records were fresh under the cited-content
+contract. This candidate marks only that record and its published projection
+stale while retaining the historical source pin. The strict freshness check
+remains nonzero until the stale condition is resolved; it is not a proof or
+scientific-status decision. The actual observation is retained in
+`libfile_fde3_f-ca14368b86b88191ae1d95fae1baeeba_59a0f9f234e48191bc19fddcc0f80648`;
+the original false-kill evidence is retained in
+`libfile_fde3_f-606b8b159414819198b7a213ca93d32c_59a0f9f234e48191bc19fddcc0f80648`.
+The site atlas tests passed 10/10 and both asset-release commands produced
+digest `efff4cc5ef57e4ece003e919c7e9449cae97b7e539ffb515f819de4a2621ed3e`.
+
+For this bounded component run:
+
+```sh
+python3 -B -S -m unittest tests.test_node_status_mutation_grader -v
+python3 -B -O -S -m unittest tests.test_node_status_mutation_grader -v
+python3 -B -S cbz/evidence/node-status-freshness/run_mutations.py
+python3 -B -O -S cbz/evidence/node-status-freshness/run_mutations.py
+python3 -B -S tools/node_status_refresh.py records/node_status --check
+python3 -B tools/site_asset_release.py --check
+```
+
+The grader covers selected synchronous unittest cases and these explicit
+mutation/oracle patterns; it is not a sandbox against a malicious child
+process. It does not establish a full Layer A audit, complete regression,
+Lean/kernel pass, final G7/G11, STATUS-only cold start, same-pass G0–G11,
+scientific acceptance or CBZ-0. No terminal Partial is declared.
+
 ## Navigation history candidate — 9 November 2026
 
 The candidate starts from signed Main

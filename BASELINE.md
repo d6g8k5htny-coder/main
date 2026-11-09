@@ -6,6 +6,20 @@ This ledger binds the currently observed repository snapshot to the twelve
 owner criteria and final gate matrix. It records evidence and gaps; it is not a
 completion certificate.
 
+## Freshness provenance candidate — 9 November 2026
+
+The sequential observed boundary is Main signed merge
+`6ab126beda65e19865b8468b52f8757ac2324e1f`, Math-
+`f532c3e2d91a0c7679a37c733741660917a9b21b`, and Workspace default
+`a3e6552104d89917105a668a296121680a7f03bc`, which still pins the earlier
+Main. Workspace #53 proposes the updated pin, but four hosted runs failed
+before jobs and no current-tip integration is inferred. The isolated Main
+freshness-grader repair and the precisely stale engineering record are
+described in [STATUS.md](STATUS.md#freshness-provenance-repair-candidate--9-november-2026).
+The old false mutation kill remains historical and cannot receive new
+provenance credit. All twelve final criteria and a single current G0–G11
+pass remain unawarded; neither CBZ-0 nor terminal Partial is established.
+
 ## Navigation history candidate — 9 November 2026
 
 The sequential base is Main `5ebe5771d44160f56d4f2fd1e11726858d17dc90`,

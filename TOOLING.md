@@ -9,6 +9,40 @@ preserved in their dated sections as history. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
 
+## Node-status freshness origin guard candidate — 9 November 2026
+
+**Purpose:** reject false mutation kills caused by failures in the subject,
+helpers, nested callbacks or test lifecycle. The original eleven designated
+mutations remain; the runner captures pre-cleanup unittest traceback code
+identity, test identity, outcome and counts for each actual child execution.
+
+**Commands:** from this Main candidate checkout:
+
+```sh
+python3 -B -S -m unittest tests.test_node_status_mutation_grader -v
+python3 -B -O -S -m unittest tests.test_node_status_mutation_grader -v
+python3 -B -S cbz/evidence/node-status-freshness/run_mutations.py
+python3 -B -O -S cbz/evidence/node-status-freshness/run_mutations.py
+```
+
+**Verification:** the local CPython 3.12.14 focused suites passed 20/20 in
+each parent mode. They exercise both child modes, a real subject-origin
+adverse replacement, malformed counts and reports, failure/skip combinations,
+workflow bypass attempts, and four designated grader-guard mutations. The
+extracted workflow block exited zero: 22/22 authorized original-mutation
+kills and eight authorized grader-guard detections were recorded per parent
+mode, each covering both child modes. Hosted execution must be read at the
+actual candidate head. The previous false-kill and strict freshness
+observation are retained separately as identified in
+[STATUS.md](STATUS.md#freshness-provenance-repair-candidate--9-november-2026).
+
+**Scope:** selected synchronous unittest cases and the named mutation and
+oracle patterns. It is not a general mutation framework, a hostile-process
+sandbox, a mathematical verifier or the final federation G0–G11 pass. The
+workflow attempts to retain produced stdout, stderr and JSON on failure. The strictly
+read-only freshness command is `python3 -B -S tools/node_status_refresh.py
+records/node_status --check`; an observed stale record makes it exit nonzero.
+
 ## Navigation history guard candidate — 9 November 2026
 
 Purpose: ensure the existing history-backed reader-source checks actually run
