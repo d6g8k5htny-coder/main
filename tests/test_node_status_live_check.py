@@ -288,6 +288,18 @@ class NodeStatusLiveContract(unittest.TestCase):
         with self.assertRaises(module.LiveCheckError):
             self.evaluate(module, WrongMultiplicityObserver())
 
+    def test_retained_discussion_timestamp_must_match_the_captured_source_revision(self):
+        # Catches a fresh return value paired with contradictory retained discussion evidence.
+        module = self.subject()
+        class ContradictoryDiscussionObserver(SyntheticSourceObserver):
+            def __call__(self, url):
+                answer = super().__call__(url)
+                if url == COMMENT:
+                    self.observations[-1]["updated_at"] = "2026-10-22T21:28:52Z"
+                return answer
+        with self.assertRaises(module.LiveCheckError):
+            self.evaluate(module, ContradictoryDiscussionObserver())
+
     def test_malformed_run_identity_refuses(self):
         module = self.subject()
         for field, bad in (

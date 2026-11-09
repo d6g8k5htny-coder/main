@@ -148,3 +148,22 @@ Append-only. Historical source outcomes remain in their original records.
 - Existing dormant test/history and Q-9002--Q-9005 ownership/schema obligations
   stay unchanged. No mathematical owner, record, disposition, scientific effect,
   full G5, CBZ-0 or terminal Partial result is manufactured by this draft.
+
+## 2026-11-09 — actual Q-9006 absence and retained-discussion counterexample
+
+- Root independently read run42703408274/attempt1/job129453795288 at
+  head55d2796e170d0de8400eefa57a14667e60e20f56/tree783f2ffe45d795e78a4caf76e2ba6cd3ee558149.
+  Normal22 and optimized22 each failed exactly22 missing-companion assertions,
+  zero errors/skips. All44 failures precede helper import; they are initial
+  implementation absence, not semantic adverse/mutation/live coverage.
+- Author then implemented only the evaluator and mandatory-token/default
+  observer wrapper against unchanged22 contracts, without a CLI or data edits.
+  Fresh static review found a retained-discussion evidence gap: a boundary can
+  return the old timestamp while retaining a newer timestamp. Default current
+  observer is internally consistent; this is an adverse-boundary control gap,
+  not an observed live failure.
+- Add exactly one23rd test against the unchanged helper, preserving all prior
+  assertions. Observe its intended missing-exception assertion and all original
+  bodies before authorizing the minimal consistency guard. Synthetic replies
+  and helper-supplied identities confer no actual HTTPS/execution/scientific
+  credit. Current dormant coverage and Q-9002--Q-9005 remain unchanged.

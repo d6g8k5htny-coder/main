@@ -31,14 +31,14 @@ jobs:
         run: |
           set -euo pipefail
           python3 -B -S -m unittest tests.test_node_status_live_check -v 2>&1 | tee "$RUNNER_TEMP/node-status-live-contract-normal.log"
-          grep -Eq '^Ran 22 tests in ' "$RUNNER_TEMP/node-status-live-contract-normal.log"
+          grep -Eq '^Ran 23 tests in ' "$RUNNER_TEMP/node-status-live-contract-normal.log"
       - name: Run offline contracts optimized
         if: ${{ !cancelled() }}
         shell: bash
         run: |
           set -euo pipefail
           python3 -B -O -S -m unittest tests.test_node_status_live_check -v 2>&1 | tee "$RUNNER_TEMP/node-status-live-contract-optimized.log"
-          grep -Eq '^Ran 22 tests in ' "$RUNNER_TEMP/node-status-live-contract-optimized.log"
+          grep -Eq '^Ran 23 tests in ' "$RUNNER_TEMP/node-status-live-contract-optimized.log"
       - name: Retain original contract logs
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
