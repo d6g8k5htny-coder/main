@@ -8,6 +8,58 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
+## Current G11 Atlas-driver consolidation candidate — 9 November 2026
+
+This candidate starts from signed Main default
+`31150f4a0736cb79bf33e366b6b725b061126000`, tree
+`b3f103e72a12cc766519c28bae92265162f2955e`. Freshly integrated Workspace
+default `83623bff94918021a00d8f42c9618dc549015d6c` pins that exact Main revision;
+Math- remains `f532c3e2d91a0c7679a37c733741660917a9b21b`. The latest
+organization-visible open-pull-request search returned zero. Durable v137 was
+independently byte-read back at stable status identity
+`libfile_9551d0182bcc819188edfe9f998165b3`, 545,109 bytes, SHA-256
+`907b726558a856276cbeaf88bb3f521df9d7c27c975af847a6a8882ff186f770`,
+and evidence identity `libfile_1f9ec8ce62708191972f9e2bf6295816`,
+358,579,834 bytes, SHA-256
+`00288242715743d878efec482a78920fc348b11e28223c49aa9bbb07a20c0307`.
+Its ZIP has 13,118 unique members and retains all 13,114 v136 members.
+
+Eight further documented historical Atlas browser drivers had no current
+executable reference or exercise. They are removed from the operational
+surface while every plan, report, failure and authorship record remains
+unchanged. Their exact native recovery identities are:
+
+| Removed path | Git blob | Bytes | SHA-256 |
+|---|---|---:|---|
+| `tools/atlas_approachable_browser_check.py` | `0eaa7e488a1ca9cd3c0075981a9223b1fad291fe` | 11,659 | `99f567499dcee942b11a627afeb7a02589a8c8a41d787453b46d19b725313103` |
+| `tools/atlas_claim_summary_browser_check.py` | `67a2df8dd2c1c4f3bf4c1838e4e03247d2ec0c9b` | 8,339 | `55b15ed1ccd16b5276afe8c1d23d1538da837f611621e70dfbcd1952d51ccbc1` |
+| `tools/atlas_live_controls_browser_check.py` | `e6daa8f1cb52539036cfa2f86f8ce01e26a96351` | 8,876 | `b7c318a19c79f3da06734723a0f65d831d0ee140bd07dc451e11c25c4193aeca` |
+| `tools/atlas_refusal_browser_check.py` | `1f9c48448c80b42e74f916429a7bc47f2c10a2f7` | 8,030 | `639b9f4295273ff2c6fb5c0221dc1bd998804b84d38edb6f1efffa12c6fb6c28` |
+| `tools/atlas_relationships_browser_check.py` | `fd56cfdcc7170ce2653fa5f65c8e8e254bd76885` | 12,995 | `8a6a1c57fd5382a61b0cb11af1ed632bf6a1c71cc70098afe340c5607e4f5b87` |
+| `tools/atlas_spatial_browser_check.py` | `306edcf855366826ce76fb57466e46e6b8bcff53` | 18,113 | `915b6f6bca3e81fb39ebf250363eee3daf4f2a8a76f41c2e90f2754b1dcea881` |
+| `tools/atlas_spatial_labels_browser_check.py` | `bf3f5f68631aa13579c3efb7b0fd404c95b3f3e6` | 7,113 | `97d13995e52e584b06ffa2cd842661a4326fd32612610e3a7a3004a3e76d612e` |
+| `tools/atlas_webgl_fallback_browser_check.py` | `c5bc1bee12bd47c49f949e18462d751ebc2cb0d0` | 15,536 | `7abd99767a6acb456c29be3e92210d13a2ce2d507c344639a304fba9a9055959` |
+
+At exact deletion commit `98dfecca599aa05b2007ec41d72fd605dd13f99e`,
+normal and optimized censuses are byte-identical at SHA-256
+`5a59528f3db330596c0b7df13d0bb03a95e2971183a1a008547cf42e09a2da80`.
+They have zero production findings, reduce the registry from 90 to 82 tools
+and the unresolved residue from 21 to 13 tools, and still exit 1. G11 remains
+FAIL. The auditor passes 263/263 controls and kills 328/328 designated mutants
+in both modes; the byte-identical mutation receipt has SHA-256
+`e73ecb9f1a31208d4a92dfc5359e11ea8c6de833ab0df1495cc3c5675f05b97e`.
+Complete discovery ran 2,459 tests per mode and preserved exactly two managed
+Chromium singleton-socket errors and 23 skips. Its normal and optimized logs
+have SHA-256 `2249bc0015f087432ca9a09572fc983b0a46d03ef80cad351d7455876888c955`
+and `b9a2d3fa3f12609284a9828e5c2b9aa95889220fb61e4c7291daa2d250e991e9`.
+The preceding zero-test commands exited 5 and receive no credit.
+
+This candidate does not rerun Lean/kernel verification, establish
+full-regression 100%, complete a STATUS-only cold start or run G0--G11 in one
+pass. No theorem, proof disposition, bound, axiom, authorship, historical
+failure, kernel outcome or scientific status changes. All twelve criteria
+remain unawarded; CBZ-0 and terminal Partial are not established.
+
 ## Current G11 consolidation candidate — 9 November 2026
 
 This candidate starts from signed Main default

@@ -6,6 +6,28 @@ This ledger binds the currently observed repository snapshot to the twelve
 owner criteria and final gate matrix. It records evidence and gaps; it is not a
 completion certificate.
 
+## Current Atlas consolidation binding — 9 November 2026
+
+Observed sequentially before this candidate:
+
+| Repository | Default revision |
+|---|---|
+| Main | `31150f4a0736cb79bf33e366b6b725b061126000`, tree `b3f103e72a12cc766519c28bae92265162f2955e` |
+| Math- | `f532c3e2d91a0c7679a37c733741660917a9b21b` |
+| Universal-Law-Workspace | `83623bff94918021a00d8f42c9618dc549015d6c`, pinning Main `31150f4a0736cb79bf33e366b6b725b061126000` |
+
+The organization-visible open-PR search returned zero. Durable v137 and its
+byte readback are recorded in
+[STATUS.md](STATUS.md#current-g11-atlas-driver-consolidation-candidate--9-november-2026).
+The exact candidate recoverably retires eight unreferenced and unexercised
+historical Atlas drivers. Its census has zero production findings, reduces the
+registry from 90 to 82 tools and the unresolved residue from 21 to 13, and
+still exits 1. Both complete discoveries ran 2,459 tests and preserved exactly
+two managed Chromium errors and 23 skips. No final G7, G11, federation
+Lean/kernel pass, full regression, Layer A clearance, STATUS-only cold start
+or same-pass G0--G11 matrix is recorded. All twelve criteria remain unawarded.
+Older 21-, 23-, 24- and 32-tool snapshots below remain historical.
+
 ## Current operational-consolidation binding — 9 November 2026
 
 Observed sequentially before this candidate:

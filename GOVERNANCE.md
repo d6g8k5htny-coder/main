@@ -18,6 +18,27 @@ Its team-model sections 1.5, 7.4 and 8 supersede older exclusive-owner and
 monitor-specific integration restrictions. Historical decisions retain their
 original timestamps and outcomes; the latest directive controls future action.
 
+## Current G11 Atlas consolidation checkpoint — 9 November 2026
+
+The candidate begins at signed Main default
+`31150f4a0736cb79bf33e366b6b725b061126000`; Workspace
+`83623bff94918021a00d8f42c9618dc549015d6c` pins it exactly. Durable v137 is
+bound by
+[STATUS.md](STATUS.md#current-g11-atlas-driver-consolidation-candidate--9-november-2026).
+
+A documented historical executable still receives no G11 or A8 credit unless
+the current exercise graph actually reaches it. A driver with no current
+executable reference or exercise may be retired only after current-tree
+reference analysis, exact native blob/size/digest recovery, preservation of
+all historical plans/reports/failures/authorship, fresh committed-tree censuses
+in both modes, the auditor unit/adverse suites, and complete regression replay.
+Applying that rule to the eight Atlas drivers named in STATUS reduces the
+current residue to 13 without manufacturing green: the exact censuses still
+exit 1 and both complete discoveries retain two Chromium errors and 23 skips.
+G11, regression 100% and every CBZ criterion remain false or unawarded. A
+future Main merge again requires a guarded Workspace pin refresh before final
+current-tip agreement can be claimed.
+
 ## Current G11 consolidation checkpoint — 9 November 2026
 
 The current candidate begins at signed Main default
