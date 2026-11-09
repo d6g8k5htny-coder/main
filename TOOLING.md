@@ -8,6 +8,41 @@ are preserved in their dated sections as history. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
 
+## Pinned #525 graph-binding composition
+
+**Purpose and scope.** Exercise the historical Main #525 binding contract
+with its declared Math commit available. It checks the recorded graph and
+binding classifications; it does not establish continuum proofs, scientific
+acceptance, full regression or final G7. The navigation workflow preserves
+the original discovery, then requires the selected test's actual normal
+result and runs it separately with optimization; missing sources, skips and
+failures are errors. Its shell controls assume a trusted unittest producer,
+not a hostile-process sandbox.
+
+**Commands.** From a Main checkout whose Git history contains
+`29b7d5969e2cd707debb7449c69a71bbcd39cf63`, with `CBZ_MATH_REPO` naming a
+new path outside that checkout:
+
+```sh
+git init --bare "$CBZ_MATH_REPO"
+git -C "$CBZ_MATH_REPO" fetch --no-tags --no-write-fetch-head --depth=1 https://github.com/d6g8k5htny-coder/Math-.git dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde
+git -C "$CBZ_MATH_REPO" cat-file -e 'dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde^{commit}'
+git cat-file -e '29b7d5969e2cd707debb7449c69a71bbcd39cf63^{commit}'
+GB_MATH_CHECKOUT="$CBZ_MATH_REPO" python3 -B -S -m unittest -v tests.test_graph_binding_check.Composition525Test
+GB_MATH_CHECKOUT="$CBZ_MATH_REPO" python3 -B -O -S -m unittest -v tests.test_graph_binding_check.Composition525Test
+python3 -B -S -m unittest -v tests.test_navigation_graph525 tests.test_navigation_workflow tests.test_navigation_history tests.test_navigation_discovery
+python3 -B -O -S -m unittest -v tests.test_navigation_graph525 tests.test_navigation_workflow tests.test_navigation_history tests.test_navigation_discovery
+```
+
+**Verification.** The local real-block replay used the fetched pinned Math
+tree `acaf4fd05dc4392900d24fd58e13347009187317`; 37 normal binding tests
+and the selected optimized test passed without skips. The 33 focused
+workflow controls passed in each mode. They include eight actual changes to
+the shell guard executed against synthetic subprocess results, each showing
+that removing a guard reopens its corresponding refusal. These are not
+hosted or whole-federation qualification; preserve the failed earlier
+wrong-working-directory replay and inspect fresh hosted artifacts.
+
 ## Workspace vector and pin checks — 9 November 2026
 
 **Purpose.** Workspace `tools/verify_federation_vector.py` checks a selected

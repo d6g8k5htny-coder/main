@@ -225,6 +225,21 @@ class NavigationWorkflowTests(unittest.TestCase):
         full_checkout = checkout + '        with:\n          fetch-depth: 0\n'
         self.assertEqual(suffix.count(full_checkout), 1)
         suffix = suffix.replace(full_checkout, checkout, 1)
+        # Remove only the two additive #525 composition steps before the
+        # earlier job-byte comparison; the prior contract stays intact.
+        additions = (
+            ('      - name: Recover pinned graph-binding source\n        run: |\n',
+             '      - name: Current landing and navigation controls\n'),
+            ('      - name: Verify pinned graph-binding composition\n        run: |\n',
+             '      - name: Preserve actual results including failures\n'),
+        )
+        for start, end in additions:
+            self.assertEqual(suffix.count(start), 1)
+            self.assertEqual(suffix.count(end), 1)
+            before, remainder = suffix.split(start, 1)
+            added, after = remainder.split(end, 1)
+            self.assertTrue(added.strip())
+            suffix = before + end + after
         marker = '      - name: Verify history-backed reader controls\n        run: |\n'
         preserve = '      - name: Preserve actual results including failures\n'
         self.assertEqual(suffix.count(marker), 1)
