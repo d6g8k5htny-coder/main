@@ -118,7 +118,7 @@ def _observation_report(observer, requested):
             "observer did not retain observations and heads")
     require(all(isinstance(row, dict) and isinstance(row.get("url"), str)
                 for row in observations), "malformed source observation")
-    require(Counter(row["url"] for row in observations) == Counter(requested),
+    require(Counter(row["url"] for row in observations) == Counter(url for url, _ in requested),
             "source observation counters or URL multiplicities differ")
     git_repositories = set()
     for row in observations:
@@ -142,6 +142,9 @@ def _observation_report(observer, requested):
             require(isinstance(row.get("updated_at"), str)
                     and validator.OBSERVED.fullmatch(row["updated_at"]),
                     "discussion timestamp observation missing")
+            expected_revisions = {revision for source, revision in requested if source == url}
+            require(expected_revisions == {row["updated_at"]},
+                    "retained discussion timestamp differs from captured source revision")
     require(set(heads) == git_repositories, "captured repository head coverage differs")
     # Freeze returned evidence values, so a later caller change cannot rewrite this report.
     return copy.deepcopy(heads), copy.deepcopy(observations)
@@ -165,7 +168,7 @@ def evaluate_fresh_records(root, *, observer, identity):
         requested = []
         checked = []
         for record in fresh:
-            requested.extend(source["url"] for source in record["sources"])
+            requested.extend((source["url"], source["rev"]) for source in record["sources"])
             result = refresh.refresh_record(record, observer)
             require(result.get("status") == "fresh" and not result.get("refresh_error"),
                     "declared-fresh source is stale, unknown or unavailable: " + record["node_id"])

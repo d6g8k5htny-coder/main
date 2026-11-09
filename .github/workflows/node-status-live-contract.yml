@@ -39,6 +39,20 @@ jobs:
           set -euo pipefail
           python3 -B -O -S -m unittest tests.test_node_status_live_check -v 2>&1 | tee "$RUNNER_TEMP/node-status-live-contract-optimized.log"
           grep -Eq '^Ran 23 tests in ' "$RUNNER_TEMP/node-status-live-contract-optimized.log"
+      - name: Run offline CLI contracts normally
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B -S -m unittest tests.test_node_status_live_cli -v 2>&1 | tee "$RUNNER_TEMP/node-status-live-cli-normal.log"
+          grep -Eq '^Ran 18 tests in ' "$RUNNER_TEMP/node-status-live-cli-normal.log"
+      - name: Run offline CLI contracts optimized
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B -O -S -m unittest tests.test_node_status_live_cli -v 2>&1 | tee "$RUNNER_TEMP/node-status-live-cli-optimized.log"
+          grep -Eq '^Ran 18 tests in ' "$RUNNER_TEMP/node-status-live-cli-optimized.log"
       - name: Retain original contract logs
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -47,4 +61,6 @@ jobs:
           path: |
             ${{ runner.temp }}/node-status-live-contract-normal.log
             ${{ runner.temp }}/node-status-live-contract-optimized.log
+            ${{ runner.temp }}/node-status-live-cli-normal.log
+            ${{ runner.temp }}/node-status-live-cli-optimized.log
           if-no-files-found: warn

@@ -167,3 +167,26 @@ Append-only. Historical source outcomes remain in their original records.
   bodies before authorizing the minimal consistency guard. Synthetic replies
   and helper-supplied identities confer no actual HTTPS/execution/scientific
   credit. Current dormant coverage and Q-9002--Q-9005 remain unchanged.
+
+## 2026-11-09 — observed discussion RED and CLI source-contract phase
+
+- Root independently read run42705281101/attempt1/job129460339539 at
+  head58e0faf28334dcfaf43c648f8c14f80866582510/tree6e2d934f5d19a45812ee27c06a7f2047e05d29c6.
+  Both modes ran23 tests:22old bodies passed, one new retained-discussion
+  counterexample failed with LiveCheckError not raised, zero errors/skips.
+  It returned the old timestamp while retaining one second newer evidence.
+- Author was then authorized to bind every retained discussion timestamp to
+  captured source revisions. The helper now carries URL/revision pairs while
+  preserving observation multiplicities, head/object checks and all23 tests.
+  Actual current-source helper qualification remains required.
+- Add18 separate offline CLI contracts against this still CLI-absent helper.
+  Owned Git fixtures bind actual commit and nine selected bytes; the child
+  harness denies Python HTTP/socket connections and supplies no token. Caller
+  root, run context, source drift, safe output, actual mode and parse/help
+  cases must execute. Subtests can produce33 failures among18 test methods;
+  actual logs determine the count. No CLI implementation is authorized until
+  those expected missing-behavior failures are observed and retained.
+- This phase has no actual HTTPS/live, proof, scientific, fullG5 or CBZ credit.
+  Existing dormant history and Q-9002--Q-9005 remain unchanged. The read-only
+  runner executes both helper and CLI contracts in each mode and retains
+  original logs even when a preceding cell fails.
