@@ -8,6 +8,50 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
+## Current integrated v139 binding — 9 November 2026
+
+The current serial integration boundary is signed Main merge
+`ed5d83b7eff354cd7025117f4d2371422acd816b`, tree
+`87fdabafadfdb1ee2b766222b6d0c313de8d9a89`; Math- remains
+`f532c3e2d91a0c7679a37c733741660917a9b21b`; and signed Workspace merge
+`7019083126d3e9fb732447dee5c2895d8c5b7475`, tree
+`5d591958e516a582367deb4433cbedf300207d7d`, pins that exact Main revision.
+The latest organization-visible open-pull-request search returned zero.
+Durable v139 was independently byte-read back at stable status identity
+`libfile_9551d0182bcc819188edfe9f998165b3`, 553,155 bytes, SHA-256
+`68c00bab7590630ddaae8f67e0d9e1dc081d5168bc65809b18cce5cf0518affc`,
+and evidence identity `libfile_1f9ec8ce62708191972f9e2bf6295816`,
+358,589,343 bytes, SHA-256
+`02e6efe1360f2e2b93ea9c64687db14b6b610961ca93434d1527665461c0fbb0`.
+The ZIP has 13,124 unique members and preserves all 13,122 v138 members by
+name, CRC and size.
+
+At the integrated Main tree, author-observed normal and optimized G11 censuses
+are byte-identical at SHA-256
+`a11ec958365f7eb2fa4fd35672398d866e051d08a0d62b88692f7d10b5dbec56`
+and pass with 69 tools, zero unresolved tools and zero production findings.
+The auditor passes 263/263 controls and kills 328/328 designated mutants per
+mode. Complete discovery passes 2,459 tests per mode with 25 explicit skips;
+therefore full-regression 100% is not awarded. This is an observed component
+result, not invented independent review or the final federation G11 gate.
+
+All eight exact-head Main jobs passed before normal protected integration.
+Five landed Main workflows passed on their first attempt. The landed
+workspace workflow `42581324023` preserved an HTTP-504 Elan-download failure
+on attempt 1 after source controls passed; a targeted retry on the identical
+signed commit succeeded on attempt 2, including formal/kernel, architecture,
+landing and verification jobs. Workspace exact-head and post-merge pin and
+federation-contract workflows passed. The failed attempt remains evidence and
+is not overwritten by the retry.
+
+No Lean/axiom/kernel replay for the whole federation, final G7, full Layer A
+clearance, STATUS-only cold start or same-snapshot G0--G11 matrix is recorded.
+No theorem, proof disposition, quarantine, bound, axiom, authorship, failure,
+kernel outcome or scientific status changes. All twelve criteria remain
+unawarded; CBZ-0 and terminal Partial are not established. A later Main merge,
+including this documentation refresh, requires another guarded Workspace pin
+refresh before current-tip agreement may be claimed.
+
 ## Current G11 tool-surface closure candidate — 9 November 2026
 
 This candidate starts from signed Main default

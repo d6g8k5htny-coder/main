@@ -8,6 +8,24 @@ into a kernel proof. A theorem is CLOSED only for the literal statement and
 allowed-axiom boundary actually checked. Anything else must remain OPEN or be
 placed in a complete dormant quarantine.
 
+## Current integrated v139 proof boundary — 9 November 2026
+
+Signed Main `ed5d83b7eff354cd7025117f4d2371422acd816b`, tree
+`87fdabafadfdb1ee2b766222b6d0c313de8d9a89`, is exactly pinned by signed
+Workspace `7019083126d3e9fb732447dee5c2895d8c5b7475`; Math- remains
+`f532c3e2d91a0c7679a37c733741660917a9b21b`. Durable v139 and the preserved
+attempt-1 HTTP-504 / successful attempt-2 retry boundary are recorded in
+[STATUS.md](STATUS.md#current-integrated-v139-binding--9-november-2026).
+
+The integrated change retires operational engineering drivers; it does not
+alter a theorem, proof source, quarantine or mathematical statement. The
+author-observed G11 component pass and successful landed formal job do not by
+themselves constitute a fresh whole-federation Lean, axiom, kernel, statement-
+alignment or scientific-review pass. No proof is promoted, refuted, removed or
+rebound, and criteria 3, 4 and 6 remain unawarded. A later Main documentation
+merge must be followed by a guarded Workspace pin refresh before the exact
+current-tip relation can be claimed again.
+
 ## Current G11 tool-surface closure binding — 9 November 2026
 
 This tooling-only candidate starts from signed Main

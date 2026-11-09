@@ -18,6 +18,32 @@ Its team-model sections 1.5, 7.4 and 8 supersede older exclusive-owner and
 monitor-specific integration restrictions. Historical decisions retain their
 original timestamps and outcomes; the latest directive controls future action.
 
+## Current integrated v139 checkpoint — 9 November 2026
+
+The current serial boundary is signed Main merge
+`ed5d83b7eff354cd7025117f4d2371422acd816b`, tree
+`87fdabafadfdb1ee2b766222b6d0c313de8d9a89`, and signed Workspace merge
+`7019083126d3e9fb732447dee5c2895d8c5b7475`, tree
+`5d591958e516a582367deb4433cbedf300207d7d`, whose Main gitlink is exact.
+Math- remains `f532c3e2d91a0c7679a37c733741660917a9b21b`; durable v139 is bound by
+[STATUS.md](STATUS.md#current-integrated-v139-binding--9-november-2026).
+
+Normal protected pull-request integration, exact-head checks, expected-head
+guards and signed merge custody remain mandatory. Procedural review-window or
+family-quorum absence is not a mathematical defect and does not manufacture a
+platform block under the current owner directive. Reviewer lineage must still
+be reported truthfully: the G11 component execution is author-observed, and no
+independent engineering or scientific review is invented.
+
+Failures remain first-class evidence. The landed Main workspace workflow's
+HTTP-504 Elan-download failure on attempt 1 is preserved alongside the
+successful targeted retry on the identical signed commit. A successful retry
+does not erase the earlier outcome. Because 25 regression tests remain skipped
+and the full gate matrix was not rerun together, neither full-regression 100%,
+final federation G11 nor any CBZ criterion is awarded. Any later Main merge
+requires a guarded Workspace pin refresh before current-tip agreement can be
+claimed.
+
 ## Current G11 tool-surface closure checkpoint — 9 November 2026
 
 The candidate begins at signed Main default

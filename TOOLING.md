@@ -2,12 +2,47 @@
 
 **State: component registry; the final federation toolchain is incomplete.**
 
-This file lists runnable mission-relevant tools present in the Main revision
-that contains this file. Its candidate source parent is
-`8038863c04cc96acfcfc0d2953ab8575ccce213e`, based on Main default
-`299c7fad72f1079b87b2d044b2d30f2098678f29`. Each entry states purpose,
+This file lists runnable mission-relevant tools present in Main. The current
+documentation candidate is based on signed Main
+`ed5d83b7eff354cd7025117f4d2371422acd816b`; older source-parent bindings are
+preserved in their dated sections as history. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
+
+## Current integrated v139 tool binding — 9 November 2026
+
+The bounded G11 commands below were actually observed at signed Main
+`ed5d83b7eff354cd7025117f4d2371422acd816b`, tree
+`87fdabafadfdb1ee2b766222b6d0c313de8d9a89`, which signed Workspace
+`7019083126d3e9fb732447dee5c2895d8c5b7475` pins exactly:
+
+```sh
+python3 -B -S -m unittest tests.test_g11_census
+python3 -B -S -O -m unittest tests.test_g11_census
+python3 -B -S tools/cbz/g11_mutation_selftest.py --json
+python3 -B -S -O tools/cbz/g11_mutation_selftest.py --json
+python3 tools/cbz/g11_census.py --rev HEAD --json /tmp/g11.json
+python3 -O tools/cbz/g11_census.py --rev HEAD --json /tmp/g11-opt.json
+python3 -B -S -m unittest discover -s tests
+python3 -B -S -O -m unittest discover -s tests
+```
+
+The first two commands pass 263/263 controls per mode; the mutation self-tests
+kill 328/328 designated mutants per mode. The censuses pass with 69 tools,
+zero unresolved tools and zero production findings and are byte-identical at
+SHA-256 `a11ec958365f7eb2fa4fd35672398d866e051d08a0d62b88692f7d10b5dbec56`.
+Complete discovery passes 2,459 tests per mode with 25 explicit skips. These
+are author-observed component results, not independent review, a 100% full
+regression, the final federation G11 gate or a same-snapshot G0--G11 run.
+
+All exact-head Main jobs passed. The landed workspace workflow
+`42581324023` failed on attempt 1 when the pinned Elan archive returned HTTP
+504 after source controls passed; the failed output is preserved. A targeted
+retry on the same signed commit succeeded on attempt 2, including the formal,
+architecture, landing and verification jobs. The retry verifies recovery; it
+does not rewrite the failed attempt. Durable v139 identities, scope and gate
+limits are registered in
+[STATUS.md](STATUS.md#current-integrated-v139-binding--9-november-2026).
 
 ## Current G11 tool-surface closure — 9 November 2026
 
