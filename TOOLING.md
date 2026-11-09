@@ -2,12 +2,23 @@
 
 **State: component registry; the final federation toolchain is incomplete.**
 
-This file lists runnable mission-relevant tools present in Main. The current
-documentation candidate is based on signed Main
-`6ab126beda65e19865b8468b52f8757ac2324e1f`; older source-parent bindings are
-preserved in their dated sections as history. Each entry states purpose,
+This file lists runnable mission-relevant tools present in Main. The latest
+observed integration boundary is recorded below; older source-parent bindings
+are preserved in their dated sections as history. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
+
+## Observed freshness tool integration — 9 November 2026
+
+The node-status provenance guard below landed through Main #782. Current-head
+hosted controls job `129353108258` exercised 20 focused controls, eight
+designated guard detections and 22/22 authorized original-mutation kills per
+parent mode, including real subject-origin refusals in both child modes. Its
+commands, original false kill and bounded synchronous-unittest scope remain
+documented below; historical outcomes are not rebound. See
+[STATUS.md](STATUS.md#observed-integration-boundary--9-november-2026) for
+the source boundary, current stale record, retained failures and final-gate
+limits. This section supersedes earlier dated current-tip descriptions.
 
 ## Node-status freshness origin guard candidate — 9 November 2026
 

@@ -1,10 +1,29 @@
 # CBZ baseline ledger
 
-**State: Partial Baseline; CBZ-0 is not established.**
+**State: active intermediate baseline; CBZ-0 is not established. No terminal Partial Baseline is declared.**
 
 This ledger binds the currently observed repository snapshot to the twelve
 owner criteria and final gate matrix. It records evidence and gaps; it is not a
 completion certificate.
+
+## Observed integration boundary — 9 November 2026
+
+Before this documentation change, the sequentially observed defaults were
+Main `f1ef3a2babecca0f0d4eb35b018dc81d30e9d62c`, Math-
+`f532c3e2d91a0c7679a37c733741660917a9b21b`, and Workspace
+`1c552538e6a8952548e2bd5297a0031dda1f94e7`, whose gitlink pins that Main.
+The source-bound observations, skips, failures and completed post-merge
+checks are in [STATUS.md](STATUS.md#observed-integration-boundary--9-november-2026).
+A later Main merge requires another guarded Workspace pin refresh.
+
+All twelve CBZ-0 criteria remain unawarded: complete Git/ref/admin cleanup,
+proof dispositions, full Layer A audit, no-skip regression, whole-federation
+Lean/kernel/axiom pass, declared mutation threshold, final current pins,
+complete self-verified tools, consistent surfaces, STATUS-only cold start and
+decisions must be observed together. The known 25 skips, unadopted T10
+proposals and missing final orchestrator remain explicit. This is an active
+intermediate ledger, not a terminal Partial or CBZ-0 declaration. Earlier
+dated tip descriptions below are historical.
 
 ## Freshness provenance candidate — 9 November 2026
 
