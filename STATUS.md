@@ -8,6 +8,51 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
+## Current G11 consolidation candidate — 9 November 2026
+
+This candidate starts from signed Main default
+`7712277ced9170c8d61d8f324319f40177c145b1`, tree
+`1bafc1d181ddc161c51d58bfe3084a118d2d9bbf`. The fresh sequential Math-
+and Workspace defaults are `f532c3e2d91a0c7679a37c733741660917a9b21b`
+and `6064d7b96eb60f5f4e50f410c89c1f0dee813a52`; Workspace pins that exact
+Main revision. The organization-visible open-pull-request search returned zero.
+
+`tools/atlas_accessibility_audit.py` and
+`tools/atlas_resilience_browser_check.py` were both current-tree
+`referenced=false`, `documented=false` historical browser drivers. The first
+is retained by exact name, byte count and SHA-256 only in the frozen F973
+evidence-source record; the second has no current reference. They are removed
+from the operational surface without altering that historical record. Their
+exact sources remain recoverable at native blobs
+`df4738e0df42b7f6ae320482be86194ce2d4bd66` (21,485 bytes, SHA-256
+`e133b8c5a7df0b261d676cd3d686c92607b90a9305f92d0d0bbca4675e5e3bac`)
+and `6b36d770624c846f2d6411b7a55d20885954019e` (15,397 bytes, SHA-256
+`1c760214db84a1ec011be66f78d62f569ec191f15e0ccbb93b14f94651a8e972`).
+
+At exact deletion commit `0a36115eefd1d4d26dd575e720e6e9ded172999a`,
+normal and optimized censuses are byte-identical at SHA-256
+`67a6c46c4752b1a9276502dd6ebfe8c9e127a38adefc5c3f7b8da64a5d1312c5`.
+They contain zero production findings, retain 21 documentation or
+no-current-exercise tools and exit 1, so G11 remains FAIL. The exact workflow
+suite passes 265/265 and the designated self-test kills 328/328 mutants in
+both modes. Complete discovery ran 2,459 tests in each mode and preserved the
+same two managed-executor Chromium singleton-socket errors and 23 skips; it is
+not a 100% regression pass. The preceding zero-test discovery invocation is
+preserved and receives no credit.
+
+Durable checkpoint v136 is byte-read back at stable status identity
+`libfile_9551d0182bcc819188edfe9f998165b3`, 540,053 bytes, SHA-256
+`423a1b558c99a73b43cedfb10765d810ad8a6a2e9dd5eb74899bedb0b8aa4fae`,
+and evidence identity `libfile_1f9ec8ce62708191972f9e2bf6295816`,
+358,573,202 bytes, SHA-256
+`2b53f6cfae4343f468e2f3c80c6ac7211fff7c2e8f47ff8c12b3c908fc41b83d`.
+The ZIP has 13,114 unique members and retains all 13,110 v135 members. This
+candidate does not rerun Lean/kernel verification, establish full-regression
+100%, complete a STATUS-only cold start or run G0--G11 in one pass. No theorem,
+proof disposition, bound, axiom, authorship, historical failure, kernel outcome
+or scientific status changes. All twelve criteria remain unawarded; CBZ-0 and
+terminal Partial are not established.
+
 ## Current G11 retirement candidate — 9 November 2026
 
 This candidate starts from signed Main default
