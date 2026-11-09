@@ -18,6 +18,25 @@ Its team-model sections 1.5, 7.4 and 8 supersede older exclusive-owner and
 monitor-specific integration restrictions. Historical decisions retain their
 original timestamps and outcomes; the latest directive controls future action.
 
+## Current G11 tool-surface closure checkpoint — 9 November 2026
+
+The candidate begins at signed Main default
+`848cd66bbf4a73e77a6f3e1fff64ce4796150f6d`; Workspace default
+`24c7c72c342d9b66275bfc5b30d3ae5df4ed55cf` pins it exactly. Durable v138
+and exact recovery identities are bound by
+[STATUS.md](STATUS.md#current-g11-tool-surface-closure-candidate--9-november-2026).
+
+The same source-preserving retirement rule used for earlier unsupported
+historical drivers applies to the final thirteen current-tree G11 failures:
+no current executable consumer, exact native recovery identity, unchanged
+historical plans/reports/failures/authorship, fresh committed-tree normal and
+optimized censuses, auditor controls and adverse mutations, and complete
+regression replay. The exact deletion tree passes the bounded G11 component
+with 69 tools and zero unresolved or production findings. That component pass
+does not award the final federation G11 gate: 25 regression tests are skipped,
+Lean/kernel/axioms and the other gates were not replayed, and G0--G11 were not
+run together. A later Main merge requires a guarded Workspace pin refresh.
+
 ## Current G11 Atlas consolidation checkpoint — 9 November 2026
 
 The candidate begins at signed Main default
