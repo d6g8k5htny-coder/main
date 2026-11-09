@@ -8,6 +8,15 @@ into a kernel proof. A theorem is CLOSED only for the literal statement and
 allowed-axiom boundary actually checked. Anything else must remain OPEN or be
 placed in a complete dormant quarantine.
 
+## Navigation history candidate boundary — 9 November 2026
+
+The candidate based on Main `5ebe5771d44160f56d4f2fd1e11726858d17dc90`
+improves execution of historical reader-source identity checks. It changes no
+theorem, proof source, statement, bound, axiom, quarantine or disposition.
+The full/shallow observations and limits are in
+[STATUS.md](STATUS.md#navigation-history-candidate--9-november-2026); they
+are not Lean/kernel evidence, statement alignment or scientific review.
+
 ## Current integrated v139 proof boundary — 9 November 2026
 
 Signed Main `ed5d83b7eff354cd7025117f4d2371422acd816b`, tree

@@ -219,6 +219,20 @@ class NavigationWorkflowTests(unittest.TestCase):
 
     def test_entire_job_and_permissions_are_byte_preserved(self):
         suffix = self.workflow[self.workflow.index('permissions:'):]
+        # Restore only the two deliberate history additions before checking
+        # the prior byte contract; all pre-existing job bytes remain pinned.
+        checkout = ('      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1\n')
+        full_checkout = checkout + '        with:\n          fetch-depth: 0\n'
+        self.assertEqual(suffix.count(full_checkout), 1)
+        suffix = suffix.replace(full_checkout, checkout, 1)
+        marker = '      - name: Verify history-backed reader controls\n        run: |\n'
+        preserve = '      - name: Preserve actual results including failures\n'
+        self.assertEqual(suffix.count(marker), 1)
+        self.assertEqual(suffix.count(preserve), 1)
+        before, added = suffix.split(marker, 1)
+        history, after = added.split(preserve, 1)
+        self.assertTrue(history.strip())
+        suffix = before + preserve + after
         self.assertEqual(
             hashlib.sha256(suffix.encode('utf-8')).hexdigest(),
             PRESERVED_JOB_SHA256,

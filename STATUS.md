@@ -8,6 +8,41 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
+## Navigation history candidate — 9 November 2026
+
+The candidate starts from signed Main
+`5ebe5771d44160f56d4f2fd1e11726858d17dc90`. The last sequential Workspace
+default `a3e6552104d89917105a668a296121680a7f03bc` pins that Main commit;
+Math- remains `f532c3e2d91a0c7679a37c733741660917a9b21b`. The stable
+contribution status is v141. Its stable evidence archive remains v139 after
+two failed v140 transfer attempts; the v140 integration supplement is
+`libfile_fde3_f-577788f2c9a88191a2493c330a8c0d2b_59a0f9f234e48191bc19fddcc0f80648`.
+The status explicitly records this split; the archives are not a matched
+single-version pair.
+
+Landed navigation artifact `13660495414`, SHA-256
+`b2b93e4a1792fef2c994559baee9852927ed26f3a00484cd301eee99de0e6f5a`,
+recorded 2,459 tests and 37 skips, including twelve missing historical Main
+Git-object skip events. The candidate requests a full checkout and adds a
+separate fail-closed execution of the two affected reader classes. On an
+actual full clone of the base, the new shell block passed 20/20 tests with no
+skips; on a depth-one clone it exited 1 and retained the 20-test log with
+twelve skip events. The existing full discovery remains unchanged.
+
+Focused workflow controls passed 25/25 in each Python mode. A local bounded
+probe killed nine designated workflow mutants per mode, requiring each named
+assertion to originate in the selected test body; body, helper, nested and
+subject-origin controls checked that boundary. The probe is an evidence
+artifact, not a general grading service. Its source, reports and both actual
+history logs are in
+`libfile_fde3_f-f232855b2dc081919315ab3c31a32f56_59a0f9f234e48191bc19fddcc0f80648`,
+SHA-256 `6fa1b43e564baa27270e311f44b56cd2e580b2564c8253805789ab17f4c39fcf`.
+Hosted candidate execution and integration are still required; the other
+observed skip categories remain. No full-regression 100%, final G5/G11,
+whole Layer A clearance, final G7, STATUS-only cold start, same-pass G0--G11,
+CBZ-0, terminal Partial or scientific acceptance is claimed. Any later Main
+merge requires a guarded Workspace pin refresh.
+
 ## Current integrated v139 binding — 9 November 2026
 
 The current serial integration boundary is signed Main merge
