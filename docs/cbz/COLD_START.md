@@ -1,6 +1,7 @@
 # Reproduce the federation checkpoint
 
-This is a reproduction guide for the Partial Baseline. It is not a final G9
+This is a reproduction guide for the active intermediate baseline; no terminal
+Partial Baseline is declared. It is not a final G9
 PASS, a complete mathematical auditor, or a CBZ-0 declaration. STATUS.md is the
 entry point; it states the closed and quarantined domains and immutable rules.
 No final baseline vector/tag or single complete G0–G11 run exists at this cut.
