@@ -17,12 +17,36 @@ from unittest import mock
 
 TOOL = Path(os.environ.get('CBZ_INVENTORY_UNDER_TEST',
                           Path(__file__).resolve().parents[1] / 'tools/cbz_inventory.py'))
+_origin_spec = importlib.util.spec_from_file_location(
+    'cbz_inventory_origin', Path(__file__).with_name('cbz_inventory_origin.py'))
+origin = importlib.util.module_from_spec(_origin_spec)
+_origin_spec.loader.exec_module(origin)
 
 
 def git(repo, *args):
     env = {k: v for k, v in os.environ.items() if not k.startswith('GIT_')}
     return subprocess.check_output(['git', '-C', str(repo), *args], env=env,
                                    stderr=subprocess.PIPE)
+
+
+def mutation_child(tool, expected, *, full_suite=False):
+    module = 'test_cbz_inventory.InventoryContract'
+    target = module + '.' + expected
+    if full_suite:
+        identities = [module + '.' + name for name in
+                      unittest.defaultTestLoader.getTestCaseNames(InventoryContract)]
+        controllers = ('test_status_metadata_isolation_mutation_is_killed',
+                       'test_rf312_source_map_mutations_are_killed',
+                       'test_replay_binding_source_mutations_are_killed',
+                       'test_source_mutations_are_killed')
+        skips = {module + '.' + name: 'outer mutation controller only' for name in controllers}
+        selector = module
+    else:
+        identities, skips, selector = [target], {}, target
+    env = dict(os.environ, CBZ_INVENTORY_UNDER_TEST=str(tool),
+               CBZ_INVENTORY_MUTANT='1', PYTHONDONTWRITEBYTECODE='1')
+    return origin.run(Path(__file__).resolve().parent, selector, identities, target,
+                      allowed_skips=skips, env=env, timeout=300)
 
 
 class InventoryContract(unittest.TestCase):
@@ -164,6 +188,45 @@ class InventoryContract(unittest.TestCase):
         self.assertIsNotNone(refused, 'the racing filter configuration must be refused')
         self.assertIn('filter', str(refused))
 
+    def test_filter_added_after_isolated_status_is_refused(self):
+        repo = self.root / 'alpha'
+        (repo / '.gitattributes').write_text('a.txt filter=post_status\n')
+        self.commit(repo)
+        marker = Path(self.temp.name) / 'post-status-filter-executed'
+        script = Path(self.temp.name) / 'post-status-filter.py'
+        script.write_text('import pathlib,sys\npathlib.Path(' + repr(str(marker)) +
+                          ').write_text("executed")\nsys.stdout.buffer.write(sys.stdin.buffer.read())\n')
+        original_status = self.tool._isolated_status
+        installed = False
+
+        def add_filter_after_status(repo_arg, *args):
+            nonlocal installed
+            result = original_status(repo_arg, *args)
+            if not installed:
+                installed = True
+                git(repo, 'config', 'filter.post_status.clean',
+                    shlex.quote(sys.executable) + ' ' + shlex.quote(str(script)))
+            return result
+
+        with mock.patch.object(self.tool, '_isolated_status', add_filter_after_status):
+            with self.assertRaisesRegex(ValueError, 'filter'):
+                self.tool._git(repo, 'status', '--porcelain=v1', '-z')
+        self.assertTrue(installed)
+        self.assertFalse(marker.exists(), 'the post-status filter must never execute')
+
+    def test_configured_fsmonitor_hook_is_never_executed(self):
+        repo = self.root / 'alpha'
+        marker = Path(self.temp.name) / 'fsmonitor-executed'
+        hook = Path(self.temp.name) / 'fsmonitor-hook'
+        hook.write_text('#!/bin/sh\nprintf x >> ' + shlex.quote(str(marker)) + '\n')
+        hook.chmod(0o700)
+        git(repo, 'config', 'core.fsmonitor', str(hook))
+        git(repo, 'status', '--porcelain')
+        self.assertTrue(marker.is_file(), 'fixture must execute the configured hook')
+        marker.unlink()
+        self.capture()
+        self.assertFalse(marker.exists(), 'inventory must never execute the fsmonitor hook')
+
     def test_status_uses_linked_worktree_index_for_renames_and_untracked_files(self):
         repo = self.root / 'linked'
         git(self.root / 'alpha', 'worktree', 'add', '-q', '-b', 'inventory-linked', str(repo))
@@ -213,32 +276,30 @@ class InventoryContract(unittest.TestCase):
     @unittest.skipIf(os.environ.get('CBZ_INVENTORY_MUTANT') == '1', 'outer mutation controller only')
     def test_status_metadata_isolation_mutation_is_killed(self):
         source = TOOL.read_text()
-        before = 'result = _isolated_status(repo, args, env, input_bytes)'
-        after = ('result = subprocess.run([*command, *args], input=input_bytes, '
-                 'stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60, env=env)')
-        self.assertEqual(source.count(before), 1, 'status isolation mutation anchor must be unique')
-        copied = Path(self.temp.name) / 'status-isolation.py'
-        env = dict(os.environ, CBZ_INVENTORY_UNDER_TEST=str(copied),
-                   CBZ_INVENTORY_MUTANT='1', PYTHONDONTWRITEBYTECODE='1')
-        optimize = ['-O'] if sys.flags.optimize else []
-        command = [sys.executable, '-B', *optimize, '-S', str(Path(__file__).resolve()), '-v',
-                   'InventoryContract.test_git_filter_added_after_preflight_is_refused_without_running_it']
-        copied.write_text(source)
-        baseline = subprocess.run(command, env=env, text=True, capture_output=True, timeout=180)
-        self.assertEqual(baseline.returncode, 0, baseline.stderr)
-        self.assertIn('Ran 1 test', baseline.stderr)
-        self.assertTrue(baseline.stderr.rstrip().endswith('OK'), baseline.stderr)
-        copied.write_text(source.replace(before, after))
-        mutant = subprocess.run(command, env=env, text=True, capture_output=True, timeout=180)
-        self.assertEqual(mutant.returncode, 1, mutant.stderr)
-        self.assertIn('Ran 1 test', mutant.stderr)
-        self.assertEqual(mutant.stderr.count('FAIL: '), 1, mutant.stderr)
-        self.assertIn('FAIL: test_git_filter_added_after_preflight_is_refused_without_running_it',
-                      mutant.stderr)
-        self.assertIn('AssertionError: True is not false : a late repository filter must never execute',
-                      mutant.stderr)
-        self.assertNotIn('ERROR:', mutant.stderr)
-        self.assertNotIn('skipped', mutant.stderr)
+        mutations = {
+            'status_isolation': (
+                'result = _isolated_status(repo, args, env, input_bytes)',
+                'result = subprocess.run([*command, *args], input=input_bytes, '
+                'stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60, env=env)',
+                'test_git_filter_added_after_preflight_is_refused_without_running_it'),
+            'post_status_filter': (
+                'result = _isolated_status(repo, args, env, input_bytes)\n'
+                '            _filter_preflight(command, env)',
+                'result = _isolated_status(repo, args, env, input_bytes)',
+                'test_filter_added_after_isolated_status_is_refused'),
+            'fsmonitor': (
+                "'-c', 'core.fsmonitor=false', ", '',
+                'test_configured_fsmonitor_hook_is_never_executed')}
+        for name, (before, after, expected) in mutations.items():
+            with self.subTest(mutation=name):
+                self.assertEqual(source.count(before), 1, 'status mutation anchor must be unique')
+                copied = Path(self.temp.name) / (name + '.py')
+                copied.write_text(source)
+                baseline = mutation_child(copied, expected)
+                self.assertEqual(baseline['classification'], 'baseline', json.dumps(baseline, sort_keys=True))
+                copied.write_text(source.replace(before, after))
+                mutant = mutation_child(copied, expected)
+                self.assertEqual(mutant['classification'], 'kill', json.dumps(mutant, sort_keys=True))
 
     def test_boolean_byte_count_is_not_accepted_as_integer_one(self):
         repo = self.root / 'alpha'
@@ -662,16 +723,12 @@ class InventoryContract(unittest.TestCase):
             with self.subTest(mutation=name):
                 self.assertEqual(source.count(before), 1, 'RF312 mutation anchor must be unique')
                 mutant = Path(self.temp.name) / (name + '.py')
+                mutant.write_text(source)
+                baseline = mutation_child(mutant, expected)
+                self.assertEqual(baseline['classification'], 'baseline', json.dumps(baseline, sort_keys=True))
                 mutant.write_text(source.replace(before, after))
-                env = dict(os.environ, CBZ_INVENTORY_UNDER_TEST=str(mutant),
-                           CBZ_INVENTORY_MUTANT='1', PYTHONDONTWRITEBYTECODE='1')
-                optimize = ['-O'] if sys.flags.optimize else []
-                result = subprocess.run([sys.executable, '-B', *optimize, '-S',
-                    str(Path(__file__).resolve()), '-v', 'InventoryContract.' + expected],
-                    env=env, text=True, capture_output=True, timeout=180)
-                self.assertNotEqual(result.returncode, 0, 'RF312 source mutation escaped')
-                self.assertIn('FAIL: ' + expected, result.stderr)
-                self.assertNotIn('ERROR:', result.stderr)
+                result = mutation_child(mutant, expected)
+                self.assertEqual(result['classification'], 'kill', json.dumps(result, sort_keys=True))
 
     def test_raw_main_format_cannot_accept_manifest_overlay_field(self):
         data = self.closed_fixture()
@@ -900,16 +957,12 @@ class InventoryContract(unittest.TestCase):
             with self.subTest(mutation=name):
                 self.assertEqual(source.count(before), 1, 'replay mutation anchor must be unique')
                 mutant = Path(self.temp.name) / (name + '.py')
+                mutant.write_text(source)
+                baseline = mutation_child(mutant, expected)
+                self.assertEqual(baseline['classification'], 'baseline', json.dumps(baseline, sort_keys=True))
                 mutant.write_text(source.replace(before, after))
-                env = dict(os.environ, CBZ_INVENTORY_UNDER_TEST=str(mutant),
-                           CBZ_INVENTORY_MUTANT='1', PYTHONDONTWRITEBYTECODE='1')
-                optimize = ['-O'] if sys.flags.optimize else []
-                result = subprocess.run([sys.executable, '-B', *optimize, '-S',
-                    str(Path(__file__).resolve()), '-v', 'InventoryContract.' + expected],
-                    env=env, text=True, capture_output=True, timeout=180)
-                self.assertNotEqual(result.returncode, 0, 'replay source mutation escaped')
-                self.assertIn('FAIL: ' + expected, result.stderr)
-                self.assertNotIn('ERROR:', result.stderr)
+                result = mutation_child(mutant, expected)
+                self.assertEqual(result['classification'], 'kill', json.dumps(result, sort_keys=True))
 
     def test_cli_roundtrip_rejects_duplicate_json_keys_and_floats(self):
         output = Path(self.temp.name) / 'inventory.json'
@@ -947,20 +1000,19 @@ class InventoryContract(unittest.TestCase):
                                       'require(True,'),
             'remove_file_identity_check': ('require(record == actual_files[path],',
                                            'require(True,')}
+        original = Path(self.temp.name) / 'unmutated-inventory.py'
+        original.write_text(source)
+        baseline = mutation_child(original, 'test_missing_manifest_file_is_rejected', full_suite=True)
+        self.assertEqual(baseline['classification'], 'baseline', json.dumps(baseline, sort_keys=True))
         for name, (before, after) in mutations.items():
             with self.subTest(mutation=name):
                 self.assertEqual(source.count(before), 1, 'mutation anchor must be unique')
                 mutant = Path(self.temp.name) / (name + '.py')
                 mutant.write_text(source.replace(before, after))
-                env = dict(os.environ, CBZ_INVENTORY_UNDER_TEST=str(mutant),
-                           CBZ_INVENTORY_MUTANT='1', PYTHONDONTWRITEBYTECODE='1')
-                optimize = ['-O'] if sys.flags.optimize else []
-                result = subprocess.run([sys.executable, '-B', *optimize, '-S', str(Path(__file__).resolve()), '-v'],
-                                        env=env, text=True, capture_output=True, timeout=180)
-                self.assertNotEqual(result.returncode, 0, 'mutated scanner escaped the tests')
                 expected = ('test_missing_manifest_file_is_rejected' if name == 'remove_file_set_check'
                             else 'test_declared_file_hash_substitution_is_rejected')
-                self.assertIn('FAIL: ' + expected, result.stderr)
+                result = mutation_child(mutant, expected, full_suite=True)
+                self.assertEqual(result['classification'], 'kill', json.dumps(result, sort_keys=True))
 
 
 if __name__ == '__main__':
