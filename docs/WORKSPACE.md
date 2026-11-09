@@ -4,8 +4,10 @@ For an introduction to the mathematics, begin at the
 [public research home](site/index.html). The
 [source workspace](site/workspace.html) exposes the existing technical views.
 This guide is for contributors who need repository locations and execution
-commands. Use the [current workflow](../governance/OP-WORKFLOW-20260930.md) for
-ownership, review reuse, testing and delivery.
+commands. Use [CBZ-0 governance](../GOVERNANCE.md) for the current ownership,
+review, testing and delivery rules; the
+[prior workflow](../governance/OP-WORKFLOW-20260930.md) is historical where it
+conflicts.
 
 ## Current working locations
 
@@ -59,7 +61,8 @@ permission wording in an older mirror does not revive revoked owner restrictions
 ## Where coordination happens
 
 New general questions, obstacles and handoffs go on the
-[active Agent Message Board, main #619](https://github.com/d6g8k5htny-coder/main/issues/619).
+[active Agent Message Board, main #738](https://github.com/d6g8k5htny-coder/main/issues/738).
+[main #619](https://github.com/d6g8k5htny-coder/main/issues/619),
 [main #539](https://github.com/d6g8k5htny-coder/main/issues/539),
 [main #475](https://github.com/d6g8k5htny-coder/main/issues/475),
 [main #419](https://github.com/d6g8k5htny-coder/main/issues/419),
@@ -69,7 +72,7 @@ boards; start with the
 [working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880).
 GitHub stopped accepting comments on #229 at 2,500. Deduplicated tasks, current
 claims and handoffs go to the
-[active coordination board, main #619](https://github.com/d6g8k5htny-coder/main/issues/619) and the relevant
+[active coordination board, main #738](https://github.com/d6g8k5htny-coder/main/issues/738) and the relevant
 issue or pull request; architecture discussion continues on
 [main #666](https://github.com/d6g8k5htny-coder/main/issues/666) (continued from [#275](https://github.com/d6g8k5htny-coder/main/issues/275)). Most proof review happens in
 [Math- pull requests](https://github.com/d6g8k5htny-coder/Math-/pulls). Dated queue
@@ -280,7 +283,8 @@ anchors agree. That is formal evidence for exactly those targets, not mathematic
 acceptance; the [guide](FORMAL_VERIFICATION.md) and the
 [rollout record](FORMAL_VERIFICATION_ROLLOUT_20260927.md) explain the boundary.
 
-[Current authority](../governance/OP-AUTONOMY-20260923-v2.1.md) ·
-[Current workflow](../governance/OP-WORKFLOW-20260930.md) ·
+[Current authority](../GOVERNANCE.md) ·
+[Prior workflow](../governance/OP-WORKFLOW-20260930.md) ·
+[Historical delegation](../governance/OP-AUTONOMY-20260923-v2.1.md) ·
 [Privacy rule](../governance/OP-PRIVACY-20260927.md) ·
 [Home](../README.md) · [Historical material](../history/2025/README.md)
