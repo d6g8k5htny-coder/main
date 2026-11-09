@@ -19,7 +19,7 @@
 - No type AST serializer, Lean execution, proof changes, role admission, artifact authentication, generic orchestrator or external writes.
 - Reject bool where an integer is required. Do not normalize Unicode or collapse numeric/string Name components.
 - Initial missing-module import is valid absence evidence only. It provides no adverse-rejection or mutation credit.
-- The dedicated read-only component workflow always checks out pinned Math and executes all 20 offline methods plus the one explicit pinned-source method in both normal and optimized Python. No optional coverage, skipTest, conditional disable or selective green matrix.
+- The dedicated read-only component workflow always checks out pinned Math and executes all 22 offline methods plus the one explicit pinned-source method in both normal and optimized Python. No optional coverage, skipTest, conditional disable or selective green matrix.
 - Do not add a placeholder production scaffold. Root publishes the immutable test-first draft, captures hosted RED, then authorizes implementation.
 
 ## Review Focus
@@ -34,7 +34,7 @@
 
 **Files**
 - Create later: tools/sdga_scope.py
-- Test first: tests/test_sdga_scope.py (20 pure API methods)
+- Test first: tests/test_sdga_scope.py (22 pure API methods)
 - Test first: tests/sdga_source_observation.py (one mandatory explicit pinned-source method; outside test_*.py discovery)
 - Frozen data: tests/fixtures/sdga_scope/{scope-f532.json,lakefile.toml,lake-manifest.json,lean-toolchain,source-scope-projection.json}
 
@@ -60,7 +60,7 @@ classify_inventory checks scope ID/exact modules and targets, production ownersh
 
 classify_receipt checks exact source/tool/profile/cache/object/log/run/attempt/module bindings and required step coverage. Positive result binding_status=DECLARED_FIELDS_VALID; adverse result binding_status=INVALID with stable findings. Require signal and timed_out fields explicitly; zero integer exit, null signal, false timeout and nonnegative numeric resource/time fields for every required step. Reject bool exit, source/cache drift, missing/extra/duplicate steps, missing object/module coverage and unsafe/partial skips. It returns execution_authenticated=false and never qualification PASS. For a single defective fixture return exactly its designated code. Deterministic validation priority is RECEIPT_SCHEMA, STEP_COVERAGE, STEP_FAILED, SOURCE_DRIFT, CACHE_DRIFT, MODULE_COVERAGE, REPLAY_SKIPPED, RECEIPT_BINDING. Names/notes may identify the defective field. Use the same four fixed unresolved blockers as the inventory classifier.
 
-- [ ] Step 1: Publish the 20 pure API methods, explicit pinned-source control and immutable fixtures without tools/sdga_scope.py. Keep tests/sdga_source_observation.py outside ordinary test_*.py discovery.
+- [ ] Step 1: Publish the 22 pure API methods, explicit pinned-source control and immutable fixtures without tools/sdga_scope.py. Keep tests/sdga_source_observation.py outside ordinary test_*.py discovery.
 - [ ] Step 2: On the hosted draft always check out pinned Math, guard native commit/tree and set SDGA_PINNED_MATH_ROOT, SDGA_OBSERVED_MATH_COMMIT and SDGA_OBSERVED_MATH_TREE. Execute all four mandatory commands below as independent matrix cells; preserve complete output and exact head/attempt. ModuleNotFoundError for sdga_scope is the expected initial absence observation, not adverse-control credit.
 
     python3 -m unittest discover -s tests -p 'test_sdga_scope.py' -v
@@ -68,7 +68,7 @@ classify_receipt checks exact source/tool/profile/cache/object/log/run/attempt/m
     python3 -O -m unittest discover -s tests -p 'test_sdga_scope.py' -v
     python3 -O tests/sdga_source_observation.py -v
 - [ ] Step 3: After root authorization, implement only the interfaces above using standard-library parsing and explicit checks, never Python assert for validation.
-- [ ] Step 4: Run all four mandatory commands again. Exactly 20 offline methods and one explicit pinned-source method must pass in each mode, with no skips. No production fixture or expected hash may be rewritten to accommodate an observed result.
+- [ ] Step 4: Run all four mandatory commands again. Exactly 22 offline methods and one explicit pinned-source method must pass in each mode, with no skips. No production fixture or expected hash may be rewritten to accommodate an observed result.
 - [ ] Step 5: Review the explicit pinned-source results from both modes. Required environment checks must fail if unavailable; the original assertions still independently hash all four raw inputs and all 99 source files before comparing extracted scope. Preserve raw output and native source bindings. Every component workflow run must include these results.
 - [ ] Step 6: Review the exact diff and evidence. Do not claim Lean execution, real axiom closure, replay coverage or mutation kills from Task 1. Root decides integration; this plan authorizes no commit/ref/PR action.
 
@@ -76,4 +76,13 @@ Later milestones need genuine tiny Lean positive/adverse controls, private-level
 
 ## Test organization rationale
 
-The original pinned-source method moved intact to tests/sdga_source_observation.py except that its optional skip became required environment assertions. It imports shared ContractCase/fixtures/API helpers from test_sdga_scope. Ordinary discovery therefore adds 20 pure contracts and no dormant skip. The dedicated component matrix retains all 21 controls in each mode and cannot claim complete Task 1 coverage from the offline subset alone.
+The original pinned-source method moved intact to tests/sdga_source_observation.py except that its optional skip became required environment assertions. It imports shared ContractCase/fixtures/API helpers from test_sdga_scope. Ordinary discovery therefore adds 22 pure contracts and no dormant skip. The dedicated component matrix retains all 23 controls in each mode and cannot claim complete Task 1 coverage from the offline subset alone.
+
+## Targeted receipt regressions before repair
+
+The original 20 pure methods and pinned-source assertions remain unchanged. Add two pure methods, making 22 pure methods plus one mandatory pinned-source method per mode (46 method records across normal and optimized Python).
+
+- test_date_only_basic_or_incomplete_utc_rejected_when_bindings_match: date-only 2026-11-09Z, basic 20261109T000000Z, hour-only 2026-11-09T00Z and minute-only 2026-11-09T00:00Z in both receipt/expected must produce exactly RECEIPT_SCHEMA. Step timestamps require full extended UTC grammar YYYY-MM-DDTHH:MM:SS[.digits]Z and timezone-aware UTC parsing.
+- test_empty_module_coverage_rejected_when_both_bindings_match: both arguments have empty module_coverage and only build/inventory steps; the result must be INVALID with exactly MODULE_COVERAGE. This fixed nonempty SDGA component scope does not admit empty coverage.
+
+Stage and execute these tests first against unchanged production blob d00a866e55c5d20fd4aeb8d44e51fa471f1d1031. No production repair is included in this revision. Root must observe the actual semantic failures before authorizing minimal UTC and nonempty-coverage checks. All result assertions retain BLOCKED/NONE; these are declared-field rejection controls, not Lean or scientific qualification.

@@ -169,3 +169,21 @@ Append-only. Historical source outcomes remain in their original records.
   per mode, publishes the source candidate, and requires actual hosted results
   plus fresh complete engineering source review before integration. This is
   tooling toward fresh owned observations, not proof or scientific acceptance.
+
+## 2026-11-09 — SDGA source observations and reviewed receipt counterexamples
+
+- Actual4b773d198f95cc342d85bd097f903a50920a8fb0/tree56a08809af9b8879ca57f2bd508cb942c1d22dcc
+  componentrun42704583824/attempt1/job129457919403 passed20pure plus1pinned
+  source control in each Python mode,42 successful method records/no skips.
+  ExactMathf532/treeb713 and original rawinputs/all99source bindings were
+  guarded. This is declared source/protocol evidence, not Lean execution.
+- Full source review identified date-only UTC acceptance by fromisoformat;
+  identical malformed receipt/expected timestamps could be declared valid.
+  Root also explicitly requires nonempty module coverage for this fixed
+  nonempty SDGA observer, including caller-declared fixture scope.
+- Preserve the original20 contracts and add2 methods against unchanged
+  productiond00a866e55c5d20fd4aeb8d44e51fa471f1d1031: four malformed UTC
+  subcases expectRECEIPT_SCHEMA; both-empty coverage with build/inventory
+  expectsMODULE_COVERAGE. There are now22pure plus1mandatorypinned controls
+  per mode. Actual semantic RED must precede the minimal two guards. No
+  expected profile/source/config bytes or existing assertions are weakened.

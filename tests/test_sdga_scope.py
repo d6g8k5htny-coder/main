@@ -426,6 +426,23 @@ class ReceiptContracts(ContractCase):
         self.invalid_receipt(changed, expected, "RECEIPT_SCHEMA")
 
 
+    def test_date_only_basic_or_incomplete_utc_rejected_when_bindings_match(self):
+        for timestamp in ("2026-11-09Z", "20261109T000000Z",
+                          "2026-11-09T00Z", "2026-11-09T00:00Z"):
+            value = receipt()
+            for item in value["steps"]:
+                item["started_utc"] = timestamp
+                item["ended_utc"] = timestamp
+            with self.subTest(timestamp=timestamp):
+                self.invalid_receipt(value, copy.deepcopy(value), "RECEIPT_SCHEMA")
+
+    def test_empty_module_coverage_rejected_when_both_bindings_match(self):
+        value = receipt()
+        value["module_coverage"] = []
+        value["steps"] = [step("build"), step("inventory")]
+        self.invalid_receipt(value, copy.deepcopy(value), "MODULE_COVERAGE")
+
+
 
 if __name__ == "__main__":
     unittest.main()

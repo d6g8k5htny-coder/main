@@ -912,7 +912,7 @@ soundness; it cannot authenticate execution, classify complete mathematical
 roles or award G2--G4 or CBZ. All returned classification/qualification fields
 remain `BLOCKED`, scientific effect `NONE`, and execution authentication false.
 
-From a Main checkout, run its20offline contracts in both modes:
+From a Main checkout, run its22offline contracts in both modes:
 
 ```sh
 python3 -B -S -m unittest discover -s tests -p 'test_sdga_scope.py' -v
@@ -927,7 +927,7 @@ commands, binding original inputs and99sources and retaining original logs.
 See [the design](docs/cbz/SDGA_COMPONENT_DESIGN.md) and
 [the exact plan](docs/superpowers/plans/2026-11-09-sdga-task1-scope-classifiers.md).
 
-Self-verification is pending actual current-source execution of all21controls
+Self-verification is pending actual current-source execution of all23controls
 per mode and fresh engineering review. Initial hosted missing-module failures
 remain implementation-absence evidence only. No Lean inventory/replay/axiom
 observation is inferred from declared fixture fields. Maintenance owner: none;
