@@ -23,10 +23,14 @@ else:
 CURRENT_MANIFEST='1a09020f0706abd506824f54fca76df9daa533749350b9ab6b818e0bbe9ed744'
 CURRENT_BLOB='8228e896c728d95ab94391899320e9d44ab7cdfc'
 CURRENT_SOURCE='c1678a556ab487954abbdc2456686bb64ddc7114'
+SITE_MANIFEST='1c86e1eed110df3ef283f3a6e402194f82f682ba06e55e3ad8fe2010f152df7e'
+SITE_BLOB='8d43188691c695f66e233727322484da22662a58'
+SITE_SOURCE='b7deb198722582df191006e4f47238f92e6e543d'
 CORRECTED_MANIFEST='38eefbfdd84658cd0f6e18bd7d714458a7522b1021f73b1075e7972a63b9bcb0'
 CORRECTED_BLOB='a22f06a3a7b9ab451e9e344d7b2345d2e2ab0553'
 CORRECTED_SOURCE='a30e336982ff4a9400182961ae1f8a241ceff927'
 OLD_BRIDGE='cdb075de1dd63b4313135c166078b71d827d04c882222accc415d8ddf97fa414'
+SITE_BRIDGE='8cd6d4bcb48874aa40a3aa1d7e36d113487a43a1608e24fd4023cbb9e0f64299'
 OLD_MANIFEST='8dfcfe4e9296bca47eede517f37b546ea420ec6b51944b7c16164a906b40e090'
 OLD_EVIDENCE='441babc5f605492b361822c26d59ebee4126e45b90695915195bf951c3c943ef'
 OLD_PROJECTION='7b36e2376f4010444108e81f316293ef3b3834d767e0900f68d684c760af2db1'
@@ -40,6 +44,7 @@ LEGACY_DATA={
 CONTROLS={'tools/formal_gate_check.py','tests/test_formal_gate.py'}
 DOCUMENTATION={'formal/README.md','formal/REVIEW_LANE.md'}
 ANNOTATED_TARGETS={'UniversalLaw.Side24.d3_below_d2','UniversalLaw.Side24.endpoints_in_unit_tenth'}
+SITE_METADATA={'meaning'}
 EVIDENCE_DIR='docs/site/evidence/side24-main-3b39'
 RECORD='evidence/side24-main-3b39/source-bridge-8228.json'
 MODULE='atlas-formal-source-bridge-data.mjs'
@@ -57,10 +62,15 @@ def evidence_data(raw):
 def build_bridge(root,snapshot):
     root=Path(root).resolve()
     raw=read(root,'formal/manifest.json')
-    corrected=digest(raw)==CORRECTED_MANIFEST
-    manifest_sha,manifest_blob,manifest_bytes,source_revision=(
-        (CORRECTED_MANIFEST,CORRECTED_BLOB,18104,CORRECTED_SOURCE) if corrected else
-        (CURRENT_MANIFEST,CURRENT_BLOB,17521,CURRENT_SOURCE))
+    manifest_sha=digest(raw)
+    corrected=manifest_sha==CORRECTED_MANIFEST
+    site=manifest_sha==SITE_MANIFEST
+    profiles={
+        CURRENT_MANIFEST:(CURRENT_BLOB,17521,CURRENT_SOURCE),
+        SITE_MANIFEST:(SITE_BLOB,17411,SITE_SOURCE),
+        CORRECTED_MANIFEST:(CORRECTED_BLOB,18104,CORRECTED_SOURCE),
+    }
+    manifest_blob,manifest_bytes,source_revision=profiles.get(manifest_sha,(None,None,None))
     require(digest(raw)==manifest_sha and blob(raw)==manifest_blob and len(raw)==manifest_bytes,
             'unrecognized projection manifest; no bridge inferred')
     current,_,_=historical_source_identity(root, manifest_sha)
@@ -75,10 +85,16 @@ def build_bridge(root,snapshot):
     require(set(old['files'])==set(current['files']),'formal file inventory changed')
     changed={path:{'before_sha256':old['files'][path],'after_sha256':current['files'][path]}
              for path in old['files'] if old['files'][path]!=current['files'][path]}
-    allowed_changes=CONTROLS|DOCUMENTATION if corrected else CONTROLS
+    allowed_changes=(CONTROLS|DOCUMENTATION if corrected else
+                     DOCUMENTATION if site else CONTROLS)
     require(set(changed)==allowed_changes,'unexpected formal source or control delta')
     normalized={**old,'files':current['files']}
     annotations={}
+    metadata={}
+    if site:
+        metadata={key:{'before':old[key],'after':current[key]} for key in SITE_METADATA}
+        for key in SITE_METADATA:normalized[key]=current[key]
+        require(set(metadata)==SITE_METADATA,'unexpected manifest metadata delta')
     if corrected:
         normalized['targets']=[dict(target) for target in old['targets']]
         for before,after in zip(normalized['targets'],current['targets']):
@@ -146,11 +162,15 @@ def build_bridge(root,snapshot):
     if corrected:
         result['changed_documentation_files']={path:change for path,change in changed.items() if path in DOCUMENTATION}
         result['changed_target_annotations']=annotations
+    elif site:
+        result['changed_documentation_files']={path:change for path,change in changed.items() if path in DOCUMENTATION}
+        result['changed_manifest_metadata']=metadata
     return result
 
 
 def bridge_path(record):
-    return 'evidence/side24-main-3b39/source-bridge-'+('a22f' if record['projection_manifest']['blob']==CORRECTED_BLOB else '8228')+'.json'
+    profile={CURRENT_BLOB:'8228',SITE_BLOB:'8d43',CORRECTED_BLOB:'a22f'}[record['projection_manifest']['blob']]
+    return 'evidence/side24-main-3b39/source-bridge-'+profile+'.json'
 
 
 def whitelist_entry(record,detailed):
@@ -160,17 +180,21 @@ def whitelist_entry(record,detailed):
                  record_path=bridge_path(record),record_sha256=digest(detailed.encode()))
     if 'changed_documentation_files' in record:
         entry['changed_documentation_file_count']=len(record['changed_documentation_files'])
+    if 'changed_target_annotations' in record:
         entry['changed_target_annotation_count']=len(record['changed_target_annotations'])
+    if 'changed_manifest_metadata' in record:
+        entry['changed_manifest_metadata_count']=len(record['changed_manifest_metadata'])
     return entry
 
 
-def render_bridge(record,previous=None):
+def render_bridge(record,previous=()):
     detailed=json.dumps(record,ensure_ascii=False,indent=2)+'\n'
     entries=[whitelist_entry(record,detailed)]
-    if previous is not None:
-        require(digest(previous)==OLD_BRIDGE,'historical bridge identity differs')
-        historical=strict_json(previous.decode())
-        entries.insert(0,whitelist_entry(historical,previous.decode()))
+    expected=[OLD_BRIDGE,SITE_BRIDGE]
+    for index,raw in reversed(list(enumerate(previous))):
+        require(digest(raw)==expected[index],'historical bridge identity differs')
+        historical=strict_json(raw.decode())
+        entries.insert(0,whitelist_entry(historical,raw.decode()))
     module=('// Generated by tools/atlas_formal_source_bridge.py; historical execution and alignment remain unchanged.\n'
             'export const SOURCE_BRIDGES = '+json.dumps(entries,ensure_ascii=False,indent=2)+';\n')
     return detailed,module
@@ -183,7 +207,11 @@ def main():
     parser.add_argument('--check',action='store_true')
     args=parser.parse_args();root=args.root.resolve()
     record=build_bridge(root,strict_json(args.snapshot.read_text()))
-    previous=read(root,'docs/site/'+RECORD) if record['projection_manifest']['blob']==CORRECTED_BLOB else None
+    previous=[]
+    if record['projection_manifest']['blob'] in {SITE_BLOB,CORRECTED_BLOB}:
+        previous.append(read(root,'docs/site/'+RECORD))
+    if record['projection_manifest']['blob']==CORRECTED_BLOB:
+        previous.append(read(root,'docs/site/evidence/side24-main-3b39/source-bridge-8d43.json'))
     detailed,module=render_bridge(record,previous)
     for relative,value in [(bridge_path(record),detailed),(MODULE,module)]:
         target=root/'docs/site'/relative
@@ -197,7 +225,8 @@ def main():
     print(json.dumps({'source_bridge':record['claim_id'],'current_manifest':record['projection_manifest']['blob'],
                       'historical_artifact':record['historical_artifact']['commit'],
                       'identical_formal_files':len(record['identical_formal_files']),
-                      'changed_controls':2,'scientific_effect':'NONE'}))
+                      'changed_controls':len(record['changed_control_files']),
+                      'scientific_effect':'NONE'}))
 
 
 if __name__=='__main__':main()

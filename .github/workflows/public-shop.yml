@@ -83,10 +83,15 @@ jobs:
           python -B tools/atlas_accessible_list_browser_check.py
           --site docs/site
           --output browser-evidence/atlas-accessible-list
+      - name: Atlas exact historical source bridge
+        run: >-
+          python -B tools/atlas_source_bridge_browser_check.py
+          --site docs/site
+          --output browser-evidence/atlas-source-bridge
       - name: Exact Atlas browser runner controls
         run: |
-          python -B -S -m unittest tests.test_atlas_browser_regressions_runner tests.test_atlas_accessibility_regression_runner tests.test_atlas_accessibility_regression_mutations tests.test_g11_current_atlas_accessibility_regression_reference tests.test_atlas_accessible_list_runner tests.test_atlas_accessible_list_mutations tests.test_g11_current_atlas_accessible_list_reference -v
-          python -B -O -S -m unittest tests.test_atlas_browser_regressions_runner tests.test_atlas_accessibility_regression_runner tests.test_atlas_accessibility_regression_mutations tests.test_g11_current_atlas_accessibility_regression_reference tests.test_atlas_accessible_list_runner tests.test_atlas_accessible_list_mutations tests.test_g11_current_atlas_accessible_list_reference -v
+          python -B -S -m unittest tests.test_atlas_browser_regressions_runner tests.test_atlas_accessibility_regression_runner tests.test_atlas_accessibility_regression_mutations tests.test_g11_current_atlas_accessibility_regression_reference tests.test_atlas_accessible_list_runner tests.test_atlas_accessible_list_mutations tests.test_g11_current_atlas_accessible_list_reference tests.test_atlas_source_bridge_runner tests.test_atlas_source_bridge_mutations tests.test_g11_current_atlas_source_bridge_browser_reference -v
+          python -B -O -S -m unittest tests.test_atlas_browser_regressions_runner tests.test_atlas_accessibility_regression_runner tests.test_atlas_accessibility_regression_mutations tests.test_g11_current_atlas_accessibility_regression_reference tests.test_atlas_accessible_list_runner tests.test_atlas_accessible_list_mutations tests.test_g11_current_atlas_accessible_list_reference tests.test_atlas_source_bridge_runner tests.test_atlas_source_bridge_mutations tests.test_g11_current_atlas_source_bridge_browser_reference -v
       - name: Atlas focus and reader regressions in both modes
         run: |
           set -euo pipefail

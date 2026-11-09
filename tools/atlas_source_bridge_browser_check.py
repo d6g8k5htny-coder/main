@@ -19,8 +19,18 @@ from atlas_formal_evidence_browser_check import identity,digest
 
 NODE='math.side24-coefficient'
 PROFILES={
-    '8228e896c728d95ab94391899320e9d44ab7cdfc':('8228',15,0,0),
-    'a22f06a3a7b9ab451e9e344d7b2345d2e2ab0553':('a22f',13,2,2),
+    '8228e896c728d95ab94391899320e9d44ab7cdfc':{
+        'name':'8228','identical':15,'documentation':0,'annotations':0,
+        'controls':2,'metadata':0,
+    },
+    '8d43188691c695f66e233727322484da22662a58':{
+        'name':'8d43','identical':15,'documentation':2,'annotations':0,
+        'controls':0,'metadata':1,
+    },
+    'a22f06a3a7b9ab451e9e344d7b2345d2e2ab0553':{
+        'name':'a22f','identical':13,'documentation':2,'annotations':2,
+        'controls':2,'metadata':0,
+    },
 }
 
 
@@ -28,7 +38,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--site',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
-    parser.add_argument('--browser',default='/usr/bin/chromium')
+    parser.add_argument('--browser')
     parser.add_argument('--base-url',help='Verified public origin; no assertion changes')
     args=parser.parse_args();site=args.site.resolve();out=args.output.resolve()
     out.mkdir(parents=True,exist_ok=False)
@@ -38,7 +48,7 @@ def main():
     mainpin=next(r['commit'] for r in data['repositories'] if r['repository'].endswith('/main'))
     mathpin=data['graph']['identity']['commit']
     manifest=next(s for s in data['sources'] if s['repository']=='d6g8k5htny-coder/main' and s['path']=='formal/manifest.json')
-    profile,identical_count,documentation_count,annotation_count=PROFILES[manifest['blob']]
+    profile=PROFILES[manifest['blob']]
     requests=[]
     class Handler(SimpleHTTPRequestHandler):
         def log_message(self,fmt,*values):requests.append({'path':self.path,'message':fmt%values})
@@ -53,11 +63,16 @@ def main():
             'sandbox':True,'webgl':'SwiftShader; real rendering, not physical GPU qualification',
             'served_files':{p.relative_to(site).as_posix():identity(p) for p in sorted(site.rglob('*')) if p.is_file()},
             'cases':[]}
+    launch={'chromium_sandbox':True,
+            'args':['--enable-unsafe-swiftshader','--disable-background-networking']}
+    if args.browser:launch['executable_path']=args.browser
+    else:launch['channel']='chrome'
+    if args.base_url:launch['proxy']={'server':'http://proxy:8080'}
+    report['browser_launch']=launch
+    (out/'source-bridge-browser.json').write_text(json.dumps(report,indent=2)+'\n')
     try:
         with sync_playwright() as pw:
-            browser=pw.chromium.launch(executable_path=args.browser,chromium_sandbox=True,
-                proxy={'server':'http://proxy:8080'} if args.base_url else None,
-                args=['--enable-unsafe-swiftshader','--disable-background-networking'])
+            browser=pw.chromium.launch(**launch)
             report['browser']=browser.version
             for width,scheme in [(1200,'light'),(1200,'dark'),(390,'light'),(390,'dark')]:
                 row={'case':f'{width}-{scheme}','failures':[]};report['cases'].append(row)
@@ -79,15 +94,16 @@ def main():
                     bridge.locator(':scope > summary').focus();page.keyboard.press('Enter')
                     expect(bridge).to_have_attribute('open','')
                     expect(bridge).to_contain_text('historical')
-                    expect(bridge).to_contain_text(str(identical_count))
+                    expect(bridge).to_contain_text(str(profile['identical']))
                     bridge_link=bridge.get_by_role('link',name='Verified source bridge (JSON)',exact=True)
                     response=context.request.get(bridge_link.get_attribute('href'));assert response.ok
-                    original=(site/('evidence/side24-main-3b39/source-bridge-'+profile+'.json')).read_bytes()
+                    original=(site/('evidence/side24-main-3b39/source-bridge-'+profile['name']+'.json')).read_bytes()
                     assert response.body()==original
-                    record=json.loads(original);assert len(record['identical_formal_files'])==identical_count
-                    assert len(record.get('changed_documentation_files',{}))==documentation_count
-                    assert len(record.get('changed_target_annotations',{}))==annotation_count
-                    assert set(record['changed_control_files'])=={'tools/formal_gate_check.py','tests/test_formal_gate.py'}
+                    record=json.loads(original);assert len(record['identical_formal_files'])==profile['identical']
+                    assert len(record.get('changed_documentation_files',{}))==profile['documentation']
+                    assert len(record.get('changed_target_annotations',{}))==profile['annotations']
+                    assert len(record['changed_control_files'])==profile['controls']
+                    assert len(record.get('changed_manifest_metadata',{}))==profile['metadata']
                     assert record['historical_artifact']['commit']=='3b39c42d6edcc98ae165270be346f0e31c57f81d'
                     row['bridge_record_sha256']=digest(original)
                     receipt=formal.get_by_role('link',name='Original execution receipt (JSON)',exact=True)

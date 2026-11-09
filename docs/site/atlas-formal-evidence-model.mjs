@@ -1,6 +1,6 @@
 import {sourceForNode,sourceURL} from './current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999';
 import {EVIDENCE} from './atlas-formal-evidence-data.mjs?site-release=1ef5a9f4aa04b860ad8debf6b1981d0485b7bc1d8f0d970095e29ac2fe895d73';
-import {SOURCE_BRIDGES} from './atlas-formal-source-bridge-data.mjs?site-release=5fd9e11803a6233c0cd8142b67d59bbc8f067d0869ff8b3fa499081336a4d20d';
+import {SOURCE_BRIDGES} from './atlas-formal-source-bridge-data.mjs?site-release=3037e2fa64c97d7582432753937782fc2d96fe7f5b325c7feab24266fd4f3c3e';
 
 const canonical=value=>JSON.stringify(value&&typeof value==='object'&&!Array.isArray(value)
   ?Object.fromEntries(Object.keys(value).sort().map(key=>[key,JSON.parse(canonical(value[key]))]))
