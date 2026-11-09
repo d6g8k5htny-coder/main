@@ -760,3 +760,62 @@ criterion 9, cold-start criterion 11 and the final-pass requirement remain
 unawarded. A future orchestrator must fail closed, preserve every failure,
 record exact sources and tool versions, and carry its own adverse tests and
 mutations before admission.
+
+## Recovered tracked-source inventory — 9 November 2026
+
+- **Purpose:** capture and verify tracked bytes, Git state and explicitly
+  supplied source/receipt bindings for one to twelve named local checkouts.
+  Originally recovered unchanged at commit
+  `1e58f4d9fef8ea9016fc8e46e67a5f7dd33883dd` from Main PR695 head
+  `82d9e480a51b946b3e74525ccf32139129d37d28`; tool blob
+  `58f5cafbe151f7304ee9ea35b6fc46859d35630f`, test blob
+  `ac8e5edc832ae9ded7ecad134264d3bd1f1871c5`.
+- **Commands:**
+
+  ```sh
+  python3 -B -S -m unittest discover -s tests -p test_cbz_inventory.py -v
+  python3 -B -O -S -m unittest discover -s tests -p test_cbz_inventory.py -v
+  python3 -B -S tools/cbz_inventory.py generate --root /path/to/checkouts --repositories main Math- --output /outside/checkouts/inventory.json
+  python3 -B -S tools/cbz_inventory.py verify --root /path/to/checkouts --repositories main Math- --manifest /outside/checkouts/inventory.json
+  ```
+
+- **Historical unchanged-recovery self-verification:** CPython 3.12.14 ran 75/75 retained tests in
+  normal and optimized modes, exit 0 with no top-level skips, errors or
+  failures. Each suite exercised nine intended source mutants with the retained
+  classifier limits documented in the recovery guide.
+- **Observed source roundtrip:** generate and verify exited 0 for nine explicit
+  federation checkouts, 27,826 tracked entries and eight gitlinks, without
+  classifications. Both explicitly returned `cbz_green: false` and
+  `semantic_claim_completeness: false`. Exact sources, commands, evidence and
+  retained mutation-classifier limits are in
+  [the recovery guide](docs/cbz/INVENTORY_RECOVERY.md).
+- **Scope:** source/state and declared-binding integrity only. Dirty state is
+  recorded, not rejected. A supplied CLOSED receipt is not authenticated kernel
+  execution; supplied quarantine strings do not establish logical isolation or
+  the complete current governance contract. No old catalogue or classification
+  is admitted. This addition is not the missing final orchestrator and awards
+  no global gate or criterion. Maintenance owner: none; standard library and
+  local Git only.
+
+### Current repair: isolated status metadata
+
+Review found that the original filter preflight could race: a new clean filter
+executed before a later configuration refusal. Status now uses private fixed
+Git metadata, captured detached HEAD, a bounded copy of the worktree index and
+explicit common objects. No source config/commondir/info files are imported;
+ambient attributes/ignores are suppressed, and persistent late filters are
+refused after safely isolated status. Split-index dependencies fail closed.
+Reported status uses that fixed policy plus working-tree attributes/ignores,
+so source-info/global ignore preferences cannot hide untracked paths. Temporary
+metadata stays outside the common checkout parent, using `/var/tmp` when the
+default temporary directory lies inside it. The unchanged-recovery blob table
+and 75-test receipt above remain historical provenance. The repair has six
+additional controls, including a status-isolation bypass mutation; complete
+current-suite commands and qualification limits remain in the recovery guide.
+CPython 3.12.14 ran the repaired suite in normal and optimized modes: 81/81
+tests per mode, exit 0 with zero top-level skips/errors/failures, exercising ten
+declared mutants. Tool/test source digests matched before and after both runs.
+Fresh nine-checkout generate and verify each exited 0 with 27,826 entries,
+zero classifications and false certification flags. These receipts bind the
+repaired tool source and the recorded parent checkouts; they do not qualify a
+later candidate integration tree or award a final gate.
