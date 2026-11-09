@@ -10,7 +10,9 @@ complete a CBZ gate or the final G0–G11 matrix.
 
 ## Observed freshness tool integration — 9 November 2026
 
-The node-status provenance guard below landed through Main #782. Current-head
+The node-status provenance guard below landed through Main #782. Workspace
+#55 later refreshed the Main pin; its sequential observation is in STATUS.
+Current-head
 hosted controls job `129353108258` exercised 20 focused controls, eight
 designated guard detections and 22/22 authorized original-mutation kills per
 parent mode, including real subject-origin refusals in both child modes. Its

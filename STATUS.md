@@ -12,11 +12,19 @@ Its mathematical statements, source cuts and review limits are preserved.
 
 Main #780 merged at 19:26 UTC as `b1d36c80403acc96d257b9e71140a6cb83a595af`,
 tree `10bc30f82661ebdd763384496afffbe7f575459a`, with parents `f1ef3a2b…`
-and `24ad8a143862fb9255fc6e2e7bf08c12f989f71d`. Workspace default was
-subsequently observed at `1c552538e6a8952548e2bd5297a0031dda1f94e7`, still
-pinning the earlier Main `f1ef3a2b…`; it is not current with that Main merge.
-The observations are sequential and another Main merge requires another fresh
-comparison. A guarded Workspace pin update remains necessary.
+and `24ad8a143862fb9255fc6e2e7bf08c12f989f71d`. Workspace #55 subsequently merged at 19:43 UTC as
+`8a7aac8626438967830ea5a516a944ce48759018`, tree
+`d8db9ab8dd764d6f564b1d46fee03990be7b770a`, with parents `1c552538…` and
+`9f0fbbbb615c7d39207f7bfaef3fd53a7e561fc3`; its Main gitlink now pins
+`b1d36c80403acc96d257b9e71140a6cb83a595af`. The tested merge
+`238b379f671b0d0f0d4c471befdfa7dc1ebf4c35` had that exact tree. Hosted
+job `129389209449` passed eight strict-current pins, four canonical inputs
+and 187 tests; job `129389215646` ran 187 tests in each Python mode without
+skips. Local strict pins and canonical inputs also passed; local normal
+regression ran 187 tests without skips, while its optimized run was still in
+progress at this observation. These are sequential observations, not final
+G7. Post-merge jobs require their own observed outcomes. A later Main merge,
+including this documentation change, requires another guarded pin comparison.
 
 The recovered inventory CLI is present in the merged source, with commands and
 scope in [TOOLING.md](TOOLING.md#recovered-tracked-source-inventory--9-november-2026).

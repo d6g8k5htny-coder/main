@@ -21,6 +21,8 @@ original timestamps and outcomes; the latest directive controls future action.
 ## Observed freshness integration — 9 November 2026
 
 Main #782 and Workspace #54 integrated through normal expected-head checks.
+Workspace #55 subsequently refreshed the Main pin through the same guarded
+process; the sequential observation and limits are in STATUS.
 Main #780 later landed its bounded source inventory; its mutation classifiers
 remain unqualified under the adverse assertion-origin evidence. The inventory
 purpose, exact commands, verification and limits are registered in

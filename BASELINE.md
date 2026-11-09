@@ -8,11 +8,11 @@ completion certificate.
 
 ## Observed integration boundary — 9 November 2026
 
-After Main #780 landed, the sequentially observed defaults were Main
-`b1d36c80403acc96d257b9e71140a6cb83a595af`, Math-
+After Main #780 and Workspace #55 landed, the sequentially observed defaults
+were Main `b1d36c80403acc96d257b9e71140a6cb83a595af`, Math-
 `f532c3e2d91a0c7679a37c733741660917a9b21b`, and Workspace
-`1c552538e6a8952548e2bd5297a0031dda1f94e7`, whose gitlink still pins
-the previous Main `f1ef3a2babecca0f0d4eb35b018dc81d30e9d62c`.
+`8a7aac8626438967830ea5a516a944ce48759018`, whose gitlink pins that Main.
+A subsequent Main merge requires another fresh pin comparison.
 The source-bound observations, skips, failures and completed post-merge
 checks are in [STATUS.md](STATUS.md#observed-integration-boundary--9-november-2026).
 A later Main merge requires another guarded Workspace pin refresh.

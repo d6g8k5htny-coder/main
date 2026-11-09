@@ -11,7 +11,7 @@ placed in a complete dormant quarantine.
 ## Observed integration proof boundary — 9 November 2026
 
 The landed Main #782 freshness repair, Main #780 source inventory and
-Workspace #54 pin update are engineering and custody changes. They do not change, close, refute or rebind
+Workspace #54 and #55 pin updates are engineering and custody changes. They do not change, close, refute or rebind
 any mathematical statement, bound, axiom, hypothesis, proof, quarantine,
 kernel result or scientific disposition. The current observed source boundary
 is described in [STATUS.md](STATUS.md#observed-integration-boundary--9-november-2026).
