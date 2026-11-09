@@ -8,6 +8,80 @@ are preserved in their dated sections as history. Each entry states purpose,
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
 
+## Later provenance and prepared Node tools — 9 November 2026
+
+**Inventory and freshness mutation provenance.** The respective tools are
+`tests/cbz_inventory_origin.py` and
+`cbz/evidence/node-status-freshness/run_mutations.py`. Their purpose is to
+record actual pre-cleanup traceback provenance and refuse subject, callback,
+lifecycle, runtime and malformed-result failures as oracle kills. Main
+`1902aac1` wrongly admitted a distinct code object equal to an authorized
+stdlib oracle in both tools; the freshness runner also accepted a selected
+body called from setup or teardown and a relabeled runtime error. See the
+later STATUS observation. The candidate compares live code objects by
+identity, tracks execution phase and requires an actual AssertionError.
+Inventory additionally refuses a
+skipped selected target and restores the exact status-isolation failure/count.
+The distinct Math identity-origin defect and draft correction are recorded in
+STATUS; the three affected Math graders require their own fresh qualification.
+Finite standard unittest callable-raise, mock-call, log and warning assertion
+forms have explicit controls. Arbitrary test-class helper methods are not
+authorized by this tool, including helpers that assert; such failures are
+refused. Neither tool is a hostile
+code sandbox or a general proof of mutation quality.
+
+From a clean Main checkout, run the component controls and experiments:
+
+```sh
+python3 -B -S -m unittest tests.test_cbz_inventory_origin -v
+python3 -B -O -S -m unittest tests.test_cbz_inventory_origin -v
+python3 -B -S -m unittest discover -s tests -p test_cbz_inventory.py -v
+python3 -B -O -S -m unittest discover -s tests -p test_cbz_inventory.py -v
+python3 -B -S -m unittest tests.test_node_status_mutation_grader -v
+python3 -B -O -S -m unittest tests.test_node_status_mutation_grader -v
+python3 -B -S cbz/evidence/inventory-origin-20261109/run_self_mutations.py
+python3 -B -O -S cbz/evidence/inventory-origin-20261109/run_self_mutations.py
+python3 -B -S cbz/evidence/inventory-origin-20261109/run_driver_adverse.py
+python3 -B -O -S cbz/evidence/inventory-origin-20261109/run_driver_adverse.py
+python3 -B -S cbz/evidence/node-status-freshness/run_mutations.py
+python3 -B -O -S cbz/evidence/node-status-freshness/run_mutations.py
+```
+
+**Reference-crawler mutation grader.** `tools/cbz/reference_crawler_mutation_check.py`
+uses the frozen crawler test population and designated source mutations.
+At Main `1902aac1` it accepted spoofed unittest filenames, did not propagate
+optimized mode to its child, and accepted skipped and expected-failure cases.
+Historical v2 failmaps and their observed counts remain retained with those
+limits. This candidate uses pre-cleanup code identities, exact selected test
+population and modes, fails closed on skips/expected failures, and writes v3
+failmaps bound to the crawler and grader bytes, Python version and optimization
+mode; it does not promote old v2 evidence. It rejects recorded errors,
+duplicate failures and inconsistent selected-frame provenance. Local
+CPython 3.12.14 grader controls ran 23 tests with 16 grader-source mutations
+per parent mode without skips. The full 109-mutant campaign and hosted
+execution remain necessary before qualification. Serialized failmap
+fields alone do not authenticate an untrusted producer. It is not a hostile
+runtime sandbox or final G0/G6.
+
+```sh
+python3 -B -S -m unittest tests.test_reference_crawler_mutation_check -v
+python3 -B -O -S -m unittest tests.test_reference_crawler_mutation_check -v
+python3 -B -S tools/cbz/reference_crawler_mutation_check.py --write-failmap "$CBZ_EVIDENCE/crawler-normal-v3.json"
+python3 -B -O -S tools/cbz/reference_crawler_mutation_check.py --write-failmap "$CBZ_EVIDENCE/crawler-optimized-v3.json"
+```
+
+**Prepared Node regression.** `tools/cbz_node_regression.py` prepares bounded,
+source-bound historical fixtures, runs every tracked Node test, checks the
+source/fixture endpoints and records real TAP and result data. At tested Main
+#784 its hosted job ran 33 admitted helper controls and 767 Node cases per
+Python preparation mode, with zero failures/skips/cancellations/todo and 39
+fixture files per mode. The earlier 766/767 failure stays historical. The
+unadmitted mutation/control launcher was not run. Exact prerequisites and
+commands for both modes are in [STATUS.md](STATUS.md#later-node-inventory-and-pin-observations--9-november-2026)
+and the [cold-start guide](docs/cbz/COLD_START.md#prepared-node-regression).
+The checks do not cover changes restored between endpoints, hostile runtimes,
+untracked dependencies, the whole federation or scientific alignment.
+
 ## Inventory mutation-origin recorder — 9 November 2026
 
 **Purpose and scope:** `tests/cbz_inventory_origin.py` records live traceback

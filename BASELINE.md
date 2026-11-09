@@ -6,6 +6,20 @@ This ledger binds the currently observed repository snapshot to the twelve
 owner criteria and final gate matrix. It records evidence and gaps; it is not a
 completion certificate.
 
+## Node and pin observation before this change — 9 November 2026
+
+Main `1902aac113761974c4569f78acb6a8baadabb7f1` and Workspace
+`8a4d2248e9646ba3181a61defc90d13a01fe08ac` were separately observed; the
+Workspace pin matched that Main. The tested Node run, 25 regression skips,
+subsequent A8 false-kill finding and bounded candidate repair are detailed in
+[STATUS.md](STATUS.md#later-node-inventory-and-pin-observations--9-november-2026).
+A later Main merge requires a fresh guarded Workspace pin comparison. All
+twelve criteria and the final same-pass G0–G11 matrix remain unawarded; this
+is neither CBZ-0 nor a terminal Partial Baseline.
+The later Math #559 mutation-grader correction still requires separate
+qualification and integration; its reproduced defect and limited observations are in
+STATUS. The preserved-byte workflow does not itself qualify a kernel result.
+
 ## Later observed source boundary — 9 November 2026
 
 Main #783 and Workspace #56 were separately observed at

@@ -63,23 +63,87 @@ CRAWL_START = "    findings = []\n    overrides = overrides or {}\n"
 ORIGIN_SENTINEL = "ORIGIN_JSON="
 LAST_ORIGIN_REPORT = None
 ORIGIN_RUNNER = r'''
-import importlib
+import inspect
 import json
-import os
 import sys
-import traceback
 import unittest
+import unittest.case
 from pathlib import Path
 
-module = importlib.import_module(sys.argv[1])
-suite = unittest.defaultTestLoader.loadTestsFromModule(module)
-unittest_root = str(Path(unittest.__file__).resolve().parent) + os.sep
+def code_of(value):
+    return getattr(getattr(value, "__func__", value), "__code__", None)
+
+oracle_codes = tuple(
+    code for cls in (unittest.TestCase, unittest.case._AssertRaisesContext,
+                     unittest.case._AssertRaisesBaseContext, unittest.case._BaseTestCaseContext)
+    for name, value in vars(cls).items()
+    if name.startswith("assert") or name in
+       ("fail", "_baseAssertEqual", "_formatMessage", "__exit__", "_raiseFailure")
+    for code in [code_of(value)] if code is not None
+)
+
+def is_oracle(code):
+    return any(code is allowed for allowed in oracle_codes)
+
+def leaves(node):
+    if isinstance(node, unittest.TestSuite):
+        for child in node:
+            yield from leaves(child)
+    else:
+        yield node
+
+suite = unittest.defaultTestLoader.loadTestsFromName(sys.argv[1])
+cases = list(leaves(suite))
+ids = [case.id() for case in cases]
+names = [getattr(case, "_testMethodName", "") for case in cases]
+if not cases or len(set(ids)) != len(ids) or len(set(names)) != len(names):
+    raise ValueError("test population must be nonempty and unique")
+states = {}
+for case in cases:
+    selected = getattr(case, case._testMethodName, None)
+    code = code_of(selected)
+    if (code is None or inspect.iscoroutinefunction(selected) or
+            inspect.isgeneratorfunction(selected) or inspect.isasyncgenfunction(selected)):
+        raise ValueError("only synchronous selected test bodies are supported")
+    state = {"code": code, "entered": 0, "phase": "initial"}
+    states[case.id()] = state
+    for attr, phase in (("_callSetUp", "setup"), ("_callTearDown", "teardown"),
+                        ("_callCleanup", "cleanup")):
+        original = getattr(case, attr)
+        def wrap(*args, _original=original, _state=state, _phase=phase, **kwargs):
+            _state["phase"] = _phase
+            return _original(*args, **kwargs)
+        setattr(case, attr, wrap)
+    def call_body(method, _state=state):
+        if code_of(method) is not _state["code"]:
+            raise RuntimeError("selected test body changed")
+        _state["entered"] += 1
+        _state["phase"] = "body"
+        try:
+            returned = method()
+            if returned is not None:
+                if inspect.iscoroutine(returned) or inspect.isgenerator(returned):
+                    returned.close()
+                raise RuntimeError("unsupported test-body return value")
+        finally:
+            _state["phase"] = "body-exited"
+    case._callTestMethod = call_body
 
 
 class ProvenanceResult(unittest.TestResult):
     def __init__(self):
         super().__init__()
         self.events = []
+        self.started = []
+        self.stopped = []
+
+    def startTest(self, test):
+        self.started.append(test.id())
+        super().startTest(test)
+
+    def stopTest(self, test):
+        self.stopped.append(test.id())
+        super().stopTest(test)
 
     @staticmethod
     def selected_case(test):
@@ -88,13 +152,14 @@ class ProvenanceResult(unittest.TestResult):
     def record(self, test, err, kind):
         case = self.selected_case(test)
         method_name = getattr(case, "_testMethodName", "")
-        method = getattr(case, method_name, None)
-        selected = getattr(method, "__func__", method)
-        selected_code = getattr(selected, "__code__", None)
+        state = states.get(case.id(), {})
+        selected_code = state.get("code")
         frames = []
+        codes = []
         tb = err[2]
         while tb is not None:
             code = tb.tb_frame.f_code
+            codes.append(code)
             frames.append({
                 "filename": str(Path(code.co_filename).resolve()),
                 "firstlineno": code.co_firstlineno,
@@ -102,13 +167,14 @@ class ProvenanceResult(unittest.TestResult):
                 "qualname": getattr(code, "co_qualname", code.co_name),
                 "lineno": tb.tb_lineno,
                 "selected": code is selected_code,
+                "oracle": is_oracle(code),
             })
             tb = tb.tb_next
-        selected_at = max((i for i, frame in enumerate(frames) if frame["selected"]), default=-1)
-        tail = frames[selected_at + 1:] if selected_at >= 0 else frames
-        authorized = kind == "failure" and selected_at >= 0 and all(
-            frame["filename"].startswith(unittest_root) for frame in tail
-        )
+        positions = [i for i, code in enumerate(codes) if code is selected_code]
+        authorized = (kind == "failure" and type(err[1]) is AssertionError and
+                      state.get("entered") == 1 and
+                      state.get("phase") in ("body", "body-exited") and
+                      len(positions) == 1 and all(is_oracle(code) for code in codes[positions[0] + 1:]))
         self.events.append({
             "test": method_name or test.id(),
             "kind": kind,
@@ -143,7 +209,18 @@ authorized = sorted({event["test"] for event in result.events if event["kind"] =
 unauthorized = sorted({event["test"] for event in result.events if event["kind"] == "failure" and not event["authorized"]})
 errors = sorted({event["test"] for event in result.events if event["kind"] == "error"})
 print("ORIGIN_JSON=" + json.dumps({
+    "schema": "reference-crawler-origin-v3",
+    "optimize": sys.flags.optimize,
     "tests_run": result.testsRun,
+    "ids": ids,
+    "names": names,
+    "started": result.started,
+    "stopped": result.stopped,
+    "failure_count": len(result.failures),
+    "error_count": len(result.errors),
+    "skip_count": len(result.skipped),
+    "expected_failure_count": len(result.expectedFailures),
+    "unexpected_success_count": len(result.unexpectedSuccesses),
     "authorized_failures": authorized,
     "unauthorized_failures": unauthorized,
     "errors": errors,
@@ -505,15 +582,94 @@ EXPECTED_TESTS = (
 GRADER_MUTANTS = (
     (
         "authorize an assertion through any intervening frame",
-        'and all(\n            frame["filename"].startswith(unittest_root) for frame in tail\n        )',
-        "and True",
+        'and all(is_oracle(' + 'code) for code in codes[positions[0] + 1:]))',
+        "and True)",
         "test_subject_assertion_is_not_an_authorized_kill",
+    ),
+    (
+        "compare oracle code by equality",
+        'any(code is ' + 'allowed for allowed in oracle_codes)',
+        "any(code == allowed for allowed in oracle_codes)",
+        "test_equal_but_distinct_unittest_code_is_not_authorized",
+    ),
+    (
+        "accept skipped tests",
+        'report["skip_' + 'count"] or',
+        "False or",
+        "test_skip_and_expected_failure_are_not_a_pass",
+    ),
+    (
+        "accept expected failures",
+        'report["expected_failure_' + 'count"] or',
+        "False or",
+        "test_skip_and_expected_failure_are_not_a_pass",
+    ),
+    (
+        "accept unexpected successes",
+        'report["unexpected_success_' + 'count"]',
+        "False",
+        "test_skip_and_expected_failure_are_not_a_pass",
+    ),
+    (
+        "drop child optimization",
+        'optimize = ["-" + "O" * ' + 'sys.flags.optimize] if sys.flags.optimize else []',
+        "optimize = []",
+        "test_optimized_nested_parents_pass_mode_to_children",
+    ),
+    (
+        "ignore the declared population",
+        'set(names) != ' + 'set(expected_names)',
+        "False",
+        "test_declared_population_mismatch_is_invalid",
     ),
     (
         "ignore the fail-map provenance schema",
         'if doc.get(' + '"schema") != schema:',
         "if False:",
         "test_failmap_requires_origin_schema_and_provenance",
+    ),
+    (
+        "ignore the fail-map execution binding",
+        'execution != ' + 'execution_binding()',
+        "False",
+        "test_failmap_requires_exact_execution_binding",
+    ),
+    (
+        "accept fail-map errors",
+        'elif field == ' + '"error" and ids:',
+        "elif False:",
+        "test_failmap_rejects_errors_duplicates_and_bad_origin_shape",
+    ),
+    (
+        "accept duplicate fail-map ids",
+        'elif len(ids) != ' + 'len(set(ids)):',
+        "elif False:",
+        "test_failmap_rejects_errors_duplicates_and_bad_origin_shape",
+    ),
+    (
+        "accept boolean source lines",
+        'type(selected.get("firstlineno")) is ' + 'not int',
+        "False",
+        "test_failmap_rejects_errors_duplicates_and_bad_origin_shape",
+    ),
+    (
+        "ignore selected-frame line identity",
+        'frames[positions[0]]["firstlineno"] != ' + 'selected.get("firstlineno")',
+        "False",
+        "test_failmap_rejects_errors_duplicates_and_bad_origin_shape",
+    ),
+    (
+        "ignore exception type",
+        'event.get("exception") != ' + '"AssertionError"',
+        "False",
+        "test_failmap_rejects_errors_duplicates_and_bad_origin_shape",
+    ),
+    (
+        "ignore extra error events",
+        '            else:\n                problems.append(f"{name}: provenance[{index}] records a ' +
+        'non-failure event")',
+        "            else:\n                pass",
+        "test_failmap_rejects_errors_duplicates_and_bad_origin_shape",
     ),
     (
         "accept explicitly unauthorized assertion provenance",
@@ -524,30 +680,66 @@ GRADER_MUTANTS = (
 )
 
 
-def run_suite(tool_dir):
-    """Run the crawler tests against the copy of the tool in tool_dir."""
+def run_suite(tool_dir, expected_names=None, *, selector=None, copy_test=True):
+    """Run a bounded test population against the tool in tool_dir."""
     global LAST_ORIGIN_REPORT
     LAST_ORIGIN_REPORT = None
     work = Path(tool_dir)
     (work / "tests").mkdir(exist_ok=True)
-    shutil.copy(TEST, work / "tests" / TEST.name)
-    proc = subprocess.run([sys.executable, "-B", "-S", "-c", ORIGIN_RUNNER, f"tests.{TEST.stem}"],
-                          cwd=work, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    encoded = next((line[len(ORIGIN_SENTINEL):] for line in reversed(proc.stdout.splitlines())
-                    if line.startswith(ORIGIN_SENTINEL)), None)
-    if proc.returncode != 0 or encoded is None:
+    if copy_test:
+        shutil.copy(TEST, work / "tests" / TEST.name)
+    optimize = ["-" + "O" * sys.flags.optimize] if sys.flags.optimize else []
+    env = dict(os.environ)
+    env.pop("PYTHONOPTIMIZE", None)
+    proc = subprocess.run([sys.executable, "-B", *optimize, "-S", "-c", ORIGIN_RUNNER,
+                           selector or f"tests.{TEST.stem}"], cwd=work, env=env,
+                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    encoded = [line[len(ORIGIN_SENTINEL):] for line in proc.stdout.splitlines()
+               if line.startswith(ORIGIN_SENTINEL)]
+    if proc.returncode != 0 or len(encoded) != 1:
         return "invalid", f"runner_exit={proc.returncode}", set(), set()
     try:
-        report = json.loads(encoded)
+        report = json.loads(encoded[0])
     except (TypeError, ValueError):
         return "invalid", "invalid origin report", set(), set()
     LAST_ORIGIN_REPORT = report
-    ran = report.get("tests_run")
-    failed = set(report.get("authorized_failures") or ())
-    unauthorized = set(report.get("unauthorized_failures") or ())
-    errored = set(report.get("errors") or ())
+    if type(report) is not dict:
+        return "invalid", "invalid origin report", set(), set()
+    counts = ("optimize", "tests_run", "failure_count", "error_count", "skip_count",
+              "expected_failure_count", "unexpected_success_count")
+    if (report.get("schema") != "reference-crawler-origin-v3" or
+            any(type(report.get(key)) is not int for key in counts) or
+            report["optimize"] != sys.flags.optimize):
+        return "invalid", "invalid origin counts or mode", set(), set()
+    ran = report["tests_run"]
+    ids, names, events = report.get("ids"), report.get("names"), report.get("events")
+    if (expected_names is not None and
+            (type(expected_names) not in (list, tuple) or
+             any(type(name) is not str for name in expected_names) or
+             len(set(expected_names)) != len(expected_names))):
+        return "invalid", "invalid expected test population", set(), set()
+    if (type(ids) is not list or type(names) is not list or type(events) is not list or
+            not ids or any(type(x) is not str for x in ids + names) or
+            len(ids) != ran or len(names) != ran or len(set(ids)) != ran or
+            len(set(names)) != ran or report.get("started") != ids or report.get("stopped") != ids or
+            (expected_names is not None and
+             (len(names) != len(expected_names) or set(names) != set(expected_names))) or
+            report["skip_count"] or report["expected_failure_count"] or report["unexpected_success_count"]):
+        return "invalid", "incomplete, skipped or unexpected test population", set(), set()
+    if (any(type(e) is not dict or e.get("kind") not in ("failure", "error") or
+            e.get("test") not in names or type(e.get("authorized")) is not bool for e in events) or
+            sum(e["kind"] == "failure" for e in events) != report["failure_count"] or
+            sum(e["kind"] == "error" for e in events) != report["error_count"]):
+        return "invalid", "invalid origin events", set(), set()
+    failed = {e["test"] for e in events if e["kind"] == "failure" and e["authorized"]}
+    unauthorized = {e["test"] for e in events if e["kind"] == "failure" and not e["authorized"]}
+    errored = {e["test"] for e in events if e["kind"] == "error"}
+    if (report.get("authorized_failures") != sorted(failed) or
+            report.get("unauthorized_failures") != sorted(unauthorized) or
+            report.get("errors") != sorted(errored)):
+        return "invalid", "inconsistent origin events", set(), set()
     detail = f"failures={len(failed)}, errors={len(errored)}, unauthorized={len(unauthorized)}"
-    if not isinstance(ran, int) or ran == 0 or errored or unauthorized:
+    if errored or unauthorized:
         return "invalid", detail, set(), errored
     if failed:
         return "fail", detail, failed, errored
@@ -586,16 +778,33 @@ def designation_problems(designated, mutant_names):
     return problems
 
 
-def failmap_problems(doc, expected_names=None, schema="reference-crawler-mutant-failmap/v2"):
+def execution_binding():
+    """Identify the local source and Python mode that produced or consumes a v3 map."""
+    return {"optimize": sys.flags.optimize,
+            "python_version": sys.version,
+            "crawler_sha256": hashlib.sha256(TOOL.read_bytes()).hexdigest(),
+            "grader_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
+
+
+def failmap_problems(doc, expected_names=None, schema="reference-crawler-mutant-failmap/v3"):
     """Every way an evidence fail-map disagrees with the frozen population and DESIGNATED."""
+    if type(doc) is not dict:
+        return ["the fail-map is not an object"]
     expected_names = set(DESIGNATED) if expected_names is None else set(expected_names)
-    population = doc.get("population") or {}
+    population = doc.get("population")
     problems = []
     if doc.get("schema") != schema:
         problems.append(f"the fail-map schema is not {schema}")
-    if population.get("test_file_sha256") != TEST_SHA256 or tuple(population.get("tests") or ()) != EXPECTED_TESTS:
+    execution = doc.get("execution")
+    if (type(execution) is not dict or type(execution.get("optimize")) is not int or
+            execution != execution_binding()):
+        problems.append("the fail-map execution binding differs from this source or mode")
+    if (type(population) is not dict or population.get("test_file_sha256") != TEST_SHA256 or
+            type(population.get("tests")) is not list or tuple(population["tests"]) != EXPECTED_TESTS):
         problems.append("the fail-map records a different test population")
-    mutants = doc.get("mutants") or {}
+    mutants = doc.get("mutants")
+    if type(mutants) is not dict:
+        return problems + ["the fail-map mutants field is not an object"]
     if set(mutants) != expected_names:
         problems.append("the fail-map covers a different mutant set")
     for name, entry in sorted(mutants.items()):
@@ -604,10 +813,14 @@ def failmap_problems(doc, expected_names=None, schema="reference-crawler-mutant-
             continue
         for field in ("fail", "error"):
             ids = entry.get(field)
-            if not isinstance(ids, list) or not all(isinstance(t, str) for t in ids):
+            if type(ids) is not list or not all(type(t) is str for t in ids):
                 problems.append(f"{name}: {field} is not a list of test names")
+            elif len(ids) != len(set(ids)):
+                problems.append(f"{name}: duplicate test ids in {field}")
             elif set(ids) - set(EXPECTED_TESTS):
                 problems.append(f"{name}: unknown test ids in {field}: {sorted(set(ids) - set(EXPECTED_TESTS))}")
+            elif field == "error" and ids:
+                problems.append(f"{name}: execution reported errors")
         provenance = entry.get("provenance")
         if not isinstance(provenance, list):
             problems.append(f"{name}: provenance is not a list")
@@ -623,26 +836,46 @@ def failmap_problems(doc, expected_names=None, schema="reference-crawler-mutant-
             if event.get("kind") == "failure" and event.get("authorized") is True:
                 selected = event.get("selected")
                 frames = event.get("frames")
-                if (not isinstance(selected, dict) or not isinstance(selected.get("filename"), str)
-                        or not isinstance(selected.get("firstlineno"), int)
+                if (type(selected) is not dict or type(selected.get("filename")) is not str
+                        or not selected.get("filename") or type(selected.get("firstlineno")) is not int
+                        or selected["firstlineno"] < 1 or event.get("exception") != "AssertionError"
                         or selected.get("name") != test):
                     problems.append(f"{name}: provenance[{index}] lacks the selected test code identity")
-                if (not isinstance(frames, list) or not frames
-                        or not any(isinstance(frame, dict) and frame.get("selected") is True
-                                   for frame in frames)):
+                if (type(frames) is not list or not frames or any(
+                        type(frame) is not dict or type(frame.get("filename")) is not str or
+                        not frame.get("filename") or type(frame.get("name")) is not str or
+                        type(frame.get("firstlineno")) is not int or frame["firstlineno"] < 1 or
+                        type(frame.get("lineno")) is not int or frame["lineno"] < 1 or
+                        type(frame.get("selected")) is not bool or type(frame.get("oracle")) is not bool
+                        for frame in frames)):
                     problems.append(f"{name}: provenance[{index}] lacks selected-frame traceback provenance")
-                authorized.add(test)
+                else:
+                    positions = [i for i, frame in enumerate(frames) if frame["selected"]]
+                    if (len(positions) != 1 or type(selected) is not dict or
+                            frames[positions[0]]["filename"] != selected.get("filename") or
+                            frames[positions[0]]["firstlineno"] != selected.get("firstlineno") or
+                            frames[positions[0]]["name"] != test or
+                            not all(frame["oracle"] for frame in frames[positions[0] + 1:])):
+                        problems.append(f"{name}: provenance[{index}] has inconsistent selected-frame identity")
+                if type(test) is str:
+                    authorized.add(test)
             elif event.get("kind") == "failure":
                 problems.append(f"{name}: provenance[{index}] records an unauthorized assertion failure")
-        missing = set(entry.get("fail") or ()) - authorized
-        if missing:
-            problems.append(f"{name}: assertion failures lack authorized provenance: {sorted(missing)}")
+            else:
+                problems.append(f"{name}: provenance[{index}] records a non-failure event")
+        fail_ids = entry.get("fail")
+        if type(fail_ids) is list and all(type(t) is str for t in fail_ids):
+            if set(fail_ids) != authorized:
+                problems.append(f"{name}: assertion failures and authorized provenance differ")
     for name, tests in DESIGNATED.items():
         if name not in expected_names:
             continue
         entry = mutants.get(name)
-        if isinstance(entry, dict) and not set(tests) <= set(entry.get("fail") or ()):
-            problems.append(f"{name}: a designated test is not among the fail-map's assertion failures")
+        if isinstance(entry, dict):
+            ids = entry.get("fail")
+            if (type(ids) is not list or any(type(t) is not str for t in ids) or
+                    not set(tests) <= set(ids)):
+                problems.append(f"{name}: a designated test is not among the fail-map's assertion failures")
     return problems
 
 
@@ -672,7 +905,7 @@ def shard_failmap_problems(doc):
     if not isinstance(index, int) or not isinstance(count, int) or count < 1 or index < 0 or index >= count:
         return ["the fail-map has invalid shard metadata"]
     expected = [name for name, _, _ in mutants_for_shard(MUTANTS, index, count)]
-    return failmap_problems(doc, expected, "reference-crawler-mutant-failmap-shard/v2")
+    return failmap_problems(doc, expected, "reference-crawler-mutant-failmap-shard/v3")
 
 
 def merge_shard_failmaps(paths):
@@ -705,7 +938,8 @@ def merge_shard_failmaps(paths):
                 problems.append(f"duplicate mutant {name!r} across shards")
             merged_mutants[name] = entry
     merged = {
-        "schema": "reference-crawler-mutant-failmap/v2",
+        "schema": "reference-crawler-mutant-failmap/v3",
+        "execution": execution_binding(),
         "population": {"test_file_sha256": TEST_SHA256, "tests": list(EXPECTED_TESTS)},
         "mutants": merged_mutants,
     }
@@ -715,37 +949,31 @@ def merge_shard_failmaps(paths):
 
 def grader_mutation_selftest():
     """Kill bounded mutations of this grader's assertion-origin and provenance policy."""
-    if os.environ.get("CBZ_GRADER_MUTANT_CHILD") == "1":
-        return len(GRADER_MUTANTS), len(GRADER_MUTANTS)
     source = Path(__file__).read_text()
     killed = 0
     for name, old, new, expected_test in GRADER_MUTANTS:
-        if source.count(old) != 1:
+        if source.count(old) != 1 or old == new:
             print(f"GRADER NOT APPLICABLE {name} ({source.count(old)} matches)")
             continue
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             target = root / "tools" / "cbz" / Path(__file__).name
             target.parent.mkdir(parents=True)
-            target.write_text(source.replace(old, new))
+            target.write_text(source)
+            shutil.copy(TOOL, target.parent / TOOL.name)
+            shutil.copy(ACKNOWLEDGEMENTS, target.parent / ACKNOWLEDGEMENTS.name)
             test_target = root / "tests" / GRADER_TEST.name
             test_target.parent.mkdir()
             shutil.copy(GRADER_TEST, test_target)
-            env = dict(os.environ, CBZ_GRADER_MUTANT_CHILD="1", PYTHONDONTWRITEBYTECODE="1")
-            proc = subprocess.run(
-                [sys.executable, "-B", "-S", "-m", "unittest", "-v", f"tests.{GRADER_TEST.stem}"],
-                cwd=root,
-                env=env,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
-            )
-        expected = re.search(rf"^FAIL: {re.escape(expected_test)} ", proc.stdout, re.M)
-        if proc.returncode and expected:
+            selector = f"tests.{GRADER_TEST.stem}.AssertionOrigin.{expected_test}"
+            baseline = run_suite(root, [expected_test], selector=selector, copy_test=False)
+            target.write_text(source.replace(old, new, 1))
+            mutated = run_suite(root, [expected_test], selector=selector, copy_test=False)
+        if baseline[0] == "pass" and mutated[0] == "fail" and mutated[2] == {expected_test}:
             killed += 1
             print(f"GRADER KILLED {name} ({expected_test})")
         else:
-            print(f"GRADER SURVIVED {name} (exit={proc.returncode})")
+            print(f"GRADER SURVIVED {name} (baseline={baseline[:2]}, mutant={mutated[:2]})")
     return killed, len(GRADER_MUTANTS)
 
 
@@ -768,6 +996,7 @@ def main(argv=None):
         print(f"FAILMAP MERGE OK: {len(merged['mutants'])}/{len(MUTANTS)} mutants in {args.write_failmap.name}")
         return 0
     source = TOOL.read_text()
+    binding = execution_binding()
     test_bytes = TEST.read_bytes()
     problems = population_problems(test_bytes)
     if problems:
@@ -796,7 +1025,7 @@ def main(argv=None):
 
     def baseline(when):
         with with_tool(source) as tmp:
-            outcome, detail, _, _ = run_suite(tmp)
+            outcome, detail, _, _ = run_suite(tmp, EXPECTED_TESTS)
         if outcome != "pass" or detail != f"ran={len(EXPECTED_TESTS)}":
             print(f"BASELINE FAIL ({when}): the unmutated suite did not pass all {len(EXPECTED_TESTS)} frozen tests "
                   f"({outcome}: {detail}), so no kill can be trusted")
@@ -806,7 +1035,7 @@ def main(argv=None):
     if not baseline("before"):
         return 2
     with with_tool(source + "\ndef (:\n") as tmp:
-        if run_suite(tmp)[0] != "invalid":
+        if run_suite(tmp, EXPECTED_TESTS)[0] != "invalid":
             print("CONTROL FAIL: a syntax-broken copy was not reported invalid")
             return 2
     if source.count(CRAWL_START) != 1:
@@ -814,7 +1043,7 @@ def main(argv=None):
         return 2
     with with_tool(source.replace(CRAWL_START, CRAWL_START.replace("    findings = []\n",
                                   "    raise RuntimeError(\"error-only control\")\n    findings = []\n"))) as tmp:
-        outcome, detail, _, _ = run_suite(tmp)
+        outcome, detail, _, _ = run_suite(tmp, EXPECTED_TESTS)
         if outcome != "invalid" or "errors=" not in detail:
             print(f"CONTROL FAIL: an error-only copy was not reported invalid ({outcome}: {detail})")
             return 2
@@ -837,7 +1066,7 @@ def main(argv=None):
             print(f"NOT APPLICABLE {name} ({source.count(old)} matches)")
             continue
         with with_tool(source.replace(old, new)) as tmp:
-            outcome, detail, failed, errored = run_suite(tmp)
+            outcome, detail, failed, errored = run_suite(tmp, EXPECTED_TESTS)
         observed[name] = {"fail": sorted(failed), "error": sorted(errored),
                           "provenance": (LAST_ORIGIN_REPORT or {}).get("events", [])}
         hit = sorted(failed & set(DESIGNATED[name]))
@@ -850,10 +1079,14 @@ def main(argv=None):
             print(f"{'INVALID ' if outcome == 'invalid' else 'SURVIVED'} {name}" + (f" ({detail})" if detail else ""))
     if not baseline("after"):
         return 2
+    if execution_binding() != binding:
+        print("SOURCE DRIFT: crawler, grader or Python mode changed during the campaign")
+        return 2
     if args.write_failmap is not None:
         shard_mode = args.shard is not None
-        doc = {"schema": ("reference-crawler-mutant-failmap-shard/v2" if shard_mode
-                          else "reference-crawler-mutant-failmap/v2"),
+        doc = {"schema": ("reference-crawler-mutant-failmap-shard/v3" if shard_mode
+                          else "reference-crawler-mutant-failmap/v3"),
+               "execution": binding,
                "population": {"test_file_sha256": TEST_SHA256, "tests": list(EXPECTED_TESTS)},
                "mutants": observed}
         if shard_mode:
