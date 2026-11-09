@@ -1,0 +1,106 @@
+name: CBZ prepared Node regression
+
+'on':
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prepared-node:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+        working-directory: main
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      GIT_TERMINAL_PROMPT: '0'
+    steps:
+      - name: Check out complete Main history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: main
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check out pinned public Math source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: d6g8k5htny-coder/Math-
+          ref: f532c3e2d91a0c7679a37c733741660917a9b21b
+          path: Math-
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check out pinned public query source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: d6g8k5htny-coder/query-
+          ref: fb4c457b5861dc49696fd0a8e11c7c405056c05f
+          path: query-
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Prepare fresh evidence and immutable historical inputs
+        run: |
+          set -euo pipefail
+          cbz_evidence="$RUNNER_TEMP/cbz-node-regression-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir "$cbz_evidence"
+          python --version > "$cbz_evidence/python.txt"
+          node --version > "$cbz_evidence/node.txt"
+          git --version > "$cbz_evidence/git.txt"
+          git rev-parse HEAD > "$cbz_evidence/main-commit.txt"
+          git -C "$GITHUB_WORKSPACE/Math-" rev-parse HEAD > "$cbz_evidence/math-commit.txt"
+          git -C "$GITHUB_WORKSPACE/query-" rev-parse HEAD > "$cbz_evidence/query-commit.txt"
+          fetch_historical() {
+            git -c core.hooksPath=/dev/null -c credential.helper= -c core.fsmonitor=false \
+              -c protocol.ext.allow=never -c maintenance.auto=false -c gc.auto=0 \
+              -C "$GITHUB_WORKSPACE/$1" fetch --no-tags --no-write-fetch-head \
+              --no-recurse-submodules --no-auto-maintenance origin "$2"
+            git -C "$GITHUB_WORKSPACE/$1" cat-file -e "$2^{commit}"
+          }
+          fetch_historical main 71400b94f6cb354a8cf7aba73ffede2138a64efa
+          fetch_historical main a12c178c0f857a130cf434e9efd44233a038195b
+          fetch_historical main f2e432ea5c86742e480c66624775bc9103343314
+          fetch_historical Math- d6628da09384728992dcbe6e921cc28ba85aebb0
+          fetch_historical Math- 82247833b5dd58e04291d55353b52938d73ec614
+          fetch_historical Math- 9d7b6802424fb4715b31999066aafca8ee2f3cca
+          fetch_historical query- c88768bb11efd1f7d6bda188f13064bedec54a06
+      - name: Admitted prepared-helper controls in both Python modes
+        run: |
+          set -euo pipefail
+          cbz_evidence="$RUNNER_TEMP/cbz-node-regression-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -B -S -m unittest -v tests.test_cbz_node_regression.NodeRunnerTests > "$cbz_evidence/helper-controls-normal.log" 2>&1
+          python -B -O -S -m unittest -v tests.test_cbz_node_regression.NodeRunnerTests > "$cbz_evidence/helper-controls-optimized.log" 2>&1
+      - name: Every tracked Node test with prepared fixtures
+        timeout-minutes: 5
+        run: |
+          set -euo pipefail
+          python -B -S tools/cbz_node_regression.py \
+            --math-root "$GITHUB_WORKSPACE/Math-" --query-root "$GITHUB_WORKSPACE/query-" \
+            --output "$RUNNER_TEMP/cbz-node-regression-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/normal"
+      - name: Every tracked Node test with optimized Python preparation
+        if: ${{ !cancelled() }}
+        timeout-minutes: 5
+        run: |
+          set -euo pipefail
+          python -B -O -S tools/cbz_node_regression.py \
+            --math-root "$GITHUB_WORKSPACE/Math-" --query-root "$GITHUB_WORKSPACE/query-" \
+            --output "$RUNNER_TEMP/cbz-node-regression-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/optimized"
+      - name: Preserve original results, TAP and complete fixture trees
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-node-regression-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/cbz-node-regression-${{ github.run_id }}-${{ github.run_attempt }}
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
