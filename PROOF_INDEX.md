@@ -8,6 +8,19 @@ into a kernel proof. A theorem is CLOSED only for the literal statement and
 allowed-axiom boundary actually checked. Anything else must remain OPEN or be
 placed in a complete dormant quarantine.
 
+## Current Atlas consolidation binding — 9 November 2026
+
+This tooling-only candidate starts from signed Main
+`31150f4a0736cb79bf33e366b6b725b061126000`; Workspace
+`83623bff94918021a00d8f42c9618dc549015d6c` pins that exact revision and
+Math- remains `f532c3e2d91a0c7679a37c733741660917a9b21b`. Durable v137 and the
+exact recovery table for eight removed unexercised Atlas browser drivers are
+bound in [STATUS.md](STATUS.md#current-g11-atlas-driver-consolidation-candidate--9-november-2026).
+Those drivers were engineering checks, not theorem or proof sources. This
+increment does not run Lean, axiom closure, kernel verification or statement
+alignment and does not add, remove, promote, refute or rebind any proof or
+quarantine. The older proof snapshot below remains historical.
+
 ## Current operational-retirement binding — 9 November 2026
 
 This candidate starts from Main

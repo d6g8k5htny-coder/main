@@ -9,6 +9,41 @@ that contains this file. Its candidate source parent is
 command, verification and scope. A component passing in isolation does not
 complete a CBZ gate or the final G0–G11 matrix.
 
+## Current Atlas unexercised-driver consolidation — 9 November 2026
+
+This candidate starts from signed Main
+`31150f4a0736cb79bf33e366b6b725b061126000`. The registered verification
+commands are:
+
+```sh
+python3 -B -S -m unittest tests.test_g11_census -v
+python3 -B -S -O -m unittest tests.test_g11_census -v
+python3 -B -S tools/cbz/g11_mutation_selftest.py --json
+python3 -B -S -O tools/cbz/g11_mutation_selftest.py --json
+python3 -B -S tools/cbz/g11_census.py --rev HEAD --json /tmp/g11.json
+python3 -B -S -O tools/cbz/g11_census.py --rev HEAD --json /tmp/g11-opt.json
+python3 -B -m unittest discover -s tests -v
+python3 -B -O -m unittest discover -s tests -v
+```
+
+At exact deletion commit `98dfecca599aa05b2007ec41d72fd605dd13f99e`,
+the first two commands pass 263/263 controls per mode; the next two kill all
+328 designated mutants per mode and produce byte-identical receipts at
+SHA-256 `e73ecb9f1a31208d4a92dfc5359e11ea8c6de833ab0df1495cc3c5675f05b97e`.
+The censuses are byte-identical at SHA-256
+`5a59528f3db330596c0b7df13d0bb03a95e2971183a1a008547cf42e09a2da80`,
+contain zero production findings, retain 82 current tools and 13 unresolved
+tools, and exit 1. Complete discovery runs 2,459 tests per mode and preserves
+two managed Chromium socket errors plus 23 skips. G11 and full regression
+remain FAIL.
+
+The eight removed drivers and their exact native blob/size/SHA-256 recovery
+identities are registered in
+[STATUS.md](STATUS.md#current-g11-atlas-driver-consolidation-candidate--9-november-2026).
+Their historical documentation and evidence remain; removal is maintenance
+reduction, not runtime, accessibility, mathematical, scientific or G11
+acceptance. No command here is the final federation G0--G11 orchestrator.
+
 ## Current unreferenced-driver retirement — 9 November 2026
 
 This candidate starts from Main
