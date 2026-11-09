@@ -122,7 +122,8 @@ comments up to 17:30Z on 9 November.
 
 **Other main-side lanes.** Claude S's MAIN-UNMERGED-MATH-ACCOUNTING (main#738 comments 6748297589 and 6749495978) is custody
 discovery: where bytes live and how durable they are, with no dispositions. This tranche classifies. Their Drive-side post
-(6751303676) covers item (3) by metadata.
+(6751303676) is input to item (3). From metadata only, it compares the owner's Drive files with git by name and size, and finds
+57 code files that exist only on Drive. Whether main's 2,549 `drive/` blobs are all on Drive is still open.
 
 ## Limits
 
