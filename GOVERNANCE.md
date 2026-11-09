@@ -1,5 +1,9 @@
 # CBZ-0 governance
 
+The later Math mutation-grader identity defect and its bounded draft correction
+are recorded in [STATUS.md](STATUS.md#later-node-inventory-and-pin-observations--9-november-2026).
+Their historical kernel evidence and scientific limits are unchanged.
+
 Effective 2026-10-29, by the owner's **MASTER DIRECTIVE — CRYSTALLINE
 BASELINE PROTOCOL**. This is the current operational authority throughout
 the federation. Earlier owner mandates, freezes, family-review gates,

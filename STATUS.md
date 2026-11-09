@@ -29,6 +29,12 @@ The original earlier 766/767 failure and the historical REJECTED alignment
 remain unchanged. The unadmitted Node mutation/control launcher was not used;
 these are not full G0/G6, a continuum proof or scientific acceptance.
 
+At tested merge `8b4c8656bf35bdccfb9decddef29194ff68e6289`, hosted
+run `42705939654` also executed 33 helper controls and 767 Node tests per
+mode, with no skips, failures, cancellations or todo cases. Its 39 fixture
+files per mode and TAP digests were independently checked. This observation
+is scoped to that tested merge; later changes require their own qualification.
+
 The Main hosted normal full regression ran 2,576 tests with 25 skips; this is
 not a no-skip G5. Separately on native `2b93a6d2279e5f3edff0eb991e4fdb25d64a6b8f`
 whose tree matches #785, ten pytest cases and the historical #525 binding
@@ -79,9 +85,23 @@ ran 24 tests per parent mode without skips, detected eleven grader mutants in
 both child modes, and recorded 22 original freshness-mutation kills per parent
 mode. The crawler grader controls ran 23 tests per
 parent mode without skips, including 16 grader-source mutations per parent
-mode. Its 109 source mutations and hosted execution have not yet been
-observed on this candidate. Earlier normal-parent self-mutation timeout and
+mode. Hosted run `42705939370` at tested merge
+`8b4c8656bf35bdccfb9decddef29194ff68e6289` ran 50 frozen tests and 23
+grader controls per mode, with 16 grader mutations per mode; both merged
+failmaps contain 109/109 designated source mutations and 50 selected tests.
+The nine artifact ZIPs, source hashes and outcome records were checked. This
+component result is bound to that tested merge, not to a later tree. Earlier normal-parent self-mutation timeout and
 the first overlapping-guard mutation failure remain preserved.
+
+At Math `f532c3e2d91a0c7679a37c733741660917a9b21b`, three mutation
+graders also accepted equal-but-distinct unittest code as an oracle. Draft
+Math #559 contains a separate identity-based correction and real adverse
+controls; its complete fresh shared-source matrix and hosted kernel run remain
+separate from the historical 66 conditional Lean statements and receipts.
+Math run `42706816998` at tested merge `e8dfae1543f312b7569a0dac31932025b6f7f501`
+captured all 17 expected hidden evidence files, 42 paired mutation records and
+168 raw logs; it is byte integrity evidence, not kernel or scientific
+qualification.
 
 This component has a bounded synchronous-unittest domain, is not a hostile
 sandbox and needs its own fresh tests and mutations. See

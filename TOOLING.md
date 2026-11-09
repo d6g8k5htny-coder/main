@@ -22,6 +22,8 @@ later STATUS observation. The candidate compares live code objects by
 identity, tracks execution phase and requires an actual AssertionError.
 Inventory additionally refuses a
 skipped selected target and restores the exact status-isolation failure/count.
+The distinct Math identity-origin defect and draft correction are recorded in
+STATUS; the three affected Math graders require their own fresh qualification.
 Finite standard unittest callable-raise, mock-call, log and warning assertion
 forms have explicit controls. Arbitrary test-class helper methods are not
 authorized by this tool, including helpers that assert; such failures are

@@ -17,6 +17,8 @@ outcome, quarantine or scientific claim. The separate native `2b93a6d2` Lean
 runs and their pending scientific-alignment boundary are recorded in
 [STATUS.md](STATUS.md#later-node-inventory-and-pin-observations--9-november-2026).
 They do not establish a fresh whole-federation kernel or proof inventory.
+The separate Math #559 grader correction likewise changes no historical Lean
+statement or receipt and does not establish continuum or scientific acceptance.
 
 ## Inventory provenance repair boundary — 9 November 2026
 

@@ -16,6 +16,9 @@ subsequent A8 false-kill finding and bounded candidate repair are detailed in
 A later Main merge requires a fresh guarded Workspace pin comparison. All
 twelve criteria and the final same-pass G0–G11 matrix remain unawarded; this
 is neither CBZ-0 nor a terminal Partial Baseline.
+The later Math #559 mutation-grader correction still requires separate
+qualification and integration; its reproduced defect and limited observations are in
+STATUS. The preserved-byte workflow does not itself qualify a kernel result.
 
 ## Later observed source boundary — 9 November 2026
 
