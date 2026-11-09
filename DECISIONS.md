@@ -129,3 +129,26 @@ Append-only. Historical source outcomes remain in their original records.
 | 2026-11-09 20:00 | 2 | B/testing, CI | Print bounded fields from original prepared-Node results and the helper-control log footers in CI, so counts and source/fixture identities are directly inspectable even when the local artifact reader cannot start. Preserve all original artifacts and grading behavior; no result is synthesized from a PASS line. | Yes | First hosted run `42687230494`, job `129397179313`, at head `63ae24f10de2e04c18c452923dff524d17b86cb7` succeeded and uploaded artifact `13705427515`; exact artifact case counts were not yet independently read. [Prepared regression contract](docs/cbz/NODE_FORMAL_FIXTURE_20261109.md). |
 | 2026-11-09 20:36 | 2 | C/integration | Compose the prepared Node regression repair with current canonical records and the compatible three-file entry-routing delivery from Main #781. Preserve the full current Main decision prefix, all Node decisions, and the original Claude commits through ordered parents; leave peer refs untouched. Fresh source-exposed engineering review found no technical findings; GitHub returns no actual review submission, so no approval or scientific independence is inferred. Require fresh checks on the complete composition before protected merge. | Yes | Main `7738e4c2e0881dd952772421877d9854364d272f`; Node head `962923a12f82e88f54ece180fbabdf05934aae78`; entry-routing head `fd08c3f77b0e13e310a424f8fd38d2df6b28d7af` and original `f2f3bd6a01e7f549b8706d9b2a362e037d5c6827`; Main #781/#784. |
 | 2026-11-09 20:40 | 2 | C/integration | Preserve the newly landed inventory oracle-provenance repair while composing the Node and entry-routing deliveries with current Main. Keep all upstream files and the complete current ledger prefix, all prior Node decisions, and original entry-delivery lineage. Earlier Node component passes remain bound to their prior compositions; require fresh protected checks on this one. | Yes | Main #785 merge `c81b7572f3c690338db9d66fdea582fc68f4a73f`; prior Node head `54ff4cc9c9a5d8f11badcc311028dc86d09d938c`; Main #784. |
+
+## 2026-11-09 — SDGA bounded observer contract, before implementation
+
+- Phase2 / LayerB. Prepare an isolated test-first draft on Main1902 for the
+  fixed Mathf532 SDGA source:99 module/path/source bindings and1137 literal
+  written public targets, distinct from the complete compiled population.
+  Root read the design/plan/contracts and accepted the bounded observer
+  approach after a separate pinned-Lean API feasibility review.
+- Task1 provides20 pure contract methods plus one explicit mandatory pinned
+  source control, all required in normal and optimized modes. The pinned
+  control stays outside ordinary offline discovery and fails on unavailable
+  inputs; no new dormant skip or optional coverage is added. A read-only
+  component workflow guards Math commit/tree, hashes original inputs and all
+  99 selected sources, and retains original source/result evidence.
+- The production module is deliberately absent in the initial draft. Expected
+  import failure is implementation-absence evidence only, never an adverse
+  rejection, mutation kill, Lean observation or gate pass. Root will observe
+  actual hosted absence before authorizing the minimal pure implementation.
+- Qualification/classification remainBLOCKED and scientific_effectNONE.
+  Unknown type semantics, declaration roles and execution/kernel coverage
+  remain explicit. Later private/all-part inventory, missing-fatal axiom
+  traversal and exact sequential replay require their own real Lean controls.
+  No proof source, bound, disposition or scientific status is changed.

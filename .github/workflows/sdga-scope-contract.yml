@@ -1,0 +1,100 @@
+name: sdga-scope-contract
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  observe-scope:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+        working-directory: main
+    env:
+      SDGA_PINNED_MATH_ROOT: ${{ github.workspace }}/Math-source
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          path: main
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: d6g8k5htny-coder/Math-
+          ref: f532c3e2d91a0c7679a37c733741660917a9b21b
+          path: Math-source
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+      - name: Guard and record exact source identities
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+          def git(root, expression):
+              return subprocess.check_output(
+                  ["git", "-C", str(root), "rev-parse", "--verify", expression],
+                  text=True).strip()
+          math = Path(os.environ["SDGA_PINNED_MATH_ROOT"])
+          commit, tree = git(math, "HEAD^{commit}"), git(math, "HEAD^{tree}")
+          if commit != "f532c3e2d91a0c7679a37c733741660917a9b21b" or tree != "b713ebf4d444f0f0a304e50302b1fe616155201a":
+              raise SystemExit("Pinned Math source identity mismatch")
+          with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as stream:
+              stream.write("SDGA_OBSERVED_MATH_COMMIT=" + commit + "\n")
+              stream.write("SDGA_OBSERVED_MATH_TREE=" + tree + "\n")
+          identity = dict(main_commit=git(Path("."), "HEAD^{commit}"),
+                          main_tree=git(Path("."), "HEAD^{tree}"),
+                          math_commit=commit, math_tree=tree,
+                          profile_sha256=hashlib.sha256(Path("tests/fixtures/sdga_scope/scope-f532.json").read_bytes()).hexdigest(),
+                          run_id=os.environ["GITHUB_RUN_ID"],
+                          attempt=os.environ["GITHUB_RUN_ATTEMPT"],
+                          scientific_effect="NONE", qualification="BLOCKED")
+          raw = json.dumps(identity, sort_keys=True) + "\n"
+          Path(os.environ["RUNNER_TEMP"], "sdga-source-identities.json").write_text(raw)
+          print(raw, end="")
+          PY
+      - name: Run pure scope contracts normally
+        run: |
+          set -euo pipefail
+          python3 -B -S -m unittest discover -s tests -p 'test_sdga_scope.py' -v 2>&1 | tee "$RUNNER_TEMP/sdga-scope-normal.log"
+          grep -Eq '^Ran 20 tests in ' "$RUNNER_TEMP/sdga-scope-normal.log"
+      - name: Run pure scope contracts optimized
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          python3 -B -O -S -m unittest discover -s tests -p 'test_sdga_scope.py' -v 2>&1 | tee "$RUNNER_TEMP/sdga-scope-optimized.log"
+          grep -Eq '^Ran 20 tests in ' "$RUNNER_TEMP/sdga-scope-optimized.log"
+      - name: Observe original pinned source normally
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          python3 -B -S tests/sdga_source_observation.py -v 2>&1 | tee "$RUNNER_TEMP/sdga-source-normal.log"
+          grep -Eq '^Ran 1 test in ' "$RUNNER_TEMP/sdga-source-normal.log"
+      - name: Observe original pinned source optimized
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          python3 -B -O -S tests/sdga_source_observation.py -v 2>&1 | tee "$RUNNER_TEMP/sdga-source-optimized.log"
+          grep -Eq '^Ran 1 test in ' "$RUNNER_TEMP/sdga-source-optimized.log"
+      - name: Retain source identities and original results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sdga-scope-contract-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/sdga-source-identities.json
+            ${{ runner.temp }}/sdga-scope-normal.log
+            ${{ runner.temp }}/sdga-scope-optimized.log
+            ${{ runner.temp }}/sdga-source-normal.log
+            ${{ runner.temp }}/sdga-source-optimized.log
+          if-no-files-found: warn
