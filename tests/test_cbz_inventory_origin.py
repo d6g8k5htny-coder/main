@@ -6,6 +6,7 @@ import sys
 import tempfile
 import textwrap
 import unittest
+from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import cbz_inventory_origin as origin
@@ -13,7 +14,9 @@ import cbz_inventory_origin as origin
 
 FIXTURE = '''
 import os
+import types
 import unittest
+from unittest import mock
 
 def subject():
     raise AssertionError('subject assertion')
@@ -35,6 +38,29 @@ class Fixture(unittest.TestCase):
             self.fail('oracle subtest')
     def test_subject(self):
         subject()
+    def test_forged_oracle_code(self):
+        clone = unittest.TestCase.fail.__code__.replace(co_filename='forged-subject.py')
+        types.FunctionType(clone, globals())(self, 'forged oracle')
+    def test_callable_raises(self):
+        self.assertRaises(ValueError, lambda: None)
+    def test_callable_raises_regex(self):
+        self.assertRaisesRegex(ValueError, 'expected', lambda: None)
+    def test_mock_assertion(self):
+        mock.Mock().assert_called_once()
+    def test_assert_logs(self):
+        with self.assertLogs('fixture'):
+            pass
+    def test_assert_warns(self):
+        with self.assertWarns(UserWarning):
+            pass
+    def test_callable_subject(self):
+        self.assertRaises(ValueError, subject)
+    def test_logs_subject(self):
+        with self.assertLogs('fixture'):
+            subject()
+    def test_warns_subject(self):
+        with self.assertWarns(UserWarning):
+            subject()
     def test_helper(self):
         self.helper()
     def test_nested(self):
@@ -104,6 +130,11 @@ class MixedSubject(unittest.TestCase):
         self.fail('selected oracle')
     def test_b_subject(self):
         subject()
+
+class SkippedOnly(unittest.TestCase):
+    @unittest.skip('declared')
+    def test_it(self):
+        pass
 '''
 
 
@@ -140,6 +171,66 @@ class InventoryOriginControls(unittest.TestCase):
                 _, result = self.selected(cls, name)
                 self.assertEqual(result['classification'], 'invalid', result)
 
+    def test_equal_but_distinct_oracle_code_is_refused(self):
+        _, result = self.selected('Fixture', 'test_forged_oracle_code')
+        self.assertEqual(result['classification'], 'invalid', result)
+
+    def test_selected_subject_assertion_is_refused(self):
+        _, result = self.selected('Fixture', 'test_subject')
+        self.assertEqual(result['classification'], 'invalid', result)
+
+    def test_declared_skip_cannot_be_the_target(self):
+        identity = 'origin_fixture.SkippedOnly.test_it'
+        result = origin.run(self.root, identity, [identity], identity,
+                            allowed_skips={identity: 'declared'},
+                            env=os.environ.copy(), timeout=20)
+        self.assertEqual(result['classification'], 'invalid', result)
+
+    def test_explicit_stdlib_assertion_forms_and_subject_refusals(self):
+        for name in ('test_callable_raises', 'test_callable_raises_regex',
+                     'test_mock_assertion', 'test_assert_logs', 'test_assert_warns'):
+            with self.subTest(name=name):
+                _, result = self.selected('Fixture', name)
+                self.assertEqual(result['classification'], 'kill', result)
+        for name in ('test_callable_subject', 'test_logs_subject', 'test_warns_subject'):
+            with self.subTest(name=name):
+                _, result = self.selected('Fixture', name)
+                self.assertEqual(result['classification'], 'invalid', result)
+
+    def test_callable_raises_is_authorized(self):
+        _, result = self.selected('Fixture', 'test_callable_raises')
+        self.assertEqual(result['classification'], 'kill', result)
+
+    def test_mock_assertion_is_authorized(self):
+        _, result = self.selected('Fixture', 'test_mock_assertion')
+        self.assertEqual(result['classification'], 'kill', result)
+
+    def test_log_assertion_is_authorized(self):
+        _, result = self.selected('Fixture', 'test_assert_logs')
+        self.assertEqual(result['classification'], 'kill', result)
+
+    def test_warning_assertion_is_authorized(self):
+        _, result = self.selected('Fixture', 'test_assert_warns')
+        self.assertEqual(result['classification'], 'kill', result)
+
+    def test_status_isolation_requires_its_exact_failure_and_count(self):
+        from tests import test_cbz_inventory as inventory
+        good = {'classification': 'kill', 'failure_count': 1,
+                'stderr': 'AssertionError: True is not false : a late repository filter must never execute',
+                'events': [{'message': 'True is not false : a late repository filter must never execute'}]}
+        for bad in (dict(good, stderr='AssertionError: unrelated oracle'),
+                    dict(good, events=[{'message': 'unrelated assertion'}]),
+                    dict(good, failure_count=2)):
+            with self.subTest(bad=bad):
+                reports = [{'classification': 'baseline'}, bad,
+                           {'classification': 'baseline'}, good,
+                           {'classification': 'baseline'}, good]
+                result = unittest.TestResult()
+                with mock.patch.object(inventory, 'mutation_child', side_effect=reports):
+                    inventory.InventoryContract('test_status_metadata_isolation_mutation_is_killed').run(result)
+                self.assertEqual(len(result.failures), 1, (result.failures, result.errors))
+                self.assertEqual(result.errors, [])
+
     def test_full_suite_requires_only_declared_skips_and_authorized_origins(self):
         ids = ['origin_fixture.Mixed.test_a_pass', 'origin_fixture.Mixed.test_b_fail',
                'origin_fixture.Mixed.test_c_controller']
@@ -175,6 +266,9 @@ class InventoryOriginControls(unittest.TestCase):
         self.assertEqual(origin.classify(forged, [identity], identity, {}), 'invalid')
         forged = copy.deepcopy(report)
         forged['events'][0]['frames'] = []
+        self.assertEqual(origin.classify(forged, [identity], identity, {}), 'invalid')
+        forged = copy.deepcopy(report)
+        forged['events'][0].pop('message')
         self.assertEqual(origin.classify(forged, [identity], identity, {}), 'invalid')
         forged = copy.deepcopy(report)
         forged['succeeded'] = [[]]

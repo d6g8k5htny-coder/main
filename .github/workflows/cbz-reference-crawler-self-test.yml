@@ -1,0 +1,136 @@
+# Based on the retained #721 proposal; this version runs both modes in shards.
+name: CBZ reference crawler self-test
+'on':
+  pull_request:
+    paths:
+      - 'tools/cbz/reference_crawler.py'
+      - 'tools/cbz/reference_crawler_acknowledged.json'
+      - 'tools/cbz/reference_crawler_mutation_check.py'
+      - 'tests/test_cbz_reference_crawler.py'
+      - 'tests/test_reference_crawler_mutation_check.py'
+      - '.github/workflows/cbz-reference-crawler-self-test.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/cbz/reference_crawler.py'
+      - 'tools/cbz/reference_crawler_acknowledged.json'
+      - 'tools/cbz/reference_crawler_mutation_check.py'
+      - 'tests/test_cbz_reference_crawler.py'
+      - 'tests/test_reference_crawler_mutation_check.py'
+      - '.github/workflows/cbz-reference-crawler-self-test.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  controls:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Run frozen crawler and grader controls in both modes
+        run: |
+          set -euo pipefail
+          mkdir "$RUNNER_TEMP/crawler-controls"
+          git rev-parse HEAD | tee "$RUNNER_TEMP/crawler-controls/source.txt"
+          python --version | tee "$RUNNER_TEMP/crawler-controls/python.txt"
+          for mode in normal optimized; do
+            flag=()
+            if [ "$mode" = optimized ]; then flag=(-O); fi
+            for suite in test_cbz_reference_crawler test_reference_crawler_mutation_check; do
+              log="$RUNNER_TEMP/crawler-controls/$mode-$suite.log"
+              python -B "${flag[@]}" -S -m unittest -v "tests.$suite" 2>&1 | tee "$log"
+              grep -Eq '^Ran [1-9][0-9]* tests? in ' "$log"
+              grep -qx 'OK' "$log"
+              if grep -Eq ' \.\.\. skipped |^OK \(skipped=' "$log"; then exit 1; fi
+            done
+          done
+      - name: Retain control output
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-crawler-controls-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/crawler-controls/
+          if-no-files-found: error
+          retention-days: 30
+  shards:
+    needs: controls
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+        shard: [1, 2, 3]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Run the bounded mutation shard
+        run: |
+          set -euo pipefail
+          mkdir "$RUNNER_TEMP/crawler-shard"
+          flag=()
+          if [ '${{ matrix.mode }}' = optimized ]; then flag=(-O); fi
+          git rev-parse HEAD > "$RUNNER_TEMP/crawler-shard/source-${{ matrix.shard }}.txt"
+          python --version > "$RUNNER_TEMP/crawler-shard/python-${{ matrix.shard }}.txt"
+          python -B "${flag[@]}" -S tools/cbz/reference_crawler_mutation_check.py \
+            --shard '${{ matrix.shard }}/3' \
+            --write-failmap "$RUNNER_TEMP/crawler-shard/shard-${{ matrix.shard }}.json" \
+            2>&1 | tee "$RUNNER_TEMP/crawler-shard/shard-${{ matrix.shard }}.log"
+      - name: Retain shard outcomes even on failure
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-crawler-${{ matrix.mode }}-${{ matrix.shard }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/crawler-shard/
+          if-no-files-found: error
+          retention-days: 30
+  merge:
+    needs: shards
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Download this mode's three shard artifacts
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          pattern: cbz-crawler-${{ matrix.mode }}-*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/crawler-shards
+          merge-multiple: true
+      - name: Validate and merge the complete partition
+        run: |
+          set -euo pipefail
+          flag=()
+          if [ '${{ matrix.mode }}' = optimized ]; then flag=(-O); fi
+          python -B "${flag[@]}" -S tools/cbz/reference_crawler_mutation_check.py \
+            --merge-failmaps "$RUNNER_TEMP/crawler-shards/shard-1.json" \
+              "$RUNNER_TEMP/crawler-shards/shard-2.json" "$RUNNER_TEMP/crawler-shards/shard-3.json" \
+            --write-failmap "$RUNNER_TEMP/crawler-merged-${{ matrix.mode }}.json" \
+            2>&1 | tee "$RUNNER_TEMP/crawler-merged-${{ matrix.mode }}.log"
+      - name: Retain merged outcome
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-crawler-merged-${{ matrix.mode }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/crawler-merged-${{ matrix.mode }}.json
+            ${{ runner.temp }}/crawler-merged-${{ matrix.mode }}.log
+          if-no-files-found: error
+          retention-days: 30

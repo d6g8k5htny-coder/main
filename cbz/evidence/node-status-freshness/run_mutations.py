@@ -28,6 +28,7 @@ CASES=[
 # unittest assertion machinery may appear after the selected frame.
 ORIGIN_RUNNER = r'''
 import contextlib
+import inspect
 import io
 import json
 import sys
@@ -37,18 +38,22 @@ import unittest.case
 def code_of(value):
     return getattr(getattr(value, "__func__", value), "__code__", None)
 
-oracle = set()
+oracle = []
 for name in dir(unittest.TestCase):
     if name.startswith("assert") or name in ("fail", "_baseAssertEqual", "_formatMessage"):
         code = code_of(getattr(unittest.TestCase, name, None))
         if code is not None:
-            oracle.add(code)
+            oracle.append(code)
 for cls, names in ((unittest.case._AssertRaisesContext, ("__exit__",)),
                    (unittest.case._AssertRaisesBaseContext, ("_raiseFailure",))):
     for name in names:
         code = code_of(getattr(cls, name, None))
         if code is not None:
-            oracle.add(code)
+            oracle.append(code)
+
+def is_oracle(code):
+    # Code objects can compare equal despite a different source filename.
+    return any(code is allowed for allowed in oracle)
 
 test_id = sys.argv[1]
 captured = io.StringIO()
@@ -65,6 +70,33 @@ with contextlib.redirect_stdout(captured):
     selected_name = getattr(selected, "_testMethodName", "")
     selected_code = code_of(getattr(selected, selected_name, None))
     selected_id = selected.id() if selected is not None else None
+    state = {"entered": 0, "phase": "initial"}
+    if selected is not None:
+        selected_method = getattr(selected, selected_name, None)
+        if (selected_code is None or inspect.iscoroutinefunction(selected_method) or
+                inspect.isgeneratorfunction(selected_method) or inspect.isasyncgenfunction(selected_method)):
+            raise ValueError("only synchronous selected test bodies are supported")
+        for attr, phase in (("_callSetUp", "setup"), ("_callTearDown", "teardown"),
+                            ("_callCleanup", "cleanup")):
+            original = getattr(selected, attr)
+            def wrap(*args, _original=original, _phase=phase, **kwargs):
+                state["phase"] = _phase
+                return _original(*args, **kwargs)
+            setattr(selected, attr, wrap)
+        def call_body(method):
+            if code_of(method) is not selected_code:
+                raise RuntimeError("selected test body changed")
+            state["entered"] += 1
+            state["phase"] = "body"
+            try:
+                returned = method()
+                if returned is not None:
+                    if inspect.iscoroutine(returned) or inspect.isgenerator(returned):
+                        returned.close()
+                    raise RuntimeError("unsupported test-body return value")
+            finally:
+                state["phase"] = "body-exited"
+        selected._callTestMethod = call_body
 
     class Result(unittest.TextTestResult):
         def __init__(self, *args, **kwargs):
@@ -82,15 +114,16 @@ with contextlib.redirect_stdout(captured):
             indexes = [i for i, (code, _) in enumerate(frames) if code is selected_code]
             tail = frames[indexes[-1] + 1:] if indexes else frames
             authorized = (kind == "failure" and case is selected and selected_id == test_id
-                          and selected_code is not None and bool(indexes)
-                          and all(code in oracle for code, _ in tail))
+                          and selected_code is not None and len(indexes) == 1
+                          and state["entered"] == 1 and state["phase"] in ("body", "body-exited")
+                          and all(is_oracle(code) for code, _ in tail))
             self.events.append({"test_id": case.id(), "kind": kind, "authorized": authorized,
                                 "exception": err[0].__name__,
                                 "frames": [{"name": code.co_name,
                                             "filename": code.co_filename,
                                             "line": line,
                                             "selected": code is selected_code,
-                                            "oracle": code in oracle}
+                                            "oracle": is_oracle(code)}
                                            for code, line in frames]})
 
         def addFailure(self, test, err):
@@ -108,8 +141,9 @@ with contextlib.redirect_stdout(captured):
             super().addSubTest(test, subtest, err)
 
     result = unittest.TextTestRunner(stream=sys.stderr, verbosity=2, resultclass=Result).run(suite)
-    report = {"schema": "node-freshness-origin-v1", "test_id": test_id,
+    report = {"schema": "node-freshness-origin-v2", "test_id": test_id,
               "selected_id": selected_id, "tests_run": result.testsRun,
+              "optimize": sys.flags.optimize, "body_entered": state["entered"],
               "failure_count": len(result.failures), "error_count": len(result.errors),
               "skip_count": len(result.skipped), "expected_failure_count": len(result.expectedFailures),
               "unexpected_success_count": len(result.unexpectedSuccesses), "events": result.events,
@@ -120,27 +154,34 @@ sys.exit(0 if result.wasSuccessful() and not result.skipped and not result.expec
 
 
 def run_selected(root, test_id, optimized):
+    if type(optimized) is not bool:
+        return {'protocol_error': True, 'error': 'optimized must be boolean'}
     cmd = [sys.executable, '-B', '-S'] + (['-O'] if optimized else []) + ['-c', ORIGIN_RUNNER, test_id]
     env = {key: value for key, value in os.environ.items() if not key.startswith('PYTHON')}
     child = subprocess.run(cmd, cwd=root, env=env, stdin=subprocess.DEVNULL,
                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=30)
     try:
         report = json.loads(child.stdout)
-        if not isinstance(report, dict) or report.get('schema') != 'node-freshness-origin-v1':
+        if not isinstance(report, dict) or report.get('schema') != 'node-freshness-origin-v2':
             raise ValueError('unexpected provenance schema')
     except (ValueError, TypeError):
         return {'protocol_error': True, 'child_exit': child.returncode,
                 'stdout': child.stdout, 'output': child.stderr}
-    report.update(protocol_error=False, child_exit=child.returncode, output=child.stderr)
+    report.update(protocol_error=False, child_exit=child.returncode, output=child.stderr,
+                  requested_optimize=int(optimized))
     return report
 
 
 def _common(result, test_id):
     count_keys = ('tests_run', 'failure_count', 'error_count', 'skip_count',
-                  'expected_failure_count', 'unexpected_success_count', 'child_exit')
+                  'expected_failure_count', 'unexpected_success_count', 'child_exit',
+                  'optimize', 'requested_optimize', 'body_entered')
     return (isinstance(result, dict) and all(type(result.get(key)) is int for key in count_keys)
+            and result.get('schema') == 'node-freshness-origin-v2'
             and result.get('protocol_error') is False and result.get('test_id') == test_id
             and result.get('selected_id') == test_id and result.get('tests_run') == 1
+            and result.get('body_entered') == 1 and result.get('optimize') in (0, 1)
+            and result.get('optimize') == result.get('requested_optimize')
             and result.get('error_count') == 0 and result.get('skip_count') == 0
             and result.get('expected_failure_count') == 0
             and result.get('unexpected_success_count') == 0 and isinstance(result.get('events'), list))

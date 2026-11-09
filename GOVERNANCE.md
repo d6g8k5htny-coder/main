@@ -18,6 +18,17 @@ Its team-model sections 1.5, 7.4 and 8 supersede older exclusive-owner and
 monitor-specific integration restrictions. Historical decisions retain their
 original timestamps and outcomes; the latest directive controls future action.
 
+## Later bounded mutation and Node provenance — 9 November 2026
+
+The previously landed inventory and node-status mutation graders accepted an
+equal-but-distinct code object as an oracle in the later adverse probe. The
+candidate's identity-based correction, tested stdlib assertion forms,
+remaining helper-method boundary, exact commands and observed execution are
+in [TOOLING.md](TOOLING.md#later-provenance-and-prepared-node-tools--9-november-2026)
+and [STATUS.md](STATUS.md#later-node-inventory-and-pin-observations--9-november-2026).
+Do not reclassify historical observations or treat a bounded engineering check
+as a whole Layer A audit, final gate or scientific review.
+
 ## Inventory mutation provenance — 9 November 2026
 
 The inventory mutation component records actual pre-cleanup traceback code

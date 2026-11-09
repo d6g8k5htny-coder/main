@@ -8,6 +8,94 @@ The inherited scientific material below is explicitly the 29 September
 snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
 Its mathematical statements, source cuts and review limits are preserved.
 
+## Later Node, inventory and pin observations — 9 November 2026
+
+Before this source change, Main #785 merged as
+`c81b7572f3c690338db9d66fdea582fc68f4a73f` and Main #784, preserving
+#781's original Claude lineage, merged as
+`1902aac113761974c4569f78acb6a8baadabb7f1`. Workspace #58 merged as
+`8a4d2248e9646ba3181a61defc90d13a01fe08ac` and pins that Main. Its hosted
+premerge federation job ran 187 tests in each Python mode without skips; its
+pin job checked eight strict-current pins, four canonical inputs and 187 tests.
+The postmerge federation job repeated 187 tests per mode without skips; its
+pin job also passed eight strict-current pins, four canonical inputs and 187
+tests. These were sequential observations. A merge of this Main candidate will
+require another guarded Workspace comparison; they do not award final G7.
+
+At #784's tested tree, the hosted prepared Node job ran 33 admitted helper
+controls and 767 Node tests in each preparation mode, with no Node failures,
+skips, cancellations or todo cases. It checked 39 fixture files per mode.
+The original earlier 766/767 failure and the historical REJECTED alignment
+remain unchanged. The unadmitted Node mutation/control launcher was not used;
+these are not full G0/G6, a continuum proof or scientific acceptance.
+
+The Main hosted normal full regression ran 2,576 tests with 25 skips; this is
+not a no-skip G5. Separately on native `2b93a6d2279e5f3edff0eb991e4fdb25d64a6b8f`
+whose tree matches #785, ten pytest cases and the historical #525 binding
+case passed in each Python mode, and two browser cases passed per mode in a
+hosted postmerge job. Local browser attempts instead failed before execution
+with socket permission errors. A separate live node-status check exited 1:
+`eng.hard-gate` was stale while three other records were fresh. No historical
+source pin was rewritten. Also on native `2b93a6d2`, two separate Lean 4.34.1
+package runs reported 59 target axiom lists empty and 18 rejected negative
+controls per mode; the receipt's scientific alignment remains pending. None
+of these separate observations becomes a final same-pass federation gate.
+
+A later A8 probe on Main `1902aac1` found that both the inventory and
+node-status mutation-origin graders accepted a distinct code object equal to
+an authorized unittest oracle as a kill. A separate freshness probe found
+that setup or teardown could call the selected body and have its failure
+credited as an oracle. The previous execution results and these red findings
+are retained. The candidate uses object identity and execution-phase tracking,
+and inventory rejects a skipped target; its status-isolation control again requires the
+named failure and one failure. Arbitrary test-class helper methods remain unsupported, including helper
+methods that perform assertions; a nested subject or callback is not an oracle.
+The reference-crawler mutation grader on the same parent separately accepted
+an assertion with a spoofed unittest filename, failed to propagate optimized
+Python to its child and treated skipped/expected-failure tests as passes. Its
+old failmaps and outcomes remain historical. The local candidate repairs
+those paths and uses a new failmap schema, but fresh crawler controls and the
+full designated mutation campaign must pass before it is treated as sound.
+
+On the local candidate under CPython 3.12.14, the freshness grader controls
+ran 23 tests per parent mode without skips, detecting ten grader mutations in
+both child modes; its eleven original source mutations produced 22 qualified
+child kills per parent mode. The crawler grader controls ran 23 tests per
+parent mode without skips, including 16 grader-source mutations per parent
+mode. Its 109 source mutations and hosted execution have not yet been
+observed on this candidate. Earlier normal-parent self-mutation timeout and
+the first overlapping-guard mutation failure remain preserved.
+
+This component has a bounded synchronous-unittest domain, is not a hostile
+sandbox and needs its own fresh tests and mutations. See
+[TOOLING.md](TOOLING.md#later-provenance-and-prepared-node-tools--9-november-2026).
+
+For the prepared Node component, use clean Main, Math- and query- checkouts
+under `CBZ_ROOT`, with Math- at `f532c3e2d91a0c7679a37c733741660917a9b21b`
+and query- at `fb4c457b5861dc49696fd0a8e11c7c405056c05f`. Set
+`CBZ_EVIDENCE` to a new directory outside all three source roots, and ensure
+Python 3.11 and Node 24 are available. Fetch these immutable historical
+commits without changing the selected checkouts:
+
+```sh
+for sha in 71400b94f6cb354a8cf7aba73ffede2138a64efa a12c178c0f857a130cf434e9efd44233a038195b f2e432ea5c86742e480c66624775bc9103343314; do git -C "$CBZ_ROOT/main" fetch origin "$sha"; done
+for sha in d6628da09384728992dcbe6e921cc28ba85aebb0 82247833b5dd58e04291d55353b52938d73ec614 9d7b6802424fb4715b31999066aafca8ee2f3cca; do git -C "$CBZ_ROOT/Math-" fetch origin "$sha"; done
+git -C "$CBZ_ROOT/query-" fetch origin c88768bb11efd1f7d6bda188f13064bedec54a06
+cd "$CBZ_ROOT/main"
+python3.11 -B -S -m unittest -v tests.test_cbz_node_regression.NodeRunnerTests
+python3.11 -B -O -S -m unittest -v tests.test_cbz_node_regression.NodeRunnerTests
+python3.11 -B -S tools/cbz_node_regression.py --math-root "$CBZ_ROOT/Math-" --query-root "$CBZ_ROOT/query-" --output "$CBZ_EVIDENCE/node-normal"
+python3.11 -B -O -S tools/cbz_node_regression.py --math-root "$CBZ_ROOT/Math-" --query-root "$CBZ_ROOT/query-" --output "$CBZ_EVIDENCE/node-optimized"
+```
+
+The runner checks selected source and fixture bytes at its endpoints, executes
+all tracked Node tests and requires a complete zero-failure TAP summary. It
+is not a hostile-writer sandbox or a final cold-start/federation gate. Its
+runnable source, purpose, observed verification and limits are registered in
+[TOOLING.md](TOOLING.md#later-provenance-and-prepared-node-tools--9-november-2026).
+The whole-federation inventory, proof dispositions, no-skip regression,
+complete tool audit and final G0–G11 pass remain open.
+
 ## Inventory provenance and pin refresh — 9 November 2026
 
 At the sequential observation before this source change, Main #783 was signed

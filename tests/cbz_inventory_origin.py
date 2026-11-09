@@ -16,9 +16,11 @@ import subprocess
 import sys
 import unittest
 import unittest.case
+import unittest._log
+import unittest.mock
 
 
-SCHEMA = 'cbz-inventory-origin-v1'
+SCHEMA = 'cbz-inventory-origin-v2'
 
 
 def _code(value):
@@ -27,14 +29,20 @@ def _code(value):
 
 def _assertion_codes():
     classes = [unittest.TestCase, unittest.case._AssertRaisesContext,
-               unittest.case._AssertRaisesBaseContext]
+               unittest.case._AssertRaisesBaseContext, unittest.case._AssertWarnsContext,
+               unittest._log._AssertLogsContext, unittest.mock.NonCallableMock]
     base = getattr(unittest.case, '_BaseTestCaseContext', None)
     if base is not None:
         classes.append(base)
-    return {code for cls in classes for name, value in vars(cls).items()
+    return tuple(code for cls in classes for name, value in vars(cls).items()
             if (name.startswith('assert') or name in
-                ('fail', '_baseAssertEqual', '_formatMessage', '__exit__', '_raiseFailure'))
-            for code in [_code(value)] if code is not None}
+                ('fail', '_baseAssertEqual', '_formatMessage', '__exit__', '_raiseFailure', 'handle'))
+            for code in [_code(value)] if code is not None)
+
+
+def _is_oracle(code, allowed):
+    # Code objects can compare equal despite a different source filename.
+    return any(code is oracle for oracle in allowed)
 
 
 def _leaves(suite):
@@ -121,12 +129,13 @@ def _child(directory, selector):
                               state.get('entered') == 1 and
                               state.get('phase') in ('body', 'body-exited') and
                               len(positions) == 1 and
-                              all(code in allowed for code, _ in frames[positions[0] + 1:]))
+                              all(_is_oracle(code, allowed) for code, _ in frames[positions[0] + 1:]))
                 self.events.append({'id': case.id(), 'kind': kind, 'authorized': authorized,
                                     'exception': err[0].__name__,
+                                    'message': str(err[1]),
                                     'frames': [{'name': code.co_name, 'filename': code.co_filename,
                                                 'line': line, 'selected': code is selected_code,
-                                                'oracle': code in allowed}
+                                                'oracle': _is_oracle(code, allowed)}
                                                for code, line in frames]})
 
             def addFailure(self, test, err):
@@ -163,7 +172,7 @@ def classify(report, expected_ids, target, allowed_skips):
             len(set(expected_ids)) != len(expected_ids) or target not in expected_ids or
             type(allowed_skips) is not dict or
             any(type(k) is not str or type(v) is not str for k, v in allowed_skips.items()) or
-            not set(allowed_skips).issubset(expected_ids)):
+            not set(allowed_skips).issubset(expected_ids) or target in allowed_skips):
         return 'invalid'
     counts = ('tests_run', 'failure_count', 'error_count', 'skip_count',
               'expected_failure_count', 'unexpected_success_count', 'child_exit')
@@ -197,7 +206,8 @@ def classify(report, expected_ids, target, allowed_skips):
         return 'invalid'
     for event in events:
         frames = event.get('frames')
-        if (event.get('exception') != 'AssertionError' or type(frames) is not list or
+        if (event.get('exception') != 'AssertionError' or type(event.get('message')) is not str or
+                type(frames) is not list or
                 any(type(frame) is not dict or type(frame.get('name')) is not str or
                     type(frame.get('filename')) is not str or type(frame.get('line')) is not int or
                     type(frame.get('selected')) is not bool or type(frame.get('oracle')) is not bool

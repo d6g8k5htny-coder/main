@@ -300,6 +300,12 @@ class InventoryContract(unittest.TestCase):
                 copied.write_text(source.replace(before, after))
                 mutant = mutation_child(copied, expected)
                 self.assertEqual(mutant['classification'], 'kill', json.dumps(mutant, sort_keys=True))
+                if name == 'status_isolation':
+                    self.assertEqual(mutant['failure_count'], 1, mutant)
+                    self.assertEqual(mutant['events'][0]['message'],
+                                     'True is not false : a late repository filter must never execute')
+                    self.assertIn('AssertionError: True is not false : a late repository filter must never execute',
+                                  mutant['stderr'])
 
     def test_boolean_byte_count_is_not_accepted_as_integer_one(self):
         repo = self.root / 'alpha'

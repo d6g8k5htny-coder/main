@@ -1,6 +1,6 @@
 # Reproduce the federation checkpoint
 
-This is a reproduction guide for the Partial Baseline. It is not a final G9
+This is a reproduction guide for the active intermediate baseline. It is not a final G9
 PASS, a complete mathematical auditor, or a CBZ-0 declaration. STATUS.md is the
 entry point; it states the closed and quarantined domains and immutable rules.
 No final baseline vector/tag or single complete G0–G11 run exists at this cut.
@@ -124,12 +124,14 @@ over the selected baseline or import their mathematical assertions as proofs.
 From the clean selected main root:
 
 ~~~sh
-python3.11 -B -S -m unittest discover -s tests -p test_cbz_node_regression.py -v
-python3.11 -B -O -S -m unittest discover -s tests -p test_cbz_node_regression.py -v
-python3.11 -B -S tools/cbz_node_regression.py --math-root "$CBZ_ROOT/Math-" --query-root "$CBZ_ROOT/query-" --output "$CBZ_EVIDENCE/node"
+python3.11 -B -S -m unittest -v tests.test_cbz_node_regression.NodeRunnerTests
+python3.11 -B -O -S -m unittest -v tests.test_cbz_node_regression.NodeRunnerTests
+python3.11 -B -S tools/cbz_node_regression.py --math-root "$CBZ_ROOT/Math-" --query-root "$CBZ_ROOT/query-" --output "$CBZ_EVIDENCE/node-normal"
+python3.11 -B -O -S tools/cbz_node_regression.py --math-root "$CBZ_ROOT/Math-" --query-root "$CBZ_ROOT/query-" --output "$CBZ_EVIDENCE/node-optimized"
 ~~~
 
-The output directory must be new and outside all three source roots. The helper
+Both output directories must be new and outside all three source roots. The
+unadmitted mutation/control launcher is not included in these commands. The helper
 verifies every historical descriptor before writing that fixture set, creates
 separate shop/museum trees, and passes SHOP_MATH_FIXTURE, SHOP_QUERY_FIXTURE and
 MUSEUM_FIXTURE to every tracked tests/*.mjs file. It clears NODE_OPTIONS, NODE_PATH and ambient Git redirects/configuration. It runs Node directly without a shell and retains node.tap plus

@@ -117,11 +117,25 @@ class Fixture(unittest.TestCase):
     def test_spoofed_unittest_filename_is_not_a_kill(self):
         self.assertEqual(self.check_case("exec(compile(\"raise AssertionError('spoof')\", unittest.case.__file__, 'exec'))"), [False, False])
 
+    def test_equal_but_distinct_oracle_code_is_not_a_kill(self):
+        method = ("import types\n"
+                  "clone = unittest.TestCase.fail.__code__.replace(co_filename='forged-subject.py')\n"
+                  "types.FunctionType(clone, globals())(self, 'forged oracle')")
+        self.assertEqual(self.check_case(method), [False, False])
+
     def test_setup_assertion_is_not_a_kill(self):
         self.assertEqual(self.check_case("pass", setup="raise AssertionError('setup assertion')"), [False, False])
 
+    def test_setup_calling_selected_body_is_not_a_kill(self):
+        body = "self.calls += 1\nif self.calls == 1: self.fail('called from setup')"
+        self.assertEqual(self.check_case(body, setup="self.calls = 0; self.test_selected()"), [False, False])
+
     def test_teardown_assertion_is_not_a_kill(self):
         self.assertEqual(self.check_case("pass", teardown="raise AssertionError('teardown assertion')"), [False, False])
+
+    def test_teardown_calling_selected_body_is_not_a_kill(self):
+        body = "self.calls += 1\nif self.calls == 2: self.fail('called from teardown')"
+        self.assertEqual(self.check_case(body, setup="self.calls = 0", teardown="self.test_selected()"), [False, False])
 
     def test_selected_failure_with_teardown_failure_is_not_a_kill(self):
         self.assertEqual(self.check_case("self.assertEqual(1, 2)", teardown="raise AssertionError('teardown assertion')"), [False, False])
@@ -137,16 +151,24 @@ class Fixture(unittest.TestCase):
 
     def test_corrupt_provenance_counts_are_refused(self):
         self.assertTrue(hasattr(self.grader, "qualified_kill"), "missing provenance-aware classifier")
-        valid = {"protocol_error": False, "test_id": TEST_ID, "selected_id": TEST_ID,
+        valid = {"schema": "node-freshness-origin-v2", "protocol_error": False,
+                 "test_id": TEST_ID, "selected_id": TEST_ID,
                  "tests_run": 1, "failure_count": 1, "error_count": 0, "skip_count": 0,
                  "expected_failure_count": 0, "unexpected_success_count": 0, "child_exit": 1,
+                 "optimize": 0, "requested_optimize": 0, "body_entered": 1,
                  "events": [{"test_id": TEST_ID, "kind": "failure", "authorized": True}]}
         self.assertTrue(self.grader.qualified_kill(valid, TEST_ID))
         for key, value in (("tests_run", True), ("failure_count", True),
-                           ("error_count", False), ("child_exit", True)):
+                           ("error_count", False), ("child_exit", True), ("body_entered", True),
+                           ("body_entered", 0),
+                           ("optimize", True)):
             with self.subTest(key=key):
                 corrupted = dict(valid, **{key: value})
                 self.assertFalse(self.grader.qualified_kill(corrupted, TEST_ID))
+        for mode in (-1, 2):
+            corrupted = dict(valid, optimize=mode, requested_optimize=mode)
+            self.assertFalse(self.grader.qualified_kill(corrupted, TEST_ID))
+        self.assertFalse(self.grader.qualified_kill(dict(valid, optimize=1), TEST_ID))
 
     def test_non_object_provenance_is_refused(self):
         for malformed in (None, [], "not a report", 1):
@@ -160,8 +182,24 @@ class MutationGuardSelfTests(unittest.TestCase):
         grader = load_grader()
         original = GRADER.read_text(encoding="utf-8")
         mutations = (
-            ("ignore non-oracle frames", "and all(code in oracle for code, _ in tail))", "and True)",
+            ("ignore non-oracle frames", "and all(is_oracle(code) for code, _ in tail))", "and True)",
              "test_subject_assertion_is_not_a_kill"),
+            ("compare oracle code by equality", "any(code is allowed for allowed in oracle)",
+             "any(code == allowed for allowed in oracle)",
+             "test_equal_but_distinct_oracle_code_is_not_a_kill"),
+            ("accept selected body from setup",
+             (('and state["entered"] == 1 and state["phase"] in ("body", "body-exited")',
+               "and True"), ("result.get('body_entered') == 1", "True")),
+             None, "test_setup_calling_selected_body_is_not_a_kill"),
+            ("accept selected body from teardown",
+             'and state["entered"] == 1 and state["phase"] in ("body", "body-exited")',
+             "and True", "test_teardown_calling_selected_body_is_not_a_kill"),
+            ("ignore entry count", "result.get('body_entered') == 1", "True",
+             "test_corrupt_provenance_counts_are_refused"),
+            ("accept unknown mode", "result.get('optimize') in (0, 1)", "True",
+             "test_corrupt_provenance_counts_are_refused"),
+            ("ignore mode mismatch", "result.get('optimize') == result.get('requested_optimize')",
+             "True", "test_corrupt_provenance_counts_are_refused"),
             ("ignore authorization", "and event.get('authorized') is True", "and True",
              "test_subject_assertion_is_not_a_kill"),
             ("accept boolean counters", "all(type(result.get(key)) is int for key in count_keys)", "True",
@@ -178,13 +216,18 @@ class MutationGuardSelfTests(unittest.TestCase):
             target.parent.mkdir(parents=True)
             for name, old, new, method in mutations:
                 with self.subTest(mutation=name):
-                    self.assertEqual(original.count(old), 1, name)
+                    edits = old if isinstance(old, tuple) else ((old, new),)
+                    for before, _ in edits:
+                        self.assertEqual(original.count(before), 1, name)
                     test_id = "tests.test_node_status_mutation_grader.MutationOriginTests." + method
                     for optimized in (False, True):
                         target.write_text(original, encoding="utf-8")
                         baseline = grader.run_selected(root, test_id, optimized)
                         self.assertTrue(grader.baseline_ok(baseline, test_id), (name, optimized, baseline))
-                        target.write_text(original.replace(old, new, 1), encoding="utf-8")
+                        changed = original
+                        for before, after in edits:
+                            changed = changed.replace(before, after, 1)
+                        target.write_text(changed, encoding="utf-8")
                         mutated = grader.run_selected(root, test_id, optimized)
                         self.assertTrue(grader.qualified_kill(mutated, test_id), (name, optimized, mutated))
                         print("FRESHNESS_GRADER_MUTATION " + json.dumps({
