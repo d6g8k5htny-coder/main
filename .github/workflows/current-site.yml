@@ -15,6 +15,7 @@ name: Current research site
       - 'tools/node_status_refresh.py'
       - 'tests/test_node_status_refresh.py'
       - 'tests/test_node_status_freshness.py'
+      - 'tests/test_node_status_mutation_grader.py'
       - 'cbz/evidence/node-status-freshness/run_mutations.py'
       # inputs of the freshness suite and its mutation runner
       - 'tools/validate_node_status.py'
@@ -49,6 +50,22 @@ jobs:
           python3 -B -S -m unittest discover -s tests -p 'test_current_site*.py' -v
           python3 -B -O -S -m unittest discover -s tests -p 'test_current_site*.py' -v
           node --test tests/test_current_site.mjs
+      - name: Verify freshness mutation provenance
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/node-status-grader-evidence"
+          python3 -B -S -m unittest tests.test_node_status_mutation_grader -v > "$RUNNER_TEMP/node-status-grader-evidence/controls-normal.stdout" 2> "$RUNNER_TEMP/node-status-grader-evidence/controls-normal.stderr"
+          python3 -B -O -S -m unittest tests.test_node_status_mutation_grader -v > "$RUNNER_TEMP/node-status-grader-evidence/controls-optimized.stdout" 2> "$RUNNER_TEMP/node-status-grader-evidence/controls-optimized.stderr"
+          python3 -B -S cbz/evidence/node-status-freshness/run_mutations.py > "$RUNNER_TEMP/node-status-grader-evidence/mutations-normal.json" 2> "$RUNNER_TEMP/node-status-grader-evidence/mutations-normal.stderr"
+          python3 -B -O -S cbz/evidence/node-status-freshness/run_mutations.py > "$RUNNER_TEMP/node-status-grader-evidence/mutations-optimized.json" 2> "$RUNNER_TEMP/node-status-grader-evidence/mutations-optimized.stderr"
+      - name: Preserve freshness mutation evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: node-status-grader-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/node-status-grader-evidence/
+          if-no-files-found: error
+          retention-days: 90
 
   node-status-refresh:
     # LANES-20261022 Lane 3: report-only freshness of records/node_status.
@@ -66,7 +83,6 @@ jobs:
         run: |
           python3 -B -S -m unittest tests.test_node_status_freshness tests.test_node_status_refresh -v
           python3 -B -O -S -m unittest tests.test_node_status_freshness tests.test_node_status_refresh -v
-          python3 -B -S cbz/evidence/node-status-freshness/run_mutations.py > "$RUNNER_TEMP/node-status-mutations.json"
       # Pull requests run only the offline steps above. The live refresh reads the GitHub API,
       # so it runs on main pushes, schedules and manual dispatch, never on a pull request.
       - name: Report-only freshness refresh (read-only GitHub API)
