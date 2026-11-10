@@ -144,6 +144,8 @@ structure ModuleRequest where
   module : Name
   oleanParts : Array PartRequest
   irParts : Array PartRequest
+  /-- Internal resolved request origin; never an accepted JSON field. -/
+  origin : System.FilePath := System.FilePath.mk ""
   deriving Inhabited
 
 /- Core Json.parse overwrites duplicate fields. This bounded request parser uses
@@ -299,7 +301,11 @@ def readRequest (path : System.FilePath) : IO ModuleRequest := do
   let text ← try IO.FS.readFile path catch error =>
     failCode "REQUEST_SCHEMA" s!"cannot read request: {error}"
   match RequestJSON.parse text >>= parseRequest with
-  | .ok request => return request
+  | .ok request =>
+    let origin ← try realPathNormalized path catch error =>
+      failCode "REQUEST_SCHEMA" s!"cannot resolve request origin: {error}"
+    if !canonicalPath origin then failCode "REQUEST_SCHEMA" "noncanonical request origin"
+    return { request with origin }
   | .error message => failCode "REQUEST_SCHEMA" message
 
 /-- Retain every object region for as long as any raw CI/expression is referenced. -/
@@ -600,6 +606,140 @@ def strictAxioms (lookup : Name → Option ConstantInfo) (roots : Array Name) :
 private def nameArray (names : Array Name) : Json :=
   .arr (names.map (Json.str ∘ encodeName))
 
+
+/-- Stable union of every raw OLean extra array; CI membership never exempts one. -/
+def oleanExtraNames (parts : Array (String × ModuleData)) :
+    Except AuditError (Array Name) := do
+  let mut names : Array Name := #[]
+  let mut seen : Std.HashSet Name := {}
+  for (_, part) in parts do
+    for name in part.extraConstNames do
+      match requireIdentity name with
+      | .error message => throw (.malformedConstant name message)
+      | .ok _ => pure ()
+      if !seen.contains name then
+        seen := seen.insert name
+        names := names.push name
+  return names
+
+private structure ObjectExtras where
+  fields : List (String × Json)
+  oleanNames : Array Name
+  residueNames : Array Name
+
+private def evidencePart (requested : PartRequest) (part : ModuleData) : Json :=
+  .mkObj [
+    ("level", .str requested.level), ("path", .str requested.path.toString),
+    ("declared_sha256", .str requested.sha256), ("is_module", .bool part.isModule),
+    ("const_names", nameArray part.constNames),
+    ("constant_names", nameArray (part.constants.map (·.name))),
+    ("extra_const_names", nameArray part.extraConstNames),
+    ("extension_entries", .arr (part.entries.map fun (name, entries) =>
+      .mkObj [("name", .str (encodeName name)), ("entry_count", toJson entries.size)]))]
+
+/-- This collector only reads the live loaded regions. No extension payload is cast. -/
+private def collectObjectExtras (loaded : LoadedModule) : Except AuditError ObjectExtras := do
+  if loaded.parts.size != loaded.request.oleanParts.size ||
+      loaded.irParts.size != loaded.request.irParts.size then
+    throw (.partTable "raw/request evidence part counts differ")
+  let oleanNames ← oleanExtraNames loaded.parts
+  let mut oleanRows : Array Json := #[]
+  for h : i in [:loaded.parts.size] do
+    let (level, part) := loaded.parts[i]
+    let requested := loaded.request.oleanParts[i]!
+    if level != requested.level then throw (.partTable "raw/request OLean level differs")
+    for name in part.constNames ++ part.constants.map (·.name) do
+      match requireIdentity name with
+      | .error message => throw (.malformedConstant name message)
+      | .ok _ => pure ()
+    oleanRows := oleanRows.push (evidencePart requested part)
+  let mut irRows : Array Json := #[]
+  let mut occurrences : Array Json := #[]
+  let mut backed : Array Name := #[]
+  let mut residue : Array Name := #[]
+  let mut backedSeen : Std.HashSet Name := {}
+  let mut residueSeen : Std.HashSet Name := {}
+  for h : p in [:loaded.irParts.size] do
+    let (level, part) := loaded.irParts[p]
+    let requested := loaded.request.irParts[p]!
+    if level != requested.level then throw (.partTable "raw/request IR level differs")
+    irRows := irRows.push (evidencePart requested part)
+    for (field, names) in #[("const_names", part.constNames),
+        ("constant_names", part.constants.map (·.name)),
+        ("extra_const_names", part.extraConstNames)] do
+      for h' : i in [:names.size] do
+        let name := names[i]
+        match requireIdentity name with
+        | .error message => throw (.malformedConstant name message)
+        | .ok _ => pure ()
+        let owned := loaded.owned.contains name
+        occurrences := occurrences.push <| .mkObj [
+          ("part_index", toJson p), ("field", .str field), ("index", toJson i),
+          ("name", .str (encodeName name)), ("ci_backed", .bool owned)]
+        if owned then
+          if !backedSeen.contains name then
+            backedSeen := backedSeen.insert name
+            backed := backed.push name
+        else
+          if !residueSeen.contains name then
+            residueSeen := residueSeen.insert name
+            residue := residue.push name
+  let policyStatus := fun (blocked : Bool) => Json.str (if blocked then "blocked" else "clear")
+  let fields := [
+    ("olean_parts", Json.arr oleanRows), ("olean_extra_union", nameArray oleanNames),
+    ("ir_parts", Json.arr irRows), ("ir_occurrences", Json.arr occurrences),
+    ("ci_backed_names", nameArray backed), ("unexplained_residue", nameArray residue),
+    ("policy", Json.mkObj [
+      ("olean_extras", policyStatus (!oleanNames.isEmpty)),
+      ("ir_residue", policyStatus (!residue.isEmpty)),
+      ("combined", policyStatus (!oleanNames.isEmpty || !residue.isEmpty))])]
+  return { fields, oleanNames, residueNames := residue }
+
+/-- Closed mode-independent evidence value, shared by production and Controls. -/
+def irEvidence (loaded : LoadedModule) : Except AuditError Json := do
+  return .mkObj (← collectObjectExtras loaded).fields
+
+/-- Refuse raw OLean extras first, then IR names absent from the final owned map. -/
+def guardObjectExtras (loaded : LoadedModule) : Except AuditError Unit := do
+  let observed ← collectObjectExtras loaded
+  if let some name := observed.oleanNames[0]? then throw (.unsupportedExtras name)
+  if let some name := observed.residueNames[0]? then throw (.unsupportedIRResidue name)
+
+/-- The controller admits the request directory. Native routing is fixed and exclusive. -/
+private def persistObjectEvidence (loaded : LoadedModule) (mode : String)
+    (observed : ObjectExtras) : IO Unit := do
+  let origin := loaded.request.origin
+  if !canonicalPath origin then
+    failCode "SIDECAR_IO" "missing canonical request origin"
+  if mode != "inventory" && mode != "replay" then
+    failCode "CLI_MODE" "invalid internal evidence mode"
+  let destination := origin.addExtension s!"{mode}.ir-manifest.json"
+  let record := Json.mkObj ([
+    ("record", Json.str "sdga-ir-manifest"), ("schema", toJson (1 : Nat)),
+    ("mode", .str mode), ("request_path", .str origin.toString),
+    ("scope_id", .str loaded.request.scopeId),
+    ("profile_sha256", .str loaded.request.profileSha256),
+    ("module", .str (encodeName loaded.request.module)),
+    ("hash_semantics", .str "request-declared"), ("completeness", .str "complete"),
+    ("scientific_effect", .str "NONE"), ("qualification", .str "BLOCKED"),
+    ("classification_status", .str "BLOCKED"), ("execution_authenticated", .bool false)
+  ] ++ observed.fields)
+  let expected := (record.compress ++ "\n").toUTF8
+  let handle ← try IO.FS.Handle.mk destination .writeNew catch error =>
+    match error with
+    | .alreadyExists _ _ _ =>
+      failCode "SIDECAR_COLLISION" s!"{destination}: evidence path already exists"
+    | _ => failCode "SIDECAR_IO" s!"{destination}: {error}"
+  try
+    handle.write expected
+    handle.flush
+    -- writeNew is write-only. readBinFile opens a separate fresh .read handle.
+    let actual ← IO.FS.readBinFile destination
+    if actual != expected then
+      throw <| IO.userError "sidecar byte readback differs from serialized evidence"
+  catch error =>
+    failCode "SIDECAR_IO" s!"{destination}: {error}"
+
 private def emit (record : Json) : IO Unit := do
   let stdout ← IO.getStdout
   stdout.putStrLn record.compress
@@ -607,13 +747,14 @@ private def emit (record : Json) : IO Unit := do
 
 /-- Emit exactly Task 1's header/module/declaration/end fields, incrementally. -/
 def inventory (loaded : LoadedModule) : IO Unit := do
+  let observed ← fromAudit (collectObjectExtras loaded)
+  persistObjectEvidence loaded "inventory" observed
   emit <| .mkObj [
     ("record", .str "header"), ("schema", toJson (1 : Nat)),
     ("scope_id", .str loaded.request.scopeId)
   ]
   let final := loaded.parts[loaded.parts.size - 1]!.2
-  let mut extras : Array Name := #[]
-  let mut extraSeen : Std.HashSet Name := {}
+  let extras := observed.oleanNames
   let mut objectParts : Array Json := #[]
   for h : i in [:loaded.parts.size] do
     let (level, part) := loaded.parts[i]
@@ -623,13 +764,6 @@ def inventory (loaded : LoadedModule) : IO Unit := do
       ("const_names", nameArray part.constNames),
       ("constant_names", nameArray (part.constants.map (·.name)))
     ]
-    for name in part.extraConstNames do
-      match requireIdentity name with
-      | .error message => failCode "MALFORMED_CONSTANT" message
-      | .ok _ => pure ()
-      if !extraSeen.contains name then
-        extraSeen := extraSeen.insert name
-        extras := extras.push name
   emit <| .mkObj [
     ("record", .str "module"), ("name", .str (encodeName loaded.request.module)),
     ("const_count", toJson final.constants.size), ("object_parts", .arr objectParts),
@@ -758,6 +892,9 @@ def replayOwned (base : Kernel.Environment) (owned : Std.HashMap Name ConstantIn
 /-- Import only the module's actual dependencies at full private visibility,
 then emit a bounded receipt only after the same real guarded replay succeeds. -/
 def runReplay (loaded : LoadedModule) : IO Unit := do
+  let observed ← fromAudit (collectObjectExtras loaded)
+  persistObjectEvidence loaded "replay" observed
+  fromAudit (guardObjectExtras loaded)
   let final := loaded.parts[loaded.parts.size - 1]!.2
   let imports := final.imports
   for (_, part) in loaded.parts do

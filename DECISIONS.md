@@ -1580,3 +1580,23 @@ Scientific NONE; qualification/classification BLOCKED; authfalse.
 ## 2026-11-10 — Compose G11 operand repair over Main #807
 
 - Preserve the complete `cff23146a56949e03cad4b15bdc4f07feba665ae` peer tree and decision-ledger prefix, then append the two prior G11 decisions. The earlier `d51700eb5466158206c3431f6b99c4db036fdc95` census and hosted checks retain their original source identities; require fresh checks and a current-tree census for the composition. The separately observed Workspace pin is stale after #807 and must be refreshed. The prepared Pages status is still empty; no terminal cancellation or recovery is inferred. This reversible composition changes no mathematical statement, historical outcome or scientific status.
+
+
+## 2026-11-10 — SDGA Task D test-source stage, no execution
+
+Root approved design b03b5e5221f37493a5538799f2a4ed264b5f5d7b for staging tests only. Immutable staged Controls 9e14a94302f3c5988f0af51bc9fc1f74836a9fae, launcher 77b2165eccd3c5a506ff8a61bd85fd7faaa291fe, separate output-admission2/6 d233aac6538d7afc8a97ec602d62a9a50d687a24 and workflow 1df4e0338cebac30b3c049be9768bd7c66006e9d preserve all original C13/61 assertions and public CLI receipt under exact inverse transfer e5905a3a2293c7dbd09411c51d7475c2f2c26858. Plan 8e65e982355686cfd944f093d2319e086c1b7924; source-stage report f6cf7495484075f42efd26d12fdc84bf5c5a4fd7. GitHub preimage/readback checks are text/Git-object evidence only; no compiler/test/RED/GREEN result is claimed.
+
+No production IR helper/origin/writer/retention code was added; pure dependency functions remain unchanged. Two D methods add six Lean IDs, with planned15/67 and28/10/55 plus future generated-output registry; separate admission2/6 remains outside67. Lazy missing-helper failures are scoped to the new tests and cannot earn semantic/mutant credit. Actual C production qualification and root exact-source GO precede publication; actual hosted RED must be read before implementation. Any genuine unexplained Safe IR residue remains BLOCKED, including a failed C08 positive, without role guesses or fixture erasure.
+
+Scientific effect NONE; qualification/classification BLOCKED; execution_authenticated false. No full SDGA/IR/kernel/CBZ credit or upload/host-state certificate follows. This is a source-stage record of its preparation, not a later execution receipt.
+
+Scoped source review corrections are source-only: D-wide Lean count61 and truthful15/67 opening description; collision envelope errors capped at zero/one before row validation. Tiny diff 7c2e3aeba5877a73371c56b677cb513d4d270550 preserves original C method bodies; no publication or production implementation GO and no execution is implied.
+
+
+## 2026-11-10 — SDGA Task D production source stage after actual R0
+
+Root independently read actual run42768169192/1/job129669478108, signed nativeccb536b7f6232b3598587c29ed222404dcd0383d/tree1e10cf692ef4981a05437543595e2fee955c6c71 parents[C5fff,Dabf]: old61 IDs healthy in both modes; C11/C14 scoped helper absence/new6not_run and separate admission2FAIL/6not_run; pure12/custody3-6PASS. All27 individual input records matched with10bindings55paths, while aggregate28-target completion stayed incomplete because collision was unreached. Raw full.ir extra was the actual CI-backed Fixture.Safe.natValue, not D semantic credit. Preserve exact old-source evidence49a2f8982e728a219bda0555aeeb923811dbc34c /0a68bb27348e39438dec377409727c7fcb619fda /184c4361ab4ae5ceab44a67b224d7c04b77421f8 without rebinding to later code.
+
+Source-stage candidates Componentccf340774887d612ef5956405fb53f925eb1f424, I/O helperb29702b941d03f1db34464a6bd9db2cf65de5632 and launcher c45b685f21f05232dad1e84898cac06f354e336c implement the approved separate raw IR evidence boundary. Whole-source forward/inverse proof486d0bbfe4546fa8b7860d10ae3b65f9948b7373 restores ca46/77b and all15 test bodies remain exact61ec4c68a974cd322c55da9628031b1997412336. Root full source read and independent review found no remaining source finding; reporta2221ee8eb3cfe2d0c812a8c0896af33377bf3b4 retains exact policy/phase, lifetime, no-overwrite, pending-error and final-registry limits. No native run of this new code or local/final12 is claimed; unexercised I/O/negative branches remain source-only.
+
+Source publication still requires root's final exact-tree GO, preserving the full actual fresh Main/810 canonical prefix and complete old D ancestry. Later qualification must actually cover15/67, pure12, custody3/6, admission2/6 and28/10/55 plus produced artifacts. Scientific effect NONE; qualification/classification BLOCKED; execution_authenticated false. No full IR/kernel/profile/CBZ/science or upload/postprocess-host certificate follows.
