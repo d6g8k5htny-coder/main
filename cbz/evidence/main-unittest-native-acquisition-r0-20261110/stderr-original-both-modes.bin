@@ -1,0 +1,21 @@
+test_unittest_native_acquisition (unittest.loader._FailedTest.test_unittest_native_acquisition) ... ERROR
+
+======================================================================
+ERROR: test_unittest_native_acquisition (unittest.loader._FailedTest.test_unittest_native_acquisition)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_unittest_native_acquisition
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "/home/runner/work/main/main/tests/test_unittest_native_acquisition.py", line 20, in <module>
+    from tools import unittest_native_acquisition as subject
+ImportError: cannot import name 'unittest_native_acquisition' from 'tools' (unknown location)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)
