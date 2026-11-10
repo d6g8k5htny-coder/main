@@ -543,3 +543,35 @@ toolchain, fixture or setup errors receive no expected-absence credit. Scientifi
 effect NONE; classification/qualification BLOCKED; execution_authenticatedfalse.
 No production implementation, production99-module run, merge or ready transition
 is authorized by this draft checkpoint.
+
+## 2026-11-10 — retain Task A setup failure and add fixture lock
+
+Draft797 initial head af74f79c/tree6fe1afa5 ran42740707236/attempt1,
+job129580745960, on native6da7a14c/tree6fe1afa5. Lean-action installed
+release5045d005, then config failed: No lake-manifest.json found. Normal
+launcher was skipped; all normal critical records were NOT_PRODUCED.
+Optimized launcher actually checked5045d005 and compiled Safe with exit0,
+then bridge compilation exited1 for absent Component.lean; controller import
+also reported its missing file. Six methods failed only for implementation
+absence, zero errors/skips; all39 semantic subcases stayed not_run. The separate
+Python cleanup preflight observed timeout, TERM/KILL, leader/descendant reap
+and owned-group absence. It provides resource cleanup evidence only.
+
+Original optimized printed records were read: result2135bytes SHA256
+063220adf3fe1680e1dcd4812fd81ceac493fcb631d85e23d0feb792ff9d4327;
+census251bytes eaed403ed38dd30d890f179a19febd09c6090aa10ebf571cede3d057af2cad68.
+Artifact13728997006 metadata reports30173bytes and ZIP digest
+c9825c3a12adfe834f693fd5440268183e5986a9e694872143968f32f7dc4c6a;
+no ZIP-member read is claimed. Normal/O absence checkpoint remains incomplete.
+
+Root authorizes only fixture/setup repair: add an authored dependency-free
+lake-manifest.json, not fabricated generated or execution evidence. Pinned
+lean-action config.sh e37e9131 requires its existence; pinned Lean5045d005
+Manifest.lean5649993d and Resolve.lean8ec94502 define schema1.2.0, root
+sdga_component_fixture, default Lake/packages directories and empty packages;
+PackageConfig d930f925 defaults fixedToolchainfalse. Native Lake validation,
+githash guard and Safe compilation must actually run in both modes before
+both absence observations receive credit. No test or setup failure is masked.
+Controlsb8ec51fb, launcherd7f72edb, workflow613a7840, Safe814c0f31 and
+all production/Task1/frozen profile bytes stay unchanged. Scientific effect
+NONE; classification/qualification BLOCKED; execution_authenticatedfalse.
