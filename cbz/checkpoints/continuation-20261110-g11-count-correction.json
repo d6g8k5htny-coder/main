@@ -1,0 +1,44 @@
+{
+  "kind": "Correction of G11 findings count; prior record preserved",
+  "observed_at_utc": "2026-11-10T07:42:00Z",
+  "incorrect_prior_record": {
+    "path": "cbz/checkpoints/continuation-20261110-811-components.json",
+    "blob": "e0c319f59af79b6806c8518b29e0bdbb695ea28b",
+    "field": "g11.findings",
+    "reported": 0,
+    "correction": 132
+  },
+  "verified": {
+    "source_commits": [
+      "709975c6ff42f0bca020abd4164a45479e29a0df",
+      "ccb98a32b83b3dc82197ec52efd64ff44f622865",
+      "d51700eb5466158206c3431f6b99c4db036fdc95",
+      "d72365a1701a05d0e6abb990fc38d6e4407fe763",
+      "9e0c6c5f0b2b0e5f8d70055290c6eef1ebd3d0c7"
+    ],
+    "modes": [
+      "normal",
+      "optimized"
+    ],
+    "findings_each": 132,
+    "areas": {
+      "evidence": 5,
+      "vendor": 24,
+      "tests": 61,
+      "tooling": 42
+    },
+    "failing_each": 0,
+    "failing_tools_each": 0,
+    "skipped_each": 0,
+    "record": "cbz/evidence/g11-python-subprocess-options-20261110/g11-findings-correction.json",
+    "boundary": "Classified scanner observations, not 132 established violations; not a full Layer A audit."
+  },
+  "updated_pr": {
+    "number": 811,
+    "head": "1ce3edade03e18a42822914749b73b1a68f376b0",
+    "tree": "4325c6a77c1de42f19413ae80e8d63eb04f75409",
+    "parent": "9e0c6c5f0b2b0e5f8d70055290c6eef1ebd3d0c7",
+    "fresh_checks": "required; earlier source-bound results not rebound"
+  },
+  "continuation": "Active; no CBZ-0 or terminal Partial."
+}
