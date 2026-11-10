@@ -1692,3 +1692,39 @@ or ref update. Later normal/optimized qualification remains unobserved.
 The change is reversible by ordinary guarded removal of the two new production
 paths; retain this entry and historical R0 originals. No data/dispatcher/V2,
 owner assignment, science, full Main, G5 or CBZ award follows.
+
+
+## 2026-11-10 — Node-status v2 test-first historical-fixture source candidate
+
+Date/source observation: 2026-11-10 13:57:15 UTC. Phase: T1 test-first source staging;
+Layer B. Prepare an unreferenced sole-fresh-Main-parent candidate containing
+only twelve new v2 contract parents, the targeted offline workflow, a frozen
+eleven-payload legacy harness, the existing 23/20 test-entry loaders, one review
+document and this append. Preserve the complete prior decision prefix and every
+other Main leaf at 8aaaa387d11dc21a0867b9cc41cc81743ca59975, tree
+542e6ee34af4c99ba80c8b4d6acd2c6d5bc22f7c (6,246 leaves, nontruncated).
+
+Rationale: freeze actual current-input and provenance contracts before v2
+implementation while executing all 43 original legacy assertions unchanged
+against their byte-exact historical bundle. The unconditional line31 import
+must later produce actual missing evaluate_fresh_records_v2 ImportError, one
+loader FailedTest and zero of twelve bodies; R0 has not run. Historical local
+Git fixture receipts and synthetic observer inputs confer no native HTTP,
+current-default freshness, proof or scientific authority.
+
+Evidence: [review scope, exact final pins and source diffs](docs/plans/2026-11-10-node-status-v2-test-first-source.md);
+[complete 12+43 oracle and payload trace](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/e943ac4b76d000ba2f83737bf1dd63e3b19f0bf8).
+Root whole17 and final4 forward/inverse source gates are CLEAR; independent
+technical closure is C0/I0/M0. Final31delta b9a4486fc70580cd7f6e67b35f3034e015222562
+admits the literal /tmp or exact RUNNER_TEMP before creation, preserving all
+other code, bootstrap and payload bytes. Organizational-independence credit0.
+No Python/YAML compilation, test/native R0, runtime or complete-material-size
+observation is claimed. Root's candidate guard remains required before any
+branch, PR or run; the reserved branch is codex/node-status-v2-test-first-r0-20261110.
+
+Reversibility: ordinary guarded removal of the additions and restoration of
+the two entry modules from c5d578ddb9b7699f24966784ebfcb518d2d7284a and
+14d0c84b1236fdc0d01083c62b791117b663c682, retaining this historical entry.
+Production tools/schemas/input manifest, canonical records/history/projection,
+Graph cut, all Acq/V1/G5/native sources and owners remain unchanged. This source
+candidate awards no v2 execution, full-Main, G5, CBZ or science; scientific_effect NONE.
