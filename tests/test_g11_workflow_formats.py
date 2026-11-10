@@ -123,5 +123,23 @@ class WorkflowFormats(unittest.TestCase):
                 text = yaml_run("python3 " + shlex.quote(option) + " " + TOOL)
                 self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())
 
+
+    def test_shell_no_execution_options_are_not_tool_references(self):
+        import subprocess
+        import tempfile
+
+        shell_tool = "tools/cbz/example_guard.sh"
+        for interpreter, option in (("bash", "-n"), ("sh", "-n"),
+                                    ("bash", "--version"), ("sh", "--version")):
+            with self.subTest(interpreter=interpreter, option=option), tempfile.TemporaryDirectory() as root:
+                path = Path(root) / shell_tool
+                path.parent.mkdir(parents=True)
+                path.write_text("touch tool_was_executed\n", encoding="utf-8")
+                subprocess.run([interpreter, option, shell_tool], cwd=root, capture_output=True, text=True,
+                               timeout=10, check=False)
+                self.assertFalse((Path(root) / "tool_was_executed").exists())
+                text = yaml_run(interpreter + " " + option + " " + shell_tool)
+                self.assertEqual(g11.workflow_tool_references(text, {shell_tool}), set())
+
 if __name__ == "__main__":
     unittest.main()
