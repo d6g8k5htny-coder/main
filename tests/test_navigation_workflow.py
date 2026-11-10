@@ -219,6 +219,33 @@ class NavigationWorkflowTests(unittest.TestCase):
 
     def test_entire_job_and_permissions_are_byte_preserved(self):
         suffix = self.workflow[self.workflow.index('permissions:'):]
+        inherited_bytecode = "    env:\n      PYTHONDONTWRITEBYTECODE: '1'\n"
+        self.assertEqual(suffix.count(inherited_bytecode), 1)
+        suffix = suffix.replace(inherited_bytecode, '', 1)
+        # Remove only the new original-byte diagnostic step, then restore
+        # the closed output-path changes before the prior byte contract.
+        printer = (
+            '      - name: Print original navigation files without replay or reconstruction\n'
+            '        if: always()\n'
+            '        run: |\n'
+        )
+        preserve = '      - name: Preserve actual results including failures\n'
+        self.assertEqual(suffix.count(printer), 1)
+        self.assertEqual(suffix.count(preserve), 1)
+        before, diagnostic = suffix.split(printer, 1)
+        body, after = diagnostic.split(preserve, 1)
+        diagnostic = (printer + body).encode('utf-8')
+        diagnostic_blob = hashlib.sha1(
+            b'blob ' + str(len(diagnostic)).encode('ascii') + b'\0' + diagnostic
+        ).hexdigest()
+        self.assertEqual(diagnostic_blob, '0523e6300740d7e50bc41e9d8a9047d94dc407d1')
+        suffix = before + preserve + after
+        output = '"$RUNNER_TEMP/navigation-evidence"'
+        self.assertEqual(suffix.count(output), 18)
+        suffix = suffix.replace(output, 'navigation-evidence')
+        upload = '          path: ${{ runner.temp }}/navigation-evidence\n'
+        self.assertEqual(suffix.count(upload), 1)
+        suffix = suffix.replace(upload, '          path: navigation-evidence\n', 1)
         # Restore only the two deliberate history additions before checking
         # the prior byte contract; all pre-existing job bytes remain pinned.
         checkout = ('      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1\n')
@@ -256,7 +283,7 @@ class NavigationWorkflowTests(unittest.TestCase):
     def test_normal_discovery_command_remains_exactly_once(self):
         command = (
             "python -B -S -m unittest discover -s tests -p 'test_*.py' -v "
-            "> navigation-evidence/tests-normal.log 2>&1"
+            '> "$RUNNER_TEMP/navigation-evidence"/tests-normal.log 2>&1'
         )
         self.assertEqual(self.workflow.count(command), 1)
 

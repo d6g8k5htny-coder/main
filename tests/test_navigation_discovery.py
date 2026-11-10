@@ -59,8 +59,10 @@ class NavigationDiscoveryTests(unittest.TestCase):
         cls.block = workflow_block()
 
     def run_block(self, normal=GOOD, normal_exit=0):
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory() as directory, tempfile.TemporaryDirectory() as runner_directory:
             root = Path(directory)
+            runner = Path(runner_directory)
+            self.assertFalse(runner.is_relative_to(root))
             binary = root / 'bin'
             binary.mkdir()
             driver = root / 'fixture.py'
@@ -79,14 +81,18 @@ class NavigationDiscoveryTests(unittest.TestCase):
             env = {key: value for key, value in os.environ.items()
                    if not key.startswith('PYTHON') and key not in ('BASH_ENV', 'ENV', 'SHELLOPTS', 'BASHOPTS')}
             env.update(PATH=str(binary) + os.pathsep + os.defpath,
+                       RUNNER_TEMP=str(runner),
                        FIXTURE_INTERPRETER=sys.executable, FIXTURE_DRIVER=str(driver),
                        FIXTURE_TRACE=str(root / 'trace.jsonl'), FIXTURE_RESULTS=str(results))
             run = subprocess.run([self.bash, '--noprofile', '--norc', '-e', str(script)],
                                  cwd=root, env=env, stdin=subprocess.DEVNULL,
                                  capture_output=True, text=True, encoding='utf-8', timeout=15)
             trace = [json.loads(line) for line in (root / 'trace.jsonl').read_text().splitlines()]
+            self.assertFalse((root / 'navigation-evidence').exists())
+            evidence = runner / 'navigation-evidence'
+            self.assertEqual((evidence / 'tests-normal.log').read_bytes(), normal.encode('utf-8'))
             logs = {path.name: path.read_text(encoding='utf-8')
-                    for path in (root / 'navigation-evidence').iterdir()}
+                    for path in evidence.iterdir()}
             return run, trace, logs
 
     def assert_rejected(self, output, exit_status=0):

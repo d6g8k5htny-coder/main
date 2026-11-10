@@ -61,12 +61,12 @@ class NavigationGraph525Tests(unittest.TestCase):
 
     def run_block(self, marker, *, failure="", existing=False, normal=NORMAL_LINE,
                   output=GOOD, exit_status=0, script_text=None):
-        with tempfile.TemporaryDirectory() as raw:
+        with tempfile.TemporaryDirectory() as raw, tempfile.TemporaryDirectory() as runner_directory:
             root = Path(raw)
-            (root / "navigation-evidence").mkdir()
-            (root / "navigation-evidence/tests-normal.log").write_text(normal)
-            runner = root / "runner"
-            runner.mkdir()
+            runner = Path(runner_directory)
+            self.assertFalse(runner.is_relative_to(root))
+            (runner / "navigation-evidence").mkdir()
+            (runner / "navigation-evidence/tests-normal.log").write_text(normal)
             if existing:
                 (runner / "cbz-graph525-math.git").mkdir()
             env_file = root / "github-env"
@@ -95,7 +95,10 @@ class NavigationGraph525Tests(unittest.TestCase):
                                  capture_output=True, text=True, timeout=15)
             trace_path = root / "trace.jsonl"
             trace = [json.loads(line) for line in trace_path.read_text().splitlines()] if trace_path.exists() else []
-            log = root / "navigation-evidence/graph525-optimized.log"
+            self.assertFalse((root / "navigation-evidence").exists())
+            log = runner / "navigation-evidence/graph525-optimized.log"
+            if marker == GUARD:
+                self.assertEqual(log.read_bytes(), output.encode("utf-8"))
             return run, trace, env_file.read_text(), log.read_text() if log.exists() else None
 
     def test_setup_fetches_exact_objects_before_export(self):

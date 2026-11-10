@@ -10,6 +10,8 @@ jobs:
   navigation:
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -30,20 +32,20 @@ jobs:
       - name: Current landing and navigation controls
         run: |
           set -euo pipefail
-          mkdir -p navigation-evidence
-          python --version > navigation-evidence/python.txt
-          git rev-parse HEAD > navigation-evidence/commit.txt
-          python -B -S tools/workspace_landing_check.py > navigation-evidence/landing.txt
-          python -B -S -m unittest discover -s tests -p 'test_*.py' -v > navigation-evidence/tests-normal.log 2>&1
-          grep -Eq '^Ran [1-9][0-9]* tests? in ' navigation-evidence/tests-normal.log || { echo "::error::navigation normal discovery collected 0 tests or returned no count"; exit 1; }
-          python -B -S tools/navigation_check.py --verify-public > navigation-evidence/navigation.json
+          mkdir -p "$RUNNER_TEMP/navigation-evidence"
+          python --version > "$RUNNER_TEMP/navigation-evidence"/python.txt
+          git rev-parse HEAD > "$RUNNER_TEMP/navigation-evidence"/commit.txt
+          python -B -S tools/workspace_landing_check.py > "$RUNNER_TEMP/navigation-evidence"/landing.txt
+          python -B -S -m unittest discover -s tests -p 'test_*.py' -v > "$RUNNER_TEMP/navigation-evidence"/tests-normal.log 2>&1
+          grep -Eq '^Ran [1-9][0-9]* tests? in ' "$RUNNER_TEMP/navigation-evidence"/tests-normal.log || { echo "::error::navigation normal discovery collected 0 tests or returned no count"; exit 1; }
+          python -B -S tools/navigation_check.py --verify-public > "$RUNNER_TEMP/navigation-evidence"/navigation.json
       - name: Verify history-backed reader controls
         run: |
           set -euo pipefail
-          python -B -S -m unittest -v tests.test_reader_links.FiniteH0LifetimeReading tests.test_reader_links.UniversalitySourcesReading > navigation-evidence/history-reader.log 2>&1
-          tail -n 3 navigation-evidence/history-reader.log | head -n 1 | grep -Eq '^Ran [1-9][0-9]* tests? in ' || { echo "::error::history reader suite collected no tests"; exit 1; }
-          tail -n 1 navigation-evidence/history-reader.log | grep -Fxq 'OK' || { echo "::error::history reader suite did not finish without skips"; exit 1; }
-          if grep -Fq ' ... skipped ' navigation-evidence/history-reader.log; then echo "::error::history reader test or subtest skipped"; exit 1; fi
+          python -B -S -m unittest -v tests.test_reader_links.FiniteH0LifetimeReading tests.test_reader_links.UniversalitySourcesReading > "$RUNNER_TEMP/navigation-evidence"/history-reader.log 2>&1
+          tail -n 3 "$RUNNER_TEMP/navigation-evidence"/history-reader.log | head -n 1 | grep -Eq '^Ran [1-9][0-9]* tests? in ' || { echo "::error::history reader suite collected no tests"; exit 1; }
+          tail -n 1 "$RUNNER_TEMP/navigation-evidence"/history-reader.log | grep -Fxq 'OK' || { echo "::error::history reader suite did not finish without skips"; exit 1; }
+          if grep -Fq ' ... skipped ' "$RUNNER_TEMP/navigation-evidence"/history-reader.log; then echo "::error::history reader test or subtest skipped"; exit 1; fi
           for name in \
             tests.test_reader_links.FiniteH0LifetimeReading.test_pinned_items_carry_only_their_digest_and_the_digests_match_the_pinned_bytes \
             tests.test_reader_links.FiniteH0LifetimeReading.test_quoted_phrases_are_verbatim_in_their_pinned_sources \
@@ -52,22 +54,183 @@ jobs:
             tests.test_reader_links.UniversalitySourcesReading.test_quoted_phrases_are_verbatim_in_their_pinned_sources
           do
             method="${name##*.}"
-            grep -Fxq "$method ($name) ... ok" navigation-evidence/history-reader.log || { echo "::error::required history reader test missing or incomplete: $name"; exit 1; }
+            grep -Fxq "$method ($name) ... ok" "$RUNNER_TEMP/navigation-evidence"/history-reader.log || { echo "::error::required history reader test missing or incomplete: $name"; exit 1; }
           done
       - name: Verify pinned graph-binding composition
         run: |
           set -euo pipefail
-          python -B -O -S -m unittest -v tests.test_graph_binding_check.Composition525Test > navigation-evidence/graph525-optimized.log 2>&1
-          grep -Fxq 'test_525_composition (test_graph_binding_check.Composition525Test.test_525_composition) ... ok' navigation-evidence/tests-normal.log || { echo '::error::normal graph-binding composition did not pass'; exit 1; }
-          grep -Fxq 'test_525_composition (tests.test_graph_binding_check.Composition525Test.test_525_composition) ... ok' navigation-evidence/graph525-optimized.log || { echo '::error::optimized graph-binding composition did not pass'; exit 1; }
-          tail -n 3 navigation-evidence/graph525-optimized.log | head -n 1 | grep -Eq '^Ran 1 test in ' || { echo '::error::optimized graph-binding test count invalid'; exit 1; }
-          tail -n 1 navigation-evidence/graph525-optimized.log | grep -Fxq 'OK' || { echo '::error::optimized graph-binding test did not finish cleanly'; exit 1; }
-          if grep -Fq ' ... skipped ' navigation-evidence/graph525-optimized.log; then echo '::error::graph-binding test or subtest skipped'; exit 1; fi
+          python -B -O -S -m unittest -v tests.test_graph_binding_check.Composition525Test > "$RUNNER_TEMP/navigation-evidence"/graph525-optimized.log 2>&1
+          grep -Fxq 'test_525_composition (test_graph_binding_check.Composition525Test.test_525_composition) ... ok' "$RUNNER_TEMP/navigation-evidence"/tests-normal.log || { echo '::error::normal graph-binding composition did not pass'; exit 1; }
+          grep -Fxq 'test_525_composition (tests.test_graph_binding_check.Composition525Test.test_525_composition) ... ok' "$RUNNER_TEMP/navigation-evidence"/graph525-optimized.log || { echo '::error::optimized graph-binding composition did not pass'; exit 1; }
+          tail -n 3 "$RUNNER_TEMP/navigation-evidence"/graph525-optimized.log | head -n 1 | grep -Eq '^Ran 1 test in ' || { echo '::error::optimized graph-binding test count invalid'; exit 1; }
+          tail -n 1 "$RUNNER_TEMP/navigation-evidence"/graph525-optimized.log | grep -Fxq 'OK' || { echo '::error::optimized graph-binding test did not finish cleanly'; exit 1; }
+          if grep -Fq ' ... skipped ' "$RUNNER_TEMP/navigation-evidence"/graph525-optimized.log; then echo '::error::graph-binding test or subtest skipped'; exit 1; fi
+      - name: Print original navigation files without replay or reconstruction
+        if: always()
+        run: |
+          python -I -B -S - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import secrets
+          import stat
+          import subprocess
+          import sys
+          
+          FILES = ("python.txt", "commit.txt", "landing.txt", "tests-normal.log",
+                   "navigation.json", "history-reader.log", "graph525-optimized.log")
+          LIMIT = 8 * 1024 * 1024
+          FIELDS = ("st_dev", "st_ino", "st_mode", "st_nlink", "st_size",
+                    "st_mtime_ns", "st_ctime_ns")
+          
+          def stamp(value):
+              return tuple(getattr(value, field) for field in FIELDS)
+          
+          def git_value(revision):
+              environment = {key: value for key, value in os.environ.items()
+                             if not key.startswith("GIT_")}
+              environment.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
+                                 GIT_NO_REPLACE_OBJECTS="1", GIT_OPTIONAL_LOCKS="0")
+              process = subprocess.run(
+                  ["git", "--no-replace-objects", "--literal-pathspecs", "-c",
+                   "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null",
+                   "rev-parse", "--verify", revision],
+                  env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                  timeout=20, check=True)
+              value = process.stdout.decode("ascii").strip()
+              if not re.fullmatch(r"[0-9a-f]{40}", value):
+                  raise ValueError("INVALID_GIT_IDENTITY")
+              return value
+          
+          workspace = Path.cwd().resolve(strict=True)
+          temporary = Path(os.environ["RUNNER_TEMP"])
+          if (not temporary.is_absolute() or temporary != temporary.resolve(strict=True)
+                  or temporary.is_relative_to(workspace)):
+              raise ValueError("NAVIGATION_EVIDENCE_ROOT_MUST_BE_OUTSIDE_CHECKOUT")
+          evidence_path = temporary / "navigation-evidence"
+          context = {name: os.environ.get(name) for name in
+                     ("GITHUB_REPOSITORY", "GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT", "GITHUB_SHA")}
+          context.update(purpose="DIAGNOSTIC_ORIGINAL_NAVIGATION_FILES_ONLY",
+                         working_directory=os.getcwd(), evidence_directory=str(evidence_path))
+          problem = False
+          try:
+              context["HEAD"] = git_value("HEAD")
+              context["tree"] = git_value("HEAD^{tree}")
+              if (context["HEAD"] != context["GITHUB_SHA"]
+                      or not re.fullmatch(r"[1-9][0-9]*", context["GITHUB_RUN_ID"] or "")
+                      or not re.fullmatch(r"[1-9][0-9]*", context["GITHUB_RUN_ATTEMPT"] or "")
+                      or not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+",
+                                          context["GITHUB_REPOSITORY"] or "")):
+                  raise ValueError("NATIVE_CONTEXT_MISMATCH")
+              context["status"] = "GIT_AND_NATIVE_CONTEXT_MATCH"
+          except (OSError, subprocess.SubprocessError, UnicodeError, ValueError) as error:
+              problem = True
+              context.update(status="CONTEXT_UNAVAILABLE", error=type(error).__name__,
+                             detail=str(error))
+          print("NAVIGATION_ORIGINAL_CONTEXT " + json.dumps(context, sort_keys=True), flush=True)
+          
+          def original(evidence, root, name):
+              descriptor = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                                   dir_fd=evidence)
+              try:
+                  before = os.fstat(descriptor)
+                  if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1:
+                      raise ValueError("NOT_SINGLE_LINK_REGULAR_FILE")
+                  if before.st_size > LIMIT:
+                      raise ValueError("ORIGINAL_EXCEEDS_8_MIB")
+                  data = bytearray()
+                  while True:
+                      block = os.read(descriptor, min(65536, LIMIT + 1 - len(data)))
+                      if not block:
+                          break
+                      data.extend(block)
+                      if len(data) > LIMIT:
+                          raise ValueError("ORIGINAL_EXCEEDS_8_MIB")
+                  after = os.fstat(descriptor)
+                  try:
+                      named = os.stat(name, dir_fd=evidence, follow_symlinks=False)
+                      current_directory = os.stat("navigation-evidence", dir_fd=root,
+                                                  follow_symlinks=False)
+                      opened_directory = os.fstat(evidence)
+                  except OSError as error:
+                      raise ValueError("ORIGINAL_PATH_CHANGED_DURING_READ") from error
+                  if (stamp(before) != stamp(after) or stamp(before) != stamp(named)
+                          or len(data) != before.st_size
+                          or not stat.S_ISDIR(current_directory.st_mode)
+                          or (current_directory.st_dev, current_directory.st_ino)
+                          != (opened_directory.st_dev, opened_directory.st_ino)):
+                      raise ValueError("ORIGINAL_CHANGED_DURING_READ")
+                  return bytes(data)
+              finally:
+                  os.close(descriptor)
+          
+          records = []
+          root = os.open(str(temporary), os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+          evidence = None
+          directory_error = None
+          try:
+              try:
+                  evidence = os.open("navigation-evidence",
+                                     os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                                     dir_fd=root)
+              except OSError as error:
+                  directory_error = error
+              for name in FILES:
+                  try:
+                      if evidence is None:
+                          raise directory_error
+                      raw = original(evidence, root, name)
+                      utf8 = True
+                      try:
+                          raw.decode("utf-8", errors="strict")
+                      except UnicodeError:
+                          utf8 = False
+                          problem = True
+                      records.append(({"path": str(evidence_path / name),
+                                       "status": "PRESENT", "original_bytes": len(raw),
+                                       "sha256": hashlib.sha256(raw).hexdigest(),
+                                       "utf8_valid": utf8}, raw))
+                  except FileNotFoundError as error:
+                      records.append(({"path": str(evidence_path / name),
+                                       "status": "NOT_PRODUCED", "errno": error.errno}, None))
+                  except (OSError, ValueError) as error:
+                      problem = True
+                      records.append(({"path": str(evidence_path / name),
+                                       "status": "READ_REFUSED", "error": type(error).__name__,
+                                       "detail": str(error)}, None))
+          finally:
+              if evidence is not None:
+                  os.close(evidence)
+              os.close(root)
+          
+          nonce = secrets.token_hex(32)
+          while any(("::" + nonce + "::").encode("ascii") in raw
+                    for metadata, raw in records if raw is not None):
+              nonce = secrets.token_hex(32)
+          print("::stop-commands::" + nonce, flush=True)
+          try:
+              for metadata, raw in records:
+                  print("NAVIGATION_ORIGINAL_FILE " + json.dumps(metadata, sort_keys=True), flush=True)
+                  if raw is not None:
+                      if sys.stdout.buffer.write(raw) != len(raw):
+                          raise OSError("SHORT_ORIGINAL_OUTPUT")
+                      if not raw.endswith(b"\n"):
+                          sys.stdout.buffer.write(b"\n")
+                      sys.stdout.buffer.flush()
+                      print("NAVIGATION_ORIGINAL_FILE_END " + json.dumps(
+                          {"path": metadata["path"], "printed_original_bytes": len(raw),
+                           "sha256": metadata["sha256"]}, sort_keys=True), flush=True)
+          finally:
+              print("::" + nonce + "::", flush=True)
+          raise SystemExit(1 if problem else 0)
+          PY
       - name: Preserve actual results including failures
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: research-navigation-${{ github.run_id }}
-          path: navigation-evidence
+          path: ${{ runner.temp }}/navigation-evidence
           if-no-files-found: error
           retention-days: 30
