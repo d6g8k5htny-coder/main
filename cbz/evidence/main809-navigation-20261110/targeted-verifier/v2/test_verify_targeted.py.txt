@@ -1,0 +1,128 @@
+"""Adverse and mutation controls for the bounded targeted-artifact verifier."""
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+import unittest
+import zipfile
+
+ROOT = Path(__file__).resolve().parent
+CODE = (ROOT / 'verify_targeted.py').read_text()
+ORIGINAL = ROOT / 'targeted-artifact-13751761706.zip'
+TREE = (ROOT / 'native-tested-tree.json').read_bytes()
+with zipfile.ZipFile(ORIGINAL) as z:
+    MEMBERS = {name: z.read(name) for name in z.namelist()}
+
+
+def exercise(changes=None, removed=(), *, tree=TREE, source=CODE, optimized=False):
+    with tempfile.TemporaryDirectory(prefix='main809-targeted-verifier-') as directory:
+        root = Path(directory)
+        archive, native, runner, output = (root / name for name in ('fixture.zip', 'tree.json', 'verify.py', 'out.json'))
+        changes = {} if changes is None else changes
+        with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED) as z:
+            for name, raw in MEMBERS.items():
+                if name not in removed:
+                    z.writestr(name, changes.get(name, raw))
+        digest = hashlib.sha256(archive.read_bytes()).hexdigest()
+        native.write_bytes(tree)
+        runner.write_text(source)
+        flags = ['-B', '-S'] + (['-O'] if optimized else [])
+        return subprocess.run([sys.executable, *flags, str(runner), str(archive), digest,
+                               str(native), 'normal', str(output)], capture_output=True, text=True, timeout=30)
+
+
+def forged_source():
+    changes = {}
+    for name in ('source-before.json', 'source-after.json'):
+        value = json.loads(MEMBERS[name])
+        value['files'][0]['git_blob'] = '0' * 40
+        changes[name] = json.dumps(value).encode()
+    return changes
+
+
+def coforged_tree():
+    tree = json.loads(TREE)
+    source = json.loads(MEMBERS['source-before.json'])
+    path = source['files'][0]['path']
+    matches = [row for row in tree['tree'] if row['path'] == path]
+    if len(matches) != 1:
+        raise ValueError('fixture path is not unique')
+    matches[0]['sha'] = '0' * 40
+    return json.dumps(tree).encode()
+
+
+def forged_skip():
+    data = MEMBERS['stderr.bin']
+    if data.count(b' ... ok\n') != 10:
+        raise ValueError('original targeted lines differ')
+    altered = data.replace(b' ... ok\n', b" ... skipped 'adverse'\n", 1)
+    observation = json.loads(MEMBERS['observation.json'])
+    observation['stderr.bin'] = {'bytes': len(altered), 'sha256': hashlib.sha256(altered).hexdigest()}
+    return {'stderr.bin': altered, 'observation.json': json.dumps(observation).encode()}
+
+
+class TargetedVerifierControls(unittest.TestCase):
+    def test_original_is_accepted(self):
+        for optimized in (False, True):
+            result = exercise(optimized=optimized)
+            self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_missing_member_is_rejected(self):
+        for optimized in (False, True):
+            self.assertNotEqual(exercise(removed=('source-before.json',), optimized=optimized).returncode, 0)
+
+    def test_forged_git_blob_is_rejected(self):
+        for optimized in (False, True):
+            self.assertNotEqual(exercise(forged_source(), optimized=optimized).returncode, 0)
+
+    def test_forged_skip_is_rejected(self):
+        for optimized in (False, True):
+            self.assertNotEqual(exercise(forged_skip(), optimized=optimized).returncode, 0)
+
+    def test_duplicate_native_path_is_rejected(self):
+        tree = json.loads(TREE)
+        leaves = [i for i, row in enumerate(tree['tree']) if row['type'] == 'blob']
+        tree['tree'][leaves[1]] = dict(tree['tree'][leaves[0]])
+        for optimized in (False, True):
+            self.assertNotEqual(exercise(tree=json.dumps(tree).encode(), optimized=optimized).returncode, 0)
+
+    def test_coforged_tree_and_artifact_are_rejected(self):
+        for optimized in (False, True):
+            self.assertNotEqual(exercise(forged_source(), tree=coforged_tree(), optimized=optimized).returncode, 0)
+
+    def test_forged_directory_id_is_rejected(self):
+        tree = json.loads(TREE)
+        directory = next(row for row in tree['tree'] if row['type'] == 'tree')
+        directory['sha'] = '0' * 40
+        for optimized in (False, True):
+            self.assertNotEqual(exercise(tree=json.dumps(tree).encode(), optimized=optimized).returncode, 0)
+
+    def test_tree_root_guard_removal_reopens_forgery(self):
+        anchor = "if computed[''] != TREE:"
+        self.assertEqual(CODE.count(anchor), 1)
+        mutant = CODE.replace(anchor, 'if False:', 1)
+        for optimized in (False, True):
+            result = exercise(forged_source(), tree=coforged_tree(), source=mutant, optimized=optimized)
+            self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_source_guard_removal_reopens_forgery(self):
+        anchor = 'if actual != expected:'
+        self.assertEqual(CODE.count(anchor), 1)
+        mutant = CODE.replace(anchor, 'if False:', 1)
+        for optimized in (False, True):
+            result = exercise(forged_source(), source=mutant, optimized=optimized)
+            self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_disposition_guard_removal_reopens_forged_skip(self):
+        anchor = "if short != identity.rsplit('.', 1)[-1] or disposition != 'ok':"
+        self.assertEqual(CODE.count(anchor), 1)
+        mutant = CODE.replace(anchor, "if short != identity.rsplit('.', 1)[-1]:", 1)
+        for optimized in (False, True):
+            result = exercise(forged_skip(), source=mutant, optimized=optimized)
+            self.assertEqual(result.returncode, 0, result.stderr)
+
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)

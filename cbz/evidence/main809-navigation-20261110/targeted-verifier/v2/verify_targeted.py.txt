@@ -1,0 +1,156 @@
+"""Verify bounded Main #809 targeted artifacts against a native Git tree."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import re
+import zipfile
+
+HEAD = '3d1c8cbf4ecd6298b195ee92a06829285597e8f9'
+TREE = '3cd55d0bbf65e1e940bc9f96d97fd95a91b49f55'
+METHODS = (
+    'test_all_actual_parent_fixture_and_subtest_non_successes_cannot_qualify',
+    'test_fresh_pattern_dependent_load_tests_disagreement_refuses_before_body',
+    'test_interrupted_incomplete_nonzero_and_damaged_journals_cannot_qualify',
+    'test_native_pattern_censuses_select_actual_membership_not_id_prefix',
+    'test_omitted_duplicate_extra_zero_and_import_failed_inventories_refuse',
+    'test_original_zip_member_bytes_and_inert_api_bindings_are_both_checked',
+    'test_pilot_success_can_never_produce_main_discovery_qualification',
+    'test_real_unchanged_reader_accepts_only_labelled_test_archive_then_exact_join_membership',
+    'test_safe_original_cases_preserve_fixture_lifecycle_and_unsafe_suites_refuse',
+    'test_source_runtime_closed_records_stale_context_and_missing_producers_refuse',
+)
+IDS = ['test_unittest_full_qualification.MainUnittestQualificationContract.' + name for name in METHODS]
+
+
+def checked_leaves(tree):
+    """Reconstruct Git's SHA-1 trees from the captured recursive API metadata.
+
+    Blob bytes and their SHA-256 values are outside this check. Sizes are API
+    metadata, not part of a Git tree object. Unsupported modes fail closed.
+    """
+    if tree.get('sha') != TREE or tree.get('truncated') is not False:
+        raise ValueError('native tree identity or completeness mismatch')
+    entries = tree.get('tree')
+    if not isinstance(entries, list):
+        raise ValueError('native tree entries missing')
+    by_path = {}
+    children = {'': []}
+    for row in entries:
+        if not isinstance(row, dict):
+            raise ValueError('invalid native tree row')
+        path, kind, mode, sha = (row.get(k) for k in ('path', 'type', 'mode', 'sha'))
+        if (not isinstance(path, str) or any(p in ('', '.', '..') for p in path.split('/'))
+                or '\0' in path or path in by_path):
+            raise ValueError('invalid or duplicate native path')
+        if not isinstance(sha, str) or not re.fullmatch('[0-9a-f]{40}', sha):
+            raise ValueError('invalid native object identity')
+        if (kind, mode) not in {('tree', '040000'), ('blob', '100644'),
+                               ('blob', '100755'), ('blob', '120000')}:
+            raise ValueError('unsupported native entry type or mode')
+        if kind == 'blob' and (type(row.get('size')) is not int or row['size'] < 0):
+            raise ValueError('invalid native blob size')
+        by_path[path] = row
+        if kind == 'tree':
+            children[path] = []
+    for path, row in by_path.items():
+        parent, _, name = path.rpartition('/')
+        if parent not in children:
+            raise ValueError('native parent tree missing')
+        children[parent].append((name, row))
+    computed = {}
+    for parent in sorted(children, key=lambda path: (path.count('/') + 1 if path else 0), reverse=True):
+        records = []
+        ordered = sorted(children[parent], key=lambda pair: pair[0].encode('utf-8')
+                         + (b'/' if pair[1]['type'] == 'tree' else b''))
+        for name, row in ordered:
+            child_path = parent + '/' + name if parent else name
+            child_sha = computed[child_path] if row['type'] == 'tree' else row['sha']
+            mode = '40000' if row['type'] == 'tree' else row['mode']
+            records.append(mode.encode() + b' ' + name.encode('utf-8') + b'\0' + bytes.fromhex(child_sha))
+        body = b''.join(records)
+        computed[parent] = hashlib.sha1(b'tree ' + str(len(body)).encode() + b'\0' + body).hexdigest()
+        if parent and computed[parent] != by_path[parent]['sha']:
+            raise ValueError('native subtree identity mismatch')
+    if computed[''] != TREE:
+        raise ValueError('native root tree identity mismatch')
+    leaves = [row for row in entries if row['type'] != 'tree']
+    if len(leaves) != 6212 or any(row['type'] != 'blob' for row in leaves):
+        raise ValueError('unexpected native leaf population')
+    return leaves
+
+
+def verify(archive, digest, native_tree, mode):
+    raw = Path(archive).read_bytes()
+    if hashlib.sha256(raw).hexdigest() != digest:
+        raise ValueError('artifact digest mismatch')
+    tree = json.loads(Path(native_tree).read_bytes())
+    leaves = checked_leaves(tree)
+    expected = {x['path']: (x['mode'], x['sha'], x['size']) for x in leaves}
+    if len(expected) != len(leaves):
+        raise ValueError('duplicate native path')
+    with zipfile.ZipFile(archive) as z:
+        names = z.namelist()
+        if len(names) != len(set(names)) or set(names) != {'observation.json', 'source-before.json',
+                                                         'source-after.json', 'stdout.bin', 'stderr.bin'} or z.testzip() is not None:
+            raise ValueError('artifact population or CRC mismatch')
+        before, after = (json.loads(z.read(name)) for name in ('source-before.json', 'source-after.json'))
+        obs = json.loads(z.read('observation.json'))
+        if before != after or before.get('checked_commit') != HEAD or before.get('checked_tree') != TREE:
+            raise ValueError('source context or before/after mismatch')
+        if before.get('repository') != 'd6g8k5htny-coder/main' or before.get('run_id') != '42790545086' or before.get('run_attempt') != '1':
+            raise ValueError('source run identity mismatch')
+        rows = before.get('files')
+        if not isinstance(rows, list) or len(rows) != len(expected):
+            raise ValueError('source population mismatch')
+        actual = {}
+        for row in rows:
+            path = row.get('path')
+            if not isinstance(path, str) or path in actual:
+                raise ValueError('duplicate or invalid source path')
+            if not isinstance(row.get('sha256'), str) or not re.fullmatch('[0-9a-f]{64}', row['sha256']):
+                raise ValueError('invalid source SHA-256 shape')
+            actual[path] = (row.get('mode'), row.get('git_blob'), row.get('bytes'))
+        if actual != expected:
+            raise ValueError('source path, mode, Git blob or size mismatch')
+        if (obs.get('mode') != mode or obs.get('outcome') != 'PASS' or obs.get('native_exit_code') != 0
+                or obs.get('reported_test_count') != 10 or obs.get('exact_parent_results') is not True
+                or obs.get('source_unchanged') is not True or obs.get('terminal_ok') is not True
+                or obs.get('timed_out') is not False or obs.get('full_discovery_run') is not False
+                or obs.get('g5_claim') is not False or obs.get('cbz_claim') is not False
+                or obs.get('expected_parent_ids') != IDS or obs.get('observed_parent_ids') != IDS
+                or obs.get('bad_result_lines') != [] or obs.get('malformed_result_lines') != []):
+            raise ValueError('targeted observation mismatch')
+        for name in ('stdout.bin', 'stderr.bin'):
+            data = z.read(name)
+            if obs.get(name) != {'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()}:
+                raise ValueError('stream hash mismatch')
+        stderr = z.read('stderr.bin').decode('utf-8')
+        observed = []
+        for line in stderr.splitlines():
+            match = re.fullmatch(r'(\S+) \(([^()]*)\) \.\.\. (.+)', line)
+            if match:
+                short, identity, disposition = match.groups()
+                if short != identity.rsplit('.', 1)[-1] or disposition != 'ok':
+                    raise ValueError('test disposition mismatch')
+                observed.append(identity)
+        if observed != IDS or not re.search(r'(?m)^Ran 10 tests in [0-9.]+s$', stderr) or not stderr.rstrip().endswith('OK'):
+            raise ValueError('targeted stream results mismatch')
+    return {'artifact_sha256': digest, 'mode': mode, 'tests': 10, 'skips': 0,
+            'native_tree': TREE, 'native_blob_paths_modes_sizes': len(expected),
+            'git_tree_and_subtree_sha1_recomputed': True,
+            'raw_sha256_values_independently_checked': False,
+            'scope': 'targeted TEST contracts and Git tree metadata only; sizes are API metadata; blob bytes and raw SHA-256 are not checked; not full G5 or scientific review'}
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('archive')
+    parser.add_argument('sha256')
+    parser.add_argument('native_tree')
+    parser.add_argument('mode', choices=('normal', 'optimized'))
+    parser.add_argument('output')
+    args = parser.parse_args()
+    result = verify(args.archive, args.sha256, args.native_tree, args.mode)
+    Path(args.output).write_text(json.dumps(result, indent=2) + '\n')
+    print(json.dumps(result))

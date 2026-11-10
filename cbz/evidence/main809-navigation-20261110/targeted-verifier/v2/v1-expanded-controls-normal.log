@@ -1,0 +1,39 @@
+test_coforged_tree_and_artifact_are_rejected (__main__.TargetedVerifierControls.test_coforged_tree_and_artifact_are_rejected) ... FAIL
+test_disposition_guard_removal_reopens_forged_skip (__main__.TargetedVerifierControls.test_disposition_guard_removal_reopens_forged_skip) ... ok
+test_duplicate_native_path_is_rejected (__main__.TargetedVerifierControls.test_duplicate_native_path_is_rejected) ... ok
+test_forged_directory_id_is_rejected (__main__.TargetedVerifierControls.test_forged_directory_id_is_rejected) ... FAIL
+test_forged_git_blob_is_rejected (__main__.TargetedVerifierControls.test_forged_git_blob_is_rejected) ... ok
+test_forged_skip_is_rejected (__main__.TargetedVerifierControls.test_forged_skip_is_rejected) ... ok
+test_missing_member_is_rejected (__main__.TargetedVerifierControls.test_missing_member_is_rejected) ... ok
+test_original_is_accepted (__main__.TargetedVerifierControls.test_original_is_accepted) ... ok
+test_source_guard_removal_reopens_forgery (__main__.TargetedVerifierControls.test_source_guard_removal_reopens_forgery) ... ok
+test_tree_root_guard_removal_reopens_forgery (__main__.TargetedVerifierControls.test_tree_root_guard_removal_reopens_forgery) ... FAIL
+
+======================================================================
+FAIL: test_coforged_tree_and_artifact_are_rejected (__main__.TargetedVerifierControls.test_coforged_tree_and_artifact_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_main809_navigation_904/test_verify_targeted.py", line 93, in test_coforged_tree_and_artifact_are_rejected
+    self.assertNotEqual(exercise(forged_source(), tree=coforged_tree(), optimized=optimized).returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_forged_directory_id_is_rejected (__main__.TargetedVerifierControls.test_forged_directory_id_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_main809_navigation_904/test_verify_targeted.py", line 100, in test_forged_directory_id_is_rejected
+    self.assertNotEqual(exercise(tree=json.dumps(tree).encode(), optimized=optimized).returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_tree_root_guard_removal_reopens_forgery (__main__.TargetedVerifierControls.test_tree_root_guard_removal_reopens_forgery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_main809_navigation_904/test_verify_targeted.py", line 104, in test_tree_root_guard_removal_reopens_forgery
+    self.assertEqual(CODE.count(anchor), 1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 10 tests in 3.254s
+
+FAILED (failures=3)
