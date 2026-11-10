@@ -1,0 +1,197 @@
+# Read exactly two existing failed-controls originals; never replay the grader.
+name: Read failed node-status grader originals
+
+'on':
+  push:
+    branches: [codex/node-status-grader-artifact-readback-20261110]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  read-old-artifact:
+    name: Read fixed failed controls originals
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Bootstrap verified fixed original-artifact reader
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python -I -B -S - <<'PY'
+          import hashlib, json, os, re, stat, subprocess, sys, traceback
+          from pathlib import Path
+
+          UTILITY = "tools/cbz/node_status_grader_artifact_readback.py"
+          BLOB = "b00d7944ff7a0cf4828cdd5194b9756ad8b484dc"
+          SIZE = 24631
+          SHA256 = "939a65f133701cfe7155055ca84f8a3374702d24d376e0f98bc1a4934ef0b729"
+          proof = {"purpose": "NODE_GRADER_FIXED_ORIGINALS_BOOTSTRAP", "status": "STARTED",
+                   "expected_utility": {"path": UTILITY, "git_blob": BLOB,
+                                        "bytes": SIZE, "sha256": SHA256}}
+          directory_fd = None
+
+          def require(condition, reason):
+              if not condition:
+                  raise ValueError(reason)
+
+          def identity(value):
+              return {"device": value.st_dev, "inode": value.st_ino,
+                      "mode": value.st_mode, "links": value.st_nlink,
+                      "bytes": value.st_size, "mtime_ns": value.st_mtime_ns,
+                      "ctime_ns": value.st_ctime_ns}
+
+          def stable_regular(path):
+              require(path.is_absolute() and path.resolve(strict=True) == path,
+                      "file path alias")
+              before = path.lstat()
+              require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
+                      and before.st_size == SIZE, "regular single-link reviewed extent required")
+              with os.fdopen(os.open(path, os.O_RDONLY | os.O_NOFOLLOW), "rb") as handle:
+                  opened = os.fstat(handle.fileno())
+                  require(identity(before) == identity(opened), "changed before read")
+                  raw = handle.read(SIZE + 1)
+                  require(identity(opened) == identity(os.fstat(handle.fileno()))
+                          == identity(path.lstat()) and len(raw) == opened.st_size,
+                          "changed during read")
+              return raw, {"path": str(path), **identity(opened),
+                           "sha256": hashlib.sha256(raw).hexdigest()}
+
+          def retained(name, raw):
+              fd = os.open(name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                           0o600, dir_fd=directory_fd)
+              try:
+                  view = memoryview(raw)
+                  while view:
+                      count = os.write(fd, view)
+                      require(count > 0, "short retention write")
+                      view = view[count:]
+                  os.fsync(fd)
+              finally:
+                  os.close(fd)
+
+          def retain_proof():
+              retained("bootstrap.json",
+                       (json.dumps(proof, sort_keys=True, ensure_ascii=True,
+                                   allow_nan=False) + chr(10)).encode("ascii"))
+
+          try:
+              keys = ("GITHUB_REPOSITORY", "GITHUB_EVENT_NAME", "GITHUB_REF",
+                      "GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT", "GITHUB_SHA", "GITHUB_JOB")
+              context = {key: os.environ.get(key) for key in keys}
+              require(context["GITHUB_REPOSITORY"] == "d6g8k5htny-coder/main"
+                      and context["GITHUB_EVENT_NAME"] == "push"
+                      and context["GITHUB_REF"] ==
+                      "refs/heads/codex/node-status-grader-artifact-readback-20261110"
+                      and context["GITHUB_JOB"] == "read-old-artifact",
+                      "native context mismatch")
+              require(all(re.fullmatch(r"[1-9][0-9]{0,19}", context[key] or "")
+                          for key in ("GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT"))
+                      and re.fullmatch(r"[0-9a-f]{40}", context["GITHUB_SHA"] or ""),
+                      "native IDs refused")
+              require(sys.version_info[:2] == (3, 11) and sys.flags.isolated == 1
+                      and sys.flags.no_site == 1 and sys.flags.dont_write_bytecode == 1
+                      and sys.flags.optimize == 0, "Python3.11 flags mismatch")
+              workspace = Path(os.environ.get("GITHUB_WORKSPACE", ""))
+              temporary = Path(os.environ.get("RUNNER_TEMP", ""))
+              require(all(path.is_absolute() and path.resolve(strict=True) == path
+                          and stat.S_ISDIR(path.lstat().st_mode)
+                          for path in (workspace, temporary)), "directory alias")
+              require(workspace != temporary and workspace not in temporary.parents
+                      and temporary not in workspace.parents, "RUNNER_TEMP not external")
+              case = context["GITHUB_RUN_ID"] + "-" + context["GITHUB_RUN_ATTEMPT"]
+              directory = temporary / ("node-status-grader-readback-bootstrap-" + case)
+              parent_fd = os.open(temporary, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              try:
+                  require(identity(os.fstat(parent_fd)) == identity(temporary.lstat()),
+                          "RUNNER_TEMP changed")
+                  os.mkdir(directory.name, 0o700, dir_fd=parent_fd)
+                  directory_fd = os.open(directory.name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                                         dir_fd=parent_fd)
+                  require(directory.resolve(strict=True) == directory
+                          and identity(os.fstat(directory_fd)) == identity(directory.lstat()),
+                          "bootstrap directory changed")
+              finally:
+                  os.close(parent_fd)
+              proof.update(context=context, case=case,
+                           workspace=str(workspace), runner_temp=str(temporary),
+                           bootstrap_directory=str(directory))
+
+              def git(*args):
+                  env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+                  env.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
+                             GIT_OPTIONAL_LOCKS="0", GIT_NO_LAZY_FETCH="1", GIT_TERMINAL_PROMPT="0")
+                  return subprocess.run(["git", "--no-replace-objects", "--literal-pathspecs",
+                      "-c", "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null",
+                      "-C", str(workspace), *args], env=env, check=True,
+                      stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30).stdout
+
+              require(git("rev-parse", "--show-toplevel").decode().rstrip(chr(10))
+                      == str(workspace), "checked Git root mismatch")
+              head = git("rev-parse", "--verify", "HEAD").decode().strip()
+              tree = git("rev-parse", "--verify", "HEAD^{tree}").decode().strip()
+              require(head == context["GITHUB_SHA"] and re.fullmatch(r"[0-9a-f]{40}", tree),
+                      "checked HEAD/tree mismatch")
+              require(not git("status", "--porcelain=v1", "--untracked-files=all", "--ignored=matching"),
+                      "changed/untracked/ignored input")
+              entry = ("100644 blob " + BLOB + "\t" + UTILITY).encode("ascii") + b"\0"
+              require(git("ls-tree", "-z", "HEAD", "--", UTILITY) == entry,
+                      "utility Git entry mismatch")
+              require(git("cat-file", "-s", BLOB) == (str(SIZE) + chr(10)).encode("ascii"),
+                      "utility Git extent mismatch")
+              original = git("cat-file", "blob", BLOB)
+              raw, source = stable_regular(workspace / UTILITY)
+              require(raw == original and len(raw) == SIZE
+                      and hashlib.sha256(raw).hexdigest() == SHA256,
+                      "utility bytes/extent/hash mismatch")
+              proof.update(head=head, tree=tree, source={"git_mode": "100644",
+                                                       "git_blob": BLOB, **source})
+              retained("node_status_grader_artifact_readback.py", raw)
+              copied_path = directory / "node_status_grader_artifact_readback.py"
+              copied, copied_identity = stable_regular(copied_path)
+              again, source_again = stable_regular(workspace / UTILITY)
+              require(copied == raw == again and source_again == source
+                      and (copied_identity["device"], copied_identity["inode"])
+                      != (source["device"], source["inode"]), "copy/source identity mismatch")
+              require(git("rev-parse", "--verify", "HEAD").decode().strip() == head
+                      and git("rev-parse", "--verify", "HEAD^{tree}").decode().strip() == tree
+                      and not git("status", "--porcelain=v1", "--untracked-files=all", "--ignored=matching"),
+                      "checked source changed")
+              proof.update(copy=copied_identity, status="VERIFIED_COPY_COMPILED")
+              compiled = compile(copied, str(copied_path), "exec", dont_inherit=True)
+              retain_proof()
+          except Exception as error:
+              proof.update(status="BOOTSTRAP_HOLD", error_type=type(error).__name__, error=str(error))
+              if directory_fd is not None:
+                  try:
+                      retained("bootstrap-error.log", traceback.format_exc().encode("utf-8"))
+                      retain_proof()
+                  except Exception:
+                      pass
+              raise
+          finally:
+              if directory_fd is not None:
+                  os.close(directory_fd)
+          namespace = {"__name__": "__main__", "__file__": str(copied_path),
+                       "__package__": None, "__spec__": None, "__builtins__": __builtins__}
+          exec(compiled, namespace, namespace)
+          PY
+      - name: Retain original archive, complete readback and bootstrap proof
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: node-status-grader-originals-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/node-status-grader-readback-bootstrap-${{ github.run_id }}-${{ github.run_attempt }}/
+            ${{ runner.temp }}/node-status-grader-readback-${{ github.run_id }}-${{ github.run_attempt }}/
+          if-no-files-found: error
+          retention-days: 30
