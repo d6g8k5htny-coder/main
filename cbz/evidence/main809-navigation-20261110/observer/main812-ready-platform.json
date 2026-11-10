@@ -1,0 +1,255 @@
+{
+  "observed_utc": "2026-11-10T11:15:25.996Z",
+  "pull": 812,
+  "head": "3b5b52d6a7c647d14f30ef54946fe8aebde46728",
+  "base": "d09f3252e4f9eb91d624f42357e81e3e43a658e5",
+  "merge": "664ccb0a81fa4ad714d1b89bd981997eab5de77a",
+  "draft": false,
+  "state": "open",
+  "mergeable": true,
+  "mergeable_state": "clean",
+  "main_branch_sha": "d09f3252e4f9eb91d624f42357e81e3e43a658e5",
+  "check_total": 25,
+  "checks": [
+    {
+      "id": 129794784459,
+      "name": "public-intake",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129794663261,
+      "name": "public-intake",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129794379136,
+      "name": "public-intake",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129794087823,
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129793979600,
+      "name": "landing-checks",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129793281963,
+      "name": "public-intake",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129791697631,
+      "name": "public-intake",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129790763205,
+      "name": "public-intake",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129789524823,
+      "name": "federation-drift",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129789318129,
+      "name": "public-intake",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129788534118,
+      "name": "live-freshness",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129788280629,
+      "name": "public-intake",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129788186658,
+      "name": "architecture / research-architecture",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129788186459,
+      "name": "formal / formal-evidence",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129788186377,
+      "name": "public-shop",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129788186172,
+      "name": "task-a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129788185900,
+      "name": "browser-smoke",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129788185806,
+      "name": "drift-crawler-self-test",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129788185674,
+      "name": "g11-auditor",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129788185597,
+      "name": "navigation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129788185505,
+      "name": "observe-scope",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129788185461,
+      "name": "prepared-node",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129788185398,
+      "name": "contract",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129788181220,
+      "name": "public-intake",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 129788154324,
+      "name": "g11-auditor",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "ruleset": {
+    "id": 23798639,
+    "name": "Verified pull requests",
+    "target": "branch",
+    "source_type": "Repository",
+    "source": "d6g8k5htny-coder/main",
+    "enforcement": "active",
+    "conditions": {
+      "ref_name": {
+        "exclude": [],
+        "include": [
+          "refs/heads/codex/enforcement-probe-20260922",
+          "refs/heads/main"
+        ]
+      }
+    },
+    "rules": [
+      {
+        "type": "deletion"
+      },
+      {
+        "type": "non_fast_forward"
+      },
+      {
+        "type": "pull_request",
+        "parameters": {
+          "required_approving_review_count": 0,
+          "dismiss_stale_reviews_on_push": true,
+          "required_reviewers": [],
+          "require_code_owner_review": false,
+          "require_last_push_approval": false,
+          "required_review_thread_resolution": true,
+          "require_extra_approval_for_unattributed_changes": true,
+          "allowed_merge_methods": [
+            "merge",
+            "squash",
+            "rebase"
+          ]
+        }
+      },
+      {
+        "type": "required_status_checks",
+        "parameters": {
+          "strict_required_status_checks_policy": true,
+          "do_not_enforce_on_create": false,
+          "required_status_checks": [
+            {
+              "context": "verify",
+              "integration_id": 15368
+            },
+            {
+              "context": "public-intake",
+              "integration_id": 15368
+            },
+            {
+              "context": "public-shop",
+              "integration_id": 15368
+            }
+          ]
+        }
+      },
+      {
+        "type": "creation"
+      }
+    ],
+    "node_id": "RRS_lACqUmVwb3NpdG9yec5Cl4LazgFrI28",
+    "created_at": "2026-09-21T20:19:06.947-05:00",
+    "updated_at": "2026-09-28T01:22:27.007-05:00",
+    "bypass_actors": [
+      {
+        "actor_id": 1144995,
+        "actor_type": "Integration",
+        "bypass_mode": "always"
+      }
+    ],
+    "current_user_can_bypass": "never",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/d6g8k5htny-coder/main/rulesets/23798639"
+      },
+      "html": {
+        "href": "https://github.com/d6g8k5htny-coder/main/rules/23798639"
+      }
+    }
+  },
+  "branch_protection_endpoint": {
+    "status": 403,
+    "reason": "Resource not accessible by integration"
+  },
+  "scope": "Non-atomic read-only snapshot; no bypass and no merge. Actual rules and required checks may change; Root B-003 owns serial integration. Navigation has 23 skips; no complete G5."
+}
