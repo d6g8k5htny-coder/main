@@ -1,5 +1,13 @@
 # CBZ-0 governance
 
+## Historical archive custody — 10 November 2026
+
+Compressed historical catalog and archived PR source bytes are retained with
+their original Git identities under `cbz/evidence/foundation-custody-20261110/`.
+Their source labels and reviews remain historical. The custody check cannot
+admit a proof, an independent review or a quarantine at a current source cut;
+the [tooling entry](TOOLING.md#foundation-archive-custody) states commands and limits.
+
 ## Lean kernel-option spelling boundary — 10 November 2026
 
 The Lean lexical scanner reports `skipKernelTC` as an A2 violation even when

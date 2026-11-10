@@ -1,5 +1,29 @@
 # CBZ mission-tool registry
 
+## Foundation archive custody
+
+**Purpose and scope.** Preserve the exact unmerged #695 catalog and the three
+named cusp source trees. This is byte custody, not a proof or quarantine
+admission tool. The compressed catalog expands to Git blob
+`892466e68f90a584e214f60c86c7c493d4f9c42e`; the source archive has 87 files
+across 72 original Git blobs. Original review and failure records remain data.
+
+**Commands.** From the Main checkout:
+
+```sh
+sha256sum -c cbz/evidence/foundation-custody-20261110/SHA256SUMS
+gzip -cd cbz/evidence/foundation-custody-20261110/catalog.json.gz | git hash-object --stdin
+tar -tzf cbz/evidence/foundation-custody-20261110/archive-sources.tar.gz
+```
+
+**Verification and limits.** The original tag targets, tree entries, archive
+bytes, Git and SHA-256 identities were independently compared; the captured
+readback and the first failed source fetch are in the
+[custody record](cbz/evidence/foundation-custody-20261110/README.md). A hash
+match does not authenticate semantic claims, axiom safety, isolation or
+scientific review. The historical comparison's one-off scripts retain their
+original scratch paths and are not an admitted gate or a portable verifier.
+
 ## Auditor origin controls
 
 **Purpose and scope.** `tests/cbz_auditor_origin.py` adapts the existing

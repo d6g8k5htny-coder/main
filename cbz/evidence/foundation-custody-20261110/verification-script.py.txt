@@ -1,0 +1,24 @@
+import gzip,hashlib,json,os,subprocess,tarfile,tempfile
+from pathlib import Path,PurePosixPath
+base=Path('/workspace/scratch/7abea556a9be/cbz-main-g1-origin/cbz/evidence/foundation-custody-20261110')
+raw=gzip.decompress((base/'catalog.json.gz').read_bytes());assert hashlib.sha256(raw).hexdigest()=='6fb095df59726f6ee13b265dd88440e1a5f0c7ca7a5025643fd1bbe9acab3ec7' and hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()=='892466e68f90a584e214f60c86c7c493d4f9c42e';assert len(json.loads(raw)['quarantines'])==184
+m=json.loads((base/'archive-sources-manifest.json').read_bytes()); expected={row['id']+'/'+f['path']:f for row in m['archives'] for f in row['files']};assert len(expected)==87
+with tarfile.open(base/'archive-sources.tar.gz','r:gz') as t:
+ members=t.getmembers();assert len(members)==len(set(x.name for x in members))==87 and set(x.name for x in members)==set(expected)
+ for x in members:
+  assert x.isfile() and not PurePosixPath(x.name).is_absolute() and '..' not in PurePosixPath(x.name).parts
+  b=t.extractfile(x).read();f=expected[x.name];assert len(b)==f['bytes'] and hashlib.sha256(b).hexdigest()==f['sha256'] and hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()==f['blob']
+with tarfile.open(base/'raw-context.tar.gz','r:gz') as t:
+ for ident,sha in [('Q-8336','05d7516c4ddc303732ca69e4ea251b90ab6ace71'),('Q-8340','9632605e623b7c517dc0cddd099c6687376f4036'),('Q-8429','b552f251228ef158ef3d5313becccfde22b9d4ec')]:
+  b=t.extractfile(ident+'-tag-object.txt').read();assert hashlib.sha1(b'tag '+str(len(b)).encode()+b'\0'+b).hexdigest()==sha
+for f in ('catalog-comparison-20261110.json.gz','catalog-comparison-leaves-only.json.gz'):json.loads(gzip.decompress((base/f).read_bytes()))
+archive=base/'archive-sources.tar.gz';digest=hashlib.sha256(archive.read_bytes()).hexdigest()
+with tempfile.TemporaryDirectory(prefix='cbz-custody-adverse-') as d:
+ p=Path(d)/'archive.tar.gz';p.write_bytes(archive.read_bytes()); expected=Path(d)/'SHA256SUMS';expected.write_text(digest+'  archive.tar.gz\n')
+ def check():return subprocess.run(['sha256sum','-c',str(expected)],cwd=d,text=True,capture_output=True)
+ good=check();assert good.returncode==0
+ b=bytearray(p.read_bytes());b[len(b)//2]^=1;p.write_bytes(b);bad=check();assert bad.returncode!=0
+ p.unlink();missing=check();assert missing.returncode!=0
+ print('checksum actual good exit',good.returncode,'corrupt exit',bad.returncode,'missing exit',missing.returncode)
+ print('corrupt diagnostic:',bad.stdout.strip(),bad.stderr.strip());print('missing diagnostic:',missing.stdout.strip(),missing.stderr.strip())
+print('PASS exact catalog Git blob; 87 archive members against Git/SHA-256 manifest; three exact annotated tag objects; compressed comparison JSONs parse')

@@ -1,5 +1,33 @@
 # CBZ-0 execution status
 
+## Historical foundation custody — 10 November 2026
+
+Workspace #64 merged as `a3ac03329c6c54f0e3df4f159d894b2a8e70de44`, pinning
+Main `eed4e646565bf670d87b5ec41b9ae18f8a20d35a` and Math `9bdfc54b`.
+Its hosted candidate contract ran 254 tests per mode without skips, and its
+pin job checked eight current pins and four canonical inputs. These were
+sequential observations; postmerge checks require their own observation.
+This later Main candidate would require another guarded Workspace refresh.
+
+The closed-unmerged Main #695 catalog is preserved as exact historical bytes,
+not admitted as current proof status. Its 184 records contain the eleven
+named fields; six are regression or real-record coverage records without an
+explicit status field. A non-admitting Git-tree comparison at Main `c32e6f27`
+and Math `9bdfc54b` found 354 identical and five changed entries among 359
+directly parsed historical locations. This checks object identity, not the
+meaning, isolation or completeness of a proof. The three changed directory
+trees and two changed files are detailed in [the custody record](cbz/evidence/foundation-custody-20261110/README.md).
+
+The three historical cusp archive tags are now indexed below in
+[PROOF_INDEX](PROOF_INDEX.md#historical-cusp-archive-custody--10-november-2026),
+and 87 exact source files from their named trees are retained as a compressed
+archive. Their source review records are preserved as history; no new review,
+scientific acceptance or current CLOSED disposition follows. Two unspecified
+README-row paths and five real-record globs/live states remain unresolved.
+To verify the retained file bytes from this checkout, run
+`sha256sum -c cbz/evidence/foundation-custody-20261110/SHA256SUMS`;
+this is custody verification, not a final G0–G11 gate.
+
 ## Lean option-member scanner correction — 10 November 2026
 
 At published Main `c32e6f27d318e25708939105285366a7a0daf971`, the scoped
