@@ -184,5 +184,22 @@ class Probe(unittest.TestCase):
         outcome, target = self.run_fixture(source)
         self.assertFalse(g11m.qualifies_kill(outcome, target, 123), outcome)
 
+
+    def test_live_failure_retains_actual_origin_frames(self):
+        source = ("import unittest\nclass Probe(unittest.TestCase):\n"
+                  "    def test_body(self):\n        self.assertEqual(1, 2)\n")
+        outcome, target = self.run_fixture(source)
+        self.assertIn("origin_provenance", outcome)
+        event = outcome["origin_provenance"]
+        self.assertEqual(event["entered"], 1)
+        self.assertIn(event["phase"], ("body", "body-exited"))
+        self.assertTrue(event["authorized"])
+        frames = event["frames"]
+        selected = [i for i, frame in enumerate(frames) if frame["selected"]]
+        self.assertEqual(len(selected), 1)
+        self.assertTrue(all(frame["oracle"] for frame in frames[selected[0] + 1:]))
+        line = g11m._assertion_line(source, target, "self.assertEqual(1, 2)")
+        self.assertTrue(g11m.qualifies_kill(outcome, target, line))
+
 if __name__ == "__main__":
     unittest.main()
