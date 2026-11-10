@@ -26,6 +26,7 @@ import ast
 import json
 import os
 import re
+import secrets
 import shutil
 import subprocess
 import sys
@@ -2326,6 +2327,9 @@ import unittest
 import unittest.case
 from pathlib import Path
 
+_g11_target, _g11_report_path, _g11_token = sys.argv[1:4]
+sys.argv = sys.argv[:1]
+
 def code_of(value):
     return getattr(getattr(value, "__func__", value), "__code__", None)
 
@@ -2348,7 +2352,7 @@ def leaves(node):
     else:
         yield node
 
-suite = unittest.defaultTestLoader.loadTestsFromName(sys.argv[1])
+suite = unittest.defaultTestLoader.loadTestsFromName(_g11_target)
 cases = list(leaves(suite))
 ids = [case.id() for case in cases]
 names = [getattr(case, "_testMethodName", "") for case in cases]
@@ -2482,8 +2486,9 @@ report = {
     "errors": errors,
     "events": result.events,
 }
-with open(sys.argv[2], "x", encoding="utf-8") as stream:
+with open(_g11_report_path, "x", encoding="utf-8") as stream:
     json.dump(report, stream, sort_keys=True)
+print("G11_ORIGIN_DONE=" + _g11_token, flush=True)
 raise SystemExit(0 if result.wasSuccessful() else 1)
 '''
 
@@ -2568,14 +2573,20 @@ def _run(workdir, test_id=None, env=None):
         return _parse_run(proc)
     with tempfile.TemporaryDirectory(prefix="g11-origin-report-") as tmp:
         report_path = os.path.join(tmp, "origin.json")
-        command.extend(["-c", ORIGIN_RUNNER, test_id, report_path])
+        token = secrets.token_hex(32)
+        command.extend(["-c", ORIGIN_RUNNER, test_id, report_path, token])
         proc = subprocess.run(command, cwd=workdir, env=_clean_child_env(env),
                               capture_output=True, text=True, timeout=300)
-        try:
-            with open(report_path, encoding="utf-8") as stream:
-                report = json.load(stream)
-        except (OSError, ValueError, TypeError):
+        marker = "G11_ORIGIN_DONE=" + token
+        lines = proc.stdout.splitlines()
+        if not lines or lines[-1] != marker or lines.count(marker) != 1:
             report = None
+        else:
+            try:
+                with open(report_path, encoding="utf-8") as stream:
+                    report = json.load(stream)
+            except (OSError, ValueError, TypeError):
+                report = None
         return _parse_origin_run(proc, report, test_id)
 
 

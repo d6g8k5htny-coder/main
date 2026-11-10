@@ -22,6 +22,14 @@ jobs:
         run: env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest tests.test_g11_census tests.test_g11_current_architecture_references tests.test_g11_current_atlas_formal_bridge_reference
       - name: Run census controls with optimization
         run: env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O -m unittest tests.test_g11_census tests.test_g11_current_architecture_references tests.test_g11_current_atlas_formal_bridge_reference
+      - name: Run origin controls normally
+        run: env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest tests.test_g11_origin_provenance -v
+      - name: Run origin controls with optimization
+        run: env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O -m unittest tests.test_g11_origin_provenance -v
+      - name: Run origin guard mutations normally
+        run: env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_origin_mutation_selftest.py
+      - name: Run origin guard mutations with optimization
+        run: env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_origin_mutation_selftest.py
       - name: Run mutation self-test normally
         run: env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_mutation_selftest.py
       - name: Run mutation self-test with optimization
