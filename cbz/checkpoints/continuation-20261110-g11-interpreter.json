@@ -24,7 +24,12 @@
     "preflight_run": 42764942230,
     "preflight_result": "328 original and 19 format target identities checked; adapted shell -c case actually killed in both modes on 90f; test-seal constant updated afterwards",
     "full_run": 42765075896,
-    "full_result_at_observation": "in progress; do not count completion until observed"
+    "full_result_at_observation": "completed SUCCESS on 764d: 265 census controls, 12 origin controls, 7 origin mutations, 18 format controls, 19 format mutations, 328 original named mutations per mode; 708 mutant records individually parsed",
+    "artifact": {
+      "id": 13739088970,
+      "sha256_reported_by_github": "469846303fd3d92b164f4215a5fd9cbf97851d1878574cdd67d7e2d97bc65b00",
+      "independently_verified": false
+    }
   },
   "preserved_adverse_runs": [
     42764251621,
@@ -44,7 +49,9 @@
     "result": "PASS normal and optimized on ef290; subsequently exposed interpreter attribution defect limits result",
     "artifact": 13739226619,
     "artifact_sha256_reported_by_github": "d62c42e871159133e789f7693f1f04dcf0cfc787e8284cad21b334208ef542ae",
-    "independently_unpacked": false
+    "independently_unpacked": true,
+    "native_blob": "e3ded3e03d48fba2413b54089d625ae5eeee6340",
+    "native_readback": "byte-identical"
   },
   "prior_format_component": {
     "run": 42763520074,
@@ -53,8 +60,8 @@
     "limitation": "interpreter flaw was subsequently demonstrated"
   },
   "next": [
-    "Observe and parse full 17-case component run on exact a3 source and preserve any failures.",
-    "Compose only verified source into existing #804 with fresh-head CAS and append truthful canonical records.",
+    "Independently verify and retain the 764d component artifact and original log.",
+    "Compose verified source into existing #804 with fresh-head CAS and append truthful canonical records.",
     "Run new exact-candidate census in both modes and normal required checks; preserve originals.",
     "After normal integration, refresh Workspace pin against current Main; no final G7 or G11 from these scoped observations."
   ],
