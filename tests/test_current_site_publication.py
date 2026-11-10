@@ -737,7 +737,7 @@ class PublicationTests(unittest.TestCase):
         api, opener, sleeps = client([
             lambda request: http_error(request, 503, "Service Unavailable"),
             (200, b"{}"),
-        ])
+        ], token="fixture-only-secret")
         with self.assertRaises(urllib.error.HTTPError) as caught:
             api.advance_ref("b" * 40, "a" * 40)
         self.assertEqual(len(opener.opens), 1)

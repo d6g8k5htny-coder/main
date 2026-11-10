@@ -69,3 +69,24 @@ its 9,724 member hashes and CRCs and prior data retention were checked. The
 shared original checkpoint and archive were not replaced. The local execution
 environment became unavailable after the red test; this native Git evidence
 keeps the source and hosted logs recoverable without relying on that path.
+
+## Later hosted red and candidate failures
+
+The exact original publisher test was also run in Main current-site controls
+job `129610695154` at tested merge `ed5bc5d`; the normal run reported
+229 tests and one failure, `ValueError not raised`. The full original job
+log is `publisher-red-controls-129610695154.log`. Its optimized step was not
+reached after that failure; the separate local optimized failure is recorded
+above.
+
+A later source candidate at head `a6a17b5a5442f031052b81bc9fe25276158db181`
+was not accepted: its publisher controls job `129612202807` ran 40 normal
+tests and reported one error because the synthetic no-retry client lacked a
+token. Its stacked recovery controls job `129612202618` also failed and
+uploaded partial evidence artifact `13733291004` (SHA-256
+`cce0abe451fb97b47958f7b75579353afb17d96ea68676a7e0b26ed9ce17a939`).
+The two complete hosted job logs are preserved alongside this file. The
+recovery job's redirected internal output was not independently read at this
+observation; its exact cause is not inferred. A later draft adds failure-log
+printing and corrects the token fixture. New head tests and mutations must run
+before any passing or integration claim.
