@@ -1630,3 +1630,65 @@ The production acquisition module remains absent. Native absence RED and all twe
 Phase: test-first implementation source staging; Layer C. Add only the reviewed verify_capture/write_original_frames APIs and preserve the actual R0 originals. Rationale: check supplied-byte consistency through the unchanged helper/reader without claiming HTTP or completed-run authority. Reversible: isolated module/evidence additions and this append; all existing tests, workflows, protected bytes and canonical prefixes remain preserved. Evidence: [actual R0 receipt](cbz/evidence/main-unittest-native-acquisition-r0-20261110/R0-absence-receipt.json) and [whole-source scope/review](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/248ea97ceb18d567701e48e35c5acc40e9abd38e).
 
 R0 run42806518006/1 at native53f41a4d/tree797 had the genuine missing import in both modes and zero of twelve bodies. Those originals retain that old binding. This new code has not run; fresh normal/optimized contracts remain required. No transport CLI, token, producer, runtime profile, full Main, G5/CBZ or scientific credit follows.
+
+
+## 2026-11-10 — Node-status v1 phase2 test-first source candidate
+
+Phase: test-first contract preparation; Layer B. Add only the twelve-parent
+`tests/test_node_status_v1.py` contract and its separate targeted normal and
+optimized workflow. This reversible candidate preserves v0, the current four
+records and nine-input live ABI, merged G5 controls, strict sources and every
+fresh peer leaf. Production helper/schema, data adoption, dispatcher/V2 and
+owner assignments are absent and unchanged.
+
+Rationale: freeze meaningful closed-v1 consistency tests before implementation.
+Actual Graph220b and three existing Main artifact originals supply inert source
+frames; nine TEST records confer no native acquisition, freshness or science.
+Root read final tests debc4b3f07f8d47dbf1b1b6f3be93ce225627b7a and workflow
+04408cd164eb7abbb0cf71131e0c670f8ddb145a; independent whole-source review and
+bounded missing-frame correction closed at C0/I0/M0. Plan
+3d17f553d612b52b4cae5bd2e8f559202763575f and source manifest
+23a6681605471fe6839d4337349404d07760fbdf bind scope and preserved inputs.
+
+Source observation: 2026-11-10 11:42:32 UTC; Main
+d09f3252e4f9eb91d624f42357e81e3e43a658e5, tree
+111ec264e36b15a03bb3c5150247003198fc1609. No tests or native RED have run for this
+candidate. Future missing-module RED must be read at its actual native source:
+zero of twelve behavioral bodies, no semantic-negative credit. Helper/schema
+implementation requires that actual read. This entry records only an
+unreferenced candidate; publication and any later execution remain separate.
+No full Main, G5, CBZ, owner or scientific award follows. Reversal is an
+ordinary guarded removal of the two additions with this historical entry kept.
+
+
+## 2026-11-10 — Node-status v1 phase2 source stage after actual import RED
+
+Phase: test-first implementation source review; Layer B. Root independently
+read automatic run42810593749/1, normal job129810719838 and optimized
+job129810720273 at signed native02f76cbcd12a8a65c4d0ffcc0bf3b820c7ac87be,
+treeabbdff62910cd6aa4f78e3d931d89493081dec59, parents[d09f3252,0a94000f].
+Both original stderr streams were1047 bytes with SHA256
+0caad8515a6c8bf5fd3aaedf3f6a981ebd7461e88f30a8857e0c4e183506320f;
+stdout was empty, child exit1, no timeout, source_unchanged=true. The line21
+missing tools.node_status_v1 import ran one loader FailedTest and zero of the
+twelve behavioral bodies. No semantic-negative or current-population credit.
+
+Preserve both complete raw logs, printed original streams and observations in
+red-r0/originals.json, Git blob197fa1353385c84b90cc164888101513a8351ea3,
+with the source-bound report887d735e928251f8431843f3f5777fb712a3dea8 under
+cbz/evidence/node-status-v1-phase2-20261110/. Hosted artifact metadata is
+retained; no ZIP member or raw source-snapshot-body read is claimed.
+
+Root then authorized source-only tools/node_status_v1.py and the closed v1
+schema, implementing only the accepted three byte-input consistency APIs.
+Rationale: exercise the already frozen twelve-parent contract without adopting
+actual records or changing any v0 route, old live ABI, source or owner. Inputs
+remain inert declarations; no Git/HTTP/proof/freshness authority is inferred.
+Tests debc and workflow044 stay byte-exact. This entry records source review
+preparation at 2026-11-10 12:01:07 UTC, not a compiled or executed implementation.
+Independent whole-code review and Root's exact source gate precede any candidate
+or ref update. Later normal/optimized qualification remains unobserved.
+
+The change is reversible by ordinary guarded removal of the two new production
+paths; retain this entry and historical R0 originals. No data/dispatcher/V2,
+owner assignment, science, full Main, G5 or CBZ award follows.
