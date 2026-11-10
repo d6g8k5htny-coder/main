@@ -1,5 +1,13 @@
 # CBZ proof and quarantine index
 
+## Pages receipt recovery boundary — 10 November 2026
+
+Pages publication receipts and their guarded recovery are operational
+provenance, not mathematical proof or quarantine dispositions. The failed
+prepared candidate is retained in receipt ancestry, and no successful recovery
+or publication is inferred. See the dated STATUS entry for actual observations
+and TOOLING for commands and verification limits. This entry closes no proof.
+
 ## Public branch custody boundary — 10 November 2026
 
 This candidate preserves selected public Git objects from 58 captured refs in

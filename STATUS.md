@@ -1,5 +1,71 @@
 # CBZ-0 execution status
 
+## Guarded Pages receipt recovery — observed 10 November 2026
+
+Main #798 merged as `31bc4c1f5b66e92bfbf327366956944ea691289c` with the
+tested tree. Workspace #68's Main pin `812a799f` became stale; Workspace #69
+merged as `d8d8b16af35b3f6d3d4b454ce98e26d7c3b81ab0`, refreshing it to
+`31bc4c1f`. The Workspace merge tree matched its tested tree. These observations
+are time-stamped and remote tips must be checked again before integration.
+
+The Main `6d928a32` site run `42737966287` failed in both deployment attempts
+after the deploy action timed out while reporting `syncing_files`; public
+observation was skipped. The prepared receipt remains
+`6e01d1f5f83d320172e29391eea336e3256aeea2`, with preceding observed parent
+`81b3998534827e2c2e45188a1a52672aa6666001`. After the second attempt, three
+sequential public reads matched that preceding receipt's byte counts and
+digests, rather than the prepared candidate. An unauthenticated deployment
+status request returned 404; authenticated cancellation has not yet been
+observed. These reads are not atomic and do not prove what was served earlier.
+
+The bounded recovery tool below can append a new prepared/observed pair for
+the preceding candidate only after it independently verifies the live
+prepared/previous heads, failed run, authenticated `deployment_cancelled`
+status, retained snapshot IDs, current Main source and matching public bytes.
+It repeats the live checks between two appends and uses an atomic expected-head,
+non-force ref update for each. It keeps the failed prepared receipt as an
+ancestor and records the actual recovery run as
+observer; it does not claim the failed candidate deployed. A refused or partial
+recovery is not evidence of success; inspect the actual ref if write readback
+fails because the remote write may already have taken effect. The normal publisher
+and recovery dispatch share a workflow concurrency group, but external actors
+and public reads are not atomic. Platform denial or an unavailable status is
+not bypassed. The existing normal publisher's REST non-force ref update does
+not provide the same atomic expected-head guarantee; its correction remains
+open. The source-bound local checks below ran in both modes; hosted
+checks and an actual recovery must be observed separately.
+
+From Main, run the focused tests and designated mutation campaign:
+
+```sh
+python3 -B -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
+python3 -B -O -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
+CBZ_SITE_NORMAL=$(mktemp -d)/mutations
+CBZ_SITE_OPTIMIZED=$(mktemp -d)/mutations
+python3 -B -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_NORMAL"
+python3 -B -O -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_OPTIMIZED"
+```
+
+The initial 28-test and 28-mutation local campaign did not detect a ref rollback
+between read and write; that adverse test failed against the initial helper.
+After correction the local run recorded 34 tests without skips and 37 specified
+mutations in each mode, plus three rejected subject/helper/lifecycle assertion
+origins per mode. Earlier failed mutation campaigns remain recorded. These are
+bounded synchronous-unittest controls, not all of G0. After
+the workflow is integrated, dispatch it only using freshly checked receipt
+heads; the observed heads above are guards, not permanent values:
+
+```sh
+gh workflow run cbz-site-recovery.yml --ref main \
+  -f expected_failed_head=6e01d1f5f83d320172e29391eea336e3256aeea2 \
+  -f expected_previous_head=81b3998534827e2c2e45188a1a52672aa6666001
+```
+
+Read the actual workflow result and retained result artifact before claiming a
+receipt or site outcome. The full Layer A, G0–G11, no-skip regression,
+current pins and cold-start criteria remain open; neither CBZ-0 nor terminal
+Partial is established. No scientific or proof status changes here.
+
 ## Public branch custody candidate — observed 10 November 2026, 02:19 UTC
 
 This candidate preserves selected public Git objects from 58 captured refs in

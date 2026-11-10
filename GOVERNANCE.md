@@ -1,5 +1,23 @@
 # CBZ-0 governance
 
+## Guarded Pages receipt recovery — 10 November 2026
+
+The recovery path is limited to a canceled prepared Pages candidate with a
+matching prior observed/prepared ancestry, live old public bytes and retained
+snapshot inventory. It checks the actual failed workflow, authenticated
+cancellation, current Main source and exact receipt heads before append-only,
+atomic expected-head, non-force writes. Each new receipt names the previous candidate and the actual
+recovery observer. A platform failure or disagreement stops the operation;
+if a write's readback fails, inspect the actual ref before inferring its state.
+Workflow concurrency coordinates
+the normal publisher and recovery, not external actors or atomic public reads.
+The normal publisher's separate REST ref write does not yet have this atomic
+expected-head guarantee.
+The [status](STATUS.md#guarded-pages-receipt-recovery--observed-10-november-2026)
+and [tool registry](TOOLING.md#guarded-pages-receipt-recovery--10-november-2026)
+give exact commands, observations and limits. This is neither mathematical nor
+scientific acceptance and does not establish the final gates.
+
 ## Public branch custody verifier boundary — 10 November 2026
 
 This candidate preserves selected public Git objects from 58 captured refs in
