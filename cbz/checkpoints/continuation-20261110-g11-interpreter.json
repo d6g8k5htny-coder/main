@@ -124,7 +124,7 @@
     "tree": "c8bfa765f5cd564e894397390c4abf1588731d38",
     "base": "47221adf89749dc226e8e3578af2f8fd7c16ea20",
     "proposed_main": "d291b42801a26252a046d8ca78a6bd62abc448ae",
-    "state": "merged normally as bb4a3f9c15f69e0f574f948e9f84ab55f6693a69; tested/merged tree c8bfa765f5cd564e894397390c4abf1588731d38; postmerge runs 42767475297 and 42767475199 in progress",
+    "state": "merged normally as bb4a3f9c15f69e0f574f948e9f84ab55f6693a69; postmerge pin and contract jobs both succeeded; exact logs retained",
     "pin_checks": "two hosted pin jobs passed 8 strict-current pins, four canonical inputs and 254 controls each; contract workflow remains in progress",
     "contract": {
       "run": 42766721593,
@@ -137,7 +137,24 @@
       "artifact_digest_reported_by_github": "dc9fe3b6403426fa322d35d7c5734ffe838cd672da0903d98e78bdd66877a812",
       "artifact_independently_unpacked": false
     },
-    "premerge": "cbz/evidence/integration-guards-20261110/workspace-72-premerge.json"
+    "premerge": "cbz/evidence/integration-guards-20261110/workspace-72-premerge.json",
+    "postmerge": {
+      "pin_run": 42767475297,
+      "pin_job": 129667241047,
+      "pins": 8,
+      "canonical_inputs": 4,
+      "pin_controls": 254,
+      "contract_run": 42767475199,
+      "contract_job": 129667237594,
+      "tests_per_mode": 254,
+      "vector_events": 52,
+      "unique_nonces": 52,
+      "invalid_events": 0,
+      "artifact": 13740846295,
+      "artifact_sha256_reported_by_github": "c33d139f710a8b31ab363995fc3b46e31dab8d8ba22dd448f6546182e9b2ecbd",
+      "artifact_independently_unpacked": false,
+      "final_g7": false
+    }
   },
   "recomposed_component": {
     "run": 42766509309,
@@ -170,5 +187,16 @@
       "git_blob": "12a4d7726029b3f49d0bcbf3c74a969323923165",
       "git_readback": "byte-identical"
     }
+  },
+  "infrastructure_observation": {
+    "path": "cbz/evidence/integration-guards-20261110/infrastructure-ref-observation-0619.json",
+    "at": "2026-11-10T06:19:40Z onward",
+    "non_atomic": true,
+    "observed_repositories": 3,
+    "advertised_nondefault_heads": 7,
+    "non_ancestor_heads": 3,
+    "open_prs": 0,
+    "matching_tag_refs": 0,
+    "final_g10": false
   }
 }
