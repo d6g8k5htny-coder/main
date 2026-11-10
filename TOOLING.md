@@ -1,8 +1,22 @@
 # CBZ mission-tool registry
 
+## Python subprocess operand validation
+
+Purpose: prevent unsupported or invalid interpreter-option operands in Python subprocess references from manufacturing a static tool-reference credit. The implementation supports only Python `--check-hash-based-pycs` values `default`, `always`, `never`; `-W` values `default`, `error`, `ignore`, `always`, `module`, `once`; and `-X dev`, in separate or supported attached form. Shell options with operands and other values are conservatively uncredited. Supported references are not execution receipts.
+
+```sh
+python3 -B -S -m unittest tests.test_g11_census tests.test_g11_workflow_formats
+python3 -B -S -O -m unittest tests.test_g11_census tests.test_g11_workflow_formats
+python3 -B -S tools/cbz/g11_workflow_formats_mutation_selftest.py
+python3 -B -S -O tools/cbz/g11_workflow_formats_mutation_selftest.py
+```
+
+Local CPython 3.12.14 executed 287 controls and 22 designated mutations per mode after expanding the positive and negative controls; the earlier source-bound 285-control results remain preserved. The original 328-case self-test also completed per mode; these are scoped local outcomes, not a final G11 certificate. Actual failures and two adapted earlier mutation definitions are preserved in [evidence](cbz/evidence/g11-python-subprocess-options-20261110/).
+
+
 ## G11 bounded interpreter handling
 
-The workflow reference scanner reuses the bounded argument parser and refuses Python or shell interpreter options whose operands are not validated. Version/help, alternate-code and syntax-only controls are tested using actual subprocesses and no-execution markers. The 18-method workflow-format suite and 19-case mutation commands appear below. A static reference is not an execution receipt; unsupported option forms fail closed.
+The workflow reference scanner reuses the bounded argument parser and refuses Python or shell interpreter options whose operands are not validated. Version/help, alternate-code and syntax-only controls are tested using actual subprocesses and no-execution markers. The earlier 18-method workflow-format suite and 19-case mutation commands are retained below; the current suite has 24 methods and 22 mutations. A static reference is not an execution receipt; unsupported option forms fail closed.
 
 
 ## G11 workflow-format mutation verification
@@ -16,7 +30,7 @@ env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHO
 env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_workflow_formats_mutation_selftest.py
 ```
 
-The nineteen declared mutations require clean selected baselines and authorized selected-body failures; the source-bound 19-case execution and its limits are recorded in STATUS. The actual old-census failure, red cases and bounded test results are retained under `cbz/evidence/g11-composed-census-20261110/` and `cbz/evidence/g11-workflow-formats-*`. Source references are static evidence, not proof of workflow execution; full JSON workflow semantics, arbitrary shell and dynamic conditions are not certified. JSON no-op and invalid-input findings use line 0 when their exact source line is unavailable.
+The 22 current mutations require clean selected baselines and authorized selected-body failures; the earlier source-bound 19-case execution and its limits remain recorded in STATUS. The actual old-census failure, red cases and bounded test results are retained under `cbz/evidence/g11-composed-census-20261110/` and `cbz/evidence/g11-workflow-formats-*`. Source references are static evidence, not proof of workflow execution; full JSON workflow semantics, arbitrary shell and dynamic conditions are not certified. JSON no-op and invalid-input findings use line 0 when their exact source line is unavailable.
 
 ## G11 assertion-origin mutation verification
 

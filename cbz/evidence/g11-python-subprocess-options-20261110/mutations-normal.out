@@ -1,0 +1,2352 @@
+{
+  "executed": 22,
+  "inputs_sha256": [
+    "0b3679be21846e6c2032c0c6e1b4e594a520f5d01b337ee01468431e0cb13be4",
+    "e5abbc5425607091dfbe7eaaf3611b18833572463568f533ab1ec5fb5ed0d958",
+    "5509addfd5706a277d5621faf15dfd71523f62216695d61fe3b95cc92569f853",
+    "ebdbd28755d68711d09d58d42646b1504f6ea38f9899b0cb07b5b640ef9a0eb5"
+  ],
+  "mode": "normal",
+  "results": [
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 24,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/0-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/0-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 22,
+              "lineno": 24,
+              "name": "test_env_unset_preserves_direct_execution_reference",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_env_unset_preserves_direct_execution_reference",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1104,
+              "lineno": 1145,
+              "name": "assertSetEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertSetEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/0-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 22,
+            "name": "test_env_unset_preserves_direct_execution_reference"
+          },
+          "test": "test_env_unset_preserves_direct_execution_reference"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_env_unset_preserves_direct_execution_reference",
+        "traceback_line": 24,
+        "traceback_method": "test_env_unset_preserves_direct_execution_reference"
+      },
+      "name": "env wrapper not recognized",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_env_unset_preserves_direct_execution_reference"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 35,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 520,
+              "lineno": 539,
+              "name": "subTest",
+              "oracle": false,
+              "qualname": "TestCase.subTest",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/1-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 26,
+              "lineno": 35,
+              "name": "test_env_unsupported_or_nonexecution_is_not_credited",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_env_unsupported_or_nonexecution_is_not_credited",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1104,
+              "lineno": 1145,
+              "name": "assertSetEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertSetEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/1-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 26,
+            "name": "test_env_unsupported_or_nonexecution_is_not_credited"
+          },
+          "test": "test_env_unsupported_or_nonexecution_is_not_credited"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_env_unsupported_or_nonexecution_is_not_credited",
+        "traceback_line": 35,
+        "traceback_method": "test_env_unsupported_or_nonexecution_is_not_credited"
+      },
+      "name": "env assignments implicitly credited",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_env_unsupported_or_nonexecution_is_not_credited"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 42,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/2-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/2-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 37,
+              "lineno": 42,
+              "name": "test_json_workflow_recognizes_only_job_step_runs",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_json_workflow_recognizes_only_job_step_runs",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1104,
+              "lineno": 1145,
+              "name": "assertSetEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertSetEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/2-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 37,
+            "name": "test_json_workflow_recognizes_only_job_step_runs"
+          },
+          "test": "test_json_workflow_recognizes_only_job_step_runs"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_json_workflow_recognizes_only_job_step_runs",
+        "traceback_line": 42,
+        "traceback_method": "test_json_workflow_recognizes_only_job_step_runs"
+      },
+      "name": "JSON job runs ignored",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_json_workflow_recognizes_only_job_step_runs"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 42,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/3-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/3-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 37,
+              "lineno": 42,
+              "name": "test_json_workflow_recognizes_only_job_step_runs",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_json_workflow_recognizes_only_job_step_runs",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1104,
+              "lineno": 1145,
+              "name": "assertSetEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertSetEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/3-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 37,
+            "name": "test_json_workflow_recognizes_only_job_step_runs"
+          },
+          "test": "test_json_workflow_recognizes_only_job_step_runs"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_json_workflow_recognizes_only_job_step_runs",
+        "traceback_line": 42,
+        "traceback_method": "test_json_workflow_recognizes_only_job_step_runs"
+      },
+      "name": "nested JSON with run credited",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_json_workflow_recognizes_only_job_step_runs"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 48,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/4-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/4-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 44,
+              "lineno": 48,
+              "name": "test_json_duplicate_keys_and_non_run_paths_are_refused",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_json_duplicate_keys_and_non_run_paths_are_refused",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1104,
+              "lineno": 1145,
+              "name": "assertSetEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertSetEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/4-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 44,
+            "name": "test_json_duplicate_keys_and_non_run_paths_are_refused"
+          },
+          "test": "test_json_duplicate_keys_and_non_run_paths_are_refused"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_json_duplicate_keys_and_non_run_paths_are_refused",
+        "traceback_line": 48,
+        "traceback_method": "test_json_duplicate_keys_and_non_run_paths_are_refused"
+      },
+      "name": "duplicate JSON keys accepted",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_json_duplicate_keys_and_non_run_paths_are_refused"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 64,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/5-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/5-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 61,
+              "lineno": 64,
+              "name": "test_json_noop_step_is_failing",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_json_noop_step_is_failing",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1218,
+              "lineno": 1251,
+              "name": "assertMultiLineEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertMultiLineEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/5-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 61,
+            "name": "test_json_noop_step_is_failing"
+          },
+          "test": "test_json_noop_step_is_failing"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_json_noop_step_is_failing",
+        "traceback_line": 64,
+        "traceback_method": "test_json_noop_step_is_failing"
+      },
+      "name": "JSON no-op scan ignored",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_json_noop_step_is_failing"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 71,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/6-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/6-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 68,
+              "lineno": 71,
+              "name": "test_duplicate_json_workflow_is_unparseable",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_duplicate_json_workflow_is_unparseable",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1218,
+              "lineno": 1251,
+              "name": "assertMultiLineEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertMultiLineEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/6-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 68,
+            "name": "test_duplicate_json_workflow_is_unparseable"
+          },
+          "test": "test_duplicate_json_workflow_is_unparseable"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_duplicate_json_workflow_is_unparseable",
+        "traceback_line": 71,
+        "traceback_method": "test_duplicate_json_workflow_is_unparseable"
+      },
+      "name": "invalid JSON workflow ignored",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_duplicate_json_workflow_is_unparseable"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 95,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/7-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/7-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 92,
+              "lineno": 95,
+              "name": "test_nonstring_json_run_is_unparseable",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_nonstring_json_run_is_unparseable",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1218,
+              "lineno": 1251,
+              "name": "assertMultiLineEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertMultiLineEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/7-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 92,
+            "name": "test_nonstring_json_run_is_unparseable"
+          },
+          "test": "test_nonstring_json_run_is_unparseable"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_nonstring_json_run_is_unparseable",
+        "traceback_line": 95,
+        "traceback_method": "test_nonstring_json_run_is_unparseable"
+      },
+      "name": "non-string JSON run accepted",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_nonstring_json_run_is_unparseable"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 109,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/8-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/8-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 107,
+              "lineno": 109,
+              "name": "test_env_unset_equals_preserves_direct_reference",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_env_unset_equals_preserves_direct_reference",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1104,
+              "lineno": 1145,
+              "name": "assertSetEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertSetEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/8-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 107,
+            "name": "test_env_unset_equals_preserves_direct_reference"
+          },
+          "test": "test_env_unset_equals_preserves_direct_reference"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_env_unset_equals_preserves_direct_reference",
+        "traceback_line": 109,
+        "traceback_method": "test_env_unset_equals_preserves_direct_reference"
+      },
+      "name": "env unset-equals ignored",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_env_unset_equals_preserves_direct_reference"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 83,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/9-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/9-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 80,
+              "lineno": 83,
+              "name": "test_nonstandard_json_constant_is_unparseable",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_nonstandard_json_constant_is_unparseable",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1218,
+              "lineno": 1251,
+              "name": "assertMultiLineEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertMultiLineEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/9-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 80,
+            "name": "test_nonstandard_json_constant_is_unparseable"
+          },
+          "test": "test_nonstandard_json_constant_is_unparseable"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_nonstandard_json_constant_is_unparseable",
+        "traceback_line": 83,
+        "traceback_method": "test_nonstandard_json_constant_is_unparseable"
+      },
+      "name": "nonstandard JSON constant accepted",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_nonstandard_json_constant_is_unparseable"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 104,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 520,
+              "lineno": 539,
+              "name": "subTest",
+              "oracle": false,
+              "qualname": "TestCase.subTest",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/10-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 98,
+              "lineno": 104,
+              "name": "test_invalid_json_job_step_shapes_are_unparseable",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_invalid_json_job_step_shapes_are_unparseable",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1218,
+              "lineno": 1251,
+              "name": "assertMultiLineEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertMultiLineEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/10-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 98,
+            "name": "test_invalid_json_job_step_shapes_are_unparseable"
+          },
+          "test": "test_invalid_json_job_step_shapes_are_unparseable"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_json_job_step_shapes_are_unparseable",
+        "traceback_line": 104,
+        "traceback_method": "test_invalid_json_job_step_shapes_are_unparseable"
+      },
+      "name": "non-object JSON job ignored",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_json_job_step_shapes_are_unparseable"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 104,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 520,
+              "lineno": 539,
+              "name": "subTest",
+              "oracle": false,
+              "qualname": "TestCase.subTest",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/11-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 98,
+              "lineno": 104,
+              "name": "test_invalid_json_job_step_shapes_are_unparseable",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_invalid_json_job_step_shapes_are_unparseable",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1218,
+              "lineno": 1251,
+              "name": "assertMultiLineEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertMultiLineEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/11-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 98,
+            "name": "test_invalid_json_job_step_shapes_are_unparseable"
+          },
+          "test": "test_invalid_json_job_step_shapes_are_unparseable"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_json_job_step_shapes_are_unparseable",
+        "traceback_line": 104,
+        "traceback_method": "test_invalid_json_job_step_shapes_are_unparseable"
+      },
+      "name": "non-list JSON steps ignored",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_json_job_step_shapes_are_unparseable"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 104,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 520,
+              "lineno": 539,
+              "name": "subTest",
+              "oracle": false,
+              "qualname": "TestCase.subTest",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/12-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 98,
+              "lineno": 104,
+              "name": "test_invalid_json_job_step_shapes_are_unparseable",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_invalid_json_job_step_shapes_are_unparseable",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1218,
+              "lineno": 1251,
+              "name": "assertMultiLineEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertMultiLineEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/12-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 98,
+            "name": "test_invalid_json_job_step_shapes_are_unparseable"
+          },
+          "test": "test_invalid_json_job_step_shapes_are_unparseable"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_json_job_step_shapes_are_unparseable",
+        "traceback_line": 104,
+        "traceback_method": "test_invalid_json_job_step_shapes_are_unparseable"
+      },
+      "name": "non-object JSON step ignored",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_json_job_step_shapes_are_unparseable"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 126,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 520,
+              "lineno": 539,
+              "name": "subTest",
+              "oracle": false,
+              "qualname": "TestCase.subTest",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/13-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 112,
+              "lineno": 126,
+              "name": "test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1104,
+              "lineno": 1145,
+              "name": "assertSetEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertSetEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/13-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 112,
+            "name": "test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference"
+          },
+          "test": "test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference",
+        "traceback_line": 126,
+        "traceback_method": "test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference"
+      },
+      "name": "Python early-exit option credited",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 144,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 520,
+              "lineno": 539,
+              "name": "subTest",
+              "oracle": false,
+              "qualname": "TestCase.subTest",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/14-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 129,
+              "lineno": 144,
+              "name": "test_shell_no_execution_options_are_not_tool_references",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_shell_no_execution_options_are_not_tool_references",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1104,
+              "lineno": 1145,
+              "name": "assertSetEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertSetEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/14-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 129,
+            "name": "test_shell_no_execution_options_are_not_tool_references"
+          },
+          "test": "test_shell_no_execution_options_are_not_tool_references"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references",
+        "traceback_line": 144,
+        "traceback_method": "test_shell_no_execution_options_are_not_tool_references"
+      },
+      "name": "shell syntax-only option credited",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 149,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/15-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/15-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 147,
+              "lineno": 149,
+              "name": "test_python_module_direct_reference_with_supported_options",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_python_module_direct_reference_with_supported_options",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1104,
+              "lineno": 1145,
+              "name": "assertSetEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertSetEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/15-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 147,
+            "name": "test_python_module_direct_reference_with_supported_options"
+          },
+          "test": "test_python_module_direct_reference_with_supported_options"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_python_module_direct_reference_with_supported_options",
+        "traceback_line": 149,
+        "traceback_method": "test_python_module_direct_reference_with_supported_options"
+      },
+      "name": "Python module reference ignored",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_python_module_direct_reference_with_supported_options"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 163,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/16-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/16-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 151,
+              "lineno": 163,
+              "name": "test_python_module_after_early_exit_is_not_a_reference",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_python_module_after_early_exit_is_not_a_reference",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1104,
+              "lineno": 1145,
+              "name": "assertSetEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertSetEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/16-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 151,
+            "name": "test_python_module_after_early_exit_is_not_a_reference"
+          },
+          "test": "test_python_module_after_early_exit_is_not_a_reference"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_python_module_after_early_exit_is_not_a_reference",
+        "traceback_line": 163,
+        "traceback_method": "test_python_module_after_early_exit_is_not_a_reference"
+      },
+      "name": "Python module after early exit credited",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_python_module_after_early_exit_is_not_a_reference"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 186,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 520,
+              "lineno": 539,
+              "name": "subTest",
+              "oracle": false,
+              "qualname": "TestCase.subTest",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/17-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 166,
+              "lineno": 186,
+              "name": "test_invalid_interpreter_option_operands_do_not_execute_tool",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_invalid_interpreter_option_operands_do_not_execute_tool",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1104,
+              "lineno": 1145,
+              "name": "assertSetEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertSetEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/17-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 166,
+            "name": "test_invalid_interpreter_option_operands_do_not_execute_tool"
+          },
+          "test": "test_invalid_interpreter_option_operands_do_not_execute_tool"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_interpreter_option_operands_do_not_execute_tool",
+        "traceback_line": 186,
+        "traceback_method": "test_invalid_interpreter_option_operands_do_not_execute_tool"
+      },
+      "name": "invalid Python option operand credited",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_interpreter_option_operands_do_not_execute_tool"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 186,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 520,
+              "lineno": 539,
+              "name": "subTest",
+              "oracle": false,
+              "qualname": "TestCase.subTest",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/18-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 166,
+              "lineno": 186,
+              "name": "test_invalid_interpreter_option_operands_do_not_execute_tool",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_invalid_interpreter_option_operands_do_not_execute_tool",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 880,
+              "lineno": 885,
+              "name": "assertEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1104,
+              "lineno": 1145,
+              "name": "assertSetEqual",
+              "oracle": true,
+              "qualname": "TestCase.assertSetEqual",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/18-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 166,
+            "name": "test_invalid_interpreter_option_operands_do_not_execute_tool"
+          },
+          "test": "test_invalid_interpreter_option_operands_do_not_execute_tool"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_interpreter_option_operands_do_not_execute_tool",
+        "traceback_line": 186,
+        "traceback_method": "test_invalid_interpreter_option_operands_do_not_execute_tool"
+      },
+      "name": "invalid shell option operand credited",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_interpreter_option_operands_do_not_execute_tool"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 199,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/19-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/19-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 188,
+              "lineno": 199,
+              "name": "test_invalid_python_hash_operand_cannot_credit_subprocess",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_invalid_python_hash_operand_cannot_credit_subprocess",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 717,
+              "lineno": 721,
+              "name": "assertFalse",
+              "oracle": true,
+              "qualname": "TestCase.assertFalse",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/19-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 188,
+            "name": "test_invalid_python_hash_operand_cannot_credit_subprocess"
+          },
+          "test": "test_invalid_python_hash_operand_cannot_credit_subprocess"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_python_hash_operand_cannot_credit_subprocess",
+        "traceback_line": 199,
+        "traceback_method": "test_invalid_python_hash_operand_cannot_credit_subprocess"
+      },
+      "name": "Python subprocess invalid hash operand credited",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_python_hash_operand_cannot_credit_subprocess"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 212,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/20-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/20-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 201,
+              "lineno": 212,
+              "name": "test_invalid_python_attached_x_operand_cannot_credit_subprocess",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_invalid_python_attached_x_operand_cannot_credit_subprocess",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 717,
+              "lineno": 721,
+              "name": "assertFalse",
+              "oracle": true,
+              "qualname": "TestCase.assertFalse",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/20-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 201,
+            "name": "test_invalid_python_attached_x_operand_cannot_credit_subprocess"
+          },
+          "test": "test_invalid_python_attached_x_operand_cannot_credit_subprocess"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_python_attached_x_operand_cannot_credit_subprocess",
+        "traceback_line": 212,
+        "traceback_method": "test_invalid_python_attached_x_operand_cannot_credit_subprocess"
+      },
+      "name": "Python subprocess invalid attached X operand credited",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_python_attached_x_operand_cannot_credit_subprocess"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 225,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/21-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-formats-mutants-hu66xoen/21-mutant/tests/test_g11_workflow_formats.py",
+              "firstlineno": 214,
+              "lineno": 225,
+              "name": "test_invalid_shell_option_operand_cannot_credit_subprocess",
+              "oracle": false,
+              "qualname": "WorkflowFormats.test_invalid_shell_option_operand_cannot_credit_subprocess",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 717,
+              "lineno": 721,
+              "name": "assertFalse",
+              "oracle": true,
+              "qualname": "TestCase.assertFalse",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-formats-mutants-hu66xoen/21-mutant/tests/test_g11_workflow_formats.py",
+            "firstlineno": 214,
+            "name": "test_invalid_shell_option_operand_cannot_credit_subprocess"
+          },
+          "test": "test_invalid_shell_option_operand_cannot_credit_subprocess"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_shell_option_operand_cannot_credit_subprocess",
+        "traceback_line": 225,
+        "traceback_method": "test_invalid_shell_option_operand_cannot_credit_subprocess"
+      },
+      "name": "shell subprocess unvalidated operand credited",
+      "test": "tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_shell_option_operand_cannot_credit_subprocess"
+    }
+  ],
+  "status": "PASS",
+  "total": 22
+}
