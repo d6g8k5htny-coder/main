@@ -1,0 +1,120 @@
+name: node-status-live-contract
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+      - name: Record tested source
+        shell: bash
+        run: |
+          git rev-parse --verify 'HEAD^{commit}'
+          git rev-parse --verify 'HEAD^{tree}'
+      - name: Run offline contracts normally
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B -S -m unittest tests.test_node_status_live_check -v 2>&1 | tee "$RUNNER_TEMP/node-status-live-contract-normal.log"
+          grep -Eq '^Ran 23 tests in ' "$RUNNER_TEMP/node-status-live-contract-normal.log"
+      - name: Run offline contracts optimized
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B -O -S -m unittest tests.test_node_status_live_check -v 2>&1 | tee "$RUNNER_TEMP/node-status-live-contract-optimized.log"
+          grep -Eq '^Ran 23 tests in ' "$RUNNER_TEMP/node-status-live-contract-optimized.log"
+      - name: Run offline CLI contracts normally
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B -S -m unittest tests.test_node_status_live_cli -v 2>&1 | tee "$RUNNER_TEMP/node-status-live-cli-normal.log"
+          grep -Eq '^Ran 18 tests in ' "$RUNNER_TEMP/node-status-live-cli-normal.log"
+      - name: Run offline CLI contracts optimized
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B -O -S -m unittest tests.test_node_status_live_cli -v 2>&1 | tee "$RUNNER_TEMP/node-status-live-cli-optimized.log"
+          grep -Eq '^Ran 18 tests in ' "$RUNNER_TEMP/node-status-live-cli-optimized.log"
+      - name: Retain original contract logs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: node-status-live-contract-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/node-status-live-contract-normal.log
+            ${{ runner.temp }}/node-status-live-contract-optimized.log
+            ${{ runner.temp }}/node-status-live-cli-normal.log
+            ${{ runner.temp }}/node-status-live-cli-optimized.log
+          if-no-files-found: warn
+
+  live-freshness:
+    needs: contract
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+      - name: Observe declared-fresh records normally
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          python3 -B -S tools/node_status_live_check.py --root "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/node-status-live-normal.json" 2>&1 | tee "$RUNNER_TEMP/node-status-live-normal.log"
+          statuses=("${PIPESTATUS[@]}")
+          printf '{"cli_exit":%s,"log_exit":%s}\n' "${statuses[0]}" "${statuses[1]}" > "$RUNNER_TEMP/node-status-live-normal-exit.json"
+          if [ "${statuses[0]}" -ne 0 ]; then exit "${statuses[0]}"; fi
+          exit "${statuses[1]}"
+      - name: Observe declared-fresh records optimized
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          python3 -B -O -S tools/node_status_live_check.py --root "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/node-status-live-optimized.json" 2>&1 | tee "$RUNNER_TEMP/node-status-live-optimized.log"
+          statuses=("${PIPESTATUS[@]}")
+          printf '{"cli_exit":%s,"log_exit":%s}\n' "${statuses[0]}" "${statuses[1]}" > "$RUNNER_TEMP/node-status-live-optimized-exit.json"
+          if [ "${statuses[0]}" -ne 0 ]; then exit "${statuses[0]}"; fi
+          exit "${statuses[1]}"
+      - name: Retain original live reports and execution outcomes
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: node-status-live-observations-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/node-status-live-normal.json
+            ${{ runner.temp }}/node-status-live-normal.log
+            ${{ runner.temp }}/node-status-live-normal-exit.json
+            ${{ runner.temp }}/node-status-live-optimized.json
+            ${{ runner.temp }}/node-status-live-optimized.log
+            ${{ runner.temp }}/node-status-live-optimized-exit.json
+          if-no-files-found: warn

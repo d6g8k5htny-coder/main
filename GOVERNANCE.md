@@ -955,3 +955,45 @@ false-credit cases, source-mutant controls and corrected failed attempts remain
 in the evidence. No original test, bound or expected verdict is weakened.
 Maintenance owner: none; frozen profile, self-contained. Requalify changed
 source/profile inputs; do not convert this registration into global admission.
+
+## Source-bound real-record freshness companion candidate
+
+`tools/node_status_live_check.py` uses the existing validator, refresh contract
+and default authenticated HTTPS observer. It validates four current records
+and the complete declared-fresh cohort, while reporting eng.hard-gate as stale.
+It changes no record, source pin, graph, schema, owner or scientific status.
+
+Offline self-verification:
+
+```sh
+python3 -B -S -m unittest tests.test_node_status_live_check -v
+python3 -B -O -S -m unittest tests.test_node_status_live_check -v
+python3 -B -S -m unittest tests.test_node_status_live_cli -v
+python3 -B -O -S -m unittest tests.test_node_status_live_cli -v
+```
+
+These run23helper and18CLI methods per mode. Synthetic observations and owned
+temporary Git fixtures earn no live coverage. The CLI binds native run/attempt/
+mode, actual checked HEAD/tree and nine selected raw files to committed blobs
+before project imports. It accepts only a new external no-symlink output and
+uses one authenticated default observer per mode, without injection or retry.
+
+The read-only `node-status-live-contract` workflow gates actual normal/optimized
+CLI observations on successful offline controls and retains original reports,
+logs and exits. Failed or absent modes earn no credit. A normal live failure
+prevents another mode from being attempted. Source/input/HEAD endpoints and
+timing are measured; the remote observation window is not atomic.
+
+Usage in the native hosted context (GITHUB_TOKEN provided only to these steps):
+
+```sh
+python3 -B -S tools/node_status_live_check.py --root "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/new-normal.json"
+python3 -B -O -S tools/node_status_live_check.py --root "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/new-optimized.json"
+```
+
+See [the design](docs/plans/2026-11-09-node-status-live-check-design.md) and
+[CLI contract](docs/plans/2026-11-09-node-status-live-cli-contract.md).
+Actual current-source offline and live qualification remains pending. The
+trusted runtime/bootstrap is explicit; this is not hostile-host certification.
+Existing dormant history, Q-9002--Q-9005, fullG5 and CBZ remain unawarded.
+Maintenance owner: none; standard library plus existing project validators.
