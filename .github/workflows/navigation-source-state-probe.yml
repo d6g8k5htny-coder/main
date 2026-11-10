@@ -1,0 +1,363 @@
+name: Probe fixed original custody method source state
+
+'on':
+  push:
+    branches: [codex/g5-navigation-source-state-probe-20261110]
+    paths:
+      - .github/workflows/navigation-source-state-probe.yml
+
+permissions:
+  contents: read
+
+jobs:
+  fixed-source-state:
+    name: Observe only fixed original method and fresh helper imports
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Observe two fresh detached original-source worktrees without source edits
+        run: |
+          python -I -B -S - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import secrets
+          import selectors
+          import signal
+          import stat
+          import subprocess
+          import sys
+          import time
+          import traceback
+          
+          HEAD = "904361280ba8eb8f6f905a0b2ad1cf8e81f9d23c"
+          TREE = "3cd55d0bbf65e1e940bc9f96d97fd95a91b49f55"
+          METHOD = "tests.test_periodic_pilot_custody_oserror.RawOSErrorExitTests.test_output_scandir_oserror_exits_74"
+          PINS = {
+              ".github/workflows/research-architecture.yml": "69ad3b47537ab8e4f8936affa3e09fccbdcfd1e5",
+              "tools/unittest_timing_probe.py": "05fb481b5538c3f517174b00948de45d2849387a",
+              "tools/architecture_run_receipt.py": "a6062afa9261958b8d8b85853a9c43031385b2c1",
+              "architecture/graph_artifact_readback.py": "c39ffd0fdcde1fd5f895c57df5f770a582918a8a",
+              "tools/architecture_check_binding.py": "53ea34e4fffc1087770584744939904844a41cff",
+              "tools/unittest_full_qualification.py": "02dc2f3222aaf3e3d4d024659fffff22d6fb5e66",
+              "tests/test_unittest_full_qualification.py": "2fe09abce9a8ef9356fd0af85780dcde75179386",
+              ".github/workflows/full-unittest-qualification.yml": "ff8226cdeea57ee2ddb41c58c8c93e644343557d",
+              ".github/workflows/navigation.yml": "6482bf3ab023dbab725ffa3e363ea177b8eee87e",
+              "tests/test_navigation_workflow.py": "e4bf7e132c1264549aead98f6ea6d4059514ae01",
+              "tests/test_navigation_discovery.py": "961ab5472b8e8cc3018eaad2944fc0fa332731e3",
+              "tests/test_navigation_history.py": "ea3db96dd2d6ebcd29ba7227e7632013706b7d90",
+              "tests/test_navigation_graph525.py": "7330ac6c0ab2f684602f4d0df7039b8175ec6f5d",
+              "tests/test_periodic_pilot_custody_oserror.py": "1013b0dad8fc213d786921cf8d9221698937815b",
+              "tools/periodic_pilot_custody.py": "024f860f6cec1e603a083bb2f09f32d7e32a2399",
+          }
+          LIMIT = 8 * 1024 * 1024
+          FIELDS = ("st_dev", "st_ino", "st_mode", "st_nlink", "st_size", "st_mtime_ns", "st_ctime_ns")
+          native_env = dict(os.environ)
+          workspace = Path(native_env["GITHUB_WORKSPACE"]).resolve(strict=True)
+          temporary = Path(native_env["RUNNER_TEMP"]).resolve(strict=True)
+          if temporary == workspace or temporary.is_relative_to(workspace):
+              raise ValueError("RUNNER_TEMP is inside the native checkout")
+          base = temporary / "navigation-source-state-probe-90436128"
+          base.mkdir(mode=0o700, exist_ok=False)
+          out = base / "evidence"
+          out.mkdir(mode=0o700)
+          
+          def encode(value):
+              return (json.dumps(value, sort_keys=True, ensure_ascii=True, allow_nan=False) + "\n").encode("ascii")
+          
+          def require(condition, reason):
+              if not condition:
+                  raise ValueError(reason)
+          
+          def safe_python_environment(environment):
+              result = {}
+              for key in ("PYTHONDONTWRITEBYTECODE", "PYTHONOPTIMIZE", "PYTHONNOUSERSITE", "PYTHONSAFEPATH",
+                          "PYTHONPATH", "PYTHONHOME", "PYTHONPYCACHEPREFIX", "PYTHONUSERBASE"):
+                  value = environment.get(key)
+                  row = {"present": value is not None}
+                  if value is not None:
+                      raw = value.encode("utf-8", errors="surrogateescape")
+                      row.update(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest())
+                      if key in ("PYTHONDONTWRITEBYTECODE", "PYTHONOPTIMIZE", "PYTHONNOUSERSITE", "PYTHONSAFEPATH"):
+                          row["simple_flag_value"] = value if value in ("", "0", "1", "2") else "OTHER_VALUE_NOT_PRINTED"
+                  result[key] = row
+              return result
+          
+          observation = {
+              "purpose": "DIAGNOSTIC_FIXED_ORIGINAL_METHOD_SOURCE_STATE_ONLY",
+              "native_context": {key: native_env.get(key) for key in (
+                  "GITHUB_ACTIONS", "GITHUB_REPOSITORY", "GITHUB_SHA", "GITHUB_RUN_ID",
+                  "GITHUB_RUN_ATTEMPT", "GITHUB_JOB", "GITHUB_WORKFLOW_REF", "GITHUB_WORKFLOW_SHA",
+                  "GITHUB_WORKSPACE", "RUNNER_ENVIRONMENT")},
+              "producer_source": {"head": HEAD, "tree": TREE, "method": METHOD, "pins": PINS},
+              "native_inherited_python_environment": safe_python_environment(native_env),
+              "controller_flags": {"isolated": sys.flags.isolated, "dont_write_bytecode": sys.flags.dont_write_bytecode,
+                                   "no_site": sys.flags.no_site, "optimize": sys.flags.optimize},
+              "original_fixture_semantics": (
+                  "The unchanged method itself supplies synthetic TEST GITHUB fields and a fake custody workspace. "
+                  "The probe introduces no GITHUB overrides. Those original fixture fields are not native identity."),
+              "hypothesis": "Unflagged original child may create source bytecode; actual paths and outcomes are unknown.",
+              "prediction_only": True, "new_test_qualification": False, "G5": False, "CBZ": False,
+              "science": "NONE", "status": "STARTED", "commands": [], "profiles": [],
+          }
+          streams = []
+          
+          def capture(label, command, cwd, environment, timeout=30, limit=1024 * 1024, print_streams=False):
+              # Every caller below supplies one closed command; this controller has no CLI or external command input.
+              row = {"label": label, "argv": command, "cwd": str(cwd), "timeout_seconds": timeout,
+                     "byte_limit_per_stream": limit, "status": "STARTED", "timed_out": False}
+              observation["commands"].append(row)
+              chunks = {"stdout": bytearray(), "stderr": bytearray()}
+              complete = {"stdout": False, "stderr": False}
+              selector = selectors.DefaultSelector()
+              process = None
+              deadline = time.monotonic() + timeout
+              try:
+                  process = subprocess.Popen(command, cwd=cwd, env=environment, stdin=subprocess.DEVNULL,
+                                             stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
+                  for channel, pipe in (("stdout", process.stdout), ("stderr", process.stderr)):
+                      os.set_blocking(pipe.fileno(), False)
+                      selector.register(pipe, selectors.EVENT_READ, channel)
+                  while selector.get_map():
+                      remaining = deadline - time.monotonic()
+                      if remaining <= 0:
+                          row["timed_out"] = True
+                          raise TimeoutError("closed command exceeded its deadline")
+                      for key, unused in selector.select(min(remaining, 1.0)):
+                          channel = key.data
+                          block = os.read(key.fileobj.fileno(), min(65536, limit + 1 - len(chunks[channel])))
+                          if not block:
+                              selector.unregister(key.fileobj)
+                              key.fileobj.close()
+                              complete[channel] = True
+                          else:
+                              chunks[channel].extend(block)
+                              require(len(chunks[channel]) <= limit, "closed command exceeded stream byte bound")
+                  remaining = deadline - time.monotonic()
+                  if remaining <= 0:
+                      row["timed_out"] = True
+                      raise TimeoutError("closed command exceeded its deadline")
+                  row["exit_code"] = process.wait(timeout=remaining)
+                  row["status"] = "COMPLETE"
+              except Exception as error:
+                  if isinstance(error, (TimeoutError, subprocess.TimeoutExpired)):
+                      row["timed_out"] = True
+                  row.update(status="CAPTURE_ERROR", error_type=type(error).__name__, error=str(error))
+              finally:
+                  if process is not None and process.poll() is None:
+                      try:
+                          os.killpg(process.pid, signal.SIGKILL)
+                      except ProcessLookupError:
+                          pass
+                      process.wait(timeout=5)
+                  selector.close()
+                  if process is not None:
+                      row.setdefault("exit_code", process.returncode)
+                      for pipe in (process.stdout, process.stderr):
+                          if pipe is not None and not pipe.closed:
+                              pipe.close()
+                  for channel in ("stdout", "stderr"):
+                      raw = bytes(chunks[channel])
+                      filename = label + "." + channel + ".bin"
+                      (out / filename).write_bytes(raw)
+                      row[channel] = {"file": filename, "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest(),
+                                      "complete": complete[channel]}
+                      if print_streams:
+                          streams.append((filename, raw, complete[channel]))
+              return row, bytes(chunks["stdout"])
+          
+          def git(label, root, arguments):
+              environment = {key: value for key, value in native_env.items() if not key.startswith("GIT_")}
+              environment.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
+                                 GIT_NO_REPLACE_OBJECTS="1", GIT_OPTIONAL_LOCKS="0")
+              command = ["git", "--no-replace-objects", "--literal-pathspecs", "-c", "core.fsmonitor=false",
+                         "-c", "core.hooksPath=/dev/null", "-C", str(root), *arguments]
+              row, raw = capture(label, command, root, environment, timeout=60, limit=2 * 1024 * 1024)
+              require(row["status"] == "COMPLETE" and row.get("exit_code") == 0, "read-only/source-worktree Git command failed")
+              return raw
+          
+          def stamp(value):
+              return tuple(getattr(value, key) for key in FIELDS)
+          
+          def metadata(root, relative):
+              result = {"name": relative, "status": "READ_REFUSED"}
+              descriptors = []
+              links = []
+              try:
+                  parts = relative.split("/")
+                  require(parts and all(part and part not in (".", "..") for part in parts), "unsafe Git-listed relative path")
+                  descriptor = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                  descriptors.append(descriptor)
+                  for part in parts[:-1]:
+                      parent = descriptor
+                      descriptor = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=parent)
+                      descriptors.append(descriptor)
+                      opened = os.fstat(descriptor)
+                      links.append((parent, part, opened.st_dev, opened.st_ino))
+                  name = parts[-1]
+                  before = os.stat(name, dir_fd=descriptor, follow_symlinks=False)
+                  kind = ("regular" if stat.S_ISREG(before.st_mode) else "directory" if stat.S_ISDIR(before.st_mode)
+                          else "symlink" if stat.S_ISLNK(before.st_mode) else "other")
+                  result.update(type=kind, mode=oct(stat.S_IMODE(before.st_mode)), size=before.st_size,
+                                nlink=before.st_nlink)
+                  require(kind == "regular" and before.st_nlink == 1, "not a single-link regular file")
+                  require(0 <= before.st_size <= LIMIT, "metadata hash extent exceeds 8 MiB")
+                  fd = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=descriptor)
+                  descriptors.append(fd)
+                  require(stamp(before) == stamp(os.fstat(fd)), "file changed before metadata hash")
+                  sha256 = hashlib.sha256()
+                  blob = hashlib.sha1(b"blob " + str(before.st_size).encode("ascii") + b"\0")
+                  extent = 0
+                  while True:
+                      block = os.read(fd, min(65536, LIMIT + 1 - extent))
+                      if not block:
+                          break
+                      extent += len(block)
+                      require(extent <= LIMIT, "metadata hash extent exceeds 8 MiB")
+                      sha256.update(block)
+                      blob.update(block)
+                  require(extent == before.st_size and stamp(before) == stamp(os.fstat(fd))
+                          and stamp(before) == stamp(os.stat(name, dir_fd=descriptor, follow_symlinks=False)),
+                          "file changed during metadata hash")
+                  for parent, part, device, inode in links:
+                      current = os.stat(part, dir_fd=parent, follow_symlinks=False)
+                      require(stat.S_ISDIR(current.st_mode) and (current.st_dev, current.st_ino) == (device, inode),
+                              "ancestor changed during metadata hash")
+                  result.update(status="HASHED", sha256=sha256.hexdigest(), git_blob=blob.hexdigest(), hashed_bytes=extent)
+              except (OSError, ValueError) as error:
+                  result.update(error_type=type(error).__name__, error=str(error))
+              finally:
+                  for descriptor in reversed(descriptors):
+                      os.close(descriptor)
+              return result
+          
+          def witness(label, root):
+              context = git(label + "-context", root, ["rev-parse", "--show-toplevel", "HEAD", "HEAD^{tree}"]).decode("utf-8").splitlines()
+              require(context == [str(root), HEAD, TREE], "producer worktree source identity mismatch")
+              tracked = git(label + "-tracked", root, ["status", "--porcelain=v1", "-z", "--untracked-files=no", "--ignore-submodules=none"])
+              untracked = git(label + "-untracked", root, ["ls-files", "--others", "--exclude-standard", "-z"])
+              ignored = git(label + "-ignored", root, ["ls-files", "--others", "--ignored", "--exclude-standard", "-z"])
+              listed = git(label + "-pins", root, ["ls-tree", "-z", "HEAD", "--", *sorted(PINS)])
+              entries = {}
+              for item in listed.split(b"\0"):
+                  if item:
+                      prefix, name = item.split(b"\t", 1)
+                      mode, kind, identity = prefix.decode("ascii").split()
+                      entries[name.decode("utf-8")] = (mode, kind, identity)
+              pins = []
+              for relative, identity in sorted(PINS.items()):
+                  row = metadata(root, relative)
+                  row["expected_git_blob"] = identity
+                  row["git_tree_entry"] = entries.get(relative)
+                  row["pin_matches"] = (entries.get(relative) == ("100644", "blob", identity)
+                                        and row.get("git_blob") == identity and row.get("mode") == "0o644")
+                  pins.append(row)
+              populations = {}
+              for name, raw in (("untracked", untracked), ("ignored", ignored)):
+                  require(not raw or raw.endswith(b"\0"), "unterminated Git name inventory")
+                  paths = [path.decode("utf-8") for path in raw.split(b"\0") if path]
+                  require(len(paths) <= 256 and len(paths) == len(set(paths)), "dirty name inventory exceeds bound or duplicates")
+                  populations[name] = [metadata(root, path) for path in paths]
+              value = {"label": label, "root": str(root), "head": HEAD, "tree": TREE,
+                       "tracked_status_utf8": tracked.decode("utf-8"),
+                       "tracked_status_bytes": len(tracked), "tracked_status_sha256": hashlib.sha256(tracked).hexdigest(),
+                       "pins": pins, **populations}
+              (out / (label + ".json")).write_bytes(encode(value))
+              require(not tracked and all(row["pin_matches"] for row in pins), "tracked/protected producer source changed")
+              return value
+          
+          HELPER = """import json, sys
+          from pathlib import Path
+          print(json.dumps({"phase": "BEFORE_FIXED_HELPER_IMPORT", "cwd": str(Path.cwd().resolve()), "flags": {"dont_write_bytecode": sys.flags.dont_write_bytecode, "no_site": sys.flags.no_site, "optimize": sys.flags.optimize, "isolated": sys.flags.isolated}}, sort_keys=True), flush=True)
+          from tools import unittest_full_qualification as subject
+          if Path(subject.__file__).resolve() != Path.cwd().resolve() / "tools/unittest_full_qualification.py":
+              raise ValueError("helper import escaped the fixed actual worktree")
+          print(json.dumps({"helper_import": "COMPLETED", "origin": str(Path(subject.__file__).resolve())}, sort_keys=True), flush=True)
+          """
+          
+          code = 1
+          try:
+              require(native_env.get("GITHUB_REPOSITORY") == "d6g8k5htny-coder/main", "unexpected native repository")
+              current = git("native-checkout-context", workspace, ["rev-parse", "--show-toplevel", "HEAD", "HEAD^{tree}"]).decode().splitlines()
+              require(len(current) == 3 and current[0] == str(workspace) and current[1] == native_env.get("GITHUB_SHA"),
+                      "native reader checkout identity mismatch")
+              observation["native_checkout"] = {"root": current[0], "head": current[1], "tree": current[2]}
+              for profile, bytecode_value in (("baseline-unset", None), ("dontwrite-one", "1")):
+                  root = base / profile
+                  require(not root.exists() and not root.is_symlink(), "probe worktree already exists")
+                  git(profile + "-create-worktree", workspace, ["worktree", "add", "--detach", str(root), HEAD])
+                  environment = dict(native_env)
+                  environment.pop("PYTHONDONTWRITEBYTECODE", None)
+                  if bytecode_value is not None:
+                      environment["PYTHONDONTWRITEBYTECODE"] = bytecode_value
+                  record = {"profile": profile, "root": str(root),
+                            "only_declared_environment_transform": {"PYTHONDONTWRITEBYTECODE": bytecode_value},
+                            "python_environment": safe_python_environment(environment), "stages": []}
+                  observation["profiles"].append(record)
+                  before = witness(profile + "-baseline", root)
+                  record["stages"].append(before)
+                  require(not before["untracked"] and not before["ignored"], "fresh producer worktree is already dirty")
+                  row, unused = capture(profile + "-helper-before", [sys.executable, "-B", "-S", "-c", HELPER],
+                                        root, environment, timeout=45, print_streams=True)
+                  record["helper_before"] = row
+                  row, unused = capture(profile + "-original-method", [sys.executable, "-B", "-S", "-m", "unittest", "-v", METHOD],
+                                        root, environment, timeout=120, print_streams=True)
+                  record["original_method"] = row
+                  record["stages"].append(witness(profile + "-after-method", root))
+                  row, unused = capture(profile + "-helper-after", [sys.executable, "-B", "-S", "-c", HELPER],
+                                        root, environment, timeout=45, print_streams=True)
+                  record["helper_after"] = row
+                  record["stages"].append(witness(profile + "-final", root))
+              observation["status"] = "DIAGNOSTIC_SEQUENCE_COMPLETE_NO_CAUSE_ASSERTION"
+              code = 0 if all(row["status"] == "COMPLETE" for row in observation["commands"]) else 1
+          except Exception as error:
+              observation.update(status="DIAGNOSTIC_REFUSED_OR_ERROR", error_type=type(error).__name__, error=str(error))
+              raw = traceback.format_exc().encode("utf-8")
+              (out / "controller-error.log").write_bytes(raw)
+              streams.append(("controller-error.log", raw, True))
+          finally:
+              (out / "observation.json").write_bytes(encode(observation))
+              records = [("observation.json", encode(observation), True)]
+              for profile in observation["profiles"]:
+                  records.extend((stage["label"] + ".json", encode(stage), True) for stage in profile["stages"])
+              records.extend(streams)
+              nonce = secrets.token_hex(32)
+              while any(nonce.encode("ascii") in raw for unused, raw, complete in records):
+                  nonce = secrets.token_hex(32)
+              sys.stdout.buffer.write(("::stop-commands::" + nonce + "\n").encode("ascii"))
+              try:
+                  for name, raw, complete in records:
+                      try:
+                          raw.decode("utf-8", errors="strict")
+                          utf8 = True
+                      except UnicodeError:
+                          utf8 = False
+                      sys.stdout.buffer.write(b"SOURCE_STATE_ORIGINAL_STREAM " + encode({
+                          "name": name, "original_bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest(),
+                          "capture_complete": complete, "utf8_valid": utf8, "printed_prefix_truncated": False}))
+                      require(sys.stdout.buffer.write(raw) == len(raw), "short diagnostic stdout write")
+                      if raw and not raw.endswith(b"\n"):
+                          sys.stdout.buffer.write(b"\n")
+                      sys.stdout.buffer.write(b"SOURCE_STATE_ORIGINAL_STREAM_END " + encode({"name": name, "printed_bytes": len(raw)}))
+                      sys.stdout.buffer.flush()
+              finally:
+                  sys.stdout.buffer.write(("::" + nonce + "::\n").encode("ascii"))
+                  sys.stdout.buffer.flush()
+          raise SystemExit(code)
+          PY
+      - name: Retain actual source-state metadata and original process streams
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: navigation-source-state-probe-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/navigation-source-state-probe-90436128/evidence/
+          if-no-files-found: error
+          retention-days: 30
