@@ -1,0 +1,23 @@
+{
+  "observed_at": "2026-11-10T08:15:23.237Z",
+  "purpose": "Request a full rerun of Main 811 workflow so formal, architecture and aggregate checks can share the same attempt.",
+  "request_snapshot": "5de1991cfd35586dd5f47e21d4d1e061cf2aade2",
+  "requested_run": 42778804824,
+  "previous_attempt": 2,
+  "previous_outcome": "failure: aggregate rejected formal output from attempt 1",
+  "new_attempt": 3,
+  "new_status_at_observation": "in_progress",
+  "expected_head": "b285dd7a31ad7b297abc9f2aa93267300111a4e9",
+  "request_job": 129711176960,
+  "request_job_outcome": "success; two-mode 4-test guards and exact target check passed; POST returned accepted",
+  "request_log_blob": "f9e98a84a454e0a3c110baf34e6fc3b2c8e7d11d",
+  "removal": {
+    "paths": [
+      ".github/workflows/cbz-rerun-main811-20261110.yml",
+      "cbz/ops/rerun_all_main811.py",
+      "cbz/ops/test_rerun_all_main811.py"
+    ],
+    "reason": "One-shot request has completed; remove its trigger and operational files from debug tip to prevent accidental repeats. Exact source, tests and original evidence remain in parent snapshot 5de1991cfd35586dd5f47e21d4d1e061cf2aade2."
+  },
+  "scope": "Actions permissions remain platform enforced; no source/default-ref update, scientific acceptance, completed workflow result, final gate or CBZ status is asserted."
+}
