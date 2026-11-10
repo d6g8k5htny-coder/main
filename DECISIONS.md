@@ -566,3 +566,15 @@ proof, ownership, scientific disposition, gate threshold, fullG5 or CBZ award ch
 - Leave all source branches and tags in place. No ref deletion, proof status,
   quarantine admission, scientific acceptance or gate threshold changes.
   The additive delivery is recoverable through Git history.
+
+[2026-11-10] [Phase 2] [Layer B / source custody] Preserve the separately
+observed 430 public Main and Math historical refs, their exact head/tree
+objects and the selected changed head-side `.lean` and `.md` blob packs under
+`cbz/evidence/public-selected-text-custody-20261110/`. Verify the stated
+selection and each preserved object in both Python modes; retain the specified
+adverse executions and their original results. Scope excludes deleted
+default-side data, unchanged content, Gitlink targets, other suffixes and
+private refs. Source identity is not a proof, quarantine, semantic uniqueness,
+scientific review or permission to remove a ref. Reversible: additive isolated
+candidate; prior source and historical outcomes remain. Evidence: package
+README, SHA256SUMS and retained verification history.

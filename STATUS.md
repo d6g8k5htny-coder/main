@@ -1,5 +1,45 @@
 # CBZ-0 execution status
 
+## Selected historical text custody candidate — observed 10 November 2026
+
+This candidate preserves exact Git head/tree objects and selected changed
+head-side text blobs from 430 historical public Main and Math refs: 588 Main
+`.lean` blobs and 608 Math `.lean`/`.md` blobs, with 6,867 head/path bindings.
+The case-sensitive suffix selection, separately observed defaults, exact
+identities and exclusions are in the [custody record](cbz/evidence/public-selected-text-custody-20261110/README.md). It does not
+preserve deleted default-side blobs, unchanged files, other suffixes, Gitlink
+contents or private refs. Ref currency, semantic uniqueness, proof status,
+logical isolation and scientific acceptance are not inferred. No ref is
+removed.
+
+A fresh copy of the packaged record checked all 24 checksums, completed four
+Main/Math cold readbacks in normal and optimized Python modes, and ran the
+specified adverse driver: two clean passes, 30 altered-selection or source
+record rejections, four detected verifier-mutant executions and two damaged-pack
+rejections. These are bounded source-custody controls, not a complete Layer A
+auditor, proof inventory or final G0/G10 gate.
+
+From the Main checkout, run these exact source-custody checks in a disposable
+directory with Git and Python's standard library:
+
+```sh
+CBZ_TEXT_CHECK_DIR=$(mktemp -d) || exit 1
+cp -a cbz/evidence/public-selected-text-custody-20261110 "$CBZ_TEXT_CHECK_DIR/text-custody" || exit 1
+cd "$CBZ_TEXT_CHECK_DIR/text-custody" || exit 1
+sha256sum -c SHA256SUMS || exit 1
+python3 -B -S cold_restore_captured_text_blobs.py main || exit 1
+python3 -B -S cold_restore_captured_text_blobs.py Math- || exit 1
+python3 -B -S test_captured_text_blobs_adverse.py || exit 1
+```
+
+Separately, Main #796 merged at `812a799f4cf4cee730efa0177a9101af4cf259ef`;
+Workspace #68 merged at `83f14fda7ad9acf6b35a642b3e9e6a18e60912de` and its
+post-merge eight-pin check observed Main `812a799f` and Math `9bdfc54b`.
+Main #798 was a ready source-custody candidate at head `0a5b9eca` at the
+subsequent read. Its navigation artifact recorded 2,686 tests with 24 explicit
+skips. These observations were separate and can become stale; they do not
+establish a current consistent federation cut or complete regression.
+
 ## Public branch custody candidate — observed 10 November 2026, 02:19 UTC
 
 This candidate preserves selected public Git objects from 58 captured refs in

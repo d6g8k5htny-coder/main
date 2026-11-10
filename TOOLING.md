@@ -1,5 +1,42 @@
 # CBZ mission-tool registry
 
+## Selected historical text custody readback — 10 November 2026
+
+**Purpose and scope.** Independently replay captured Git tree comparisons,
+reselect the stated suffixes, and read the selected blob packs by Git SHA-1
+and SHA-256. Git and Python's standard library are required.
+
+This candidate preserves exact Git head/tree objects and selected changed
+head-side text blobs from 430 historical public Main and Math refs: 588 Main
+`.lean` blobs and 608 Math `.lean`/`.md` blobs, with 6,867 head/path bindings.
+The case-sensitive suffix selection, separately observed defaults, exact
+identities and exclusions are in the [custody record](cbz/evidence/public-selected-text-custody-20261110/README.md). It does not
+preserve deleted default-side blobs, unchanged files, other suffixes, Gitlink
+contents or private refs. Ref currency, semantic uniqueness, proof status,
+logical isolation and scientific acceptance are not inferred. No ref is
+removed.
+
+**Exact command.** From a Main checkout:
+
+```sh
+CBZ_TEXT_CHECK_DIR=$(mktemp -d) || exit 1
+cp -a cbz/evidence/public-selected-text-custody-20261110 "$CBZ_TEXT_CHECK_DIR/text-custody" || exit 1
+cd "$CBZ_TEXT_CHECK_DIR/text-custody" || exit 1
+sha256sum -c SHA256SUMS || exit 1
+python3 -B -S cold_restore_captured_text_blobs.py main || exit 1
+python3 -B -S cold_restore_captured_text_blobs.py Math- || exit 1
+python3 -B -S test_captured_text_blobs_adverse.py || exit 1
+```
+
+**Observed verification and limits.**
+
+A fresh copy of the packaged record checked all 24 checksums, completed four
+Main/Math cold readbacks in normal and optimized Python modes, and ran the
+specified adverse driver: two clean passes, 30 altered-selection or source
+record rejections, four detected verifier-mutant executions and two damaged-pack
+rejections. These are bounded source-custody controls, not a complete Layer A
+auditor, proof inventory or final G0/G10 gate.
+
 ## Public branch custody readbacks — 10 November 2026
 
 **Purpose and scope.** Compare captured public head tree/path identities to a
