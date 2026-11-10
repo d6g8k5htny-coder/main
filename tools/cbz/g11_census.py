@@ -4540,6 +4540,17 @@ def _strict_workflow_json(text):
                           parse_constant=_reject_workflow_json_constant)
     if not isinstance(workflow, dict) or not isinstance(workflow.get("jobs"), dict):
         raise ValueError("JSON workflow must have a jobs object")
+    for job in workflow["jobs"].values():
+        if not isinstance(job, dict):
+            raise ValueError("JSON workflow job must be an object")
+        if "steps" in job:
+            if not isinstance(job["steps"], list):
+                raise ValueError("JSON workflow steps must be a list")
+            for step in job["steps"]:
+                if not isinstance(step, dict):
+                    raise ValueError("JSON workflow step must be an object")
+                if "run" in step and not isinstance(step["run"], str):
+                    raise ValueError("JSON workflow run must be a string")
     return workflow
 
 

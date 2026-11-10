@@ -47,6 +47,11 @@ CASES = (
      '                    pass',
      PREFIX + "test_duplicate_json_workflow_is_unparseable",
      'self.assertEqual(report["status"], "FAIL")'),
+    ("non-string JSON run accepted",
+     '                if "run" in step and not isinstance(step["run"], str):\n                    raise ValueError("JSON workflow run must be a string")',
+     '                if False:\n                    raise ValueError("JSON workflow run must be a string")',
+     PREFIX + "test_nonstring_json_run_is_unparseable",
+     'self.assertEqual(report["status"], "FAIL")'),
 )
 
 def run(root):
