@@ -97,6 +97,16 @@ CASES = (
      "                                if module_path in tools:",
      PREFIX + "test_python_module_after_early_exit_is_not_a_reference",
      "self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())"),
+    ("invalid Python option operand credited",
+     "            if tokens and not _workflow_interpreter_options_bounded(tokens):\n                tokens = []",
+     "            if tokens and tokens[:2] != [\"python3\", \"--check-hash-based-pycs\"] and not _workflow_interpreter_options_bounded(tokens):\n                tokens = []",
+     PREFIX + "test_invalid_interpreter_option_operands_do_not_execute_tool",
+     "self.assertEqual(g11.workflow_tool_references(text, {tool}), set())"),
+    ("invalid shell option operand credited",
+     "            if tokens and not _workflow_interpreter_options_bounded(tokens):\n                tokens = []",
+     "            if tokens and tokens[:2] != [\"bash\", \"-o\"] and not _workflow_interpreter_options_bounded(tokens):\n                tokens = []",
+     PREFIX + "test_invalid_interpreter_option_operands_do_not_execute_tool",
+     "self.assertEqual(g11.workflow_tool_references(text, {tool}), set())"),
 )
 
 def run(root):

@@ -4602,6 +4602,28 @@ def _workflow_unwrap_env(tokens):
     return []
 
 
+def _workflow_interpreter_options_bounded(tokens):
+    """Refuse interpreter options whose operands are not validated here."""
+    interpreter = tokens[0]
+    if interpreter in {"python", "python3", "python3.11"}:
+        operand_options = {"-W", "-X", "--check-hash-based-pycs"}
+        attached_options = ("-W", "-X")
+    elif interpreter in {"bash", "sh"}:
+        operand_options = {"-O", "+O", "-o", "+o", "--init-file", "--rcfile"}
+        attached_options = ()
+    else:
+        return True
+    for token in tokens[1:]:
+        if token in ("--", "-m"):
+            return True
+        if token in operand_options or any(token.startswith(option) for option in attached_options):
+            return False
+        if token.startswith(("-", "+")):
+            continue
+        return True
+    return True
+
+
 def workflow_tool_references(text, tools):
     references = set()
     for _number, commands in _workflow_reference_commands(text):
@@ -4619,6 +4641,8 @@ def workflow_tool_references(text, tools):
                 tokens = []
             if tokens and tokens[0] == "env":
                 tokens = _workflow_unwrap_env(tokens)
+            if tokens and not _workflow_interpreter_options_bounded(tokens):
+                tokens = []
             if tokens:
                 references.update(_command_tool_values(tokens, tools))
                 if tokens[0] in {"python", "python3", "python3.11"}:
