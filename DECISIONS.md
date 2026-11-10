@@ -792,3 +792,19 @@ README, SHA256SUMS and retained verification history.
 - Preserve the diagnostic commit as an additional candidate parent and retain
   its workflow as evidence rather than enabling it on the candidate. This is
   reversible and does not alter any default ref or scientific claim.
+
+## 2026-11-10 — Preserve publication artifact readback and inspection failures
+
+- [Layer B / tool evidence] Retain the two recomposed publication/recovery
+  component logs, the bounded archive-readback source and all four actual
+  readback attempts under
+  `cbz/evidence/publication-artifact-observation-20261110/`. The successful
+  readback checked exact artifact digests, CRCs, tested-source hashes, unit
+  outcomes and selected mutation-origin records; it is scoped component
+  evidence, not a deployment or final G0--G11 pass.
+- Keep the earlier readback failures: one selected test emitted two authorized
+  events and the initial reader assumed one; a later reader inferred a mutant
+  file extension from its label. The corrected reader checks every selected
+  event and requires one recorded mutant source. Original component outcomes
+  are unchanged. Preserve the diagnostic ancestry and its source as evidence,
+  not an active workflow or a new general-purpose certifier.
