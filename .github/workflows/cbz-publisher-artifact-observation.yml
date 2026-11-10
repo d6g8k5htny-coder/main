@@ -110,7 +110,9 @@ jobs:
                               except ValueError:
                                   print(json.dumps({'failed_label': label, 'mode': mode, 'selected': selected, 'origin_fields': {k: changed.get(k) for k in ('names', 'failure_count', 'error_count', 'authorized_failures', 'unauthorized_failures', 'errors', 'events')}}, sort_keys=True))
                                   raise
-                              mutant_path = 'mutant.yml' if label.startswith('workflow-') else 'mutant.py'
+                              choices = [candidate for candidate in ('mutant.py', 'mutant.yml') if any(n == prefix + candidate or n.endswith('/' + prefix + candidate) for n in names)]
+                              require(len(choices) == 1, 'missing or ambiguous mutant source')
+                              mutant_path = choices[0]
                               claimed = row.get('sha256') if publisher else row.get('mutant_sha256')
                               require(hashlib.sha256(get(prefix + mutant_path)).hexdigest() == claimed, 'mutant bytes')
                               if controls == 0:
