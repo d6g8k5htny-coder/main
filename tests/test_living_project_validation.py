@@ -829,18 +829,14 @@ class RealRecordTests(unittest.TestCase):
 
     def test_real_records_dependencies_when_present(self):
         payloads = [record for _, record in _require_real_records()]
-        if not any(record.get("depends_on") for record in payloads):
-            self.skipTest(
-                "no real record carries depends_on; dependency checks are not exercised. "
-                "depends_on is not interface v0. Dependency validation is not proof verification."
-            )
+        self.assertTrue(any(record.get('depends_on') for record in payloads),
+                        'current adoption requires actual dependency declarations')
         self.assertEqual([err for err in validate(payloads) if err[0] == "dependency"], [])
 
     def test_real_records_cited_artifacts_when_present(self):
         records = _require_real_records()
         cited = [artifact for _, record in records for artifact in record.get("artifacts", [])]
-        if not cited:
-            self.skipTest("no real record cites repo artifact paths; missing-artifact checks are not exercised")
+        self.assertTrue(cited, 'current adoption requires actual hard-gate artifact declarations')
         present = frozenset(str(path.relative_to(REPO)) for path in REPO.rglob("*") if path.is_file())
         self.assertEqual(sorted(artifact for artifact in cited if artifact not in present), [])
 

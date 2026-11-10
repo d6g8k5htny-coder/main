@@ -1,14 +1,23 @@
 # Node-status acceptance. This job is not a required check and is not part of
-# workspace-landing. It does not edit any existing workflow step.
+# workspace-landing. Atlas/validator commands remain; seven-method steps retain native RED.
 name: Node status
 
 on:
   pull_request:
     paths:
       - 'architecture/node-status.schema.json'
+      - 'architecture/node-status-v1.schema.json'
+      - 'architecture/node-status-inputs.json'
       - 'records/node_status/**'
       - 'docs/site/**'
       - 'tools/validate_node_status.py'
+      - 'tools/node_status_live_check.py'
+      - 'tools/node_status_refresh.py'
+      - 'tools/node_status_v1.py'
+      - 'tests/test_living_project_validation.py'
+      - 'cbz/evidence/hard-gate-source-refresh-20261110/README.md'
+      - 'cbz/evidence/hard-gate-source-refresh-20261110/current-SOURCE_FILES.json'
+      - 'cbz/evidence/hard-gate-source-refresh-20261110/observation.json'
       - 'tools/current_site_history.py'
       - 'tests/test_node_status_atlas.mjs'
       - 'tests/fixtures/node_status/**'
@@ -17,9 +26,18 @@ on:
     branches: [main]
     paths:
       - 'architecture/node-status.schema.json'
+      - 'architecture/node-status-v1.schema.json'
+      - 'architecture/node-status-inputs.json'
       - 'records/node_status/**'
       - 'docs/site/**'
       - 'tools/validate_node_status.py'
+      - 'tools/node_status_live_check.py'
+      - 'tools/node_status_refresh.py'
+      - 'tools/node_status_v1.py'
+      - 'tests/test_living_project_validation.py'
+      - 'cbz/evidence/hard-gate-source-refresh-20261110/README.md'
+      - 'cbz/evidence/hard-gate-source-refresh-20261110/current-SOURCE_FILES.json'
+      - 'cbz/evidence/hard-gate-source-refresh-20261110/observation.json'
       - 'tools/current_site_history.py'
       - 'tests/test_node_status_atlas.mjs'
       - 'tests/fixtures/node_status/**'
@@ -36,95 +54,476 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
+          fetch-depth: 0
       - name: Node-status atlas test and validator
         run: |
           node --test tests/test_node_status_atlas.mjs
           python3 -B -S tools/validate_node_status.py records/node_status
-      - name: Require five real-record methods in normal Python
+      - name: Prepare exclusive seven-method evidence
         if: ${{ !cancelled() }}
         shell: bash
         run: |
           set -euo pipefail
-          log="$RUNNER_TEMP/node-status-real-record-normal.log"
-          {
-            printf 'mode=normal\n'
-            python3 -B -S -c 'import sys; print("executable=" + sys.executable); print("python=" + sys.version.replace("\n", " ")); print("optimize=" + str(sys.flags.optimize))'
-            printf 'checked_commit='
-            git rev-parse HEAD
-            printf 'checked_tree='
-            git rev-parse 'HEAD^{tree}'
-            python3 -B -S -u - <<'Q9002_METHODS_PY'
-          import unittest
+          unset PYTHONPATH PYTHONHOME
+          python3 -I -B -S - <<'Q4_PREPARE'
+          import json,os
+          from pathlib import Path
+          import sys
+          root=Path(os.environ["GITHUB_WORKSPACE"])
+          parent=Path(os.environ["RUNNER_TEMP"])
+          if (not root.is_absolute() or root.resolve()!=root or Path.cwd()!=root
+                  or not parent.is_absolute() or parent.resolve()!=parent or not parent.is_dir()
+                  or parent.is_relative_to(root) or root.is_relative_to(parent)):
+              raise RuntimeError("canonical external native temporary parent required")
+          out=parent/"node-status-real-seven"
+          if os.path.lexists(out):
+              raise RuntimeError("new exclusive evidence directory required")
+          out.mkdir(mode=0o700)
+          value={"executable":sys.executable,"version":sys.version,"cwd":str(root),
+                 "bootstrap_flags":"-I -B -S","scientific_effect":"NONE","http_credit":False}
+          with (out/"interpreter.json").open("xb") as stream:
+              stream.write((json.dumps(value,sort_keys=True)+"\n").encode())
+          Q4_PREPARE
+      - name: Bind nineteen canonical inputs before execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          unset PYTHONPATH PYTHONHOME
+          python3 -I -B -S - <<'Q4_SOURCE_BEFORE'
+          import json,os,subprocess,sys
+          from pathlib import Path
+          out=Path(os.environ["RUNNER_TEMP"])/"node-status-real-seven"
+          SOURCE = r'''import hashlib
+          import importlib.util
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import stat
+          import subprocess
+          import sys
 
-          identifiers = (
-              "tests.test_living_project_validation.RealRecordTests.test_adoption_on_merged_records",
-              "tests.test_living_project_validation.RealRecordTests.test_real_records_required_fields",
-              "tests.test_living_project_validation.RealRecordTests.test_real_records_source_rev_equals_first_source",
-              "tests.test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern",
-              "tests.test_living_project_validation.RealRecordTests.test_real_records_match_published_projection",
+          LIMIT = 2097152
+          ROOT = Path(os.environ["GITHUB_WORKSPACE"])
+          OUT = Path(os.environ["RUNNER_TEMP"]) / "node-status-real-seven"
+          RECORDS = ("eng.d0-packet-allowlist-fix.json", "eng.hard-gate.json",
+                     "math.lifetime-remainder.json", "math.side24-coefficient.json")
+          PATHS = (
+              "tools/node_status_live_check.py", "tools/node_status_refresh.py",
+              "tools/node_status_v1.py", "tools/validate_node_status.py",
+              "architecture/node-status.schema.json", "architecture/node-status-v1.schema.json",
+              "architecture/node-status-inputs.json", "docs/site/current.json",
+              "docs/site/dependency-source/GRAPH.json", "docs/site/node-status.json",
+              "cbz/evidence/hard-gate-source-refresh-20261110/README.md",
+              "cbz/evidence/hard-gate-source-refresh-20261110/current-SOURCE_FILES.json",
+              "cbz/evidence/hard-gate-source-refresh-20261110/observation.json",
+              *("records/node_status/" + name for name in RECORDS),
+              "tests/test_living_project_validation.py", ".github/workflows/node-status.yml",
           )
-          suite = unittest.TestSuite(
-              unittest.defaultTestLoader.loadTestsFromName(name) for name in identifiers
-          )
-          result = unittest.TextTestRunner(verbosity=2, descriptions=False).run(suite)
+
+          def need(value, message):
+              if not value:
+                  raise RuntimeError(message)
+
+          def dump(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n").encode()
+
+          def git(*args):
+              value = subprocess.run(("git", "-C", str(ROOT), *args), capture_output=True, timeout=30)
+              need(value.returncode == 0 and not value.stderr and len(value.stdout) <= 4*LIMIT, "Git read failed")
+              return value.stdout
+
+          def head():
+              return [git("rev-parse", "--verify", "HEAD").decode().strip(),
+                      git("rev-parse", "--verify", "HEAD^{tree}").decode().strip()]
+
+          def rows(*paths):
+              result = {}
+              for item in git("ls-tree", "-r", "-z", "HEAD", "--", *paths).split(b"\0"):
+                  if item:
+                      metadata, name = item.split(b"\t", 1)
+                      need(name.decode() not in result, "duplicate native path")
+                      result[name.decode()] = metadata.decode().split(" ")
+              return result
+
+          def original(relative):
+              parts = relative.split("/")
+              descriptor = os.open(ROOT, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              file = None
+              try:
+                  for part in parts[:-1]:
+                      next_fd = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=descriptor)
+                      os.close(descriptor)
+                      descriptor = next_fd
+                  file = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=descriptor)
+                  before = os.fstat(file)
+                  need(stat.S_ISREG(before.st_mode) and stat.S_IMODE(before.st_mode) == 0o644
+                       and before.st_nlink == 1 and before.st_size <= LIMIT, "input mode/type/size refused")
+                  with os.fdopen(file, "rb") as stream:
+                      file = None
+                      raw = stream.read(LIMIT+1)
+                      after = os.fstat(stream.fileno())
+                  fields = ("st_dev", "st_ino", "st_mode", "st_nlink", "st_size", "st_mtime_ns", "st_ctime_ns")
+                  physical = {key: getattr(before, key) for key in fields}
+                  need(physical == {key: getattr(after, key) for key in fields}
+                       and len(raw) == before.st_size, "input changed while read")
+                  return raw, physical
+              finally:
+                  if file is not None:
+                      os.close(file)
+                  os.close(descriptor)
+
+          need(sys.argv[1:] in (["before"], ["after"]), "fixed guard phase required")
+          phase = sys.argv[1]
+          need(ROOT.is_absolute() and ROOT.resolve() == ROOT and Path.cwd() == ROOT, "native canonical cwd required")
+          need(os.environ.get("GITHUB_ACTIONS") == "true"
+               and os.environ.get("GITHUB_REPOSITORY") == "d6g8k5htny-coder/main", "native Actions required")
+          identity = {key: os.environ.get(key, "") for key in
+                      ("GITHUB_REPOSITORY", "GITHUB_SHA", "GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT")}
+          need(re.fullmatch("[0-9a-f]{40}", identity["GITHUB_SHA"]), "native SHA required")
+          need(all(re.fullmatch("[1-9][0-9]*", identity[key]) for key in
+                   ("GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT")), "native run identity required")
+          first = head()
+          need(first[0] == identity["GITHUB_SHA"] and all(re.fullmatch("[0-9a-f]{40}", value) for value in first),
+               "native HEAD/tree differs")
+          absent = ["tests/__init__.py"] + [
+              importlib.util.cache_from_source(path, optimization=optimization)
+              for path in ("tests/test_living_project_validation.py", "tools/validate_node_status.py")
+              for optimization in ("", "1")]
+          need(not rows(*absent) and all(not os.path.lexists(ROOT/path) for path in absent),
+               "tests namespace init and selected cached bytecode must be absent")
+          native = rows(*PATHS)
+          need(set(native) == set(PATHS), "closed native source set differs")
+          need(set(rows("records/node_status")) == {"records/node_status/"+name for name in RECORDS}
+               and sorted(path.name for path in (ROOT/"records/node_status").iterdir()) == sorted(RECORDS),
+               "complete record directory differs")
+          bindings = []
+          total = 0
+          for relative in PATHS:
+              mode, kind, identifier = native[relative]
+              need(mode == "100644" and kind == "blob" and re.fullmatch("[0-9a-f]{40}", identifier),
+                   "native input mode/type refused")
+              raw, physical = original(relative)
+              need(raw == git("cat-file", "blob", identifier)
+                   and hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest() == identifier,
+                   "working/native bytes differ")
+              total += len(raw)
+              need(total <= LIMIT, "captured source aggregate exceeds 2 MiB")
+              bindings.append({"path": relative, "git_mode": mode, "git_type": kind, "git_blob": identifier,
+                               "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest(), "physical": physical})
+              if phase == "before":
+                  target = OUT/"source-originals"/relative
+                  target.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+                  with target.open("xb") as stream:
+                      stream.write(raw)
+          need(head() == first, "HEAD/tree changed during capture")
+          value = {"identity": identity, "head": first, "files": bindings, "absent": absent,
+                   "source_scope": "NATIVE_CHECKED_BYTES_STATIC_READ_MAP", "runtime_read_census": False,
+                   "http_credit": False, "scientific_effect": "NONE"}
+          with (OUT/("source-"+phase+".json")).open("xb") as stream:
+              stream.write(dump(value))
+          if phase == "after":
+              need(value == json.loads((OUT/"source-before.json").read_bytes()), "source changed during seven tests")
+          '''
+          path=out/"guard.py"
+          with path.open("xb") as stream:
+              stream.write(SOURCE.encode())
+          with (out/"guard-before.stdout").open("xb") as stdout, (out/"guard-before.stderr").open("xb") as stderr:
+              value=subprocess.run([sys.executable,"-I","-B","-S",str(path),"before"],
+                                   cwd=os.environ["GITHUB_WORKSPACE"],stdout=stdout,stderr=stderr,timeout=90)
+          with (out/"guard-before.exit.json").open("xb") as stream:
+              stream.write((json.dumps({"native_exit":value.returncode})+"\n").encode())
+          raise SystemExit(value.returncode)
+          Q4_SOURCE_BEFORE
+      - name: Prepare fixed seven original method selection
+        shell: bash
+        run: |
+          set -euo pipefail
+          unset PYTHONPATH PYTHONHOME
+          python3 -I -B -S - <<'Q4_CHILD_SOURCE'
+          import os
+          from pathlib import Path
+          SOURCE = r'''import os
+          import sys
+          sys.path[:] = [p for p in sys.path if p and
+                         os.path.commonpath((os.path.abspath(p), sys.base_prefix)) == sys.base_prefix]
+          import argparse
+          from collections import Counter
+          import copy
+          from datetime import datetime
+          import hashlib
+          import importlib.util
+          import json
+          from pathlib import Path
+          import re
+          import stat
+          import subprocess
+          import tempfile
+          import types
+          import unittest
+          from urllib.parse import urlparse
+
+          root = Path(os.environ["GITHUB_WORKSPACE"])
+          out = Path(os.environ["RUNNER_TEMP"])/"node-status-real-seven"
+          mode = "optimized" if sys.flags.optimize else "normal"
+          if (Path.cwd() != root or root.resolve() != root or sys.implementation.name != "cpython"
+                  or sys.flags.optimize not in (0,1) or not sys.flags.no_site
+                  or not sys.flags.dont_write_bytecode):
+              raise RuntimeError("native same-Python -B[-O]-S/cwd required")
+          runtime = {"mode": mode, "executable": sys.executable, "version": sys.version,
+                     "cwd": str(root), "argv": sys.argv, "optimize": sys.flags.optimize,
+                     "no_site": sys.flags.no_site, "dont_write_bytecode": sys.flags.dont_write_bytecode,
+                     "http_credit": False, "scientific_effect": "NONE"}
+          with (out/(mode+".runtime.json")).open("xb") as stream:
+              stream.write((json.dumps(runtime,sort_keys=True)+"\n").encode())
+          parent = json.loads((out/"interpreter.json").read_bytes())
+          if sys.executable != parent["executable"] or sys.version != parent["version"]:
+              raise RuntimeError("child Python differs from captured interpreter")
+          if "tests" in sys.modules or "tests.test_living_project_validation" in sys.modules:
+              raise RuntimeError("cached project test module refused")
+          sys.path.insert(0,str(root))
+          spec = importlib.util.find_spec("tests")
+          if spec is None or spec.origin is not None or list(spec.submodule_search_locations) != [str(root/"tests")]:
+              raise RuntimeError("canonical tests namespace package required")
+          prefix = "tests.test_living_project_validation.RealRecordTests."
+          identifiers = tuple(prefix+name for name in (
+              "test_adoption_on_merged_records",
+              "test_real_records_required_fields",
+              "test_real_records_source_rev_equals_first_source",
+              "test_real_records_evidence_id_pattern",
+              "test_real_records_match_published_projection",
+              "test_real_records_dependencies_when_present",
+              "test_real_records_cited_artifacts_when_present",
+          ))
+          selected = [unittest.defaultTestLoader.loadTestsFromName(name) for name in identifiers]
+          if tuple(case.id() for selection in selected for case in selection) != identifiers:
+              raise RuntimeError("original seven IDs differ")
+          suite = unittest.TestSuite(selected)
+          if suite.countTestCases() != 7:
+              raise RuntimeError("fixed seven original methods required")
+          result = unittest.TextTestRunner(verbosity=2,descriptions=False).run(suite)
+          if (result.testsRun != 7 or result.skipped or result.expectedFailures
+                  or result.unexpectedSuccesses):
+              raise RuntimeError("seven ordinary outcomes without skips required")
           raise SystemExit(0 if result.wasSuccessful() else 1)
-          Q9002_METHODS_PY
-          } 2>&1 | tee "$log"
-          grep -Ec '^Ran 5 tests in [0-9.]+s$' "$log" | grep -Fxq '1' || { echo '::error::Expected exactly one five-method unittest summary'; exit 1; }
-          tail -n 1 "$log" | grep -Fxq 'OK' || { echo '::error::Required real-record methods did not finish without failures, errors or skips'; exit 1; }
-          if grep -Fq ' ... skipped ' "$log"; then echo '::error::Required real-record method skipped'; exit 1; fi
-          test "$(grep -Ec '^[^[:space:]]+ \(.*\) \.\.\. ' "$log")" -eq 5 || { echo '::error::Expected exactly five unittest method outcomes'; exit 1; }
-          for method in \
-            test_adoption_on_merged_records \
-            test_real_records_required_fields \
-            test_real_records_source_rev_equals_first_source \
-            test_real_records_evidence_id_pattern \
-            test_real_records_match_published_projection
-          do
-            expected="$method (tests.test_living_project_validation.RealRecordTests.$method) ... ok"
-            test "$(grep -Fxc "$expected" "$log")" -eq 1 || { echo "::error::Required method did not pass exactly once: $method"; exit 1; }
-          done
-      - name: Require five real-record methods in optimized Python
+          '''
+          with (Path(os.environ["RUNNER_TEMP"])/"node-status-real-seven"/"child.py").open("xb") as stream:
+              stream.write(SOURCE.encode())
+          Q4_CHILD_SOURCE
+      - name: Require seven original real-record methods in normal Python
         if: ${{ !cancelled() }}
         shell: bash
         run: |
           set -euo pipefail
-          log="$RUNNER_TEMP/node-status-real-record-optimized.log"
-          {
-            printf 'mode=optimized\n'
-            python3 -B -O -S -c 'import sys; print("executable=" + sys.executable); print("python=" + sys.version.replace("\n", " ")); print("optimize=" + str(sys.flags.optimize))'
-            printf 'checked_commit='
-            git rev-parse HEAD
-            printf 'checked_tree='
-            git rev-parse 'HEAD^{tree}'
-            python3 -B -O -S -u - <<'Q9002_METHODS_PY'
-          import unittest
+          unset PYTHONPATH PYTHONHOME
+          python3 -I -B -S - <<'Q4_NORMAL'
+          import hashlib,json,os,resource,subprocess,sys
+          from pathlib import Path
+          out=Path(os.environ["RUNNER_TEMP"])/"node-status-real-seven"
+          child=out/"child.py"
+          if child.is_symlink() or hashlib.sha256(child.read_bytes()).hexdigest()!='f455ff2b0e6a01b4b3d545adf063772837cf5fb8b7d81cdfdf10b80f36aec6dc':
+              raise RuntimeError("fixed child source changed")
+          parent=json.loads((out/"interpreter.json").read_bytes())
+          if sys.executable!=parent["executable"] or sys.version!=parent["version"]:
+              raise RuntimeError("same Python required")
+          if json.loads((out/"guard-before.exit.json").read_bytes()) != {"native_exit":0}:
+              raise RuntimeError("successful before-source binding required")
+          before=json.loads((out/"source-before.json").read_bytes())
+          if before["identity"]["GITHUB_SHA"]!=os.environ["GITHUB_SHA"]:
+              raise RuntimeError("source binding differs from native checkout")
+          command=[sys.executable,"-B","-S",str(child)]
+          def bounded():
+              resource.setrlimit(resource.RLIMIT_FSIZE,(524288,524288))
+          code=2
+          timed_out=False
+          with (out/'normal.stdout').open("xb") as stdout, (out/'normal.stderr').open("xb") as stderr:
+              try:
+                  value=subprocess.run(command,cwd=os.environ["GITHUB_WORKSPACE"],stdout=stdout,stderr=stderr,
+                                       timeout=180,preexec_fn=bounded)
+                  code=value.returncode
+              except subprocess.TimeoutExpired:
+                  timed_out=True
+          with (out/'normal.exit.json').open("xb") as stream:
+              stream.write((json.dumps({"native_exit":code,"timeout":timed_out,"command":command,
+                                       "cwd":os.environ["GITHUB_WORKSPACE"]},sort_keys=True)+"\n").encode())
+          raise SystemExit(code if code in (0,1) and not timed_out else 2)
+          Q4_NORMAL
+      - name: Require seven original real-record methods in optimized Python
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          unset PYTHONPATH PYTHONHOME
+          python3 -I -B -S - <<'Q4_OPTIMIZED'
+          import hashlib,json,os,resource,subprocess,sys
+          from pathlib import Path
+          out=Path(os.environ["RUNNER_TEMP"])/"node-status-real-seven"
+          child=out/"child.py"
+          if child.is_symlink() or hashlib.sha256(child.read_bytes()).hexdigest()!='f455ff2b0e6a01b4b3d545adf063772837cf5fb8b7d81cdfdf10b80f36aec6dc':
+              raise RuntimeError("fixed child source changed")
+          parent=json.loads((out/"interpreter.json").read_bytes())
+          if sys.executable!=parent["executable"] or sys.version!=parent["version"]:
+              raise RuntimeError("same Python required")
+          if json.loads((out/"guard-before.exit.json").read_bytes()) != {"native_exit":0}:
+              raise RuntimeError("successful before-source binding required")
+          before=json.loads((out/"source-before.json").read_bytes())
+          if before["identity"]["GITHUB_SHA"]!=os.environ["GITHUB_SHA"]:
+              raise RuntimeError("source binding differs from native checkout")
+          command=[sys.executable,"-B","-O","-S",str(child)]
+          def bounded():
+              resource.setrlimit(resource.RLIMIT_FSIZE,(524288,524288))
+          code=2
+          timed_out=False
+          with (out/'optimized.stdout').open("xb") as stdout, (out/'optimized.stderr').open("xb") as stderr:
+              try:
+                  value=subprocess.run(command,cwd=os.environ["GITHUB_WORKSPACE"],stdout=stdout,stderr=stderr,
+                                       timeout=180,preexec_fn=bounded)
+                  code=value.returncode
+              except subprocess.TimeoutExpired:
+                  timed_out=True
+          with (out/'optimized.exit.json').open("xb") as stream:
+              stream.write((json.dumps({"native_exit":code,"timeout":timed_out,"command":command,
+                                       "cwd":os.environ["GITHUB_WORKSPACE"]},sort_keys=True)+"\n").encode())
+          raise SystemExit(code if code in (0,1) and not timed_out else 2)
+          Q4_OPTIMIZED
+      - name: Bind nineteen canonical inputs after execution
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          unset PYTHONPATH PYTHONHOME
+          python3 -I -B -S - <<'Q4_SOURCE_AFTER'
+          import hashlib,json,os,subprocess,sys
+          from pathlib import Path
+          out=Path(os.environ["RUNNER_TEMP"])/"node-status-real-seven"
+          path=out/"guard.py"
+          if path.is_symlink() or hashlib.sha256(path.read_bytes()).hexdigest()!='922320402f5d9a18c5a6a2afbd773642bef72af3f1c79163dc586d86d5682dc0':
+              raise RuntimeError("fixed guard source changed")
+          with (out/"guard-after.stdout").open("xb") as stdout, (out/"guard-after.stderr").open("xb") as stderr:
+              value=subprocess.run([sys.executable,"-I","-B","-S",str(path),"after"],
+                                   cwd=os.environ["GITHUB_WORKSPACE"],stdout=stdout,stderr=stderr,timeout=90)
+          with (out/"guard-after.exit.json").open("xb") as stream:
+              stream.write((json.dumps({"native_exit":value.returncode})+"\n").encode())
+          raise SystemExit(value.returncode)
+          Q4_SOURCE_AFTER
+      - name: Read back complete fixed seven-method originals
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          python3 -I -B -S - <<'REAL_SEVEN_READBACK_PY'
+          import sys
+          sys.path[:] = [entry for entry in sys.path
+                         if entry and entry.startswith(sys.base_prefix.rstrip("/") + "/")]
+          import base64
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import stat
 
-          identifiers = (
-              "tests.test_living_project_validation.RealRecordTests.test_adoption_on_merged_records",
-              "tests.test_living_project_validation.RealRecordTests.test_real_records_required_fields",
-              "tests.test_living_project_validation.RealRecordTests.test_real_records_source_rev_equals_first_source",
-              "tests.test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern",
-              "tests.test_living_project_validation.RealRecordTests.test_real_records_match_published_projection",
+          LIMIT = 2 * 1024 * 1024
+          temporary = Path(os.environ["RUNNER_TEMP"])
+          workspace = Path(os.environ["GITHUB_WORKSPACE"])
+          root = temporary / "node-status-real-seven"
+          if (not temporary.is_absolute() or temporary.resolve(strict=True) != temporary
+                  or not workspace.is_absolute() or workspace.resolve(strict=True) != workspace
+                  or temporary.is_relative_to(workspace)
+                  or root.is_symlink() or not root.is_dir()
+                  or root.resolve(strict=True) != root):
+              raise ValueError("fixed external real-seven readback root refused")
+          names = (
+              "interpreter.json",
+              "guard-before.stdout", "guard-before.stderr", "guard-before.exit.json",
+              "source-before.json",
+              "normal.stdout", "normal.stderr", "normal.runtime.json", "normal.exit.json",
+              "optimized.stdout", "optimized.stderr", "optimized.runtime.json", "optimized.exit.json",
+              "guard-after.stdout", "guard-after.stderr", "guard-after.exit.json",
+              "source-after.json",
           )
-          suite = unittest.TestSuite(
-              unittest.defaultTestLoader.loadTestsFromName(name) for name in identifiers
-          )
-          result = unittest.TextTestRunner(verbosity=2, descriptions=False).run(suite)
-          raise SystemExit(0 if result.wasSuccessful() else 1)
-          Q9002_METHODS_PY
-          } 2>&1 | tee "$log"
-          grep -Ec '^Ran 5 tests in [0-9.]+s$' "$log" | grep -Fxq '1' || { echo '::error::Expected exactly one five-method unittest summary'; exit 1; }
-          tail -n 1 "$log" | grep -Fxq 'OK' || { echo '::error::Required real-record methods did not finish without failures, errors or skips'; exit 1; }
-          if grep -Fq ' ... skipped ' "$log"; then echo '::error::Required real-record method skipped'; exit 1; fi
-          test "$(grep -Ec '^[^[:space:]]+ \(.*\) \.\.\. ' "$log")" -eq 5 || { echo '::error::Expected exactly five unittest method outcomes'; exit 1; }
-          for method in \
-            test_adoption_on_merged_records \
-            test_real_records_required_fields \
-            test_real_records_source_rev_equals_first_source \
-            test_real_records_evidence_id_pattern \
-            test_real_records_match_published_projection
-          do
-            expected="$method (tests.test_living_project_validation.RealRecordTests.$method) ... ok"
-            test "$(grep -Fxc "$expected" "$log")" -eq 1 || { echo "::error::Required method did not pass exactly once: $method"; exit 1; }
-          done
+          originals = []
+          artifact_helpers = []
+          missing = []
+          errors = []
+          for name in names + ("guard.py", "child.py"):
+              path = root / name
+              try:
+                  descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+                  with os.fdopen(descriptor, "rb") as stream:
+                      before = os.fstat(stream.fileno())
+                      if not stat.S_ISREG(before.st_mode) or before.st_size > LIMIT:
+                          raise ValueError("nonregular or oversized original")
+                      raw = stream.read(LIMIT + 1)
+                      after = os.fstat(stream.fileno())
+                  current = path.lstat()
+                  fields = ("st_dev", "st_ino", "st_mode", "st_size", "st_mtime_ns", "st_ctime_ns")
+                  if (len(raw) > LIMIT or len(raw) != before.st_size
+                          or any(getattr(before, field) != getattr(observed, field)
+                                 for observed in (after, current) for field in fields)):
+                      raise ValueError("original changed during bounded read")
+                  if name in names:
+                      originals.append((name, raw))
+                  else:
+                      artifact_helpers.append(dict(path=name, bytes=len(raw),
+                          sha256=hashlib.sha256(raw).hexdigest(),
+                          scope="FIXED_WORKFLOW_LITERAL_SOURCE_ARTIFACT_ONLY"))
+              except FileNotFoundError:
+                  missing.append(name)
+              except Exception as error:
+                  errors.append(dict(path=name, error=type(error).__name__ + ": " + str(error)))
+          frames = []
+          for name, raw in originals:
+              encoded = base64.encodebytes(raw)
+              metadata = dict(path=name, original_bytes=len(raw),
+                  sha256=hashlib.sha256(raw).hexdigest(), encoding="base64",
+                  encoded_bytes=len(encoded), original_complete=True,
+                  scientific_effect="NONE", http_credit=False)
+              frames.append(b"NODE_STATUS_REAL_SEVEN_ORIGINAL "
+                  + (json.dumps(metadata, sort_keys=True) + "\n").encode("ascii")
+                  + encoded + b"\nNODE_STATUS_REAL_SEVEN_ORIGINAL_END "
+                  + (json.dumps(dict(path=name), sort_keys=True) + "\n").encode("ascii"))
+          frame_stream = b"".join(frames)
+          summary = dict(schema="node-status-real-seven.readback.v1",
+              scope="FIXED_SEVENTEEN_SEVEN_METHOD_ORIGINALS_ONLY",
+              complete=not (missing or errors), expected_originals=len(names),
+              selected_whole_originals=len(originals), missing=missing, errors=errors, omitted=[],
+              output_limit=LIMIT, frame_bytes=len(frame_stream),
+              frame_sha256=hashlib.sha256(frame_stream).hexdigest(),
+              source_bodies_and_fixed_helpers_artifact_only=True,
+              expected_artifact_only_helpers=2, artifact_only_helpers=artifact_helpers,
+              test_pass_or_expected_red_credit=False, http_credit=False,
+              scientific_effect="NONE")
+          def package(value, framed):
+              return (b"NODE_STATUS_REAL_SEVEN_READBACK "
+                  + (json.dumps(value, sort_keys=True) + "\n").encode("ascii")
+                  + framed + b"NODE_STATUS_REAL_SEVEN_READBACK_END\n")
+          payload = package(summary, frame_stream)
+          if len(payload) > LIMIT:
+              summary.update(complete=False, selected_whole_originals=0,
+                  omitted=[name for name, _raw in originals],
+                  aggregate_cap_exceeded=True, frame_bytes=0,
+                  frame_sha256=hashlib.sha256(b"").hexdigest())
+              payload = package(summary, b"")
+          if len(payload) > LIMIT:
+              raise ValueError("readback HOLD summary exceeds aggregate cap")
+          with (root / "readback-stream.bin").open("xb") as stream:
+              if stream.write(payload) != len(payload):
+                  raise OSError("short retained readback stream")
+          observation = dict(summary, stream_bytes=len(payload),
+              stream_sha256=hashlib.sha256(payload).hexdigest())
+          with (root / "readback.json").open("x", encoding="ascii", newline="\n") as stream:
+              json.dump(observation, stream, sort_keys=True)
+              stream.write("\n")
+          if sys.stdout.buffer.write(payload) != len(payload):
+              raise OSError("short printed readback stream")
+          sys.stdout.buffer.flush()
+          raise SystemExit(0 if summary["complete"] else 1)
+          REAL_SEVEN_READBACK_PY
+      - name: Retain all real-seven originals after every outcome
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: node-status-real-seven-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/node-status-real-seven/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 30
