@@ -1,0 +1,378 @@
+﻿2026-11-10T08:28:37.9611141Z Current runner version: '2.338.2'
+2026-11-10T08:28:37.9637627Z ##[group]Runner Image Provisioner
+2026-11-10T08:28:37.9638510Z Hosted Compute Agent
+2026-11-10T08:28:37.9639219Z Version: 20261028.624
+2026-11-10T08:28:37.9639874Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T08:28:37.9640627Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T08:28:37.9641401Z Worker ID: {b0eed669-914a-44ee-a14a-a4f4882a7248}
+2026-11-10T08:28:37.9642181Z Region: westus
+2026-11-10T08:28:37.9642761Z Cloud: Azure
+2026-11-10T08:28:37.9643322Z ##[endgroup]
+2026-11-10T08:28:37.9645005Z ##[group]Operating System
+2026-11-10T08:28:37.9645756Z Ubuntu
+2026-11-10T08:28:37.9646291Z 24.04.5
+2026-11-10T08:28:37.9646837Z LTS
+2026-11-10T08:28:37.9647428Z ##[endgroup]
+2026-11-10T08:28:37.9648031Z ##[group]Runner Image
+2026-11-10T08:28:37.9648687Z Image: ubuntu-24.04
+2026-11-10T08:28:37.9649299Z Version: 20261101.360.1
+2026-11-10T08:28:37.9650618Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T08:28:37.9652216Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T08:28:37.9653258Z ##[endgroup]
+2026-11-10T08:28:37.9654380Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T08:28:37.9656613Z Contents: read
+2026-11-10T08:28:37.9657234Z Metadata: read
+2026-11-10T08:28:37.9657782Z ##[endgroup]
+2026-11-10T08:28:37.9660373Z Secret source: Actions
+2026-11-10T08:28:37.9661373Z Cache mode: write
+2026-11-10T08:28:37.9662414Z Prepare workflow directory
+2026-11-10T08:28:38.0079583Z Prepare all required actions
+2026-11-10T08:28:38.0131024Z Getting action download info
+2026-11-10T08:28:38.3817801Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-10T08:28:38.5666737Z Complete job name: landing-checks
+2026-11-10T08:28:38.6579492Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-11-10T08:28:38.6580573Z with:
+2026-11-10T08:28:38.6581050Z   persist-credentials: false
+2026-11-10T08:28:38.6581599Z   repository: d6g8k5htny-coder/main
+2026-11-10T08:28:38.6585518Z   token: ***
+2026-11-10T08:28:38.6585962Z   ssh-strict: true
+2026-11-10T08:28:38.6586406Z   ssh-user: git
+2026-11-10T08:28:38.6586834Z   clean: true
+2026-11-10T08:28:38.6587285Z   sparse-checkout-cone-mode: true
+2026-11-10T08:28:38.6587816Z   fetch-depth: 1
+2026-11-10T08:28:38.6588260Z   fetch-tags: false
+2026-11-10T08:28:38.6588705Z   show-progress: true
+2026-11-10T08:28:38.6589161Z   lfs: false
+2026-11-10T08:28:38.6589584Z   submodules: false
+2026-11-10T08:28:38.6590044Z   set-safe-directory: true
+2026-11-10T08:28:38.6590554Z   allow-unsafe-pr-checkout: false
+2026-11-10T08:28:38.6591371Z ##[endgroup]
+2026-11-10T08:28:38.9711103Z Syncing repository: d6g8k5htny-coder/main
+2026-11-10T08:28:38.9713602Z ##[group]Getting Git version info
+2026-11-10T08:28:38.9715137Z Working directory is '/home/runner/work/main/main'
+2026-11-10T08:28:38.9717108Z [command]/usr/bin/git version
+2026-11-10T08:28:38.9786000Z git version 2.56.0
+2026-11-10T08:28:38.9812548Z ##[endgroup]
+2026-11-10T08:28:38.9825158Z Temporarily overriding HOME='/home/runner/work/_temp/e07cdc61-b310-48a0-81b2-c5086b902c07' before making global git config changes
+2026-11-10T08:28:38.9827823Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T08:28:38.9831174Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T08:28:38.9885664Z Deleting the contents of '/home/runner/work/main/main'
+2026-11-10T08:28:38.9887192Z ##[group]Determining repository object format
+2026-11-10T08:28:38.9888531Z ##[endgroup]
+2026-11-10T08:28:38.9889366Z ##[group]Initializing the repository
+2026-11-10T08:28:38.9895765Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-11-10T08:28:38.9998821Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T08:28:39.0000279Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T08:28:39.0001746Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T08:28:39.0002651Z hint: call:
+2026-11-10T08:28:39.0003203Z hint:
+2026-11-10T08:28:39.0003820Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T08:28:39.0004887Z hint:
+2026-11-10T08:28:39.0005635Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T08:28:39.0006767Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T08:28:39.0007676Z hint:
+2026-11-10T08:28:39.0008174Z hint: 	git branch -m <name>
+2026-11-10T08:28:39.0008753Z hint:
+2026-11-10T08:28:39.0009503Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T08:28:39.0024873Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-11-10T08:28:39.0048384Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-11-10T08:28:39.0089260Z ##[endgroup]
+2026-11-10T08:28:39.0091003Z ##[group]Disabling automatic garbage collection
+2026-11-10T08:28:39.0093688Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T08:28:39.0133548Z ##[endgroup]
+2026-11-10T08:28:39.0135843Z ##[group]Setting up auth
+2026-11-10T08:28:39.0137024Z Removing SSH command configuration
+2026-11-10T08:28:39.0138842Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T08:28:39.0187323Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T08:28:39.0726662Z Removing HTTP extra header
+2026-11-10T08:28:39.0728657Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T08:28:39.0782716Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T08:28:39.1058498Z Removing includeIf entries pointing to credentials config files
+2026-11-10T08:28:39.1064292Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T08:28:39.1109903Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T08:28:39.1357150Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-d1d5451d-f5e9-4a2f-bd1c-d2289b464234.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T08:28:39.1409711Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git.path /home/runner/work/_temp/git-credentials-d1d5451d-f5e9-4a2f-bd1c-d2289b464234.config
+2026-11-10T08:28:39.1455119Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-d1d5451d-f5e9-4a2f-bd1c-d2289b464234.config
+2026-11-10T08:28:39.1500705Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-d1d5451d-f5e9-4a2f-bd1c-d2289b464234.config
+2026-11-10T08:28:39.1548772Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-d1d5451d-f5e9-4a2f-bd1c-d2289b464234.config
+2026-11-10T08:28:39.1591336Z ##[endgroup]
+2026-11-10T08:28:39.1592200Z ##[group]Fetching the repository
+2026-11-10T08:28:39.1598542Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +02973f3975a1c4cc91b7c51d372f65717c9b3c5c:refs/remotes/origin/main
+2026-11-10T08:28:42.9886450Z From https://github.com/d6g8k5htny-coder/main
+2026-11-10T08:28:42.9892534Z  * [new ref]         02973f3975a1c4cc91b7c51d372f65717c9b3c5c -> origin/main
+2026-11-10T08:28:42.9898202Z [command]/usr/bin/git branch --list --remote origin/main
+2026-11-10T08:28:42.9938778Z   origin/main
+2026-11-10T08:28:42.9948202Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+2026-11-10T08:28:42.9985067Z 02973f3975a1c4cc91b7c51d372f65717c9b3c5c
+2026-11-10T08:28:42.9990741Z ##[endgroup]
+2026-11-10T08:28:42.9992027Z ##[group]Determining the checkout info
+2026-11-10T08:28:42.9993506Z ##[endgroup]
+2026-11-10T08:28:42.9996337Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T08:28:43.0060914Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T08:28:43.0105879Z ##[group]Checking out the ref
+2026-11-10T08:28:43.0109509Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-11-10T08:28:43.7439661Z Switched to a new branch 'main'
+2026-11-10T08:28:43.7446090Z branch 'main' set up to track 'origin/main'.
+2026-11-10T08:28:43.7505109Z ##[endgroup]
+2026-11-10T08:28:43.7595492Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T08:28:43.7618578Z 02973f3975a1c4cc91b7c51d372f65717c9b3c5c
+2026-11-10T08:28:43.7631752Z ##[group]Removing auth
+2026-11-10T08:28:43.7632273Z Removing SSH command configuration
+2026-11-10T08:28:43.7638185Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T08:28:43.7691189Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T08:28:43.7974329Z Removing HTTP extra header
+2026-11-10T08:28:43.7979981Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T08:28:43.8028643Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T08:28:43.8286610Z Removing includeIf entries pointing to credentials config files
+2026-11-10T08:28:43.8291983Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T08:28:43.8337670Z includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T08:28:43.8338529Z includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T08:28:43.8339363Z includeif.gitdir:/github/workspace/.git.path
+2026-11-10T08:28:43.8340141Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T08:28:43.8349197Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T08:28:43.8385218Z /home/runner/work/_temp/git-credentials-d1d5451d-f5e9-4a2f-bd1c-d2289b464234.config
+2026-11-10T08:28:43.8396073Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-d1d5451d\-f5e9\-4a2f\-bd1c\-d2289b464234\.config
+2026-11-10T08:28:43.8450427Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T08:28:43.8486998Z /home/runner/work/_temp/git-credentials-d1d5451d-f5e9-4a2f-bd1c-d2289b464234.config
+2026-11-10T08:28:43.8495837Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-d1d5451d\-f5e9\-4a2f\-bd1c\-d2289b464234\.config
+2026-11-10T08:28:43.8547373Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-10T08:28:43.8585149Z /github/runner_temp/git-credentials-d1d5451d-f5e9-4a2f-bd1c-d2289b464234.config
+2026-11-10T08:28:43.8593555Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-d1d5451d\-f5e9\-4a2f\-bd1c\-d2289b464234\.config
+2026-11-10T08:28:43.8641235Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T08:28:43.8677130Z /github/runner_temp/git-credentials-d1d5451d-f5e9-4a2f-bd1c-d2289b464234.config
+2026-11-10T08:28:43.8685779Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-d1d5451d\-f5e9\-4a2f\-bd1c\-d2289b464234\.config
+2026-11-10T08:28:43.8731109Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T08:28:43.8981725Z Removing credentials config '/home/runner/work/_temp/git-credentials-d1d5451d-f5e9-4a2f-bd1c-d2289b464234.config'
+2026-11-10T08:28:43.8991001Z ##[endgroup]
+2026-11-10T08:28:43.9239264Z ##[group]Run set -euo pipefail
+2026-11-10T08:28:43.9239660Z [36;1mset -euo pipefail[0m
+2026-11-10T08:28:43.9240681Z [36;1mprintf '%s' "$ARCHITECTURE_NEEDS" | python3 -B -S tools/architecture_check_binding.py --expected-commit "$GITHUB_SHA" --expected-repository "$GITHUB_REPOSITORY" --expected-run-id "$GITHUB_RUN_ID" --expected-run-attempt "$GITHUB_RUN_ATTEMPT"[0m
+2026-11-10T08:28:43.9266475Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T08:28:43.9266865Z env:
+2026-11-10T08:28:43.9268564Z   ARCHITECTURE_NEEDS: {
+  "result": "success",
+  "outputs": {
+    "artifact_id": "13747021504",
+    "artifact_name": "research-architecture-42781606883-1",
+    "artifact_sha256": "2f20158405e6529755c98c0955c32934446f54781df5fc61a7cecdf768eac2aa",
+    "checked_commit": "02973f3975a1c4cc91b7c51d372f65717c9b3c5c",
+    "receipt_sha256": "28498c737f6623ee75f1a410bf9da82deb40b4b2c8a04b5b07cfd7ebbfde360d",
+    "repository": "d6g8k5htny-coder/main",
+    "run_attempt": "1",
+    "run_id": "42781606883"
+  }
+}
+2026-11-10T08:28:43.9270308Z ##[endgroup]
+2026-11-10T08:28:43.9574988Z {"binding":{"artifact_id":"13747021504","artifact_name":"research-architecture-42781606883-1","artifact_sha256":"2f20158405e6529755c98c0955c32934446f54781df5fc61a7cecdf768eac2aa","checked_commit":"02973f3975a1c4cc91b7c51d372f65717c9b3c5c","receipt_sha256":"28498c737f6623ee75f1a410bf9da82deb40b4b2c8a04b5b07cfd7ebbfde360d","repository":"d6g8k5htny-coder/main","run_attempt":"1","run_id":"42781606883"},"schema_version":1,"scientific_effect":"NONE","scientific_status_authority":false}
+2026-11-10T08:28:43.9649674Z ##[group]Run python3 -B -S -m unittest discover -s tests -p test_required_formal_check.py -v
+2026-11-10T08:28:43.9650374Z [36;1mpython3 -B -S -m unittest discover -s tests -p test_required_formal_check.py -v[0m
+2026-11-10T08:28:43.9650959Z [36;1mpython3 -B -O -S -m unittest discover -s tests -p test_required_formal_check.py -v[0m
+2026-11-10T08:28:43.9671514Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T08:28:43.9747063Z ##[endgroup]
+2026-11-10T08:28:44.1118314Z test_actual_cli_failure (test_required_formal_check.RequiredCheckTests.test_actual_cli_failure) ... ok
+2026-11-10T08:28:44.1127486Z test_bad_digest (test_required_formal_check.RequiredCheckTests.test_bad_digest) ... ok
+2026-11-10T08:28:44.1135788Z test_binding_preserves_receipt (test_required_formal_check.RequiredCheckTests.test_binding_preserves_receipt) ... ok
+2026-11-10T08:28:44.1141159Z test_changed_test_merge_commit (test_required_formal_check.RequiredCheckTests.test_changed_test_merge_commit) ... ok
+2026-11-10T08:28:44.1146522Z test_duplicate_json_keys_refused (test_required_formal_check.RequiredCheckTests.test_duplicate_json_keys_refused) ... ok
+2026-11-10T08:28:44.1152434Z test_each_output_required (test_required_formal_check.RequiredCheckTests.test_each_output_required) ... ok
+2026-11-10T08:28:44.1160706Z test_empty_logs_refused (test_required_formal_check.RequiredCheckTests.test_empty_logs_refused) ... ok
+2026-11-10T08:28:44.1169075Z test_every_unsuccessful_result_refused (test_required_formal_check.RequiredCheckTests.test_every_unsuccessful_result_refused) ... ok
+2026-11-10T08:28:44.1173996Z test_existing_checks_commit_drift (test_required_formal_check.RequiredCheckTests.test_existing_checks_commit_drift) ... ok
+2026-11-10T08:28:44.1179215Z test_extra_dependency (test_required_formal_check.RequiredCheckTests.test_extra_dependency) ... ok
+2026-11-10T08:28:44.1184221Z test_formal_commit_drift (test_required_formal_check.RequiredCheckTests.test_formal_commit_drift) ... ok
+2026-11-10T08:28:44.1189317Z test_implementation_exists (test_required_formal_check.RequiredCheckTests.test_implementation_exists) ... ok
+2026-11-10T08:28:44.1197415Z test_log_tamper (test_required_formal_check.RequiredCheckTests.test_log_tamper) ... ok
+2026-11-10T08:28:44.1230720Z test_malformed_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_malformed_receipt_attempt_refused) ... ok
+2026-11-10T08:28:44.1238152Z test_manifest_drift (test_required_formal_check.RequiredCheckTests.test_manifest_drift) ... ok
+2026-11-10T08:28:44.1243150Z test_missing_dependency (test_required_formal_check.RequiredCheckTests.test_missing_dependency) ... ok
+2026-11-10T08:28:44.1250803Z test_missing_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_missing_receipt_attempt_refused) ... ok
+2026-11-10T08:28:44.1256443Z test_no_numeric_identity_coercion (test_required_formal_check.RequiredCheckTests.test_no_numeric_identity_coercion) ... ok
+2026-11-10T08:28:44.1263326Z test_receipt_drift (test_required_formal_check.RequiredCheckTests.test_receipt_drift) ... ok
+2026-11-10T08:28:44.1268892Z test_repository_substitution (test_required_formal_check.RequiredCheckTests.test_repository_substitution) ... ok
+2026-11-10T08:28:44.1277387Z test_same_run_stale_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_same_run_stale_receipt_attempt_refused) ... ok
+2026-11-10T08:28:44.1282145Z test_stale_attempt (test_required_formal_check.RequiredCheckTests.test_stale_attempt) ... ok
+2026-11-10T08:28:44.1287666Z test_stale_run (test_required_formal_check.RequiredCheckTests.test_stale_run) ... ok
+2026-11-10T08:28:44.1292594Z test_success (test_required_formal_check.RequiredCheckTests.test_success) ... ok
+2026-11-10T08:28:44.1300613Z test_symlink_log_refused (test_required_formal_check.RequiredCheckTests.test_symlink_log_refused) ... ok
+2026-11-10T08:28:44.1308313Z test_traversal_log_refused (test_required_formal_check.RequiredCheckTests.test_traversal_log_refused) ... ok
+2026-11-10T08:28:44.1316761Z test_unproved_receipt_refused (test_required_formal_check.RequiredCheckTests.test_unproved_receipt_refused) ... ok
+2026-11-10T08:28:44.1318686Z test_outputs_are_bound_to_executed_receipt (test_required_formal_check.WiringTests.test_outputs_are_bound_to_executed_receipt) ... ok
+2026-11-10T08:28:44.1320786Z test_parent_no_path_filters_or_skip_override (test_required_formal_check.WiringTests.test_parent_no_path_filters_or_skip_override) ... ok
+2026-11-10T08:28:44.1322528Z test_parent_required_name_is_aggregate (test_required_formal_check.WiringTests.test_parent_required_name_is_aggregate) ... ok
+2026-11-10T08:28:44.1324298Z test_required_calls_validator (test_required_formal_check.WiringTests.test_required_calls_validator) ... ok
+2026-11-10T08:28:44.1326848Z test_same_revision_reusable_workflow (test_required_formal_check.WiringTests.test_same_revision_reusable_workflow) ... ok
+2026-11-10T08:28:44.1328723Z test_synthetic_control_uses_no_proof_edits (test_required_formal_check.WiringTests.test_synthetic_control_uses_no_proof_edits) ... ok
+2026-11-10T08:28:44.1329674Z 
+2026-11-10T08:28:44.1329912Z ----------------------------------------------------------------------
+2026-11-10T08:28:44.1330475Z Ran 33 tests in 0.098s
+2026-11-10T08:28:44.1330675Z 
+2026-11-10T08:28:44.1330802Z OK
+2026-11-10T08:28:44.5417749Z test_actual_cli_failure (test_required_formal_check.RequiredCheckTests.test_actual_cli_failure) ... ok
+2026-11-10T08:28:44.5430843Z test_bad_digest (test_required_formal_check.RequiredCheckTests.test_bad_digest) ... ok
+2026-11-10T08:28:44.5441862Z test_binding_preserves_receipt (test_required_formal_check.RequiredCheckTests.test_binding_preserves_receipt) ... ok
+2026-11-10T08:28:44.5449778Z test_changed_test_merge_commit (test_required_formal_check.RequiredCheckTests.test_changed_test_merge_commit) ... ok
+2026-11-10T08:28:44.5457647Z test_duplicate_json_keys_refused (test_required_formal_check.RequiredCheckTests.test_duplicate_json_keys_refused) ... ok
+2026-11-10T08:28:44.5467002Z test_each_output_required (test_required_formal_check.RequiredCheckTests.test_each_output_required) ... ok
+2026-11-10T08:28:44.5477598Z test_empty_logs_refused (test_required_formal_check.RequiredCheckTests.test_empty_logs_refused) ... ok
+2026-11-10T08:28:44.5488773Z test_every_unsuccessful_result_refused (test_required_formal_check.RequiredCheckTests.test_every_unsuccessful_result_refused) ... ok
+2026-11-10T08:28:44.5496862Z test_existing_checks_commit_drift (test_required_formal_check.RequiredCheckTests.test_existing_checks_commit_drift) ... ok
+2026-11-10T08:28:44.5503490Z test_extra_dependency (test_required_formal_check.RequiredCheckTests.test_extra_dependency) ... ok
+2026-11-10T08:28:44.5510645Z test_formal_commit_drift (test_required_formal_check.RequiredCheckTests.test_formal_commit_drift) ... ok
+2026-11-10T08:28:44.5517810Z test_implementation_exists (test_required_formal_check.RequiredCheckTests.test_implementation_exists) ... ok
+2026-11-10T08:28:44.5529925Z test_log_tamper (test_required_formal_check.RequiredCheckTests.test_log_tamper) ... ok
+2026-11-10T08:28:44.5566359Z test_malformed_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_malformed_receipt_attempt_refused) ... ok
+2026-11-10T08:28:44.5574936Z test_manifest_drift (test_required_formal_check.RequiredCheckTests.test_manifest_drift) ... ok
+2026-11-10T08:28:44.5580565Z test_missing_dependency (test_required_formal_check.RequiredCheckTests.test_missing_dependency) ... ok
+2026-11-10T08:28:44.5588430Z test_missing_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_missing_receipt_attempt_refused) ... ok
+2026-11-10T08:28:44.5593656Z test_no_numeric_identity_coercion (test_required_formal_check.RequiredCheckTests.test_no_numeric_identity_coercion) ... ok
+2026-11-10T08:28:44.5601500Z test_receipt_drift (test_required_formal_check.RequiredCheckTests.test_receipt_drift) ... ok
+2026-11-10T08:28:44.5607245Z test_repository_substitution (test_required_formal_check.RequiredCheckTests.test_repository_substitution) ... ok
+2026-11-10T08:28:44.5615446Z test_same_run_stale_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_same_run_stale_receipt_attempt_refused) ... ok
+2026-11-10T08:28:44.5620598Z test_stale_attempt (test_required_formal_check.RequiredCheckTests.test_stale_attempt) ... ok
+2026-11-10T08:28:44.5625774Z test_stale_run (test_required_formal_check.RequiredCheckTests.test_stale_run) ... ok
+2026-11-10T08:28:44.5630900Z test_success (test_required_formal_check.RequiredCheckTests.test_success) ... ok
+2026-11-10T08:28:44.5639216Z test_symlink_log_refused (test_required_formal_check.RequiredCheckTests.test_symlink_log_refused) ... ok
+2026-11-10T08:28:44.5647183Z test_traversal_log_refused (test_required_formal_check.RequiredCheckTests.test_traversal_log_refused) ... ok
+2026-11-10T08:28:44.5655088Z test_unproved_receipt_refused (test_required_formal_check.RequiredCheckTests.test_unproved_receipt_refused) ... ok
+2026-11-10T08:28:44.5657533Z test_outputs_are_bound_to_executed_receipt (test_required_formal_check.WiringTests.test_outputs_are_bound_to_executed_receipt) ... ok
+2026-11-10T08:28:44.5659603Z test_parent_no_path_filters_or_skip_override (test_required_formal_check.WiringTests.test_parent_no_path_filters_or_skip_override) ... ok
+2026-11-10T08:28:44.5661422Z test_parent_required_name_is_aggregate (test_required_formal_check.WiringTests.test_parent_required_name_is_aggregate) ... ok
+2026-11-10T08:28:44.5663112Z test_required_calls_validator (test_required_formal_check.WiringTests.test_required_calls_validator) ... ok
+2026-11-10T08:28:44.5665343Z test_same_revision_reusable_workflow (test_required_formal_check.WiringTests.test_same_revision_reusable_workflow) ... ok
+2026-11-10T08:28:44.5667267Z test_synthetic_control_uses_no_proof_edits (test_required_formal_check.WiringTests.test_synthetic_control_uses_no_proof_edits) ... ok
+2026-11-10T08:28:44.5668193Z 
+2026-11-10T08:28:44.5675702Z ----------------------------------------------------------------------
+2026-11-10T08:28:44.5676847Z Ran 33 tests in 0.103s
+2026-11-10T08:28:44.5677126Z 
+2026-11-10T08:28:44.5677264Z OK
+2026-11-10T08:28:44.5817695Z ##[group]Run python3 --version
+2026-11-10T08:28:44.5818014Z [36;1mpython3 --version[0m
+2026-11-10T08:28:44.5838585Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T08:28:44.5839166Z ##[endgroup]
+2026-11-10T08:28:44.5894690Z Python 3.12.3
+2026-11-10T08:28:44.5929875Z ##[group]Run python3 -B -S tests/test_research_delivery.py
+2026-11-10T08:28:44.5930312Z [36;1mpython3 -B -S tests/test_research_delivery.py[0m
+2026-11-10T08:28:44.5930706Z [36;1mpython3 -B -O -S tests/test_research_delivery.py[0m
+2026-11-10T08:28:44.5951722Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T08:28:44.5952075Z ##[endgroup]
+2026-11-10T08:28:45.0559972Z ............................
+2026-11-10T08:28:45.0560564Z ----------------------------------------------------------------------
+2026-11-10T08:28:45.0561182Z Ran 28 tests in 0.369s
+2026-11-10T08:28:45.0561496Z 
+2026-11-10T08:28:45.0561606Z OK
+2026-11-10T08:28:46.0778645Z ............................
+2026-11-10T08:28:46.0779252Z ----------------------------------------------------------------------
+2026-11-10T08:28:46.0779872Z Ran 28 tests in 0.484s
+2026-11-10T08:28:46.0780092Z 
+2026-11-10T08:28:46.0780206Z OK
+2026-11-10T08:28:46.0981028Z ##[group]Run python3 -m unittest discover -s tests -p test_workspace_landing.py -v
+2026-11-10T08:28:46.0981652Z [36;1mpython3 -m unittest discover -s tests -p test_workspace_landing.py -v[0m
+2026-11-10T08:28:46.1002612Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T08:28:46.1002959Z ##[endgroup]
+2026-11-10T08:28:46.7878263Z test_delivery_shell_propagates_both_mode_failures (test_workspace_landing.DeliveryWorkflowTests.test_delivery_shell_propagates_both_mode_failures) ... ok
+2026-11-10T08:28:46.7880282Z test_delivery_suite_is_required_before_identity_binding (test_workspace_landing.DeliveryWorkflowTests.test_delivery_suite_is_required_before_identity_binding) ... ok
+2026-11-10T08:28:46.7881585Z test_batch248_workspace_landing_workflow_path_split (test_workspace_landing.LandingChecks.test_batch248_workspace_landing_workflow_path_split)
+2026-11-10T08:28:46.7889357Z Landing checks must not share .github/workflows/ci.yml with hardening CI. ... ok
+2026-11-10T08:28:46.7907810Z test_bool_not_byte_count (test_workspace_landing.LandingChecks.test_bool_not_byte_count) ... ok
+2026-11-10T08:28:46.7924600Z test_broken_local_link (test_workspace_landing.LandingChecks.test_broken_local_link) ... ok
+2026-11-10T08:28:46.7944655Z test_cli_corruption_is_failure (test_workspace_landing.LandingChecks.test_cli_corruption_is_failure) ... ok
+2026-11-10T08:28:46.7956855Z test_duplicate_json_key (test_workspace_landing.LandingChecks.test_duplicate_json_key) ... ok
+2026-11-10T08:28:46.7967141Z test_duplicate_page (test_workspace_landing.LandingChecks.test_duplicate_page) ... ok
+2026-11-10T08:28:46.7979702Z test_invalid_schema_cli (test_workspace_landing.LandingChecks.test_invalid_schema_cli) ... ok
+2026-11-10T08:28:46.7991572Z test_missing_page (test_workspace_landing.LandingChecks.test_missing_page) ... ok
+2026-11-10T08:28:46.8007999Z test_modified_archive (test_workspace_landing.LandingChecks.test_modified_archive) ... ok
+2026-11-10T08:28:46.8023853Z test_parent_escape (test_workspace_landing.LandingChecks.test_parent_escape) ... ok
+2026-11-10T08:28:46.8040981Z test_remote_and_fenced_examples_not_fetched (test_workspace_landing.LandingChecks.test_remote_and_fenced_examples_not_fetched) ... ok
+2026-11-10T08:28:46.8060477Z test_symlink_escape (test_workspace_landing.LandingChecks.test_symlink_escape) ... ok
+2026-11-10T08:28:46.8078965Z test_valid_and_no_writes (test_workspace_landing.LandingChecks.test_valid_and_no_writes) ... ok
+2026-11-10T08:28:46.8079696Z 
+2026-11-10T08:28:46.8079961Z ----------------------------------------------------------------------
+2026-11-10T08:28:46.8080515Z Ran 15 tests in 0.650s
+2026-11-10T08:28:46.8080686Z 
+2026-11-10T08:28:46.8080985Z OK
+2026-11-10T08:28:46.8081703Z {"historical_files": 1, "local_links": 2, "pages": 2, "problems": ["old.txt: historical byte identity mismatch"], "scope": "LANDING_LINKS_AND_HISTORICAL_IDENTITY_ONLY"}
+2026-11-10T08:28:46.8082766Z Scope: landing links and historical bytes only; research CI and mathematical correctness not checked.
+2026-11-10T08:28:46.8083436Z landing_check: INVALID_INPUT: unknown landing manifest scope
+2026-11-10T08:28:46.8210694Z ##[group]Run python3 tools/workspace_landing_check.py
+2026-11-10T08:28:46.8211112Z [36;1mpython3 tools/workspace_landing_check.py[0m
+2026-11-10T08:28:46.8231912Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T08:28:46.8232268Z ##[endgroup]
+2026-11-10T08:28:46.8970512Z {"historical_files": 2, "local_links": 192, "pages": 16, "problems": [], "scope": "LANDING_LINKS_AND_HISTORICAL_IDENTITY_ONLY"}
+2026-11-10T08:28:46.8971787Z Scope: landing links and historical bytes only; research CI and mathematical correctness not checked.
+2026-11-10T08:28:46.9067318Z ##[group]Run echo 'Verified landing links, historical byte identities and delivery archive controls only. Research branches and mathematical claims were not verified by this job.' >> "$GITHUB_STEP_SUMMARY"
+2026-11-10T08:28:46.9068918Z [36;1mecho 'Verified landing links, historical byte identities and delivery archive controls only. Research branches and mathematical claims were not verified by this job.' >> "$GITHUB_STEP_SUMMARY"[0m
+2026-11-10T08:28:46.9089711Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T08:28:46.9090076Z ##[endgroup]
+2026-11-10T08:28:46.9170308Z ##[group]Run set -e
+2026-11-10T08:28:46.9170561Z [36;1mset -e[0m
+2026-11-10T08:28:46.9170889Z [36;1mpython3 -B -E -S tests/test_required_formal_binding_control.py -v[0m
+2026-11-10T08:28:46.9171381Z [36;1mpython3 -B -E -O -S tests/test_required_formal_binding_control.py -v[0m
+2026-11-10T08:28:46.9171875Z [36;1mpython3 -B -E -S tests/test_public_intake_artifact_identity_control.py -v[0m
+2026-11-10T08:28:46.9172416Z [36;1mpython3 -B -E -O -S tests/test_public_intake_artifact_identity_control.py -v[0m
+2026-11-10T08:28:46.9191220Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T08:28:46.9191586Z ##[endgroup]
+2026-11-10T08:28:46.9735053Z test_checkout_other_than_tested_commit_is_refused (__main__.RequiredFormalBindingControl.test_checkout_other_than_tested_commit_is_refused) ... ok
+2026-11-10T08:28:47.0113578Z test_cli_accepts_valid_aggregate (__main__.RequiredFormalBindingControl.test_cli_accepts_valid_aggregate) ... ok
+2026-11-10T08:28:47.0486845Z test_cli_refusal_is_the_handled_refusal_not_a_crash (__main__.RequiredFormalBindingControl.test_cli_refusal_is_the_handled_refusal_not_a_crash) ... ok
+2026-11-10T08:28:47.0495009Z test_receipt_from_another_repository_is_refused (__main__.RequiredFormalBindingControl.test_receipt_from_another_repository_is_refused) ... ok
+2026-11-10T08:28:47.0501357Z test_receipt_from_another_run_is_refused (__main__.RequiredFormalBindingControl.test_receipt_from_another_run_is_refused) ... ok
+2026-11-10T08:28:47.0509689Z test_symlinked_receipt_or_manifest_is_refused (__main__.RequiredFormalBindingControl.test_symlinked_receipt_or_manifest_is_refused) ... ok
+2026-11-10T08:28:47.0518842Z test_valid_receipt_binds_to_commit_run_and_bytes (__main__.RequiredFormalBindingControl.test_valid_receipt_binds_to_commit_run_and_bytes) ... ok
+2026-11-10T08:28:47.0519917Z 
+2026-11-10T08:28:47.0520162Z ----------------------------------------------------------------------
+2026-11-10T08:28:47.0520670Z Ran 7 tests in 0.079s
+2026-11-10T08:28:47.0520903Z 
+2026-11-10T08:28:47.0521013Z OK
+2026-11-10T08:28:47.3358314Z test_checkout_other_than_tested_commit_is_refused (__main__.RequiredFormalBindingControl.test_checkout_other_than_tested_commit_is_refused) ... ok
+2026-11-10T08:28:47.5020110Z test_cli_accepts_valid_aggregate (__main__.RequiredFormalBindingControl.test_cli_accepts_valid_aggregate) ... ok
+2026-11-10T08:28:47.6806642Z test_cli_refusal_is_the_handled_refusal_not_a_crash (__main__.RequiredFormalBindingControl.test_cli_refusal_is_the_handled_refusal_not_a_crash) ... ok
+2026-11-10T08:28:47.6815222Z test_receipt_from_another_repository_is_refused (__main__.RequiredFormalBindingControl.test_receipt_from_another_repository_is_refused) ... ok
+2026-11-10T08:28:47.6821610Z test_receipt_from_another_run_is_refused (__main__.RequiredFormalBindingControl.test_receipt_from_another_run_is_refused) ... ok
+2026-11-10T08:28:47.6830521Z test_symlinked_receipt_or_manifest_is_refused (__main__.RequiredFormalBindingControl.test_symlinked_receipt_or_manifest_is_refused) ... ok
+2026-11-10T08:28:47.6839595Z test_valid_receipt_binds_to_commit_run_and_bytes (__main__.RequiredFormalBindingControl.test_valid_receipt_binds_to_commit_run_and_bytes) ... ok
+2026-11-10T08:28:47.6840625Z 
+2026-11-10T08:28:47.6840857Z ----------------------------------------------------------------------
+2026-11-10T08:28:47.6841386Z Ran 7 tests in 0.349s
+2026-11-10T08:28:47.6841582Z 
+2026-11-10T08:28:47.6841706Z OK
+2026-11-10T08:28:47.7992879Z test_exact_artifact_rows_are_accepted (__main__.ArtifactIdentityControl.test_exact_artifact_rows_are_accepted) ... ok
+2026-11-10T08:28:47.7999523Z test_overstated_byte_count_with_the_right_digest_is_refused (__main__.ArtifactIdentityControl.test_overstated_byte_count_with_the_right_digest_is_refused) ... ok
+2026-11-10T08:28:47.8005697Z test_same_length_wrong_digest_is_refused (__main__.ArtifactIdentityControl.test_same_length_wrong_digest_is_refused) ... ok
+2026-11-10T08:28:47.8023732Z test_understated_byte_count_with_the_right_digest_is_refused_by_the_cli (__main__.ArtifactIdentityControl.test_understated_byte_count_with_the_right_digest_is_refused_by_the_cli) ... ok
+2026-11-10T08:28:47.8025153Z 
+2026-11-10T08:28:47.8025390Z ----------------------------------------------------------------------
+2026-11-10T08:28:47.8025910Z Ran 4 tests in 0.006s
+2026-11-10T08:28:47.8026121Z 
+2026-11-10T08:28:47.8026228Z OK
+2026-11-10T08:28:48.3181561Z test_exact_artifact_rows_are_accepted (__main__.ArtifactIdentityControl.test_exact_artifact_rows_are_accepted) ... ok
+2026-11-10T08:28:48.3188493Z test_overstated_byte_count_with_the_right_digest_is_refused (__main__.ArtifactIdentityControl.test_overstated_byte_count_with_the_right_digest_is_refused) ... ok
+2026-11-10T08:28:48.3194415Z test_same_length_wrong_digest_is_refused (__main__.ArtifactIdentityControl.test_same_length_wrong_digest_is_refused) ... ok
+2026-11-10T08:28:48.3212327Z test_understated_byte_count_with_the_right_digest_is_refused_by_the_cli (__main__.ArtifactIdentityControl.test_understated_byte_count_with_the_right_digest_is_refused_by_the_cli) ... ok
+2026-11-10T08:28:48.3213489Z 
+2026-11-10T08:28:48.3213713Z ----------------------------------------------------------------------
+2026-11-10T08:28:48.3214229Z Ran 4 tests in 0.006s
+2026-11-10T08:28:48.3214660Z 
+2026-11-10T08:28:48.3214781Z OK
+2026-11-10T08:28:48.3418670Z ##[group]Run test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+2026-11-10T08:28:48.3419113Z [36;1mtest "$(git rev-parse HEAD)" = "$GITHUB_SHA"[0m
+2026-11-10T08:28:48.3419503Z [36;1mecho "checked_commit=$GITHUB_SHA" >> "$GITHUB_OUTPUT"[0m
+2026-11-10T08:28:48.3439482Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T08:28:48.3439845Z ##[endgroup]
+2026-11-10T08:28:48.3630170Z Post job cleanup.
+2026-11-10T08:28:48.4523915Z [command]/usr/bin/git version
+2026-11-10T08:28:48.4574234Z git version 2.56.0
+2026-11-10T08:28:48.4618580Z Temporarily overriding HOME='/home/runner/work/_temp/74d620b8-20ff-424f-b592-ee10c0fc274c' before making global git config changes
+2026-11-10T08:28:48.4620402Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T08:28:48.4626775Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T08:28:48.4705570Z Removing SSH command configuration
+2026-11-10T08:28:48.4706746Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T08:28:48.4752508Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T08:28:48.5041787Z Removing HTTP extra header
+2026-11-10T08:28:48.5049064Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T08:28:48.5094389Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T08:28:48.5371086Z Removing includeIf entries pointing to credentials config files
+2026-11-10T08:28:48.5385857Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T08:28:48.5432249Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T08:28:48.5841480Z Evaluate and set job outputs
+2026-11-10T08:28:48.5847751Z Set output 'checked_commit'
+2026-11-10T08:28:48.5849710Z Cleaning up orphan processes
