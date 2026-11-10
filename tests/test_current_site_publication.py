@@ -182,6 +182,41 @@ class PublicationTests(unittest.TestCase):
         self.assertEqual(self.api.head, prepared["head"])
         self.assertTrue(all(body["force"] is False for method, _, body in self.api.calls if method == "PATCH"))
 
+    def test_rollback_between_read_and_ref_update_requires_exact_head(self):
+        m, api = self.module, self.api
+        first = self.prepare()
+        previous = m.observe_publication(self.candidate, first, api=api, reader=self.reader,
+            context=self.context, now="2026-10-13T15:01:00Z", attempts=1)
+        candidate = copy.deepcopy(self.candidate)
+        candidate["artifact"]["sha256"] = "e" * 64
+        prepared = m.prepare_publication(candidate, api=api, context=self.context,
+            reader=self.reader, now="2026-10-13T15:02:00Z", attempts=1)
+        original = api.request
+
+        def rollback_and_accept_fast_forward(method, path, body=None):
+            if method == "PATCH" and path == m.REF_WRITE:
+                cursor = body["sha"]
+                for _ in range(8):
+                    if cursor == previous["head"]:
+                        break
+                    parents = api.objects[cursor]["parents"]
+                    if len(parents) != 1:
+                        raise RuntimeError("fixture is not a single-parent chain")
+                    cursor = parents[0]["sha"]
+                else:
+                    raise RuntimeError("fixture does not descend from rollback head")
+                api.head = previous["head"]
+                api.calls.append((method, path, copy.deepcopy(body)))
+                api.head = body["sha"]
+                return {"ref": m.REF_NAME, "object": {"sha": api.head, "type": "commit"}}
+            return original(method, path, body)
+
+        api.request = rollback_and_accept_fast_forward
+        with self.assertRaisesRegex(ValueError, "atomic receipt head changed"):
+            m.observe_publication(candidate, prepared, api=api, reader=self.reader,
+                context=self.context, now="2026-10-13T15:03:00Z", attempts=1)
+        self.assertEqual(api.head, previous["head"])
+
     def test_unknown_reference_update_can_be_recovered_idempotently(self):
         prepared = self.prepare()
         self.api.unknown_patch = True
