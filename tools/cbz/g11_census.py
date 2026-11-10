@@ -4522,6 +4522,9 @@ def _heredoc_opener(command):
     return delimiter, match.group("strip") == "-"
 
 
+WORKFLOW_JSON_INVALID = "unparseable"
+
+
 def _unique_workflow_json_object(pairs):
     result = {}
     for key, value in pairs:
@@ -4732,7 +4735,7 @@ def census(files, all_paths=None):
                 try:
                     _strict_workflow_json(text)
                 except (ValueError, TypeError):
-                    findings.append({"path": path, "area": kind, "class": "unparseable",
+                    findings.append({"path": path, "area": kind, "class": WORKFLOW_JSON_INVALID,
                                      "line": 0, "detail": "invalid or unsupported JSON workflow"})
         else:
             markers, mentions = [], []

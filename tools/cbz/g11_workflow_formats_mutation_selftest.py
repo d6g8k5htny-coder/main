@@ -43,7 +43,7 @@ CASES = (
      PREFIX + "test_json_noop_step_is_failing",
      'self.assertEqual(report["status"], "FAIL")'),
     ("invalid JSON workflow ignored",
-     '                    findings.append({"path": path, "area": kind, "class": "unparseable",\n                                     "line": 0, "detail": "invalid or unsupported JSON workflow"})',
+     '                    findings.append({"path": path, "area": kind, "class": WORKFLOW_JSON_INVALID,\n                                     "line": 0, "detail": "invalid or unsupported JSON workflow"})',
      '                    pass',
      PREFIX + "test_duplicate_json_workflow_is_unparseable",
      'self.assertEqual(report["status"], "FAIL")'),
