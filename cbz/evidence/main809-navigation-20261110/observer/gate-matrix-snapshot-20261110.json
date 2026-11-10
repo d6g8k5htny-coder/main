@@ -1,0 +1,83 @@
+{
+  "observed_utc": "2026-11-10T11:23:43.166Z",
+  "scope": "Bounded selected evidence and three-repository point reads, non-atomic. These are not results of a final G0\u2013G11 run and do not establish terminal Partial.",
+  "criteria_snapshot_commit": "9899843385512553642d3a8c77d2134e51be049f",
+  "current_navigation_commit": "ca31db469788a1d055a86e820f3557d35c36b748",
+  "skip_crosswalk_commit": "3f470987e69cbe0fcd2154a8e22685419a0f40e3",
+  "main_at_prior_observation": "d09f3252e4f9eb91d624f42357e81e3e43a658e5",
+  "workspace_at_prior_observation": "5dacca06beb56671964fa55cb4d7671d27b28990",
+  "gates": [
+    {
+      "gate": "G0",
+      "title": "Auditor mutations",
+      "state": "NOT_ESTABLISHED",
+      "basis": "No final federation-wide adverse/mutation execution of the complete Layer A auditor is observed."
+    },
+    {
+      "gate": "G1",
+      "title": "Static",
+      "state": "NOT_ESTABLISHED",
+      "basis": "Existing source censuses are scoped; no final federation-wide static pass is verified."
+    },
+    {
+      "gate": "G2",
+      "title": "Axioms",
+      "state": "NOT_ESTABLISHED",
+      "basis": "The current Main 59-target receipt is scoped, not a federation-wide axiom pass."
+    },
+    {
+      "gate": "G3",
+      "title": "Lean",
+      "state": "NOT_ESTABLISHED",
+      "basis": "A selected Main formal job succeeded; no final all-repository Lean build is established."
+    },
+    {
+      "gate": "G4",
+      "title": "Kernel",
+      "state": "NOT_ESTABLISHED",
+      "basis": "The current Main 59-target receipt does not establish every federation kernel obligation."
+    },
+    {
+      "gate": "G5",
+      "title": "Regression",
+      "state": "NOT_MET_OBSERVED",
+      "basis": "Main current normal navigation reports 2,785 tests and 23 skips; separate selected executions do not erase skips."
+    },
+    {
+      "gate": "G6",
+      "title": "Mutations",
+      "state": "NOT_ESTABLISHED",
+      "basis": "Current Main G11 component reports 328 mutation kills per mode; no full federation threshold is observed."
+    },
+    {
+      "gate": "G7",
+      "title": "Pins",
+      "state": "NOT_MET_OBSERVED",
+      "basis": "Workspace pin 02973f and observed Main tip d09f differ; reads were non-atomic."
+    },
+    {
+      "gate": "G8",
+      "title": "Status",
+      "state": "NOT_ESTABLISHED",
+      "basis": "No current complete reconciliation of all canonical surfaces is verified."
+    },
+    {
+      "gate": "G9",
+      "title": "Cold start",
+      "state": "NOT_ESTABLISHED",
+      "basis": "No fresh clone reading STATUS alone has rerun the entire documented gate matrix."
+    },
+    {
+      "gate": "G10",
+      "title": "Git",
+      "state": "NOT_ESTABLISHED",
+      "basis": "No complete current federation ref, worktree, tag and stash inventory or final Git gate is verified; Main PRs 812 and 813 were separately observed open."
+    },
+    {
+      "gate": "G11",
+      "title": "Tooling",
+      "state": "NOT_MET_OBSERVED",
+      "basis": "Current Workspace pin-workflow blob 49c5b74 has an observed synthetic skip/expected-failure false acceptance; no complete current tool qualification is established."
+    }
+  ]
+}
