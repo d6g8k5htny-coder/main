@@ -1,0 +1,41 @@
+{
+  "observed_at": "2026-11-10T08:20:12.270Z",
+  "repository": "d6g8k5htny-coder/main",
+  "run": 42778804824,
+  "source_commit": "b285dd7a31ad7b297abc9f2aa93267300111a4e9",
+  "incident": "After attempt 3 began, previously listed attempt-1 formal artifact could not be downloaded: GitHub returned 404 through the authenticated connector. Its original archive bytes were not independently captured before the full rerun.",
+  "attempt1_formal": {
+    "job": 129703560188,
+    "artifact": 13745396558,
+    "github_reported_archive_sha256": "ced60de661ef7176e67524e217b513a3d1633068c816fd5be8b9db9ff40f8c9e",
+    "github_reported_archive_bytes": 81228,
+    "receipt_sha256_from_original_job_log": "6fd22bda07996b9e228c64e4b686b4a0478ff696a4a1814e99392b3b2a5cd11d",
+    "log_blob": "5fc982e80b53b45dc6ec459d1dd780dae8ba2f31",
+    "log_sha256": "05a9600b8258bec1d38e732b0e548e1c26710a902e8afb18f14abe393bfbc2e8",
+    "archive_bytes": "NOT_CAPTURED; not re-created or rebound"
+  },
+  "other_404s": [
+    {
+      "artifact": 13745311498,
+      "local_original": "verified and included in v49"
+    },
+    {
+      "artifact": 13745162756,
+      "local_original": "verified and staged for v50"
+    },
+    {
+      "artifact": 13745946910,
+      "local_original": "verified and staged for v50"
+    }
+  ],
+  "attempt3_formal": {
+    "job": 129711247645,
+    "artifact": 13745599713,
+    "sha256": "51fcfd3971c40752ef3742c92e91075a6f0f6929fe6b52b70d04bea48ff6a359",
+    "receipt_sha256": "90fc53e5e65b62adfe62108fdc3541beff08aaa5d9d9b65a0f6286be5241cc59",
+    "scope": "independently verified new attempt; not the missing original"
+  },
+  "cause": "Undetermined; connector received 404. Distinct attempt-scoped artifact names also returned 404; do not infer that unique naming alone preserves prior artifacts.",
+  "tool_correction": "The one-shot rerun request checked exact run identity but did not require independent capture and readback of every prior artifact. Its guards are not a custody qualification; no future rerun is justified by those tests alone.",
+  "disposition": "Retain the actual original log, ID and hashes; preserve all obtainable current artifacts and logs before any further rerun. Missing original archive remains an explicit evidence gap."
+}
