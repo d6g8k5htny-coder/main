@@ -62,6 +62,8 @@ comparison or classify the content. `SHA256SUMS` binds the archives and
 verifier sources as preserved here. The companion `verification-history.tar.gz`
 retains the initial verifier scripts, false-green and red/green logs, two
 retained corrupted archives and designated code-mutant sources and outputs.
+`canonical-validation.tar.gz` separately retains the first incorrect checksum
+command, its correction, reader-link results and STATUS command outputs.
 
 The initial scripts used Python `assert`: optimized execution accepted damaged
 source, and certain duplicate or relabeled bindings were also accepted. The
