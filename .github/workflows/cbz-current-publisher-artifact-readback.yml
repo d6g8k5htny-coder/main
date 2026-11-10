@@ -1,4 +1,4 @@
-name: CBZ current publisher artifact readback
+name: CBZ current publisher artifact byte preservation
 on:
   push:
     branches: [codex/cbz-architecture-observation-20261110]
@@ -135,4 +135,14 @@ jobs:
                   print(json.dumps({'artifact': name, 'sha256': digest, 'entries': len(infos), 'crc': 'PASS', 'checked_source_commit': commit, 'modes': actual}, sort_keys=True))
           validate_archive('publisher', '0fa1e3136e5313a9a1efebc2925187e4e8f51e04199ec8cf32676ff1bb2a8e35', True)
           validate_archive('recovery', 'e095ca2da66e8588d0504f10ea21ac4cf66804a8aa5e8f8f8ac69a4d8a662eef', False)
+          import base64
+          suspicious = re.compile(rb'(ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|x-access-token:|Authorization:\s*(?:bearer|token)\s+\S+)', re.I)
+          for name in ('publisher', 'recovery'):
+              path = root / (name + '.zip')
+              with zipfile.ZipFile(path) as archived:
+                  require(all(not suspicious.search(archived.read(info)) for info in archived.infolist() if not info.is_dir()), 'credential-pattern refusal before byte export')
+              encoded = base64.b64encode(path.read_bytes()).decode('ascii')
+              for offset in range(0, len(encoded), 1200):
+                  print('CBZ_B64', name, offset, encoded[offset:offset + 1200])
+              print('CBZ_B64_END', name, len(encoded))
           PY
