@@ -522,3 +522,24 @@ requires its own86offline outcomes, actual normal/optimized live observations,
 source binding review and current required checks before integration. Prior
 source-specific qualification is not rebound to the new composition. No record,
 proof, ownership, scientific disposition, gate threshold, fullG5 or CBZ award changes.
+
+## 2026-11-10 — SDGA Task 2 Task A approved test-first draft
+
+Root reviewed the immutable design3487f544 and plan9eefcb14 before authorizing
+this Phase A publication. Add only those documents, the core-only Safe fixture,
+Controls, explicit launcher, read-only hosted workflow and source-review repair
+report. Six Python methods declare exactly39 fixed subcases; the launcher is
+outside ordinary offline discovery and missing prerequisites fail without skips.
+No production Component.lean/controller, Task1 assertion, profile/config, proof,
+canonical disposition or existing workflow is changed. Preserve entire current
+Main ad64930c and its merged14-path SDGA/11-path freshness contributions.
+
+Initial hosted execution is pending. Actual bridge absence must remain only
+implementation-absence RED with unexecuted subcases, never a semantic-adverse,
+mutation-kill or native-control pass. The separately labelled Python owned-group
+cleanup preflight, if actually observed, establishes resource cleanup only.
+Retain actual native source/tree/run/attempt, original streams, exits and census;
+toolchain, fixture or setup errors receive no expected-absence credit. Scientific
+effect NONE; classification/qualification BLOCKED; execution_authenticatedfalse.
+No production implementation, production99-module run, merge or ready transition
+is authorized by this draft checkpoint.
