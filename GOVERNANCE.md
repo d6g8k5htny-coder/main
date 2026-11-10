@@ -1,5 +1,16 @@
 # CBZ-0 governance
 
+## Normal Pages publisher atomic-head boundary — 10 November 2026
+
+A candidate replaces the normal publisher's REST ref patch with an atomic
+expected-head, non-force update of the fixed receipt ref. Immutable Git
+object verification and readback remain required, and an unknown write outcome
+requires inspection of the actual ref. Its scoped commands, hosted observations
+and limits are in [STATUS](STATUS.md#normal-pages-publisher-atomic-head-candidate--observed-10-november-2026)
+and [TOOLING](TOOLING.md#normal-pages-publisher-atomic-head-controls--10-november-2026).
+Authenticated platform behavior and publication success are not inferred.
+This operation has no mathematical or scientific effect.
+
 ## Guarded Pages receipt recovery — 10 November 2026
 
 The recovery path is limited to a canceled prepared Pages candidate with a
@@ -11,8 +22,8 @@ recovery observer. A platform failure or disagreement stops the operation;
 if a write's readback fails, inspect the actual ref before inferring its state.
 Workflow concurrency coordinates
 the normal publisher and recovery, not external actors or atomic public reads.
-The normal publisher's separate REST ref write does not yet have this atomic
-expected-head guarantee.
+At Main `31bc4c1f`, the normal publisher's separate REST ref write lacked
+this guarantee; the later candidate above addresses it subject to integration.
 The [status](STATUS.md#guarded-pages-receipt-recovery--observed-10-november-2026)
 and [tool registry](TOOLING.md#guarded-pages-receipt-recovery--10-november-2026)
 give exact commands, observations and limits. This is neither mathematical nor

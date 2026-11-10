@@ -755,3 +755,47 @@ Author-family correction1 moves only the two runner.temp bindings into prepare-s
   the recovery tool/test blobs unchanged. Workspace #69 still pins older
   Main `31bc4c1f`; actual Pages recovery and fresh current checks remain
   open. No mathematical or scientific claim is changed.
+
+## 2026-11-10 — Guard normal publication with an atomic expected head
+
+- Preserve the actual local normal/optimized rollback failures, the hosted
+  229-test run with one failure, the first candidate's synthetic-token error
+  and its stacked recovery-control failure. Their exact sources and hosted
+  logs are retained under `cbz/evidence/site-publication-cas-20261110/`.
+- Replace the normal publisher's REST ref patch in this candidate with fixed
+  repository/ref `updateRefs`, exact `beforeOid` and `force: false`.
+  Retain immutable object verification, bounded no-retry mutation and ref
+  readback. Unknown write outcomes must be resolved from the actual ref.
+  Adapt the recovery wrapper to the same interface.
+- At tested merge `d243e1a2c833e5039b9cd0d1ceb9aa5682c78e35`, hosted
+  controls ran 40 tests without skips in each mode, 11 clean-baseline and
+  designated-oracle mutations per mode, and refused three unauthorized
+  assertion origins and one runtime error per mode. Artifact digest and
+  readback limits are recorded in STATUS. Authenticated ref mutation and site
+  recovery were not executed by this pull-request control.
+- This candidate changes no mathematical statements, proofs, quarantines or
+  scientific status. Normal required-check integration and fresh source/ref
+  observations remain necessary.
+
+## 2026-11-10 — Compose publisher candidate after Main #799
+
+- Retain the complete recomposed recovery decisions prefix, including the
+  entire Main #799 ledger, then append the exact publisher decision suffix.
+  The scoped hosted controls predate this composition; rerun required checks
+  and compare exact source and merge trees before integration.
+- Workspace #69's Main pin is stale at this observation. No receipt write,
+  public deployment, final gate or scientific acceptance follows.
+
+## 2026-11-10 — Compose publisher after Main #803 and recovery
+
+- Preserve the complete recovery/#803 decisions prefix and the original
+  publisher suffix; retain the #803 workflow, dependency identities and plan.
+  All publisher and recovery source/test blobs retain the prior tested
+  identities. Fresh required checks must qualify the recomposed tree.
+- Scoped hosted readback job `129618998455` checked publisher artifact
+  `13734195859` and recovery artifact `13733836323`: exact ZIP digests,
+  unique members and CRCs, tested-source hashes, unit outcomes and
+  selected mutation origins in both modes. The initial readback failures
+  `129618510111`, `129618705245` and `129618849837` remain preserved
+  on the selected-text custody candidate. These observations do not perform
+  an authenticated receipt write or establish a final gate.

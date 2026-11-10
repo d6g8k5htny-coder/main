@@ -1,0 +1,317 @@
+﻿2026-11-10T03:37:41.3274886Z Current runner version: '2.338.2'
+2026-11-10T03:37:41.3307965Z ##[group]Runner Image Provisioner
+2026-11-10T03:37:41.3309299Z Hosted Compute Agent
+2026-11-10T03:37:41.3310092Z Version: 20261028.624
+2026-11-10T03:37:41.3310925Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T03:37:41.3312007Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T03:37:41.3312940Z Worker ID: {d2806c0a-a75f-4428-b1ad-81025960e8a7}
+2026-11-10T03:37:41.3313968Z Region: eastus2
+2026-11-10T03:37:41.3314756Z Cloud: Azure
+2026-11-10T03:37:41.3315473Z ##[endgroup]
+2026-11-10T03:37:41.3317989Z ##[group]Operating System
+2026-11-10T03:37:41.3318908Z Ubuntu
+2026-11-10T03:37:41.3319693Z 24.04.5
+2026-11-10T03:37:41.3320365Z LTS
+2026-11-10T03:37:41.3321050Z ##[endgroup]
+2026-11-10T03:37:41.3321853Z ##[group]Runner Image
+2026-11-10T03:37:41.3322666Z Image: ubuntu-24.04
+2026-11-10T03:37:41.3323504Z Version: 20261101.360.1
+2026-11-10T03:37:41.3325246Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T03:37:41.3327661Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T03:37:41.3328977Z ##[endgroup]
+2026-11-10T03:37:41.3330667Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T03:37:41.3333871Z Contents: read
+2026-11-10T03:37:41.3334762Z Metadata: read
+2026-11-10T03:37:41.3335514Z ##[endgroup]
+2026-11-10T03:37:41.3338720Z Secret source: Actions
+2026-11-10T03:37:41.3340222Z Cache mode: write
+2026-11-10T03:37:41.3341696Z Prepare workflow directory
+2026-11-10T03:37:41.3792575Z Prepare all required actions
+2026-11-10T03:37:41.3864205Z Getting action download info
+2026-11-10T03:37:41.5609087Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-10T03:37:41.6582899Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+2026-11-10T03:37:41.8405683Z Complete job name: controls
+2026-11-10T03:37:41.9184067Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-11-10T03:37:41.9185175Z with:
+2026-11-10T03:37:41.9185726Z   ref: d243e1a2c833e5039b9cd0d1ceb9aa5682c78e35
+2026-11-10T03:37:41.9186417Z   persist-credentials: false
+2026-11-10T03:37:41.9187252Z   repository: d6g8k5htny-coder/main
+2026-11-10T03:37:41.9191014Z   token: ***
+2026-11-10T03:37:41.9191564Z   ssh-strict: true
+2026-11-10T03:37:41.9192104Z   ssh-user: git
+2026-11-10T03:37:41.9192680Z   clean: true
+2026-11-10T03:37:41.9193354Z   sparse-checkout-cone-mode: true
+2026-11-10T03:37:41.9193962Z   fetch-depth: 1
+2026-11-10T03:37:41.9194487Z   fetch-tags: false
+2026-11-10T03:37:41.9195001Z   show-progress: true
+2026-11-10T03:37:41.9195498Z   lfs: false
+2026-11-10T03:37:41.9196010Z   submodules: false
+2026-11-10T03:37:41.9196523Z   set-safe-directory: true
+2026-11-10T03:37:41.9197456Z   allow-unsafe-pr-checkout: false
+2026-11-10T03:37:41.9198323Z ##[endgroup]
+2026-11-10T03:37:42.2399395Z Syncing repository: d6g8k5htny-coder/main
+2026-11-10T03:37:42.2401528Z ##[group]Getting Git version info
+2026-11-10T03:37:42.2402397Z Working directory is '/home/runner/work/main/main'
+2026-11-10T03:37:42.2403650Z [command]/usr/bin/git version
+2026-11-10T03:37:42.2489085Z git version 2.56.0
+2026-11-10T03:37:42.2507785Z ##[endgroup]
+2026-11-10T03:37:42.2521384Z Temporarily overriding HOME='/home/runner/work/_temp/dc8ff674-5f38-4cbd-9b37-8407d11b271a' before making global git config changes
+2026-11-10T03:37:42.2523742Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T03:37:42.2527069Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T03:37:42.2576367Z Deleting the contents of '/home/runner/work/main/main'
+2026-11-10T03:37:42.2581112Z ##[group]Determining repository object format
+2026-11-10T03:37:42.2582883Z ##[endgroup]
+2026-11-10T03:37:42.2605233Z ##[group]Initializing the repository
+2026-11-10T03:37:42.2606951Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-11-10T03:37:42.2700213Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T03:37:42.2702410Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T03:37:42.2704292Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T03:37:42.2705680Z hint: call:
+2026-11-10T03:37:42.2706471Z hint:
+2026-11-10T03:37:42.2707732Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T03:37:42.2708968Z hint:
+2026-11-10T03:37:42.2710106Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T03:37:42.2711682Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T03:37:42.2713054Z hint:
+2026-11-10T03:37:42.2713889Z hint: 	git branch -m <name>
+2026-11-10T03:37:42.2714746Z hint:
+2026-11-10T03:37:42.2715864Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T03:37:42.2718120Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-11-10T03:37:42.2734239Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-11-10T03:37:42.2774539Z ##[endgroup]
+2026-11-10T03:37:42.2775998Z ##[group]Disabling automatic garbage collection
+2026-11-10T03:37:42.2777742Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T03:37:42.2840258Z ##[endgroup]
+2026-11-10T03:37:42.2841750Z ##[group]Setting up auth
+2026-11-10T03:37:42.2842428Z Removing SSH command configuration
+2026-11-10T03:37:42.2843553Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T03:37:42.2859554Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T03:37:42.3235236Z Removing HTTP extra header
+2026-11-10T03:37:42.3242513Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T03:37:42.3278922Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T03:37:42.3537771Z Removing includeIf entries pointing to credentials config files
+2026-11-10T03:37:42.3540884Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T03:37:42.3576044Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T03:37:42.3794192Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-cda6a68e-f98a-4132-930b-3633c8251b11.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T03:37:42.3833575Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git.path /home/runner/work/_temp/git-credentials-cda6a68e-f98a-4132-930b-3633c8251b11.config
+2026-11-10T03:37:42.3865863Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-cda6a68e-f98a-4132-930b-3633c8251b11.config
+2026-11-10T03:37:42.3898340Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-cda6a68e-f98a-4132-930b-3633c8251b11.config
+2026-11-10T03:37:42.3929951Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-cda6a68e-f98a-4132-930b-3633c8251b11.config
+2026-11-10T03:37:42.3961004Z ##[endgroup]
+2026-11-10T03:37:42.3961923Z ##[group]Fetching the repository
+2026-11-10T03:37:42.3966827Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin d243e1a2c833e5039b9cd0d1ceb9aa5682c78e35
+2026-11-10T03:37:43.5523164Z From https://github.com/d6g8k5htny-coder/main
+2026-11-10T03:37:43.5527192Z  * branch            d243e1a2c833e5039b9cd0d1ceb9aa5682c78e35 -> FETCH_HEAD
+2026-11-10T03:37:43.5531955Z [command]/usr/bin/git rev-parse --verify --quiet d243e1a2c833e5039b9cd0d1ceb9aa5682c78e35^{object}
+2026-11-10T03:37:43.5554870Z d243e1a2c833e5039b9cd0d1ceb9aa5682c78e35
+2026-11-10T03:37:43.5559536Z ##[endgroup]
+2026-11-10T03:37:43.5561494Z ##[group]Determining the checkout info
+2026-11-10T03:37:43.5563750Z ##[endgroup]
+2026-11-10T03:37:43.5566445Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T03:37:43.5623988Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T03:37:43.5661194Z ##[group]Checking out the ref
+2026-11-10T03:37:43.5663847Z [command]/usr/bin/git checkout --progress --force d243e1a2c833e5039b9cd0d1ceb9aa5682c78e35
+2026-11-10T03:37:44.0828628Z Note: switching to 'd243e1a2c833e5039b9cd0d1ceb9aa5682c78e35'.
+2026-11-10T03:37:44.0829141Z 
+2026-11-10T03:37:44.0829856Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-10T03:37:44.0830876Z changes and commit them, and you can discard any commits you make in this
+2026-11-10T03:37:44.0831640Z state without impacting any branches by switching back to a branch.
+2026-11-10T03:37:44.0832151Z 
+2026-11-10T03:37:44.0832442Z If you want to create a new branch to retain commits you create, you may
+2026-11-10T03:37:44.0833176Z do so (now or later) by using -c with the switch command. Example:
+2026-11-10T03:37:44.0833646Z 
+2026-11-10T03:37:44.0833930Z   git switch -c <new-branch-name>
+2026-11-10T03:37:44.0834419Z 
+2026-11-10T03:37:44.0834704Z Or undo this operation with:
+2026-11-10T03:37:44.0834977Z 
+2026-11-10T03:37:44.0835171Z   git switch -
+2026-11-10T03:37:44.0835417Z 
+2026-11-10T03:37:44.0835834Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-10T03:37:44.0836354Z 
+2026-11-10T03:37:44.0837082Z HEAD is now at d243e1a Merge ca9e4e9928d0a591774ddcd3b8eb75bf8489a99b into 84f53afa766853b749e0ed127043d1954e70f7c3
+2026-11-10T03:37:44.0854987Z ##[endgroup]
+2026-11-10T03:37:44.0902122Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T03:37:44.0930530Z d243e1a2c833e5039b9cd0d1ceb9aa5682c78e35
+2026-11-10T03:37:44.0939905Z ##[group]Removing auth
+2026-11-10T03:37:44.0940509Z Removing SSH command configuration
+2026-11-10T03:37:44.0944945Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T03:37:44.0981351Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T03:37:44.1201463Z Removing HTTP extra header
+2026-11-10T03:37:44.1204538Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T03:37:44.1237326Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T03:37:44.1434253Z Removing includeIf entries pointing to credentials config files
+2026-11-10T03:37:44.1437404Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T03:37:44.1464850Z includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T03:37:44.1465647Z includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T03:37:44.1466303Z includeif.gitdir:/github/workspace/.git.path
+2026-11-10T03:37:44.1467083Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T03:37:44.1474164Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T03:37:44.1498628Z /home/runner/work/_temp/git-credentials-cda6a68e-f98a-4132-930b-3633c8251b11.config
+2026-11-10T03:37:44.1508545Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-cda6a68e\-f98a\-4132\-930b\-3633c8251b11\.config
+2026-11-10T03:37:44.1551642Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T03:37:44.1574322Z /home/runner/work/_temp/git-credentials-cda6a68e-f98a-4132-930b-3633c8251b11.config
+2026-11-10T03:37:44.1582684Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-cda6a68e\-f98a\-4132\-930b\-3633c8251b11\.config
+2026-11-10T03:37:44.1615996Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-10T03:37:44.1641745Z /github/runner_temp/git-credentials-cda6a68e-f98a-4132-930b-3633c8251b11.config
+2026-11-10T03:37:44.1650916Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-cda6a68e\-f98a\-4132\-930b\-3633c8251b11\.config
+2026-11-10T03:37:44.1686055Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T03:37:44.1707983Z /github/runner_temp/git-credentials-cda6a68e-f98a-4132-930b-3633c8251b11.config
+2026-11-10T03:37:44.1714903Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-cda6a68e\-f98a\-4132\-930b\-3633c8251b11\.config
+2026-11-10T03:37:44.1749898Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T03:37:44.1943537Z Removing credentials config '/home/runner/work/_temp/git-credentials-cda6a68e-f98a-4132-930b-3633c8251b11.config'
+2026-11-10T03:37:44.1954592Z ##[endgroup]
+2026-11-10T03:37:44.2160944Z ##[group]Run set -euo pipefail
+2026-11-10T03:37:44.2161472Z [36;1mset -euo pipefail[0m
+2026-11-10T03:37:44.2161995Z [36;1mmkdir -p "$RUNNER_TEMP/cbz-publisher-cas"[0m
+2026-11-10T03:37:44.2162446Z [36;1mtest "$(git rev-parse HEAD)" = "$GITHUB_SHA"[0m
+2026-11-10T03:37:44.2162973Z [36;1mpython3 --version > "$RUNNER_TEMP/cbz-publisher-cas/python.txt"[0m
+2026-11-10T03:37:44.2163476Z [36;1mfor mode in normal optimized; do[0m
+2026-11-10T03:37:44.2163892Z [36;1m  log="$RUNNER_TEMP/cbz-publisher-cas/unit-$mode.log"[0m
+2026-11-10T03:37:44.2164363Z [36;1m  if [ "$mode" = optimized ]; then[0m
+2026-11-10T03:37:44.2164992Z [36;1m    python3 -B -O -S -m unittest -v tests.test_current_site_publication > "$log" 2>&1 || { cat "$log"; exit 1; }[0m
+2026-11-10T03:37:44.2165537Z [36;1m  else[0m
+2026-11-10T03:37:44.2166052Z [36;1m    python3 -B -S -m unittest -v tests.test_current_site_publication > "$log" 2>&1 || { cat "$log"; exit 1; }[0m
+2026-11-10T03:37:44.2167420Z [36;1m  fi[0m
+2026-11-10T03:37:44.2167746Z [36;1m  cat "$log"[0m
+2026-11-10T03:37:44.2168066Z [36;1m  grep -Eq '^Ran 40 tests in ' "$log"[0m
+2026-11-10T03:37:44.2168494Z [36;1m  tail -n 1 "$log" | grep -Fxq 'OK'[0m
+2026-11-10T03:37:44.2169009Z [36;1m  if grep -Fq ' ... skipped ' "$log"; then echo 'skipped publication control' >&2; exit 1; fi[0m
+2026-11-10T03:37:44.2169550Z [36;1m  if [ "$mode" = optimized ]; then[0m
+2026-11-10T03:37:44.2170382Z [36;1m    python3 -B -O -S tools/cbz_site_publisher_cas_mutations.py --output "$RUNNER_TEMP/cbz-publisher-cas/mutations-$mode" | tee "$RUNNER_TEMP/cbz-publisher-cas/mutations-$mode.log"[0m
+2026-11-10T03:37:44.2171122Z [36;1m  else[0m
+2026-11-10T03:37:44.2171848Z [36;1m    python3 -B -S tools/cbz_site_publisher_cas_mutations.py --output "$RUNNER_TEMP/cbz-publisher-cas/mutations-$mode" | tee "$RUNNER_TEMP/cbz-publisher-cas/mutations-$mode.log"[0m
+2026-11-10T03:37:44.2172586Z [36;1m  fi[0m
+2026-11-10T03:37:44.2172889Z [36;1mdone[0m
+2026-11-10T03:37:44.2192882Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T03:37:44.2193460Z ##[endgroup]
+2026-11-10T03:38:03.0969721Z test_atomic_advance_obeys_request_bound_without_network (tests.test_current_site_publication.PublicationTests.test_atomic_advance_obeys_request_bound_without_network) ... ok
+2026-11-10T03:38:03.0971989Z test_atomic_ref_protocol_binds_repo_ref_heads_and_nonforce (tests.test_current_site_publication.PublicationTests.test_atomic_ref_protocol_binds_repo_ref_heads_and_nonforce) ... ok
+2026-11-10T03:38:03.0973957Z test_atomic_ref_protocol_refuses_errors_and_wrong_response_identity (tests.test_current_site_publication.PublicationTests.test_atomic_ref_protocol_refuses_errors_and_wrong_response_identity) ... ok
+2026-11-10T03:38:03.0975797Z test_atomic_ref_protocol_rejects_invalid_heads_without_network (tests.test_current_site_publication.PublicationTests.test_atomic_ref_protocol_rejects_invalid_heads_without_network) ... ok
+2026-11-10T03:38:03.0977323Z test_bootstrap_post_requires_ref_readback_of_the_created_commit (tests.test_current_site_publication.PublicationTests.test_bootstrap_post_requires_ref_readback_of_the_created_commit) ... ok
+2026-11-10T03:38:03.0978535Z test_branch_race_is_rejected_without_forced_ref_update (tests.test_current_site_publication.PublicationTests.test_branch_race_is_rejected_without_forced_ref_update) ... ok
+2026-11-10T03:38:03.0979892Z test_candidate_and_execution_identity_mismatches_are_rejected_before_api_access (tests.test_current_site_publication.PublicationTests.test_candidate_and_execution_identity_mismatches_are_rejected_before_api_access) ... ok
+2026-11-10T03:38:03.0981182Z test_corrupt_anchor_blob_bytes_are_refused (tests.test_current_site_publication.PublicationTests.test_corrupt_anchor_blob_bytes_are_refused) ... ok
+2026-11-10T03:38:03.0982165Z test_corrupt_anchor_blob_or_tree_is_refused (tests.test_current_site_publication.PublicationTests.test_corrupt_anchor_blob_or_tree_is_refused) ... ok
+2026-11-10T03:38:03.0983686Z test_differing_candidate_cannot_replace_pending_receipt_without_exact_public_match (tests.test_current_site_publication.PublicationTests.test_differing_candidate_cannot_replace_pending_receipt_without_exact_public_match) ... ok
+2026-11-10T03:38:03.0985288Z test_failed_observation_does_not_write_observed_receipt (tests.test_current_site_publication.PublicationTests.test_failed_observation_does_not_write_observed_receipt) ... ok
+2026-11-10T03:38:03.0987394Z test_future_attempt_candidate_is_rejected_before_api_access (tests.test_current_site_publication.PublicationTests.test_future_attempt_candidate_is_rejected_before_api_access) ... ok
+2026-11-10T03:38:03.0989228Z test_get_retries_transient_503_then_200_and_writes_do_not_retry (tests.test_current_site_publication.PublicationTests.test_get_retries_transient_503_then_200_and_writes_do_not_retry) ... ok
+2026-11-10T03:38:03.0991188Z test_github_client_enforces_fixed_routes_and_write_body_guards (tests.test_current_site_publication.PublicationTests.test_github_client_enforces_fixed_routes_and_write_body_guards) ... ok
+2026-11-10T03:38:03.0993329Z test_http_clients_bound_responses_and_keep_credentials_in_fixed_api_headers (tests.test_current_site_publication.PublicationTests.test_http_clients_bound_responses_and_keep_credentials_in_fixed_api_headers) ... ok
+2026-11-10T03:38:03.0995655Z test_later_attempt_observes_exact_prepared_candidate_with_original_run_identity (tests.test_current_site_publication.PublicationTests.test_later_attempt_observes_exact_prepared_candidate_with_original_run_identity) ... ok
+2026-11-10T03:38:03.0998229Z test_later_attempt_reuses_exact_observed_candidate_without_mutation (tests.test_current_site_publication.PublicationTests.test_later_attempt_reuses_exact_observed_candidate_without_mutation) ... ok
+2026-11-10T03:38:03.0999709Z test_later_deploy_observes_visible_pending_receipt_before_preparing_successor (tests.test_current_site_publication.PublicationTests.test_later_deploy_observes_visible_pending_receipt_before_preparing_successor) ... ok
+2026-11-10T03:38:03.1001153Z test_missing_receipt_branch_needs_explicit_bootstrap_and_actual_remote_absence (tests.test_current_site_publication.PublicationTests.test_missing_receipt_branch_needs_explicit_bootstrap_and_actual_remote_absence) ... ok
+2026-11-10T03:38:03.1003189Z test_observe_rejects_altered_prepared_digest_or_inventory_before_api_access (tests.test_current_site_publication.PublicationTests.test_observe_rejects_altered_prepared_digest_or_inventory_before_api_access) ... ok
+2026-11-10T03:38:03.1005061Z test_observed_requires_exact_public_manifest_metadata_and_payload (tests.test_current_site_publication.PublicationTests.test_observed_requires_exact_public_manifest_metadata_and_payload) ... ok
+2026-11-10T03:38:03.1006350Z test_post_patch_old_head_forever_fails_bounded_without_repatch (tests.test_current_site_publication.PublicationTests.test_post_patch_old_head_forever_fails_bounded_without_repatch) ... ok
+2026-11-10T03:38:03.1007915Z test_post_patch_old_head_once_then_target_is_verified_without_repatch (tests.test_current_site_publication.PublicationTests.test_post_patch_old_head_once_then_target_is_verified_without_repatch) ... ok
+2026-11-10T03:38:03.1009279Z test_post_patch_target_requires_immutable_commit_tree_and_receipt_verification (tests.test_current_site_publication.PublicationTests.test_post_patch_target_requires_immutable_commit_tree_and_receipt_verification) ... ok
+2026-11-10T03:38:03.1010658Z test_post_patch_third_head_is_a_hard_race_without_repatch (tests.test_current_site_publication.PublicationTests.test_post_patch_third_head_is_a_hard_race_without_repatch) ... ok
+2026-11-10T03:38:03.1011905Z test_prepared_anchor_is_persistent_and_only_latest_json_is_written (tests.test_current_site_publication.PublicationTests.test_prepared_anchor_is_persistent_and_only_latest_json_is_written) ... ok
+2026-11-10T03:38:03.1013186Z test_public_anchor_pins_real_history_closure_on_a_fresh_runner (tests.test_current_site_publication.PublicationTests.test_public_anchor_pins_real_history_closure_on_a_fresh_runner) ... ok
+2026-11-10T03:38:03.1014563Z test_qualified_metadata_package_binds_real_artifact_and_browser_evidence (tests.test_current_site_publication.PublicationTests.test_qualified_metadata_package_binds_real_artifact_and_browser_evidence) ... ok
+2026-11-10T03:38:03.1015994Z test_raw_rest_ref_patch_is_refused_without_network (tests.test_current_site_publication.PublicationTests.test_raw_rest_ref_patch_is_refused_without_network) ... ok
+2026-11-10T03:38:03.1018130Z test_readback_cannot_record_success_after_its_wall_clock_deadline (tests.test_current_site_publication.PublicationTests.test_readback_cannot_record_success_after_its_wall_clock_deadline) ... ok
+2026-11-10T03:38:03.1020042Z test_readback_retries_are_bounded_and_do_not_mutate_receipts (tests.test_current_site_publication.PublicationTests.test_readback_retries_are_bounded_and_do_not_mutate_receipts) ... ok
+2026-11-10T03:38:03.1022073Z test_retained_resume_table_restores_exact_bytes_without_changing_current_default (tests.test_current_site_publication.PublicationTests.test_retained_resume_table_restores_exact_bytes_without_changing_current_default) ... ok
+2026-11-10T03:38:03.1024144Z test_rollback_between_read_and_ref_update_requires_exact_head (tests.test_current_site_publication.PublicationTests.test_rollback_between_read_and_ref_update_requires_exact_head) ... ok
+2026-11-10T03:38:03.1026134Z test_snapshot_regression_is_refused_against_persistent_anchor (tests.test_current_site_publication.PublicationTests.test_snapshot_regression_is_refused_against_persistent_anchor) ... ok
+2026-11-10T03:38:03.1028081Z test_source_run_and_unknown_receipt_fields_are_refused_before_mutation (tests.test_current_site_publication.PublicationTests.test_source_run_and_unknown_receipt_fields_are_refused_before_mutation) ... ok
+2026-11-10T03:38:03.1030021Z test_unavailable_branch_is_not_treated_as_initial_absence (tests.test_current_site_publication.PublicationTests.test_unavailable_branch_is_not_treated_as_initial_absence) ... ok
+2026-11-10T03:38:03.1032266Z test_unknown_postdeploy_failure_keeps_prepared_anchor_and_refuses_old_public_pair (tests.test_current_site_publication.PublicationTests.test_unknown_postdeploy_failure_keeps_prepared_anchor_and_refuses_old_public_pair) ... ok
+2026-11-10T03:38:03.1034554Z test_unknown_reference_update_can_be_recovered_idempotently (tests.test_current_site_publication.PublicationTests.test_unknown_reference_update_can_be_recovered_idempotently) ... ok
+2026-11-10T03:38:03.1037102Z test_unknown_resume_presentation_is_not_admitted_by_a_self_consistent_receipt (tests.test_current_site_publication.PublicationTests.test_unknown_resume_presentation_is_not_admitted_by_a_self_consistent_receipt) ... ok
+2026-11-10T03:38:03.1039497Z test_workflow_has_pr_specific_concurrency_and_separate_metadata_handoff (tests.test_current_site_publication.PublicationTests.test_workflow_has_pr_specific_concurrency_and_separate_metadata_handoff) ... ok
+2026-11-10T03:38:03.1040695Z 
+2026-11-10T03:38:03.1040959Z ----------------------------------------------------------------------
+2026-11-10T03:38:03.1041713Z Ran 40 tests in 18.790s
+2026-11-10T03:38:03.1042016Z 
+2026-11-10T03:38:03.1042217Z OK
+2026-11-10T03:38:05.6330011Z 11 clean baselines and selected-oracle mutations; 3 unauthorized assertion origins and one runtime error rejected; optimize 0
+2026-11-10T03:38:24.7457679Z test_atomic_advance_obeys_request_bound_without_network (tests.test_current_site_publication.PublicationTests.test_atomic_advance_obeys_request_bound_without_network) ... ok
+2026-11-10T03:38:24.7459250Z test_atomic_ref_protocol_binds_repo_ref_heads_and_nonforce (tests.test_current_site_publication.PublicationTests.test_atomic_ref_protocol_binds_repo_ref_heads_and_nonforce) ... ok
+2026-11-10T03:38:24.7460606Z test_atomic_ref_protocol_refuses_errors_and_wrong_response_identity (tests.test_current_site_publication.PublicationTests.test_atomic_ref_protocol_refuses_errors_and_wrong_response_identity) ... ok
+2026-11-10T03:38:24.7462238Z test_atomic_ref_protocol_rejects_invalid_heads_without_network (tests.test_current_site_publication.PublicationTests.test_atomic_ref_protocol_rejects_invalid_heads_without_network) ... ok
+2026-11-10T03:38:24.7463504Z test_bootstrap_post_requires_ref_readback_of_the_created_commit (tests.test_current_site_publication.PublicationTests.test_bootstrap_post_requires_ref_readback_of_the_created_commit) ... ok
+2026-11-10T03:38:24.7464712Z test_branch_race_is_rejected_without_forced_ref_update (tests.test_current_site_publication.PublicationTests.test_branch_race_is_rejected_without_forced_ref_update) ... ok
+2026-11-10T03:38:24.7465991Z test_candidate_and_execution_identity_mismatches_are_rejected_before_api_access (tests.test_current_site_publication.PublicationTests.test_candidate_and_execution_identity_mismatches_are_rejected_before_api_access) ... ok
+2026-11-10T03:38:24.7467499Z test_corrupt_anchor_blob_bytes_are_refused (tests.test_current_site_publication.PublicationTests.test_corrupt_anchor_blob_bytes_are_refused) ... ok
+2026-11-10T03:38:24.7468538Z test_corrupt_anchor_blob_or_tree_is_refused (tests.test_current_site_publication.PublicationTests.test_corrupt_anchor_blob_or_tree_is_refused) ... ok
+2026-11-10T03:38:24.7469791Z test_differing_candidate_cannot_replace_pending_receipt_without_exact_public_match (tests.test_current_site_publication.PublicationTests.test_differing_candidate_cannot_replace_pending_receipt_without_exact_public_match) ... ok
+2026-11-10T03:38:24.7471369Z test_failed_observation_does_not_write_observed_receipt (tests.test_current_site_publication.PublicationTests.test_failed_observation_does_not_write_observed_receipt) ... ok
+2026-11-10T03:38:24.7473231Z test_future_attempt_candidate_is_rejected_before_api_access (tests.test_current_site_publication.PublicationTests.test_future_attempt_candidate_is_rejected_before_api_access) ... ok
+2026-11-10T03:38:24.7475018Z test_get_retries_transient_503_then_200_and_writes_do_not_retry (tests.test_current_site_publication.PublicationTests.test_get_retries_transient_503_then_200_and_writes_do_not_retry) ... ok
+2026-11-10T03:38:24.7477045Z test_github_client_enforces_fixed_routes_and_write_body_guards (tests.test_current_site_publication.PublicationTests.test_github_client_enforces_fixed_routes_and_write_body_guards) ... ok
+2026-11-10T03:38:24.7479085Z test_http_clients_bound_responses_and_keep_credentials_in_fixed_api_headers (tests.test_current_site_publication.PublicationTests.test_http_clients_bound_responses_and_keep_credentials_in_fixed_api_headers) ... ok
+2026-11-10T03:38:24.7481532Z test_later_attempt_observes_exact_prepared_candidate_with_original_run_identity (tests.test_current_site_publication.PublicationTests.test_later_attempt_observes_exact_prepared_candidate_with_original_run_identity) ... ok
+2026-11-10T03:38:24.7483752Z test_later_attempt_reuses_exact_observed_candidate_without_mutation (tests.test_current_site_publication.PublicationTests.test_later_attempt_reuses_exact_observed_candidate_without_mutation) ... ok
+2026-11-10T03:38:24.7485919Z test_later_deploy_observes_visible_pending_receipt_before_preparing_successor (tests.test_current_site_publication.PublicationTests.test_later_deploy_observes_visible_pending_receipt_before_preparing_successor) ... ok
+2026-11-10T03:38:24.7488021Z test_missing_receipt_branch_needs_explicit_bootstrap_and_actual_remote_absence (tests.test_current_site_publication.PublicationTests.test_missing_receipt_branch_needs_explicit_bootstrap_and_actual_remote_absence) ... ok
+2026-11-10T03:38:24.7489540Z test_observe_rejects_altered_prepared_digest_or_inventory_before_api_access (tests.test_current_site_publication.PublicationTests.test_observe_rejects_altered_prepared_digest_or_inventory_before_api_access) ... ok
+2026-11-10T03:38:24.7490882Z test_observed_requires_exact_public_manifest_metadata_and_payload (tests.test_current_site_publication.PublicationTests.test_observed_requires_exact_public_manifest_metadata_and_payload) ... ok
+2026-11-10T03:38:24.7492313Z test_post_patch_old_head_forever_fails_bounded_without_repatch (tests.test_current_site_publication.PublicationTests.test_post_patch_old_head_forever_fails_bounded_without_repatch) ... ok
+2026-11-10T03:38:24.7493612Z test_post_patch_old_head_once_then_target_is_verified_without_repatch (tests.test_current_site_publication.PublicationTests.test_post_patch_old_head_once_then_target_is_verified_without_repatch) ... ok
+2026-11-10T03:38:24.7494953Z test_post_patch_target_requires_immutable_commit_tree_and_receipt_verification (tests.test_current_site_publication.PublicationTests.test_post_patch_target_requires_immutable_commit_tree_and_receipt_verification) ... ok
+2026-11-10T03:38:24.7496267Z test_post_patch_third_head_is_a_hard_race_without_repatch (tests.test_current_site_publication.PublicationTests.test_post_patch_third_head_is_a_hard_race_without_repatch) ... ok
+2026-11-10T03:38:24.7497833Z test_prepared_anchor_is_persistent_and_only_latest_json_is_written (tests.test_current_site_publication.PublicationTests.test_prepared_anchor_is_persistent_and_only_latest_json_is_written) ... ok
+2026-11-10T03:38:24.7499441Z test_public_anchor_pins_real_history_closure_on_a_fresh_runner (tests.test_current_site_publication.PublicationTests.test_public_anchor_pins_real_history_closure_on_a_fresh_runner) ... ok
+2026-11-10T03:38:24.7501568Z test_qualified_metadata_package_binds_real_artifact_and_browser_evidence (tests.test_current_site_publication.PublicationTests.test_qualified_metadata_package_binds_real_artifact_and_browser_evidence) ... ok
+2026-11-10T03:38:24.7503420Z test_raw_rest_ref_patch_is_refused_without_network (tests.test_current_site_publication.PublicationTests.test_raw_rest_ref_patch_is_refused_without_network) ... ok
+2026-11-10T03:38:24.7505222Z test_readback_cannot_record_success_after_its_wall_clock_deadline (tests.test_current_site_publication.PublicationTests.test_readback_cannot_record_success_after_its_wall_clock_deadline) ... ok
+2026-11-10T03:38:24.7507407Z test_readback_retries_are_bounded_and_do_not_mutate_receipts (tests.test_current_site_publication.PublicationTests.test_readback_retries_are_bounded_and_do_not_mutate_receipts) ... ok
+2026-11-10T03:38:24.7509472Z test_retained_resume_table_restores_exact_bytes_without_changing_current_default (tests.test_current_site_publication.PublicationTests.test_retained_resume_table_restores_exact_bytes_without_changing_current_default) ... ok
+2026-11-10T03:38:24.7511066Z test_rollback_between_read_and_ref_update_requires_exact_head (tests.test_current_site_publication.PublicationTests.test_rollback_between_read_and_ref_update_requires_exact_head) ... ok
+2026-11-10T03:38:24.7512581Z test_snapshot_regression_is_refused_against_persistent_anchor (tests.test_current_site_publication.PublicationTests.test_snapshot_regression_is_refused_against_persistent_anchor) ... ok
+2026-11-10T03:38:24.7513865Z test_source_run_and_unknown_receipt_fields_are_refused_before_mutation (tests.test_current_site_publication.PublicationTests.test_source_run_and_unknown_receipt_fields_are_refused_before_mutation) ... ok
+2026-11-10T03:38:24.7515193Z test_unavailable_branch_is_not_treated_as_initial_absence (tests.test_current_site_publication.PublicationTests.test_unavailable_branch_is_not_treated_as_initial_absence) ... ok
+2026-11-10T03:38:24.7516487Z test_unknown_postdeploy_failure_keeps_prepared_anchor_and_refuses_old_public_pair (tests.test_current_site_publication.PublicationTests.test_unknown_postdeploy_failure_keeps_prepared_anchor_and_refuses_old_public_pair) ... ok
+2026-11-10T03:38:24.7518178Z test_unknown_reference_update_can_be_recovered_idempotently (tests.test_current_site_publication.PublicationTests.test_unknown_reference_update_can_be_recovered_idempotently) ... ok
+2026-11-10T03:38:24.7519503Z test_unknown_resume_presentation_is_not_admitted_by_a_self_consistent_receipt (tests.test_current_site_publication.PublicationTests.test_unknown_resume_presentation_is_not_admitted_by_a_self_consistent_receipt) ... ok
+2026-11-10T03:38:24.7520976Z test_workflow_has_pr_specific_concurrency_and_separate_metadata_handoff (tests.test_current_site_publication.PublicationTests.test_workflow_has_pr_specific_concurrency_and_separate_metadata_handoff) ... ok
+2026-11-10T03:38:24.7521771Z 
+2026-11-10T03:38:24.7521991Z ----------------------------------------------------------------------
+2026-11-10T03:38:24.7522468Z Ran 40 tests in 18.769s
+2026-11-10T03:38:24.7522720Z 
+2026-11-10T03:38:24.7522826Z OK
+2026-11-10T03:38:34.6053315Z 11 clean baselines and selected-oracle mutations; 3 unauthorized assertion origins and one runtime error rejected; optimize 1
+2026-11-10T03:38:34.6241311Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+2026-11-10T03:38:34.6241798Z with:
+2026-11-10T03:38:34.6242170Z   name: cbz-publisher-cas-42750651127-1
+2026-11-10T03:38:34.6242569Z   path: /home/runner/work/_temp/cbz-publisher-cas
+2026-11-10T03:38:34.6242952Z   if-no-files-found: warn
+2026-11-10T03:38:34.6243318Z   include-hidden-files: true
+2026-11-10T03:38:34.6243639Z   retention-days: 30
+2026-11-10T03:38:34.6243957Z   compression-level: 6
+2026-11-10T03:38:34.6244246Z   overwrite: false
+2026-11-10T03:38:34.6244525Z   archive: true
+2026-11-10T03:38:34.6244861Z ##[endgroup]
+2026-11-10T03:38:34.8072744Z With the provided path, there will be 81 files uploaded
+2026-11-10T03:38:34.8073705Z Artifact name is valid!
+2026-11-10T03:38:34.8074233Z Root directory input is valid!
+2026-11-10T03:38:35.0403167Z Uploading artifact: cbz-publisher-cas-42750651127-1.zip
+2026-11-10T03:38:35.0437553Z Beginning upload of artifact content to blob storage
+2026-11-10T03:38:35.2084847Z Uploaded bytes 279670
+2026-11-10T03:38:35.2177964Z Finished uploading artifact content to blob storage!
+2026-11-10T03:38:35.2179472Z SHA256 digest of uploaded artifact is 8c84b2b1fb2a9ced407ac72e7994a973d54313bbcbb6509e171587c5780822b3
+2026-11-10T03:38:35.2180704Z Finalizing artifact upload
+2026-11-10T03:38:35.5760626Z Artifact cbz-publisher-cas-42750651127-1 successfully finalized. Artifact ID 13733117677
+2026-11-10T03:38:35.5761723Z Artifact cbz-publisher-cas-42750651127-1 has been successfully uploaded! Final size is 279670 bytes. Artifact ID is 13733117677
+2026-11-10T03:38:35.5764578Z Artifact download URL: https://github.com/d6g8k5htny-coder/main/actions/runs/42750651127/artifacts/13733117677
+2026-11-10T03:38:35.5987286Z Post job cleanup.
+2026-11-10T03:38:35.6837935Z [command]/usr/bin/git version
+2026-11-10T03:38:35.6865611Z git version 2.56.0
+2026-11-10T03:38:35.6898013Z Temporarily overriding HOME='/home/runner/work/_temp/0754d843-39a3-45c1-a633-8b6b489016a9' before making global git config changes
+2026-11-10T03:38:35.6899714Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T03:38:35.6902744Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T03:38:35.6937080Z Removing SSH command configuration
+2026-11-10T03:38:35.6943553Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T03:38:35.6977986Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T03:38:35.7219233Z Removing HTTP extra header
+2026-11-10T03:38:35.7224445Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T03:38:35.7280513Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T03:38:35.7496941Z Removing includeIf entries pointing to credentials config files
+2026-11-10T03:38:35.7503228Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T03:38:35.7538405Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T03:38:35.7946222Z Cleaning up orphan processes

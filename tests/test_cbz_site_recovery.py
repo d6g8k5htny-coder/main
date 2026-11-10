@@ -301,7 +301,13 @@ class SiteRecoveryTests(unittest.TestCase):
                 calls.append((before, after))
                 return api.request('PATCH', api.module.REF_WRITE, {'sha': after, 'force': False})
 
-        result = self.recover(ref_advance=RecordingAdvance())
+        try:
+            result = self.recover(ref_advance=RecordingAdvance())
+        except ValueError as error:
+            result, reason = None, str(error)
+        else:
+            reason = None
+        self.assertIsNone(reason)
         prepared = result['receipt']['previous_receipt_commit']
         self.assertEqual(calls, [(self.failed['head'], prepared), (prepared, result['head'])])
 

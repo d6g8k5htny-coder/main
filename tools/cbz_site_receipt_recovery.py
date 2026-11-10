@@ -59,6 +59,11 @@ class GuardedRefAPI:
     def __init__(self, api, ref_advance, expected):
         self.api, self.ref_advance, self.expected = api, ref_advance, expected
 
+    def advance_ref(self, before, after):
+        if before != self.expected:
+            raise ValueError('recovery expected head differs from receipt parent')
+        self.ref_advance.advance(before, after)
+
     def request(self, method, path, body=None):
         if method == 'PATCH':
             if (path != publication.REF_WRITE or not isinstance(body, dict)

@@ -37,7 +37,7 @@ MUTANTS = [
     ('cas-invalid-head', 'test_atomic_ref_request_rejects_invalid_heads_before_network',
      "before == '0' * 40", 'False', 1),
     ('cas-adapter-bypass', 'test_ref_rollback_after_guard_does_not_accept_fast_forward',
-     "self.ref_advance.advance(self.expected, body['sha'])", 'self.api.request(method, path, body)', 1),
+     "self.ref_advance.advance(before, after)", 'self.api.request("PATCH", publication.REF_WRITE, {"sha": after, "force": False})', 1),
     ('cas-second-parent', 'test_success_uses_new_expected_head_for_each_append',
      "GuardedRefAPI(api, ref_advance, intermediate['head']), observed", "GuardedRefAPI(api, ref_advance, failed['head']), observed", 1),
     ('expected-head', 'test_wrong_expected_heads_refuse_before_any_write',

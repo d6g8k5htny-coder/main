@@ -1,5 +1,12 @@
 # CBZ proof and quarantine index
 
+## Publication atomic-head candidate — 10 November 2026
+
+Receipt ref safety and hosted control results are operational provenance, not
+mathematical proof or quarantine disposition. The original publisher failure
+and scoped correction are recorded in STATUS and TOOLING. This entry closes no
+proof and claims no scientific acceptance.
+
 ## Pages receipt recovery boundary — 10 November 2026
 
 Pages publication receipts and their guarded recovery are operational
