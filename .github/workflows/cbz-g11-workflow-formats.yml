@@ -1,4 +1,4 @@
-name: CBZ G11 origin attribution regression
+name: CBZ G11 workflow-format regression
 on:
   push:
     branches: [codex/cbz-architecture-observation-20261110]
@@ -21,21 +21,21 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          python -B -S -m unittest tests.test_g11_origin_provenance -v 2>&1 | tee "$RUNNER_TEMP/g11-origin-regression-normal.log"
+          python -B -S -m unittest tests.test_g11_workflow_formats -v 2>&1 | tee "$RUNNER_TEMP/g11-workflow-formats-normal.log"
       - name: Run optimized actual-source origin regressions
         id: optimized
         continue-on-error: true
         shell: bash
         run: |
           set -o pipefail
-          python -B -S -O -m unittest tests.test_g11_origin_provenance -v 2>&1 | tee "$RUNNER_TEMP/g11-origin-regression-optimized.log"
+          python -B -S -O -m unittest tests.test_g11_workflow_formats -v 2>&1 | tee "$RUNNER_TEMP/g11-workflow-formats-optimized.log"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
         with:
-          name: cbz-g11-origin-regression-${{ github.run_id }}-${{ github.run_attempt }}
+          name: cbz-g11-workflow-formats-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            ${{ runner.temp }}/g11-origin-regression-normal.log
-            ${{ runner.temp }}/g11-origin-regression-optimized.log
+            ${{ runner.temp }}/g11-workflow-formats-normal.log
+            ${{ runner.temp }}/g11-workflow-formats-optimized.log
           if-no-files-found: error
           retention-days: 90
       - name: Report actual outcomes
