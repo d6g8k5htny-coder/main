@@ -1,0 +1,89 @@
+"""Diagnostic only: snapshot Git extras around one unittest class setup.
+
+The test suite is instrumented and deliberately stopped after the target class
+setup. This is not the original navigation run or a regression qualification.
+"""
+import base64
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import unittest
+
+
+class DiagnosticStop(Exception):
+    pass
+
+
+def main(root, output, expected_head, expected_tree):
+    root = Path(root).resolve(strict=True)
+    output = Path(output).resolve(strict=True)
+    if output.is_relative_to(root):
+        raise ValueError('diagnostic output must be outside the checkout')
+    env = {key: value for key, value in os.environ.items() if not key.startswith('GIT_')}
+    env.update(GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL=os.devnull,
+               GIT_OPTIONAL_LOCKS='0', GIT_NO_REPLACE_OBJECTS='1')
+
+    def git(*args):
+        return subprocess.check_output(['git', '--no-replace-objects', '-c',
+                                        'core.fsmonitor=false', '-c', 'core.hooksPath=/dev/null',
+                                        '-C', str(root), *args], env=env, stderr=subprocess.PIPE)
+
+    def extras():
+        result = {}
+        for name, args in [('untracked', ('ls-files', '--others', '--exclude-standard', '-z')),
+                           ('ignored', ('ls-files', '--others', '--ignored', '--exclude-standard', '-z'))]:
+            raw = git(*args)
+            if len(raw) > 8 * 1024 * 1024:
+                raise ValueError('diagnostic file-list limit exceeded')
+            result[name] = {'bytes': len(raw), 'base64': base64.b64encode(raw).decode('ascii'),
+                            'paths': [os.fsdecode(part) for part in raw.split(b'\0') if part]}
+        return result
+
+    head = git('rev-parse', '--verify', 'HEAD').decode('ascii').strip()
+    tree = git('rev-parse', '--verify', 'HEAD^{tree}').decode('ascii').strip()
+    if head != expected_head or tree != expected_tree:
+        raise ValueError('checked source identity differs')
+    initial = extras()
+    if initial['untracked']['paths'] or initial['ignored']['paths']:
+        raise ValueError('source has extras before the diagnostic suite')
+    subprocess.run(['git', '-C', str(root), 'diff', '--quiet'], env=env, check=True)
+    subprocess.run(['git', '-C', str(root), 'diff', '--cached', '--quiet'], env=env, check=True)
+    os.chdir(root)
+    sys.path.insert(0, str(root))
+    original = unittest.TestSuite._handleClassSetUp
+    observation = {'head': head, 'tree': tree, 'initial': initial,
+                   'target': 'test_unittest_full_qualification.MainUnittestQualificationContract',
+                   'scope': 'instrumented diagnostic stopped after target setup; not original run or G5'}
+
+    def traced(self, test, result):
+        target = test.__class__
+        if target.__module__ != 'test_unittest_full_qualification' or target.__name__ != 'MainUnittestQualificationContract':
+            return original(self, test, result)
+        observation['before_target'] = extras()
+        prior_errors = len(result.errors)
+        original(self, test, result)
+        observation['after_target'] = extras()
+        observation['new_errors'] = [str(text) for _, text in result.errors[prior_errors:]]
+        observation['target_seen'] = True
+        raise DiagnosticStop()
+
+    unittest.TestSuite._handleClassSetUp = traced
+    try:
+        suite = unittest.defaultTestLoader.discover('tests', pattern='test_*.py')
+        unittest.TextTestRunner(verbosity=2).run(suite)
+        observation['target_seen'] = False
+    except DiagnosticStop:
+        pass
+    finally:
+        unittest.TestSuite._handleClassSetUp = original
+        (output / 'observation.json').write_text(json.dumps(observation, indent=2, ensure_ascii=True) + '\n')
+    print('DIAGNOSTIC_TARGET_OBSERVED=' + str(observation['target_seen']), flush=True)
+    return 1 if observation['target_seen'] else 2
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 5:
+        raise SystemExit('usage: trace_discovery.py ROOT OUTPUT HEAD TREE')
+    raise SystemExit(main(*sys.argv[1:]))

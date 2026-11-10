@@ -1,0 +1,75 @@
+"""Finite controls for the read-only Main navigation diagnostic."""
+import json
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+import unittest
+
+SOURCE = Path(__file__).with_name('trace_discovery.py').read_text()
+
+
+def run_fixture(*, extras, target=True, source=SOURCE):
+    with tempfile.TemporaryDirectory(prefix='main809-diagnostic-control-') as directory:
+        parent = Path(directory)
+        repo, out = parent / 'repo', parent / 'out'
+        (repo / 'tests').mkdir(parents=True)
+        out.mkdir()
+        (repo / '.gitignore').write_text('*.cache\n')
+        if extras:
+            (repo / 'tests/test_a.py').write_text(
+                "import pathlib,unittest\nclass A(unittest.TestCase):\n def test_a(self):\n  pathlib.Path('drift.txt').write_text('x')\n  pathlib.Path('ignored.cache').write_text('x')\n")
+        else:
+            (repo / 'tests/test_a.py').write_text('import unittest\nclass A(unittest.TestCase):\n def test_a(self): pass\n')
+        if target:
+            (repo / 'tests/test_unittest_full_qualification.py').write_text(
+                "import pathlib,unittest\nclass MainUnittestQualificationContract(unittest.TestCase):\n @classmethod\n def setUpClass(cls):\n  if pathlib.Path('drift.txt').exists(): raise ValueError('SOURCE_MISMATCH')\n def test_x(self): pass\n")
+        def git(*args):
+            return subprocess.check_output(['git', '-C', str(repo), *args], stderr=subprocess.PIPE).decode().strip()
+        git('init', '-q')
+        git('config', 'user.name', 'TEST fixture')
+        git('config', 'user.email', 'TEST@example.invalid')
+        git('add', '.')
+        git('commit', '-q', '-m', 'TEST diagnostic fixture')
+        head, tree = git('rev-parse', 'HEAD'), git('rev-parse', 'HEAD^{tree}')
+        runner = parent / 'trace_discovery.py'
+        runner.write_text(source)
+        flags = ['-B', '-S'] + (['-O'] if sys.flags.optimize else [])
+        process = subprocess.run([sys.executable, *flags, str(runner), str(repo), str(out), head, tree],
+                                 capture_output=True, text=True, timeout=30)
+        result = json.loads((out / 'observation.json').read_text())
+        return process, result
+
+
+class DiagnosticControls(unittest.TestCase):
+    def test_records_untracked_and_ignored_at_target(self):
+        process, result = run_fixture(extras=True)
+        self.assertEqual(process.returncode, 1, process.stderr)
+        self.assertTrue(result['target_seen'])
+        self.assertEqual(result['before_target']['untracked']['paths'], ['drift.txt'])
+        self.assertEqual(result['before_target']['ignored']['paths'], ['ignored.cache'])
+        self.assertTrue(any('SOURCE_MISMATCH' in text for text in result['new_errors']))
+
+    def test_clean_target_is_observed_without_claiming_full_pass(self):
+        process, result = run_fixture(extras=False)
+        self.assertEqual(process.returncode, 1)
+        self.assertTrue(result['target_seen'])
+        self.assertEqual(result['before_target']['untracked']['paths'], [])
+        self.assertEqual(result['before_target']['ignored']['paths'], [])
+        self.assertEqual(result['new_errors'], [])
+
+    def test_missing_target_does_not_qualify(self):
+        process, result = run_fixture(extras=False, target=False)
+        self.assertEqual(process.returncode, 2)
+        self.assertFalse(result['target_seen'])
+
+    def test_snapshot_removal_is_detected(self):
+        anchor = "observation['before_target'] = extras()"
+        self.assertEqual(SOURCE.count(anchor), 1)
+        process, result = run_fixture(extras=True, source=SOURCE.replace(anchor, "observation['before_target'] = {}", 1))
+        self.assertEqual(process.returncode, 1)
+        self.assertNotIn('untracked', result['before_target'])
+
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)
