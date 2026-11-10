@@ -28,6 +28,16 @@ unpacked in this observation. Stacked recovery controls job `129613199744`
 also passed; its recovery-dispatch job was skipped on the pull request.
 These are scoped checks, not actual authenticated ref mutation or full G0.
 
+The later recomposed tested merge `cd913c55ea6ff6187fedb6f5102ce0356aa38e24`
+had passing publisher and recovery component jobs. Independent readback job
+`129618998455` checked the actual ZIP digests and CRCs, tested-source hashes,
+unit logs and selected mutation-origin records from artifacts `13734195859`
+and `13733836323`. It observed 40 publisher tests and 11 mutation pairs,
+and 34 recovery tests and 37 mutation pairs, in each Python mode, with the
+recorded adverse-origin rejections. Three earlier inspection failures remain
+preserved. These results apply to that tested merge and do not qualify this
+new whole composition or any live Pages write.
+
 From Main, after the candidate is present, rerun:
 
 ```sh
@@ -45,6 +55,19 @@ remain unobserved. The Main `31bc4c1f` site build failed its prepared-receipt
 readback and skipped deploy; that job's original log is retained. No final
 G0–G11, no-skip federation regression or CBZ-0 is inferred.
 
+## Main pytest component merge — observed 10 November 2026
+
+Main #803 merged as `97663b478822848db5262b2fffcbacd37d6231b4`, with
+tree `c1435f6d84c557d3fddadcf84bfdecfdf9a5738f` equal to tested merge
+`fd80e41202ed4ee266956d1e1f85598e90ff1904`. Hosted job `129614618042`
+ran the ten unchanged pytest bytecode-policy methods in normal and optimized
+modes, with ten OK outcomes and no reported skips in each. The earlier
+workflow-validation failure remains recorded. This is component evidence:
+the earlier full-regression skips are not erased and no full G5 or CBZ-0 is
+established. Workspace #69 still pins `31bc4c1f`, not this Main tip.
+
+
+
 ## Later Main, Workspace and Pages observation — 10 November 2026
 
 Main #799 merged as `3f05f8493afac71c6f4aac5c1db5aeb46194d98a`,
@@ -52,8 +75,7 @@ preserving its tested tree. Workspace #69 at
 `d8d8b16af35b3f6d3d4b454ce98e26d7c3b81ab0` still pins the earlier Main
 `31bc4c1f`; that pin is stale after #799. Its post-merge pins and
 federation-contract workflows succeeded, but those observations are not a
-final current-tip federation pass. Main #803 is a separate draft qualifying a
-pytest population; its hosted results must be observed independently.
+final current-tip federation pass. Main #803 was then a separate draft.
 
 The Main `31bc4c1f` site run `42747646763` failed at prepared-receipt
 public readback in build job `129605863089`; deploy was skipped. The full

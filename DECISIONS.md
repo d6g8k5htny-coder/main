@@ -683,6 +683,18 @@ strict current-head/base integration guards. No old result is rebound, no
 record ownership or scientific hold changes, and Q-9003–Q-9005, full G5 and CBZ
 remain open. Scientific effect NONE.
 
+## 2026-11-10 — mandatory hosted pytest bytecode-policy population candidate
+
+The existing ten methods in tests/test_pytest_bytecode_policy.py (blob42252c0a1871189948e0d240151619b04f53e001) require genuine installed pytest; ordinary navigation retains -S and has not supplied this population's hosted execution. Root reports fresh source review PASS and separate pytest_policy_review PASS for workflowe1a24ee369ef540fd53805e49c449c7aeed09769, five-wheel hashlocka92172337814f1d6e0d3d302846a2dad0498464b and primary dependency provenance004f2ec44cce022457555b2a29e502f4b4a606f2. Root then authorized isolated draft publication and actual normal/optimized qualification of the unchanged ten existing methods; no artificial new-test baseline is substituted for them.
+
+Use a dedicated CPython3.11 venv with the existing project's pytest9.1.1/iniconfig2.3.1/packaging26.3/pluggy1.7.0/pygments2.21.0 versions, actual acquired universal-wheel hashes and original metadata. Parent -S receives the prepared actual purelib; unchanged child -I commands use that same real venv, preserving the deliberate adverse bytecode control. Require all ten exact method identities in each mode, zero skips/failures/errors, native HEAD/tree and source/runtime identities before/after, original logs/exits and child receipts, and immutable always-uploaded evidence. Do not change the test, conftest, validator or original dependency-version source, weaken ordinary-suite flags, install scipy/gudhi, delete caches, or infer a full G5/CBZ/scientific pass. Preserve all current Main content and peer canonical prefixes. This entry records authorized source publication only; actual current-tree hosted outcomes remain pending.
+
+## 2026-11-10 — retain initial pytest workflow validation failure
+
+Actual run42750759039/attempt1 at63deafff1218e890cfbd0b259a36baba7e766c69/tree1ba943d5a63e074976bc8b9035d0cb4cd3c02c45 failed before scheduling any job. Its native annotation reports lines30/31: Unrecognized named-value runner in job-level env. The jobs API reports zerojobs; no pytest body, dependency acquisition, runtime or assertion executed. Earlier source reviews did not catch this GitHub expression-context defect; their PASS is not execution evidence.
+
+Author-family correction1 moves only the two runner.temp bindings into prepare-step env (where runner context is available), persists them through GITHUB_ENV before setup use, and sets always-upload to a fixed literal step-context runner.temp path rather than an optionally unset env path. Original test/assertions, fixed ten IDs, normal/O commands, dependency hashes and source/runtime qualification guards remain unchanged. Preserve the failed run and full original commit ancestry. Fresh native hosted qualification is still required; no current success or G5/CBZ credit is claimed.
+
 ## 2026-11-10 — Preserve canceled Pages candidate and guard recovery
 
 - Retain both failed `42737966287` deployment attempts, skipped public
@@ -728,6 +740,22 @@ remain open. Scientific effect NONE.
   receipt before any integration or dispatch. No final gate or scientific
   acceptance follows from this composition.
 
+## 2026-11-10 — Compose Pages recovery after Main #803
+
+- Preserve the entire merged #803 decision history before the exact prior
+  recovery suffix. Main `97663b478822848db5262b2fffcbacd37d6231b4` retains
+  #803 tested tree `c1435f6d84c557d3fddadcf84bfdecfdf9a5738f`.
+- Update the #803 Governance and Tooling candidate wording to reflect the
+  actual scoped hosted execution: job `129614618042` ran ten unchanged
+  pytest bytecode-policy methods in each mode without reported skips on
+  tested merge `fd80e41202ed4ee266956d1e1f85598e90ff1904`, whose tree
+  equals the merged tree. Its earlier validation failure remains in the
+  preceding history. This is not a full regression or CBZ qualification.
+- Keep #803's workflow, dependency files, plan and all other peer paths, and
+  the recovery tool/test blobs unchanged. Workspace #69 still pins older
+  Main `31bc4c1f`; actual Pages recovery and fresh current checks remain
+  open. No mathematical or scientific claim is changed.
+
 ## 2026-11-10 — Guard normal publication with an atomic expected head
 
 - Preserve the actual local normal/optimized rollback failures, the hosted
@@ -757,6 +785,20 @@ remain open. Scientific effect NONE.
   and compare exact source and merge trees before integration.
 - Workspace #69's Main pin is stale at this observation. No receipt write,
   public deployment, final gate or scientific acceptance follows.
+
+## 2026-11-10 — Compose publisher after Main #803 and recovery
+
+- Preserve the complete recovery/#803 decisions prefix and the original
+  publisher suffix; retain the #803 workflow, dependency identities and plan.
+  All publisher and recovery source/test blobs retain the prior tested
+  identities. Fresh required checks must qualify the recomposed tree.
+- Scoped hosted readback job `129618998455` checked publisher artifact
+  `13734195859` and recovery artifact `13733836323`: exact ZIP digests,
+  unique members and CRCs, tested-source hashes, unit outcomes and
+  selected mutation origins in both modes. The initial readback failures
+  `129618510111`, `129618705245` and `129618849837` remain preserved
+  on the selected-text custody candidate. These observations do not perform
+  an authenticated receipt write or establish a final gate.
 
 [2026-11-10] [Phase 2] [Layer B / source custody] Preserve the separately
 observed 430 public Main and Math historical refs, their exact head/tree
@@ -808,3 +850,13 @@ README, SHA256SUMS and retained verification history.
   event and requires one recorded mutant source. Original component outcomes
   are unchanged. Preserve the diagnostic ancestry and its source as evidence,
   not an active workflow or a new general-purpose certifier.
+
+## 2026-11-10 — Compose selected custody after Main #803
+
+- Preserve the entire latest publisher/recovery/#803 decisions prefix,
+  followed by the exact selected-text and diagnostic evidence suffix. Keep
+  selected source package tree `60eb8f16164f11aee59fcd38bcf7e777b8cea2ce`
+  and all historical failure and readback records. No source ref is removed.
+- Recheck the current base, exact tested tree, required checks and live
+  federation pins before integration. These custody and diagnostic records
+  do not establish mathematical, scientific or final-gate status.
