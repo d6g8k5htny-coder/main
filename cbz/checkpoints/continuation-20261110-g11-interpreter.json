@@ -1,14 +1,18 @@
 {
   "date": "2026-11-10",
   "kind": "source-bound continuation; not CBZ or terminal partial",
-  "main_default": "964390a94c08f00f119dc3b2e0be16180c1544e2",
-  "workspace_default": "47221adf89749dc226e8e3578af2f8fd7c16ea20",
-  "workspace_main_pin": "964390a94c08f00f119dc3b2e0be16180c1544e2",
+  "main_default": "d291b42801a26252a046d8ca78a6bd62abc448ae",
+  "workspace_default": "bb4a3f9c15f69e0f574f948e9f84ab55f6693a69",
+  "workspace_main_pin": "d291b42801a26252a046d8ca78a6bd62abc448ae",
   "draft": {
     "pr": 804,
-    "head": "ef2903b4028ca369223ff2128cc5f81ca6749ee0",
-    "tree": "8a26d14e12f20ea82c6cec1f134b18de5d55505b",
-    "state": "draft; do not integrate this head due to adverse interpreter findings"
+    "head": "16b4e198a5799e0e1a40b7032e6b6d4d1e981c2f",
+    "tree": "0653510713b14da67c0d3746aee854d47c4ed869",
+    "parents": [
+      "d291b42801a26252a046d8ca78a6bd62abc448ae",
+      "709975c6ff42f0bca020abd4164a45479e29a0df"
+    ],
+    "state": "draft; exact recomposed census and required checks not yet observed"
   },
   "component": {
     "source_commit": "764d20556eafbf61b373fbf10be859c0ed4c8475",
@@ -63,9 +67,10 @@
     "limitation": "interpreter flaw was subsequently demonstrated"
   },
   "next": [
-    "Compose verified source into existing #804 with fresh-head CAS and append truthful canonical records.",
-    "Run new exact-candidate census in both modes and normal required checks; preserve originals.",
-    "After normal integration, refresh Workspace pin against current Main; no final G7 or G11 from scoped observations."
+    "Observe Workspace #72 postmerge runs and remaining Main #804 architecture check.",
+    "Recheck all relevant fresh refs, tested merge tree and required checks before normal Main integration.",
+    "After Main integration, refresh Workspace pin again as needed.",
+    "Do not claim final federation G7, G11 or CBZ from scoped observations."
   ],
   "math": "No historical mathematical statement or kernel result was rebound. Scientific review and acceptance are not inferred.",
   "sealed_inventory": {
@@ -74,5 +79,839 @@
     "one_mutation": "shell -c path mention counts as execution",
     "old_definition": "cbz/evidence/g11-interpreter-target-missing-20261110/original-harness.py.txt",
     "note": "328 mutation names retained; one target and replacement explicitly adapted, prior bytes preserved; do not claim all original definitions unchanged."
+  },
+  "pin_snapshot": {
+    "at": "2026-11-10T06:04:00.821Z--06:04:01.796Z",
+    "non_atomic": true,
+    "workspace": "47221adf89749dc226e8e3578af2f8fd7c16ea20",
+    "result": "eight gitlinks match manifest and observed default refs; eight pinned commits resolved; three Main PRs open",
+    "evidence": "cbz/evidence/integration-guards-20261110/workspace-pin-observation-0604.json",
+    "final_g7": false
+  },
+  "prior_candidate_census": {
+    "run": 42765914053,
+    "debug_head": "37988420c8f53a77aabc9571d198495caa4c115c",
+    "status_at_observation": "completed SUCCESS, normal and optimized; 1505 scanned files, 6026 tracked leaves, zero findings, failing tools and skips",
+    "report_sha256": "aec7cdf79dc79000b8a5fcf5e638f0334fc51f661ed802fa82836d77e3f0ff60",
+    "artifact": {
+      "id": 13738689802,
+      "sha256_reported_by_github": "dbb1db8d458c349bfd00d68ca3994ee344023700f6eb6aa438e3aaa300b4060d",
+      "independently_verified": true,
+      "verification_run": 42766195438,
+      "git_blob": "854bd833b6bb07699829ce2ad0533b26d43019a8",
+      "git_readback": "byte-identical"
+    }
+  },
+  "candidate_census": {
+    "run": 42766557037,
+    "debug_head": "e4bb1d16759784500fa2a92238af3ddf2ba6ef67",
+    "status_at_observation": "completed SUCCESS in normal and optimized modes; 1507 scanned files, 6036 tracked leaves, zero findings, failing tools and skips",
+    "commit": "16b4e198a5799e0e1a40b7032e6b6d4d1e981c2f",
+    "tree": "0653510713b14da67c0d3746aee854d47c4ed869",
+    "report_sha256": "a36ecc697be18397e6b67f4886b4f43cd2c1719061dfb66a144d137f553944aa",
+    "artifact": {
+      "id": 13739842855,
+      "sha256_reported_by_github": "9bbe98d289e834e9ee71c187d6e00edc8eaee76f9761c187b3a644cf803fc1dd",
+      "independently_verified": true,
+      "verification_run": 42766977642,
+      "git_blob": "5798b92b7ee4831aaac536c9cdd7a02f5b3c6788",
+      "git_readback": "byte-identical"
+    }
+  },
+  "workspace_draft": {
+    "pr": 72,
+    "head": "1281233c3f6b82e127e9ba85e43f3a0e44b3d0e0",
+    "tree": "c8bfa765f5cd564e894397390c4abf1588731d38",
+    "base": "47221adf89749dc226e8e3578af2f8fd7c16ea20",
+    "proposed_main": "d291b42801a26252a046d8ca78a6bd62abc448ae",
+    "state": "merged normally as bb4a3f9c15f69e0f574f948e9f84ab55f6693a69; postmerge pin and contract jobs both succeeded; exact logs retained",
+    "pin_checks": "two hosted pin jobs passed 8 strict-current pins, four canonical inputs and 254 controls each; contract workflow remains in progress",
+    "contract": {
+      "run": 42766721593,
+      "job": 129664826414,
+      "tests_per_mode": 254,
+      "mutation_events": 52,
+      "unique_nonces": 52,
+      "bad_events": 0,
+      "artifact": 13740351635,
+      "artifact_digest_reported_by_github": "dc9fe3b6403426fa322d35d7c5734ffe838cd672da0903d98e78bdd66877a812",
+      "artifact_independently_unpacked": false
+    },
+    "premerge": "cbz/evidence/integration-guards-20261110/workspace-72-premerge.json",
+    "postmerge": {
+      "pin_run": 42767475297,
+      "pin_job": 129667241047,
+      "pins": 8,
+      "canonical_inputs": 4,
+      "pin_controls": 254,
+      "contract_run": 42767475199,
+      "contract_job": 129667237594,
+      "tests_per_mode": 254,
+      "vector_events": 52,
+      "unique_nonces": 52,
+      "invalid_events": 0,
+      "artifact": 13740846295,
+      "artifact_sha256_reported_by_github": "c33d139f710a8b31ab363995fc3b46e31dab8d8ba22dd448f6546182e9b2ecbd",
+      "artifact_independently_unpacked": false,
+      "final_g7": false
+    }
+  },
+  "recomposed_component": {
+    "run": 42766509309,
+    "job": 129664151935,
+    "event": "push",
+    "head": "16b4e198a5799e0e1a40b7032e6b6d4d1e981c2f",
+    "tree": "0653510713b14da67c0d3746aee854d47c4ed869",
+    "status": "success; 265/12 controls, 7 origin mutations, 18 format tests, 19 format mutations and 328 named original mutations in each mode; 708 mutation records parsed",
+    "artifact": {
+      "id": 13740146241,
+      "sha256_reported_by_github": "c7af3a9fc11a23c9e8c61aea50211259327c200999bc8b63d7233d3b0a8f5480",
+      "independently_verified": true,
+      "verification_run": 42767262173,
+      "git_blob": "1d5ec14542261b28130ecd8a2d9e5038b6e0a617",
+      "git_readback": "byte-identical"
+    }
+  },
+  "recomposed_pr_component": {
+    "run": 42766516590,
+    "job": 129664175739,
+    "head": "16b4e198a5799e0e1a40b7032e6b6d4d1e981c2f",
+    "tested_merge": "20976340dc0514e64d7c444c234c05ee8c654921",
+    "tree": "0653510713b14da67c0d3746aee854d47c4ed869",
+    "status": "success, 708 original mutation records parsed, per-mode 265/12/18 controls, 7/19/328 mutations",
+    "artifact": {
+      "id": 13739941974,
+      "sha256_reported_by_github": "b1e4ce1293477d5a1f1329fbf0f6eebdd3d1d97bf887f492337c8b0f072f438f",
+      "independently_verified": true,
+      "verification_run": 42767590909,
+      "git_blob": "12a4d7726029b3f49d0bcbf3c74a969323923165",
+      "git_readback": "byte-identical"
+    }
+  },
+  "infrastructure_observation": {
+    "path": "cbz/evidence/integration-guards-20261110/infrastructure-ref-observation-0619.json",
+    "at": "2026-11-10T06:19:40Z onward",
+    "non_atomic": true,
+    "observed_repositories": 3,
+    "advertised_nondefault_heads": 7,
+    "non_ancestor_heads": 3,
+    "open_prs": 0,
+    "matching_tag_refs": 0,
+    "final_g10": false
+  },
+  "main_804_integration": {
+    "at": "2026-11-10T06:24:02.488Z",
+    "sha": "1a6acb192f0946900c4d445ee36febec27540da0",
+    "ref": "1a6acb192f0946900c4d445ee36febec27540da0",
+    "tree": "0653510713b14da67c0d3746aee854d47c4ed869",
+    "parents": [
+      "d291b42801a26252a046d8ca78a6bd62abc448ae",
+      "16b4e198a5799e0e1a40b7032e6b6d4d1e981c2f"
+    ],
+    "verified": true,
+    "workspace": "bb4a3f9c15f69e0f574f948e9f84ab55f6693a69",
+    "postmerge_runs": [
+      {
+        "id": 42768238702,
+        "name": "sdga-scope-contract",
+        "status": "in_progress",
+        "conclusion": null,
+        "event": "push"
+      },
+      {
+        "id": 42768238961,
+        "name": "workspace-landing",
+        "status": "queued",
+        "conclusion": null,
+        "event": "push"
+      },
+      {
+        "id": 42768238878,
+        "name": "CBZ prepared Node regression",
+        "status": "queued",
+        "conclusion": null,
+        "event": "push"
+      },
+      {
+        "id": 42768238849,
+        "name": "Current research site",
+        "status": "queued",
+        "conclusion": null,
+        "event": "push"
+      },
+      {
+        "id": 42768238991,
+        "name": "sdga-component-task-a-contract",
+        "status": "in_progress",
+        "conclusion": null,
+        "event": "push"
+      },
+      {
+        "id": 42768238655,
+        "name": "public-shop",
+        "status": "in_progress",
+        "conclusion": null,
+        "event": "push"
+      },
+      {
+        "id": 42768238853,
+        "name": "Research navigation and public source checks",
+        "status": "queued",
+        "conclusion": null,
+        "event": "push"
+      },
+      {
+        "id": 42768238565,
+        "name": "Node status",
+        "status": "in_progress",
+        "conclusion": null,
+        "event": "push"
+      },
+      {
+        "id": 42768238576,
+        "name": "CBZ federation drift",
+        "status": "in_progress",
+        "conclusion": null,
+        "event": "push"
+      },
+      {
+        "id": 42768238570,
+        "name": "node-status-live-contract",
+        "status": "in_progress",
+        "conclusion": null,
+        "event": "push"
+      },
+      {
+        "id": 42768238743,
+        "name": "CBZ G11 auditor component self-tests",
+        "status": "in_progress",
+        "conclusion": null,
+        "event": "push"
+      }
+    ],
+    "guard": {
+      "at": "2026-11-10T06:23:52.897Z",
+      "main": "d291b42801a26252a046d8ca78a6bd62abc448ae",
+      "ws": "bb4a3f9c15f69e0f574f948e9f84ab55f6693a69",
+      "head": "16b4e198a5799e0e1a40b7032e6b6d4d1e981c2f",
+      "merge": "20976340dc0514e64d7c444c234c05ee8c654921",
+      "tree": "0653510713b14da67c0d3746aee854d47c4ed869",
+      "checks": [
+        {
+          "id": 129669478438,
+          "name": "public-intake",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129669475487,
+          "name": "public-intake",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129668706421,
+          "name": "verify",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129668616367,
+          "name": "landing-checks",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129668021931,
+          "name": "public-intake",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129666957983,
+          "name": "public-intake",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129666102422,
+          "name": "public-intake",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129666077712,
+          "name": "public-intake",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129665944286,
+          "name": "deploy",
+          "status": "completed",
+          "conclusion": "skipped",
+          "app_id": 15368
+        },
+        {
+          "id": 129665943329,
+          "name": "build",
+          "status": "completed",
+          "conclusion": "skipped",
+          "app_id": 15368
+        },
+        {
+          "id": 129665089650,
+          "name": "federation-drift",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664531292,
+          "name": "node-status-refresh",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664530937,
+          "name": "controls",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664465576,
+          "name": "recover",
+          "status": "completed",
+          "conclusion": "skipped",
+          "app_id": 15368
+        },
+        {
+          "id": 129664432914,
+          "name": "live-freshness",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664225818,
+          "name": "public-intake",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664176698,
+          "name": "node-status",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664176618,
+          "name": "contract",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664176277,
+          "name": "conditional-projection",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664175966,
+          "name": "task-a",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664175739,
+          "name": "g11-auditor",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664175564,
+          "name": "navigation",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664173197,
+          "name": "prepared-node",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664172956,
+          "name": "architecture / research-architecture",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664172580,
+          "name": "formal / formal-evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664172534,
+          "name": "public-shop",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664172476,
+          "name": "drift-crawler-self-test",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664172463,
+          "name": "controls",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664172375,
+          "name": "observe-scope",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664172241,
+          "name": "browser-smoke",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664164453,
+          "name": "public-intake",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        },
+        {
+          "id": 129664151935,
+          "name": "g11-auditor",
+          "status": "completed",
+          "conclusion": "success",
+          "app_id": 15368
+        }
+      ],
+      "peer": "5fffd15c04a24a91d6d140be26d9784e852cf66f"
+    },
+    "note": "Exact merged tree equals tested merge. Conditional skipped checks are not regression credit. Fresh postmerge checks and full common gate matrix remain required."
+  },
+  "workspace_73_candidate": {
+    "pr": 73,
+    "head": "20b21bb173a291ec5256418ffdf9d45321c28108",
+    "base": "bb4a3f9c15f69e0f574f948e9f84ab55f6693a69",
+    "tree": "8c6549b2eaaece369e629ce4864d9fa3c35adaf0",
+    "tested_merge": "8ade4a5400d88f1a8b6fd9ab77dfde0342c7dc7f",
+    "main_pin": "1a6acb192f0946900c4d445ee36febec27540da0",
+    "state": "merged normally as a4c56deaa4a0e69ec61dee3efc62da14a929a3bd; tested tree verified; both postmerge jobs succeeded",
+    "pin_jobs": [
+      129669960828,
+      129669999158
+    ],
+    "contract_job": 129669994671,
+    "observation": "evidence/cbz-pin-observation-20261110-main804.json",
+    "final_g7": false,
+    "contract": {
+      "run": 42768331210,
+      "job": 129669994671,
+      "tests_per_mode": 254,
+      "events": 52,
+      "unique_nonces": 52,
+      "bad_events": 0,
+      "artifact": 13740947528,
+      "sha256_reported_by_github": "a85767a8e901e0d7067f5d9483ce4cf571441d873b2d63d2f78ca32eb40a41e3",
+      "artifact_independently_unpacked": true,
+      "artifact_git_blob": "156d57c5cfa47a8573c673f4013ad4580f1e20bd"
+    },
+    "premerge_guard": "cbz/evidence/integration-guards-20261110/workspace-73-premerge.json",
+    "merge": {
+      "at": "2026-11-10T06:30:47.329Z",
+      "sha": "a4c56deaa4a0e69ec61dee3efc62da14a929a3bd",
+      "ref": "a4c56deaa4a0e69ec61dee3efc62da14a929a3bd",
+      "tree": "8c6549b2eaaece369e629ce4864d9fa3c35adaf0",
+      "parents": [
+        "bb4a3f9c15f69e0f574f948e9f84ab55f6693a69",
+        "20b21bb173a291ec5256418ffdf9d45321c28108"
+      ],
+      "verified": true,
+      "merged": true,
+      "main_observed": "1a6acb192f0946900c4d445ee36febec27540da0",
+      "main_pin": "1a6acb192f0946900c4d445ee36febec27540da0",
+      "runs": [
+        {
+          "id": 42768996993,
+          "name": "pins",
+          "status": "queued",
+          "conclusion": null
+        }
+      ]
+    },
+    "final_guard": {
+      "at": "2026-11-10T06:30:39.638Z",
+      "base": "bb4a3f9c15f69e0f574f948e9f84ab55f6693a69",
+      "tips": [
+        {
+          "name": "main",
+          "sha": "1a6acb192f0946900c4d445ee36febec27540da0",
+          "at": "2026-11-10T06:30:36.053Z"
+        },
+        {
+          "name": "Math-",
+          "sha": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+          "at": "2026-11-10T06:30:36.439Z"
+        },
+        {
+          "name": "meta-framework",
+          "sha": "0f5894f81a5462c10ee5ec8f8109f466e712e47e",
+          "at": "2026-11-10T06:30:36.996Z"
+        },
+        {
+          "name": "query-",
+          "sha": "fb4c457b5861dc49696fd0a8e11c7c405056c05f",
+          "at": "2026-11-10T06:30:37.604Z"
+        },
+        {
+          "name": "google-drive",
+          "sha": "ad08584b3ea9d533af10113e85169f471fa8ec93",
+          "at": "2026-11-10T06:30:38.016Z"
+        },
+        {
+          "name": "trial",
+          "sha": "3738c859d519d2dbf1e388fe48fe0ae60c9487a3",
+          "at": "2026-11-10T06:30:38.346Z"
+        },
+        {
+          "name": "governance-",
+          "sha": "1b62ca2f64b3012c2fdbbf7f55ced236c3042891",
+          "at": "2026-11-10T06:30:38.832Z"
+        },
+        {
+          "name": "sandbox",
+          "sha": "dce04a4174835107126ab4f36c199a2dc320f964",
+          "at": "2026-11-10T06:30:39.180Z"
+        }
+      ],
+      "head": "20b21bb173a291ec5256418ffdf9d45321c28108",
+      "merge": "8ade4a5400d88f1a8b6fd9ab77dfde0342c7dc7f",
+      "tree": "8c6549b2eaaece369e629ce4864d9fa3c35adaf0",
+      "checks": [
+        {
+          "id": 129669999158,
+          "name": "verify-pins",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 129669994671,
+          "name": "verify",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 129669960828,
+          "name": "verify-pins",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "postmerge": {
+      "pins": {
+        "run": 42768996993,
+        "job": 129672107692,
+        "controls": 254,
+        "pins": 8,
+        "canonical_inputs": 4
+      },
+      "contract": {
+        "run": 42768997029,
+        "job": 129672108049,
+        "tests_per_mode": 254,
+        "events": 52,
+        "unique_nonces": 52,
+        "bad_events": 0,
+        "artifact": 13741395766,
+        "sha256_reported_by_github": "6366877b40cec8b8da128b53bb8ac5322658c7b19767a32d4067b175547d1693",
+        "artifact_independently_unpacked": true,
+        "artifact_git_blob": "7de6dd2ffdb1bdb27f178895861a778de96fc1a0"
+      },
+      "final_g7": false
+    },
+    "artifact_scope": "Both ZIPs: 212 unique CRC-valid entries, 254 tests per mode, 52 nonce-unique events each, source and stderr hashes matched, 13 baseline/mutant pairs per mode. Selected-body flag observed, no independent assertion-origin proof or final G7."
+  },
+  "g11_subprocess_operand_adverse": {
+    "at": "2026-11-10T06:34:27.111Z",
+    "source_commit": "1a6acb192f0946900c4d445ee36febec27540da0",
+    "source_tree": "0653510713b14da67c0d3746aee854d47c4ed869",
+    "census_blob": "904a4e417a7565918412c599bfcbdbdd420c9515",
+    "test_blob_before": "d29f90b5d783297867cd078668ae9dc9b512801e",
+    "runtime": {
+      "python": "3.12.14",
+      "bash": "GNU bash, version 5.2.37(1)-release (x86_64-pc-linux-gnu)"
+    },
+    "commands": [
+      "python3 -B -S -m unittest -v four named ToolChecks methods",
+      "python3 -B -S -O -m unittest -v four named ToolChecks methods"
+    ],
+    "each_mode": {
+      "tests": 4,
+      "failures": 3,
+      "errors": 0,
+      "skips": 0,
+      "exit_code": 1,
+      "positive_control_passed": true
+    },
+    "finding": "Python test subprocess references with invalid --check-hash-based-pycs, invalid attached -X utf8, and invalid bash -o operands were statically credited despite actual subprocess failure and absent execution markers. This is a synthetic, local Python 3.12 observation; the earlier source-bound census outputs remain historical and have this attribution limitation. It does not refute mathematical results.",
+    "repair_status": "draft Main #810 ccb98a32b83b3dc82197ec52efd64ff44f622865; local controls and mutations passed; hosted candidate checks and census in progress",
+    "evidence": "cbz/evidence/g11-python-subprocess-options-red-20261110/",
+    "hosted": {
+      "run": 42770128530,
+      "job": 129675715031,
+      "checkout": "1a6acb192f0946900c4d445ee36febec27540da0",
+      "original_census_blob": "904a4e417a7565918412c599bfcbdbdd420c9515",
+      "tests_from": "ccb98a32b83b3dc82197ec52efd64ff44f622865",
+      "test_blob": "0f38c09308b001b4e59a3095e1c5a07d5708ad6b",
+      "python": "3.11.18",
+      "both_modes": {
+        "tests": 4,
+        "failures": 3,
+        "errors": 0,
+        "positive_control_passed": true,
+        "exit_code": 1
+      },
+      "job_conclusion": "failure, including explicit final failure step to retain original adverse outcome",
+      "artifact": {
+        "id": 13741720928,
+        "sha256": "547c979593b64157daa152e3edfc8cc19353b4035198cbc78a7d3e6ee8ab75bd",
+        "bytes": 1150,
+        "independent_hash_crc_members_and_content_verified": true,
+        "git_blob": "542275d43c0282c02b5e975e25bc5201066c9edb"
+      },
+      "scope": "Synthetic marker-bearing subprocesses; not proof any actual production tool failed to execute. No mathematical results rebound."
+    },
+    "candidate_census": {
+      "run": 42770128530,
+      "job": 129675714793,
+      "source_commit": "ccb98a32b83b3dc82197ec52efd64ff44f622865",
+      "tree": "3e0b675084e4a95f19c45cf5969acf1bdb659a87",
+      "python": "3.11.18",
+      "each_mode": {
+        "status": "PASS",
+        "scanned_files": 1508,
+        "tracked_leaves": 6055,
+        "findings": 0,
+        "failing_tools": 0,
+        "skipped": 0,
+        "report_bytes": 48626,
+        "report_sha256": "4223454ed3aeae149ec1f8e5faaa7ea9be56bba3837e67440294e91ddadd9f20"
+      },
+      "artifact": {
+        "id": 13741039566,
+        "bytes": 10304,
+        "sha256": "5d3f64de47a4a43aa8fbf16e875cc05bc734affff79254d824dbfb3935c18582",
+        "independent_hash_crc_and_report_checks": true,
+        "git_blob": "34c4c91caab65ac3c682d42618df55d5677a3c3e"
+      },
+      "scope": "Bounded static census on exact candidate tree; not final federation G11, a verified full Layer A audit, or scientific review."
+    },
+    "hosted_candidate_push": {
+      "run": 42770025870,
+      "job": 129675396560,
+      "event": "push",
+      "head": "ccb98a32b83b3dc82197ec52efd64ff44f622865",
+      "tree": "3e0b675084e4a95f19c45cf5969acf1bdb659a87",
+      "python": "3.11.18",
+      "each_mode": {
+        "census_controls": 265,
+        "origin_controls": 12,
+        "origin_mutations": 7,
+        "workflow_subprocess_controls": 22,
+        "workflow_subprocess_mutations": 22,
+        "original_mutations": 328
+      },
+      "mutation_validation": {
+        "blocks": [
+          {
+            "total": 7,
+            "mode": "normal",
+            "status": "PASS"
+          },
+          {
+            "total": 7,
+            "mode": "optimized",
+            "status": "PASS"
+          },
+          {
+            "total": 22,
+            "mode": "normal",
+            "status": "PASS"
+          },
+          {
+            "total": 22,
+            "mode": "optimized",
+            "status": "PASS"
+          },
+          {
+            "total": 328,
+            "mode": "original-campaign",
+            "status": "PASS"
+          },
+          {
+            "total": 328,
+            "mode": "original-campaign",
+            "status": "PASS"
+          }
+        ],
+        "mutant_records": 714,
+        "original_unique_names": [
+          328,
+          328
+        ],
+        "bad": []
+      },
+      "artifact": {
+        "id": 13741756676,
+        "bytes": 67549,
+        "sha256": "db0099f6932dcf7d3a4ec727dd32844ef6509f1818ef6931a4fcc1780085f1aa",
+        "independent_zip_crc_baseline_and_all_656_origin_records": true,
+        "git_blob": "5ae431667a7374fb8b7cb1138a703c3b14c8a7e8"
+      },
+      "scope": "Source-bound component evidence; no full Layer A, final federation G11 or scientific acceptance."
+    },
+    "hosted_candidate_pr": {
+      "run": 42770042252,
+      "job": 129675445304,
+      "event": "pull_request",
+      "head": "ccb98a32b83b3dc82197ec52efd64ff44f622865",
+      "tested_merge": "88dc6bba0bbe1a3262badb75b758b3e95e26a747",
+      "tree": "3e0b675084e4a95f19c45cf5969acf1bdb659a87",
+      "python": "3.11.18",
+      "each_mode": {
+        "census_controls": 265,
+        "origin_controls": 12,
+        "origin_mutations": 7,
+        "workflow_subprocess_controls": 22,
+        "workflow_subprocess_mutations": 22,
+        "original_mutations": 328
+      },
+      "mutation_validation": {
+        "blocks": [
+          {
+            "total": 7,
+            "mode": "normal",
+            "status": "PASS"
+          },
+          {
+            "total": 7,
+            "mode": "optimized",
+            "status": "PASS"
+          },
+          {
+            "total": 22,
+            "mode": "normal",
+            "status": "PASS"
+          },
+          {
+            "total": 22,
+            "mode": "optimized",
+            "status": "PASS"
+          },
+          {
+            "total": 328,
+            "mode": "original-campaign",
+            "status": "PASS"
+          },
+          {
+            "total": 328,
+            "mode": "original-campaign",
+            "status": "PASS"
+          }
+        ],
+        "mutant_records": 714,
+        "original_unique_names": [
+          328,
+          328
+        ],
+        "bad": []
+      },
+      "artifact": {
+        "id": 13741566915,
+        "bytes": 67549,
+        "sha256": "fb4063e1b521fe5169a37110314357cab794f59a8e12a13cb07af1d1d9b5b0f2",
+        "independent_zip_crc_baseline_and_all_656_origin_records": true,
+        "git_blob": "c960b504d49d0846d3ecb6ad9cbf8b4e757b207b"
+      },
+      "scope": "Tested synthetic merge component evidence, not final federation G11 or scientific acceptance."
+    },
+    "expanded_controls": {
+      "previous_candidate": "ccb98a32b83b3dc82197ec52efd64ff44f622865",
+      "test_blob": "7850963c9c763caf37596c44ef99cd6328033a8a",
+      "positive_option_combinations": 17,
+      "new_negative_controls": [
+        "python separate -X invalid operand",
+        "sh invalid -o operand"
+      ],
+      "local_python": "3.12.14",
+      "both_modes": {
+        "controls": 287,
+        "format_mutations": 22,
+        "status": "PASS",
+        "skips": 0
+      },
+      "previous_original_328_campaign": "applicable to unchanged census, original census test and mutation harness; 328 authorized kills per mode",
+      "hosted_expanded_checks": "pending",
+      "final_g11": false
+    }
+  },
+  "pr810_ci_failure": {
+    "at": "2026-11-10T06:43:33.965Z",
+    "pr": 810,
+    "head": "ccb98a32b83b3dc82197ec52efd64ff44f622865",
+    "tested_merge": "88dc6bba0bbe1a3262badb75b758b3e95e26a747",
+    "workflow_run": 42770042202,
+    "architecture_job": 129675446760,
+    "required_verify_job": 129676065962,
+    "architecture": "failure in qualified preparation: SETUP_BLOCKED; artifact reports ValueError unsafe/private daemon config refuses mutation; subsequent architecture controls skipped",
+    "aggregate": "failure: checks dependency skipped; formal job succeeded; not a green qualification",
+    "preparation_artifact": {
+      "id": 13740489878,
+      "bytes": 105619,
+      "sha256": "0fc7a2d24738b4c3c800d5e764620ed4c6dd6edc8c8737ed8410146e44815058",
+      "crc_verified": true,
+      "members": 43,
+      "contains_private_daemon_material": true,
+      "storage": "original retained in Actions and private evidence package; not copied to public Git"
+    },
+    "scope": "Runner-specific admission failure observed, cause beyond artifact refusal not assumed; preserve first attempt and retry only via actual permissions."
   }
 }

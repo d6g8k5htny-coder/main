@@ -1,5 +1,10 @@
 # G11 auditor — bounded census, not certification
 
+## Expanded operand controls
+
+The current tests actually exercise 17 supported Python option combinations, including attached `-W` and `-X` forms, and independently reject invalid separate `-X` and `sh -o` invocations. Local 287-control and 22-mutation results per mode are retained. The earlier hosted census and component evidence belongs to candidate `ccb98a32b83b3dc82197ec52efd64ff44f622865`; it is not rebound to this changed tree.
+
+
 ## Python subprocess option operands
 
 Actual marker-bearing subprocesses showed three invalid interpreter operands could cause the earlier Python-test reference scanner to credit a tool that did not execute. The repair accepts only the whitelist recorded in TOOLING and fails closed for unvalidated shell operands. The [red logs, earlier 19-case mutation survivors, adapted definitions and local passing campaigns](../../cbz/evidence/g11-python-subprocess-options-20261110/) preserve the provenance and limits. The earlier 19 names remain, two definitions are adapted and three new cases make 22; the independent original 328-case inventory is unchanged. No static reference proves runtime execution.

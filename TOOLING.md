@@ -11,12 +11,12 @@ python3 -B -S tools/cbz/g11_workflow_formats_mutation_selftest.py
 python3 -B -S -O tools/cbz/g11_workflow_formats_mutation_selftest.py
 ```
 
-Local CPython 3.12.14 executed 285 controls and 22 designated mutations per mode. The original 328-case self-test also completed per mode; these are scoped local outcomes, not a final G11 certificate. Actual failures and two adapted earlier mutation definitions are preserved in [evidence](cbz/evidence/g11-python-subprocess-options-20261110/).
+Local CPython 3.12.14 executed 287 controls and 22 designated mutations per mode after expanding the positive and negative controls; the earlier source-bound 285-control results remain preserved. The original 328-case self-test also completed per mode; these are scoped local outcomes, not a final G11 certificate. Actual failures and two adapted earlier mutation definitions are preserved in [evidence](cbz/evidence/g11-python-subprocess-options-20261110/).
 
 
 ## G11 bounded interpreter handling
 
-The workflow reference scanner reuses the bounded argument parser and refuses Python or shell interpreter options whose operands are not validated. Version/help, alternate-code and syntax-only controls are tested using actual subprocesses and no-execution markers. The earlier 18-method workflow-format suite and 19-case mutation commands are retained below; the current suite has 22 methods and 22 mutations. A static reference is not an execution receipt; unsupported option forms fail closed.
+The workflow reference scanner reuses the bounded argument parser and refuses Python or shell interpreter options whose operands are not validated. Version/help, alternate-code and syntax-only controls are tested using actual subprocesses and no-execution markers. The earlier 18-method workflow-format suite and 19-case mutation commands are retained below; the current suite has 24 methods and 22 mutations. A static reference is not an execution receipt; unsupported option forms fail closed.
 
 
 ## G11 workflow-format mutation verification
