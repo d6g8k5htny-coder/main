@@ -1,0 +1,477 @@
+{
+  "schema": 1,
+  "record": "sdga-task-c-r0-observation",
+  "status": "OBSERVED_IMPLEMENTATION_ABSENCE_RED",
+  "repository": "d6g8k5htny-coder/main",
+  "pr": 807,
+  "branch": "codex/cbz-sdga-kernel-task-c-20261110",
+  "run": 42759906446,
+  "attempt": 1,
+  "job": 129642895238,
+  "feature_head": "fa0deec246fa603d7c45aae27df7684de35538ee",
+  "native_merge": "46b8079aafd5b4d784174c0b680a43ae57e1c4a6",
+  "native_tree": "fde944db2b70af4abbd30ec775e7179a192b4084",
+  "native_ordered_parents": [
+    "4fe4369aecdaf0b3af02f3f77cb91dfbbd3355cd",
+    "fa0deec246fa603d7c45aae27df7684de35538ee"
+  ],
+  "native_merge_verification": "GitHub API verified=true/reason=valid",
+  "source_bindings": {
+    "Component": "7f89460edca71754dbce9a07de229ad39ad3e851",
+    "Controls": "c25cd01838c152403eba1acd39fb029a488bb21f",
+    "launcher": "28a380649337295255812e095b59652155463fb5",
+    "workflow": "f22987c60144ae7db6202cae6085402ca2c2f947",
+    "custody_test": "a9e147e246abfacf9561d286aef65086dedd2c66",
+    "pure_protocol": "8809f1974998f9094a0f1239ecca56ddcf272a88",
+    "Task1": "14d4617b523c29007da4bdb95ee6ee4dc588a86c",
+    "toolchain": "5045d0056413266e57c625dcd7c365b10e377c52"
+  },
+  "log": {
+    "blob": "4c1798d5b0a0b32852a05382479629394c30f1b3",
+    "utf8_bytes": 1410858,
+    "sha256": "2280ad23ca10814e5b62e0982326467f4a4d5c90c444cc583f11213e7e3c3f45",
+    "selfchecks": "SHA256 empty+abc known vectors and every runner printed original-record hash match"
+  },
+  "original_packet": {
+    "blob": "def3e3e95fb4d7edeca76695d696a5a91fc00a3c",
+    "blocks": 210,
+    "kind_counts": {
+      "ORIGINAL_CUSTODY_RECORD": 56,
+      "ORIGINAL_RECORD": 14,
+      "ORIGINAL_NATIVE_STREAM": 140
+    },
+    "all_runner_UTF8_lengths_and_SHA256_matched": true
+  },
+  "observations": [
+    {
+      "mode": "normal",
+      "methods_run": 13,
+      "method_successes": 10,
+      "method_failures": 3,
+      "unittest_failure_entries": 3,
+      "errors": 0,
+      "skips": 0,
+      "declared_unique_IDs": 61,
+      "observed_IDs": 59,
+      "pass": 56,
+      "fail": 3,
+      "not_run": 2,
+      "A_B_52_exactly_pass": true,
+      "C_rows": [
+        {
+          "case_id": "C08",
+          "detail": {
+            "all_owned_absent": true,
+            "direct_imports": [
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": true,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": true,
+                "module": "Lean"
+              }
+            ],
+            "owned_count": 15,
+            "target_absent": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "clean-base-absence"
+        },
+        {
+          "case_id": "C08",
+          "detail": "SDGA_ERROR NOT_IMPLEMENTED: Task C kernel replay is not implemented or qualified",
+          "error_code": "CONTROL_ASSERT",
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "fail",
+          "subcase_id": "full-safe-replay"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "altered_field": "value",
+            "name": "s46697874757265/s53616665/s676f6f64",
+            "replacement": "Nat.zero",
+            "same_group": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "actual-source-ci"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "resolved_references": [
+              "s54727565",
+              "s4e6174/s7a65726f"
+            ],
+            "singleton_names": [
+              "s46697874757265/s53616665/s676f6f64"
+            ]
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "singleton-resolved-refs"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "all_owned_absent": true,
+            "direct_imports": [
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": true,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": true,
+                "module": "Lean"
+              }
+            ],
+            "owned_count": 15,
+            "target_absent": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "clean-base-absence"
+        },
+        {
+          "case_id": "C09",
+          "detail": "CONTROL_ASSERT: expected exact upstream kernel declaration type mismatch; observed SDGA_ERROR NOT_IMPLEMENTED: Task C kernel replay is not implemented or qualified",
+          "error_code": "CONTROL_ASSERT",
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "fail",
+          "subcase_id": "kernel-type-rejection"
+        },
+        {
+          "case_id": "C10",
+          "detail": "SDGA_ERROR NOT_IMPLEMENTED: Task C kernel replay is not implemented or qualified",
+          "error_code": "CONTROL_ASSERT",
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "fail",
+          "subcase_id": "good-base-setup"
+        },
+        {
+          "case_id": "C10",
+          "executor": "Lean",
+          "reason": "body not reached; inspect failed method",
+          "record": "subcase",
+          "status": "not_run",
+          "subcase_id": "singleton-resolved-refs"
+        },
+        {
+          "case_id": "C10",
+          "executor": "Lean",
+          "reason": "body not reached; inspect failed method",
+          "record": "subcase",
+          "status": "not_run",
+          "subcase_id": "duplicate-base-guard"
+        }
+      ],
+      "custody": {
+        "observations": 24,
+        "bindings": 10,
+        "paths": 55,
+        "status": "pass",
+        "drift": []
+      },
+      "source_drift": [],
+      "bootstrap": [],
+      "B_fixture_errors": {},
+      "pure_protocol": {
+        "methods": 12,
+        "conclusion": "pass",
+        "source": "workflow steps and complete job log; exact source at native tree"
+      },
+      "separate_custody": {
+        "methods": 3,
+        "routes": 6,
+        "pass": 6,
+        "errors": 0,
+        "skips": 0
+      },
+      "cleanup_preflight": "pass",
+      "noncleanup_timeouts": [],
+      "all_owned_process_cleanup_confirmed": true,
+      "command_count": 35,
+      "sequential_command_intervals": true,
+      "limits": {
+        "workflow_timeout_minutes": 25,
+        "native_timeout_seconds": 180,
+        "LEAN_NUM_THREADS": "2",
+        "lean_threads": 2,
+        "lake_job_cap": "none asserted"
+      },
+      "max_cumulative_child_maxrss_kib": 5715316,
+      "rss_scope": "cumulative RUSAGE_CHILDREN maxrss; not per process or total concurrent memory"
+    },
+    {
+      "mode": "optimized",
+      "methods_run": 13,
+      "method_successes": 10,
+      "method_failures": 3,
+      "unittest_failure_entries": 3,
+      "errors": 0,
+      "skips": 0,
+      "declared_unique_IDs": 61,
+      "observed_IDs": 59,
+      "pass": 56,
+      "fail": 3,
+      "not_run": 2,
+      "A_B_52_exactly_pass": true,
+      "C_rows": [
+        {
+          "case_id": "C08",
+          "detail": {
+            "all_owned_absent": true,
+            "direct_imports": [
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": true,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": true,
+                "module": "Lean"
+              }
+            ],
+            "owned_count": 15,
+            "target_absent": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "clean-base-absence"
+        },
+        {
+          "case_id": "C08",
+          "detail": "SDGA_ERROR NOT_IMPLEMENTED: Task C kernel replay is not implemented or qualified",
+          "error_code": "CONTROL_ASSERT",
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "fail",
+          "subcase_id": "full-safe-replay"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "altered_field": "value",
+            "name": "s46697874757265/s53616665/s676f6f64",
+            "replacement": "Nat.zero",
+            "same_group": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "actual-source-ci"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "resolved_references": [
+              "s54727565",
+              "s4e6174/s7a65726f"
+            ],
+            "singleton_names": [
+              "s46697874757265/s53616665/s676f6f64"
+            ]
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "singleton-resolved-refs"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "all_owned_absent": true,
+            "direct_imports": [
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": true,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": true,
+                "module": "Lean"
+              }
+            ],
+            "owned_count": 15,
+            "target_absent": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "clean-base-absence"
+        },
+        {
+          "case_id": "C09",
+          "detail": "CONTROL_ASSERT: expected exact upstream kernel declaration type mismatch; observed SDGA_ERROR NOT_IMPLEMENTED: Task C kernel replay is not implemented or qualified",
+          "error_code": "CONTROL_ASSERT",
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "fail",
+          "subcase_id": "kernel-type-rejection"
+        },
+        {
+          "case_id": "C10",
+          "detail": "SDGA_ERROR NOT_IMPLEMENTED: Task C kernel replay is not implemented or qualified",
+          "error_code": "CONTROL_ASSERT",
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "fail",
+          "subcase_id": "good-base-setup"
+        },
+        {
+          "case_id": "C10",
+          "executor": "Lean",
+          "reason": "body not reached; inspect failed method",
+          "record": "subcase",
+          "status": "not_run",
+          "subcase_id": "singleton-resolved-refs"
+        },
+        {
+          "case_id": "C10",
+          "executor": "Lean",
+          "reason": "body not reached; inspect failed method",
+          "record": "subcase",
+          "status": "not_run",
+          "subcase_id": "duplicate-base-guard"
+        }
+      ],
+      "custody": {
+        "observations": 24,
+        "bindings": 10,
+        "paths": 55,
+        "status": "pass",
+        "drift": []
+      },
+      "source_drift": [],
+      "bootstrap": [],
+      "B_fixture_errors": {},
+      "pure_protocol": {
+        "methods": 12,
+        "conclusion": "pass",
+        "source": "workflow steps and complete job log; exact source at native tree"
+      },
+      "separate_custody": {
+        "methods": 3,
+        "routes": 6,
+        "pass": 6,
+        "errors": 0,
+        "skips": 0
+      },
+      "cleanup_preflight": "pass",
+      "noncleanup_timeouts": [],
+      "all_owned_process_cleanup_confirmed": true,
+      "command_count": 35,
+      "sequential_command_intervals": true,
+      "limits": {
+        "workflow_timeout_minutes": 25,
+        "native_timeout_seconds": 180,
+        "LEAN_NUM_THREADS": "2",
+        "lean_threads": 2,
+        "lake_job_cap": "none asserted"
+      },
+      "max_cumulative_child_maxrss_kib": 5713372,
+      "rss_scope": "cumulative RUSAGE_CHILDREN maxrss; not per process or total concurrent memory"
+    }
+  ],
+  "artifact": {
+    "id": 13736893830,
+    "name": "sdga-task-a-42759906446-1",
+    "size_in_bytes": 7237637,
+    "url": "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13736893830",
+    "archive_download_url": "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13736893830/zip",
+    "expired": false,
+    "created_at": "2026-11-10T05:08:48Z",
+    "expires_at": "2026-12-10T05:08:45Z",
+    "updated_at": "2026-11-10T05:08:48Z",
+    "digest": "sha256:d4f9cbaf1de321cc66a8ba426a7e0052c15e0801842fc9a725c923344935998b",
+    "workflow_run": {
+      "id": 42759906446,
+      "repository_id": 1117225690,
+      "head_repository_id": 1117225690,
+      "head_branch": "codex/cbz-sdga-kernel-task-c-20261110",
+      "head_sha": "fa0deec246fa603d7c45aae27df7684de35538ee"
+    }
+  },
+  "artifact_zip_read_claimed": false,
+  "interpretation": "Controls compiled/evaluated healthy. Exact existing production stub failures observed. C09 did not observe kernel type rejection. C10 could not establish good base, so remaining2rows not_run. No kernel success/declTypeMismatch/duplicateBase or mutation-kill credit.",
+  "root_read_status": "parent states ROOT independently read actual R0 and signed native parent/tree identity before requesting additional CLI-only R1 test staging",
+  "production_implementation_started": false,
+  "harness_fault_fixes": 0,
+  "scientific_effect": "NONE",
+  "qualification": "BLOCKED",
+  "classification_status": "BLOCKED",
+  "execution_authenticated": false
+}

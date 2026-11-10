@@ -1,0 +1,752 @@
+{
+  "schema": 1,
+  "record": "sdga-task-c-native-candidate-observation",
+  "status": "BOUNDED_NATIVE_CANDIDATE_PASS",
+  "repository": "d6g8k5htny-coder/main",
+  "pr": 807,
+  "draft": true,
+  "feature_head": "9607199c12ec0d279da1b5dc634671adf5f3394e",
+  "feature_tree": "0abdb0aac07bb72550f34a4ea39cda4a487ff94d",
+  "feature_ordered_parents": [
+    "964390a94c08f00f119dc3b2e0be16180c1544e2",
+    "2850d98a75565a1c74815a864ce77956c07bf652"
+  ],
+  "run": 42764126530,
+  "attempt": 1,
+  "job": 129656474935,
+  "conclusion": "success",
+  "native_merge": "a908e4af5d8a33d0f90d1d8f8e83e9f105c66b25",
+  "native_tree": "0abdb0aac07bb72550f34a4ea39cda4a487ff94d",
+  "native_ordered_parents": [
+    "964390a94c08f00f119dc3b2e0be16180c1544e2",
+    "9607199c12ec0d279da1b5dc634671adf5f3394e"
+  ],
+  "native_GitHub_merge_verification": true,
+  "source_bindings": {
+    "Component": "ca46b1ae1031aa0740a9d4366d649e156181aac4",
+    "launcher": "86842b2814fbceaa7d7d65b0d0088546dbc3bb06",
+    "Controls": "c25cd01838c152403eba1acd39fb029a488bb21f",
+    "workflow": "f22987c60144ae7db6202cae6085402ca2c2f947",
+    "custody_test": "a9e147e246abfacf9561d286aef65086dedd2c66",
+    "pure_protocol": "8809f1974998f9094a0f1239ecca56ddcf272a88",
+    "Task1": "14d4617b523c29007da4bdb95ee6ee4dc588a86c"
+  },
+  "log": {
+    "blob": "20b0730ec172c9b2671b260824dad2ddca7e99dc",
+    "utf8_bytes": 1473064,
+    "sha256": "5eca40e2bf02808f79f16b7a69dd681956bdfd8a0b60ea88c974041bc7688b9c",
+    "runner_original_blocks_matched": 214
+  },
+  "original_packet": {
+    "blob": "75f502cddea83f72382313c4e3b849acf7c72d9e",
+    "blocks": 214,
+    "kind_counts": {
+      "ORIGINAL_CUSTODY_RECORD": 56,
+      "ORIGINAL_RECORD": 14,
+      "ORIGINAL_NATIVE_STREAM": 144
+    },
+    "every_original_marker_UTF8_extent_and_SHA256_independently_matched": true
+  },
+  "observations": [
+    {
+      "mode": "normal",
+      "methods_run": 13,
+      "methods_all_success": true,
+      "unique_IDs": 61,
+      "Lean_IDs": 55,
+      "Python_controller_IDs": 6,
+      "subcase_pass": 61,
+      "subcase_fail": 0,
+      "subcase_not_run": 0,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "all_original_A_B52_pass": true,
+      "C08_C09_C10_rows": [
+        {
+          "case_id": "C08",
+          "detail": {
+            "all_owned_absent": true,
+            "direct_imports": [
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": true,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": true,
+                "module": "Lean"
+              }
+            ],
+            "owned_count": 15,
+            "target_absent": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "clean-base-absence"
+        },
+        {
+          "case_id": "C08",
+          "detail": {
+            "constructors": [
+              "s46697874757265/s53616665/s537769746368/s6f6e",
+              "s46697874757265/s53616665/s537769746368/s6f6666"
+            ],
+            "helper": "SDGA.replayOwned",
+            "inductives": [
+              "s46697874757265/s53616665/s537769746368"
+            ],
+            "owned_count": 15,
+            "recursors": [
+              "s46697874757265/s53616665/s537769746368/s726563"
+            ],
+            "skipped_names": []
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "full-safe-replay"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "altered_field": "value",
+            "name": "s46697874757265/s53616665/s676f6f64",
+            "replacement": "Nat.zero",
+            "same_group": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "actual-source-ci"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "resolved_references": [
+              "s54727565",
+              "s4e6174/s7a65726f"
+            ],
+            "singleton_names": [
+              "s46697874757265/s53616665/s676f6f64"
+            ]
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "singleton-resolved-refs"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "all_owned_absent": true,
+            "direct_imports": [
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": true,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": true,
+                "module": "Lean"
+              }
+            ],
+            "owned_count": 15,
+            "target_absent": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "clean-base-absence"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "helper": "SDGA.replayOwned",
+            "kernel_cause": "declTypeMismatch",
+            "native_error": "while replaying declaration 'Fixture.Safe.good':\n(kernel) declaration type mismatch, 'Fixture.Safe.good' has type\n  Nat\nbut it is expected to have type\n  True",
+            "singleton_names": [
+              "s46697874757265/s53616665/s676f6f64"
+            ]
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "kernel-type-rejection"
+        },
+        {
+          "case_id": "C10",
+          "detail": {
+            "constructors": [
+              "s46697874757265/s53616665/s537769746368/s6f6e",
+              "s46697874757265/s53616665/s537769746368/s6f6666"
+            ],
+            "helper": "SDGA.replayOwned",
+            "inductives": [
+              "s46697874757265/s53616665/s537769746368"
+            ],
+            "owned_count": 15,
+            "recursors": [
+              "s46697874757265/s53616665/s537769746368/s726563"
+            ],
+            "skipped_names": []
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "good-base-setup"
+        },
+        {
+          "case_id": "C10",
+          "detail": {
+            "resolved_references": [
+              "s54727565",
+              "s4e6174/s7a65726f"
+            ],
+            "singleton_names": [
+              "s46697874757265/s53616665/s676f6f64"
+            ]
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "singleton-resolved-refs"
+        },
+        {
+          "case_id": "C10",
+          "detail": {
+            "contamination": "successful-original-complete-map-replay",
+            "expected_code": "DUPLICATE_BASE",
+            "helper": "SDGA.replayOwned",
+            "native_error": "SDGA_ERROR DUPLICATE_BASE: s46697874757265/s53616665/s676f6f64",
+            "singleton_names": [
+              "s46697874757265/s53616665/s676f6f64"
+            ]
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "duplicate-base-guard"
+        }
+      ],
+      "CLI": {
+        "status": "pass",
+        "command": {
+          "argv": [
+            "lake",
+            "env",
+            "env",
+            "LEAN_PATH=/home/runner/work/_temp/sdga-task-a-normal/owned",
+            "lean",
+            "--threads=2",
+            "--run",
+            "/home/runner/work/main/main/main/tools/sdga/Component.lean",
+            "replay",
+            "/home/runner/work/_temp/sdga-task-a-normal/request.json"
+          ],
+          "cleanup": {
+            "confirmed": true,
+            "errors": [],
+            "group_absent": true,
+            "leader_reaped": true,
+            "pgid": 2789,
+            "reaped_descendants": [],
+            "signals": []
+          },
+          "cumulative_child_maxrss_kib": 5715884,
+          "cwd": "/home/runner/work/main/main/main/tests/fixtures/sdga_component",
+          "declared_env": {},
+          "exit_code": 0,
+          "finished_monotonic_ns": 379422826948,
+          "finished_utc": "2026-11-10T05:47:15.193009+00:00",
+          "label": "cli-safe-replay",
+          "launch_error": null,
+          "pgid": 2789,
+          "pid": 2789,
+          "started_monotonic_ns": 372389314255,
+          "started_utc": "2026-11-10T05:47:08.159500+00:00",
+          "stderr_bytes": 0,
+          "stderr_path": "/home/runner/work/_temp/sdga-task-a-normal/native/26-cli-safe-replay.stderr",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_bytes": 1199,
+          "stdout_path": "/home/runner/work/_temp/sdga-task-a-normal/native/26-cli-safe-replay.stdout",
+          "stdout_sha256": "820ca3b7405aaad6cff12052788f5b341a4f21c3ed10df8269420b97d0864959",
+          "timed_out": false,
+          "timeout_expected_cleanup_only": false,
+          "timeout_seconds": 180
+        },
+        "receipt": {
+          "classification_status": "BLOCKED",
+          "execution_authenticated": false,
+          "helper": "SDGA.replayOwned",
+          "module": "s46697874757265/s53616665",
+          "owned_count": 15,
+          "profile_sha256": "ca1d5665def8c58244d13d500a551b84ad659ff6c63793747a8d836dae213767",
+          "qualification": "BLOCKED",
+          "replayed_names": [
+            "s46697874757265/s53616665/s70726f7056616c7565",
+            "s46697874757265/s53616665/s537769746368/s6f6666",
+            "s46697874757265/s53616665/s537769746368/s63617365734f6e",
+            "s46697874757265/s53616665/s756e6578706f72746564",
+            "s46697874757265/s53616665/s537769746368",
+            "s46697874757265/s53616665/s70726f6f66",
+            "s46697874757265/s53616665/s537769746368/s7265634f6e",
+            "s46697874757265/s53616665/s6e617456616c7565",
+            "s46697874757265/s53616665/s676f6f64",
+            "s46697874757265/s53616665/s537769746368/s6f6e",
+            "s46697874757265/s53616665/s537769746368/s726563",
+            "s5f70726976617465/s46697874757265/s53616665/n0/s46697874757265/s53616665/s68696464656e",
+            "s46697874757265/s53616665/s666c6970",
+            "s5f70726976617465/s46697874757265/s53616665/n0/s46697874757265/s53616665/s666c6970/s6d617463685f31",
+            "s466f726569676e4e616d657370616365/s76697369626c65"
+          ],
+          "schema": "cbz.sdga.kernel-replay.v1",
+          "scientific_effect": "NONE",
+          "scope_id": "sdga-task-a-fixture",
+          "skipped_names": []
+        },
+        "independent_original_stream_matches": true,
+        "complete_actual_inventory_Name_set_matches": true
+      },
+      "file_custody": {
+        "observations": 25,
+        "bindings": 10,
+        "paths": 55,
+        "status": "pass",
+        "drift": []
+      },
+      "source_drift": [],
+      "bootstrap": [],
+      "B_fixture_errors": {},
+      "pure_protocol": {
+        "methods": 12,
+        "conclusion": "pass",
+        "source": "workflow original output/step gate"
+      },
+      "separate_custody": {
+        "methods": 3,
+        "routes": 6,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "cleanup_preflight": "pass",
+      "command_count": 36,
+      "all_recorded_intervals_sequential": true,
+      "noncleanup_timeouts": [],
+      "unconfirmed_owned_cleanup": [],
+      "max_cumulative_child_maxrss_kib": 5715884,
+      "rss_scope": "cumulative RUSAGE_CHILDREN maxrss, not individual-process or concurrent memory",
+      "native_commit": "a908e4af5d8a33d0f90d1d8f8e83e9f105c66b25",
+      "native_tree": "0abdb0aac07bb72550f34a4ea39cda4a487ff94d",
+      "pinned_toolchain": "5045d0056413266e57c625dcd7c365b10e377c52"
+    },
+    {
+      "mode": "optimized",
+      "methods_run": 13,
+      "methods_all_success": true,
+      "unique_IDs": 61,
+      "Lean_IDs": 55,
+      "Python_controller_IDs": 6,
+      "subcase_pass": 61,
+      "subcase_fail": 0,
+      "subcase_not_run": 0,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "all_original_A_B52_pass": true,
+      "C08_C09_C10_rows": [
+        {
+          "case_id": "C08",
+          "detail": {
+            "all_owned_absent": true,
+            "direct_imports": [
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": true,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": true,
+                "module": "Lean"
+              }
+            ],
+            "owned_count": 15,
+            "target_absent": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "clean-base-absence"
+        },
+        {
+          "case_id": "C08",
+          "detail": {
+            "constructors": [
+              "s46697874757265/s53616665/s537769746368/s6f6e",
+              "s46697874757265/s53616665/s537769746368/s6f6666"
+            ],
+            "helper": "SDGA.replayOwned",
+            "inductives": [
+              "s46697874757265/s53616665/s537769746368"
+            ],
+            "owned_count": 15,
+            "recursors": [
+              "s46697874757265/s53616665/s537769746368/s726563"
+            ],
+            "skipped_names": []
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "full-safe-replay"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "altered_field": "value",
+            "name": "s46697874757265/s53616665/s676f6f64",
+            "replacement": "Nat.zero",
+            "same_group": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "actual-source-ci"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "resolved_references": [
+              "s54727565",
+              "s4e6174/s7a65726f"
+            ],
+            "singleton_names": [
+              "s46697874757265/s53616665/s676f6f64"
+            ]
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "singleton-resolved-refs"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "all_owned_absent": true,
+            "direct_imports": [
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": true,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": true,
+                "module": "Lean"
+              }
+            ],
+            "owned_count": 15,
+            "target_absent": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "clean-base-absence"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "helper": "SDGA.replayOwned",
+            "kernel_cause": "declTypeMismatch",
+            "native_error": "while replaying declaration 'Fixture.Safe.good':\n(kernel) declaration type mismatch, 'Fixture.Safe.good' has type\n  Nat\nbut it is expected to have type\n  True",
+            "singleton_names": [
+              "s46697874757265/s53616665/s676f6f64"
+            ]
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "kernel-type-rejection"
+        },
+        {
+          "case_id": "C10",
+          "detail": {
+            "constructors": [
+              "s46697874757265/s53616665/s537769746368/s6f6e",
+              "s46697874757265/s53616665/s537769746368/s6f6666"
+            ],
+            "helper": "SDGA.replayOwned",
+            "inductives": [
+              "s46697874757265/s53616665/s537769746368"
+            ],
+            "owned_count": 15,
+            "recursors": [
+              "s46697874757265/s53616665/s537769746368/s726563"
+            ],
+            "skipped_names": []
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "good-base-setup"
+        },
+        {
+          "case_id": "C10",
+          "detail": {
+            "resolved_references": [
+              "s54727565",
+              "s4e6174/s7a65726f"
+            ],
+            "singleton_names": [
+              "s46697874757265/s53616665/s676f6f64"
+            ]
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "singleton-resolved-refs"
+        },
+        {
+          "case_id": "C10",
+          "detail": {
+            "contamination": "successful-original-complete-map-replay",
+            "expected_code": "DUPLICATE_BASE",
+            "helper": "SDGA.replayOwned",
+            "native_error": "SDGA_ERROR DUPLICATE_BASE: s46697874757265/s53616665/s676f6f64",
+            "singleton_names": [
+              "s46697874757265/s53616665/s676f6f64"
+            ]
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "duplicate-base-guard"
+        }
+      ],
+      "CLI": {
+        "status": "pass",
+        "command": {
+          "argv": [
+            "lake",
+            "env",
+            "env",
+            "LEAN_PATH=/home/runner/work/_temp/sdga-task-a-optimized/owned",
+            "lean",
+            "--threads=2",
+            "--run",
+            "/home/runner/work/main/main/main/tools/sdga/Component.lean",
+            "replay",
+            "/home/runner/work/_temp/sdga-task-a-optimized/request.json"
+          ],
+          "cleanup": {
+            "confirmed": true,
+            "errors": [],
+            "group_absent": true,
+            "leader_reaped": true,
+            "pgid": 3166,
+            "reaped_descendants": [],
+            "signals": []
+          },
+          "cumulative_child_maxrss_kib": 5716024,
+          "cwd": "/home/runner/work/main/main/main/tests/fixtures/sdga_component",
+          "declared_env": {},
+          "exit_code": 0,
+          "finished_monotonic_ns": 478641611835,
+          "finished_utc": "2026-11-10T05:48:54.411792+00:00",
+          "label": "cli-safe-replay",
+          "launch_error": null,
+          "pgid": 3166,
+          "pid": 3166,
+          "started_monotonic_ns": 471557761641,
+          "started_utc": "2026-11-10T05:48:47.327945+00:00",
+          "stderr_bytes": 0,
+          "stderr_path": "/home/runner/work/_temp/sdga-task-a-optimized/native/26-cli-safe-replay.stderr",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_bytes": 1199,
+          "stdout_path": "/home/runner/work/_temp/sdga-task-a-optimized/native/26-cli-safe-replay.stdout",
+          "stdout_sha256": "820ca3b7405aaad6cff12052788f5b341a4f21c3ed10df8269420b97d0864959",
+          "timed_out": false,
+          "timeout_expected_cleanup_only": false,
+          "timeout_seconds": 180
+        },
+        "receipt": {
+          "classification_status": "BLOCKED",
+          "execution_authenticated": false,
+          "helper": "SDGA.replayOwned",
+          "module": "s46697874757265/s53616665",
+          "owned_count": 15,
+          "profile_sha256": "ca1d5665def8c58244d13d500a551b84ad659ff6c63793747a8d836dae213767",
+          "qualification": "BLOCKED",
+          "replayed_names": [
+            "s46697874757265/s53616665/s70726f7056616c7565",
+            "s46697874757265/s53616665/s537769746368/s6f6666",
+            "s46697874757265/s53616665/s537769746368/s63617365734f6e",
+            "s46697874757265/s53616665/s756e6578706f72746564",
+            "s46697874757265/s53616665/s537769746368",
+            "s46697874757265/s53616665/s70726f6f66",
+            "s46697874757265/s53616665/s537769746368/s7265634f6e",
+            "s46697874757265/s53616665/s6e617456616c7565",
+            "s46697874757265/s53616665/s676f6f64",
+            "s46697874757265/s53616665/s537769746368/s6f6e",
+            "s46697874757265/s53616665/s537769746368/s726563",
+            "s5f70726976617465/s46697874757265/s53616665/n0/s46697874757265/s53616665/s68696464656e",
+            "s46697874757265/s53616665/s666c6970",
+            "s5f70726976617465/s46697874757265/s53616665/n0/s46697874757265/s53616665/s666c6970/s6d617463685f31",
+            "s466f726569676e4e616d657370616365/s76697369626c65"
+          ],
+          "schema": "cbz.sdga.kernel-replay.v1",
+          "scientific_effect": "NONE",
+          "scope_id": "sdga-task-a-fixture",
+          "skipped_names": []
+        },
+        "independent_original_stream_matches": true,
+        "complete_actual_inventory_Name_set_matches": true
+      },
+      "file_custody": {
+        "observations": 25,
+        "bindings": 10,
+        "paths": 55,
+        "status": "pass",
+        "drift": []
+      },
+      "source_drift": [],
+      "bootstrap": [],
+      "B_fixture_errors": {},
+      "pure_protocol": {
+        "methods": 12,
+        "conclusion": "pass",
+        "source": "workflow original output/step gate"
+      },
+      "separate_custody": {
+        "methods": 3,
+        "routes": 6,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "cleanup_preflight": "pass",
+      "command_count": 36,
+      "all_recorded_intervals_sequential": true,
+      "noncleanup_timeouts": [],
+      "unconfirmed_owned_cleanup": [],
+      "max_cumulative_child_maxrss_kib": 5716436,
+      "rss_scope": "cumulative RUSAGE_CHILDREN maxrss, not individual-process or concurrent memory",
+      "native_commit": "a908e4af5d8a33d0f90d1d8f8e83e9f105c66b25",
+      "native_tree": "0abdb0aac07bb72550f34a4ea39cda4a487ff94d",
+      "pinned_toolchain": "5045d0056413266e57c625dcd7c365b10e377c52"
+    }
+  ],
+  "artifact": {
+    "id": 13739705171,
+    "name": "sdga-task-a-42764126530-1",
+    "size_in_bytes": 8222647,
+    "url": "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13739705171",
+    "archive_download_url": "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13739705171/zip",
+    "expired": false,
+    "created_at": "2026-11-10T05:49:32Z",
+    "expires_at": "2026-12-10T05:49:30Z",
+    "updated_at": "2026-11-10T05:49:32Z",
+    "digest": "sha256:32b9cf67ea8956e4d3622de4d8f0096ca27e1c14a441f0284d29838611d29470",
+    "workflow_run": {
+      "id": 42764126530,
+      "repository_id": 1117225690,
+      "head_repository_id": 1117225690,
+      "head_branch": "codex/cbz-sdga-kernel-task-c-20261110",
+      "head_sha": "9607199c12ec0d279da1b5dc634671adf5f3394e"
+    }
+  },
+  "artifact_ZIP_downloaded_unpacked_or_independently_read": false,
+  "limits": {
+    "workflow_timeout_minutes": 25,
+    "native_timeout_seconds": 180,
+    "LEAN_NUM_THREADS": "2",
+    "lean_threads": 2,
+    "lake_job_cap": "none asserted",
+    "processes": "all36 recorded command intervals sequential per mode"
+  },
+  "bounded_runtime_findings": [
+    "Complete actual15CI Safe private map replay from target/all-owned-absent private direct-import base, including actual inductive/two constructors/recursor.",
+    "Actual theorem CI changed only in value to Nat.zero, singleton resolved references, fresh target/owned absence, exact actual upstream kernel declTypeMismatch Nat versus True retained.",
+    "Successful original good-map replay established contamination; same bad singleton then received exact typed duplicateBase before upstream.",
+    "Actual public CLI exit0/empty stderr/1199byte exact12field receipt for all15 actual inventory Names and request scope/module/profile, no skipped Names."
+  ],
+  "limitations": [
+    "Results apply only to declared source/run/fixture scope; no rebind to future heads or peer compositions.",
+    "Conservative defn/thm/opaque .all extension and added metadata safeguards have no new dedicated missing-group/invalid-inductive/quotient adverse runtime coverage claim.",
+    "No TaskD IR sidecar/guards, whole-kernel/native/IR, fullG3, finalG0-G11, CBZ or scientific acceptance claim.",
+    "Task1 declared execution_authenticated remains false; source inventory/replay receipt qualification/classification stays BLOCKED.",
+    "Root final broad review/current required checks and Q806-before-C integration sequence remain separate pending requirements."
+  ],
+  "R0_receipt": "332d5b81c11b046f6d43f3d67eb1d8898ab6acd0",
+  "R1_receipt": "ee18f0e736f70c67b20c8c86b21cdfbac025d178",
+  "harness_or_fixture_repairs_needed": 0,
+  "production_code_changed_after_approved_ca46": false,
+  "root_actual_read": "parent independently read all214 originals and actual bounded GREEN before this receipt was staged",
+  "Ready_or_merge_performed": false,
+  "manual_workflow_reruns": false,
+  "scientific_effect": "NONE",
+  "qualification": "BLOCKED",
+  "classification_status": "BLOCKED",
+  "execution_authenticated": false
+}
