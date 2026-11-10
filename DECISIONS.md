@@ -1692,3 +1692,14 @@ or ref update. Later normal/optimized qualification remains unobserved.
 The change is reversible by ordinary guarded removal of the two new production
 paths; retain this entry and historical R0 originals. No data/dispatcher/V2,
 owner assignment, science, full Main, G5 or CBZ award follows.
+
+
+## 2026-11-10 14:09 UTC — Fresh SDGA E artifact inventory source candidate
+
+Phase: bounded original-evidence readback source preparation; Layer B. Writer: OpenAI/Codex task sdga_task_b_contract. Action: prepare only the three reviewed fresh-inventory files and this append on current Main8aaaa387d11dc21a0867b9cc41cc81743ca59975, preserving its entire canonical prefix and every Acq/V1/G5/peer leaf. Carry no unmerged E or prior diagnostic code/evidence.
+
+Rationale: fresh E run42827932735/1/job129870032991 completed all steps5–18 successfully at signed checked6ec97b8289cd289681d1867be8c2e5341a84a9fc/tree d94423ddacc191b5c50a9a46366e76f96aa52f17, ordered[8aaaa,b92e]. The actual new artifact13769809303 is27671155B/SHA25654b25786b9388d3b78a73b30448c171c75de1a80763793ba861b12379e73fcb3. Status and Git/API metadata do not establish fresh semantic qualification. Exact source transfer [044c7ba8cb6b5d08aa11c88fd0018e4dc195dfa7](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/044c7ba8cb6b5d08aa11c88fd0018e4dc195dfa7) and metadata proof d7e9a7017c60b6537085237b212290a8607df14a bind the target. Root and assigned independent reviewer report C0/I0/M0; whole old-reader/workflow forward and inverse are exact with only20+5 fixed identity/path lines changed.
+
+The source preserves six closed official-gh GETs, strict native and source guards, complete ZIP/member extent/CRC/SHA checks, no extraction/execution, complete bounded inventory framing and failure retention. Controlled stdout stays capped1.5MiB with0.5MiB wrapper reserve; actual whole decoded job must later measure below2MiB. Fresh original member bodies remain unread; no PhaseB table precedes Root's complete actual fresh inventory read.
+
+Reversible: abandon this unreferenced candidate or remove its three additions through an ordinary guarded change, retaining this history. Old qualified3888/tree23b evidence stays old-bound. This entry claims no new ref/run, test/Lean/mutator replay, E rebase, Ready/merge or scientific promotion. Scientific effect NONE; classification/qualification BLOCKED; execution_authenticated=false.
