@@ -104,7 +104,12 @@ jobs:
                           if row['mutant'] == 'authorized-selected-failure':
                               require(row.get('baseline') == 'pass' and type(selected) is str, 'clean baseline')
                               base = json.loads(get(prefix + 'baseline/origin.json')); changed = json.loads(get(prefix + 'mutant/origin.json'))
-                              verify_origin(base, flag, selected, 'baseline'); verify_origin(changed, flag, selected, 'selected')
+                              verify_origin(base, flag, selected, 'baseline')
+                              try:
+                                  verify_origin(changed, flag, selected, 'selected')
+                              except ValueError:
+                                  print(json.dumps({'failed_label': label, 'mode': mode, 'selected': selected, 'origin_fields': {k: changed.get(k) for k in ('names', 'failure_count', 'error_count', 'authorized_failures', 'unauthorized_failures', 'errors', 'events')}}, sort_keys=True))
+                                  raise
                               mutant_path = 'mutant.yml' if label.startswith('workflow-') else 'mutant.py'
                               claimed = row.get('sha256') if publisher else row.get('mutant_sha256')
                               require(hashlib.sha256(get(prefix + mutant_path)).hexdigest() == claimed, 'mutant bytes')
