@@ -105,6 +105,390 @@ jobs:
           printf '{"cli_exit":%s,"log_exit":%s}\n' "${statuses[0]}" "${statuses[1]}" > "$RUNNER_TEMP/node-status-live-optimized-exit.json"
           if [ "${statuses[0]}" -ne 0 ]; then exit "${statuses[0]}"; fi
           exit "${statuses[1]}"
+      - name: Require original real-record freshness method normal
+        if: ${{ !cancelled() }}
+        timeout-minutes: 8
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          NODE_STATUS_LIVE_REQUIRED: "1"
+          NODE_STATUS_LIVE_OUTPUT: ${{ runner.temp }}/q9006-real-record-normal.json
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B -S - <<'PY'
+          import hashlib, json, os, pathlib, re, stat, subprocess, sys
+          
+          MODE = "normal"
+          OPTIMIZE = 0
+          TEST_ID = "tests.test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head"
+          SOURCES = (
+              "tools/node_status_live_check.py",
+              "tools/node_status_refresh.py",
+              "tools/validate_node_status.py",
+              "architecture/node-status.schema.json",
+              "docs/site/current.json",
+              "records/node_status/eng.d0-packet-allowlist-fix.json",
+              "records/node_status/eng.hard-gate.json",
+              "records/node_status/math.lifetime-remainder.json",
+              "records/node_status/math.side24-coefficient.json",
+              "tests/test_living_project_validation.py",
+          )
+          root = pathlib.Path(os.environ["GITHUB_WORKSPACE"])
+          temporary = pathlib.Path(os.environ["RUNNER_TEMP"])
+          prefix = "q9006-original-" + MODE
+          command = [sys.executable, "-B", *(["-O"] if OPTIMIZE else []), "-S",
+                     "-m", "unittest", TEST_ID, "-v"]
+          
+          def require(value, message):
+              if not value:
+                  raise ValueError(message)
+          
+          require(temporary.is_absolute() and temporary.resolve() == temporary
+                  and temporary.is_dir() and not temporary.is_relative_to(root),
+                  "external canonical evidence directory required")
+          
+          def write(name, value):
+              descriptor = os.open(temporary / name,
+                                   os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+              with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as stream:
+                  stream.write(json.dumps(value, sort_keys=True, indent=2) + "\n")
+          
+          def git(*arguments):
+              environment = {key: value for key, value in os.environ.items()
+                             if not key.startswith("GIT_")}
+              environment.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
+                                 GIT_NO_REPLACE_OBJECTS="1", GIT_OPTIONAL_LOCKS="0",
+                                 GIT_NO_LAZY_FETCH="1", GIT_TERMINAL_PROMPT="0")
+              result = subprocess.run(
+                  ["git", "--no-replace-objects", "--literal-pathspecs",
+                   "-c", "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null",
+                   "-C", str(root), *arguments],
+                  env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                  timeout=30, check=False)
+              require(result.returncode == 0, "native source Git read failed")
+              return result.stdout
+          
+          def capture():
+              require(root.is_absolute() and root.resolve() == root and root.is_dir(),
+                      "canonical checked source root required")
+              require(os.environ.get("GITHUB_ACTIONS") == "true"
+                      and os.environ.get("GITHUB_REPOSITORY") == "d6g8k5htny-coder/main",
+                      "native executing repository required")
+              native = {"repository": os.environ["GITHUB_REPOSITORY"],
+                        "checked_commit": os.environ.get("GITHUB_SHA"),
+                        "run_id": os.environ.get("GITHUB_RUN_ID"),
+                        "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
+                        "python_optimize": sys.flags.optimize}
+              require(isinstance(native["checked_commit"], str)
+                      and re.fullmatch(r"[0-9a-f]{40}", native["checked_commit"])
+                      and all(isinstance(native[name], str)
+                              and re.fullmatch(r"[1-9][0-9]*", native[name])
+                              for name in ("run_id", "run_attempt")),
+                      "native immutable commit and positive run identities required")
+              require(sys.flags.no_site == 1 and sys.dont_write_bytecode
+                      and sys.flags.optimize == OPTIMIZE,
+                      "actual driver interpreter mode differs")
+              require(git("rev-parse", "--show-toplevel").decode().strip() == str(root),
+                      "source is not exact Git top-level")
+              commit = git("rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+              tree = git("rev-parse", "--verify", "HEAD^{tree}").decode().strip()
+              require(commit == native["checked_commit"]
+                      and re.fullmatch(r"[0-9a-f]{40}", tree), "checked native HEAD/tree differ")
+              bindings = {}
+              for relative in SOURCES:
+                  path = root
+                  for part in pathlib.PurePosixPath(relative).parts:
+                      path = path / part
+                      require(not path.is_symlink(), "selected source symlink refused")
+                  before = path.stat()
+                  require(stat.S_ISREG(before.st_mode) and before.st_size <= 2_000_000,
+                          "selected source is not a bounded regular file")
+                  raw = path.read_bytes()
+                  after = path.stat()
+                  fields = ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_ctime_ns")
+                  require(tuple(getattr(before, field) for field in fields)
+                          == tuple(getattr(after, field) for field in fields)
+                          and len(raw) == before.st_size, "selected source changed during read")
+                  entry = git("ls-tree", "-z", commit, "--", relative)
+                  require(entry.endswith(b"\0") and entry.count(b"\0") == 1,
+                          "selected committed source inventory differs")
+                  metadata, name = entry[:-1].split(b"\t", 1)
+                  mode, kind, identity = metadata.decode("ascii").split(" ")
+                  require(name == relative.encode() and kind == "blob"
+                          and mode in ("100644", "100755")
+                          and re.fullmatch(r"[0-9a-f]{40}", identity),
+                          "selected committed source identity differs")
+                  working_mode = "100755" if before.st_mode & stat.S_IXUSR else "100644"
+                  require(working_mode == mode and raw == git("cat-file", "blob", identity),
+                          "working source bytes or mode differ from committed source")
+                  require(hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+                          == identity, "working source blob identity differs")
+                  bindings[relative] = {"git_blob": identity, "git_mode": mode,
+                                        "working_mode": working_mode, "bytes": len(raw),
+                                        "sha256": hashlib.sha256(raw).hexdigest()}
+              require(git("rev-parse", "--verify", "HEAD^{commit}").decode().strip() == commit,
+                      "checked HEAD changed during capture")
+              return {"identity": native, "checked_commit": commit, "checked_tree": tree,
+                      "source_count": len(bindings), "source_bindings": bindings}
+          
+          before = after = None
+          failures = []
+          parent = {"mode": MODE, "command": command, "executed": False,
+                    "returncode": None, "timed_out": False}
+          log_path = temporary / (prefix + "-unittest.log")
+          try:
+              before = capture()
+              write(prefix + "-source-before.json", before)
+              print("Q9006_SOURCE_BEFORE " + json.dumps(before, sort_keys=True), flush=True)
+              expected_output = temporary / ("q9006-real-record-" + MODE + ".json")
+              require(os.environ.get("NODE_STATUS_LIVE_REQUIRED") == "1"
+                      and os.environ.get("NODE_STATUS_LIVE_OUTPUT") == str(expected_output),
+                      "mandatory fixed shard activation/output required")
+              require(bool(os.environ.get("GITHUB_TOKEN", "").strip()),
+                      "actual inherited authentication prerequisite missing")
+              require(not os.path.lexists(expected_output), "new original-method CLI output required")
+              descriptor = os.open(log_path,
+                                   os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+              with os.fdopen(descriptor, "wb") as stream:
+                  parent["executed"] = True
+                  try:
+                      completed = subprocess.run(command, cwd=root, stdout=stream,
+                                                 stderr=subprocess.STDOUT, timeout=450, check=False)
+                      parent["returncode"] = completed.returncode
+                  except subprocess.TimeoutExpired:
+                      parent["timed_out"] = True
+                      failures.append("PARENT_TIMEOUT")
+          except Exception as error:
+              failures.append("PREPARED_EXECUTION_" + type(error).__name__)
+          finally:
+              try:
+                  after = capture()
+                  write(prefix + "-source-after.json", after)
+                  print("Q9006_SOURCE_AFTER " + json.dumps(after, sort_keys=True), flush=True)
+              except Exception as error:
+                  failures.append("SOURCE_RECHECK_" + type(error).__name__)
+              write(prefix + "-parent-exit.json", parent)
+              print("Q9006_PARENT_OUTCOME " + json.dumps(parent, sort_keys=True), flush=True)
+          
+          if parent["returncode"] != 0:
+              failures.append("PARENT_EXIT_NOT_ZERO")
+          if before is None or after is None or before != after:
+              failures.append("SOURCE_ENDPOINTS_DIFFER")
+          try:
+              require(log_path.stat().st_size <= 4 * 1024 * 1024, "bounded original unittest log required")
+              raw = log_path.read_bytes()
+              text = raw.decode("utf-8")
+              print("Q9006_ORIGINAL_UNITTEST_LOG " + json.dumps(text), flush=True)
+              nonempty = [line for line in text.splitlines() if line.strip()]
+              expected = TEST_ID.rsplit(".", 1)[1] + " (" + TEST_ID + ") ... ok"
+              if (len(nonempty) != 4 or nonempty[0] != expected
+                      or nonempty[1] != "-" * 70
+                      or re.fullmatch(r"Ran 1 test in [0-9]+(?:\.[0-9]+)?s", nonempty[2]) is None
+                      or nonempty[3] != "OK"):
+                  failures.append("EXACT_ONE_ID_PLAIN_OK_CONTRACT_REFUSED")
+          except Exception as error:
+              failures.append("ORIGINAL_LOG_" + type(error).__name__)
+          guard = {"schema": "cbz.q9006.original-method-shard.v1", "mode": MODE,
+                   "expected_test_id": TEST_ID, "expected_test_count": 1,
+                   "parent_exit": parent["returncode"],
+                   "source_bindings_equal": before is not None and before == after,
+                   "status": "PASS" if not failures else "FAIL", "failures": failures}
+          write(prefix + "-strict-guard.json", guard)
+          print("Q9006_STRICT_GUARD " + json.dumps(guard, sort_keys=True), flush=True)
+          raise SystemExit(0 if not failures else 1)
+          PY
+      - name: Require original real-record freshness method optimized
+        if: ${{ !cancelled() }}
+        timeout-minutes: 8
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          NODE_STATUS_LIVE_REQUIRED: "1"
+          NODE_STATUS_LIVE_OUTPUT: ${{ runner.temp }}/q9006-real-record-optimized.json
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B -O -S - <<'PY'
+          import hashlib, json, os, pathlib, re, stat, subprocess, sys
+          
+          MODE = "optimized"
+          OPTIMIZE = 1
+          TEST_ID = "tests.test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head"
+          SOURCES = (
+              "tools/node_status_live_check.py",
+              "tools/node_status_refresh.py",
+              "tools/validate_node_status.py",
+              "architecture/node-status.schema.json",
+              "docs/site/current.json",
+              "records/node_status/eng.d0-packet-allowlist-fix.json",
+              "records/node_status/eng.hard-gate.json",
+              "records/node_status/math.lifetime-remainder.json",
+              "records/node_status/math.side24-coefficient.json",
+              "tests/test_living_project_validation.py",
+          )
+          root = pathlib.Path(os.environ["GITHUB_WORKSPACE"])
+          temporary = pathlib.Path(os.environ["RUNNER_TEMP"])
+          prefix = "q9006-original-" + MODE
+          command = [sys.executable, "-B", *(["-O"] if OPTIMIZE else []), "-S",
+                     "-m", "unittest", TEST_ID, "-v"]
+          
+          def require(value, message):
+              if not value:
+                  raise ValueError(message)
+          
+          require(temporary.is_absolute() and temporary.resolve() == temporary
+                  and temporary.is_dir() and not temporary.is_relative_to(root),
+                  "external canonical evidence directory required")
+          
+          def write(name, value):
+              descriptor = os.open(temporary / name,
+                                   os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+              with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as stream:
+                  stream.write(json.dumps(value, sort_keys=True, indent=2) + "\n")
+          
+          def git(*arguments):
+              environment = {key: value for key, value in os.environ.items()
+                             if not key.startswith("GIT_")}
+              environment.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
+                                 GIT_NO_REPLACE_OBJECTS="1", GIT_OPTIONAL_LOCKS="0",
+                                 GIT_NO_LAZY_FETCH="1", GIT_TERMINAL_PROMPT="0")
+              result = subprocess.run(
+                  ["git", "--no-replace-objects", "--literal-pathspecs",
+                   "-c", "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null",
+                   "-C", str(root), *arguments],
+                  env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                  timeout=30, check=False)
+              require(result.returncode == 0, "native source Git read failed")
+              return result.stdout
+          
+          def capture():
+              require(root.is_absolute() and root.resolve() == root and root.is_dir(),
+                      "canonical checked source root required")
+              require(os.environ.get("GITHUB_ACTIONS") == "true"
+                      and os.environ.get("GITHUB_REPOSITORY") == "d6g8k5htny-coder/main",
+                      "native executing repository required")
+              native = {"repository": os.environ["GITHUB_REPOSITORY"],
+                        "checked_commit": os.environ.get("GITHUB_SHA"),
+                        "run_id": os.environ.get("GITHUB_RUN_ID"),
+                        "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
+                        "python_optimize": sys.flags.optimize}
+              require(isinstance(native["checked_commit"], str)
+                      and re.fullmatch(r"[0-9a-f]{40}", native["checked_commit"])
+                      and all(isinstance(native[name], str)
+                              and re.fullmatch(r"[1-9][0-9]*", native[name])
+                              for name in ("run_id", "run_attempt")),
+                      "native immutable commit and positive run identities required")
+              require(sys.flags.no_site == 1 and sys.dont_write_bytecode
+                      and sys.flags.optimize == OPTIMIZE,
+                      "actual driver interpreter mode differs")
+              require(git("rev-parse", "--show-toplevel").decode().strip() == str(root),
+                      "source is not exact Git top-level")
+              commit = git("rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+              tree = git("rev-parse", "--verify", "HEAD^{tree}").decode().strip()
+              require(commit == native["checked_commit"]
+                      and re.fullmatch(r"[0-9a-f]{40}", tree), "checked native HEAD/tree differ")
+              bindings = {}
+              for relative in SOURCES:
+                  path = root
+                  for part in pathlib.PurePosixPath(relative).parts:
+                      path = path / part
+                      require(not path.is_symlink(), "selected source symlink refused")
+                  before = path.stat()
+                  require(stat.S_ISREG(before.st_mode) and before.st_size <= 2_000_000,
+                          "selected source is not a bounded regular file")
+                  raw = path.read_bytes()
+                  after = path.stat()
+                  fields = ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_ctime_ns")
+                  require(tuple(getattr(before, field) for field in fields)
+                          == tuple(getattr(after, field) for field in fields)
+                          and len(raw) == before.st_size, "selected source changed during read")
+                  entry = git("ls-tree", "-z", commit, "--", relative)
+                  require(entry.endswith(b"\0") and entry.count(b"\0") == 1,
+                          "selected committed source inventory differs")
+                  metadata, name = entry[:-1].split(b"\t", 1)
+                  mode, kind, identity = metadata.decode("ascii").split(" ")
+                  require(name == relative.encode() and kind == "blob"
+                          and mode in ("100644", "100755")
+                          and re.fullmatch(r"[0-9a-f]{40}", identity),
+                          "selected committed source identity differs")
+                  working_mode = "100755" if before.st_mode & stat.S_IXUSR else "100644"
+                  require(working_mode == mode and raw == git("cat-file", "blob", identity),
+                          "working source bytes or mode differ from committed source")
+                  require(hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+                          == identity, "working source blob identity differs")
+                  bindings[relative] = {"git_blob": identity, "git_mode": mode,
+                                        "working_mode": working_mode, "bytes": len(raw),
+                                        "sha256": hashlib.sha256(raw).hexdigest()}
+              require(git("rev-parse", "--verify", "HEAD^{commit}").decode().strip() == commit,
+                      "checked HEAD changed during capture")
+              return {"identity": native, "checked_commit": commit, "checked_tree": tree,
+                      "source_count": len(bindings), "source_bindings": bindings}
+          
+          before = after = None
+          failures = []
+          parent = {"mode": MODE, "command": command, "executed": False,
+                    "returncode": None, "timed_out": False}
+          log_path = temporary / (prefix + "-unittest.log")
+          try:
+              before = capture()
+              write(prefix + "-source-before.json", before)
+              print("Q9006_SOURCE_BEFORE " + json.dumps(before, sort_keys=True), flush=True)
+              expected_output = temporary / ("q9006-real-record-" + MODE + ".json")
+              require(os.environ.get("NODE_STATUS_LIVE_REQUIRED") == "1"
+                      and os.environ.get("NODE_STATUS_LIVE_OUTPUT") == str(expected_output),
+                      "mandatory fixed shard activation/output required")
+              require(bool(os.environ.get("GITHUB_TOKEN", "").strip()),
+                      "actual inherited authentication prerequisite missing")
+              require(not os.path.lexists(expected_output), "new original-method CLI output required")
+              descriptor = os.open(log_path,
+                                   os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+              with os.fdopen(descriptor, "wb") as stream:
+                  parent["executed"] = True
+                  try:
+                      completed = subprocess.run(command, cwd=root, stdout=stream,
+                                                 stderr=subprocess.STDOUT, timeout=450, check=False)
+                      parent["returncode"] = completed.returncode
+                  except subprocess.TimeoutExpired:
+                      parent["timed_out"] = True
+                      failures.append("PARENT_TIMEOUT")
+          except Exception as error:
+              failures.append("PREPARED_EXECUTION_" + type(error).__name__)
+          finally:
+              try:
+                  after = capture()
+                  write(prefix + "-source-after.json", after)
+                  print("Q9006_SOURCE_AFTER " + json.dumps(after, sort_keys=True), flush=True)
+              except Exception as error:
+                  failures.append("SOURCE_RECHECK_" + type(error).__name__)
+              write(prefix + "-parent-exit.json", parent)
+              print("Q9006_PARENT_OUTCOME " + json.dumps(parent, sort_keys=True), flush=True)
+          
+          if parent["returncode"] != 0:
+              failures.append("PARENT_EXIT_NOT_ZERO")
+          if before is None or after is None or before != after:
+              failures.append("SOURCE_ENDPOINTS_DIFFER")
+          try:
+              require(log_path.stat().st_size <= 4 * 1024 * 1024, "bounded original unittest log required")
+              raw = log_path.read_bytes()
+              text = raw.decode("utf-8")
+              print("Q9006_ORIGINAL_UNITTEST_LOG " + json.dumps(text), flush=True)
+              nonempty = [line for line in text.splitlines() if line.strip()]
+              expected = TEST_ID.rsplit(".", 1)[1] + " (" + TEST_ID + ") ... ok"
+              if (len(nonempty) != 4 or nonempty[0] != expected
+                      or nonempty[1] != "-" * 70
+                      or re.fullmatch(r"Ran 1 test in [0-9]+(?:\.[0-9]+)?s", nonempty[2]) is None
+                      or nonempty[3] != "OK"):
+                  failures.append("EXACT_ONE_ID_PLAIN_OK_CONTRACT_REFUSED")
+          except Exception as error:
+              failures.append("ORIGINAL_LOG_" + type(error).__name__)
+          guard = {"schema": "cbz.q9006.original-method-shard.v1", "mode": MODE,
+                   "expected_test_id": TEST_ID, "expected_test_count": 1,
+                   "parent_exit": parent["returncode"],
+                   "source_bindings_equal": before is not None and before == after,
+                   "status": "PASS" if not failures else "FAIL", "failures": failures}
+          write(prefix + "-strict-guard.json", guard)
+          print("Q9006_STRICT_GUARD " + json.dumps(guard, sort_keys=True), flush=True)
+          raise SystemExit(0 if not failures else 1)
+          PY
       - name: Retain original live reports and execution outcomes
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -117,4 +501,8 @@ jobs:
             ${{ runner.temp }}/node-status-live-optimized.json
             ${{ runner.temp }}/node-status-live-optimized.log
             ${{ runner.temp }}/node-status-live-optimized-exit.json
+            ${{ runner.temp }}/q9006-original-normal-*
+            ${{ runner.temp }}/q9006-original-optimized-*
+            ${{ runner.temp }}/q9006-real-record-normal*
+            ${{ runner.temp }}/q9006-real-record-optimized*
           if-no-files-found: warn

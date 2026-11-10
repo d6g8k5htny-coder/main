@@ -860,3 +860,33 @@ README, SHA256SUMS and retained verification history.
 - Recheck the current base, exact tested tree, required checks and live
   federation pins before integration. These custody and diagnostic records
   do not establish mathematical, scientific or final-gate status.
+
+## 2026-11-10 — Expose the original Q9006 method's live-execution gap
+
+- [Layer B / test-first component] Publish a draft adding two fixed mandatory
+  native normal/optimized steps to the existing node-status live workflow.
+  Each selects the original real-record freshness method, binds ten actual
+  source inputs before/after, preserves parent outcomes and original logs,
+  and requires exactly one complete method result with terminal plain OK.
+- The original test remains exactly blob
+  `87d63d104ab29387ddb3f7236d76b2e835e205d8`; CLI, refresh, validator,
+  schema, four records and graph inputs remain unchanged. The staged workflow
+  is `78d8269bf0884ac601bd82f9784eddfdbb174cbc`; its source-only plan is
+  [Q9006_ORIGINAL_METHOD_PLAN.md](docs/cbz/Q9006_ORIGINAL_METHOD_PLAN.md).
+  Root source read and a separate source-stage review accepted this draft
+  publication; source review is not native execution evidence.
+- Expected first observation: the unchanged original method skips once in
+  each mode and the strict guard fails. No original-method live/network
+  execution credit, full G5, CBZ or scientific award is claimed. Native R0
+  has not yet been observed at publication. Preserve any setup/source fault
+  separately; it cannot count as the expected skip failure.
+- Retain the existing offline 23/20 controls, authenticated companion commands,
+  read-only permissions and actions. Cohort checks bind actual current inputs;
+  the frozen three-fresh/one-stale observation does not impose a permanent
+  status on a future genuine peer record update. Original-method strengthening
+  waits for Root's independent read of actual native R0 evidence.
+- Scope and reversibility: this draft changes workflow, owned plan and this
+  appended decision only, preserving the entire fresh canonical prefix from
+  Main `2f878f8eb5c621dcf9231e4a1bf582b685321130`. No default ref,
+  mathematical source, ownership, hold or scientific status is changed;
+  ordinary review can revise or close the draft before integration.
