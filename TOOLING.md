@@ -1,5 +1,46 @@
 # CBZ mission-tool registry
 
+## Public branch custody readbacks — 10 November 2026
+
+**Purpose and scope.** Compare captured public head tree/path identities to a
+separately observed default and verify only the selected head-side blob packs.
+The exact records and exclusions are in the [custody record](cbz/evidence/public-branch-custody-20261110/README.md).
+The scripts use Python standard library and Git in a disposable copy.
+
+**Exact command.** From the Main checkout:
+
+```sh
+CBZ_BRANCH_CHECK_DIR=$(mktemp -d) || exit 1
+cp -a cbz/evidence/public-branch-custody-20261110 "$CBZ_BRANCH_CHECK_DIR/branch-custody" || exit 1
+cd "$CBZ_BRANCH_CHECK_DIR/branch-custody" || exit 1
+sha256sum -c SHA256SUMS || exit 1
+python3 -B -S cold_restore_small_repository_packs.py || exit 1
+python3 -B -S test_workspace_branch_tree_adverse.py || exit 1
+python3 -B -S test_workspace_changed_blob_adverse.py || exit 1
+python3 -B -S test_small_repository_tree_adverse.py || exit 1
+python3 -B -S test_small_repository_blob_adverse.py || exit 1
+```
+
+**Observed verification and limits.**
+
+A fresh temporary-copy run checked all 62 packaged checksums, restored the
+six-repository tree and selected-blob packs in both Python modes (24 passes),
+and ran the four specified adverse drivers. Each Workspace and query pair
+observed six clean controls, 28 malformed-report/manifest rejections, four
+detected verifier-mutant executions and four damaged-pack rejections. These
+bounded controls are not a full auditor, final G0/G10 or scientific review.
+This candidate preserves selected public Git objects from 58 captured refs in
+seven repositories, including 301 distinct head-side blobs counted per
+repository. The source/default reads were separate and historical; Workspace
+head `d486c55d` has since merged. The packages do not preserve deleted
+default-side blobs, all unchanged branch files or Gitlink target contents.
+Object and path differences do not establish unique work, proof or quarantine
+disposition, ownership, logical isolation or permission to delete a ref. No
+branch or tag is removed. The complete scoped identities, original outcomes and
+limits are in the [custody record](cbz/evidence/public-branch-custody-20261110/README.md).
+The verifier makes no assertion about private repositories, all branch blobs,
+semantic content, mathematical correctness or current default-tip currency.
+
 ## Historical tag custody verifiers — 10 November 2026
 
 **Purpose and scope.** The two readback scripts under
