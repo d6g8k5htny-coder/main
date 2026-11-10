@@ -1,5 +1,10 @@
 # CBZ proof and quarantine index
 
+## G11 subprocess attribution boundary
+
+The newly observed static-reference defect and its tooling repair do not close, refute or rebind mathematical statements or kernel outcomes, and they do not establish independent scientific acceptance.
+
+
 ## Interpreter-option tooling boundary
 
 The G11 interpreter-option findings, repairs and retained failures concern tool-reference attribution only; they do not close, refute or rebind mathematical statements or establish scientific review.

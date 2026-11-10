@@ -1,5 +1,16 @@
 # CBZ-0 execution status
 
+## G11 Python subprocess operand boundary — 10 November 2026
+
+On Main `1a6acb192f0946900c4d445ee36febec27540da0`, local actual subprocess controls found that the earlier static census credited three Python-test commands despite nonzero exits and absent execution markers: invalid Python `--check-hash-based-pycs`, invalid attached `-Xutf8=2`, and invalid Bash `-o` operands. The [normal and optimized RED logs](cbz/evidence/g11-python-subprocess-options-20261110/) each contain three selected assertion failures and one passing supported-option control on CPython 3.12.14. The earlier exact-tree census outcome remains historical with this synthetic-fixture attribution limitation; it is not final G11 or a claim that any particular production tool was unexercised.
+
+This source bounds Python subprocess interpreter operands to the documented Python options and values and declines shell options requiring unvalidated operands. It retains static-reference semantics; a reference does not prove actual execution. On the exact local candidate, `python3 -B -S -m unittest tests.test_g11_census tests.test_g11_workflow_formats` and its `-O` variant each ran 285 tests without failures or skips. The workflow/subprocess mutation command ran 22 cases in each mode with authorized selected-body failures; the separate unchanged original campaign ran 328 cases in each mode, with 263 clean baseline tests and 328 authorized kills. Twelve origin controls per mode passed. These local Python 3.12 observations and [their evidence](cbz/evidence/g11-python-subprocess-options-20261110/) do not replace hosted Python 3.11 checks, a current-source census or the final federation pass.
+
+The earlier 19 workflow mutation names remain. Two definitions were adapted because the new central guard made the old single-guard mutations survive; their previous source and both 17-of-19 outcomes are preserved. Three subprocess mutations were added. An initial partial local fixture lacked three native workflows and produced three errors; the reproduced failure is retained and the workflows were subsequently recovered from exact Git blobs. No failure is silently discarded.
+
+Main #804 merged as `1a6acb192f0946900c4d445ee36febec27540da0` with its tested tree; Workspace #73 merged as `a4c56deaa4a0e69ec61dee3efc62da14a929a3bd` and pinned that Main commit. Its postmerge pin and contract jobs succeeded. These observations are separately timed, not final G7 or CBZ-0.
+
+
 ## Main advanced after the earlier candidate — 10 November 2026
 
 Main #806 merged as `d291b42801a26252a046d8ca78a6bd62abc448ae`, advancing the separately observed default from `964390a94c08f00f119dc3b2e0be16180c1544e2`. Workspace `47221adf89749dc226e8e3578af2f8fd7c16ea20` still pins the latter at the separately observed cut; a fresh pointer update and strict-current checks are required. The earlier #804 exact-head census on `709975c6ff42f0bca020abd4164a45479e29a0df` passed in both modes with no reported findings, unexercised tools or skips; its [original verified ZIP and logs](cbz/evidence/g11-sealed-candidate-census-20261110/) are retained. The 06:04 non-atomic Workspace pin observation also predates #806. These receipts retain their original sources and do not establish qualification of this recomposition, final G7, scientific review or CBZ-0.

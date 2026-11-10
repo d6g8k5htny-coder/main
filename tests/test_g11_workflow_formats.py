@@ -1,5 +1,7 @@
 """Adverse tests for G11 workflow reference recognition."""
 import json
+import subprocess
+import tempfile
 import sys
 import unittest
 from pathlib import Path
@@ -182,6 +184,60 @@ class WorkflowFormats(unittest.TestCase):
                 self.assertFalse((Path(root) / "tool_was_executed").exists())
                 text = yaml_run(shlex.join([interpreter, option, operand, tool]))
                 self.assertEqual(g11.workflow_tool_references(text, {tool}), set())
+
+    def test_invalid_python_hash_operand_cannot_credit_subprocess(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'tools').mkdir()
+            (root / 'tools/probe.py').write_text("from pathlib import Path\nPath('RAN').write_text('yes')\n")
+            process = subprocess.run([sys.executable, '--check-hash-based-pycs', 'invalid', 'tools/probe.py'],
+                                     cwd=root, capture_output=True, text=True)
+            self.assertNotEqual(process.returncode, 0)
+            self.assertFalse((root / 'RAN').exists())
+        tree = {'tools/probe.py': 'x = 1\n', 'tools/README.md': 'tools/probe.py\n',
+                'tests/test_commands.py': "import subprocess\nsubprocess.run(['python3', '--check-hash-based-pycs', 'invalid', 'tools/probe.py'])\n"}
+        self.assertFalse(g11.census({key: value.encode() for key, value in tree.items()})["tools"]['tools/probe.py']['referenced'])
+
+    def test_invalid_python_attached_x_operand_cannot_credit_subprocess(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'tools').mkdir()
+            (root / 'tools/probe.py').write_text("from pathlib import Path\nPath('RAN').write_text('yes')\n")
+            process = subprocess.run([sys.executable, '-Xutf8=2', 'tools/probe.py'],
+                                     cwd=root, capture_output=True, text=True)
+            self.assertNotEqual(process.returncode, 0)
+            self.assertFalse((root / 'RAN').exists())
+        tree = {'tools/probe.py': 'x = 1\n', 'tools/README.md': 'tools/probe.py\n',
+                'tests/test_commands.py': "import subprocess\nsubprocess.run(['python3', '-Xutf8=2', 'tools/probe.py'])\n"}
+        self.assertFalse(g11.census({key: value.encode() for key, value in tree.items()})["tools"]['tools/probe.py']['referenced'])
+
+    def test_invalid_shell_option_operand_cannot_credit_subprocess(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'tools').mkdir()
+            (root / 'tools/probe.sh').write_text('echo yes > RAN\n')
+            process = subprocess.run(['bash', '-o', 'not_a_real_option', 'tools/probe.sh'],
+                                     cwd=root, capture_output=True, text=True)
+            self.assertNotEqual(process.returncode, 0)
+            self.assertFalse((root / 'RAN').exists())
+        tree = {'tools/probe.sh': 'echo yes\n', 'tools/README.md': 'tools/probe.sh\n',
+                'tests/test_commands.py': "import subprocess\nsubprocess.run(['bash', '-o', 'not_a_real_option', 'tools/probe.sh'])\n"}
+        self.assertFalse(g11.census({key: value.encode() for key, value in tree.items()})["tools"]['tools/probe.sh']['referenced'])
+
+    def test_supported_python_option_operands_reach_subprocess(self):
+        for option, value in (('-W', 'ignore'), ('-X', 'dev')):
+            with self.subTest(option=option), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                (root / 'tools').mkdir()
+                (root / 'tools/probe.py').write_text("from pathlib import Path\nPath('RAN').write_text('yes')\n")
+                process = subprocess.run([sys.executable, option, value, 'tools/probe.py'],
+                                         cwd=root, capture_output=True, text=True)
+                self.assertEqual(process.returncode, 0, process.stderr)
+                self.assertTrue((root / 'RAN').exists())
+                tree = {'tools/probe.py': 'x = 1\n', 'tools/README.md': 'tools/probe.py\n',
+                        'tests/test_commands.py': "import subprocess\nsubprocess.run(['python3', %r, %r, 'tools/probe.py'])\n" % (option, value)}
+                self.assertTrue(g11.census({key: value.encode() for key, value in tree.items()})["tools"]['tools/probe.py']['referenced'])
+
 
 if __name__ == "__main__":
     unittest.main()

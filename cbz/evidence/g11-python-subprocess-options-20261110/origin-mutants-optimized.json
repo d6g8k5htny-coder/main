@@ -1,0 +1,672 @@
+{
+  "executed": 7,
+  "inputs_sha256": [
+    "0b3679be21846e6c2032c0c6e1b4e594a520f5d01b337ee01468431e0cb13be4",
+    "e5abbc5425607091dfbe7eaaf3611b18833572463568f533ab1ec5fb5ed0d958",
+    "5509addfd5706a277d5621faf15dfd71523f62216695d61fe3b95cc92569f853",
+    "596705cd925c35ad18d0e85d848a6cd6b19c412fe97214703104475a5f0f80f0"
+  ],
+  "mode": "optimized",
+  "results": [
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 212,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-origin-mutants-jwspskg2/0-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-origin-mutants-jwspskg2/0-mutant/tests/test_g11_origin_provenance.py",
+              "firstlineno": 205,
+              "lineno": 212,
+              "name": "test_false_origin_authorization_is_not_a_kill",
+              "oracle": false,
+              "qualname": "ActualG11Origin.test_false_origin_authorization_is_not_a_kill",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 717,
+              "lineno": 721,
+              "name": "assertFalse",
+              "oracle": true,
+              "qualname": "TestCase.assertFalse",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-origin-mutants-jwspskg2/0-mutant/tests/test_g11_origin_provenance.py",
+            "firstlineno": 205,
+            "name": "test_false_origin_authorization_is_not_a_kill"
+          },
+          "test": "test_false_origin_authorization_is_not_a_kill"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_false_origin_authorization_is_not_a_kill",
+        "traceback_line": 212,
+        "traceback_method": "test_false_origin_authorization_is_not_a_kill"
+      },
+      "name": "missing live-origin guard",
+      "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_false_origin_authorization_is_not_a_kill"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 73,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-origin-mutants-jwspskg2/1-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-origin-mutants-jwspskg2/1-mutant/tests/test_g11_origin_provenance.py",
+              "firstlineno": 69,
+              "lineno": 73,
+              "name": "test_direct_subject_assertion_is_not_a_kill",
+              "oracle": false,
+              "qualname": "ActualG11Origin.test_direct_subject_assertion_is_not_a_kill",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 717,
+              "lineno": 721,
+              "name": "assertFalse",
+              "oracle": true,
+              "qualname": "TestCase.assertFalse",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-origin-mutants-jwspskg2/1-mutant/tests/test_g11_origin_provenance.py",
+            "firstlineno": 69,
+            "name": "test_direct_subject_assertion_is_not_a_kill"
+          },
+          "test": "test_direct_subject_assertion_is_not_a_kill"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_direct_subject_assertion_is_not_a_kill",
+        "traceback_line": 73,
+        "traceback_method": "test_direct_subject_assertion_is_not_a_kill"
+      },
+      "name": "subject and helper suffix accepted",
+      "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_direct_subject_assertion_is_not_a_kill"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 132,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 520,
+              "lineno": 539,
+              "name": "subTest",
+              "oracle": false,
+              "qualname": "TestCase.subTest",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-origin-mutants-jwspskg2/2-mutant/tests/test_g11_origin_provenance.py",
+              "firstlineno": 108,
+              "lineno": 132,
+              "name": "test_lifecycle_and_spoofed_nested_code_are_not_authorized",
+              "oracle": false,
+              "qualname": "ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 717,
+              "lineno": 721,
+              "name": "assertFalse",
+              "oracle": true,
+              "qualname": "TestCase.assertFalse",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body",
+          "selected": {
+            "filename": "/tmp/g11-origin-mutants-jwspskg2/2-mutant/tests/test_g11_origin_provenance.py",
+            "firstlineno": 108,
+            "name": "test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+          },
+          "test": "test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized",
+        "traceback_line": 132,
+        "traceback_method": "test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+      },
+      "name": "cleanup phase accepted",
+      "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 152,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-origin-mutants-jwspskg2/3-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-origin-mutants-jwspskg2/3-mutant/tests/test_g11_origin_provenance.py",
+              "firstlineno": 135,
+              "lineno": 152,
+              "name": "test_origin_report_rejects_inconsistent_and_non_oracle_frames",
+              "oracle": false,
+              "qualname": "ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 717,
+              "lineno": 721,
+              "name": "assertFalse",
+              "oracle": true,
+              "qualname": "TestCase.assertFalse",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-origin-mutants-jwspskg2/3-mutant/tests/test_g11_origin_provenance.py",
+            "firstlineno": 135,
+            "name": "test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+          },
+          "test": "test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames",
+        "traceback_line": 152,
+        "traceback_method": "test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+      },
+      "name": "untrusted suffix report accepted",
+      "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 185,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-origin-mutants-jwspskg2/4-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-origin-mutants-jwspskg2/4-mutant/tests/test_g11_origin_provenance.py",
+              "firstlineno": 172,
+              "lineno": 185,
+              "name": "test_precreated_report_without_runner_completion_is_rejected",
+              "oracle": false,
+              "qualname": "ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 717,
+              "lineno": 721,
+              "name": "assertFalse",
+              "oracle": true,
+              "qualname": "TestCase.assertFalse",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-origin-mutants-jwspskg2/4-mutant/tests/test_g11_origin_provenance.py",
+            "firstlineno": 172,
+            "name": "test_precreated_report_without_runner_completion_is_rejected"
+          },
+          "test": "test_precreated_report_without_runner_completion_is_rejected"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected",
+        "traceback_line": 185,
+        "traceback_method": "test_precreated_report_without_runner_completion_is_rejected"
+      },
+      "name": "missing runner completion accepted",
+      "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 221,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-origin-mutants-jwspskg2/5-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-origin-mutants-jwspskg2/5-mutant/tests/test_g11_origin_provenance.py",
+              "firstlineno": 214,
+              "lineno": 221,
+              "name": "test_unapproved_origin_provenance_is_not_a_kill",
+              "oracle": false,
+              "qualname": "ActualG11Origin.test_unapproved_origin_provenance_is_not_a_kill",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 717,
+              "lineno": 721,
+              "name": "assertFalse",
+              "oracle": true,
+              "qualname": "TestCase.assertFalse",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-origin-mutants-jwspskg2/5-mutant/tests/test_g11_origin_provenance.py",
+            "firstlineno": 214,
+            "name": "test_unapproved_origin_provenance_is_not_a_kill"
+          },
+          "test": "test_unapproved_origin_provenance_is_not_a_kill"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_unapproved_origin_provenance_is_not_a_kill",
+        "traceback_line": 221,
+        "traceback_method": "test_unapproved_origin_provenance_is_not_a_kill"
+      },
+      "name": "unapproved origin provenance credited",
+      "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_unapproved_origin_provenance_is_not_a_kill"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 192,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "origin_provenance": {
+          "authorized": true,
+          "entered": 1,
+          "exception": "AssertionError",
+          "frames": [
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 53,
+              "lineno": 58,
+              "name": "testPartExecutor",
+              "oracle": false,
+              "qualname": "_Outcome.testPartExecutor",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 599,
+              "lineno": 634,
+              "name": "run",
+              "oracle": false,
+              "qualname": "TestCase.run",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-origin-mutants-jwspskg2/6-mutant/<string>",
+              "firstlineno": 56,
+              "lineno": 62,
+              "name": "call_body",
+              "oracle": false,
+              "qualname": "call_body",
+              "selected": false
+            },
+            {
+              "filename": "/tmp/g11-origin-mutants-jwspskg2/6-mutant/tests/test_g11_origin_provenance.py",
+              "firstlineno": 188,
+              "lineno": 192,
+              "name": "test_live_failure_retains_actual_origin_frames",
+              "oracle": false,
+              "qualname": "ActualG11Origin.test_live_failure_retains_actual_origin_frames",
+              "selected": true
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 1147,
+              "lineno": 1152,
+              "name": "assertIn",
+              "oracle": true,
+              "qualname": "TestCase.assertIn",
+              "selected": false
+            },
+            {
+              "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py",
+              "firstlineno": 713,
+              "lineno": 715,
+              "name": "fail",
+              "oracle": true,
+              "qualname": "TestCase.fail",
+              "selected": false
+            }
+          ],
+          "kind": "failure",
+          "phase": "body-exited",
+          "selected": {
+            "filename": "/tmp/g11-origin-mutants-jwspskg2/6-mutant/tests/test_g11_origin_provenance.py",
+            "firstlineno": 188,
+            "name": "test_live_failure_retains_actual_origin_frames"
+          },
+          "test": "test_live_failure_retains_actual_origin_frames"
+        },
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_live_failure_retains_actual_origin_frames",
+        "traceback_line": 192,
+        "traceback_method": "test_live_failure_retains_actual_origin_frames"
+      },
+      "name": "origin frames omitted",
+      "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_live_failure_retains_actual_origin_frames"
+    }
+  ],
+  "status": "PASS",
+  "total": 7
+}
