@@ -1,0 +1,527 @@
+﻿2026-11-10T08:18:33.4510169Z Current runner version: '2.338.2'
+2026-11-10T08:18:33.4528438Z ##[group]Runner Image Provisioner
+2026-11-10T08:18:33.4529012Z Hosted Compute Agent
+2026-11-10T08:18:33.4529425Z Version: 20261028.624
+2026-11-10T08:18:33.4529812Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T08:18:33.4530270Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T08:18:33.4530712Z Worker ID: {0c981e01-44ee-4e86-823c-6a1082e3cb7c}
+2026-11-10T08:18:33.4531130Z Region: centralus
+2026-11-10T08:18:33.4531448Z Cloud: Azure
+2026-11-10T08:18:33.4531816Z ##[endgroup]
+2026-11-10T08:18:33.4532614Z ##[group]Operating System
+2026-11-10T08:18:33.4533374Z Ubuntu
+2026-11-10T08:18:33.4533687Z 24.04.5
+2026-11-10T08:18:33.4533982Z LTS
+2026-11-10T08:18:33.4534586Z ##[endgroup]
+2026-11-10T08:18:33.4534949Z ##[group]Runner Image
+2026-11-10T08:18:33.4535323Z Image: ubuntu-24.04
+2026-11-10T08:18:33.4535672Z Version: 20261101.360.1
+2026-11-10T08:18:33.4536479Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T08:18:33.4537385Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T08:18:33.4537953Z ##[endgroup]
+2026-11-10T08:18:33.4538630Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T08:18:33.4539889Z Contents: read
+2026-11-10T08:18:33.4540283Z Metadata: read
+2026-11-10T08:18:33.4540619Z ##[endgroup]
+2026-11-10T08:18:33.4542281Z Secret source: Actions
+2026-11-10T08:18:33.4542813Z Cache mode: write
+2026-11-10T08:18:33.4543414Z Prepare workflow directory
+2026-11-10T08:18:33.4784936Z Prepare all required actions
+2026-11-10T08:18:33.4816341Z Getting action download info
+2026-11-10T08:18:33.6891857Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-10T08:18:33.8254314Z Complete job name: node-status-refresh
+2026-11-10T08:18:33.8856024Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-11-10T08:18:33.8856522Z with:
+2026-11-10T08:18:33.8856782Z   persist-credentials: false
+2026-11-10T08:18:33.8857070Z   repository: d6g8k5htny-coder/main
+2026-11-10T08:18:33.8859110Z   token: ***
+2026-11-10T08:18:33.8859338Z   ssh-strict: true
+2026-11-10T08:18:33.8859570Z   ssh-user: git
+2026-11-10T08:18:33.8859800Z   clean: true
+2026-11-10T08:18:33.8860042Z   sparse-checkout-cone-mode: true
+2026-11-10T08:18:33.8860317Z   fetch-depth: 1
+2026-11-10T08:18:33.8860547Z   fetch-tags: false
+2026-11-10T08:18:33.8860786Z   show-progress: true
+2026-11-10T08:18:33.8861030Z   lfs: false
+2026-11-10T08:18:33.8861254Z   submodules: false
+2026-11-10T08:18:33.8861495Z   set-safe-directory: true
+2026-11-10T08:18:33.8861767Z   allow-unsafe-pr-checkout: false
+2026-11-10T08:18:33.8862114Z ##[endgroup]
+2026-11-10T08:18:34.1080459Z Syncing repository: d6g8k5htny-coder/main
+2026-11-10T08:18:34.1081936Z ##[group]Getting Git version info
+2026-11-10T08:18:34.1082495Z Working directory is '/home/runner/work/main/main'
+2026-11-10T08:18:34.1083190Z [command]/usr/bin/git version
+2026-11-10T08:18:34.1166505Z git version 2.56.0
+2026-11-10T08:18:34.1178968Z ##[endgroup]
+2026-11-10T08:18:34.1185981Z Temporarily overriding HOME='/home/runner/work/_temp/8eeb0c74-d450-481a-837d-77b08e80a23a' before making global git config changes
+2026-11-10T08:18:34.1187278Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T08:18:34.1190520Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T08:18:34.1232586Z Deleting the contents of '/home/runner/work/main/main'
+2026-11-10T08:18:34.1234949Z ##[group]Determining repository object format
+2026-11-10T08:18:34.1235951Z ##[endgroup]
+2026-11-10T08:18:34.1236562Z ##[group]Initializing the repository
+2026-11-10T08:18:34.1239450Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-11-10T08:18:34.1341303Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T08:18:34.1342327Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T08:18:34.1343500Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T08:18:34.1344262Z hint: call:
+2026-11-10T08:18:34.1344634Z hint:
+2026-11-10T08:18:34.1345105Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T08:18:34.1345657Z hint:
+2026-11-10T08:18:34.1346181Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T08:18:34.1347009Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T08:18:34.1347670Z hint:
+2026-11-10T08:18:34.1348052Z hint: 	git branch -m <name>
+2026-11-10T08:18:34.1348488Z hint:
+2026-11-10T08:18:34.1349057Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T08:18:34.1351773Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-11-10T08:18:34.1360502Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-11-10T08:18:34.1400972Z ##[endgroup]
+2026-11-10T08:18:34.1401653Z ##[group]Disabling automatic garbage collection
+2026-11-10T08:18:34.1403148Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T08:18:34.1431838Z ##[endgroup]
+2026-11-10T08:18:34.1432820Z ##[group]Setting up auth
+2026-11-10T08:18:34.1433311Z Removing SSH command configuration
+2026-11-10T08:18:34.1436087Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T08:18:34.1467108Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T08:18:34.1789163Z Removing HTTP extra header
+2026-11-10T08:18:34.1795071Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T08:18:34.1834838Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T08:18:34.2017429Z Removing includeIf entries pointing to credentials config files
+2026-11-10T08:18:34.2021429Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T08:18:34.2062496Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T08:18:34.2247309Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-ba12c5ae-653d-4a48-8714-80ef99edb898.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T08:18:34.2285935Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git.path /home/runner/work/_temp/git-credentials-ba12c5ae-653d-4a48-8714-80ef99edb898.config
+2026-11-10T08:18:34.2320834Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-ba12c5ae-653d-4a48-8714-80ef99edb898.config
+2026-11-10T08:18:34.2357379Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-ba12c5ae-653d-4a48-8714-80ef99edb898.config
+2026-11-10T08:18:34.2393413Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-ba12c5ae-653d-4a48-8714-80ef99edb898.config
+2026-11-10T08:18:34.2426804Z ##[endgroup]
+2026-11-10T08:18:34.2427213Z ##[group]Fetching the repository
+2026-11-10T08:18:34.2431106Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +02973f3975a1c4cc91b7c51d372f65717c9b3c5c:refs/remotes/origin/main
+2026-11-10T08:18:38.3190478Z From https://github.com/d6g8k5htny-coder/main
+2026-11-10T08:18:38.3192080Z  * [new ref]         02973f3975a1c4cc91b7c51d372f65717c9b3c5c -> origin/main
+2026-11-10T08:18:38.3197484Z [command]/usr/bin/git branch --list --remote origin/main
+2026-11-10T08:18:38.3230611Z   origin/main
+2026-11-10T08:18:38.3236778Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+2026-11-10T08:18:38.3265843Z 02973f3975a1c4cc91b7c51d372f65717c9b3c5c
+2026-11-10T08:18:38.3269816Z ##[endgroup]
+2026-11-10T08:18:38.3270933Z ##[group]Determining the checkout info
+2026-11-10T08:18:38.3272126Z ##[endgroup]
+2026-11-10T08:18:38.3272980Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T08:18:38.3325036Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T08:18:38.3360470Z ##[group]Checking out the ref
+2026-11-10T08:18:38.3362776Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-11-10T08:18:38.8527184Z Switched to a new branch 'main'
+2026-11-10T08:18:38.8530378Z branch 'main' set up to track 'origin/main'.
+2026-11-10T08:18:38.8579219Z ##[endgroup]
+2026-11-10T08:18:38.8629396Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T08:18:38.8662278Z 02973f3975a1c4cc91b7c51d372f65717c9b3c5c
+2026-11-10T08:18:38.8670257Z ##[group]Removing auth
+2026-11-10T08:18:38.8670720Z Removing SSH command configuration
+2026-11-10T08:18:38.8673022Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T08:18:38.8708882Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T08:18:38.8902244Z Removing HTTP extra header
+2026-11-10T08:18:38.8904513Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T08:18:38.8940326Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T08:18:38.9129565Z Removing includeIf entries pointing to credentials config files
+2026-11-10T08:18:38.9131118Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T08:18:38.9167568Z includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T08:18:38.9168146Z includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T08:18:38.9168532Z includeif.gitdir:/github/workspace/.git.path
+2026-11-10T08:18:38.9168801Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T08:18:38.9174938Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T08:18:38.9204875Z /home/runner/work/_temp/git-credentials-ba12c5ae-653d-4a48-8714-80ef99edb898.config
+2026-11-10T08:18:38.9212080Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-ba12c5ae\-653d\-4a48\-8714\-80ef99edb898\.config
+2026-11-10T08:18:38.9255565Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T08:18:38.9284065Z /home/runner/work/_temp/git-credentials-ba12c5ae-653d-4a48-8714-80ef99edb898.config
+2026-11-10T08:18:38.9290455Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-ba12c5ae\-653d\-4a48\-8714\-80ef99edb898\.config
+2026-11-10T08:18:38.9329788Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-10T08:18:38.9359860Z /github/runner_temp/git-credentials-ba12c5ae-653d-4a48-8714-80ef99edb898.config
+2026-11-10T08:18:38.9365472Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-ba12c5ae\-653d\-4a48\-8714\-80ef99edb898\.config
+2026-11-10T08:18:38.9402101Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T08:18:38.9430328Z /github/runner_temp/git-credentials-ba12c5ae-653d-4a48-8714-80ef99edb898.config
+2026-11-10T08:18:38.9436968Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-ba12c5ae\-653d\-4a48\-8714\-80ef99edb898\.config
+2026-11-10T08:18:38.9473983Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T08:18:38.9661590Z Removing credentials config '/home/runner/work/_temp/git-credentials-ba12c5ae-653d-4a48-8714-80ef99edb898.config'
+2026-11-10T08:18:38.9670624Z ##[endgroup]
+2026-11-10T08:18:38.9826765Z ##[group]Run python3 -B -S -m unittest tests.test_node_status_freshness tests.test_node_status_refresh -v
+2026-11-10T08:18:38.9827266Z [36;1mpython3 -B -S -m unittest tests.test_node_status_freshness tests.test_node_status_refresh -v[0m
+2026-11-10T08:18:38.9827650Z [36;1mpython3 -B -O -S -m unittest tests.test_node_status_freshness tests.test_node_status_refresh -v[0m
+2026-11-10T08:18:38.9846504Z shell: /usr/bin/bash -e {0}
+2026-11-10T08:18:38.9846684Z ##[endgroup]
+2026-11-10T08:18:39.0634877Z test_access_error_unknown (tests.test_node_status_freshness.ContentTests.test_access_error_unknown) ... ok
+2026-11-10T08:18:39.0639803Z test_api_duplicate_json_members_rejected (tests.test_node_status_freshness.ContentTests.test_api_duplicate_json_members_rejected) ... ok
+2026-11-10T08:18:39.0640729Z test_changed_blob_is_stale (tests.test_node_status_freshness.ContentTests.test_changed_blob_is_stale) ... ok
+2026-11-10T08:18:39.0654163Z test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) ... ok
+2026-11-10T08:18:39.0655283Z test_comment_time_and_identity (tests.test_node_status_freshness.ContentTests.test_comment_time_and_identity) ... ok
+2026-11-10T08:18:39.0656248Z test_directory_changed_even_unchanged_child (tests.test_node_status_freshness.ContentTests.test_directory_changed_even_unchanged_child) ... ok
+2026-11-10T08:18:39.0658231Z test_duplicate_and_malformed_tree_entries_unknown (tests.test_node_status_freshness.ContentTests.test_duplicate_and_malformed_tree_entries_unknown) ... ok
+2026-11-10T08:18:39.0659234Z test_future_recorded_comment_unknown (tests.test_node_status_freshness.ContentTests.test_future_recorded_comment_unknown) ... ok
+2026-11-10T08:18:39.0660046Z test_missing_path_unknown (tests.test_node_status_freshness.ContentTests.test_missing_path_unknown) ... ok
+2026-11-10T08:18:39.0660761Z test_mode_change_is_stale (tests.test_node_status_freshness.ContentTests.test_mode_change_is_stale) ... ok
+2026-11-10T08:18:39.0661459Z test_partial_tree_unknown (tests.test_node_status_freshness.ContentTests.test_partial_tree_unknown) ... ok
+2026-11-10T08:18:39.0662035Z test_same_repo_head_failure_stays_unknown (tests.test_node_status_freshness.ContentTests.test_same_repo_head_failure_stays_unknown) ... ok
+2026-11-10T08:18:39.0662674Z test_snapshot_commit_difference_is_not_content_drift (tests.test_node_status_freshness.ContentTests.test_snapshot_commit_difference_is_not_content_drift) ... ok
+2026-11-10T08:18:39.0747648Z test_strict_empty_non_green (tests.test_node_status_freshness.ContentTests.test_strict_empty_non_green) ... ok
+2026-11-10T08:18:39.0795759Z test_strict_invalid_records_never_repaired_to_green (tests.test_node_status_freshness.ContentTests.test_strict_invalid_records_never_repaired_to_green) ... ok
+2026-11-10T08:18:39.0936860Z test_strict_real_refresh_end_to_end (tests.test_node_status_freshness.ContentTests.test_strict_real_refresh_end_to_end) ... ok
+2026-11-10T08:18:39.0992822Z test_strict_rejects_input_drift_during_observation (tests.test_node_status_freshness.ContentTests.test_strict_rejects_input_drift_during_observation) ... ok
+2026-11-10T08:18:39.1130223Z test_strict_status_exit_and_report_only_bytes (tests.test_node_status_freshness.ContentTests.test_strict_status_exit_and_report_only_bytes) ... ok
+2026-11-10T08:18:39.1131089Z test_url_kind_mismatch_unknown (tests.test_node_status_freshness.ContentTests.test_url_kind_mismatch_unknown) ... ok
+2026-11-10T08:18:39.1131827Z test_wrong_response_identity_unknown (tests.test_node_status_freshness.ContentTests.test_wrong_response_identity_unknown) ... ok
+2026-11-10T08:18:39.1156511Z test_bad_source_remains_unknown (tests.test_node_status_refresh.PaginationTests.test_bad_source_remains_unknown) ... ok
+2026-11-10T08:18:39.1158524Z test_complete_0000 (tests.test_node_status_refresh.PaginationTests.test_complete_0000) ... ok
+2026-11-10T08:18:39.1160044Z test_complete_0001 (tests.test_node_status_refresh.PaginationTests.test_complete_0001) ... ok
+2026-11-10T08:18:39.1162387Z test_complete_0099 (tests.test_node_status_refresh.PaginationTests.test_complete_0099) ... ok
+2026-11-10T08:18:39.1163878Z test_complete_0100 (tests.test_node_status_refresh.PaginationTests.test_complete_0100) ... ok
+2026-11-10T08:18:39.1166065Z test_complete_0101 (tests.test_node_status_refresh.PaginationTests.test_complete_0101) ... ok
+2026-11-10T08:18:39.1170665Z test_complete_0999 (tests.test_node_status_refresh.PaginationTests.test_complete_0999) ... ok
+2026-11-10T08:18:39.1176582Z test_complete_1000 (tests.test_node_status_refresh.PaginationTests.test_complete_1000) ... ok
+2026-11-10T08:18:39.1181470Z test_complete_1001 (tests.test_node_status_refresh.PaginationTests.test_complete_1001) ... ok
+2026-11-10T08:18:39.1188121Z test_complete_1500 (tests.test_node_status_refresh.PaginationTests.test_complete_1500) ... ok
+2026-11-10T08:18:39.1199223Z test_complete_2499 (tests.test_node_status_refresh.PaginationTests.test_complete_2499) ... ok
+2026-11-10T08:18:39.1257861Z test_complete_2500 (tests.test_node_status_refresh.PaginationTests.test_complete_2500) ... ok
+2026-11-10T08:18:39.1268618Z test_complete_2599 (tests.test_node_status_refresh.PaginationTests.test_complete_2599) ... ok
+2026-11-10T08:18:39.1278357Z test_explicit_release_1000 (tests.test_node_status_refresh.PaginationTests.test_explicit_release_1000) ... ok
+2026-11-10T08:18:39.1287774Z test_explicit_release_1001 (tests.test_node_status_refresh.PaginationTests.test_explicit_release_1001) ... ok
+2026-11-10T08:18:39.1310084Z test_explicit_release_2500 (tests.test_node_status_refresh.PaginationTests.test_explicit_release_2500) ... ok
+2026-11-10T08:18:39.1315833Z test_failure_02_not_list (tests.test_node_status_refresh.PaginationTests.test_failure_02_not_list) ... ok
+2026-11-10T08:18:39.1321521Z test_failure_02_not_object (tests.test_node_status_refresh.PaginationTests.test_failure_02_not_object) ... ok
+2026-11-10T08:18:39.1326531Z test_failure_02_transport (tests.test_node_status_refresh.PaginationTests.test_failure_02_transport) ... ok
+2026-11-10T08:18:39.1336537Z test_failure_26_not_list (tests.test_node_status_refresh.PaginationTests.test_failure_26_not_list) ... ok
+2026-11-10T08:18:39.1345950Z test_failure_26_not_object (tests.test_node_status_refresh.PaginationTests.test_failure_26_not_object) ... ok
+2026-11-10T08:18:39.1354008Z test_failure_26_transport (tests.test_node_status_refresh.PaginationTests.test_failure_26_transport) ... ok
+2026-11-10T08:18:39.1363660Z test_full_2600_requires_unknown (tests.test_node_status_refresh.PaginationTests.test_full_2600_requires_unknown) ... ok
+2026-11-10T08:18:39.1385570Z test_full_read_with_no_release_does_not_infer_one (tests.test_node_status_refresh.PaginationTests.test_full_read_with_no_release_does_not_infer_one) ... ok
+2026-11-10T08:18:39.1395699Z test_incomplete_does_not_project_early_release (tests.test_node_status_refresh.PaginationTests.test_incomplete_does_not_project_early_release) ... ok
+2026-11-10T08:18:39.1422581Z test_report_only_preserves_file (tests.test_node_status_refresh.PaginationTests.test_report_only_preserves_file) ... ok
+2026-11-10T08:18:39.1446869Z test_stale_source_remains_stale (tests.test_node_status_refresh.PaginationTests.test_stale_source_remains_stale) ... ok
+2026-11-10T08:18:39.1449040Z test_unsupported_evidence_never_fetches (tests.test_node_status_refresh.PaginationTests.test_unsupported_evidence_never_fetches) ... ok
+2026-11-10T08:18:39.1469920Z test_wrong_release_reference_is_not_accepted (tests.test_node_status_refresh.PaginationTests.test_wrong_release_reference_is_not_accepted) ... ok
+2026-11-10T08:18:39.1470988Z test_changed_rev_is_stale (tests.test_node_status_refresh.RefreshTests.test_changed_rev_is_stale) ... ok
+2026-11-10T08:18:39.1477618Z test_dir_report_only_does_not_write (tests.test_node_status_refresh.RefreshTests.test_dir_report_only_does_not_write) ... ok
+2026-11-10T08:18:39.1483815Z test_dir_write_mode (tests.test_node_status_refresh.RefreshTests.test_dir_write_mode) ... ok
+2026-11-10T08:18:39.1486961Z test_discussion_updated_at_newer_is_stale_and_unfetched_is_unknown (tests.test_node_status_refresh.RefreshTests.test_discussion_updated_at_newer_is_stale_and_unfetched_is_unknown) ... ok
+2026-11-10T08:18:39.1492210Z test_duplicate_json_key_is_unknown_and_not_rewritten (tests.test_node_status_refresh.RefreshTests.test_duplicate_json_key_is_unknown_and_not_rewritten) ... ok
+2026-11-10T08:18:39.1493366Z test_empty_or_missing_source_revision_never_fresh (tests.test_node_status_refresh.RefreshTests.test_empty_or_missing_source_revision_never_fresh) ... ok
+2026-11-10T08:18:39.1494313Z test_failure_never_fresh_even_if_other_source_ok (tests.test_node_status_refresh.RefreshTests.test_failure_never_fresh_even_if_other_source_ok) ... ok
+2026-11-10T08:18:39.1495122Z test_github_fetch_uses_moving_ref_for_pinned_url (tests.test_node_status_refresh.RefreshTests.test_github_fetch_uses_moving_ref_for_pinned_url) ... ok
+2026-11-10T08:18:39.1495927Z test_no_sources_or_bad_schema_is_unknown (tests.test_node_status_refresh.RefreshTests.test_no_sources_or_bad_schema_is_unknown) ... ok
+2026-11-10T08:18:39.1496549Z test_owner_and_scientific_effect_untouched (tests.test_node_status_refresh.RefreshTests.test_owner_and_scientific_effect_untouched) ... ok
+2026-11-10T08:18:39.1497402Z test_pinned_sha_accepted_and_other_rev_forms_unknown (tests.test_node_status_refresh.RefreshTests.test_pinned_sha_accepted_and_other_rev_forms_unknown) ... ok
+2026-11-10T08:18:39.1498266Z test_pinned_url_trailing_newline_is_not_pinned (tests.test_node_status_refresh.RefreshTests.test_pinned_url_trailing_newline_is_not_pinned) ... ok
+2026-11-10T08:18:39.1498889Z test_refresh_error_is_string_or_null (tests.test_node_status_refresh.RefreshTests.test_refresh_error_is_string_or_null) ... ok
+2026-11-10T08:18:39.1499800Z test_release_comment_sets_released_url_only (tests.test_node_status_refresh.RefreshTests.test_release_comment_sets_released_url_only) ... ok
+2026-11-10T08:18:39.1500689Z test_release_sets_released_url_only_for_matching_pickup_id (tests.test_node_status_refresh.RefreshTests.test_release_sets_released_url_only_for_matching_pickup_id) ... ok
+2026-11-10T08:18:39.1503834Z test_report_only_includes_discovered_released_url (tests.test_node_status_refresh.RefreshTests.test_report_only_includes_discovered_released_url) ... ok
+2026-11-10T08:18:39.1504848Z test_scientific_effect_forced_none_not_passed_through (tests.test_node_status_refresh.RefreshTests.test_scientific_effect_forced_none_not_passed_through) ... ok
+2026-11-10T08:18:39.1505797Z test_source_rev_is_primary_and_moving_ref_is_not_stored (tests.test_node_status_refresh.RefreshTests.test_source_rev_is_primary_and_moving_ref_is_not_stored) ... ok
+2026-11-10T08:18:39.1506735Z test_successful_refresh_clears_stale_refresh_error (tests.test_node_status_refresh.RefreshTests.test_successful_refresh_clears_stale_refresh_error) ... ok
+2026-11-10T08:18:39.1507484Z test_unchanged_is_fresh (tests.test_node_status_refresh.RefreshTests.test_unchanged_is_fresh) ... ok
+2026-11-10T08:18:39.1508148Z test_unreachable_is_unknown_with_error (tests.test_node_status_refresh.RefreshTests.test_unreachable_is_unknown_with_error) ... ok
+2026-11-10T08:18:39.1508655Z test_unsupported_url_raises_source_error (tests.test_node_status_refresh.RefreshTests.test_unsupported_url_raises_source_error) ... ok
+2026-11-10T08:18:39.1508929Z 
+2026-11-10T08:18:39.1509046Z ----------------------------------------------------------------------
+2026-11-10T08:18:39.1509310Z Ran 71 tests in 0.088s
+2026-11-10T08:18:39.1509400Z 
+2026-11-10T08:18:39.1509457Z OK
+2026-11-10T08:18:39.6185297Z test_access_error_unknown (tests.test_node_status_freshness.ContentTests.test_access_error_unknown) ... ok
+2026-11-10T08:18:39.6190154Z test_api_duplicate_json_members_rejected (tests.test_node_status_freshness.ContentTests.test_api_duplicate_json_members_rejected) ... ok
+2026-11-10T08:18:39.6191093Z test_changed_blob_is_stale (tests.test_node_status_freshness.ContentTests.test_changed_blob_is_stale) ... ok
+2026-11-10T08:18:39.6223612Z test_comment_parent_binding (tests.test_node_status_freshness.ContentTests.test_comment_parent_binding) ... ok
+2026-11-10T08:18:39.6224989Z test_comment_time_and_identity (tests.test_node_status_freshness.ContentTests.test_comment_time_and_identity) ... ok
+2026-11-10T08:18:39.6225851Z test_directory_changed_even_unchanged_child (tests.test_node_status_freshness.ContentTests.test_directory_changed_even_unchanged_child) ... ok
+2026-11-10T08:18:39.6227599Z test_duplicate_and_malformed_tree_entries_unknown (tests.test_node_status_freshness.ContentTests.test_duplicate_and_malformed_tree_entries_unknown) ... ok
+2026-11-10T08:18:39.6228483Z test_future_recorded_comment_unknown (tests.test_node_status_freshness.ContentTests.test_future_recorded_comment_unknown) ... ok
+2026-11-10T08:18:39.6229187Z test_missing_path_unknown (tests.test_node_status_freshness.ContentTests.test_missing_path_unknown) ... ok
+2026-11-10T08:18:39.6229780Z test_mode_change_is_stale (tests.test_node_status_freshness.ContentTests.test_mode_change_is_stale) ... ok
+2026-11-10T08:18:39.6234804Z test_partial_tree_unknown (tests.test_node_status_freshness.ContentTests.test_partial_tree_unknown) ... ok
+2026-11-10T08:18:39.6235424Z test_same_repo_head_failure_stays_unknown (tests.test_node_status_freshness.ContentTests.test_same_repo_head_failure_stays_unknown) ... ok
+2026-11-10T08:18:39.6236220Z test_snapshot_commit_difference_is_not_content_drift (tests.test_node_status_freshness.ContentTests.test_snapshot_commit_difference_is_not_content_drift) ... ok
+2026-11-10T08:18:39.6312755Z test_strict_empty_non_green (tests.test_node_status_freshness.ContentTests.test_strict_empty_non_green) ... ok
+2026-11-10T08:18:39.6366345Z test_strict_invalid_records_never_repaired_to_green (tests.test_node_status_freshness.ContentTests.test_strict_invalid_records_never_repaired_to_green) ... ok
+2026-11-10T08:18:39.6506903Z test_strict_real_refresh_end_to_end (tests.test_node_status_freshness.ContentTests.test_strict_real_refresh_end_to_end) ... ok
+2026-11-10T08:18:39.6560850Z test_strict_rejects_input_drift_during_observation (tests.test_node_status_freshness.ContentTests.test_strict_rejects_input_drift_during_observation) ... ok
+2026-11-10T08:18:39.6699097Z test_strict_status_exit_and_report_only_bytes (tests.test_node_status_freshness.ContentTests.test_strict_status_exit_and_report_only_bytes) ... ok
+2026-11-10T08:18:39.6699816Z test_url_kind_mismatch_unknown (tests.test_node_status_freshness.ContentTests.test_url_kind_mismatch_unknown) ... ok
+2026-11-10T08:18:39.6700464Z test_wrong_response_identity_unknown (tests.test_node_status_freshness.ContentTests.test_wrong_response_identity_unknown) ... ok
+2026-11-10T08:18:39.6724506Z test_bad_source_remains_unknown (tests.test_node_status_refresh.PaginationTests.test_bad_source_remains_unknown) ... ok
+2026-11-10T08:18:39.6726228Z test_complete_0000 (tests.test_node_status_refresh.PaginationTests.test_complete_0000) ... ok
+2026-11-10T08:18:39.6727700Z test_complete_0001 (tests.test_node_status_refresh.PaginationTests.test_complete_0001) ... ok
+2026-11-10T08:18:39.6729778Z test_complete_0099 (tests.test_node_status_refresh.PaginationTests.test_complete_0099) ... ok
+2026-11-10T08:18:39.6731381Z test_complete_0100 (tests.test_node_status_refresh.PaginationTests.test_complete_0100) ... ok
+2026-11-10T08:18:39.6733242Z test_complete_0101 (tests.test_node_status_refresh.PaginationTests.test_complete_0101) ... ok
+2026-11-10T08:18:39.6739070Z test_complete_0999 (tests.test_node_status_refresh.PaginationTests.test_complete_0999) ... ok
+2026-11-10T08:18:39.6743779Z test_complete_1000 (tests.test_node_status_refresh.PaginationTests.test_complete_1000) ... ok
+2026-11-10T08:18:39.6748714Z test_complete_1001 (tests.test_node_status_refresh.PaginationTests.test_complete_1001) ... ok
+2026-11-10T08:18:39.6756565Z test_complete_1500 (tests.test_node_status_refresh.PaginationTests.test_complete_1500) ... ok
+2026-11-10T08:18:39.6766722Z test_complete_2499 (tests.test_node_status_refresh.PaginationTests.test_complete_2499) ... ok
+2026-11-10T08:18:39.6828297Z test_complete_2500 (tests.test_node_status_refresh.PaginationTests.test_complete_2500) ... ok
+2026-11-10T08:18:39.6839557Z test_complete_2599 (tests.test_node_status_refresh.PaginationTests.test_complete_2599) ... ok
+2026-11-10T08:18:39.6850561Z test_explicit_release_1000 (tests.test_node_status_refresh.PaginationTests.test_explicit_release_1000) ... ok
+2026-11-10T08:18:39.6860477Z test_explicit_release_1001 (tests.test_node_status_refresh.PaginationTests.test_explicit_release_1001) ... ok
+2026-11-10T08:18:39.6883070Z test_explicit_release_2500 (tests.test_node_status_refresh.PaginationTests.test_explicit_release_2500) ... ok
+2026-11-10T08:18:39.6887976Z test_failure_02_not_list (tests.test_node_status_refresh.PaginationTests.test_failure_02_not_list) ... ok
+2026-11-10T08:18:39.6892850Z test_failure_02_not_object (tests.test_node_status_refresh.PaginationTests.test_failure_02_not_object) ... ok
+2026-11-10T08:18:39.6897915Z test_failure_02_transport (tests.test_node_status_refresh.PaginationTests.test_failure_02_transport) ... ok
+2026-11-10T08:18:39.6907132Z test_failure_26_not_list (tests.test_node_status_refresh.PaginationTests.test_failure_26_not_list) ... ok
+2026-11-10T08:18:39.6916485Z test_failure_26_not_object (tests.test_node_status_refresh.PaginationTests.test_failure_26_not_object) ... ok
+2026-11-10T08:18:39.6924635Z test_failure_26_transport (tests.test_node_status_refresh.PaginationTests.test_failure_26_transport) ... ok
+2026-11-10T08:18:39.6936577Z test_full_2600_requires_unknown (tests.test_node_status_refresh.PaginationTests.test_full_2600_requires_unknown) ... ok
+2026-11-10T08:18:39.7010938Z test_full_read_with_no_release_does_not_infer_one (tests.test_node_status_refresh.PaginationTests.test_full_read_with_no_release_does_not_infer_one) ... ok
+2026-11-10T08:18:39.7012288Z test_incomplete_does_not_project_early_release (tests.test_node_status_refresh.PaginationTests.test_incomplete_does_not_project_early_release) ... ok
+2026-11-10T08:18:39.7013259Z test_report_only_preserves_file (tests.test_node_status_refresh.PaginationTests.test_report_only_preserves_file) ... ok
+2026-11-10T08:18:39.7018542Z test_stale_source_remains_stale (tests.test_node_status_refresh.PaginationTests.test_stale_source_remains_stale) ... ok
+2026-11-10T08:18:39.7020704Z test_unsupported_evidence_never_fetches (tests.test_node_status_refresh.PaginationTests.test_unsupported_evidence_never_fetches) ... ok
+2026-11-10T08:18:39.7044736Z test_wrong_release_reference_is_not_accepted (tests.test_node_status_refresh.PaginationTests.test_wrong_release_reference_is_not_accepted) ... ok
+2026-11-10T08:18:39.7045927Z test_changed_rev_is_stale (tests.test_node_status_refresh.RefreshTests.test_changed_rev_is_stale) ... ok
+2026-11-10T08:18:39.7052925Z test_dir_report_only_does_not_write (tests.test_node_status_refresh.RefreshTests.test_dir_report_only_does_not_write) ... ok
+2026-11-10T08:18:39.7059426Z test_dir_write_mode (tests.test_node_status_refresh.RefreshTests.test_dir_write_mode) ... ok
+2026-11-10T08:18:39.7062185Z test_discussion_updated_at_newer_is_stale_and_unfetched_is_unknown (tests.test_node_status_refresh.RefreshTests.test_discussion_updated_at_newer_is_stale_and_unfetched_is_unknown) ... ok
+2026-11-10T08:18:39.7068180Z test_duplicate_json_key_is_unknown_and_not_rewritten (tests.test_node_status_refresh.RefreshTests.test_duplicate_json_key_is_unknown_and_not_rewritten) ... ok
+2026-11-10T08:18:39.7069361Z test_empty_or_missing_source_revision_never_fresh (tests.test_node_status_refresh.RefreshTests.test_empty_or_missing_source_revision_never_fresh) ... ok
+2026-11-10T08:18:39.7070150Z test_failure_never_fresh_even_if_other_source_ok (tests.test_node_status_refresh.RefreshTests.test_failure_never_fresh_even_if_other_source_ok) ... ok
+2026-11-10T08:18:39.7071032Z test_github_fetch_uses_moving_ref_for_pinned_url (tests.test_node_status_refresh.RefreshTests.test_github_fetch_uses_moving_ref_for_pinned_url) ... ok
+2026-11-10T08:18:39.7071572Z test_no_sources_or_bad_schema_is_unknown (tests.test_node_status_refresh.RefreshTests.test_no_sources_or_bad_schema_is_unknown) ... ok
+2026-11-10T08:18:39.7072162Z test_owner_and_scientific_effect_untouched (tests.test_node_status_refresh.RefreshTests.test_owner_and_scientific_effect_untouched) ... ok
+2026-11-10T08:18:39.7072921Z test_pinned_sha_accepted_and_other_rev_forms_unknown (tests.test_node_status_refresh.RefreshTests.test_pinned_sha_accepted_and_other_rev_forms_unknown) ... ok
+2026-11-10T08:18:39.7073718Z test_pinned_url_trailing_newline_is_not_pinned (tests.test_node_status_refresh.RefreshTests.test_pinned_url_trailing_newline_is_not_pinned) ... ok
+2026-11-10T08:18:39.7074517Z test_refresh_error_is_string_or_null (tests.test_node_status_refresh.RefreshTests.test_refresh_error_is_string_or_null) ... ok
+2026-11-10T08:18:39.7075957Z test_release_comment_sets_released_url_only (tests.test_node_status_refresh.RefreshTests.test_release_comment_sets_released_url_only) ... ok
+2026-11-10T08:18:39.7076750Z test_release_sets_released_url_only_for_matching_pickup_id (tests.test_node_status_refresh.RefreshTests.test_release_sets_released_url_only_for_matching_pickup_id) ... ok
+2026-11-10T08:18:39.7080186Z test_report_only_includes_discovered_released_url (tests.test_node_status_refresh.RefreshTests.test_report_only_includes_discovered_released_url) ... ok
+2026-11-10T08:18:39.7081020Z test_scientific_effect_forced_none_not_passed_through (tests.test_node_status_refresh.RefreshTests.test_scientific_effect_forced_none_not_passed_through) ... ok
+2026-11-10T08:18:39.7081872Z test_source_rev_is_primary_and_moving_ref_is_not_stored (tests.test_node_status_refresh.RefreshTests.test_source_rev_is_primary_and_moving_ref_is_not_stored) ... ok
+2026-11-10T08:18:39.7082710Z test_successful_refresh_clears_stale_refresh_error (tests.test_node_status_refresh.RefreshTests.test_successful_refresh_clears_stale_refresh_error) ... ok
+2026-11-10T08:18:39.7083379Z test_unchanged_is_fresh (tests.test_node_status_refresh.RefreshTests.test_unchanged_is_fresh) ... ok
+2026-11-10T08:18:39.7083994Z test_unreachable_is_unknown_with_error (tests.test_node_status_refresh.RefreshTests.test_unreachable_is_unknown_with_error) ... ok
+2026-11-10T08:18:39.7084797Z test_unsupported_url_raises_source_error (tests.test_node_status_refresh.RefreshTests.test_unsupported_url_raises_source_error) ... ok
+2026-11-10T08:18:39.7085198Z 
+2026-11-10T08:18:39.7085325Z ----------------------------------------------------------------------
+2026-11-10T08:18:39.7085598Z Ran 71 tests in 0.090s
+2026-11-10T08:18:39.7085714Z 
+2026-11-10T08:18:39.7085781Z OK
+2026-11-10T08:18:39.7273676Z ##[group]Run python3 -B -S tools/node_status_refresh.py records/node_status | tee -a "$GITHUB_STEP_SUMMARY"
+2026-11-10T08:18:39.7274237Z [36;1mpython3 -B -S tools/node_status_refresh.py records/node_status | tee -a "$GITHUB_STEP_SUMMARY"[0m
+2026-11-10T08:18:39.7290162Z shell: /usr/bin/bash -e {0}
+2026-11-10T08:18:39.7290293Z env:
+2026-11-10T08:18:39.7291700Z   GITHUB_TOKEN: ***
+2026-11-10T08:18:39.7291817Z ##[endgroup]
+2026-11-10T08:18:45.3474386Z {
+2026-11-10T08:18:45.3474703Z   "records": "records/node_status",
+2026-11-10T08:18:45.3474961Z   "report": [
+2026-11-10T08:18:45.3475113Z     {
+2026-11-10T08:18:45.3475304Z       "file": "eng.d0-packet-allowlist-fix.json",
+2026-11-10T08:18:45.3475574Z       "node_id": "eng.d0-packet-allowlist-fix",
+2026-11-10T08:18:45.3475807Z       "status": "fresh",
+2026-11-10T08:18:45.3475996Z       "previous_status": "fresh",
+2026-11-10T08:18:45.3476197Z       "refresh_error": null
+2026-11-10T08:18:45.3476377Z     },
+2026-11-10T08:18:45.3476603Z     {
+2026-11-10T08:18:45.3476758Z       "file": "eng.hard-gate.json",
+2026-11-10T08:18:45.3476967Z       "node_id": "eng.hard-gate",
+2026-11-10T08:18:45.3477401Z       "status": "fresh",
+2026-11-10T08:18:45.3477575Z       "previous_status": "fresh",
+2026-11-10T08:18:45.3477773Z       "refresh_error": null
+2026-11-10T08:18:45.3477948Z     },
+2026-11-10T08:18:45.3478082Z     {
+2026-11-10T08:18:45.3478245Z       "file": "math.lifetime-remainder.json",
+2026-11-10T08:18:45.3478489Z       "node_id": "math.lifetime-remainder",
+2026-11-10T08:18:45.3478695Z       "status": "fresh",
+2026-11-10T08:18:45.3478870Z       "previous_status": "fresh",
+2026-11-10T08:18:45.3479061Z       "refresh_error": null
+2026-11-10T08:18:45.3479237Z     },
+2026-11-10T08:18:45.3479369Z     {
+2026-11-10T08:18:45.3479527Z       "file": "math.side24-coefficient.json",
+2026-11-10T08:18:45.3479755Z       "node_id": "math.side24-coefficient",
+2026-11-10T08:18:45.3479966Z       "status": "fresh",
+2026-11-10T08:18:45.3480147Z       "previous_status": "fresh",
+2026-11-10T08:18:45.3480336Z       "refresh_error": null
+2026-11-10T08:18:45.3480501Z     }
+2026-11-10T08:18:45.3480637Z   ],
+2026-11-10T08:18:45.3480785Z   "scientific_effect": "NONE",
+2026-11-10T08:18:45.3480999Z   "observation_started_at": "2026-11-10T08:18:39Z",
+2026-11-10T08:18:45.3481254Z   "observation_finished_at": "2026-11-10T08:18:45Z",
+2026-11-10T08:18:45.3481466Z   "heads": {
+2026-11-10T08:18:45.3481648Z     "Math-": "9bdfc54b76173b57912503bfcf901a5f9d43b09c"
+2026-11-10T08:18:45.3481862Z   },
+2026-11-10T08:18:45.3481997Z   "sources": [
+2026-11-10T08:18:45.3482138Z     {
+2026-11-10T08:18:45.3482579Z       "url": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/frontiers/downstream_gate_20260925/GRAPH.json",
+2026-11-10T08:18:45.3483078Z       "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T08:18:45.3483305Z       "pinned_object": [
+2026-11-10T08:18:45.3483473Z         "blob",
+2026-11-10T08:18:45.3483625Z         "100644",
+2026-11-10T08:18:45.3483802Z         "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T08:18:45.3484015Z       ],
+2026-11-10T08:18:45.3484279Z       "current_object": [
+2026-11-10T08:18:45.3484444Z         "blob",
+2026-11-10T08:18:45.3484588Z         "100644",
+2026-11-10T08:18:45.3484756Z         "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T08:18:45.3484960Z       ]
+2026-11-10T08:18:45.3485095Z     },
+2026-11-10T08:18:45.3485224Z     {
+2026-11-10T08:18:45.3485699Z       "url": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/frontiers/downstream_gate_20260925/patches/d0_packet_allowlist.patch",
+2026-11-10T08:18:45.3486259Z       "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T08:18:45.3486486Z       "pinned_object": [
+2026-11-10T08:18:45.3486649Z         "blob",
+2026-11-10T08:18:45.3486791Z         "100644",
+2026-11-10T08:18:45.3486963Z         "f09b248b10d6a8f229bd21bb3a53a97ca16525f2"
+2026-11-10T08:18:45.3487168Z       ],
+2026-11-10T08:18:45.3487587Z       "current_object": [
+2026-11-10T08:18:45.3487750Z         "blob",
+2026-11-10T08:18:45.3487892Z         "100644",
+2026-11-10T08:18:45.3488059Z         "f09b248b10d6a8f229bd21bb3a53a97ca16525f2"
+2026-11-10T08:18:45.3488264Z       ]
+2026-11-10T08:18:45.3488396Z     },
+2026-11-10T08:18:45.3488524Z     {
+2026-11-10T08:18:45.3488928Z       "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9bdfc54b76173b57912503bfcf901a5f9d43b09c/frontiers/downstream_gate_20260925/GRAPH.json",
+2026-11-10T08:18:45.3489515Z       "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T08:18:45.3489745Z       "pinned_object": [
+2026-11-10T08:18:45.3489915Z         "blob",
+2026-11-10T08:18:45.3490056Z         "100644",
+2026-11-10T08:18:45.3490219Z         "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T08:18:45.3490426Z       ],
+2026-11-10T08:18:45.3490571Z       "current_object": [
+2026-11-10T08:18:45.3490732Z         "blob",
+2026-11-10T08:18:45.3490874Z         "100644",
+2026-11-10T08:18:45.3491048Z         "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T08:18:45.3491249Z       ]
+2026-11-10T08:18:45.3491382Z     },
+2026-11-10T08:18:45.3491634Z     {
+2026-11-10T08:18:45.3492016Z       "url": "https://github.com/d6g8k5htny-coder/Math-/tree/9bdfc54b76173b57912503bfcf901a5f9d43b09c/frontiers/downstream_gate_20260925",
+2026-11-10T08:18:45.3492521Z       "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T08:18:45.3492763Z       "pinned_object": [
+2026-11-10T08:18:45.3492933Z         "tree",
+2026-11-10T08:18:45.3493079Z         "040000",
+2026-11-10T08:18:45.3493251Z         "132725157175a85dbbd5a1cfc2c668fc7b518283"
+2026-11-10T08:18:45.3493463Z       ],
+2026-11-10T08:18:45.3493611Z       "current_object": [
+2026-11-10T08:18:45.3493781Z         "tree",
+2026-11-10T08:18:45.3493925Z         "040000",
+2026-11-10T08:18:45.3494353Z         "132725157175a85dbbd5a1cfc2c668fc7b518283"
+2026-11-10T08:18:45.3494566Z       ]
+2026-11-10T08:18:45.3494708Z     },
+2026-11-10T08:18:45.3494844Z     {
+2026-11-10T08:18:45.3495311Z       "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/far_sector_lifetime_refinement_20261022/PROOF.md",
+2026-11-10T08:18:45.3495870Z       "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T08:18:45.3496112Z       "pinned_object": [
+2026-11-10T08:18:45.3496282Z         "blob",
+2026-11-10T08:18:45.3496428Z         "100644",
+2026-11-10T08:18:45.3496610Z         "611cda9cbefcc76c7f5930ec7b628fa183262827"
+2026-11-10T08:18:45.3496826Z       ],
+2026-11-10T08:18:45.3496976Z       "current_object": [
+2026-11-10T08:18:45.3497149Z         "blob",
+2026-11-10T08:18:45.3497294Z         "100644",
+2026-11-10T08:18:45.3497474Z         "611cda9cbefcc76c7f5930ec7b628fa183262827"
+2026-11-10T08:18:45.3497696Z       ]
+2026-11-10T08:18:45.3497834Z     },
+2026-11-10T08:18:45.3497975Z     {
+2026-11-10T08:18:45.3498518Z       "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/far_sector_lifetime_refinement_20261022/README.md",
+2026-11-10T08:18:45.3499095Z       "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T08:18:45.3499337Z       "pinned_object": [
+2026-11-10T08:18:45.3499510Z         "blob",
+2026-11-10T08:18:45.3499661Z         "100644",
+2026-11-10T08:18:45.3499848Z         "bb4664f9db076b5738c8da5d426c8e8662b20507"
+2026-11-10T08:18:45.3500065Z       ],
+2026-11-10T08:18:45.3500218Z       "current_object": [
+2026-11-10T08:18:45.3500391Z         "blob",
+2026-11-10T08:18:45.3500547Z         "100644",
+2026-11-10T08:18:45.3500724Z         "bb4664f9db076b5738c8da5d426c8e8662b20507"
+2026-11-10T08:18:45.3500935Z       ]
+2026-11-10T08:18:45.3501063Z     },
+2026-11-10T08:18:45.3501194Z     {
+2026-11-10T08:18:45.3501644Z       "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/far_sector_lifetime_refinement_20261022/SOURCE_MAP.json",
+2026-11-10T08:18:45.3502261Z       "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T08:18:45.3502641Z       "pinned_object": [
+2026-11-10T08:18:45.3502816Z         "blob",
+2026-11-10T08:18:45.3502961Z         "100644",
+2026-11-10T08:18:45.3503172Z         "666fa6001d33a5c402a8767e564928e4bbfc4de8"
+2026-11-10T08:18:45.3503500Z       ],
+2026-11-10T08:18:45.3503656Z       "current_object": [
+2026-11-10T08:18:45.3503829Z         "blob",
+2026-11-10T08:18:45.3503983Z         "100644",
+2026-11-10T08:18:45.3504288Z         "666fa6001d33a5c402a8767e564928e4bbfc4de8"
+2026-11-10T08:18:45.3504508Z       ]
+2026-11-10T08:18:45.3504648Z     },
+2026-11-10T08:18:45.3504788Z     {
+2026-11-10T08:18:45.3505275Z       "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/far_sector_lifetime_refinement_20261022/REVIEW.md",
+2026-11-10T08:18:45.3505855Z       "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T08:18:45.3506100Z       "pinned_object": [
+2026-11-10T08:18:45.3506281Z         "blob",
+2026-11-10T08:18:45.3506432Z         "100644",
+2026-11-10T08:18:45.3506620Z         "1ff82e80174852cfb6fb066080af2dcf9f0e1902"
+2026-11-10T08:18:45.3506907Z       ],
+2026-11-10T08:18:45.3507063Z       "current_object": [
+2026-11-10T08:18:45.3507358Z         "blob",
+2026-11-10T08:18:45.3507516Z         "100644",
+2026-11-10T08:18:45.3507703Z         "1ff82e80174852cfb6fb066080af2dcf9f0e1902"
+2026-11-10T08:18:45.3507942Z       ]
+2026-11-10T08:18:45.3508089Z     },
+2026-11-10T08:18:45.3508230Z     {
+2026-11-10T08:18:45.3508709Z       "url": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/frontiers/downstream_gate_20260925/GRAPH.json",
+2026-11-10T08:18:45.3509301Z       "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T08:18:45.3509550Z       "pinned_object": [
+2026-11-10T08:18:45.3509730Z         "blob",
+2026-11-10T08:18:45.3509884Z         "100644",
+2026-11-10T08:18:45.3510068Z         "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T08:18:45.3510295Z       ],
+2026-11-10T08:18:45.3510453Z       "current_object": [
+2026-11-10T08:18:45.3510636Z         "blob",
+2026-11-10T08:18:45.3510791Z         "100644",
+2026-11-10T08:18:45.3510973Z         "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T08:18:45.3511188Z       ]
+2026-11-10T08:18:45.3511322Z     },
+2026-11-10T08:18:45.3511459Z     {
+2026-11-10T08:18:45.3511742Z       "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6351719961",
+2026-11-10T08:18:45.3512086Z       "updated_at": "2026-10-22T21:28:51Z"
+2026-11-10T08:18:45.3512278Z     },
+2026-11-10T08:18:45.3512411Z     {
+2026-11-10T08:18:45.3512844Z       "url": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/frontiers/downstream_gate_20260925/GRAPH.json",
+2026-11-10T08:18:45.3513418Z       "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T08:18:45.3513677Z       "pinned_object": [
+2026-11-10T08:18:45.3513857Z         "blob",
+2026-11-10T08:18:45.3514011Z         "100644",
+2026-11-10T08:18:45.3514297Z         "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T08:18:45.3514519Z       ],
+2026-11-10T08:18:45.3514675Z       "current_object": [
+2026-11-10T08:18:45.3514856Z         "blob",
+2026-11-10T08:18:45.3515012Z         "100644",
+2026-11-10T08:18:45.3515193Z         "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T08:18:45.3515416Z       ]
+2026-11-10T08:18:45.3515560Z     },
+2026-11-10T08:18:45.3515702Z     {
+2026-11-10T08:18:45.3516138Z       "url": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/coefficients/side24_v1/PROOF.md",
+2026-11-10T08:18:45.3516611Z       "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T08:18:45.3516847Z       "pinned_object": [
+2026-11-10T08:18:45.3517019Z         "blob",
+2026-11-10T08:18:45.3517164Z         "100644",
+2026-11-10T08:18:45.3517342Z         "44b66f04f89fcd87383b3603fa69f1feb64cdddd"
+2026-11-10T08:18:45.3517583Z       ],
+2026-11-10T08:18:45.3517733Z       "current_object": [
+2026-11-10T08:18:45.3517906Z         "blob",
+2026-11-10T08:18:45.3518174Z         "100644",
+2026-11-10T08:18:45.3518344Z         "44b66f04f89fcd87383b3603fa69f1feb64cdddd"
+2026-11-10T08:18:45.3518561Z       ]
+2026-11-10T08:18:45.3518701Z     }
+2026-11-10T08:18:45.3518836Z   ],
+2026-11-10T08:18:45.3518986Z   "input_sha256": null,
+2026-11-10T08:18:45.3519165Z   "input_drift": false,
+2026-11-10T08:18:45.3519354Z   "contract": "cited-object-content-v1"
+2026-11-10T08:18:45.3519561Z }
+2026-11-10T08:18:45.3665766Z Post job cleanup.
+2026-11-10T08:18:45.4255825Z [command]/usr/bin/git version
+2026-11-10T08:18:45.4320238Z git version 2.56.0
+2026-11-10T08:18:45.4345676Z Temporarily overriding HOME='/home/runner/work/_temp/e55e50f9-bd25-45f2-b134-1225f2492b47' before making global git config changes
+2026-11-10T08:18:45.4346735Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T08:18:45.4350053Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T08:18:45.4401964Z Removing SSH command configuration
+2026-11-10T08:18:45.4408254Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T08:18:45.4442388Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T08:18:45.4665799Z Removing HTTP extra header
+2026-11-10T08:18:45.4670794Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T08:18:45.4713175Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T08:18:45.4936214Z Removing includeIf entries pointing to credentials config files
+2026-11-10T08:18:45.4941703Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T08:18:45.4981367Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T08:18:45.5296517Z Cleaning up orphan processes
