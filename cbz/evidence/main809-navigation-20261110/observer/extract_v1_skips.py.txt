@@ -1,0 +1,36 @@
+"""Inventory only the skip lines in one pinned Main navigation artifact."""
+from collections import Counter
+import hashlib
+import json
+from pathlib import Path
+import re
+import zipfile
+
+root = Path(__file__).resolve().parent
+archive = root / 'main812-v1-navigation-artifact-13755343524.zip'
+digest = hashlib.sha256(archive.read_bytes()).hexdigest()
+if digest != 'e425a519573f9c896d1267a3f20a11a6e430e8a551130d07ddea2ddfe6be5c23':
+    raise ValueError('original artifact mismatch')
+with zipfile.ZipFile(archive) as z:
+    if len(z.namelist()) != len(set(z.namelist())) or z.testzip() is not None:
+        raise ValueError('archive duplicate or CRC failure')
+    text = z.read('tests-normal.log').decode('utf-8')
+lines = [line for line in text.splitlines() if ' ... skipped ' in line]
+records = []
+for line in lines:
+    match = re.fullmatch(r"(\w+) \(([^()]*)\) \.\.\. skipped '([^']*)'", line)
+    if match is None:
+        raise ValueError('unparsed skip line')
+    name, identity, reason = match.groups()
+    if identity.rsplit('.', 1)[-1] != name or not reason:
+        raise ValueError('invalid skip identity or reason')
+    records.append({'test_id': identity, 'reason': reason, 'raw_line': line})
+if len(records) != 23 or len({r['test_id'] for r in records}) != 23:
+    raise ValueError('unexpected skip population')
+summary = {'run': 42797711397, 'job': 129767026014, 'artifact': 13755343524,
+           'artifact_sha256': digest, 'tested_merge': '89c5601cd4c99990d02daf1efdfe2d030dad9c00',
+           'mode': 'normal', 'count': len(records), 'reasons': dict(sorted(Counter(r['reason'] for r in records).items())),
+           'skips': records,
+           'scope': 'literal skip lines in one original run only; no separate workflow or proof/G5 coverage is inferred'}
+(root / 'main812-v1-skips.json').write_text(json.dumps(summary, indent=2, sort_keys=True) + '\n')
+print(json.dumps({'count': len(records), 'reason_counts': summary['reasons'], 'scope': summary['scope']}))
