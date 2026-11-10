@@ -1,0 +1,171 @@
+{
+  "python": "3.11.18 (main, Oct 26 2026, 02:48:29) [GCC 15.2.0]",
+  "source_commit": "0e4162c8f0fc9c61d13ed75c3ef91407c22c236d",
+  "blobs": {
+    "tests/test_verify_federation_vector.py": "b536cf8398d03bbe607d56e88ccd111a14c99c2c",
+    "tests/test_verify_federation_vector_mutations.py": "cc8f57010c218859ede6eb8925245b9e3c96420a",
+    "tools/verify_federation_vector.py": "bb7b974ce09481e861baf95fefce85ba5b20d394",
+    "tools/check_workspace.py": "52619edbc3612ae4fadb225639c2c102d6a0facb",
+    "tools/verify_pins.py": "b05916e54c34cffc95601b313bc1c154d99ccbcc",
+    "tools/verify_canonical_inputs.py": "1718c34179afb5c89526b5002bb59b94eb0b945e"
+  },
+  "scope": "instrumented diagnostic copy; no independent scientific claim",
+  "results": [
+    {
+      "mode": "normal",
+      "returncode": 1,
+      "failure": [
+        {
+          "selected_body": false,
+          "message": "ValueError not raised"
+        }
+      ],
+      "frames": [
+        {
+          "name": "_Outcome.testPartExecutor",
+          "lasti": 38,
+          "opname": "YIELD_VALUE",
+          "position": [
+            57,
+            57,
+            12,
+            17
+          ]
+        },
+        {
+          "name": "TestCase.run",
+          "lasti": 826,
+          "opname": "CACHE",
+          "position": [
+            623,
+            623,
+            24,
+            56
+          ]
+        },
+        {
+          "name": "TestCase._callTestMethod",
+          "lasti": 18,
+          "opname": "CACHE",
+          "position": [
+            579,
+            579,
+            11,
+            19
+          ]
+        },
+        {
+          "name": "VectorSources.test_vector_omission_rejected",
+          "lasti": 222,
+          "opname": "CALL",
+          "position": [
+            654,
+            655,
+            8,
+            51
+          ]
+        },
+        {
+          "name": "_AssertRaisesContext.__exit__",
+          "lasti": 290,
+          "opname": "CACHE",
+          "position": [
+            262,
+            262,
+            16,
+            68
+          ]
+        },
+        {
+          "name": "_BaseTestCaseContext._raiseFailure",
+          "lasti": 116,
+          "opname": "RAISE_VARARGS",
+          "position": [
+            199,
+            199,
+            8,
+            50
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "optimized",
+      "returncode": 1,
+      "failure": [
+        {
+          "selected_body": false,
+          "message": "ValueError not raised"
+        }
+      ],
+      "frames": [
+        {
+          "name": "_Outcome.testPartExecutor",
+          "lasti": 38,
+          "opname": "YIELD_VALUE",
+          "position": [
+            57,
+            57,
+            12,
+            17
+          ]
+        },
+        {
+          "name": "TestCase.run",
+          "lasti": 826,
+          "opname": "CACHE",
+          "position": [
+            623,
+            623,
+            24,
+            56
+          ]
+        },
+        {
+          "name": "TestCase._callTestMethod",
+          "lasti": 18,
+          "opname": "CACHE",
+          "position": [
+            579,
+            579,
+            11,
+            19
+          ]
+        },
+        {
+          "name": "VectorSources.test_vector_omission_rejected",
+          "lasti": 222,
+          "opname": "CALL",
+          "position": [
+            654,
+            655,
+            8,
+            51
+          ]
+        },
+        {
+          "name": "_AssertRaisesContext.__exit__",
+          "lasti": 290,
+          "opname": "CACHE",
+          "position": [
+            262,
+            262,
+            16,
+            68
+          ]
+        },
+        {
+          "name": "_BaseTestCaseContext._raiseFailure",
+          "lasti": 116,
+          "opname": "RAISE_VARARGS",
+          "position": [
+            199,
+            199,
+            8,
+            50
+          ]
+        }
+      ]
+    }
+  ]
+}
