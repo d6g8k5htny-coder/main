@@ -1229,3 +1229,40 @@ repair requires fresh43controls and actual live qualification before integration
 trusted runtime/bootstrap is explicit; this is not hostile-host certification.
 Existing dormant history, Q-9002--Q-9005, fullG5 and CBZ remain unawarded.
 Maintenance owner: none; standard library plus existing project validators.
+
+## SDGA Task A compiled-inventory candidate
+
+`tools/sdga/Component.lean` loads exact core-Lean4.34.1 objects, keeps all
+ordered OLean parts and compacted regions, observes actual module ownership,
+private populations and Meta.isProp, and emits the unchanged Task1 JSONL.
+Name identities preserve string/numeric components and UTF-8 bytes. Inventory
+axioms use actual missing-fatal type/value/transitive dependency traversal.
+TaskB policy qualification and TaskC kernel replay remain incomplete; replay
+returns explicit NOT_IMPLEMENTED. Full99-module SDGA execution is later work.
+
+`tools/sdga_component.py` currently contains only two standard-library pure
+functions: strict positional deps-json parsing and fixed-local-graph ordering.
+Rows contain no filename, so native argv/source custody remains necessary.
+Empty pure results do not qualify the fixed nonempty production cohort.
+
+Run the12ordinary pure contracts normally and optimized:
+
+```sh
+python3 -B -S tests/test_sdga_component_protocol.py -v
+python3 -B -O -S tests/test_sdga_component_protocol.py -v
+```
+
+The explicit `tests/sdga_component_contract.py --output <new-external-dir>`
+must run normally and optimized with pinnedLean5045d005. It requires6methods
+and all39named subcases; missing prerequisites fail. A separately labelled
+Python owned-process cleanup preflight earns only resource-cleanup evidence.
+The read-only sdga-component workflow runs both suites and retains originals.
+
+Root observed initial implementation absence before authorizing these sources;
+native compilation and current contract qualification remain pending. Task1
+classification/qualification stayBLOCKED, scientific_effectNONE and declared
+execution_authenticatedfalse. Mathematical roles, kernel replay, completeIR
+coverage and scientific admission remain unresolved. Maintenance owner:none;
+stdlib Python and exact pinned core Lean only. Requalify changed inputs.
+See the Task2 design, plan, test-repair and source-assumptions reports under
+`docs/cbz/` and `docs/superpowers/plans/2026-11-10-sdga-task2-lean-bridge.md`.

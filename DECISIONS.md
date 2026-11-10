@@ -550,3 +550,115 @@ proof, ownership, scientific disposition, gate threshold, fullG5 or CBZ award ch
   conflicted. This composition retains the complete published peer suffix and
   then the complete custody suffix; it requires new source-specific checks and
   an expected-head guard. No proof or scientific status changes.
+
+## 2026-11-10 — SDGA Task 2 Task A approved test-first draft
+
+Root reviewed the immutable design3487f544 and plan9eefcb14 before authorizing
+this Phase A publication. Add only those documents, the core-only Safe fixture,
+Controls, explicit launcher, read-only hosted workflow and source-review repair
+report. Six Python methods declare exactly39 fixed subcases; the launcher is
+outside ordinary offline discovery and missing prerequisites fail without skips.
+No production Component.lean/controller, Task1 assertion, profile/config, proof,
+canonical disposition or existing workflow is changed. Preserve entire current
+Main ad64930c and its merged14-path SDGA/11-path freshness contributions.
+
+Initial hosted execution is pending. Actual bridge absence must remain only
+implementation-absence RED with unexecuted subcases, never a semantic-adverse,
+mutation-kill or native-control pass. The separately labelled Python owned-group
+cleanup preflight, if actually observed, establishes resource cleanup only.
+Retain actual native source/tree/run/attempt, original streams, exits and census;
+toolchain, fixture or setup errors receive no expected-absence credit. Scientific
+effect NONE; classification/qualification BLOCKED; execution_authenticatedfalse.
+No production implementation, production99-module run, merge or ready transition
+is authorized by this draft checkpoint.
+
+## 2026-11-10 — retain Task A setup failure and add fixture lock
+
+Draft797 initial head af74f79c/tree6fe1afa5 ran42740707236/attempt1,
+job129580745960, on native6da7a14c/tree6fe1afa5. Lean-action installed
+release5045d005, then config failed: No lake-manifest.json found. Normal
+launcher was skipped; all normal critical records were NOT_PRODUCED.
+Optimized launcher actually checked5045d005 and compiled Safe with exit0,
+then bridge compilation exited1 for absent Component.lean; controller import
+also reported its missing file. Six methods failed only for implementation
+absence, zero errors/skips; all39 semantic subcases stayed not_run. The separate
+Python cleanup preflight observed timeout, TERM/KILL, leader/descendant reap
+and owned-group absence. It provides resource cleanup evidence only.
+
+Original optimized printed records were read: result2135bytes SHA256
+063220adf3fe1680e1dcd4812fd81ceac493fcb631d85e23d0feb792ff9d4327;
+census251bytes eaed403ed38dd30d890f179a19febd09c6090aa10ebf571cede3d057af2cad68.
+Artifact13728997006 metadata reports30173bytes and ZIP digest
+c9825c3a12adfe834f693fd5440268183e5986a9e694872143968f32f7dc4c6a;
+no ZIP-member read is claimed. Normal/O absence checkpoint remains incomplete.
+
+Root authorizes only fixture/setup repair: add an authored dependency-free
+lake-manifest.json, not fabricated generated or execution evidence. Pinned
+lean-action config.sh e37e9131 requires its existence; pinned Lean5045d005
+Manifest.lean5649993d and Resolve.lean8ec94502 define schema1.2.0, root
+sdga_component_fixture, default Lake/packages directories and empty packages;
+PackageConfig d930f925 defaults fixedToolchainfalse. Native Lake validation,
+githash guard and Safe compilation must actually run in both modes before
+both absence observations receive credit. No test or setup failure is masked.
+Controlsb8ec51fb, launcherd7f72edb, workflow613a7840, Safe814c0f31 and
+all production/Task1/frozen profile bytes stay unchanged. Scientific effect
+NONE; classification/qualification BLOCKED; execution_authenticatedfalse.
+
+## 2026-11-10 — observed Task A absence and pure dependency contract slice
+
+Run42741140198/attempt1/job129582185989 verified pinnedLean5045d005 and the
+unchanged authored lock, compiled Safe in both Python modes, then observed six
+Component-absence method failures per mode, zero errors/skips and39not_run
+semantic subcases. Native587e23fe782a51fd251996a88c485ead9a7319a6 has exact
+headtree92ffce75964538a73ca97d48d092c7f8734869f5. Both separate Python cleanup
+preflights actually proved owned-group TERM/KILL/reap/absence. No inventory,
+classification, adverse rejection or mutation credit follows from absence.
+
+Add12ordinary offline pure dependency methods before the Python component:
+31header+14topology call vectors when bodies execute. Pinned deps-json rows
+contain no filename; payload binding is positional, requiring exact native argv
+and source custody later. Duplicate Init import occurrences remain legitimate.
+The two pure APIs may accept empty inputs; the fixed99-module observation may
+never infer empty success. Actual missing-component failure must be observed
+before their minimal implementation. Existing six/39native contracts stay exact.
+
+## 2026-11-10 — retain malformed pure-test workflow and correct serialization
+
+The first pure-test addition atfb7dbd7652466acecb499d6d7afe179d632acfd4
+produced workflow00a7b4cf with duplicated suffixes: JavaScript replacement-string
+handling interpreted the literal dollar-apostrophe in the OK regex as a suffix
+substitution. Run42742367716/attempt1 failed before creating any jobs. No native
+or pure method ran; no setup or assertion result is inferred from this attempt.
+Rebuild from unchanged original613a7840 using callback replacements, verify the
+original workflow reconstructs byte-exact after removing only the two new steps
+and two log paths, and require actual12-method results in both modes before
+Python implementation. Prior c8 native absence evidence remains source-bound.
+
+## 2026-11-10 — preserve current tag custody in the Task A contract branch
+
+Compose currentMain812a799f4cf4cee730efa0177a9101af4cf259ef and the complete
+feature ancestry. Preserve all peerPR796 tag-custody code/evidence and current
+canonical bytes before appending the exact owned ledger suffix. The corrected
+workflow and every native/pure test/config remain unchanged; production is
+still absent. Conflicted PR metadata at e4 generated no dedicated native/pure
+run. Require actual composed-source12-method pure absence in both modes before
+Python implementation; no historical outcome is rebound.
+
+## 2026-11-10 — observed pure absence and initial Task A implementations
+
+Root independently read run42742966104/attempt1/job129588267695 ataa9d8877:
+12pure methods per mode failed only the absent-Python-file body assertion,
+zero errors/skips; all45authored API calls stayed unexecuted. Native6methods
+per mode remained bridge-absence failures/39not_run, with pinnedLean5045d005,
+Safe compile and separate cleanup controls successful. Testedac0ef848 has
+parents[812a799f,aa9d8877], exacttree880a656e3d7dfd5b64a5df168afc0635a669f943.
+
+After those actual absences, authorize the minimal actual Lean inventory bridge
+and two pure Python dependency functions against every unchanged test/config.
+Root read complete source/contract code; fresh scoped source reviews found no
+remaining concrete blockers. This is source review only: actual compile and
+6native/39subcase plus12pure results per mode are still required. The bridge
+uses actual ownership/type judgments and honest missing-fatal axiom closure;
+TaskB policy controls and TaskC kernel replay remain unqualified, with replay
+explicitlyNOT_IMPLEMENTED. Register candidate scope without awarding any gate.
+Preserve full currentMain812 content/canonical prefixes and feature ancestry.
