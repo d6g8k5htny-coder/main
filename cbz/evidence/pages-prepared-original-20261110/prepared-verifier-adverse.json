@@ -1,0 +1,72 @@
+[
+  {
+    "mode": "normal",
+    "case": "original",
+    "exit": 0,
+    "stdout": "{\"artifact\": {\"bytes\": 93667374, \"files\": 3363, \"sha256\": \"429f8a20f456160225ec0a533e5334d6f7e9915ac41cf3d4884987e07442e24d\"}, \"metadata_artifact\": 13728342519, \"pages_artifact\": 13728153243, \"prepared_head\": \"6e01d1f5f83d320172e29391eea336e3256aeea2\", \"receipt_git_blob\": \"8f30c3b91f0f55a356ab0c05ee4a96f151c7f420\", \"scope\": \"offline original bytes; no public-readback or recovery claim\"}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "normal",
+    "case": "altered receipt",
+    "exit": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 124, in <module>\n    print(json.dumps(main(*sys.argv[1:]), sort_keys=True))\n                     ^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 29, in main\n    require(git_sha == \"8f30c3b91f0f55a356ab0c05ee4a96f151c7f420\",\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 17, in require\n    raise ValueError(reason)\nValueError: prepared receipt Git blob differs\n"
+  },
+  {
+    "mode": "normal",
+    "case": "truncated Pages ZIP",
+    "exit": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 124, in <module>\n    print(json.dumps(main(*sys.argv[1:]), sort_keys=True))\n                     ^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 40, in main\n    require(len(pages_raw) == 36126909 and sha(pages_raw) ==\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 17, in require\n    raise ValueError(reason)\nValueError: original Pages ZIP differs\n"
+  },
+  {
+    "mode": "normal",
+    "case": "truncated metadata ZIP",
+    "exit": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 124, in <module>\n    print(json.dumps(main(*sys.argv[1:]), sort_keys=True))\n                     ^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 43, in main\n    require(len(metadata_raw) == 723214 and sha(metadata_raw) ==\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 17, in require\n    raise ValueError(reason)\nValueError: original metadata ZIP differs\n"
+  },
+  {
+    "mode": "normal",
+    "case": "mutated fingerprint domain",
+    "exit": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"/tmp/cbz-pages-observer-adverse-iub2xo5o/mutant.py\", line 124, in <module>\n    print(json.dumps(main(*sys.argv[1:]), sort_keys=True))\n                     ^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/cbz-pages-observer-adverse-iub2xo5o/mutant.py\", line 111, in main\n    require(result == receipt[\"artifact\"], \"prepared fingerprint differs\")\n  File \"/tmp/cbz-pages-observer-adverse-iub2xo5o/mutant.py\", line 17, in require\n    raise ValueError(reason)\nValueError: prepared fingerprint differs\n"
+  },
+  {
+    "mode": "optimized",
+    "case": "original",
+    "exit": 0,
+    "stdout": "{\"artifact\": {\"bytes\": 93667374, \"files\": 3363, \"sha256\": \"429f8a20f456160225ec0a533e5334d6f7e9915ac41cf3d4884987e07442e24d\"}, \"metadata_artifact\": 13728342519, \"pages_artifact\": 13728153243, \"prepared_head\": \"6e01d1f5f83d320172e29391eea336e3256aeea2\", \"receipt_git_blob\": \"8f30c3b91f0f55a356ab0c05ee4a96f151c7f420\", \"scope\": \"offline original bytes; no public-readback or recovery claim\"}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "optimized",
+    "case": "altered receipt",
+    "exit": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 124, in <module>\n    print(json.dumps(main(*sys.argv[1:]), sort_keys=True))\n                     ^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 29, in main\n    require(git_sha == \"8f30c3b91f0f55a356ab0c05ee4a96f151c7f420\",\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 17, in require\n    raise ValueError(reason)\nValueError: prepared receipt Git blob differs\n"
+  },
+  {
+    "mode": "optimized",
+    "case": "truncated Pages ZIP",
+    "exit": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 124, in <module>\n    print(json.dumps(main(*sys.argv[1:]), sort_keys=True))\n                     ^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 40, in main\n    require(len(pages_raw) == 36126909 and sha(pages_raw) ==\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 17, in require\n    raise ValueError(reason)\nValueError: original Pages ZIP differs\n"
+  },
+  {
+    "mode": "optimized",
+    "case": "truncated metadata ZIP",
+    "exit": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 124, in <module>\n    print(json.dumps(main(*sys.argv[1:]), sort_keys=True))\n                     ^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 43, in main\n    require(len(metadata_raw) == 723214 and sha(metadata_raw) ==\n  File \"/workspace/scratch/7abea556a9be/cbz_pages_original/verify_prepared_artifact.py\", line 17, in require\n    raise ValueError(reason)\nValueError: original metadata ZIP differs\n"
+  },
+  {
+    "mode": "optimized",
+    "case": "mutated fingerprint domain",
+    "exit": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"/tmp/cbz-pages-observer-adverse-iub2xo5o/mutant.py\", line 124, in <module>\n    print(json.dumps(main(*sys.argv[1:]), sort_keys=True))\n                     ^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/cbz-pages-observer-adverse-iub2xo5o/mutant.py\", line 111, in main\n    require(result == receipt[\"artifact\"], \"prepared fingerprint differs\")\n  File \"/tmp/cbz-pages-observer-adverse-iub2xo5o/mutant.py\", line 17, in require\n    raise ValueError(reason)\nValueError: prepared fingerprint differs\n"
+  }
+]

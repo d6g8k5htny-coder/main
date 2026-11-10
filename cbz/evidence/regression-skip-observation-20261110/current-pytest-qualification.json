@@ -1,0 +1,417 @@
+{
+  "cbz_green": false,
+  "identity": {
+    "checked_commit": "9e0c6c5f0b2b0e5f8d70055290c6eef1ebd3d0c7",
+    "checked_tree": "04f3b3a0495a3d2f6ee9e02fd4d02f3cb2ec690c",
+    "parents": [],
+    "repository": "d6g8k5htny-coder/main",
+    "run_attempt": "1",
+    "run_id": "42776503252",
+    "sources": {
+      ".github/workflows/pytest-bytecode-policy.yml": {
+        "bytes": 19209,
+        "git_blob": "4bc4c464578d65286d76686e47e79f3ef99896ed",
+        "sha256": "135ce68737e97b5c4f3baa7a1587280e74745582bce78ab99c56262483d7e8f5"
+      },
+      "conftest.py": {
+        "bytes": 693,
+        "git_blob": "2163cb9213ee8445935d4342530012357cb21b36",
+        "sha256": "9cabbe848d2016f6b25d7245aee79ffff08963fdc915c0bf8a3d30ab51689bcb"
+      },
+      "experiments/reactor_v0/validator.py": {
+        "bytes": 10770,
+        "git_blob": "fb4d8419b638b5619f8d8c6f685a036b5a6b8a61",
+        "sha256": "2d39c1bd844f49d43aa380443fa384f8e3a0aeb9df6173a3fcf9eeaeb150bef3"
+      },
+      "tests/pytest-bytecode-dependencies.json": {
+        "bytes": 3787,
+        "git_blob": "004f2ec44cce022457555b2a29e502f4b4a606f2",
+        "sha256": "72e6a2f5312aa425d0408c9f4bf9f13333bd9ae4491dfa27d3b103ac4b059e5a"
+      },
+      "tests/pytest-bytecode-requirements.txt": {
+        "bytes": 842,
+        "git_blob": "a92172337814f1d6e0d3d302846a2dad0498464b",
+        "sha256": "0c691f061d6a4c3cfcb1c7b702ec7a4572685524e03de5a615d45bf226d60c7f"
+      },
+      "tests/test_pytest_bytecode_policy.py": {
+        "bytes": 13539,
+        "git_blob": "42252c0a1871189948e0d240151619b04f53e001",
+        "sha256": "025e631470545010a9bb33e92a1e5f84c5313aa62c7c0e1ac71d980e595c3295"
+      },
+      "tools/hypergraph/requirements.txt": {
+        "bytes": 114,
+        "git_blob": "2f5732e68f66aca0c0286e2f0ef2f936dcdd00a2",
+        "sha256": "346f933759899c53e91134ecb154b36331079f220a49b708c4fdb5ef83eb5080"
+      }
+    }
+  },
+  "qualified": true,
+  "results": [
+    {
+      "body_ids": [
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_changed_byte_is_not_hidden",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_clean_root_run_prevents_package_bytecode",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_dirty_bytecode_is_preserved_and_rejected",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_discovery_keeps_neighbours_and_same_basename",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_empty_cache_directory_is_accepted",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_exclusion_is_exact",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_explicit_B_baseline_works",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_extra_file_is_not_hidden",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_missing_file_is_not_hidden",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_neighbour_failures_are_not_suppressed"
+      ],
+      "child_receipts": [
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-B",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "normal-children/test_changed_byte_is_not_hidden/run-01/receipt.json",
+          "returncode": 1,
+          "sha256": "6178ea38a78b5b041842a4fdfb8d9fb399465ec76995dd582612d376671a0d0d"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "normal-children/test_clean_root_run_prevents_package_bytecode/run-01/receipt.json",
+          "returncode": 0,
+          "sha256": "238fb7a54e65ef44baeed079a28fdc1cd19c6bfb690dd144f355954cb1cf6378"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "normal-children/test_dirty_bytecode_is_preserved_and_rejected/run-01/receipt.json",
+          "returncode": 1,
+          "sha256": "af7be34e88029f75a1570986f1921860f49f42d1ba44f40cecb090f0f6727b24"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-B",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "normal-children/test_dirty_bytecode_is_preserved_and_rejected/run-02/receipt.json",
+          "returncode": 1,
+          "sha256": "40fe092f4dfcf3f332e13f537181a117cbf49d397d620464527b01b6e6eb945b"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no",
+            "--collect-only"
+          ],
+          "file": "normal-children/test_discovery_keeps_neighbours_and_same_basename/run-01/receipt.json",
+          "returncode": 0,
+          "sha256": "702db64790816c8ee88056ba025ebd683ff833a8b76d9e126bfaef738b8b5b2f"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "normal-children/test_empty_cache_directory_is_accepted/run-01/receipt.json",
+          "returncode": 0,
+          "sha256": "1a5b0bfb84409fdd63b9e7948f3dce3679c04e8944e464804555c452925408c0"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-B",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "normal-children/test_explicit_B_baseline_works/run-01/receipt.json",
+          "returncode": 0,
+          "sha256": "5d7ba21a47c5672c95f6f8c941dc5d7577a345b9cf060a54705c6e1f33060927"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-B",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "normal-children/test_extra_file_is_not_hidden/run-01/receipt.json",
+          "returncode": 1,
+          "sha256": "1cea8978d87c7f4766e6e03517daea490b7e749a7d2742bf0df12b9bfbcd7c2e"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-B",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "normal-children/test_missing_file_is_not_hidden/run-01/receipt.json",
+          "returncode": 1,
+          "sha256": "667feb33d3c67a7b250cb5ba598862c15bd8fbccc7d79c67c9e1abce9c3ae759"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "normal-children/test_neighbour_failures_are_not_suppressed/run-01/receipt.json",
+          "returncode": 1,
+          "sha256": "3dc870f8133724224e099cdecc66c544cef9187a92d62ff60db681962acfd4a7"
+        }
+      ],
+      "exit_code": 0,
+      "log_sha256": "ff83b9738515087488ae05bd82c3b5a1a40c516125cb14943ac43da2527ada54",
+      "mode": "normal",
+      "qualified": true
+    },
+    {
+      "body_ids": [
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_changed_byte_is_not_hidden",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_clean_root_run_prevents_package_bytecode",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_dirty_bytecode_is_preserved_and_rejected",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_discovery_keeps_neighbours_and_same_basename",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_empty_cache_directory_is_accepted",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_exclusion_is_exact",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_explicit_B_baseline_works",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_extra_file_is_not_hidden",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_missing_file_is_not_hidden",
+        "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_neighbour_failures_are_not_suppressed"
+      ],
+      "child_receipts": [
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-O",
+            "-B",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "optimized-children/test_changed_byte_is_not_hidden/run-01/receipt.json",
+          "returncode": 1,
+          "sha256": "569381f360597eb659f9e7f456fe8129764ab6b69437a6b2c945f0c90128876e"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-O",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "optimized-children/test_clean_root_run_prevents_package_bytecode/run-01/receipt.json",
+          "returncode": 0,
+          "sha256": "325daf9d4902498cb2e5430cdef22e193f22bda26386c9aeb6dc457c7b040d70"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-O",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "optimized-children/test_dirty_bytecode_is_preserved_and_rejected/run-01/receipt.json",
+          "returncode": 1,
+          "sha256": "ee40913605ab8ebcb04f7b30b99c3a716c0e41de948b423394e5f90681e0f370"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-O",
+            "-B",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "optimized-children/test_dirty_bytecode_is_preserved_and_rejected/run-02/receipt.json",
+          "returncode": 1,
+          "sha256": "61d0f1b4966e2decc3ae293d0429293b3929483c4fc44ffb1cdaa2b909317c13"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-O",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no",
+            "--collect-only"
+          ],
+          "file": "optimized-children/test_discovery_keeps_neighbours_and_same_basename/run-01/receipt.json",
+          "returncode": 0,
+          "sha256": "cb7e511b062c5490d08e10883181e0fca405758c438c5a3bc365a0ee9f992aa9"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-O",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "optimized-children/test_empty_cache_directory_is_accepted/run-01/receipt.json",
+          "returncode": 0,
+          "sha256": "b777dfa7e6d3aa9c56bf6fcb0ccd6eafb893198b2ecd7d1b5aed07dd27cf38f4"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-O",
+            "-B",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "optimized-children/test_explicit_B_baseline_works/run-01/receipt.json",
+          "returncode": 0,
+          "sha256": "b5eb2dc051dcf7bbd9573accf5f304abfbefd98f3f05f9612e2efc994d7b0d57"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-O",
+            "-B",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "optimized-children/test_extra_file_is_not_hidden/run-01/receipt.json",
+          "returncode": 1,
+          "sha256": "32d864252c6b9576006bb5c3b03b97789ac2b6b3e83011a9d3b16d5af01f541f"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-O",
+            "-B",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "optimized-children/test_missing_file_is_not_hidden/run-01/receipt.json",
+          "returncode": 1,
+          "sha256": "101eb87bdfabab13facea3040f68722f71782014835e2aa1e7e8d3203d50c16f"
+        },
+        {
+          "command": [
+            "/home/runner/work/_temp/pytest-policy-venv-42776503252-1/bin/python",
+            "-I",
+            "-O",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--color=no"
+          ],
+          "file": "optimized-children/test_neighbour_failures_are_not_suppressed/run-01/receipt.json",
+          "returncode": 1,
+          "sha256": "b3f445af1ba559d70410d0056a3fa3921b34525471dc31111e21cc96bc94a987"
+        }
+      ],
+      "exit_code": 0,
+      "log_sha256": "94e333bf6e09ee777feeb518c4a24272d63108215c183c60199749f18f248eb9",
+      "mode": "optimized",
+      "qualified": true
+    }
+  ],
+  "schema": "cbz.pytest-policy.hosted.v1",
+  "scientific_effect": "NONE",
+  "scope": "PYTEST_BYTECODE_POLICY_TEN_METHODS_ONLY",
+  "source_and_runtime_unchanged": true
+}

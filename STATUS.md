@@ -1,5 +1,34 @@
 # CBZ-0 execution status
 
+## Correction: G11 findings are not the failing list — 10 November 2026
+
+The earlier descriptions below saying that the G11 censuses on `709975c6ff42f0bca020abd4164a45479e29a0df`, `ccb98a32b83b3dc82197ec52efd64ff44f622865` and `d51700eb5466158206c3431f6b99c4db036fdc95` had no reported findings were inaccurate. Both original reports for each of those commits contain **132 classified entries in `findings`**; their separate `failing`, `failing_tools` and `skipped` lists are empty. The separately verified reports on `d72365a1701a05d0e6abb990fc38d6e4407fe763` and the earlier #811 head `9e0c6c5f0b2b0e5f8d70055290c6eef1ebd3d0c7` have the same counts. These entries are scanner observations, not a count of established violations. [Original-report field comparison](cbz/evidence/g11-python-subprocess-options-20261110/g11-findings-correction.json).
+
+At the earlier #811 head `9e0c6c5f0b2b0e5f8d70055290c6eef1ebd3d0c7`, the bounded census scanned 1,516 files and 6,157 tracked leaves in both modes; the empty failing and skipped lists did not make the findings list empty. A separate hosted run executed ten selected pytest bytecode-policy cases in each mode, without skips, against that same commit and tree; its original artifact, 20 child receipts and source identities were independently checked. [Census](cbz/evidence/g11-python-subprocess-options-20261110/main811-g11-census-verification.json); [pytest](cbz/evidence/regression-skip-observation-20261110/current-pytest-verification.json). These observations belong to the earlier head; any later tree requires its own current-source checks. Neither selected run removes the 23 skips recorded in normal discovery or constitutes the final G0–G11 pass.
+
+
+## Integrated observations and remaining gates — 10 November 2026
+
+As observed through 07:30 UTC, Main #810 merged as `d1819f0aa4d914c770687606ccd9f131e6b7634f`, tree `079d00619890da57b438b223b6be42732b044998`. The post-merge G11 component run `42773535888` recorded the original 328 mutation cases per mode plus the origin and format campaigns; 714 individual mutation records across both modes were checked against the retained results. This is bounded component evidence, not a current whole-federation G11 or Layer A audit. [Component observation](cbz/evidence/g11-python-subprocess-options-20261110/main810-postmerge-g11.json) and [verification](cbz/evidence/g11-python-subprocess-options-20261110/main810-postmerge-g11-verification.json).
+
+Main post-merge navigation run `42773535968` ran 2,774 normal discovery tests with **23 skips**; it does not satisfy the no-skip full regression gate. A separate post-merge hosted run `42773536237` ran the two selected browser controls in both Python modes without skips against Main `d1819f0`; that does not erase the discovery skips. The local execution attempts of those same controls failed because Chromium could not open a required socket; those failures are retained. Ten pytest controls passed in both modes on an earlier source tree, and are not rebound to the current Main. [Navigation](cbz/evidence/g11-python-subprocess-options-20261110/main810-postmerge-navigation.json), [hosted browser](cbz/evidence/regression-skip-observation-20261110/post-browser-verification.json), [local failures](cbz/evidence/regression-skip-observation-20261110/local-observation.json), and [historical pytest](cbz/evidence/regression-skip-observation-20261110/pytest-historical-verification.json).
+
+Workspace #75 merged as `31b9b90785be2a5dac9cda5d36bcc941348f001f`, with Main pinned to `d1819f0`; its post-merge pin and contract jobs passed. The eight repository ref observations were sequential, not atomic. A later Main advance, including integration of this observation, requires a fresh Workspace pin update and fresh pin checks. [Workspace observations](cbz/evidence/integration-guards-20261110/workspace-75-postmerge.json).
+
+Main post-merge site run `42773535970` failed at prepared-publication public readback; deployment was skipped and the prepared receipt was retained. A separate non-atomic receipt-ref read at 07:28 UTC returned `6e01d1f5f83d320172e29391eea336e3256aeea2`; an earlier deployment read returned an empty status, which does not establish cancellation or authorize recovery. [Actual build log](cbz/evidence/pages-prepared-current-20261110/main810-postmerge-build.log) and [observation](cbz/evidence/pages-prepared-current-20261110/main810-postmerge-site.json).
+
+The exact prepared Pages artifacts were independently checked offline against the receipt: 3,363 files, 93,667,374 file bytes and fingerprint `429f8a20f456160225ec0a533e5334d6f7e9915ac41cf3d4884987e07442e24d`; control bytes matched. [Observer and outputs](cbz/evidence/pages-prepared-original-20261110/README.md). With the two original ZIPs (`13728153243.zip` and `13728342519.zip`), `prepared-receipt-original.json`, `verify_prepared_artifact.py` and `check_prepared_verifier.py` copied into an isolated directory named by `CBZ_PAGES_STAGE`, run:
+
+```sh
+(cd "$CBZ_PAGES_STAGE" && python3 -B -S verify_prepared_artifact.py prepared-receipt-original.json 13728153243.zip 13728342519.zip)
+(cd "$CBZ_PAGES_STAGE" && python3 -B -S check_prepared_verifier.py)
+```
+
+The originals are preserved in the separately owned contribution evidence archive; the repository contains the receipt, scripts and recorded outputs. This is an exact-input offline observer, not public readback, a deployment check, a full G0 auditor or the final gate pass. The observer passed on the retained originals and its driver rejected an altered receipt, truncated Pages ZIP, truncated metadata ZIP and changed fingerprint domain in each Python mode.
+
+Main #808 and #809 were open drafts at the observed cut; their unfinished test-first work does not establish the missing helper, SDGA qualification, execution authentication or scientific acceptance. The final simultaneous G0–G11 pass and STATUS-only cold-start qualification have not been observed. CBZ-0 remains open.
+
+
 ## Main #807 composition and current observations — 10 November 2026
 
 Main #807 merged as `cff23146a56949e03cad4b15bdc4f07feba665ae`, tree `a39aa5a8064aa884446d3fe3884113c6111a60bd`, after the prior G11 candidate. It integrates guarded SDGA fixture replay tooling; its qualification and classification remain BLOCKED, execution authentication remains false, and no Task D, whole-kernel or scientific acceptance follows. The complete peer tree and its decision-ledger prefix are preserved in this composition.

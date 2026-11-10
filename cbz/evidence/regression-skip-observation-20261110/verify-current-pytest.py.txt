@@ -1,0 +1,95 @@
+import hashlib
+import json
+import pathlib
+import re
+import zipfile
+
+archive = pathlib.Path(__file__).with_name('current-pytest-policy-13743773207.zip')
+expected_digest = 'ddfca735d4c0b0d102dea88bcb6d3c05dd77baa8fe47ae75a4c251b225e9424a'
+expected_commit = '9e0c6c5f0b2b0e5f8d70055290c6eef1ebd3d0c7'
+expected_tree = '04f3b3a0495a3d2f6ee9e02fd4d02f3cb2ec690c'
+expected_sources = {
+    '.github/workflows/pytest-bytecode-policy.yml': '4bc4c464578d65286d76686e47e79f3ef99896ed',
+    'conftest.py': '2163cb9213ee8445935d4342530012357cb21b36',
+    'experiments/reactor_v0/validator.py': 'fb4d8419b638b5619f8d8c6f685a036b5a6b8a61',
+    'tests/pytest-bytecode-dependencies.json': '004f2ec44cce022457555b2a29e502f4b4a606f2',
+    'tests/pytest-bytecode-requirements.txt': 'a92172337814f1d6e0d3d302846a2dad0498464b',
+    'tests/test_pytest_bytecode_policy.py': '42252c0a1871189948e0d240151619b04f53e001',
+    'tools/hypergraph/requirements.txt': '2f5732e68f66aca0c0286e2f0ef2f936dcdd00a2',
+}
+names = {
+    'test_changed_byte_is_not_hidden',
+    'test_clean_root_run_prevents_package_bytecode',
+    'test_dirty_bytecode_is_preserved_and_rejected',
+    'test_discovery_keeps_neighbours_and_same_basename',
+    'test_empty_cache_directory_is_accepted',
+    'test_exclusion_is_exact',
+    'test_explicit_B_baseline_works',
+    'test_extra_file_is_not_hidden',
+    'test_missing_file_is_not_hidden',
+    'test_neighbour_failures_are_not_suppressed',
+}
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+raw = archive.read_bytes()
+require(len(raw) == 2107741 and sha(raw) == expected_digest, 'original archive identity')
+with zipfile.ZipFile(archive) as z:
+    members = z.namelist()
+    require(len(members) == len(set(members)) == 328 and z.testzip() is None, 'archive entries/CRC')
+    before = json.loads(z.read('before.json'))
+    after = json.loads(z.read('after.json'))
+    initial = json.loads(z.read('source-before-preparation.json'))
+    record = json.loads(z.read('qualification.json'))
+    require(before == after and before['native'] == initial, 'source or runtime drift')
+    require(record['identity'] == initial, 'qualification source differs')
+    require(initial['checked_commit'] == expected_commit and initial['checked_tree'] == expected_tree,
+            'source identity')
+    require(initial['run_id'] == '42776503252' and initial['run_attempt'] == '1', 'run identity')
+    require({p: v['git_blob'] for p, v in initial['sources'].items()} == expected_sources,
+            'native source blob identities')
+    require(record['qualified'] is True and record['cbz_green'] is False
+            and record['source_and_runtime_unchanged'] is True, 'qualification scope')
+    counts = {}
+    for result in record['results']:
+        mode = result['mode']
+        require(mode in ('normal', 'optimized') and mode not in counts, 'mode identity')
+        log = z.read(mode + '.log')
+        require(z.read(mode + '.exit').strip() == b'0' and result['exit_code'] == 0,
+                'mode exit')
+        require(sha(log) == result['log_sha256'] and re.search(rb'Ran 10 tests in ', log)
+                and re.search(rb'\nOK\s*$', log) and b'skipped=' not in log, 'mode log')
+        ids = result['body_ids']
+        require(len(ids) == len(set(ids)) == 10
+                and {i.rsplit('.', 1)[-1] for i in ids} == names, 'body identities')
+        for name in names:
+            require((name + ' (tests.test_pytest_bytecode_policy.').encode() in log,
+                    'body missing from original log: ' + name)
+        receipts = result['child_receipts']
+        for child in receipts:
+            receipt_raw = z.read(child['file'])
+            require(sha(receipt_raw) == child['sha256'], 'child receipt hash')
+            receipt = json.loads(receipt_raw)
+            require(receipt['returncode'] == child['returncode']
+                    and receipt['command'] == child['command'], 'child metadata')
+            base = child['file'].rsplit('/', 1)[0] + '/'
+            require(sha(z.read(base + 'stdout.bin')) == receipt['stdout_sha256']
+                    and sha(z.read(base + 'stderr.bin')) == receipt['stderr_sha256'],
+                    'child output hash')
+        counts[mode] = {'bodies': len(ids), 'child_receipts': len(receipts)}
+    require(set(counts) == {'normal', 'optimized'}, 'missing mode')
+result = {'artifact': 13743773207, 'sha256': expected_digest, 'bytes': len(raw),
+          'members': 328, 'crc': 'valid', 'source_commit': expected_commit,
+          'source_tree': expected_tree, 'source_blobs': len(expected_sources),
+          'modes': counts, 'limits': 'selected ten methods only; no final G5'}
+path = archive.with_name('current-pytest-verification.json')
+path.write_text(json.dumps(result, indent=2) + '\n')
+print(json.dumps(result))

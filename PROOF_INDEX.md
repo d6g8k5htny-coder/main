@@ -1,5 +1,10 @@
 # CBZ proof and quarantine index
 
+## Current tooling evidence and proof boundary — 10 November 2026
+
+The Main #810 and Workspace #75 integrations and the prepared Pages offline observation are tooling and custody evidence. They do not close, refute or rebind any mathematical statement, convert finite fixtures into continuum proofs, or establish scientific review or acceptance. Existing exact proof and quarantine boundaries below remain in force. The final federation proof and Layer A inventories have not been established by these component results.
+
+
 ## Main #807 tooling boundary
 
 The SDGA fixture replay integration and G11 recomposition do not close, refute or rebind mathematical proof statements or establish scientific acceptance. Qualification and classification remain BLOCKED.
