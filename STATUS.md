@@ -4,8 +4,9 @@
 
 Main #798 merged as `31bc4c1f5b66e92bfbf327366956944ea691289c` with the
 tested tree. Workspace #68's Main pin `812a799f` became stale; Workspace #69
-proposes the separately checked refresh to `31bc4c1f`. These observations are
-time-stamped and remote tips must be checked again before integration.
+merged as `d8d8b16af35b3f6d3d4b454ce98e26d7c3b81ab0`, refreshing it to
+`31bc4c1f`. The Workspace merge tree matched its tested tree. These observations
+are time-stamped and remote tips must be checked again before integration.
 
 The Main `6d928a32` site run `42737966287` failed in both deployment attempts
 after the deploy action timed out while reporting `syncing_files`; public
@@ -21,14 +22,17 @@ The bounded recovery tool below can append a new prepared/observed pair for
 the preceding candidate only after it independently verifies the live
 prepared/previous heads, failed run, authenticated `deployment_cancelled`
 status, retained snapshot IDs, current Main source and matching public bytes.
-It repeats the live checks between its two non-force appends and keeps the
-failed prepared receipt as an ancestor. It records the actual recovery run as
+It repeats the live checks between two appends and uses an atomic expected-head,
+non-force ref update for each. It keeps the failed prepared receipt as an
+ancestor and records the actual recovery run as
 observer; it does not claim the failed candidate deployed. A refused or partial
 recovery is not evidence of success; inspect the actual ref if write readback
 fails because the remote write may already have taken effect. The normal publisher
 and recovery dispatch share a workflow concurrency group, but external actors
 and public reads are not atomic. Platform denial or an unavailable status is
-not bypassed. The source-bound local checks below ran in both modes; hosted
+not bypassed. The existing normal publisher's REST non-force ref update does
+not provide the same atomic expected-head guarantee; its correction remains
+open. The source-bound local checks below ran in both modes; hosted
 checks and an actual recovery must be observed separately.
 
 From Main, run the focused tests and designated mutation campaign:
@@ -42,9 +46,12 @@ python3 -B -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_NORMAL"
 python3 -B -O -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_OPTIMIZED"
 ```
 
-The local run recorded 28 tests without skips and 28 specified mutations in
-each mode, plus three rejected subject/helper/lifecycle assertion origins per
-mode. These are bounded synchronous-unittest controls, not all of G0. After
+The initial 28-test and 28-mutation local campaign did not detect a ref rollback
+between read and write; that adverse test failed against the initial helper.
+After correction the local run recorded 34 tests without skips and 37 specified
+mutations in each mode, plus three rejected subject/helper/lifecycle assertion
+origins per mode. Earlier failed mutation campaigns remain recorded. These are
+bounded synchronous-unittest controls, not all of G0. After
 the workflow is integrated, dispatch it only using freshly checked receipt
 heads; the observed heads above are guards, not permanent values:
 

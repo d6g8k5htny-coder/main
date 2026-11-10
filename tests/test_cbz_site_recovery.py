@@ -3,6 +3,7 @@ import copy
 import importlib.util
 import inspect
 import io
+import json
 from pathlib import Path
 import sys
 import unittest
@@ -83,6 +84,23 @@ class Opener:
         return Response(self.url or request.full_url, self.body, self.status)
 
 
+class FixtureRefAdvance:
+    """Synthetic atomic compare-and-swap, backed by the Git object fixture."""
+    def __init__(self, api):
+        self.api = api
+        self.calls = []
+        self.rollback_head = None
+
+    def advance(self, before, after):
+        self.calls.append((before, after))
+        if self.rollback_head is not None:
+            self.api.head = self.rollback_head
+        if self.api.head != before:
+            raise ValueError('atomic receipt head changed')
+        return self.api.request('PATCH', self.api.module.REF_WRITE,
+                                {'sha': after, 'force': False})
+
+
 class SiteRecoveryTests(unittest.TestCase):
     def setUp(self):
         self.assertTrue(TOOL.is_file(), 'site recovery helper has not been implemented')
@@ -104,13 +122,14 @@ class SiteRecoveryTests(unittest.TestCase):
         self.platform = Platform()
         self.context = dict(f.context, commit='c' * 40, run_id=99)
         self.reader = fixtures.PublicReader(f.raw)
+        self.ref_advance = FixtureRefAdvance(f.api)
         self.before_calls = len(f.api.calls)
 
     def recover(self, **overrides):
         kwargs = {'api': self.fixture.api, 'platform': self.platform, 'reader': self.reader,
                   'context': self.context, 'expected_failed_head': self.failed['head'],
                   'expected_previous_head': self.prior['head'], 'now': '2026-10-13T15:03:00Z',
-                  'attempts': 1}
+                  'attempts': 1, 'ref_advance': self.ref_advance}
         kwargs.update(overrides)
         return self.tool.recover_cancelled(**kwargs)
 
@@ -225,6 +244,101 @@ class SiteRecoveryTests(unittest.TestCase):
         patches = [body for method, _, body in self.fixture.api.calls[self.before_calls:] if method == 'PATCH']
         self.assertEqual(len(patches), 1)
         self.assertIs(patches[0]['force'], False)
+
+    def test_ref_rollback_after_guard_does_not_accept_fast_forward(self):
+        api, module = self.fixture.api, self.fixture.module
+        original = api.request
+        rolled_back = self.prior['head']
+
+        def racing_request(method, path, body=None):
+            if method == 'PATCH' and path == module.REF_WRITE:
+                # Model an external rollback after the guard. The new commit
+                # is a descendant of this old head, so non-force REST accepts.
+                cursor = body['sha']
+                for _ in range(8):
+                    if cursor == rolled_back:
+                        break
+                    parents = api.objects[cursor]['parents']
+                    if len(parents) != 1:
+                        raise RuntimeError('fixture is not a single-parent chain')
+                    cursor = parents[0]['sha']
+                else:
+                    raise RuntimeError('fixture does not descend from rollback head')
+                api.head = rolled_back
+                api.calls.append((method, path, copy.deepcopy(body)))
+                api.head = body['sha']
+                return {'ref': module.REF_NAME,
+                        'object': {'sha': api.head, 'type': 'commit'}}
+            return original(method, path, body)
+
+        api.request = racing_request
+        self.ref_advance.rollback_head = rolled_back
+        reason, head, _ = self.refusal_observation()
+        self.assertEqual(reason, 'atomic receipt head changed')
+        self.assertEqual(head, rolled_back)
+
+    def test_atomic_ref_request_binds_expected_head_and_nonforce(self):
+        opener = Opener(fixtures.encoded({'data': {'updateRefs': {'clientMutationId': 'cbz-site-recovery'}}}))
+        advance = self.tool.AtomicRefAdvance(token='synthetic-token', opener=opener)
+        advance.advance('a' * 40, 'b' * 40)
+        self.assertEqual(len(opener.requests), 1)
+        request, timeout = opener.requests[0]
+        self.assertEqual(request.get_method(), 'POST')
+        self.assertEqual(request.full_url, 'https://api.github.com/graphql')
+        self.assertEqual(timeout, 20)
+        payload = json.loads(request.data)
+        self.assertEqual(payload['variables']['input']['repositoryId'], 'R_kgDOQpeC2g')
+        self.assertEqual(payload['variables']['input']['refUpdates'], [{
+            'name': self.fixture.module.REF_NAME, 'beforeOid': 'a' * 40,
+            'afterOid': 'b' * 40, 'force': False}])
+
+    def test_success_uses_new_expected_head_for_each_append(self):
+        api = self.fixture.api
+        calls = []
+
+        class RecordingAdvance:
+            def advance(self, before, after):
+                calls.append((before, after))
+                return api.request('PATCH', api.module.REF_WRITE, {'sha': after, 'force': False})
+
+        result = self.recover(ref_advance=RecordingAdvance())
+        prepared = result['receipt']['previous_receipt_commit']
+        self.assertEqual(calls, [(self.failed['head'], prepared), (prepared, result['head'])])
+
+    def test_atomic_ref_request_rejects_errors_and_identity_mismatch(self):
+        valid = fixtures.encoded({'data': {'updateRefs': {'clientMutationId': 'cbz-site-recovery'}}})
+        responses = ((Opener(fixtures.encoded({'errors': [{'message': 'ref changed'}],
+                                               'data': {'updateRefs': {'clientMutationId': 'cbz-site-recovery'}}})),
+                      'ref update refused or unknown'),
+                     (Opener(fixtures.encoded({'data': {'updateRefs': {'clientMutationId': 'wrong'}}})),
+                      'ref update refused or unknown'),
+                     (Opener(valid, url='https://example.invalid/'), 'response identity mismatch'),
+                     (Opener(valid, status=201), 'response identity mismatch'),
+                     (Opener(b' ' * (self.fixture.module.MAX_RECEIPT_BYTES + 1)), 'response too large'))
+        for opener, reason in responses:
+            with self.subTest(opener=opener):
+                with self.assertRaisesRegex(ValueError, reason):
+                    self.tool.AtomicRefAdvance(token='synthetic-token', opener=opener).advance('a' * 40, 'b' * 40)
+
+    def test_ref_adapter_rejects_forced_or_unrelated_update(self):
+        wrapped = self.tool.GuardedRefAPI(self.fixture.api, self.ref_advance, self.failed['head'])
+        for path, body in ((self.fixture.module.REF_WRITE, {'sha': 'a' * 40, 'force': True}),
+                           (self.fixture.module.REF_WRITE, {'sha': 'a' * 40, 'force': False, 'extra': 1}),
+                           ('/git/refs/heads/other', {'sha': 'a' * 40, 'force': False})):
+            with self.subTest(path=path, body=body):
+                with self.assertRaises(ValueError):
+                    wrapped.request('PATCH', path, body)
+        self.assertEqual(self.ref_advance.calls, [])
+
+    def test_atomic_ref_request_rejects_invalid_heads_before_network(self):
+        opener = Opener(b'{}')
+        advance = self.tool.AtomicRefAdvance(token='synthetic-token', opener=opener)
+        for before, after in (('a' * 40, 'a' * 40), ('0' * 40, 'b' * 40),
+                              ('a' * 40, '0' * 40), ('bad', 'b' * 40)):
+            with self.subTest(before=before, after=after):
+                with self.assertRaises(ValueError):
+                    advance.advance(before, after)
+        self.assertEqual(opener.requests, [])
 
     def test_read_only_platform_routes_reject_unrelated_paths(self):
         platform = self.tool.PlatformRead(token='synthetic-token', opener=Opener(b'{}'))

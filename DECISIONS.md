@@ -587,3 +587,16 @@ proof, ownership, scientific disposition, gate threshold, fullG5 or CBZ award ch
   adjudicate proofs, delete historical work, or establish a final gate. The
   receipt append, if its live guards all pass, is an externally visible action
   and its actual result and predecessor must be retained.
+
+## 2026-11-10 — Require atomic receipt heads for recovery
+
+- A real adverse test exposed that a non-force REST ref update could accept a
+  descendant after an intervening rollback to an ancestor. Retain that failing
+  test and the initial mutation campaign. For recovery only, replace the ref
+  update with GitHub's atomic `updateRefs` using the exact `beforeOid`, the
+  intended new object, the fixed receipt ref, and `force: false`. Unknown
+  responses remain failures whose actual ref state must be read back. The
+  authenticated endpoint and actual recovery still require hosted execution.
+- The normal publisher's separate REST ref write remains an open follow-up;
+  do not infer its atomic expected-head safety from the recovery controls.
+  The correction changes no mathematical or scientific status.

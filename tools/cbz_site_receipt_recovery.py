@@ -16,6 +16,59 @@ import urllib.request
 import current_site_publication as publication
 
 
+class AtomicRefAdvance:
+    """One fixed, non-force GitHub ref update with an exact old object ID."""
+    ORIGIN = 'https://api.github.com/graphql'
+    REPOSITORY_ID = 'R_kgDOQpeC2g'
+    CLIENT_ID = 'cbz-site-recovery'
+    QUERY = 'mutation($input:UpdateRefsInput!){updateRefs(input:$input){clientMutationId}}'
+
+    def __init__(self, token=None, opener=None):
+        self.token = os.environ.get('GITHUB_TOKEN') if token is None else token
+        if not isinstance(self.token, str) or not self.token:
+            raise ValueError('GitHub token required for atomic receipt update')
+        self.opener = opener if opener is not None else urllib.request.build_opener(publication.NoRedirect())
+
+    def advance(self, before, after):
+        publication.hex_value(before, publication.HEX40, 'expected receipt head')
+        publication.hex_value(after, publication.HEX40, 'new receipt head')
+        if before == after or before == '0' * 40 or after == '0' * 40:
+            raise ValueError('invalid receipt ref transition')
+        payload = {'query': self.QUERY, 'variables': {'input': {
+            'repositoryId': self.REPOSITORY_ID, 'clientMutationId': self.CLIENT_ID,
+            'refUpdates': [{'name': publication.REF_NAME, 'beforeOid': before,
+                            'afterOid': after, 'force': False}]}}}
+        request = urllib.request.Request(self.ORIGIN, data=publication.encode(payload), method='POST', headers={
+            'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json',
+            'User-Agent': 'cbz-site-receipt-recovery', 'Authorization': 'Bearer ' + self.token})
+        with self.opener.open(request, timeout=20) as response:
+            if response.geturl() != self.ORIGIN or response.status != 200:
+                raise ValueError('atomic receipt response identity mismatch')
+            raw = response.read(publication.MAX_RECEIPT_BYTES + 1)
+        if len(raw) > publication.MAX_RECEIPT_BYTES:
+            raise ValueError('atomic receipt response too large')
+        obj = publication.parse_json(raw)
+        if (not isinstance(obj, dict) or 'errors' in obj or not isinstance(obj.get('data'), dict)
+                or not isinstance(obj['data'].get('updateRefs'), dict)
+                or obj['data']['updateRefs'].get('clientMutationId') != self.CLIENT_ID):
+            raise ValueError('atomic receipt ref update refused or unknown')
+
+
+class GuardedRefAPI:
+    """Retain the existing object checks but replace its ref PATCH with CAS."""
+    def __init__(self, api, ref_advance, expected):
+        self.api, self.ref_advance, self.expected = api, ref_advance, expected
+
+    def request(self, method, path, body=None):
+        if method == 'PATCH':
+            if (path != publication.REF_WRITE or not isinstance(body, dict)
+                    or set(body) != {'sha', 'force'} or body['force'] is not False):
+                raise ValueError('unexpected or forced receipt ref update')
+            self.ref_advance.advance(self.expected, body['sha'])
+            return {'ref': publication.REF_NAME, 'object': {'sha': body['sha'], 'type': 'commit'}}
+        return self.api.request(method, path, body)
+
+
 class PlatformRead:
     """Three bounded read-only GitHub routes; all writes use the existing guard."""
     def __init__(self, token=None, opener=None):
@@ -96,12 +149,14 @@ def public_evidence(raw):
 
 
 def recover_cancelled(*, expected_failed_head, expected_previous_head, context,
-                      api=None, platform=None, reader=None, now=None, attempts=2, on_event=None):
+                      api=None, platform=None, reader=None, now=None, attempts=2, on_event=None,
+                      ref_advance=None):
     check_context(context)
     publication.hex_value(expected_failed_head, publication.HEX40, 'expected failed head')
     publication.hex_value(expected_previous_head, publication.HEX40, 'expected previous head')
     api = api if api is not None else publication.GitHubAPI()
     platform = platform if platform is not None else PlatformRead()
+    ref_advance = ref_advance if ref_advance is not None else AtomicRefAdvance()
     emit = on_event if on_event is not None else lambda event: None
     failed = publication.read_anchor(api)
     if (failed['head'] != expected_failed_head or failed['receipt']['phase'] != 'prepared'
@@ -132,7 +187,7 @@ def recover_cancelled(*, expected_failed_head, expected_previous_head, context,
     stamp = now or datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
     prepared = {**prior_candidate, 'phase': 'prepared', 'recorded_at': stamp,
                 'recorded_by': publication.observer(context), 'previous_receipt_commit': failed['head']}
-    intermediate = publication.append_receipt(api, prepared, failed['head'])
+    intermediate = publication.append_receipt(GuardedRefAPI(api, ref_advance, failed['head']), prepared, failed['head'])
     emit({'stage': 'prepared', 'head': intermediate['head'], 'parent': failed['head']})
 
     second_public = publication.public_readback(previous['receipt'], reader=reader, attempts=attempts)
@@ -144,7 +199,7 @@ def recover_cancelled(*, expected_failed_head, expected_previous_head, context,
     stamp = now or datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
     observed = {**prior_candidate, 'phase': 'observed', 'recorded_at': stamp,
                 'recorded_by': publication.observer(context), 'previous_receipt_commit': intermediate['head']}
-    result = publication.append_receipt(api, observed, intermediate['head'])
+    result = publication.append_receipt(GuardedRefAPI(api, ref_advance, intermediate['head']), observed, intermediate['head'])
     emit({'stage': 'observed', 'head': result['head'], 'parent': intermediate['head'],
           'recorded_by': result['receipt']['recorded_by']})
     return result
