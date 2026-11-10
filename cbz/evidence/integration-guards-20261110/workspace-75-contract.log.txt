@@ -1,0 +1,861 @@
+﻿2026-11-10T07:12:07.4666533Z Current runner version: '2.338.2'
+2026-11-10T07:12:07.4683704Z ##[group]Runner Image Provisioner
+2026-11-10T07:12:07.4684237Z Hosted Compute Agent
+2026-11-10T07:12:07.4684657Z Version: 20261028.624
+2026-11-10T07:12:07.4685224Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T07:12:07.4685700Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T07:12:07.4686115Z Worker ID: {9489b4b5-464d-47a8-9be5-6a168a7c5c80}
+2026-11-10T07:12:07.4686509Z Region: westus3
+2026-11-10T07:12:07.4686863Z Cloud: Azure
+2026-11-10T07:12:07.4687177Z ##[endgroup]
+2026-11-10T07:12:07.4687988Z ##[group]Operating System
+2026-11-10T07:12:07.4688413Z Ubuntu
+2026-11-10T07:12:07.4688715Z 26.04.1
+2026-11-10T07:12:07.4689047Z LTS
+2026-11-10T07:12:07.4689346Z ##[endgroup]
+2026-11-10T07:12:07.4689684Z ##[group]Runner Image
+2026-11-10T07:12:07.4690069Z Image: ubuntu-26.04
+2026-11-10T07:12:07.4690393Z Version: 20261101.186.1
+2026-11-10T07:12:07.4691222Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261101.186/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-10T07:12:07.4692071Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261101.186
+2026-11-10T07:12:07.4692646Z ##[endgroup]
+2026-11-10T07:12:07.4693268Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T07:12:07.4694457Z Contents: read
+2026-11-10T07:12:07.4694997Z Metadata: read
+2026-11-10T07:12:07.4695411Z ##[endgroup]
+2026-11-10T07:12:07.4696733Z Secret source: Actions
+2026-11-10T07:12:07.4697308Z Cache mode: write
+2026-11-10T07:12:07.4697721Z Prepare workflow directory
+2026-11-10T07:12:07.4898266Z Prepare all required actions
+2026-11-10T07:12:07.4928712Z Getting action download info
+2026-11-10T07:12:07.7731406Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-10T07:12:07.8860361Z Download action repository 'actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-10T07:12:08.0112615Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-10T07:12:08.1780218Z Complete job name: verify
+2026-11-10T07:12:08.2280856Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-11-10T07:12:08.2281347Z with:
+2026-11-10T07:12:08.2281629Z   repository: d6g8k5htny-coder/Universal-Law-Workspace
+2026-11-10T07:12:08.2283746Z   token: ***
+2026-11-10T07:12:08.2283976Z   ssh-strict: true
+2026-11-10T07:12:08.2284216Z   ssh-user: git
+2026-11-10T07:12:08.2284460Z   persist-credentials: true
+2026-11-10T07:12:08.2284718Z   clean: true
+2026-11-10T07:12:08.2285078Z   sparse-checkout-cone-mode: true
+2026-11-10T07:12:08.2285356Z   fetch-depth: 1
+2026-11-10T07:12:08.2285594Z   fetch-tags: false
+2026-11-10T07:12:08.2285830Z   show-progress: true
+2026-11-10T07:12:08.2286067Z   lfs: false
+2026-11-10T07:12:08.2286288Z   submodules: false
+2026-11-10T07:12:08.2286537Z   set-safe-directory: true
+2026-11-10T07:12:08.2286819Z   allow-unsafe-pr-checkout: false
+2026-11-10T07:12:08.2287161Z ##[endgroup]
+2026-11-10T07:12:08.4556566Z Syncing repository: d6g8k5htny-coder/Universal-Law-Workspace
+2026-11-10T07:12:08.4557824Z ##[group]Getting Git version info
+2026-11-10T07:12:08.4558573Z Working directory is '/home/runner/work/Universal-Law-Workspace/Universal-Law-Workspace'
+2026-11-10T07:12:08.4559688Z [command]/usr/bin/git version
+2026-11-10T07:12:08.4560336Z git version 2.56.0
+2026-11-10T07:12:08.4573448Z ##[endgroup]
+2026-11-10T07:12:08.4583283Z Temporarily overriding HOME='/home/runner/work/_temp/9638d396-4381-4bf3-9a51-3f0ac4a57fc0' before making global git config changes
+2026-11-10T07:12:08.4584665Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T07:12:08.4587458Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Universal-Law-Workspace/Universal-Law-Workspace
+2026-11-10T07:12:08.4647476Z Deleting the contents of '/home/runner/work/Universal-Law-Workspace/Universal-Law-Workspace'
+2026-11-10T07:12:08.4650116Z ##[group]Initializing the repository
+2026-11-10T07:12:08.4653158Z [command]/usr/bin/git init /home/runner/work/Universal-Law-Workspace/Universal-Law-Workspace
+2026-11-10T07:12:08.4767139Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T07:12:08.4768382Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T07:12:08.4769414Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T07:12:08.4770278Z hint: call:
+2026-11-10T07:12:08.4770776Z hint:
+2026-11-10T07:12:08.4771296Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T07:12:08.4771818Z hint:
+2026-11-10T07:12:08.4772169Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T07:12:08.4772720Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T07:12:08.4773160Z hint:
+2026-11-10T07:12:08.4773418Z hint: 	git branch -m <name>
+2026-11-10T07:12:08.4773785Z hint:
+2026-11-10T07:12:08.4774163Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T07:12:08.4780895Z Initialized empty Git repository in /home/runner/work/Universal-Law-Workspace/Universal-Law-Workspace/.git/
+2026-11-10T07:12:08.4799736Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/Universal-Law-Workspace
+2026-11-10T07:12:08.4841225Z ##[endgroup]
+2026-11-10T07:12:08.4842004Z ##[group]Disabling automatic garbage collection
+2026-11-10T07:12:08.4845242Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T07:12:08.4886083Z ##[endgroup]
+2026-11-10T07:12:08.4887726Z ##[group]Setting up auth
+2026-11-10T07:12:08.4888175Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T07:12:08.4919400Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T07:12:08.5463149Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T07:12:08.5509188Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T07:12:08.5735092Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T07:12:08.5764348Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T07:12:08.5974625Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T07:12:08.6007562Z ##[endgroup]
+2026-11-10T07:12:08.6008116Z ##[group]Fetching the repository
+2026-11-10T07:12:08.6013444Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +9a7a863391ccad706e98d28a0088e62bb0d96a9a:refs/remotes/pull/75/merge
+2026-11-10T07:12:09.1999767Z From https://github.com/d6g8k5htny-coder/Universal-Law-Workspace
+2026-11-10T07:12:09.2001528Z  * [new ref]         9a7a863391ccad706e98d28a0088e62bb0d96a9a -> pull/75/merge
+2026-11-10T07:12:09.2004591Z ##[endgroup]
+2026-11-10T07:12:09.2006147Z ##[group]Determining the checkout info
+2026-11-10T07:12:09.2007408Z ##[endgroup]
+2026-11-10T07:12:09.2010155Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T07:12:09.2054449Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T07:12:09.2079428Z ##[group]Checking out the ref
+2026-11-10T07:12:09.2081247Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/75/merge
+2026-11-10T07:12:09.2186048Z Note: switching to 'refs/remotes/pull/75/merge'.
+2026-11-10T07:12:09.2186985Z 
+2026-11-10T07:12:09.2187557Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-10T07:12:09.2188815Z changes and commit them, and you can discard any commits you make in this
+2026-11-10T07:12:09.2190330Z state without impacting any branches by switching back to a branch.
+2026-11-10T07:12:09.2191089Z 
+2026-11-10T07:12:09.2191603Z If you want to create a new branch to retain commits you create, you may
+2026-11-10T07:12:09.2192728Z do so (now or later) by using -c with the switch command. Example:
+2026-11-10T07:12:09.2193438Z 
+2026-11-10T07:12:09.2193822Z   git switch -c <new-branch-name>
+2026-11-10T07:12:09.2194353Z 
+2026-11-10T07:12:09.2194669Z Or undo this operation with:
+2026-11-10T07:12:09.2195304Z 
+2026-11-10T07:12:09.2195671Z   git switch -
+2026-11-10T07:12:09.2196186Z 
+2026-11-10T07:12:09.2196830Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-10T07:12:09.2197722Z 
+2026-11-10T07:12:09.2198756Z HEAD is now at 9a7a863 Merge 2615f56f42cbfb5c85c56d7821aabb3e28ccf21e into d26907ad9e60894b2904c2600aed3b0c02db7a91
+2026-11-10T07:12:09.2202057Z ##[endgroup]
+2026-11-10T07:12:09.2229116Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T07:12:09.2249193Z 9a7a863391ccad706e98d28a0088e62bb0d96a9a
+2026-11-10T07:12:09.2611841Z ##[group]Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+2026-11-10T07:12:09.2612857Z with:
+2026-11-10T07:12:09.2613386Z   python-version: 3.11
+2026-11-10T07:12:09.2613993Z   check-latest: false
+2026-11-10T07:12:09.2620034Z   token: ***
+2026-11-10T07:12:09.2620598Z   update-environment: true
+2026-11-10T07:12:09.2621258Z   allow-prereleases: false
+2026-11-10T07:12:09.2621888Z   freethreaded: false
+2026-11-10T07:12:09.2622478Z ##[endgroup]
+2026-11-10T07:12:09.3504395Z ##[group]Installed versions
+2026-11-10T07:12:09.3583007Z (node:2202) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T07:12:09.3585498Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T07:12:09.3586622Z Successfully set up CPython (3.11.18)
+2026-11-10T07:12:09.3587681Z ##[endgroup]
+2026-11-10T07:12:09.3795336Z ##[group]Run python3 tools/check_workspace.py
+2026-11-10T07:12:09.3796253Z [36;1mpython3 tools/check_workspace.py[0m
+2026-11-10T07:12:09.3848921Z shell: /usr/bin/bash -e {0}
+2026-11-10T07:12:09.3849533Z env:
+2026-11-10T07:12:09.3850171Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:12:09.3851228Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T07:12:09.3852261Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:12:09.3853208Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:12:09.3854171Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:12:09.3855245Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T07:12:09.3856046Z ##[endgroup]
+2026-11-10T07:12:09.4469393Z repositories=9 canonical_inputs=4 problems=0
+2026-11-10T07:12:09.4552238Z ##[group]Run set -euo pipefail
+2026-11-10T07:12:09.4552929Z [36;1mset -euo pipefail[0m
+2026-11-10T07:12:09.4554561Z [36;1mCBZ_VECTOR_MUTATION_EVIDENCE="$RUNNER_TEMP/cbz-vector-mutations/normal" python3 -m unittest discover -s tests -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/discovery.log"[0m
+2026-11-10T07:12:09.4557227Z [36;1mgrep -Eq '^Ran [1-9][0-9]* tests? in ' "$RUNNER_TEMP/discovery.log" || { echo "::error::unittest discovery collected 0 tests or returned no count"; exit 1; }[0m
+2026-11-10T07:12:09.4559754Z [36;1mCBZ_VECTOR_MUTATION_EVIDENCE="$RUNNER_TEMP/cbz-vector-mutations/optimized" python3 -O -m unittest discover -s tests -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/discovery-optimized.log"[0m
+2026-11-10T07:12:09.4562443Z [36;1mgrep -Eq '^Ran [1-9][0-9]* tests? in ' "$RUNNER_TEMP/discovery-optimized.log" || { echo "::error::optimized unittest discovery collected 0 tests or returned no count"; exit 1; }[0m
+2026-11-10T07:12:09.4607504Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T07:12:09.4608356Z env:
+2026-11-10T07:12:09.4608973Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:12:09.4610105Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T07:12:09.4611124Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:12:09.4612052Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:12:09.4612979Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:12:09.4613923Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T07:12:09.4614714Z ##[endgroup]
+2026-11-10T07:12:09.8804582Z test_directory_census_and_json (test_cbz_a3_float_census.CommandLine.test_directory_census_and_json) ... ok
+2026-11-10T07:12:09.9071700Z test_encodings_in_directory_and_git_modes (test_cbz_a3_float_census.CommandLine.test_encodings_in_directory_and_git_modes) ... ok
+2026-11-10T07:12:09.9675086Z test_git_mode (test_cbz_a3_float_census.CommandLine.test_git_mode) ... ok
+2026-11-10T07:12:10.0137477Z test_missing_root_is_an_error (test_cbz_a3_float_census.CommandLine.test_missing_root_is_an_error) ... ok
+2026-11-10T07:12:10.0144752Z test_traversal_error_fails_closed (test_cbz_a3_float_census.CommandLine.test_traversal_error_fails_closed) ... a3_float_census: error: [Errno 13] Permission denied: '/tmp/tmp8cd_vgxi/certs'
+2026-11-10T07:12:10.0145859Z ok
+2026-11-10T07:12:10.0373796Z test_unparseable_exit_one (test_cbz_a3_float_census.CommandLine.test_unparseable_exit_one) ... ok
+2026-11-10T07:12:10.0605444Z test_usage (test_cbz_a3_float_census.CommandLine.test_usage) ... ok
+2026-11-10T07:12:14.7517644Z test_every_mutant_is_killed (test_cbz_a3_float_census.SelfMutation.test_every_mutant_is_killed) ... ok
+2026-11-10T07:12:14.9739099Z test_harness_control_unmutated_copy_passes (test_cbz_a3_float_census.SelfMutation.test_harness_control_unmutated_copy_passes) ... ok
+2026-11-10T07:12:14.9742130Z test_alias_imported_after_its_use_in_a_function (test_cbz_a3_float_census.Signals.test_alias_imported_after_its_use_in_a_function) ... ok
+2026-11-10T07:12:14.9743783Z test_declared_source_encodings_are_honoured (test_cbz_a3_float_census.Signals.test_declared_source_encodings_are_honoured) ... ok
+2026-11-10T07:12:14.9745397Z test_exact_modules_and_mixed (test_cbz_a3_float_census.Signals.test_exact_modules_and_mixed) ... ok
+2026-11-10T07:12:14.9746104Z test_float_and_complex_calls (test_cbz_a3_float_census.Signals.test_float_and_complex_calls) ... ok
+2026-11-10T07:12:14.9747056Z test_float_literals (test_cbz_a3_float_census.Signals.test_float_literals) ... ok
+2026-11-10T07:12:14.9748076Z test_float_modules (test_cbz_a3_float_census.Signals.test_float_modules) ... ok
+2026-11-10T07:12:14.9748937Z test_floor_division_is_exact (test_cbz_a3_float_census.Signals.test_floor_division_is_exact) ... ok
+2026-11-10T07:12:14.9749789Z test_int_and_bool_literals_are_not_float (test_cbz_a3_float_census.Signals.test_int_and_bool_literals_are_not_float) ... ok
+2026-11-10T07:12:14.9752365Z test_interval_layer (test_cbz_a3_float_census.Signals.test_interval_layer) ... ok
+2026-11-10T07:12:14.9754568Z test_interval_module_imported_through_parent_package (test_cbz_a3_float_census.Signals.test_interval_module_imported_through_parent_package) ... ok
+2026-11-10T07:12:14.9755587Z test_math_alias_and_from_import (test_cbz_a3_float_census.Signals.test_math_alias_and_from_import) ... ok
+2026-11-10T07:12:14.9756336Z test_math_float_and_exact_math (test_cbz_a3_float_census.Signals.test_math_float_and_exact_math) ... ok
+2026-11-10T07:12:14.9757105Z test_mpmath_interval (test_cbz_a3_float_census.Signals.test_mpmath_interval) ... ok
+2026-11-10T07:12:14.9757779Z test_strings_and_comments_are_not_code (test_cbz_a3_float_census.Signals.test_strings_and_comments_are_not_code) ... ok
+2026-11-10T07:12:14.9758522Z test_true_division_and_augmented (test_cbz_a3_float_census.Signals.test_true_division_and_augmented) ... ok
+2026-11-10T07:12:14.9759205Z test_unparseable_fails_closed (test_cbz_a3_float_census.Signals.test_unparseable_fails_closed) ... ok
+2026-11-10T07:12:14.9759893Z test_unrelated_attribute_named_like_math (test_cbz_a3_float_census.Signals.test_unrelated_attribute_named_like_math) ... ok
+2026-11-10T07:12:14.9986689Z test_clean_tree_exits_zero (test_cbz_layer_a_scan.CommandLine.test_clean_tree_exits_zero) ... ok
+2026-11-10T07:12:15.0758166Z test_context_does_not_depend_on_path_spelling (test_cbz_layer_a_scan.CommandLine.test_context_does_not_depend_on_path_spelling) ... ok
+2026-11-10T07:12:15.1223710Z test_evidence_violation_reported_not_failing_by_default (test_cbz_layer_a_scan.CommandLine.test_evidence_violation_reported_not_failing_by_default) ... ok
+2026-11-10T07:12:15.1733786Z test_explicit_context_root (test_cbz_layer_a_scan.CommandLine.test_explicit_context_root) ... ok
+2026-11-10T07:12:15.3293826Z test_fail_on_rejects_unknown_contexts (test_cbz_layer_a_scan.CommandLine.test_fail_on_rejects_unknown_contexts) ... ok
+2026-11-10T07:12:15.3615326Z test_git_environment_cannot_redirect_context (test_cbz_layer_a_scan.CommandLine.test_git_environment_cannot_redirect_context) ... ok
+2026-11-10T07:12:15.3964658Z test_git_tree_mode (test_cbz_layer_a_scan.CommandLine.test_git_tree_mode) ... ok
+2026-11-10T07:12:15.5609412Z test_invalid_nested_git_markers_preserve_outer_context (test_cbz_layer_a_scan.CommandLine.test_invalid_nested_git_markers_preserve_outer_context) ... ok
+2026-11-10T07:12:15.6386750Z test_linked_worktree_gitfile_supplies_its_own_context (test_cbz_layer_a_scan.CommandLine.test_linked_worktree_gitfile_supplies_its_own_context) ... ok
+2026-11-10T07:12:15.6423575Z test_missing_git_executable_fails_closed (test_cbz_layer_a_scan.CommandLine.test_missing_git_executable_fails_closed) ... layer_a_scan: error: git
+2026-11-10T07:12:15.6429828Z ok
+2026-11-10T07:12:15.7109902Z test_missing_scan_root_is_an_error (test_cbz_layer_a_scan.CommandLine.test_missing_scan_root_is_an_error) ... ok
+2026-11-10T07:12:15.7115546Z test_no_worktree_uses_scan_argument_context (test_cbz_layer_a_scan.CommandLine.test_no_worktree_uses_scan_argument_context) ... ok
+2026-11-10T07:12:15.7342700Z test_non_lean_files_ignored (test_cbz_layer_a_scan.CommandLine.test_non_lean_files_ignored) ... ok
+2026-11-10T07:12:15.7576260Z test_production_violation_fails (test_cbz_layer_a_scan.CommandLine.test_production_violation_fails) ... ok
+2026-11-10T07:12:15.8102500Z test_real_outer_repository_retains_archive_context (test_cbz_layer_a_scan.CommandLine.test_real_outer_repository_retains_archive_context) ... ok
+2026-11-10T07:12:15.8331707Z test_review_only_does_not_fail (test_cbz_layer_a_scan.CommandLine.test_review_only_does_not_fail) ... ok
+2026-11-10T07:12:15.8609364Z test_symlinked_checkout_keeps_lexical_context (test_cbz_layer_a_scan.CommandLine.test_symlinked_checkout_keeps_lexical_context) ... ok
+2026-11-10T07:12:15.8616586Z test_traversal_error_fails_closed (test_cbz_layer_a_scan.CommandLine.test_traversal_error_fails_closed) ... layer_a_scan: error: [Errno 13] Permission denied: '/tmp/tmp_mt9lic5/proofs'
+2026-11-10T07:12:15.8617513Z ok
+2026-11-10T07:12:15.8836540Z test_undecodable_fails_closed (test_cbz_layer_a_scan.CommandLine.test_undecodable_fails_closed) ... ok
+2026-11-10T07:12:15.9397581Z test_unrelated_ancestor_does_not_change_context (test_cbz_layer_a_scan.CommandLine.test_unrelated_ancestor_does_not_change_context) ... ok
+2026-11-10T07:12:15.9672513Z test_unrelated_configured_worktree_fails_closed (test_cbz_layer_a_scan.CommandLine.test_unrelated_configured_worktree_fails_closed) ... ok
+2026-11-10T07:12:15.9677199Z test_unvalidated_markers_do_not_establish_a_worktree (test_cbz_layer_a_scan.CommandLine.test_unvalidated_markers_do_not_establish_a_worktree) ... ok
+2026-11-10T07:12:15.9908069Z test_usage_error (test_cbz_layer_a_scan.CommandLine.test_usage_error) ... ok
+2026-11-10T07:12:15.9908946Z test_context_classification (test_cbz_layer_a_scan.Context.test_context_classification) ... ok
+2026-11-10T07:12:16.0133600Z test_lex_error_fails_the_run (test_cbz_layer_a_scan.FailClosed.test_lex_error_fails_the_run) ... ok
+2026-11-10T07:12:16.0135586Z test_terminated_constructs_are_not_errors (test_cbz_layer_a_scan.FailClosed.test_terminated_constructs_are_not_errors) ... ok
+2026-11-10T07:12:16.0137515Z test_unterminated_constructs_are_errors (test_cbz_layer_a_scan.FailClosed.test_unterminated_constructs_are_errors) ... ok
+2026-11-10T07:12:16.0138858Z test_block_comments_nested_and_doc (test_cbz_layer_a_scan.NotCode.test_block_comments_nested_and_doc) ... ok
+2026-11-10T07:12:16.0139736Z test_char_literals_do_not_open_strings (test_cbz_layer_a_scan.NotCode.test_char_literals_do_not_open_strings) ... ok
+2026-11-10T07:12:16.0140678Z test_escaped_constant_names_are_the_same_constants (test_cbz_layer_a_scan.NotCode.test_escaped_constant_names_are_the_same_constants) ... ok
+2026-11-10T07:12:16.0141567Z test_escaped_keyword_names_are_identifiers (test_cbz_layer_a_scan.NotCode.test_escaped_keyword_names_are_identifiers) ... ok
+2026-11-10T07:12:16.0142657Z test_identifiers_containing_keywords (test_cbz_layer_a_scan.NotCode.test_identifiers_containing_keywords) ... ok
+2026-11-10T07:12:16.0143768Z test_interpolated_strings (test_cbz_layer_a_scan.NotCode.test_interpolated_strings) ... ok
+2026-11-10T07:12:16.0144489Z test_line_comment (test_cbz_layer_a_scan.NotCode.test_line_comment) ... ok
+2026-11-10T07:12:16.0145344Z test_raw_strings (test_cbz_layer_a_scan.NotCode.test_raw_strings) ... ok
+2026-11-10T07:12:16.0146733Z test_strings (test_cbz_layer_a_scan.NotCode.test_strings) ... ok
+2026-11-10T07:12:16.0150240Z test_each_violation_token_detected (test_cbz_layer_a_scan.ViolationTokens.test_each_violation_token_detected) ... ok
+2026-11-10T07:12:16.0151022Z test_eof_without_newline (test_cbz_layer_a_scan.ViolationTokens.test_eof_without_newline) ... ok
+2026-11-10T07:12:16.0151634Z test_multiple_and_positions (test_cbz_layer_a_scan.ViolationTokens.test_multiple_and_positions) ... ok
+2026-11-10T07:12:16.0153835Z test_native_decide_options (test_cbz_layer_a_scan.ViolationTokens.test_native_decide_options) ... ok
+2026-11-10T07:12:16.0156906Z test_native_options_across_comments_and_lines (test_cbz_layer_a_scan.ViolationTokens.test_native_options_across_comments_and_lines) ... ok
+2026-11-10T07:12:16.0157775Z test_review_tokens (test_cbz_layer_a_scan.ViolationTokens.test_review_tokens) ... ok
+2026-11-10T07:12:16.0158309Z test_stop_only_at_line_start (test_cbz_layer_a_scan.ViolationTokens.test_stop_only_at_line_start) ... ok
+2026-11-10T07:12:16.0158967Z test_unicode_before_token_counts_characters (test_cbz_layer_a_scan.ViolationTokens.test_unicode_before_token_counts_characters) ... ok
+2026-11-10T07:13:14.3633488Z test_every_mutant_is_killed (test_cbz_layer_a_scan_mutants.ScannerMutants.test_every_mutant_is_killed) ... ok
+2026-11-10T07:13:15.4301806Z test_unmutated_scanner_passes_its_suite (test_cbz_layer_a_scan_mutants.ScannerMutants.test_unmutated_scanner_passes_its_suite) ... ok
+2026-11-10T07:13:15.4689897Z test_canonical_manifest_explicit_and_default_path_pass (test_check_workspace_json_duplicates.JSONDuplicateControls.test_canonical_manifest_explicit_and_default_path_pass) ... ok
+2026-11-10T07:13:15.5074362Z test_conflicting_root_authority_is_rejected_in_both_orders (test_check_workspace_json_duplicates.JSONDuplicateControls.test_conflicting_root_authority_is_rejected_in_both_orders) ... ok
+2026-11-10T07:13:15.6230563Z test_conflicting_source_members_are_rejected_in_both_orders (test_check_workspace_json_duplicates.JSONDuplicateControls.test_conflicting_source_members_are_rejected_in_both_orders) ... ok
+2026-11-10T07:13:15.6435790Z test_default_path_also_uses_duplicate_rejection (test_check_workspace_json_duplicates.JSONDuplicateControls.test_default_path_also_uses_duplicate_rejection) ... ok
+2026-11-10T07:13:15.7035237Z test_duplicates_in_nested_objects_and_arrays_are_rejected (test_check_workspace_json_duplicates.JSONDuplicateControls.test_duplicates_in_nested_objects_and_arrays_are_rejected) ... ok
+2026-11-10T07:13:15.8186320Z test_equal_valued_members_are_not_silently_coalesced (test_check_workspace_json_duplicates.JSONDuplicateControls.test_equal_valued_members_are_not_silently_coalesced) ... ok
+2026-11-10T07:13:15.9351852Z test_escaped_equivalent_and_unusual_names_are_rejected_safely (test_check_workspace_json_duplicates.JSONDuplicateControls.test_escaped_equivalent_and_unusual_names_are_rejected_safely) ... ok
+2026-11-10T07:13:16.0521456Z test_nonduplicate_malformed_inputs_keep_their_refusal_interface (test_check_workspace_json_duplicates.JSONDuplicateControls.test_nonduplicate_malformed_inputs_keep_their_refusal_interface) ... ok
+2026-11-10T07:13:16.0721724Z test_repeated_canonical_input_objects_are_rejected (test_check_workspace_json_duplicates.JSONDuplicateControls.test_repeated_canonical_input_objects_are_rejected) ... ok
+2026-11-10T07:13:16.1493236Z test_repeated_names_in_distinct_objects_and_string_text_are_valid (test_check_workspace_json_duplicates.JSONDuplicateControls.test_repeated_names_in_distinct_objects_and_string_text_are_valid) ... ok
+2026-11-10T07:13:16.1872186Z test_repository_entry_members_are_rejected (test_check_workspace_json_duplicates.JSONDuplicateControls.test_repository_entry_members_are_rejected) ... ok
+2026-11-10T07:13:16.2620700Z test_symlinked_temp_root_preserves_both_path_contracts (test_check_workspace_json_duplicates.JSONDuplicateControls.test_symlinked_temp_root_preserves_both_path_contracts) ... ok
+2026-11-10T07:13:16.2634214Z test_authority_asserted_away_from_the_checked_field_is_refused (test_check_workspace_root_keys.RootKeyControls.test_authority_asserted_away_from_the_checked_field_is_refused) ... ok
+2026-11-10T07:13:16.2636743Z test_authority_false_away_from_the_checked_field_is_still_refused_as_unsupported_or_passes (test_check_workspace_root_keys.RootKeyControls.test_authority_false_away_from_the_checked_field_is_still_refused_as_unsupported_or_passes) ... ok
+2026-11-10T07:13:16.2638222Z test_committed_manifest_passes (test_check_workspace_root_keys.RootKeyControls.test_committed_manifest_passes) ... ok
+2026-11-10T07:13:16.2648586Z test_every_forbidden_key_is_refused_at_the_root (test_check_workspace_root_keys.RootKeyControls.test_every_forbidden_key_is_refused_at_the_root) ... ok
+2026-11-10T07:13:16.2650641Z test_lemma_closed_and_promotion_permission_together_are_refused (test_check_workspace_root_keys.RootKeyControls.test_lemma_closed_and_promotion_permission_together_are_refused) ... ok
+2026-11-10T07:13:16.2652158Z test_nested_forbidden_key_is_still_refused (test_check_workspace_root_keys.RootKeyControls.test_nested_forbidden_key_is_still_refused) ... ok
+2026-11-10T07:13:16.4361564Z test_current_and_explicit_historical_sources_pass (test_verify_canonical_inputs.CanonicalInputControls.test_current_and_explicit_historical_sources_pass) ... ok
+2026-11-10T07:13:16.5088911Z test_dirty_pins_manifest_fails (test_verify_canonical_inputs.CanonicalInputControls.test_dirty_pins_manifest_fails) ... ok
+2026-11-10T07:13:16.5878839Z test_dirty_workspace_manifest_fails (test_verify_canonical_inputs.CanonicalInputControls.test_dirty_workspace_manifest_fails) ... ok
+2026-11-10T07:13:16.6760454Z test_duplicate_manifest_members_fail (test_verify_canonical_inputs.CanonicalInputControls.test_duplicate_manifest_members_fail) ... ok
+2026-11-10T07:13:16.7670396Z test_empty_canonical_inputs_fails (test_verify_canonical_inputs.CanonicalInputControls.test_empty_canonical_inputs_fails) ... ok
+2026-11-10T07:13:16.8987240Z test_explicit_newer_commit_is_not_called_historical (test_verify_canonical_inputs.CanonicalInputControls.test_explicit_newer_commit_is_not_called_historical) ... ok
+2026-11-10T07:13:16.9999781Z test_fetched_commit_identity_mismatch_fails (test_verify_canonical_inputs.CanonicalInputControls.test_fetched_commit_identity_mismatch_fails) ... ok
+2026-11-10T07:13:17.0881054Z test_gitlink_mismatch_fails (test_verify_canonical_inputs.CanonicalInputControls.test_gitlink_mismatch_fails) ... ok
+2026-11-10T07:13:17.1618525Z test_gitmodules_change_fails (test_verify_canonical_inputs.CanonicalInputControls.test_gitmodules_change_fails) ... ok
+2026-11-10T07:13:17.2387125Z test_identical_symlinked_workspace_manifest_fails (test_verify_canonical_inputs.CanonicalInputControls.test_identical_symlinked_workspace_manifest_fails) ... ok
+2026-11-10T07:13:17.3700948Z test_manifest_change_during_fetch_fails (test_verify_canonical_inputs.CanonicalInputControls.test_manifest_change_during_fetch_fails) ... ok
+2026-11-10T07:13:17.4728471Z test_missing_path_fails (test_verify_canonical_inputs.CanonicalInputControls.test_missing_path_fails) ... ok
+2026-11-10T07:13:17.5555249Z test_mutable_historical_ref_fails (test_verify_canonical_inputs.CanonicalInputControls.test_mutable_historical_ref_fails) ... ok
+2026-11-10T07:13:17.6375474Z test_nonpublic_source_cannot_be_skipped (test_verify_canonical_inputs.CanonicalInputControls.test_nonpublic_source_cannot_be_skipped) ... ok
+2026-11-10T07:13:17.7232534Z test_pinned_repository_must_be_listed_in_workspace (test_verify_canonical_inputs.CanonicalInputControls.test_pinned_repository_must_be_listed_in_workspace) ... ok
+2026-11-10T07:13:17.8580140Z test_symlinked_source_is_not_accepted_as_a_blob (test_verify_canonical_inputs.CanonicalInputControls.test_symlinked_source_is_not_accepted_as_a_blob) ... ok
+2026-11-10T07:13:17.9451089Z test_unavailable_remote_fails (test_verify_canonical_inputs.CanonicalInputControls.test_unavailable_remote_fails) ... ok
+2026-11-10T07:13:18.0560345Z test_unfetchable_historical_commit_fails (test_verify_canonical_inputs.CanonicalInputControls.test_unfetchable_historical_commit_fails) ... ok
+2026-11-10T07:13:18.1486959Z test_unmapped_repository_fails (test_verify_canonical_inputs.CanonicalInputControls.test_unmapped_repository_fails) ... ok
+2026-11-10T07:13:18.2789187Z test_workspace_head_change_during_fetch_fails (test_verify_canonical_inputs.CanonicalInputControls.test_workspace_head_change_during_fetch_fails) ... ok
+2026-11-10T07:13:18.3892010Z test_wrong_current_blob_fails (test_verify_canonical_inputs.CanonicalInputControls.test_wrong_current_blob_fails) ... ok
+2026-11-10T07:13:18.8838162Z test_actual_silent_checker_exit_is_not_a_mutation_kill (test_verify_canonical_inputs_mutations.CanonicalHarnessControls.test_actual_silent_checker_exit_is_not_a_mutation_kill) ... ok
+2026-11-10T07:13:18.8858519Z test_checker_result_protocol_has_positive_and_crash_controls (test_verify_canonical_inputs_mutations.CanonicalHarnessControls.test_checker_result_protocol_has_positive_and_crash_controls) ... ok
+2026-11-10T07:13:18.8860253Z test_exact_named_control_event_and_assertion_are_required (test_verify_canonical_inputs_mutations.CanonicalHarnessControls.test_exact_named_control_event_and_assertion_are_required) ... ok
+2026-11-10T07:13:18.8885838Z test_four_actual_harness_source_mutants_are_rejected (test_verify_canonical_inputs_mutations.CanonicalHarnessControls.test_four_actual_harness_source_mutants_are_rejected) ... ok
+2026-11-10T07:13:23.1067450Z test_all_named_guard_mutations_are_detected (test_verify_canonical_inputs_mutations.CanonicalMutationControls.test_all_named_guard_mutations_are_detected) ... ok
+2026-11-10T07:13:23.7358690Z test_cleanup_failure_stops_more_requests (test_verify_federation_vector.CliControls.test_cleanup_failure_stops_more_requests) ... ok
+2026-11-10T07:13:24.1990669Z test_cli_new_output_and_overwrite_refusal (test_verify_federation_vector.CliControls.test_cli_new_output_and_overwrite_refusal) ... {"status": "FAIL", "error": "OUTPUT_SETUP", "cbz_green": false}
+2026-11-10T07:13:24.2097485Z ok
+2026-11-10T07:13:24.2370864Z test_cli_source_output_and_symlink_refused (test_verify_federation_vector.CliControls.test_cli_source_output_and_symlink_refused) ... {"status": "FAIL", "error": "OUTPUT_SETUP", "cbz_green": false}
+2026-11-10T07:13:24.2373014Z {"status": "FAIL", "error": "OUTPUT_SETUP", "cbz_green": false}
+2026-11-10T07:13:24.2474755Z ok
+2026-11-10T07:13:24.2861035Z test_local_failure_does_not_contact_network (test_verify_federation_vector.CliControls.test_local_failure_does_not_contact_network) ... ok
+2026-11-10T07:13:24.5629634Z test_midrun_head_drift_refused (test_verify_federation_vector.CliControls.test_midrun_head_drift_refused) ... ok
+2026-11-10T07:13:25.0578915Z test_network_failure_blocks_aggregate (test_verify_federation_vector.CliControls.test_network_failure_blocks_aggregate) ... ok
+2026-11-10T07:13:25.5428328Z test_no_default_tip_equality_requirement (test_verify_federation_vector.CliControls.test_no_default_tip_equality_requirement) ... ok
+2026-11-10T07:13:26.0079438Z test_offline_report_keeps_scope_and_no_network_claim (test_verify_federation_vector.CliControls.test_offline_report_keeps_scope_and_no_network_claim) ... ok
+2026-11-10T07:13:26.4823775Z test_raw_transport_secret_never_enters_report (test_verify_federation_vector.CliControls.test_raw_transport_secret_never_enters_report) ... ok
+2026-11-10T07:13:26.7792376Z test_selected_input_change_during_network_refused (test_verify_federation_vector.CliControls.test_selected_input_change_during_network_refused) ... ok
+2026-11-10T07:13:27.1664107Z test_all_nine_native_locks_pass (test_verify_federation_vector.LockControls.test_all_nine_native_locks_pass) ... ok
+2026-11-10T07:13:27.4227864Z test_dependency_revision_drift_refused (test_verify_federation_vector.LockControls.test_dependency_revision_drift_refused) ... ok
+2026-11-10T07:13:27.6744448Z test_dependency_url_credentials_refused (test_verify_federation_vector.LockControls.test_dependency_url_credentials_refused) ... ok
+2026-11-10T07:13:27.9178775Z test_duplicate_dependency_name_refused (test_verify_federation_vector.LockControls.test_duplicate_dependency_name_refused) ... ok
+2026-11-10T07:13:28.1740495Z test_floating_resolved_revision_refused (test_verify_federation_vector.LockControls.test_floating_resolved_revision_refused) ... ok
+2026-11-10T07:13:28.4215188Z test_lock_schema_or_unknown_entry_refused (test_verify_federation_vector.LockControls.test_lock_schema_or_unknown_entry_refused) ... ok
+2026-11-10T07:13:28.4888252Z test_lock_working_drift_refused (test_verify_federation_vector.LockControls.test_lock_working_drift_refused) ... ok
+2026-11-10T07:13:29.4020845Z test_noncanonical_path_dependency_aliases_refused (test_verify_federation_vector.LockControls.test_noncanonical_path_dependency_aliases_refused) ... ok
+2026-11-10T07:13:29.6510527Z test_path_dependency_outside_math_refused (test_verify_federation_vector.LockControls.test_path_dependency_outside_math_refused) ... ok
+2026-11-10T07:13:29.8913473Z test_path_dependency_sibling_same_tree_passes (test_verify_federation_vector.LockControls.test_path_dependency_sibling_same_tree_passes) ... ok
+2026-11-10T07:13:30.1488857Z test_path_target_configuration_name_mismatch_refused (test_verify_federation_vector.LockControls.test_path_target_configuration_name_mismatch_refused) ... ok
+2026-11-10T07:13:30.4103129Z test_path_target_name_mismatch_refused (test_verify_federation_vector.LockControls.test_path_target_name_mismatch_refused) ... ok
+2026-11-10T07:13:30.6667837Z test_toolchain_disagreement_refused (test_verify_federation_vector.LockControls.test_toolchain_disagreement_refused) ... ok
+2026-11-10T07:13:30.9184923Z test_unknown_dependency_type_refused (test_verify_federation_vector.LockControls.test_unknown_dependency_type_refused) ... ok
+2026-11-10T07:13:31.0882139Z test_cleanup_failure_has_explicit_status (test_verify_federation_vector.NetworkControls.test_cleanup_failure_has_explicit_status) ... ok
+2026-11-10T07:13:31.1250462Z test_credentialed_or_nonhttps_url_refused (test_verify_federation_vector.NetworkControls.test_credentialed_or_nonhttps_url_refused) ... ok
+2026-11-10T07:13:31.1685185Z test_fetch_nonzero_cannot_pass (test_verify_federation_vector.NetworkControls.test_fetch_nonzero_cannot_pass) ... ok
+2026-11-10T07:13:31.4386968Z test_network_includes_canonical_historical_commit (test_verify_federation_vector.NetworkControls.test_network_includes_canonical_historical_commit) ... ok
+2026-11-10T07:13:31.7112394Z test_timeout_reaps_child (test_verify_federation_vector.NetworkControls.test_timeout_reaps_child) ... ok
+2026-11-10T07:13:31.7794005Z test_transport_does_not_change_source_refs_or_config (test_verify_federation_vector.NetworkControls.test_transport_does_not_change_source_refs_or_config) ... ok
+2026-11-10T07:13:31.8196391Z test_transport_secrets_are_not_serialized (test_verify_federation_vector.NetworkControls.test_transport_secrets_are_not_serialized) ... ok
+2026-11-10T07:13:31.8774675Z test_unadvertised_exact_commit_fetch_passes (test_verify_federation_vector.NetworkControls.test_unadvertised_exact_commit_fetch_passes) ... ok
+2026-11-10T07:13:31.9201828Z test_wrong_fetched_commit_refused (test_verify_federation_vector.NetworkControls.test_wrong_fetched_commit_refused) ... ok
+2026-11-10T07:13:31.9342597Z test_cleanup_error_code_survives_sanitization_without_git (test_verify_federation_vector.TransportCleanupControl.test_cleanup_error_code_survives_sanitization_without_git) ... ok
+2026-11-10T07:13:32.2864563Z test_ambient_git_override_cannot_substitute_source (test_verify_federation_vector.VectorSources.test_ambient_git_override_cannot_substitute_source) ... ok
+2026-11-10T07:13:32.5298515Z test_exact_twelve_sources_and_index_parity (test_verify_federation_vector.VectorSources.test_exact_twelve_sources_and_index_parity) ... ok
+2026-11-10T07:13:32.7761570Z test_full_working_parity_is_not_inferred (test_verify_federation_vector.VectorSources.test_full_working_parity_is_not_inferred) ... ok
+2026-11-10T07:13:33.0321735Z test_linked_worktree_uses_its_own_index (test_verify_federation_vector.VectorSources.test_linked_worktree_uses_its_own_index) ... ok
+2026-11-10T07:13:33.4301397Z test_no_git_status_or_filter_execution (test_verify_federation_vector.VectorSources.test_no_git_status_or_filter_execution) ... ok
+2026-11-10T07:13:33.4671321Z test_noncommit_or_floating_revision_refused (test_verify_federation_vector.VectorSources.test_noncommit_or_floating_revision_refused) ... ok
+2026-11-10T07:13:33.5028455Z test_oversized_control_refused (test_verify_federation_vector.VectorSources.test_oversized_control_refused) ... ok
+2026-11-10T07:13:33.5559056Z test_selected_input_executable_mode_drift_refused (test_verify_federation_vector.VectorSources.test_selected_input_executable_mode_drift_refused) ... ok
+2026-11-10T07:13:33.6080891Z test_selected_input_symlink_refused (test_verify_federation_vector.VectorSources.test_selected_input_symlink_refused) ... ok
+2026-11-10T07:13:33.6636467Z test_selected_input_working_substitution_refused (test_verify_federation_vector.VectorSources.test_selected_input_working_substitution_refused) ... ok
+2026-11-10T07:13:33.7127992Z test_staged_change_refused (test_verify_federation_vector.VectorSources.test_staged_change_refused) ... ok
+2026-11-10T07:13:33.7509913Z test_vector_extra_or_duplicate_key_refused (test_verify_federation_vector.VectorSources.test_vector_extra_or_duplicate_key_refused) ... ok
+2026-11-10T07:13:33.7889734Z test_vector_omission_rejected (test_verify_federation_vector.VectorSources.test_vector_omission_rejected) ... ok
+2026-11-10T07:13:33.8360847Z test_wrong_checkout_head_refused (test_verify_federation_vector.VectorSources.test_wrong_checkout_head_refused) ... ok
+2026-11-10T07:13:34.2174585Z test_canonical_unlisted_repository_refused (test_verify_federation_vector.WorkspaceControls.test_canonical_unlisted_repository_refused) ... ok
+2026-11-10T07:13:34.4792022Z test_canonical_wrong_blob_refused (test_verify_federation_vector.WorkspaceControls.test_canonical_wrong_blob_refused) ... ok
+2026-11-10T07:13:34.7802727Z test_exact_workspace_and_four_sources_pass (test_verify_federation_vector.WorkspaceControls.test_exact_workspace_and_four_sources_pass) ... ok
+2026-11-10T07:13:35.0430563Z test_explicit_canonical_annotated_tag_oid_refused (test_verify_federation_vector.WorkspaceControls.test_explicit_canonical_annotated_tag_oid_refused) ... ok
+2026-11-10T07:13:35.3226806Z test_explicit_canonical_tree_oid_refused (test_verify_federation_vector.WorkspaceControls.test_explicit_canonical_tree_oid_refused) ... ok
+2026-11-10T07:13:35.5909519Z test_explicit_separate_canonical_ref_supported (test_verify_federation_vector.WorkspaceControls.test_explicit_separate_canonical_ref_supported) ... ok
+2026-11-10T07:13:35.8443398Z test_extra_gitlink_refused (test_verify_federation_vector.WorkspaceControls.test_extra_gitlink_refused) ... ok
+2026-11-10T07:13:36.1053889Z test_missing_or_extra_canonical_key_refused (test_verify_federation_vector.WorkspaceControls.test_missing_or_extra_canonical_key_refused) ... ok
+2026-11-10T07:13:36.3616248Z test_sandbox_pin_skew_rejected (test_verify_federation_vector.WorkspaceControls.test_sandbox_pin_skew_rejected) ... ok
+2026-11-10T07:13:36.6263784Z test_source_blob_symlink_refused (test_verify_federation_vector.WorkspaceControls.test_source_blob_symlink_refused) ... ok
+2026-11-10T07:13:37.4802553Z test_actual_subject_crash_skip_syntax_and_silent_exit_are_not_kills (test_verify_federation_vector_mutations.MutationControls.test_actual_subject_crash_skip_syntax_and_silent_exit_are_not_kills) ... ok
+2026-11-10T07:13:37.4803419Z test_empty_failure_event_is_refused_without_crash (test_verify_federation_vector_mutations.MutationControls.test_empty_failure_event_is_refused_without_crash) ... ok
+2026-11-10T07:13:37.4804104Z test_forged_transcript_without_native_event_is_not_kill (test_verify_federation_vector_mutations.MutationControls.test_forged_transcript_without_native_event_is_not_kill) ... ok
+2026-11-10T07:13:37.4805173Z test_lifecycle_assertion_is_not_selected_dispatch (test_verify_federation_vector_mutations.MutationControls.test_lifecycle_assertion_is_not_selected_dispatch) ... ok
+2026-11-10T07:13:37.4805799Z test_malformed_counts_nonce_and_origin_cannot_qualify (test_verify_federation_vector_mutations.MutationControls.test_malformed_counts_nonce_and_origin_cannot_qualify) ... ok
+2026-11-10T07:13:40.2331770Z test_origin_guard_removal_reopens_real_spoofed_subject (test_verify_federation_vector_mutations.MutationControls.test_origin_guard_removal_reopens_real_spoofed_subject) ... ok
+2026-11-10T07:13:40.9649386Z test_subject_assertion_from_unittest_named_path_is_not_a_kill (test_verify_federation_vector_mutations.MutationControls.test_subject_assertion_from_unittest_named_path_is_not_a_kill) ... ok
+2026-11-10T07:13:40.9650583Z test_subject_assertion_is_not_selected_body_failure (test_verify_federation_vector_mutations.MutationControls.test_subject_assertion_is_not_selected_body_failure) ... ok
+2026-11-10T07:13:52.0023988Z test_thirteen_source_mutants_are_killed_by_designated_body_assertions (test_verify_federation_vector_mutations.MutationControls.test_thirteen_source_mutants_are_killed_by_designated_body_assertions) ... ok
+2026-11-10T07:13:52.0024611Z test_committed_real_tree_passes (test_verify_pins.VerifyPinsControls.test_committed_real_tree_passes)
+2026-11-10T07:13:52.0276441Z The real workspace (parent of this tests/ directory) must pass ... ok
+2026-11-10T07:13:52.0276834Z test_consistent_fixture_passes (test_verify_pins.VerifyPinsControls.test_consistent_fixture_passes)
+2026-11-10T07:13:52.0648750Z The fixture builder itself yields a passing workspace, so the ... ok
+2026-11-10T07:13:52.0649255Z test_flags_redirect_the_checker (test_verify_pins.VerifyPinsControls.test_flags_redirect_the_checker)
+2026-11-10T07:13:52.1321713Z --pins pointing at a file that disagrees with an otherwise-good ... ok
+2026-11-10T07:13:52.1690441Z test_gitlink_sha_differs_from_pins_fails (test_verify_pins.VerifyPinsControls.test_gitlink_sha_differs_from_pins_fails) ... ok
+2026-11-10T07:13:52.2038944Z test_missing_gitlink_fails (test_verify_pins.VerifyPinsControls.test_missing_gitlink_fails) ... ok
+2026-11-10T07:13:52.2408708Z test_opt_in_without_update_none_fails (test_verify_pins.VerifyPinsControls.test_opt_in_without_update_none_fails) ... ok
+2026-11-10T07:13:52.2780675Z test_prefix_match_is_not_accepted (test_verify_pins.VerifyPinsControls.test_prefix_match_is_not_accepted) ... ok
+2026-11-10T07:13:52.2781161Z test_readme_table_renders_pins_json (test_verify_pins.VerifyPinsControls.test_readme_table_renders_pins_json)
+2026-11-10T07:13:52.2784891Z README's table is a rendering of pins.json: every pinned SHA must ... ok
+2026-11-10T07:13:52.3164995Z test_unlisted_gitlink_fails (test_verify_pins.VerifyPinsControls.test_unlisted_gitlink_fails) ... ok
+2026-11-10T07:13:52.3542392Z test_update_none_without_opt_in_fails (test_verify_pins.VerifyPinsControls.test_update_none_without_opt_in_fails) ... ok
+2026-11-10T07:13:52.3923282Z test_url_or_branch_mismatch_fails (test_verify_pins.VerifyPinsControls.test_url_or_branch_mismatch_fails) ... ok
+2026-11-10T07:13:52.7745791Z test_conflicting_pin_and_flags_rejected_in_both_orders (test_verify_pins.VerifyPinsDuplicateJSONControls.test_conflicting_pin_and_flags_rejected_in_both_orders) ... ok
+2026-11-10T07:13:53.3297510Z test_duplicate_diagnostics_are_ascii_safe_before_git (test_verify_pins.VerifyPinsDuplicateJSONControls.test_duplicate_diagnostics_are_ascii_safe_before_git) ... ok
+2026-11-10T07:13:53.4291834Z test_duplicate_in_nested_object_is_rejected (test_verify_pins.VerifyPinsDuplicateJSONControls.test_duplicate_in_nested_object_is_rejected) ... ok
+2026-11-10T07:13:53.4851563Z test_duplicate_rejection_precedes_git_even_with_network_requested (test_verify_pins.VerifyPinsDuplicateJSONControls.test_duplicate_rejection_precedes_git_even_with_network_requested) ... ok
+2026-11-10T07:13:53.6727786Z test_duplicate_root_members_rejected_in_both_orders (test_verify_pins.VerifyPinsDuplicateJSONControls.test_duplicate_root_members_rejected_in_both_orders) ... ok
+2026-11-10T07:13:53.7710396Z test_escaped_equivalent_member_rejected_in_both_orders (test_verify_pins.VerifyPinsDuplicateJSONControls.test_escaped_equivalent_member_rejected_in_both_orders) ... ok
+2026-11-10T07:13:53.8263499Z test_identical_duplicate_is_still_ambiguous (test_verify_pins.VerifyPinsDuplicateJSONControls.test_identical_duplicate_is_still_ambiguous) ... ok
+2026-11-10T07:13:54.0074614Z test_empty_remote_lookup_reports_unknown_configured_tip (test_verify_pins.VerifyPinsNetworkControls.test_empty_remote_lookup_reports_unknown_configured_tip) ... ok
+2026-11-10T07:13:54.1991159Z test_known_differing_tip_output_is_unchanged (test_verify_pins.VerifyPinsNetworkControls.test_known_differing_tip_output_is_unchanged) ... ok
+2026-11-10T07:13:54.3852175Z test_known_equal_tip_output_is_unchanged (test_verify_pins.VerifyPinsNetworkControls.test_known_equal_tip_output_is_unchanged) ... ok
+2026-11-10T07:13:54.5664299Z test_observed_default_mismatch_retained_when_configured_tip_unknown (test_verify_pins.VerifyPinsNetworkControls.test_observed_default_mismatch_retained_when_configured_tip_unknown) ... ok
+2026-11-10T07:13:54.7555963Z test_unobserved_default_does_not_hide_known_configured_tip (test_verify_pins.VerifyPinsNetworkControls.test_unobserved_default_does_not_hide_known_configured_tip) ... ok
+2026-11-10T07:13:54.7793054Z test_git_failure_is_reported (test_verify_pins.VerifyPinsShapeControls.test_git_failure_is_reported) ... ok
+2026-11-10T07:13:54.9696517Z test_gitmodules_defects_fail (test_verify_pins.VerifyPinsShapeControls.test_gitmodules_defects_fail) ... ok
+2026-11-10T07:13:55.2092426Z test_pins_shape_defects_fail (test_verify_pins.VerifyPinsShapeControls.test_pins_shape_defects_fail) ... ok
+2026-11-10T07:13:55.2855661Z test_clean_valid_and_mismatched_checkout (test_verify_pins_git_integrity.GitIntegrityControls.test_clean_valid_and_mismatched_checkout) ... ok
+2026-11-10T07:13:55.3326287Z test_combined_git_routing_overrides_cannot_select_foreign_head (test_verify_pins_git_integrity.GitIntegrityControls.test_combined_git_routing_overrides_cannot_select_foreign_head) ... ok
+2026-11-10T07:13:55.4033686Z test_inherited_git_dir_cannot_select_foreign_head (test_verify_pins_git_integrity.GitIntegrityControls.test_inherited_git_dir_cannot_select_foreign_head) ... ok
+2026-11-10T07:13:55.4971339Z test_local_replace_ref_cannot_substitute_committed_head_tree (test_verify_pins_git_integrity.GitIntegrityControls.test_local_replace_ref_cannot_substitute_committed_head_tree) ... ok
+2026-11-10T07:13:55.6298836Z test_offline_network_mode_rejects_foreign_git_dir_without_side_effect (test_verify_pins_git_integrity.GitIntegrityControls.test_offline_network_mode_rejects_foreign_git_dir_without_side_effect) ... ok
+2026-11-10T07:13:55.7157620Z test_offline_network_valid_selected_checkout_ignores_foreign_dir (test_verify_pins_git_integrity.GitIntegrityControls.test_offline_network_valid_selected_checkout_ignores_foreign_dir) ... ok
+2026-11-10T07:13:55.8671970Z test_existing_refusals_remain_handled (test_verify_pins_input_types.PinInputTypeTests.test_existing_refusals_remain_handled) ... ok
+2026-11-10T07:13:55.8683292Z test_mixed_bad_entries_retain_later_diagnostics_and_do_not_reach_git (test_verify_pins_input_types.PinInputTypeTests.test_mixed_bad_entries_retain_later_diagnostics_and_do_not_reach_git) ... ok
+2026-11-10T07:13:55.9988757Z test_nonobject_entries_are_handled (test_verify_pins_input_types.PinInputTypeTests.test_nonobject_entries_are_handled) ... ok
+2026-11-10T07:13:56.1332462Z test_nonobject_roots_are_handled (test_verify_pins_input_types.PinInputTypeTests.test_nonobject_roots_are_handled) ... ok
+2026-11-10T07:13:56.2786024Z test_nonstring_or_empty_paths_are_handled (test_verify_pins_input_types.PinInputTypeTests.test_nonstring_or_empty_paths_are_handled) ... ok
+2026-11-10T07:13:56.2793455Z test_unexpected_programming_error_is_not_hidden (test_verify_pins_input_types.PinInputTypeTests.test_unexpected_programming_error_is_not_hidden) ... ok
+2026-11-10T07:13:56.3540811Z test_valid_local_git_tree_and_wrong_pin_control (test_verify_pins_input_types.PinInputTypeTests.test_valid_local_git_tree_and_wrong_pin_control) ... ok
+2026-11-10T07:13:56.3544430Z test_valid_manifest_and_input_bytes_are_preserved (test_verify_pins_input_types.PinInputTypeTests.test_valid_manifest_and_input_bytes_are_preserved) ... ok
+2026-11-10T07:13:56.6810159Z test_actual_silent_checker_exit_cannot_count_as_a_kill (test_verify_pins_mutations.StrictPinHarnessControls.test_actual_silent_checker_exit_cannot_count_as_a_kill) ... ok
+2026-11-10T07:13:56.6811313Z test_exact_named_observation_and_assertion_are_required (test_verify_pins_mutations.StrictPinHarnessControls.test_exact_named_observation_and_assertion_are_required) ... ok
+2026-11-10T07:13:56.6826692Z test_four_actual_classifier_source_mutants_are_rejected (test_verify_pins_mutations.StrictPinHarnessControls.test_four_actual_classifier_source_mutants_are_rejected) ... ok
+2026-11-10T07:13:56.6827802Z test_pin_result_protocol_has_positive_and_crash_controls (test_verify_pins_mutations.StrictPinHarnessControls.test_pin_result_protocol_has_positive_and_crash_controls) ... ok
+2026-11-10T07:13:56.6848294Z test_specific_demoted_reason_is_required_even_if_another_guard_refuses (test_verify_pins_mutations.StrictPinHarnessControls.test_specific_demoted_reason_is_required_even_if_another_guard_refuses) ... ok
+2026-11-10T07:14:00.3354100Z test_all_named_guard_removals_are_detected (test_verify_pins_mutations.StrictPinMutationControls.test_all_named_guard_removals_are_detected) ... ok
+2026-11-10T07:14:00.4114993Z test_duplicate_branch_advertisement_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_duplicate_branch_advertisement_is_rejected) ... ok
+2026-11-10T07:14:00.4885036Z test_failed_remote_tip_lookup_is_rejected_after_successful_fetch (test_verify_pins_strict.StrictCurrentPinTests.test_failed_remote_tip_lookup_is_rejected_after_successful_fetch) ... ok
+2026-11-10T07:14:00.5653635Z test_inconsistent_head_and_branch_advertisement_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_inconsistent_head_and_branch_advertisement_is_rejected) ... ok
+2026-11-10T07:14:00.6244168Z test_initial_manifest_mismatch_does_not_start_remote_lookup (test_verify_pins_strict.StrictCurrentPinTests.test_initial_manifest_mismatch_does_not_start_remote_lookup) ... ok
+2026-11-10T07:14:00.7036512Z test_legacy_tip_difference_does_not_claim_ancestry (test_verify_pins_strict.StrictCurrentPinTests.test_legacy_tip_difference_does_not_claim_ancestry) ... ok
+2026-11-10T07:14:00.7752477Z test_matching_public_default_and_branch_are_accepted (test_verify_pins_strict.StrictCurrentPinTests.test_matching_public_default_and_branch_are_accepted) ... ok
+2026-11-10T07:14:00.8489551Z test_missing_configured_branch_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_missing_configured_branch_is_rejected) ... ok
+2026-11-10T07:14:00.9209502Z test_missing_default_branch_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_missing_default_branch_is_rejected) ... ok
+2026-11-10T07:14:00.9920276Z test_missing_head_commit_is_rejected_even_when_branch_tip_matches (test_verify_pins_strict.StrictCurrentPinTests.test_missing_head_commit_is_rejected_even_when_branch_tip_matches) ... ok
+2026-11-10T07:14:01.1069671Z test_newer_remote_tip_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_newer_remote_tip_is_rejected) ... ok
+2026-11-10T07:14:01.1820673Z test_pin_manifest_change_during_lookup_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_pin_manifest_change_during_lookup_is_rejected) ... ok
+2026-11-10T07:14:01.2359945Z test_skipped_nonpublic_repository_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_skipped_nonpublic_repository_is_rejected) ... ok
+2026-11-10T07:14:01.2865118Z test_symlinked_gitmodules_is_rejected_even_with_identical_bytes (test_verify_pins_strict.StrictCurrentPinTests.test_symlinked_gitmodules_is_rejected_even_with_identical_bytes) ... ok
+2026-11-10T07:14:01.3486942Z test_working_gitmodules_cannot_mask_committed_mismatch (test_verify_pins_strict.StrictCurrentPinTests.test_working_gitmodules_cannot_mask_committed_mismatch) ... ok
+2026-11-10T07:14:01.4097788Z test_working_pins_cannot_mask_a_different_committed_manifest (test_verify_pins_strict.StrictCurrentPinTests.test_working_pins_cannot_mask_a_different_committed_manifest) ... ok
+2026-11-10T07:14:01.4912294Z test_workspace_head_change_during_lookup_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_workspace_head_change_during_lookup_is_rejected) ... ok
+2026-11-10T07:14:01.5660195Z test_wrong_default_branch_is_rejected_even_when_pin_matches_main (test_verify_pins_strict.StrictCurrentPinTests.test_wrong_default_branch_is_rejected_even_when_pin_matches_main) ... ok
+2026-11-10T07:14:01.5853989Z test_canonical_input_repository_must_be_in_federation (test_workspace_contract.WorkspaceContractTests.test_canonical_input_repository_must_be_in_federation) ... ok
+2026-11-10T07:14:01.6044087Z test_canonical_input_requires_observed_blob (test_workspace_contract.WorkspaceContractTests.test_canonical_input_requires_observed_blob) ... ok
+2026-11-10T07:14:01.6227913Z test_committed_manifest_passes_and_does_not_duplicate_role_registry (test_workspace_contract.WorkspaceContractTests.test_committed_manifest_passes_and_does_not_duplicate_role_registry) ... ok
+2026-11-10T07:14:01.6409229Z test_duplicate_repository_is_rejected (test_workspace_contract.WorkspaceContractTests.test_duplicate_repository_is_rejected) ... ok
+2026-11-10T07:14:01.6589472Z test_forbidden_status_field_is_rejected_anywhere (test_workspace_contract.WorkspaceContractTests.test_forbidden_status_field_is_rejected_anywhere) ... ok
+2026-11-10T07:14:01.6768892Z test_repository_role_metadata_is_rejected (test_workspace_contract.WorkspaceContractTests.test_repository_role_metadata_is_rejected) ... ok
+2026-11-10T07:14:01.6948616Z test_required_repository_cannot_disappear (test_workspace_contract.WorkspaceContractTests.test_required_repository_cannot_disappear) ... ok
+2026-11-10T07:14:01.7128714Z test_status_authority_must_stay_false (test_workspace_contract.WorkspaceContractTests.test_status_authority_must_stay_false) ... ok
+2026-11-10T07:14:01.7129191Z 
+2026-11-10T07:14:01.7129340Z ----------------------------------------------------------------------
+2026-11-10T07:14:01.7129666Z Ran 254 tests in 111.856s
+2026-11-10T07:14:01.7129801Z 
+2026-11-10T07:14:01.7129868Z OK
+2026-11-10T07:14:01.7130066Z {"status": "PASS", "cbz_green": false}
+2026-11-10T07:14:02.0234476Z test_directory_census_and_json (test_cbz_a3_float_census.CommandLine.test_directory_census_and_json) ... ok
+2026-11-10T07:14:02.0460640Z test_encodings_in_directory_and_git_modes (test_cbz_a3_float_census.CommandLine.test_encodings_in_directory_and_git_modes) ... ok
+2026-11-10T07:14:02.0806000Z test_git_mode (test_cbz_a3_float_census.CommandLine.test_git_mode) ... ok
+2026-11-10T07:14:02.1261324Z test_missing_root_is_an_error (test_cbz_a3_float_census.CommandLine.test_missing_root_is_an_error) ... ok
+2026-11-10T07:14:02.1270936Z test_traversal_error_fails_closed (test_cbz_a3_float_census.CommandLine.test_traversal_error_fails_closed) ... a3_float_census: error: [Errno 13] Permission denied: '/tmp/tmpr4hvzre0/certs'
+2026-11-10T07:14:02.1272159Z ok
+2026-11-10T07:14:02.1500336Z test_unparseable_exit_one (test_cbz_a3_float_census.CommandLine.test_unparseable_exit_one) ... ok
+2026-11-10T07:14:02.1727672Z test_usage (test_cbz_a3_float_census.CommandLine.test_usage) ... ok
+2026-11-10T07:14:06.8884749Z test_every_mutant_is_killed (test_cbz_a3_float_census.SelfMutation.test_every_mutant_is_killed) ... ok
+2026-11-10T07:14:07.1157968Z test_harness_control_unmutated_copy_passes (test_cbz_a3_float_census.SelfMutation.test_harness_control_unmutated_copy_passes) ... ok
+2026-11-10T07:14:07.1161433Z test_alias_imported_after_its_use_in_a_function (test_cbz_a3_float_census.Signals.test_alias_imported_after_its_use_in_a_function) ... ok
+2026-11-10T07:14:07.1163795Z test_declared_source_encodings_are_honoured (test_cbz_a3_float_census.Signals.test_declared_source_encodings_are_honoured) ... ok
+2026-11-10T07:14:07.1165107Z test_exact_modules_and_mixed (test_cbz_a3_float_census.Signals.test_exact_modules_and_mixed) ... ok
+2026-11-10T07:14:07.1165977Z test_float_and_complex_calls (test_cbz_a3_float_census.Signals.test_float_and_complex_calls) ... ok
+2026-11-10T07:14:07.1166572Z test_float_literals (test_cbz_a3_float_census.Signals.test_float_literals) ... ok
+2026-11-10T07:14:07.1167341Z test_float_modules (test_cbz_a3_float_census.Signals.test_float_modules) ... ok
+2026-11-10T07:14:07.1168005Z test_floor_division_is_exact (test_cbz_a3_float_census.Signals.test_floor_division_is_exact) ... ok
+2026-11-10T07:14:07.1168682Z test_int_and_bool_literals_are_not_float (test_cbz_a3_float_census.Signals.test_int_and_bool_literals_are_not_float) ... ok
+2026-11-10T07:14:07.1170287Z test_interval_layer (test_cbz_a3_float_census.Signals.test_interval_layer) ... ok
+2026-11-10T07:14:07.1172765Z test_interval_module_imported_through_parent_package (test_cbz_a3_float_census.Signals.test_interval_module_imported_through_parent_package) ... ok
+2026-11-10T07:14:07.1173748Z test_math_alias_and_from_import (test_cbz_a3_float_census.Signals.test_math_alias_and_from_import) ... ok
+2026-11-10T07:14:07.1174723Z test_math_float_and_exact_math (test_cbz_a3_float_census.Signals.test_math_float_and_exact_math) ... ok
+2026-11-10T07:14:07.1175756Z test_mpmath_interval (test_cbz_a3_float_census.Signals.test_mpmath_interval) ... ok
+2026-11-10T07:14:07.1176426Z test_strings_and_comments_are_not_code (test_cbz_a3_float_census.Signals.test_strings_and_comments_are_not_code) ... ok
+2026-11-10T07:14:07.1177138Z test_true_division_and_augmented (test_cbz_a3_float_census.Signals.test_true_division_and_augmented) ... ok
+2026-11-10T07:14:07.1177810Z test_unparseable_fails_closed (test_cbz_a3_float_census.Signals.test_unparseable_fails_closed) ... ok
+2026-11-10T07:14:07.1178503Z test_unrelated_attribute_named_like_math (test_cbz_a3_float_census.Signals.test_unrelated_attribute_named_like_math) ... ok
+2026-11-10T07:14:07.1412633Z test_clean_tree_exits_zero (test_cbz_layer_a_scan.CommandLine.test_clean_tree_exits_zero) ... ok
+2026-11-10T07:14:07.2171463Z test_context_does_not_depend_on_path_spelling (test_cbz_layer_a_scan.CommandLine.test_context_does_not_depend_on_path_spelling) ... ok
+2026-11-10T07:14:07.2606747Z test_evidence_violation_reported_not_failing_by_default (test_cbz_layer_a_scan.CommandLine.test_evidence_violation_reported_not_failing_by_default) ... ok
+2026-11-10T07:14:07.3065280Z test_explicit_context_root (test_cbz_layer_a_scan.CommandLine.test_explicit_context_root) ... ok
+2026-11-10T07:14:07.4554216Z test_fail_on_rejects_unknown_contexts (test_cbz_layer_a_scan.CommandLine.test_fail_on_rejects_unknown_contexts) ... ok
+2026-11-10T07:14:07.4857850Z test_git_environment_cannot_redirect_context (test_cbz_layer_a_scan.CommandLine.test_git_environment_cannot_redirect_context) ... ok
+2026-11-10T07:14:07.5192042Z test_git_tree_mode (test_cbz_layer_a_scan.CommandLine.test_git_tree_mode) ... ok
+2026-11-10T07:14:07.6861491Z test_invalid_nested_git_markers_preserve_outer_context (test_cbz_layer_a_scan.CommandLine.test_invalid_nested_git_markers_preserve_outer_context) ... ok
+2026-11-10T07:14:07.7196213Z test_linked_worktree_gitfile_supplies_its_own_context (test_cbz_layer_a_scan.CommandLine.test_linked_worktree_gitfile_supplies_its_own_context) ... ok
+2026-11-10T07:14:07.7227581Z test_missing_git_executable_fails_closed (test_cbz_layer_a_scan.CommandLine.test_missing_git_executable_fails_closed) ... layer_a_scan: error: git
+2026-11-10T07:14:07.7233380Z ok
+2026-11-10T07:14:07.7868788Z test_missing_scan_root_is_an_error (test_cbz_layer_a_scan.CommandLine.test_missing_scan_root_is_an_error) ... ok
+2026-11-10T07:14:07.7873995Z test_no_worktree_uses_scan_argument_context (test_cbz_layer_a_scan.CommandLine.test_no_worktree_uses_scan_argument_context) ... ok
+2026-11-10T07:14:07.8088475Z test_non_lean_files_ignored (test_cbz_layer_a_scan.CommandLine.test_non_lean_files_ignored) ... ok
+2026-11-10T07:14:07.8309010Z test_production_violation_fails (test_cbz_layer_a_scan.CommandLine.test_production_violation_fails) ... ok
+2026-11-10T07:14:07.8812169Z test_real_outer_repository_retains_archive_context (test_cbz_layer_a_scan.CommandLine.test_real_outer_repository_retains_archive_context) ... ok
+2026-11-10T07:14:07.9031472Z test_review_only_does_not_fail (test_cbz_layer_a_scan.CommandLine.test_review_only_does_not_fail) ... ok
+2026-11-10T07:14:07.9301045Z test_symlinked_checkout_keeps_lexical_context (test_cbz_layer_a_scan.CommandLine.test_symlinked_checkout_keeps_lexical_context) ... ok
+2026-11-10T07:14:07.9308257Z test_traversal_error_fails_closed (test_cbz_layer_a_scan.CommandLine.test_traversal_error_fails_closed) ... layer_a_scan: error: [Errno 13] Permission denied: '/tmp/tmpr99y9smx/proofs'
+2026-11-10T07:14:07.9309203Z ok
+2026-11-10T07:14:07.9524921Z test_undecodable_fails_closed (test_cbz_layer_a_scan.CommandLine.test_undecodable_fails_closed) ... ok
+2026-11-10T07:14:08.0101543Z test_unrelated_ancestor_does_not_change_context (test_cbz_layer_a_scan.CommandLine.test_unrelated_ancestor_does_not_change_context) ... ok
+2026-11-10T07:14:08.0397922Z test_unrelated_configured_worktree_fails_closed (test_cbz_layer_a_scan.CommandLine.test_unrelated_configured_worktree_fails_closed) ... ok
+2026-11-10T07:14:08.0402344Z test_unvalidated_markers_do_not_establish_a_worktree (test_cbz_layer_a_scan.CommandLine.test_unvalidated_markers_do_not_establish_a_worktree) ... ok
+2026-11-10T07:14:08.0621336Z test_usage_error (test_cbz_layer_a_scan.CommandLine.test_usage_error) ... ok
+2026-11-10T07:14:08.0624467Z test_context_classification (test_cbz_layer_a_scan.Context.test_context_classification) ... ok
+2026-11-10T07:14:08.0839409Z test_lex_error_fails_the_run (test_cbz_layer_a_scan.FailClosed.test_lex_error_fails_the_run) ... ok
+2026-11-10T07:14:08.0841125Z test_terminated_constructs_are_not_errors (test_cbz_layer_a_scan.FailClosed.test_terminated_constructs_are_not_errors) ... ok
+2026-11-10T07:14:08.0842966Z test_unterminated_constructs_are_errors (test_cbz_layer_a_scan.FailClosed.test_unterminated_constructs_are_errors) ... ok
+2026-11-10T07:14:08.0845514Z test_block_comments_nested_and_doc (test_cbz_layer_a_scan.NotCode.test_block_comments_nested_and_doc) ... ok
+2026-11-10T07:14:08.0846107Z test_char_literals_do_not_open_strings (test_cbz_layer_a_scan.NotCode.test_char_literals_do_not_open_strings) ... ok
+2026-11-10T07:14:08.0846709Z test_escaped_constant_names_are_the_same_constants (test_cbz_layer_a_scan.NotCode.test_escaped_constant_names_are_the_same_constants) ... ok
+2026-11-10T07:14:08.0847316Z test_escaped_keyword_names_are_identifiers (test_cbz_layer_a_scan.NotCode.test_escaped_keyword_names_are_identifiers) ... ok
+2026-11-10T07:14:08.0847865Z test_identifiers_containing_keywords (test_cbz_layer_a_scan.NotCode.test_identifiers_containing_keywords) ... ok
+2026-11-10T07:14:08.0848362Z test_interpolated_strings (test_cbz_layer_a_scan.NotCode.test_interpolated_strings) ... ok
+2026-11-10T07:14:08.0848802Z test_line_comment (test_cbz_layer_a_scan.NotCode.test_line_comment) ... ok
+2026-11-10T07:14:08.0849158Z test_raw_strings (test_cbz_layer_a_scan.NotCode.test_raw_strings) ... ok
+2026-11-10T07:14:08.0850025Z test_strings (test_cbz_layer_a_scan.NotCode.test_strings) ... ok
+2026-11-10T07:14:08.0853260Z test_each_violation_token_detected (test_cbz_layer_a_scan.ViolationTokens.test_each_violation_token_detected) ... ok
+2026-11-10T07:14:08.0853783Z test_eof_without_newline (test_cbz_layer_a_scan.ViolationTokens.test_eof_without_newline) ... ok
+2026-11-10T07:14:08.0854660Z test_multiple_and_positions (test_cbz_layer_a_scan.ViolationTokens.test_multiple_and_positions) ... ok
+2026-11-10T07:14:08.0857249Z test_native_decide_options (test_cbz_layer_a_scan.ViolationTokens.test_native_decide_options) ... ok
+2026-11-10T07:14:08.0861503Z test_native_options_across_comments_and_lines (test_cbz_layer_a_scan.ViolationTokens.test_native_options_across_comments_and_lines) ... ok
+2026-11-10T07:14:08.0862713Z test_review_tokens (test_cbz_layer_a_scan.ViolationTokens.test_review_tokens) ... ok
+2026-11-10T07:14:08.0863304Z test_stop_only_at_line_start (test_cbz_layer_a_scan.ViolationTokens.test_stop_only_at_line_start) ... ok
+2026-11-10T07:14:08.0864017Z test_unicode_before_token_counts_characters (test_cbz_layer_a_scan.ViolationTokens.test_unicode_before_token_counts_characters) ... ok
+2026-11-10T07:15:04.9540878Z test_every_mutant_is_killed (test_cbz_layer_a_scan_mutants.ScannerMutants.test_every_mutant_is_killed) ... ok
+2026-11-10T07:15:06.0195279Z test_unmutated_scanner_passes_its_suite (test_cbz_layer_a_scan_mutants.ScannerMutants.test_unmutated_scanner_passes_its_suite) ... ok
+2026-11-10T07:15:06.0563909Z test_canonical_manifest_explicit_and_default_path_pass (test_check_workspace_json_duplicates.JSONDuplicateControls.test_canonical_manifest_explicit_and_default_path_pass) ... ok
+2026-11-10T07:15:06.0943231Z test_conflicting_root_authority_is_rejected_in_both_orders (test_check_workspace_json_duplicates.JSONDuplicateControls.test_conflicting_root_authority_is_rejected_in_both_orders) ... ok
+2026-11-10T07:15:06.2068979Z test_conflicting_source_members_are_rejected_in_both_orders (test_check_workspace_json_duplicates.JSONDuplicateControls.test_conflicting_source_members_are_rejected_in_both_orders) ... ok
+2026-11-10T07:15:06.2255362Z test_default_path_also_uses_duplicate_rejection (test_check_workspace_json_duplicates.JSONDuplicateControls.test_default_path_also_uses_duplicate_rejection) ... ok
+2026-11-10T07:15:06.2813120Z test_duplicates_in_nested_objects_and_arrays_are_rejected (test_check_workspace_json_duplicates.JSONDuplicateControls.test_duplicates_in_nested_objects_and_arrays_are_rejected) ... ok
+2026-11-10T07:15:06.3933104Z test_equal_valued_members_are_not_silently_coalesced (test_check_workspace_json_duplicates.JSONDuplicateControls.test_equal_valued_members_are_not_silently_coalesced) ... ok
+2026-11-10T07:15:06.5040941Z test_escaped_equivalent_and_unusual_names_are_rejected_safely (test_check_workspace_json_duplicates.JSONDuplicateControls.test_escaped_equivalent_and_unusual_names_are_rejected_safely) ... ok
+2026-11-10T07:15:06.6087727Z test_nonduplicate_malformed_inputs_keep_their_refusal_interface (test_check_workspace_json_duplicates.JSONDuplicateControls.test_nonduplicate_malformed_inputs_keep_their_refusal_interface) ... ok
+2026-11-10T07:15:06.6265980Z test_repeated_canonical_input_objects_are_rejected (test_check_workspace_json_duplicates.JSONDuplicateControls.test_repeated_canonical_input_objects_are_rejected) ... ok
+2026-11-10T07:15:06.6963156Z test_repeated_names_in_distinct_objects_and_string_text_are_valid (test_check_workspace_json_duplicates.JSONDuplicateControls.test_repeated_names_in_distinct_objects_and_string_text_are_valid) ... ok
+2026-11-10T07:15:06.7315425Z test_repository_entry_members_are_rejected (test_check_workspace_json_duplicates.JSONDuplicateControls.test_repository_entry_members_are_rejected) ... ok
+2026-11-10T07:15:06.8058144Z test_symlinked_temp_root_preserves_both_path_contracts (test_check_workspace_json_duplicates.JSONDuplicateControls.test_symlinked_temp_root_preserves_both_path_contracts) ... ok
+2026-11-10T07:15:06.8075715Z test_authority_asserted_away_from_the_checked_field_is_refused (test_check_workspace_root_keys.RootKeyControls.test_authority_asserted_away_from_the_checked_field_is_refused) ... ok
+2026-11-10T07:15:06.8077891Z test_authority_false_away_from_the_checked_field_is_still_refused_as_unsupported_or_passes (test_check_workspace_root_keys.RootKeyControls.test_authority_false_away_from_the_checked_field_is_still_refused_as_unsupported_or_passes) ... ok
+2026-11-10T07:15:06.8079409Z test_committed_manifest_passes (test_check_workspace_root_keys.RootKeyControls.test_committed_manifest_passes) ... ok
+2026-11-10T07:15:06.8084715Z test_every_forbidden_key_is_refused_at_the_root (test_check_workspace_root_keys.RootKeyControls.test_every_forbidden_key_is_refused_at_the_root) ... ok
+2026-11-10T07:15:06.8087026Z test_lemma_closed_and_promotion_permission_together_are_refused (test_check_workspace_root_keys.RootKeyControls.test_lemma_closed_and_promotion_permission_together_are_refused) ... ok
+2026-11-10T07:15:06.8088642Z test_nested_forbidden_key_is_still_refused (test_check_workspace_root_keys.RootKeyControls.test_nested_forbidden_key_is_still_refused) ... ok
+2026-11-10T07:15:06.9253918Z test_current_and_explicit_historical_sources_pass (test_verify_canonical_inputs.CanonicalInputControls.test_current_and_explicit_historical_sources_pass) ... ok
+2026-11-10T07:15:06.9955465Z test_dirty_pins_manifest_fails (test_verify_canonical_inputs.CanonicalInputControls.test_dirty_pins_manifest_fails) ... ok
+2026-11-10T07:15:07.0679180Z test_dirty_workspace_manifest_fails (test_verify_canonical_inputs.CanonicalInputControls.test_dirty_workspace_manifest_fails) ... ok
+2026-11-10T07:15:07.1485943Z test_duplicate_manifest_members_fail (test_verify_canonical_inputs.CanonicalInputControls.test_duplicate_manifest_members_fail) ... ok
+2026-11-10T07:15:07.2326529Z test_empty_canonical_inputs_fails (test_verify_canonical_inputs.CanonicalInputControls.test_empty_canonical_inputs_fails) ... ok
+2026-11-10T07:15:07.3627505Z test_explicit_newer_commit_is_not_called_historical (test_verify_canonical_inputs.CanonicalInputControls.test_explicit_newer_commit_is_not_called_historical) ... ok
+2026-11-10T07:15:07.4660886Z test_fetched_commit_identity_mismatch_fails (test_verify_canonical_inputs.CanonicalInputControls.test_fetched_commit_identity_mismatch_fails) ... ok
+2026-11-10T07:15:07.5553804Z test_gitlink_mismatch_fails (test_verify_canonical_inputs.CanonicalInputControls.test_gitlink_mismatch_fails) ... ok
+2026-11-10T07:15:07.6347335Z test_gitmodules_change_fails (test_verify_canonical_inputs.CanonicalInputControls.test_gitmodules_change_fails) ... ok
+2026-11-10T07:15:07.7085173Z test_identical_symlinked_workspace_manifest_fails (test_verify_canonical_inputs.CanonicalInputControls.test_identical_symlinked_workspace_manifest_fails) ... ok
+2026-11-10T07:15:07.8307857Z test_manifest_change_during_fetch_fails (test_verify_canonical_inputs.CanonicalInputControls.test_manifest_change_during_fetch_fails) ... ok
+2026-11-10T07:15:07.9308741Z test_missing_path_fails (test_verify_canonical_inputs.CanonicalInputControls.test_missing_path_fails) ... ok
+2026-11-10T07:15:08.0134621Z test_mutable_historical_ref_fails (test_verify_canonical_inputs.CanonicalInputControls.test_mutable_historical_ref_fails) ... ok
+2026-11-10T07:15:08.0973925Z test_nonpublic_source_cannot_be_skipped (test_verify_canonical_inputs.CanonicalInputControls.test_nonpublic_source_cannot_be_skipped) ... ok
+2026-11-10T07:15:08.1808543Z test_pinned_repository_must_be_listed_in_workspace (test_verify_canonical_inputs.CanonicalInputControls.test_pinned_repository_must_be_listed_in_workspace) ... ok
+2026-11-10T07:15:08.3001318Z test_symlinked_source_is_not_accepted_as_a_blob (test_verify_canonical_inputs.CanonicalInputControls.test_symlinked_source_is_not_accepted_as_a_blob) ... ok
+2026-11-10T07:15:08.3904741Z test_unavailable_remote_fails (test_verify_canonical_inputs.CanonicalInputControls.test_unavailable_remote_fails) ... ok
+2026-11-10T07:15:08.5021498Z test_unfetchable_historical_commit_fails (test_verify_canonical_inputs.CanonicalInputControls.test_unfetchable_historical_commit_fails) ... ok
+2026-11-10T07:15:08.5944023Z test_unmapped_repository_fails (test_verify_canonical_inputs.CanonicalInputControls.test_unmapped_repository_fails) ... ok
+2026-11-10T07:15:08.7191643Z test_workspace_head_change_during_fetch_fails (test_verify_canonical_inputs.CanonicalInputControls.test_workspace_head_change_during_fetch_fails) ... ok
+2026-11-10T07:15:08.8257195Z test_wrong_current_blob_fails (test_verify_canonical_inputs.CanonicalInputControls.test_wrong_current_blob_fails) ... ok
+2026-11-10T07:15:09.3191619Z test_actual_silent_checker_exit_is_not_a_mutation_kill (test_verify_canonical_inputs_mutations.CanonicalHarnessControls.test_actual_silent_checker_exit_is_not_a_mutation_kill) ... ok
+2026-11-10T07:15:09.3212054Z test_checker_result_protocol_has_positive_and_crash_controls (test_verify_canonical_inputs_mutations.CanonicalHarnessControls.test_checker_result_protocol_has_positive_and_crash_controls) ... ok
+2026-11-10T07:15:09.3214030Z test_exact_named_control_event_and_assertion_are_required (test_verify_canonical_inputs_mutations.CanonicalHarnessControls.test_exact_named_control_event_and_assertion_are_required) ... ok
+2026-11-10T07:15:09.3239396Z test_four_actual_harness_source_mutants_are_rejected (test_verify_canonical_inputs_mutations.CanonicalHarnessControls.test_four_actual_harness_source_mutants_are_rejected) ... ok
+2026-11-10T07:15:13.4920547Z test_all_named_guard_mutations_are_detected (test_verify_canonical_inputs_mutations.CanonicalMutationControls.test_all_named_guard_mutations_are_detected) ... ok
+2026-11-10T07:15:14.2438060Z test_cleanup_failure_stops_more_requests (test_verify_federation_vector.CliControls.test_cleanup_failure_stops_more_requests) ... ok
+2026-11-10T07:15:14.7346729Z test_cli_new_output_and_overwrite_refusal (test_verify_federation_vector.CliControls.test_cli_new_output_and_overwrite_refusal) ... {"status": "FAIL", "error": "OUTPUT_SETUP", "cbz_green": false}
+2026-11-10T07:15:14.7458062Z ok
+2026-11-10T07:15:14.7740007Z test_cli_source_output_and_symlink_refused (test_verify_federation_vector.CliControls.test_cli_source_output_and_symlink_refused) ... {"status": "FAIL", "error": "OUTPUT_SETUP", "cbz_green": false}
+2026-11-10T07:15:14.7742521Z {"status": "FAIL", "error": "OUTPUT_SETUP", "cbz_green": false}
+2026-11-10T07:15:14.7849552Z ok
+2026-11-10T07:15:14.8261591Z test_local_failure_does_not_contact_network (test_verify_federation_vector.CliControls.test_local_failure_does_not_contact_network) ... ok
+2026-11-10T07:15:15.1040038Z test_midrun_head_drift_refused (test_verify_federation_vector.CliControls.test_midrun_head_drift_refused) ... ok
+2026-11-10T07:15:15.5859743Z test_network_failure_blocks_aggregate (test_verify_federation_vector.CliControls.test_network_failure_blocks_aggregate) ... ok
+2026-11-10T07:15:16.0579078Z test_no_default_tip_equality_requirement (test_verify_federation_vector.CliControls.test_no_default_tip_equality_requirement) ... ok
+2026-11-10T07:15:16.5370560Z test_offline_report_keeps_scope_and_no_network_claim (test_verify_federation_vector.CliControls.test_offline_report_keeps_scope_and_no_network_claim) ... ok
+2026-11-10T07:15:17.0256966Z test_raw_transport_secret_never_enters_report (test_verify_federation_vector.CliControls.test_raw_transport_secret_never_enters_report) ... ok
+2026-11-10T07:15:17.3227327Z test_selected_input_change_during_network_refused (test_verify_federation_vector.CliControls.test_selected_input_change_during_network_refused) ... ok
+2026-11-10T07:15:17.7085126Z test_all_nine_native_locks_pass (test_verify_federation_vector.LockControls.test_all_nine_native_locks_pass) ... ok
+2026-11-10T07:15:17.9660447Z test_dependency_revision_drift_refused (test_verify_federation_vector.LockControls.test_dependency_revision_drift_refused) ... ok
+2026-11-10T07:15:18.2325400Z test_dependency_url_credentials_refused (test_verify_federation_vector.LockControls.test_dependency_url_credentials_refused) ... ok
+2026-11-10T07:15:18.5012062Z test_duplicate_dependency_name_refused (test_verify_federation_vector.LockControls.test_duplicate_dependency_name_refused) ... ok
+2026-11-10T07:15:18.7630401Z test_floating_resolved_revision_refused (test_verify_federation_vector.LockControls.test_floating_resolved_revision_refused) ... ok
+2026-11-10T07:15:19.0168696Z test_lock_schema_or_unknown_entry_refused (test_verify_federation_vector.LockControls.test_lock_schema_or_unknown_entry_refused) ... ok
+2026-11-10T07:15:19.0887457Z test_lock_working_drift_refused (test_verify_federation_vector.LockControls.test_lock_working_drift_refused) ... ok
+2026-11-10T07:15:19.9834926Z test_noncanonical_path_dependency_aliases_refused (test_verify_federation_vector.LockControls.test_noncanonical_path_dependency_aliases_refused) ... ok
+2026-11-10T07:15:20.2389258Z test_path_dependency_outside_math_refused (test_verify_federation_vector.LockControls.test_path_dependency_outside_math_refused) ... ok
+2026-11-10T07:15:20.4772883Z test_path_dependency_sibling_same_tree_passes (test_verify_federation_vector.LockControls.test_path_dependency_sibling_same_tree_passes) ... ok
+2026-11-10T07:15:20.7290027Z test_path_target_configuration_name_mismatch_refused (test_verify_federation_vector.LockControls.test_path_target_configuration_name_mismatch_refused) ... ok
+2026-11-10T07:15:20.9823514Z test_path_target_name_mismatch_refused (test_verify_federation_vector.LockControls.test_path_target_name_mismatch_refused) ... ok
+2026-11-10T07:15:21.2386482Z test_toolchain_disagreement_refused (test_verify_federation_vector.LockControls.test_toolchain_disagreement_refused) ... ok
+2026-11-10T07:15:21.4900891Z test_unknown_dependency_type_refused (test_verify_federation_vector.LockControls.test_unknown_dependency_type_refused) ... ok
+2026-11-10T07:15:21.6607358Z test_cleanup_failure_has_explicit_status (test_verify_federation_vector.NetworkControls.test_cleanup_failure_has_explicit_status) ... ok
+2026-11-10T07:15:21.6986366Z test_credentialed_or_nonhttps_url_refused (test_verify_federation_vector.NetworkControls.test_credentialed_or_nonhttps_url_refused) ... ok
+2026-11-10T07:15:21.7398202Z test_fetch_nonzero_cannot_pass (test_verify_federation_vector.NetworkControls.test_fetch_nonzero_cannot_pass) ... ok
+2026-11-10T07:15:22.0016208Z test_network_includes_canonical_historical_commit (test_verify_federation_vector.NetworkControls.test_network_includes_canonical_historical_commit) ... ok
+2026-11-10T07:15:22.2715530Z test_timeout_reaps_child (test_verify_federation_vector.NetworkControls.test_timeout_reaps_child) ... ok
+2026-11-10T07:15:22.3390082Z test_transport_does_not_change_source_refs_or_config (test_verify_federation_vector.NetworkControls.test_transport_does_not_change_source_refs_or_config) ... ok
+2026-11-10T07:15:22.3805007Z test_transport_secrets_are_not_serialized (test_verify_federation_vector.NetworkControls.test_transport_secrets_are_not_serialized) ... ok
+2026-11-10T07:15:22.4429033Z test_unadvertised_exact_commit_fetch_passes (test_verify_federation_vector.NetworkControls.test_unadvertised_exact_commit_fetch_passes) ... ok
+2026-11-10T07:15:22.4841190Z test_wrong_fetched_commit_refused (test_verify_federation_vector.NetworkControls.test_wrong_fetched_commit_refused) ... ok
+2026-11-10T07:15:22.4985426Z test_cleanup_error_code_survives_sanitization_without_git (test_verify_federation_vector.TransportCleanupControl.test_cleanup_error_code_survives_sanitization_without_git) ... ok
+2026-11-10T07:15:22.8497969Z test_ambient_git_override_cannot_substitute_source (test_verify_federation_vector.VectorSources.test_ambient_git_override_cannot_substitute_source) ... ok
+2026-11-10T07:15:23.0919350Z test_exact_twelve_sources_and_index_parity (test_verify_federation_vector.VectorSources.test_exact_twelve_sources_and_index_parity) ... ok
+2026-11-10T07:15:23.3248629Z test_full_working_parity_is_not_inferred (test_verify_federation_vector.VectorSources.test_full_working_parity_is_not_inferred) ... ok
+2026-11-10T07:15:23.5734230Z test_linked_worktree_uses_its_own_index (test_verify_federation_vector.VectorSources.test_linked_worktree_uses_its_own_index) ... ok
+2026-11-10T07:15:23.9764186Z test_no_git_status_or_filter_execution (test_verify_federation_vector.VectorSources.test_no_git_status_or_filter_execution) ... ok
+2026-11-10T07:15:24.0174058Z test_noncommit_or_floating_revision_refused (test_verify_federation_vector.VectorSources.test_noncommit_or_floating_revision_refused) ... ok
+2026-11-10T07:15:24.0541998Z test_oversized_control_refused (test_verify_federation_vector.VectorSources.test_oversized_control_refused) ... ok
+2026-11-10T07:15:24.1085972Z test_selected_input_executable_mode_drift_refused (test_verify_federation_vector.VectorSources.test_selected_input_executable_mode_drift_refused) ... ok
+2026-11-10T07:15:24.1620166Z test_selected_input_symlink_refused (test_verify_federation_vector.VectorSources.test_selected_input_symlink_refused) ... ok
+2026-11-10T07:15:24.2165431Z test_selected_input_working_substitution_refused (test_verify_federation_vector.VectorSources.test_selected_input_working_substitution_refused) ... ok
+2026-11-10T07:15:24.2631046Z test_staged_change_refused (test_verify_federation_vector.VectorSources.test_staged_change_refused) ... ok
+2026-11-10T07:15:24.3007666Z test_vector_extra_or_duplicate_key_refused (test_verify_federation_vector.VectorSources.test_vector_extra_or_duplicate_key_refused) ... ok
+2026-11-10T07:15:24.3386236Z test_vector_omission_rejected (test_verify_federation_vector.VectorSources.test_vector_omission_rejected) ... ok
+2026-11-10T07:15:24.3843589Z test_wrong_checkout_head_refused (test_verify_federation_vector.VectorSources.test_wrong_checkout_head_refused) ... ok
+2026-11-10T07:15:24.7723411Z test_canonical_unlisted_repository_refused (test_verify_federation_vector.WorkspaceControls.test_canonical_unlisted_repository_refused) ... ok
+2026-11-10T07:15:25.0425916Z test_canonical_wrong_blob_refused (test_verify_federation_vector.WorkspaceControls.test_canonical_wrong_blob_refused) ... ok
+2026-11-10T07:15:25.3015597Z test_exact_workspace_and_four_sources_pass (test_verify_federation_vector.WorkspaceControls.test_exact_workspace_and_four_sources_pass) ... ok
+2026-11-10T07:15:25.5615441Z test_explicit_canonical_annotated_tag_oid_refused (test_verify_federation_vector.WorkspaceControls.test_explicit_canonical_annotated_tag_oid_refused) ... ok
+2026-11-10T07:15:25.8180321Z test_explicit_canonical_tree_oid_refused (test_verify_federation_vector.WorkspaceControls.test_explicit_canonical_tree_oid_refused) ... ok
+2026-11-10T07:15:26.0796900Z test_explicit_separate_canonical_ref_supported (test_verify_federation_vector.WorkspaceControls.test_explicit_separate_canonical_ref_supported) ... ok
+2026-11-10T07:15:26.3317118Z test_extra_gitlink_refused (test_verify_federation_vector.WorkspaceControls.test_extra_gitlink_refused) ... ok
+2026-11-10T07:15:26.5844135Z test_missing_or_extra_canonical_key_refused (test_verify_federation_vector.WorkspaceControls.test_missing_or_extra_canonical_key_refused) ... ok
+2026-11-10T07:15:26.8334014Z test_sandbox_pin_skew_rejected (test_verify_federation_vector.WorkspaceControls.test_sandbox_pin_skew_rejected) ... ok
+2026-11-10T07:15:27.1024154Z test_source_blob_symlink_refused (test_verify_federation_vector.WorkspaceControls.test_source_blob_symlink_refused) ... ok
+2026-11-10T07:15:27.9452994Z test_actual_subject_crash_skip_syntax_and_silent_exit_are_not_kills (test_verify_federation_vector_mutations.MutationControls.test_actual_subject_crash_skip_syntax_and_silent_exit_are_not_kills) ... ok
+2026-11-10T07:15:27.9454188Z test_empty_failure_event_is_refused_without_crash (test_verify_federation_vector_mutations.MutationControls.test_empty_failure_event_is_refused_without_crash) ... ok
+2026-11-10T07:15:27.9455354Z test_forged_transcript_without_native_event_is_not_kill (test_verify_federation_vector_mutations.MutationControls.test_forged_transcript_without_native_event_is_not_kill) ... ok
+2026-11-10T07:15:27.9456348Z test_lifecycle_assertion_is_not_selected_dispatch (test_verify_federation_vector_mutations.MutationControls.test_lifecycle_assertion_is_not_selected_dispatch) ... ok
+2026-11-10T07:15:27.9457338Z test_malformed_counts_nonce_and_origin_cannot_qualify (test_verify_federation_vector_mutations.MutationControls.test_malformed_counts_nonce_and_origin_cannot_qualify) ... ok
+2026-11-10T07:15:28.8908543Z test_origin_guard_removal_reopens_real_spoofed_subject (test_verify_federation_vector_mutations.MutationControls.test_origin_guard_removal_reopens_real_spoofed_subject) ... ok
+2026-11-10T07:15:29.3426800Z test_subject_assertion_from_unittest_named_path_is_not_a_kill (test_verify_federation_vector_mutations.MutationControls.test_subject_assertion_from_unittest_named_path_is_not_a_kill) ... ok
+2026-11-10T07:15:29.3445835Z test_subject_assertion_is_not_selected_body_failure (test_verify_federation_vector_mutations.MutationControls.test_subject_assertion_is_not_selected_body_failure) ... ok
+2026-11-10T07:15:40.2078715Z test_thirteen_source_mutants_are_killed_by_designated_body_assertions (test_verify_federation_vector_mutations.MutationControls.test_thirteen_source_mutants_are_killed_by_designated_body_assertions) ... ok
+2026-11-10T07:15:40.2079331Z test_committed_real_tree_passes (test_verify_pins.VerifyPinsControls.test_committed_real_tree_passes)
+2026-11-10T07:15:40.2345751Z The real workspace (parent of this tests/ directory) must pass ... ok
+2026-11-10T07:15:40.2346143Z test_consistent_fixture_passes (test_verify_pins.VerifyPinsControls.test_consistent_fixture_passes)
+2026-11-10T07:15:40.2743691Z The fixture builder itself yields a passing workspace, so the ... ok
+2026-11-10T07:15:40.2744327Z test_flags_redirect_the_checker (test_verify_pins.VerifyPinsControls.test_flags_redirect_the_checker)
+2026-11-10T07:15:40.3368811Z --pins pointing at a file that disagrees with an otherwise-good ... ok
+2026-11-10T07:15:40.3741578Z test_gitlink_sha_differs_from_pins_fails (test_verify_pins.VerifyPinsControls.test_gitlink_sha_differs_from_pins_fails) ... ok
+2026-11-10T07:15:40.4105504Z test_missing_gitlink_fails (test_verify_pins.VerifyPinsControls.test_missing_gitlink_fails) ... ok
+2026-11-10T07:15:40.4495628Z test_opt_in_without_update_none_fails (test_verify_pins.VerifyPinsControls.test_opt_in_without_update_none_fails) ... ok
+2026-11-10T07:15:40.4876162Z test_prefix_match_is_not_accepted (test_verify_pins.VerifyPinsControls.test_prefix_match_is_not_accepted) ... ok
+2026-11-10T07:15:40.4876618Z test_readme_table_renders_pins_json (test_verify_pins.VerifyPinsControls.test_readme_table_renders_pins_json)
+2026-11-10T07:15:40.4880747Z README's table is a rendering of pins.json: every pinned SHA must ... ok
+2026-11-10T07:15:40.5274123Z test_unlisted_gitlink_fails (test_verify_pins.VerifyPinsControls.test_unlisted_gitlink_fails) ... ok
+2026-11-10T07:15:40.5657320Z test_update_none_without_opt_in_fails (test_verify_pins.VerifyPinsControls.test_update_none_without_opt_in_fails) ... ok
+2026-11-10T07:15:40.6089540Z test_url_or_branch_mismatch_fails (test_verify_pins.VerifyPinsControls.test_url_or_branch_mismatch_fails) ... ok
+2026-11-10T07:15:40.8891748Z test_conflicting_pin_and_flags_rejected_in_both_orders (test_verify_pins.VerifyPinsDuplicateJSONControls.test_conflicting_pin_and_flags_rejected_in_both_orders) ... ok
+2026-11-10T07:15:41.4234675Z test_duplicate_diagnostics_are_ascii_safe_before_git (test_verify_pins.VerifyPinsDuplicateJSONControls.test_duplicate_diagnostics_are_ascii_safe_before_git) ... ok
+2026-11-10T07:15:41.5289291Z test_duplicate_in_nested_object_is_rejected (test_verify_pins.VerifyPinsDuplicateJSONControls.test_duplicate_in_nested_object_is_rejected) ... ok
+2026-11-10T07:15:41.5869492Z test_duplicate_rejection_precedes_git_even_with_network_requested (test_verify_pins.VerifyPinsDuplicateJSONControls.test_duplicate_rejection_precedes_git_even_with_network_requested) ... ok
+2026-11-10T07:15:41.7726457Z test_duplicate_root_members_rejected_in_both_orders (test_verify_pins.VerifyPinsDuplicateJSONControls.test_duplicate_root_members_rejected_in_both_orders) ... ok
+2026-11-10T07:15:41.8728712Z test_escaped_equivalent_member_rejected_in_both_orders (test_verify_pins.VerifyPinsDuplicateJSONControls.test_escaped_equivalent_member_rejected_in_both_orders) ... ok
+2026-11-10T07:15:41.9306397Z test_identical_duplicate_is_still_ambiguous (test_verify_pins.VerifyPinsDuplicateJSONControls.test_identical_duplicate_is_still_ambiguous) ... ok
+2026-11-10T07:15:42.1398487Z test_empty_remote_lookup_reports_unknown_configured_tip (test_verify_pins.VerifyPinsNetworkControls.test_empty_remote_lookup_reports_unknown_configured_tip) ... ok
+2026-11-10T07:15:42.3278609Z test_known_differing_tip_output_is_unchanged (test_verify_pins.VerifyPinsNetworkControls.test_known_differing_tip_output_is_unchanged) ... ok
+2026-11-10T07:15:42.5357962Z test_known_equal_tip_output_is_unchanged (test_verify_pins.VerifyPinsNetworkControls.test_known_equal_tip_output_is_unchanged) ... ok
+2026-11-10T07:15:42.7289724Z test_observed_default_mismatch_retained_when_configured_tip_unknown (test_verify_pins.VerifyPinsNetworkControls.test_observed_default_mismatch_retained_when_configured_tip_unknown) ... ok
+2026-11-10T07:15:43.0099053Z test_unobserved_default_does_not_hide_known_configured_tip (test_verify_pins.VerifyPinsNetworkControls.test_unobserved_default_does_not_hide_known_configured_tip) ... ok
+2026-11-10T07:15:43.0341158Z test_git_failure_is_reported (test_verify_pins.VerifyPinsShapeControls.test_git_failure_is_reported) ... ok
+2026-11-10T07:15:43.2221487Z test_gitmodules_defects_fail (test_verify_pins.VerifyPinsShapeControls.test_gitmodules_defects_fail) ... ok
+2026-11-10T07:15:43.4601099Z test_pins_shape_defects_fail (test_verify_pins.VerifyPinsShapeControls.test_pins_shape_defects_fail) ... ok
+2026-11-10T07:15:43.5322040Z test_clean_valid_and_mismatched_checkout (test_verify_pins_git_integrity.GitIntegrityControls.test_clean_valid_and_mismatched_checkout) ... ok
+2026-11-10T07:15:43.5829279Z test_combined_git_routing_overrides_cannot_select_foreign_head (test_verify_pins_git_integrity.GitIntegrityControls.test_combined_git_routing_overrides_cannot_select_foreign_head) ... ok
+2026-11-10T07:15:43.6591556Z test_inherited_git_dir_cannot_select_foreign_head (test_verify_pins_git_integrity.GitIntegrityControls.test_inherited_git_dir_cannot_select_foreign_head) ... ok
+2026-11-10T07:15:43.7558041Z test_local_replace_ref_cannot_substitute_committed_head_tree (test_verify_pins_git_integrity.GitIntegrityControls.test_local_replace_ref_cannot_substitute_committed_head_tree) ... ok
+2026-11-10T07:15:43.8725002Z test_offline_network_mode_rejects_foreign_git_dir_without_side_effect (test_verify_pins_git_integrity.GitIntegrityControls.test_offline_network_mode_rejects_foreign_git_dir_without_side_effect) ... ok
+2026-11-10T07:15:43.9491993Z test_offline_network_valid_selected_checkout_ignores_foreign_dir (test_verify_pins_git_integrity.GitIntegrityControls.test_offline_network_valid_selected_checkout_ignores_foreign_dir) ... ok
+2026-11-10T07:15:44.1031977Z test_existing_refusals_remain_handled (test_verify_pins_input_types.PinInputTypeTests.test_existing_refusals_remain_handled) ... ok
+2026-11-10T07:15:44.1043332Z test_mixed_bad_entries_retain_later_diagnostics_and_do_not_reach_git (test_verify_pins_input_types.PinInputTypeTests.test_mixed_bad_entries_retain_later_diagnostics_and_do_not_reach_git) ... ok
+2026-11-10T07:15:44.2353448Z test_nonobject_entries_are_handled (test_verify_pins_input_types.PinInputTypeTests.test_nonobject_entries_are_handled) ... ok
+2026-11-10T07:15:44.3644719Z test_nonobject_roots_are_handled (test_verify_pins_input_types.PinInputTypeTests.test_nonobject_roots_are_handled) ... ok
+2026-11-10T07:15:44.5177036Z test_nonstring_or_empty_paths_are_handled (test_verify_pins_input_types.PinInputTypeTests.test_nonstring_or_empty_paths_are_handled) ... ok
+2026-11-10T07:15:44.5184649Z test_unexpected_programming_error_is_not_hidden (test_verify_pins_input_types.PinInputTypeTests.test_unexpected_programming_error_is_not_hidden) ... ok
+2026-11-10T07:15:44.5797596Z test_valid_local_git_tree_and_wrong_pin_control (test_verify_pins_input_types.PinInputTypeTests.test_valid_local_git_tree_and_wrong_pin_control) ... ok
+2026-11-10T07:15:44.5801616Z test_valid_manifest_and_input_bytes_are_preserved (test_verify_pins_input_types.PinInputTypeTests.test_valid_manifest_and_input_bytes_are_preserved) ... ok
+2026-11-10T07:15:44.9228522Z test_actual_silent_checker_exit_cannot_count_as_a_kill (test_verify_pins_mutations.StrictPinHarnessControls.test_actual_silent_checker_exit_cannot_count_as_a_kill) ... ok
+2026-11-10T07:15:44.9229459Z test_exact_named_observation_and_assertion_are_required (test_verify_pins_mutations.StrictPinHarnessControls.test_exact_named_observation_and_assertion_are_required) ... ok
+2026-11-10T07:15:44.9244707Z test_four_actual_classifier_source_mutants_are_rejected (test_verify_pins_mutations.StrictPinHarnessControls.test_four_actual_classifier_source_mutants_are_rejected) ... ok
+2026-11-10T07:15:44.9245767Z test_pin_result_protocol_has_positive_and_crash_controls (test_verify_pins_mutations.StrictPinHarnessControls.test_pin_result_protocol_has_positive_and_crash_controls) ... ok
+2026-11-10T07:15:44.9266135Z test_specific_demoted_reason_is_required_even_if_another_guard_refuses (test_verify_pins_mutations.StrictPinHarnessControls.test_specific_demoted_reason_is_required_even_if_another_guard_refuses) ... ok
+2026-11-10T07:15:48.4678946Z test_all_named_guard_removals_are_detected (test_verify_pins_mutations.StrictPinMutationControls.test_all_named_guard_removals_are_detected) ... ok
+2026-11-10T07:15:48.5423274Z test_duplicate_branch_advertisement_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_duplicate_branch_advertisement_is_rejected) ... ok
+2026-11-10T07:15:48.6165088Z test_failed_remote_tip_lookup_is_rejected_after_successful_fetch (test_verify_pins_strict.StrictCurrentPinTests.test_failed_remote_tip_lookup_is_rejected_after_successful_fetch) ... ok
+2026-11-10T07:15:48.6899819Z test_inconsistent_head_and_branch_advertisement_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_inconsistent_head_and_branch_advertisement_is_rejected) ... ok
+2026-11-10T07:15:48.7473925Z test_initial_manifest_mismatch_does_not_start_remote_lookup (test_verify_pins_strict.StrictCurrentPinTests.test_initial_manifest_mismatch_does_not_start_remote_lookup) ... ok
+2026-11-10T07:15:48.8222945Z test_legacy_tip_difference_does_not_claim_ancestry (test_verify_pins_strict.StrictCurrentPinTests.test_legacy_tip_difference_does_not_claim_ancestry) ... ok
+2026-11-10T07:15:48.8925189Z test_matching_public_default_and_branch_are_accepted (test_verify_pins_strict.StrictCurrentPinTests.test_matching_public_default_and_branch_are_accepted) ... ok
+2026-11-10T07:15:48.9657942Z test_missing_configured_branch_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_missing_configured_branch_is_rejected) ... ok
+2026-11-10T07:15:49.0372623Z test_missing_default_branch_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_missing_default_branch_is_rejected) ... ok
+2026-11-10T07:15:49.1138387Z test_missing_head_commit_is_rejected_even_when_branch_tip_matches (test_verify_pins_strict.StrictCurrentPinTests.test_missing_head_commit_is_rejected_even_when_branch_tip_matches) ... ok
+2026-11-10T07:15:49.2349513Z test_newer_remote_tip_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_newer_remote_tip_is_rejected) ... ok
+2026-11-10T07:15:49.3152576Z test_pin_manifest_change_during_lookup_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_pin_manifest_change_during_lookup_is_rejected) ... ok
+2026-11-10T07:15:49.3719532Z test_skipped_nonpublic_repository_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_skipped_nonpublic_repository_is_rejected) ... ok
+2026-11-10T07:15:49.4257974Z test_symlinked_gitmodules_is_rejected_even_with_identical_bytes (test_verify_pins_strict.StrictCurrentPinTests.test_symlinked_gitmodules_is_rejected_even_with_identical_bytes) ... ok
+2026-11-10T07:15:49.4892829Z test_working_gitmodules_cannot_mask_committed_mismatch (test_verify_pins_strict.StrictCurrentPinTests.test_working_gitmodules_cannot_mask_committed_mismatch) ... ok
+2026-11-10T07:15:49.5520441Z test_working_pins_cannot_mask_a_different_committed_manifest (test_verify_pins_strict.StrictCurrentPinTests.test_working_pins_cannot_mask_a_different_committed_manifest) ... ok
+2026-11-10T07:15:49.6380451Z test_workspace_head_change_during_lookup_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_workspace_head_change_during_lookup_is_rejected) ... ok
+2026-11-10T07:15:49.7134692Z test_wrong_default_branch_is_rejected_even_when_pin_matches_main (test_verify_pins_strict.StrictCurrentPinTests.test_wrong_default_branch_is_rejected_even_when_pin_matches_main) ... ok
+2026-11-10T07:15:49.7332076Z test_canonical_input_repository_must_be_in_federation (test_workspace_contract.WorkspaceContractTests.test_canonical_input_repository_must_be_in_federation) ... ok
+2026-11-10T07:15:49.7524732Z test_canonical_input_requires_observed_blob (test_workspace_contract.WorkspaceContractTests.test_canonical_input_requires_observed_blob) ... ok
+2026-11-10T07:15:49.7712331Z test_committed_manifest_passes_and_does_not_duplicate_role_registry (test_workspace_contract.WorkspaceContractTests.test_committed_manifest_passes_and_does_not_duplicate_role_registry) ... ok
+2026-11-10T07:15:49.7902399Z test_duplicate_repository_is_rejected (test_workspace_contract.WorkspaceContractTests.test_duplicate_repository_is_rejected) ... ok
+2026-11-10T07:15:49.8086420Z test_forbidden_status_field_is_rejected_anywhere (test_workspace_contract.WorkspaceContractTests.test_forbidden_status_field_is_rejected_anywhere) ... ok
+2026-11-10T07:15:49.8271236Z test_repository_role_metadata_is_rejected (test_workspace_contract.WorkspaceContractTests.test_repository_role_metadata_is_rejected) ... ok
+2026-11-10T07:15:49.8456521Z test_required_repository_cannot_disappear (test_workspace_contract.WorkspaceContractTests.test_required_repository_cannot_disappear) ... ok
+2026-11-10T07:15:49.8640673Z test_status_authority_must_stay_false (test_workspace_contract.WorkspaceContractTests.test_status_authority_must_stay_false) ... ok
+2026-11-10T07:15:49.8641002Z 
+2026-11-10T07:15:49.8641206Z ----------------------------------------------------------------------
+2026-11-10T07:15:49.8642857Z Ran 254 tests in 107.866s
+2026-11-10T07:15:49.8642954Z 
+2026-11-10T07:15:49.8643003Z OK
+2026-11-10T07:15:49.8643130Z {"status": "PASS", "cbz_green": false}
+2026-11-10T07:15:49.8861359Z ##[group]Run python3 - <<'PY'
+2026-11-10T07:15:49.8861572Z [36;1mpython3 - <<'PY'[0m
+2026-11-10T07:15:49.8861708Z [36;1mimport hashlib, json, os[0m
+2026-11-10T07:15:49.8861853Z [36;1mfrom pathlib import Path[0m
+2026-11-10T07:15:49.8862053Z [36;1mroot = Path(os.environ["RUNNER_TEMP"]) / "cbz-vector-mutations"[0m
+2026-11-10T07:15:49.8862270Z [36;1mfor mode in ("normal", "optimized"):[0m
+2026-11-10T07:15:49.8862466Z [36;1m    campaigns = sorted((root / mode).glob("campaign-*"))[0m
+2026-11-10T07:15:49.8862652Z [36;1m    if not campaigns:[0m
+2026-11-10T07:15:49.8862855Z [36;1m        print(json.dumps(dict(mode=mode, observation="NO_RETAINED_CAMPAIGN")))[0m
+2026-11-10T07:15:49.8863074Z [36;1m    for campaign in campaigns:[0m
+2026-11-10T07:15:49.8863238Z [36;1m        summary = campaign / "summary.json"[0m
+2026-11-10T07:15:49.8863415Z [36;1m        if summary.is_file():[0m
+2026-11-10T07:15:49.8863572Z [36;1m            raw = summary.read_bytes()[0m
+2026-11-10T07:15:49.8863752Z [36;1m            try:[0m
+2026-11-10T07:15:49.8863890Z [36;1m                rows = json.loads(raw)[0m
+2026-11-10T07:15:49.8864107Z [36;1m                print(json.dumps(dict(mode=mode, file=str(summary.relative_to(root)),[0m
+2026-11-10T07:15:49.8864400Z [36;1m                    sha256=hashlib.sha256(raw).hexdigest(), observations=rows), sort_keys=True))[0m
+2026-11-10T07:15:49.8864653Z [36;1m            except (ValueError, TypeError) as error:[0m
+2026-11-10T07:15:49.8864990Z [36;1m                print(json.dumps(dict(mode=mode, observation="SUMMARY_READ_FAILED",[0m
+2026-11-10T07:15:49.8865262Z [36;1m                    error=type(error).__name__, sha256=hashlib.sha256(raw).hexdigest())))[0m
+2026-11-10T07:15:49.8865471Z [36;1m        else:[0m
+2026-11-10T07:15:49.8865648Z [36;1m            print(json.dumps(dict(mode=mode, observation="SUMMARY_MISSING",[0m
+2026-11-10T07:15:49.8865990Z [36;1m                campaign=campaign.name)))[0m
+2026-11-10T07:15:49.8866183Z [36;1m        for event_path in sorted(campaign.glob("*.json")):[0m
+2026-11-10T07:15:49.8866379Z [36;1m            if event_path.name == "summary.json":[0m
+2026-11-10T07:15:49.8866542Z [36;1m                continue[0m
+2026-11-10T07:15:49.8866688Z [36;1m            raw = event_path.read_bytes()[0m
+2026-11-10T07:15:49.8866862Z [36;1m            try:[0m
+2026-11-10T07:15:49.8866997Z [36;1m                event = json.loads(raw)[0m
+2026-11-10T07:15:49.8867221Z [36;1m                fields = ("test", "nonce", "source_before", "source_after", "tests_run",[0m
+2026-11-10T07:15:49.8867496Z [36;1m                          "errors", "skipped", "expected_failures", "unexpected_successes",[0m
+2026-11-10T07:15:49.8867710Z [36;1m                          "failures")[0m
+2026-11-10T07:15:49.8867900Z [36;1m                observed = {key: event.get(key) for key in fields}[0m
+2026-11-10T07:15:49.8868131Z [36;1m                print(json.dumps(dict(mode=mode, file=event_path.name,[0m
+2026-11-10T07:15:49.8868396Z [36;1m                    sha256=hashlib.sha256(raw).hexdigest(), event=observed), sort_keys=True))[0m
+2026-11-10T07:15:49.8868663Z [36;1m            except (ValueError, TypeError, AttributeError) as error:[0m
+2026-11-10T07:15:49.8868902Z [36;1m                print(json.dumps(dict(mode=mode, file=event_path.name,[0m
+2026-11-10T07:15:49.8869144Z [36;1m                    observation="EVENT_READ_FAILED", error=type(error).__name__,[0m
+2026-11-10T07:15:49.8869372Z [36;1m                    sha256=hashlib.sha256(raw).hexdigest())))[0m
+2026-11-10T07:15:49.8869538Z [36;1mPY[0m
+2026-11-10T07:15:49.8912218Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T07:15:49.8912405Z env:
+2026-11-10T07:15:49.8912558Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:15:49.8912788Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T07:15:49.8913030Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:15:49.8913376Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:15:49.8913582Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:15:49.8913786Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T07:15:49.8913964Z ##[endgroup]
+2026-11-10T07:15:49.9136973Z {"file": "normal/campaign-y0wtpq2x/summary.json", "mode": "normal", "observations": [{"exit_code": 0, "kind": "baseline", "mutation": "vector-set", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "fea3a5b8252e60696d013a043289a402b24510bddc63ab1947b4da5d6407114d", "test": "VectorSources.test_vector_omission_rejected"}, {"exit_code": 1, "kind": "mutant", "mutation": "vector-set", "source_sha256": "dd37da26c48ef406083b3c8c0d304e6c9cc6ce1c596fde846d8d2f20c366adf7", "stderr_sha256": "1faba095001e94a71d9b713782057ac889ffb648e07e6e43d8bd43eba75560fa", "test": "VectorSources.test_vector_omission_rejected"}, {"exit_code": 0, "kind": "baseline", "mutation": "head-match", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "e44030b2d5f3380038c9bcd41d1b81e69867ddb802a97e893750302b5cfec874", "test": "VectorSources.test_wrong_checkout_head_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "head-match", "source_sha256": "8e3fbef1c3c98e2a3f36ee9907d2d75d11abc924c9dcb94e69a6a8216f53220f", "stderr_sha256": "83e1bad1b398278e761379b34838c0ea95586674179bd3e790e9d2d303b856cb", "test": "VectorSources.test_wrong_checkout_head_refused"}, {"exit_code": 0, "kind": "baseline", "mutation": "index-parity", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "0098466d06b114cfcb301b606cbca4d8bacd243e0bffd9346ef208ad7a63caef", "test": "VectorSources.test_staged_change_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "index-parity", "source_sha256": "3b28c0b00369cf873d8fc539d25f6ac5d45442eed79b4e03775512cdc3b6b655", "stderr_sha256": "ad5e20624f05c092c2525e783c0ee9a99121c68eac23473000de7623363daf9f", "test": "VectorSources.test_staged_change_refused"}, {"exit_code": 0, "kind": "baseline", "mutation": "selected-input", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "1357621b9bd081f540e96d4d5455d12b64e782f95e0f5ecefcd6f86da4e43531", "test": "VectorSources.test_selected_input_working_substitution_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "selected-input", "source_sha256": "caeb73e5eb0c8ba500970df24f5fd8f2af366bf4503b91de9a3478063c4f594c", "stderr_sha256": "21f92e9d45c97422ec70d1acf46cfc1b4e0a9e3c716dbe392ec57051752a430c", "test": "VectorSources.test_selected_input_working_substitution_refused"}, {"exit_code": 0, "kind": "baseline", "mutation": "sandbox-pin", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "7b95d1d9adb5ac10252d7e6769bac64b1601a1922696f2f496a551d8042ccefb", "test": "WorkspaceControls.test_sandbox_pin_skew_rejected"}, {"exit_code": 1, "kind": "mutant", "mutation": "sandbox-pin", "source_sha256": "8a0789145d65e804fe437e36b0803f622bbb366b66000a77ba4a1a6c796e6695", "stderr_sha256": "fc6b6e5c3cc3328cc2169e11d14ad1786a41ef0a216d195904706a68217472d0", "test": "WorkspaceControls.test_sandbox_pin_skew_rejected"}, {"exit_code": 0, "kind": "baseline", "mutation": "canonical-blob", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "d384be9186821923727a446335fd7155eb4f1c5072d0c7372b71c779ffd35075", "test": "WorkspaceControls.test_canonical_wrong_blob_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "canonical-blob", "source_sha256": "13af399effec0e2b34bbf886fa96fe1e987df77887eae265a3fb89a4dbec4729", "stderr_sha256": "f579d9e22a67dbd4584da079b7b368e3eb8dc4ede218f9aeb0d02abf8b0a2376", "test": "WorkspaceControls.test_canonical_wrong_blob_refused"}, {"exit_code": 0, "kind": "baseline", "mutation": "lock-commit", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "c6bd2e0f1c656753cea1ce6cc6e29e360bcd4f4da9282883f8c2966f319e0da2", "test": "LockControls.test_floating_resolved_revision_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "lock-commit", "source_sha256": "9bef96adaec1022b10681b9fcad7442037b7a68f074073b031aeff4fa53b6dee", "stderr_sha256": "8f56562cf2c40b84c4570ed28aba848e87cc41d2a634609029af193d0f8e3943", "test": "LockControls.test_floating_resolved_revision_refused"}, {"exit_code": 0, "kind": "baseline", "mutation": "path-resolution", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "5951c55ca399fe0987a93c2e42a3c5bf5589a86525d1c9a8b709f86bbf27772b", "test": "LockControls.test_path_dependency_outside_math_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "path-resolution", "source_sha256": "c342cc851fc27aff18d113a0725f5c55244f5c128a83dddeda48716bc32ed4b1", "stderr_sha256": "c63e04e599cffe4b35c08410dec866f5774a0e0b302e5115e5edaf7020db2db2", "test": "LockControls.test_path_dependency_outside_math_refused"}, {"exit_code": 0, "kind": "baseline", "mutation": "network-failure", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "d17350ba798243114f9d30ae7a9aefc4a8f9a57fd45aa9091a98c9e447e0eb67", "test": "CliControls.test_network_failure_blocks_aggregate"}, {"exit_code": 1, "kind": "mutant", "mutation": "network-failure", "source_sha256": "15838fe7e9f9230f17b68125375a1d26b50330b3581b0ef18fd644082b551420", "stderr_sha256": "5a8941c63aefe9cb79764c75beedfe5e2daef17ac6c3fedbe55c7559e8e66f21", "test": "CliControls.test_network_failure_blocks_aggregate"}, {"exit_code": 0, "kind": "baseline", "mutation": "canonical-request", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "08e345a11006d167cb3f474a6c69b0396b3749d5a76e24adce84f31c100b7e64", "test": "NetworkControls.test_network_includes_canonical_historical_commit"}, {"exit_code": 1, "kind": "mutant", "mutation": "canonical-request", "source_sha256": "d278911b562a9f6405e3936e6a50e0255a61c1fa2710bd4379c3ec2409537c13", "stderr_sha256": "bd5c077b25ba842e99bd4a489d24ca5006597b1f7187edd5dd6070336afa4ebe", "test": "NetworkControls.test_network_includes_canonical_historical_commit"}, {"exit_code": 0, "kind": "baseline", "mutation": "fetched-identity", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "ceefebe6f87aaab23d3c061cf6a993672f92d3c782afd342430441c9fb5c1f31", "test": "NetworkControls.test_wrong_fetched_commit_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "fetched-identity", "source_sha256": "848d0dd3aabd33fcbdd3ac6cb2e05561cd1b2a0e7a3188b6b51a7e93b7421987", "stderr_sha256": "f6c31755ec1f2f95511a2019e37e3f288259fab36f9054532e9f78a8d0afc632", "test": "NetworkControls.test_wrong_fetched_commit_refused"}, {"exit_code": 0, "kind": "baseline", "mutation": "final-recheck", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "39111b3e96a89b79672d5f65a196aa87a1db326ddb2b4bafac054f6ed748be0f", "test": "CliControls.test_midrun_head_drift_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "final-recheck", "source_sha256": "1af4e4c7c707be3f76300e272a1dad94ec2c38700e8b418161aead33d6ae4470", "stderr_sha256": "45d85882052531ccc9782c50eeaf1d9acb6d25fee624e42f1ca5b997b37c8645", "test": "CliControls.test_midrun_head_drift_refused"}, {"exit_code": 0, "kind": "baseline", "mutation": "canonical-kind", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "8497419df7c41f5d07b45d0844968e79dbe297f011934c6ce4f82a37ac04f0ba", "test": "WorkspaceControls.test_explicit_canonical_tree_oid_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "canonical-kind", "source_sha256": "9a2fe11e6dfa2a16472ae28bba44ddbcad4ce6bcf38b6980a87fe07fcb207fa8", "stderr_sha256": "56b7764f14dcfe2e74a1029e002d57182bd2df01ac00b882768eeb8919b015f1", "test": "WorkspaceControls.test_explicit_canonical_tree_oid_refused"}], "sha256": "fd6e00543377dad76ec18474826cd5f43e79daf6cf390ea0926151e0fc6a9734"}
+2026-11-10T07:15:49.9150832Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "bac60e3ae77a73b9be9edb490ec26b93", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "WorkspaceControls.test_canonical_wrong_blob_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "canonical-blob-baseline.json", "mode": "normal", "sha256": "11477f60282b66778a9159b1de664dba831e60c4e0a86a70bb7f9016624d91e5"}
+2026-11-10T07:15:49.9152729Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "bc5dd76abba87b3d4eec2ba5f1bafa03", "skipped": 0, "source_after": "13af399effec0e2b34bbf886fa96fe1e987df77887eae265a3fb89a4dbec4729", "source_before": "13af399effec0e2b34bbf886fa96fe1e987df77887eae265a3fb89a4dbec4729", "test": "WorkspaceControls.test_canonical_wrong_blob_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "canonical-blob-mutant.json", "mode": "normal", "sha256": "d573072f08615e8d629c82ca284462fb366b7fb0eadb270e0758875501eeeb27"}
+2026-11-10T07:15:49.9154564Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "8c2db71385b2b08a7df345416ffe1aff", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "WorkspaceControls.test_explicit_canonical_tree_oid_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "canonical-kind-baseline.json", "mode": "normal", "sha256": "91aa9a54980f832314bf2e81e342e033a3a12eb14c20113586b85f5e42f337b1"}
+2026-11-10T07:15:49.9156507Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "34ecfb42b59ec638b25435327345ae65", "skipped": 0, "source_after": "9a2fe11e6dfa2a16472ae28bba44ddbcad4ce6bcf38b6980a87fe07fcb207fa8", "source_before": "9a2fe11e6dfa2a16472ae28bba44ddbcad4ce6bcf38b6980a87fe07fcb207fa8", "test": "WorkspaceControls.test_explicit_canonical_tree_oid_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "canonical-kind-mutant.json", "mode": "normal", "sha256": "fb9e1cd43386a6b1976bfe287a784bbfc948784ba86b1ef60a79dc37a673361b"}
+2026-11-10T07:15:49.9158427Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "1ff4fc5fe148eb3e7e4d8c7dfa6f86d6", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "NetworkControls.test_network_includes_canonical_historical_commit", "tests_run": 1, "unexpected_successes": 0}, "file": "canonical-request-baseline.json", "mode": "normal", "sha256": "5372c5ee1f56d07b9adf45e4c49460ce978fb22b8469cc2681b656d18bc278ba"}
+2026-11-10T07:15:49.9160240Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "21 != 22", "selected_body": true}], "nonce": "f81c72f1d4f7600a54b1062cd541e148", "skipped": 0, "source_after": "d278911b562a9f6405e3936e6a50e0255a61c1fa2710bd4379c3ec2409537c13", "source_before": "d278911b562a9f6405e3936e6a50e0255a61c1fa2710bd4379c3ec2409537c13", "test": "NetworkControls.test_network_includes_canonical_historical_commit", "tests_run": 1, "unexpected_successes": 0}, "file": "canonical-request-mutant.json", "mode": "normal", "sha256": "20e9242982d5f2a92f7b625d48a120b61063776e996d9d40d6f0a3fb48104a04"}
+2026-11-10T07:15:49.9162308Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "e85c15e943e044522c1375c0f9f0798c", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "NetworkControls.test_wrong_fetched_commit_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "fetched-identity-baseline.json", "mode": "normal", "sha256": "da77b7bbd557f01bb39ca7d07786af117312a1072a6c1e9aea57a1a3490b7fbd"}
+2026-11-10T07:15:49.9165549Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "'FETCHED_COMMIT' != 'IDENTITY_MISMATCH'\n- FETCHED_COMMIT\n+ IDENTITY_MISMATCH\n", "selected_body": true}], "nonce": "b266a70c62f3828c1d9ea5eded133d26", "skipped": 0, "source_after": "848d0dd3aabd33fcbdd3ac6cb2e05561cd1b2a0e7a3188b6b51a7e93b7421987", "source_before": "848d0dd3aabd33fcbdd3ac6cb2e05561cd1b2a0e7a3188b6b51a7e93b7421987", "test": "NetworkControls.test_wrong_fetched_commit_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "fetched-identity-mutant.json", "mode": "normal", "sha256": "39c68533d6f7f3779b79bfa7f6e10b1d4057b7862013b645c7b46f42a6b102af"}
+2026-11-10T07:15:49.9167431Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "db6026dec3bf9916ef8456da06228bcd", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "CliControls.test_midrun_head_drift_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "final-recheck-baseline.json", "mode": "normal", "sha256": "05710c133d5fbfae9a0b6fc87a98a690b6c89c5a813341802b32d77b5ed61ee9"}
+2026-11-10T07:15:49.9169202Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "'PASS' != 'FAIL'\n- PASS\n+ FAIL\n", "selected_body": true}], "nonce": "dcf24f8f5ef679e67e1e305eb453c391", "skipped": 0, "source_after": "1af4e4c7c707be3f76300e272a1dad94ec2c38700e8b418161aead33d6ae4470", "source_before": "1af4e4c7c707be3f76300e272a1dad94ec2c38700e8b418161aead33d6ae4470", "test": "CliControls.test_midrun_head_drift_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "final-recheck-mutant.json", "mode": "normal", "sha256": "c6ade71473a9da6845db6030e62c4af7110989bfb0370d198d49df4b72e045c6"}
+2026-11-10T07:15:49.9171047Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "8fe62a7776d0d9ef33818352c996c89d", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "VectorSources.test_wrong_checkout_head_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "head-match-baseline.json", "mode": "normal", "sha256": "14638b0613c2d031306176100d85b05b2e36fc7c1c731fed6aea300e55a67248"}
+2026-11-10T07:15:49.9172792Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "3426c65e535c5b1ce3fa3891f60bf1aa", "skipped": 0, "source_after": "8e3fbef1c3c98e2a3f36ee9907d2d75d11abc924c9dcb94e69a6a8216f53220f", "source_before": "8e3fbef1c3c98e2a3f36ee9907d2d75d11abc924c9dcb94e69a6a8216f53220f", "test": "VectorSources.test_wrong_checkout_head_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "head-match-mutant.json", "mode": "normal", "sha256": "1999df898929c3802d9ffa029ea2f3393f8aea71234566e60ca58123371a1e55"}
+2026-11-10T07:15:49.9174564Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "9f24c69a8e18b6130dec9f7fe1f1bc51", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "VectorSources.test_staged_change_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "index-parity-baseline.json", "mode": "normal", "sha256": "a49039d88750a42b6418d040cf91632a2c7f3a3854fdfe340e7ea6acae9be93b"}
+2026-11-10T07:15:49.9176549Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "73dd52f90e22218c83aaf4527194604c", "skipped": 0, "source_after": "3b28c0b00369cf873d8fc539d25f6ac5d45442eed79b4e03775512cdc3b6b655", "source_before": "3b28c0b00369cf873d8fc539d25f6ac5d45442eed79b4e03775512cdc3b6b655", "test": "VectorSources.test_staged_change_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "index-parity-mutant.json", "mode": "normal", "sha256": "220839b132eff1fa1b0bfd7797949d465c16c82a5edfd4c2baefb19ff06464c0"}
+2026-11-10T07:15:49.9178300Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "42575b4f64dfa00b1a0e5394238ee438", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "LockControls.test_floating_resolved_revision_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "lock-commit-baseline.json", "mode": "normal", "sha256": "57cd0d2da0012b1f0b94b48efc477bc281f0bba30b03519b2aaebd9dcdf4d561"}
+2026-11-10T07:15:49.9180080Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "20fd5e616b58c00e538423cc8c00abcb", "skipped": 0, "source_after": "9bef96adaec1022b10681b9fcad7442037b7a68f074073b031aeff4fa53b6dee", "source_before": "9bef96adaec1022b10681b9fcad7442037b7a68f074073b031aeff4fa53b6dee", "test": "LockControls.test_floating_resolved_revision_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "lock-commit-mutant.json", "mode": "normal", "sha256": "073e06e5b3b7c7853e79e5b87b3b1df4a9fb4a46baea2d7ab8bcfb91163e6be9"}
+2026-11-10T07:15:49.9181868Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "0f246cdaa1254f175e023fbc08b2dc5e", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "CliControls.test_network_failure_blocks_aggregate", "tests_run": 1, "unexpected_successes": 0}, "file": "network-failure-baseline.json", "mode": "normal", "sha256": "c70ee56342b2037bcf6bb1b67289397c2e78b99a1a998f2459064f0efd2ad3e6"}
+2026-11-10T07:15:49.9183731Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "'PASS' != 'FAIL'\n- PASS\n+ FAIL\n", "selected_body": true}], "nonce": "3b77fb324011cc9287d1a93233c783fd", "skipped": 0, "source_after": "15838fe7e9f9230f17b68125375a1d26b50330b3581b0ef18fd644082b551420", "source_before": "15838fe7e9f9230f17b68125375a1d26b50330b3581b0ef18fd644082b551420", "test": "CliControls.test_network_failure_blocks_aggregate", "tests_run": 1, "unexpected_successes": 0}, "file": "network-failure-mutant.json", "mode": "normal", "sha256": "d561363c128650dd35bd4013231ba4887d15236e01b9dac9b0ccbda2789896a4"}
+2026-11-10T07:15:49.9185648Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "0dd50d3d6ebd695806d47a365ca59240", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "LockControls.test_path_dependency_outside_math_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "path-resolution-baseline.json", "mode": "normal", "sha256": "505464a5ab02536587ce47cea0093620a3f69b37208ce9051c5cc1d976c066d0"}
+2026-11-10T07:15:49.9187432Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "56224f54403609286ba87f1618b22eee", "skipped": 0, "source_after": "c342cc851fc27aff18d113a0725f5c55244f5c128a83dddeda48716bc32ed4b1", "source_before": "c342cc851fc27aff18d113a0725f5c55244f5c128a83dddeda48716bc32ed4b1", "test": "LockControls.test_path_dependency_outside_math_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "path-resolution-mutant.json", "mode": "normal", "sha256": "3ed4259482c74c6330d075c2c06aed39373b7b610bd8fcc2899b412a6b03af3f"}
+2026-11-10T07:15:49.9189269Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "32521609391959d34306f48eb29bfb04", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "WorkspaceControls.test_sandbox_pin_skew_rejected", "tests_run": 1, "unexpected_successes": 0}, "file": "sandbox-pin-baseline.json", "mode": "normal", "sha256": "e218b34a89d3fcaa3e4a2432b7f2aa2b1e7ca2d88e073dc124b1c548c300540c"}
+2026-11-10T07:15:49.9191030Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "05e6210ac75a349a8d87efee01b12cb8", "skipped": 0, "source_after": "8a0789145d65e804fe437e36b0803f622bbb366b66000a77ba4a1a6c796e6695", "source_before": "8a0789145d65e804fe437e36b0803f622bbb366b66000a77ba4a1a6c796e6695", "test": "WorkspaceControls.test_sandbox_pin_skew_rejected", "tests_run": 1, "unexpected_successes": 0}, "file": "sandbox-pin-mutant.json", "mode": "normal", "sha256": "6cd8ced5e551ebab3ba31cfbd6beda8a070440fd0d1235fc7c53bc83e5ba138b"}
+2026-11-10T07:15:49.9192809Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "9fa5915dfa8f8dfb1e9c019b95f1d7c3", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "VectorSources.test_selected_input_working_substitution_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "selected-input-baseline.json", "mode": "normal", "sha256": "359d76a1da14da599d57f4e1919724af40bd77485c3a6843089ee29d92284b2f"}
+2026-11-10T07:15:49.9194631Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "10fb75750e83ac91cf608c0f7b617247", "skipped": 0, "source_after": "caeb73e5eb0c8ba500970df24f5fd8f2af366bf4503b91de9a3478063c4f594c", "source_before": "caeb73e5eb0c8ba500970df24f5fd8f2af366bf4503b91de9a3478063c4f594c", "test": "VectorSources.test_selected_input_working_substitution_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "selected-input-mutant.json", "mode": "normal", "sha256": "95358220b8d9975b97c0bfccb9a0145c5fafaf4c1433a18d47eb6292b9435a14"}
+2026-11-10T07:15:49.9196585Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "fbde3eda2d01a31557f4876ce8f6bbe4", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "VectorSources.test_vector_omission_rejected", "tests_run": 1, "unexpected_successes": 0}, "file": "vector-set-baseline.json", "mode": "normal", "sha256": "cd532121f409a77914b304323b9f719abf2530c997e1bbcc09053a48fce31265"}
+2026-11-10T07:15:49.9198314Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "5c098164be2f0f851d0d781083cfb7a4", "skipped": 0, "source_after": "dd37da26c48ef406083b3c8c0d304e6c9cc6ce1c596fde846d8d2f20c366adf7", "source_before": "dd37da26c48ef406083b3c8c0d304e6c9cc6ce1c596fde846d8d2f20c366adf7", "test": "VectorSources.test_vector_omission_rejected", "tests_run": 1, "unexpected_successes": 0}, "file": "vector-set-mutant.json", "mode": "normal", "sha256": "8a7ff3b46b77b26a967fb265e2f68f7b26ecb09c583b8b7a2f86f58baadb6316"}
+2026-11-10T07:15:49.9212291Z {"file": "optimized/campaign-iid7fef3/summary.json", "mode": "optimized", "observations": [{"exit_code": 0, "kind": "baseline", "mutation": "vector-set", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "1944ec6d2679468058d077a1200df0b478a8d63a25941162db795c683c535f03", "test": "VectorSources.test_vector_omission_rejected"}, {"exit_code": 1, "kind": "mutant", "mutation": "vector-set", "source_sha256": "dd37da26c48ef406083b3c8c0d304e6c9cc6ce1c596fde846d8d2f20c366adf7", "stderr_sha256": "fb7fe423f1486c6b0e78cfd64798f2e3eced45b8d69fe2c77c370903fb5307ea", "test": "VectorSources.test_vector_omission_rejected"}, {"exit_code": 0, "kind": "baseline", "mutation": "head-match", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "20279ac05303088fc6acdee6b175eb3aac2da5bb2e22e72098cff1ed70a26575", "test": "VectorSources.test_wrong_checkout_head_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "head-match", "source_sha256": "8e3fbef1c3c98e2a3f36ee9907d2d75d11abc924c9dcb94e69a6a8216f53220f", "stderr_sha256": "88ade2ec1461be4bfe21fb247967652c72e5dfdc999555f51e5fcb14d4ade87b", "test": "VectorSources.test_wrong_checkout_head_refused"}, {"exit_code": 0, "kind": "baseline", "mutation": "index-parity", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "93ebb1c187da8e7e7850d0bfc4fa51489f1d4143ec6f87265bf73863e3c8c285", "test": "VectorSources.test_staged_change_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "index-parity", "source_sha256": "3b28c0b00369cf873d8fc539d25f6ac5d45442eed79b4e03775512cdc3b6b655", "stderr_sha256": "8bfb7c9cbf313a44bccd46c8fa7b817633e2aec1046a4e4d082202f1bce72e65", "test": "VectorSources.test_staged_change_refused"}, {"exit_code": 0, "kind": "baseline", "mutation": "selected-input", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "90012cb88f6a6daeb59d6992450beb77d97eaab48c6e81713c6cccddcca61447", "test": "VectorSources.test_selected_input_working_substitution_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "selected-input", "source_sha256": "caeb73e5eb0c8ba500970df24f5fd8f2af366bf4503b91de9a3478063c4f594c", "stderr_sha256": "ffd31dbd9b448b03006f8921c54bc4d3fd4a07abca261f975fe6fae85d009a5b", "test": "VectorSources.test_selected_input_working_substitution_refused"}, {"exit_code": 0, "kind": "baseline", "mutation": "sandbox-pin", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "dc42dde97d4e72d989594a0c340ce003d4654503f73c8396db4bd6487482940e", "test": "WorkspaceControls.test_sandbox_pin_skew_rejected"}, {"exit_code": 1, "kind": "mutant", "mutation": "sandbox-pin", "source_sha256": "8a0789145d65e804fe437e36b0803f622bbb366b66000a77ba4a1a6c796e6695", "stderr_sha256": "6760c201b79c456c4535656531c66d61f46e01818886810b6b489afbdc0bca22", "test": "WorkspaceControls.test_sandbox_pin_skew_rejected"}, {"exit_code": 0, "kind": "baseline", "mutation": "canonical-blob", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "d384be9186821923727a446335fd7155eb4f1c5072d0c7372b71c779ffd35075", "test": "WorkspaceControls.test_canonical_wrong_blob_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "canonical-blob", "source_sha256": "13af399effec0e2b34bbf886fa96fe1e987df77887eae265a3fb89a4dbec4729", "stderr_sha256": "43bec12abd084d3c4487e0206ceec11288cd39efabe3f2cc7a1d70d729c57d18", "test": "WorkspaceControls.test_canonical_wrong_blob_refused"}, {"exit_code": 0, "kind": "baseline", "mutation": "lock-commit", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "3c2ebbf6de00d118b3b924deda14d0ceadd99a2cd52de5141a9bcb41fb039bce", "test": "LockControls.test_floating_resolved_revision_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "lock-commit", "source_sha256": "9bef96adaec1022b10681b9fcad7442037b7a68f074073b031aeff4fa53b6dee", "stderr_sha256": "8f56562cf2c40b84c4570ed28aba848e87cc41d2a634609029af193d0f8e3943", "test": "LockControls.test_floating_resolved_revision_refused"}, {"exit_code": 0, "kind": "baseline", "mutation": "path-resolution", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "c273d1f5c5f0cff1a8d2288746dcd1808a18a8191c675ca4c498d785f876d593", "test": "LockControls.test_path_dependency_outside_math_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "path-resolution", "source_sha256": "c342cc851fc27aff18d113a0725f5c55244f5c128a83dddeda48716bc32ed4b1", "stderr_sha256": "4370cc67298e2fdad7bab23debd15d2e104b7729324cbdaf4e3ef9a147b82500", "test": "LockControls.test_path_dependency_outside_math_refused"}, {"exit_code": 0, "kind": "baseline", "mutation": "network-failure", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "bdb67c2b6366c273e09970d8278dc761781168121acb05009f3cfd0eb2a06ca4", "test": "CliControls.test_network_failure_blocks_aggregate"}, {"exit_code": 1, "kind": "mutant", "mutation": "network-failure", "source_sha256": "15838fe7e9f9230f17b68125375a1d26b50330b3581b0ef18fd644082b551420", "stderr_sha256": "4e819925404c7a0641cc9f1e6ca09388bbaf2c139e2d55c8afb6655b016de779", "test": "CliControls.test_network_failure_blocks_aggregate"}, {"exit_code": 0, "kind": "baseline", "mutation": "canonical-request", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "ca0e00d9c3b2e66beb7ab286defa6230696c7b7d318d66f99702e0fbc1f26d17", "test": "NetworkControls.test_network_includes_canonical_historical_commit"}, {"exit_code": 1, "kind": "mutant", "mutation": "canonical-request", "source_sha256": "d278911b562a9f6405e3936e6a50e0255a61c1fa2710bd4379c3ec2409537c13", "stderr_sha256": "6d20fc37a188007b268b632a9dfcf17868eadbcebc1db4c87f97b815bbd27832", "test": "NetworkControls.test_network_includes_canonical_historical_commit"}, {"exit_code": 0, "kind": "baseline", "mutation": "fetched-identity", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "ceefebe6f87aaab23d3c061cf6a993672f92d3c782afd342430441c9fb5c1f31", "test": "NetworkControls.test_wrong_fetched_commit_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "fetched-identity", "source_sha256": "848d0dd3aabd33fcbdd3ac6cb2e05561cd1b2a0e7a3188b6b51a7e93b7421987", "stderr_sha256": "f1963fb1bfd9a545b915f68122bf08c3c2e74232b2a0a5a732158ffd7f5e7e96", "test": "NetworkControls.test_wrong_fetched_commit_refused"}, {"exit_code": 0, "kind": "baseline", "mutation": "final-recheck", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "89c0aee8c05706a28699a53118aec01a2de20f657c5b6e0ae724d332ab9f78fa", "test": "CliControls.test_midrun_head_drift_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "final-recheck", "source_sha256": "1af4e4c7c707be3f76300e272a1dad94ec2c38700e8b418161aead33d6ae4470", "stderr_sha256": "ccaef6af358e43425dd66dfcb0795c52f600ef4108d4d5d5a3470f4cffad39b8", "test": "CliControls.test_midrun_head_drift_refused"}, {"exit_code": 0, "kind": "baseline", "mutation": "canonical-kind", "source_sha256": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "stderr_sha256": "dc22e8c672618ff6be2acd5b1507a73a0ad18d34bd6fded33ccddadc28607d6f", "test": "WorkspaceControls.test_explicit_canonical_tree_oid_refused"}, {"exit_code": 1, "kind": "mutant", "mutation": "canonical-kind", "source_sha256": "9a2fe11e6dfa2a16472ae28bba44ddbcad4ce6bcf38b6980a87fe07fcb207fa8", "stderr_sha256": "b2d61b1e1cd4d888ccf82a97af86005dca90e94dd5471bf059c01caa02b1601f", "test": "WorkspaceControls.test_explicit_canonical_tree_oid_refused"}], "sha256": "ac67437ce8dba2d8e3b89b35acd5520af0908e1f4e38365bd3ad8d827f65b9f0"}
+2026-11-10T07:15:49.9226277Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "37dbd7103c332bb0aa844da6038c32de", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "WorkspaceControls.test_canonical_wrong_blob_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "canonical-blob-baseline.json", "mode": "optimized", "sha256": "50038b74184b28baf99c87b893f13aa0345b719d996f86308010a7700d245b09"}
+2026-11-10T07:15:49.9228165Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "3a6da95f4e348656c0fc29556b249f92", "skipped": 0, "source_after": "13af399effec0e2b34bbf886fa96fe1e987df77887eae265a3fb89a4dbec4729", "source_before": "13af399effec0e2b34bbf886fa96fe1e987df77887eae265a3fb89a4dbec4729", "test": "WorkspaceControls.test_canonical_wrong_blob_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "canonical-blob-mutant.json", "mode": "optimized", "sha256": "aa01fcf17e9e4efe18b825003243b5ee08e1a962cc5d12cc4527c98d5adb6848"}
+2026-11-10T07:15:49.9229962Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "a9afb0918126bd63c504d0740b29c224", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "WorkspaceControls.test_explicit_canonical_tree_oid_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "canonical-kind-baseline.json", "mode": "optimized", "sha256": "9b64fee83efaf8091d3b848e2069dbb56dd65086d94b499e6d0df07519b6d00e"}
+2026-11-10T07:15:49.9231789Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "736b498e9d34bfa57813200864bb4b4e", "skipped": 0, "source_after": "9a2fe11e6dfa2a16472ae28bba44ddbcad4ce6bcf38b6980a87fe07fcb207fa8", "source_before": "9a2fe11e6dfa2a16472ae28bba44ddbcad4ce6bcf38b6980a87fe07fcb207fa8", "test": "WorkspaceControls.test_explicit_canonical_tree_oid_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "canonical-kind-mutant.json", "mode": "optimized", "sha256": "a17ebd3856fab9080ff3fc872e6105b676cab38c9322c52d8e80aae33f893c24"}
+2026-11-10T07:15:49.9233630Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "482f97775f7074b1212e619a4551dd2c", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "NetworkControls.test_network_includes_canonical_historical_commit", "tests_run": 1, "unexpected_successes": 0}, "file": "canonical-request-baseline.json", "mode": "optimized", "sha256": "52be7202f58820a8e975f54b731515cacee69c0df82af8bd6627ba4b4908a9c3"}
+2026-11-10T07:15:49.9235566Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "21 != 22", "selected_body": true}], "nonce": "01a098047243f45da911f6c318e0912f", "skipped": 0, "source_after": "d278911b562a9f6405e3936e6a50e0255a61c1fa2710bd4379c3ec2409537c13", "source_before": "d278911b562a9f6405e3936e6a50e0255a61c1fa2710bd4379c3ec2409537c13", "test": "NetworkControls.test_network_includes_canonical_historical_commit", "tests_run": 1, "unexpected_successes": 0}, "file": "canonical-request-mutant.json", "mode": "optimized", "sha256": "b841168aea1f7444440e25d43aa352a8e3c0699807cd475c1234925daecaed8a"}
+2026-11-10T07:15:49.9237409Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "604283ae9e1566ba2723077a3e385d28", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "NetworkControls.test_wrong_fetched_commit_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "fetched-identity-baseline.json", "mode": "optimized", "sha256": "4fc3e53cb54f0ca78ad4b993fb9d3f2069e6c9ea052c4df76164d5f397a5ad40"}
+2026-11-10T07:15:49.9239292Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "'FETCHED_COMMIT' != 'IDENTITY_MISMATCH'\n- FETCHED_COMMIT\n+ IDENTITY_MISMATCH\n", "selected_body": true}], "nonce": "9aebb46b6fa199fbbc71f004c3938aad", "skipped": 0, "source_after": "848d0dd3aabd33fcbdd3ac6cb2e05561cd1b2a0e7a3188b6b51a7e93b7421987", "source_before": "848d0dd3aabd33fcbdd3ac6cb2e05561cd1b2a0e7a3188b6b51a7e93b7421987", "test": "NetworkControls.test_wrong_fetched_commit_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "fetched-identity-mutant.json", "mode": "optimized", "sha256": "404e86675051c78088747e8098fd29f10cd5550454903fd8c14e536259117559"}
+2026-11-10T07:15:49.9241230Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "588fca3f34d1194c08ae5d3c4f7e432e", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "CliControls.test_midrun_head_drift_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "final-recheck-baseline.json", "mode": "optimized", "sha256": "6ee2eb5e9a704077ca1858750004eac73b28d51c19f76922de9961780df8efb6"}
+2026-11-10T07:15:49.9242987Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "'PASS' != 'FAIL'\n- PASS\n+ FAIL\n", "selected_body": true}], "nonce": "49d8fd5d01ec43c188517c3cc15f78f1", "skipped": 0, "source_after": "1af4e4c7c707be3f76300e272a1dad94ec2c38700e8b418161aead33d6ae4470", "source_before": "1af4e4c7c707be3f76300e272a1dad94ec2c38700e8b418161aead33d6ae4470", "test": "CliControls.test_midrun_head_drift_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "final-recheck-mutant.json", "mode": "optimized", "sha256": "ec483db78b8f339b2f6b51c2fb2b13338f9b9143679cf4d90cdeda7c3efd694e"}
+2026-11-10T07:15:49.9244746Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "5518f80f52544a1492b05ff2888c6b24", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "VectorSources.test_wrong_checkout_head_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "head-match-baseline.json", "mode": "optimized", "sha256": "c38e5584d12fee3ddecc20fd413a7b1cf6b88479721c98e065bdc594de62c739"}
+2026-11-10T07:15:49.9246606Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "b4a1fe9341befc4e03780e19a326128f", "skipped": 0, "source_after": "8e3fbef1c3c98e2a3f36ee9907d2d75d11abc924c9dcb94e69a6a8216f53220f", "source_before": "8e3fbef1c3c98e2a3f36ee9907d2d75d11abc924c9dcb94e69a6a8216f53220f", "test": "VectorSources.test_wrong_checkout_head_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "head-match-mutant.json", "mode": "optimized", "sha256": "e836231e2900766e1f60f1eba9bc8d283ec245e330d35934e77fdd1de78568b2"}
+2026-11-10T07:15:49.9248421Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "eef78630c5501629fcbd6837f5241958", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "VectorSources.test_staged_change_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "index-parity-baseline.json", "mode": "optimized", "sha256": "5a91347928770238a2494b573ed3d48d2330190276492a5552a5106e3a95b47f"}
+2026-11-10T07:15:49.9250152Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "e7a78fc10c29bb976a2a6b536ed1fcf5", "skipped": 0, "source_after": "3b28c0b00369cf873d8fc539d25f6ac5d45442eed79b4e03775512cdc3b6b655", "source_before": "3b28c0b00369cf873d8fc539d25f6ac5d45442eed79b4e03775512cdc3b6b655", "test": "VectorSources.test_staged_change_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "index-parity-mutant.json", "mode": "optimized", "sha256": "cad960825574eac1fd00903d0259dff3502675e10caf2c8ffd1c0a2b9b4e52af"}
+2026-11-10T07:15:49.9251913Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "1a7f3745e3045dc3f1709844a750dbb6", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "LockControls.test_floating_resolved_revision_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "lock-commit-baseline.json", "mode": "optimized", "sha256": "13f855a9d4b9723bd6c90a7b570f11d5b2989e60f83c607e627834453bde0450"}
+2026-11-10T07:15:49.9253746Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "aaada8080ad491371e343da49d9187a0", "skipped": 0, "source_after": "9bef96adaec1022b10681b9fcad7442037b7a68f074073b031aeff4fa53b6dee", "source_before": "9bef96adaec1022b10681b9fcad7442037b7a68f074073b031aeff4fa53b6dee", "test": "LockControls.test_floating_resolved_revision_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "lock-commit-mutant.json", "mode": "optimized", "sha256": "93c34d3b326ae5fe9f2aea0e50ca21ac628122928a2d1f3feb267a9a4855bba6"}
+2026-11-10T07:15:49.9255662Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "817b03afea8184fd0af11c1b9d31aef0", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "CliControls.test_network_failure_blocks_aggregate", "tests_run": 1, "unexpected_successes": 0}, "file": "network-failure-baseline.json", "mode": "optimized", "sha256": "0d6ce779265a52a8a8b2dd3bedb7382cd421a98f9e6fde65b751fca8a5395cf2"}
+2026-11-10T07:15:49.9257449Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "'PASS' != 'FAIL'\n- PASS\n+ FAIL\n", "selected_body": true}], "nonce": "003f188cda297dfade42af2fe2396b81", "skipped": 0, "source_after": "15838fe7e9f9230f17b68125375a1d26b50330b3581b0ef18fd644082b551420", "source_before": "15838fe7e9f9230f17b68125375a1d26b50330b3581b0ef18fd644082b551420", "test": "CliControls.test_network_failure_blocks_aggregate", "tests_run": 1, "unexpected_successes": 0}, "file": "network-failure-mutant.json", "mode": "optimized", "sha256": "0b3cc1f7b9e35dfc8cfbdf4aa8601ce91d8d51b04b682a5096facfb992b296b0"}
+2026-11-10T07:15:49.9259243Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "96b5913ab833e0a870aa6fcd256bd4e6", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "LockControls.test_path_dependency_outside_math_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "path-resolution-baseline.json", "mode": "optimized", "sha256": "3febb5617119d5704bc3a0ea1f5125f0920d6190a5567171efc594e0f09d9149"}
+2026-11-10T07:15:49.9261113Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "3f89f559d483d366dd2978ce7d7fa05b", "skipped": 0, "source_after": "c342cc851fc27aff18d113a0725f5c55244f5c128a83dddeda48716bc32ed4b1", "source_before": "c342cc851fc27aff18d113a0725f5c55244f5c128a83dddeda48716bc32ed4b1", "test": "LockControls.test_path_dependency_outside_math_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "path-resolution-mutant.json", "mode": "optimized", "sha256": "e0304a26ea10ceb8e71c27603920f049da9c4c2c27ff23eb848a03977f7800db"}
+2026-11-10T07:15:49.9262895Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "404cda35299f8835219ec5406f6570a8", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "WorkspaceControls.test_sandbox_pin_skew_rejected", "tests_run": 1, "unexpected_successes": 0}, "file": "sandbox-pin-baseline.json", "mode": "optimized", "sha256": "af3cc587998ac07f8cb4dd54bcb95a46a33abf143e3eb5ba205e17cfe8604e9f"}
+2026-11-10T07:15:49.9264650Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "2c1fc8abd4930b3b89525932b5539d3e", "skipped": 0, "source_after": "8a0789145d65e804fe437e36b0803f622bbb366b66000a77ba4a1a6c796e6695", "source_before": "8a0789145d65e804fe437e36b0803f622bbb366b66000a77ba4a1a6c796e6695", "test": "WorkspaceControls.test_sandbox_pin_skew_rejected", "tests_run": 1, "unexpected_successes": 0}, "file": "sandbox-pin-mutant.json", "mode": "optimized", "sha256": "6a0caef63732db6580563c99b94950a778ef2e577f0d0e5d52538acf62eea7e4"}
+2026-11-10T07:15:49.9266646Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "64ba699036ffa18f4188f37a0cda22ab", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "VectorSources.test_selected_input_working_substitution_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "selected-input-baseline.json", "mode": "optimized", "sha256": "8695caedd713ab435e5e2acf4105eec41f9dfa1eb7d05239841c0b9ee3a7aa9c"}
+2026-11-10T07:15:49.9268475Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "f7c45c5e83f978f788f17e397fa2d79b", "skipped": 0, "source_after": "caeb73e5eb0c8ba500970df24f5fd8f2af366bf4503b91de9a3478063c4f594c", "source_before": "caeb73e5eb0c8ba500970df24f5fd8f2af366bf4503b91de9a3478063c4f594c", "test": "VectorSources.test_selected_input_working_substitution_refused", "tests_run": 1, "unexpected_successes": 0}, "file": "selected-input-mutant.json", "mode": "optimized", "sha256": "6e17f6671e1a229a28c085d461f42f695a6bc0bd4956a7196e2d310eb83496db"}
+2026-11-10T07:15:49.9270259Z {"event": {"errors": 0, "expected_failures": 0, "failures": [], "nonce": "08ca6fba824a2d3901577e7fc8ea08fa", "skipped": 0, "source_after": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "source_before": "fbcec74b8abe4be9345829319a83c11d0acc6953e757e9f3a090df9840cfa312", "test": "VectorSources.test_vector_omission_rejected", "tests_run": 1, "unexpected_successes": 0}, "file": "vector-set-baseline.json", "mode": "optimized", "sha256": "4a1fd9ca5dacf301bb45e184b4d1ba96c29eac91e2a008947b68f5d90609ce1e"}
+2026-11-10T07:15:49.9272003Z {"event": {"errors": 0, "expected_failures": 0, "failures": [{"message": "ValueError not raised", "selected_body": true}], "nonce": "23a26b8de20ba12fe94afdd15c9090dd", "skipped": 0, "source_after": "dd37da26c48ef406083b3c8c0d304e6c9cc6ce1c596fde846d8d2f20c366adf7", "source_before": "dd37da26c48ef406083b3c8c0d304e6c9cc6ce1c596fde846d8d2f20c366adf7", "test": "VectorSources.test_vector_omission_rejected", "tests_run": 1, "unexpected_successes": 0}, "file": "vector-set-mutant.json", "mode": "optimized", "sha256": "2efecf2e90261f57539aa070ff6695dfceaaea03dcb95963bc2e165ea5f32634"}
+2026-11-10T07:15:49.9375320Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-10T07:15:49.9375544Z with:
+2026-11-10T07:15:49.9375679Z   name: cbz-vector-qualification-42773625172-1
+2026-11-10T07:15:49.9376013Z   path: /home/runner/work/_temp/discovery.log
+/home/runner/work/_temp/discovery-optimized.log
+/home/runner/work/_temp/cbz-vector-mutations
+
+2026-11-10T07:15:49.9376337Z   if-no-files-found: warn
+2026-11-10T07:15:49.9376465Z   compression-level: 6
+2026-11-10T07:15:49.9376583Z   overwrite: false
+2026-11-10T07:15:49.9376699Z   include-hidden-files: false
+2026-11-10T07:15:49.9376830Z env:
+2026-11-10T07:15:49.9376967Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:15:49.9377194Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T07:15:49.9377427Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:15:49.9377627Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:15:49.9377865Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:15:49.9378073Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T07:15:49.9378246Z ##[endgroup]
+2026-11-10T07:15:50.0413473Z (node:55123) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T07:15:50.0413874Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T07:15:50.0649818Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-11-10T07:15:50.0651670Z The least common ancestor is /home/runner/work/_temp. This will be the root directory of the artifact
+2026-11-10T07:15:50.0652194Z With the provided path, there will be 212 files uploaded
+2026-11-10T07:15:50.0656684Z Artifact name is valid!
+2026-11-10T07:15:50.0657060Z Root directory input is valid!
+2026-11-10T07:15:50.4281667Z Beginning upload of artifact content to blob storage
+2026-11-10T07:15:50.5505919Z (node:55123) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-10T07:15:51.0702915Z Uploaded bytes 528403
+2026-11-10T07:15:51.1339372Z Finished uploading artifact content to blob storage!
+2026-11-10T07:15:51.1339824Z SHA256 digest of uploaded artifact zip is 5b267e2bf833b1ae549ec423cbbd2398fc3e915f3dc6153a86e048d83e79ff8e
+2026-11-10T07:15:51.1340903Z Finalizing artifact upload
+2026-11-10T07:15:51.6070753Z Artifact cbz-vector-qualification-42773625172-1.zip successfully finalized. Artifact ID 13743091883
+2026-11-10T07:15:51.6071609Z Artifact cbz-vector-qualification-42773625172-1 has been successfully uploaded! Final size is 528403 bytes. Artifact ID is 13743091883
+2026-11-10T07:15:51.6076232Z Artifact download URL: https://github.com/d6g8k5htny-coder/Universal-Law-Workspace/actions/runs/42773625172/artifacts/13743091883
+2026-11-10T07:15:51.6245149Z Post job cleanup.
+2026-11-10T07:15:51.7064708Z (node:55137) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T07:15:51.7065290Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T07:15:51.7216219Z Post job cleanup.
+2026-11-10T07:15:51.7815730Z [command]/usr/bin/git version
+2026-11-10T07:15:51.7897215Z git version 2.56.0
+2026-11-10T07:15:51.7920791Z Temporarily overriding HOME='/home/runner/work/_temp/eaa3882e-3be7-4ec5-8484-e422d3156716' before making global git config changes
+2026-11-10T07:15:51.7921564Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T07:15:51.7923911Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Universal-Law-Workspace/Universal-Law-Workspace
+2026-11-10T07:15:51.7960521Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T07:15:51.7991999Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T07:15:51.8261542Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T07:15:51.8316107Z http.https://github.com/.extraheader
+2026-11-10T07:15:51.8320271Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-10T07:15:51.8397049Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T07:15:51.8649624Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T07:15:51.8679013Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T07:15:51.9021844Z Cleaning up orphan processes
+2026-11-10T07:15:51.9282351Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
