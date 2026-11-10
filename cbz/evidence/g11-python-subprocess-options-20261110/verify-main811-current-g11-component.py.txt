@@ -1,0 +1,56 @@
+import hashlib
+import json
+import pathlib
+import zipfile
+
+path = pathlib.Path(__file__).with_name('main811-g11-component-13744223491.zip')
+raw = path.read_bytes()
+sha = hashlib.sha256(raw).hexdigest()
+if len(raw) != 67550 or sha != 'e87501cb6093b8ed26db4143817a1d2ae8d10df5c23b1e8f3ee3a4cf447c5079':
+    raise ValueError('archive identity')
+summaries, inventories = [], []
+with zipfile.ZipFile(path) as z:
+    names = z.namelist()
+    wanted = ['g11-mutations-normal.json', 'g11-mutations-optimized.json']
+    if len(names) != 2 or len(set(names)) != 2 or set(names) != set(wanted) or z.testzip() is not None:
+        raise ValueError('archive membership or CRC')
+    for name in wanted:
+        data = z.read(name)
+        report = json.loads(data)
+        baseline = report.get('baseline', {})
+        records = report.get('mutations', [])
+        if (report.get('status') != 'PASS' or report.get('executed') != 328
+                or report.get('total') != 328 or report.get('killed') != 328
+                or len(records) != 328 or baseline.get('status') != 'OK'
+                or baseline.get('ran') != 263 or baseline.get('exit') != 0
+                or baseline.get('failures') != 0 or baseline.get('errors') != 0
+                or baseline.get('skipped') != 0):
+            raise ValueError('baseline or mutation population')
+        labels = []
+        for record in records:
+            event = record.get('origin_provenance', {})
+            frames = event.get('frames', [])
+            selected = [i for i, frame in enumerate(frames) if frame.get('selected') is True]
+            if (record.get('killed') is not True or record.get('exit') != 1
+                    or record.get('failures') != 1 or record.get('errors') != 0
+                    or record.get('skipped') != 0
+                    or record.get('traceback_line') != record.get('expected_line')
+                    or record.get('test_id') != record.get('expected_test')
+                    or record.get('origin_authorized') is not True
+                    or event.get('authorized') is not True or event.get('entered') != 1
+                    or event.get('phase') not in ('body', 'body-exited') or len(selected) != 1
+                    or any(frame.get('oracle') is not True for frame in frames[selected[0] + 1:])):
+                raise ValueError('unauthorized mutation origin')
+            labels.append(record['mutation'])
+        if len(set(labels)) != 328:
+            raise ValueError('duplicate mutation labels')
+        inventories.append(labels)
+        summaries.append({'member': name, 'sha256': hashlib.sha256(data).hexdigest(),
+                          'baseline_tests': 263, 'authorized_records': len(records)})
+if inventories[0] != inventories[1]:
+    raise ValueError('mode inventories differ')
+out = {'artifact': 13744223491, 'sha256': sha, 'bytes': len(raw), 'crc': 'valid',
+       'reports': summaries, 'authorized_records': 656,
+       'scope': 'original named mutation campaign only; not final G11'}
+path.with_name('main811-g11-component-verification.json').write_text(json.dumps(out, indent=2) + '\n')
+print(json.dumps(out))
