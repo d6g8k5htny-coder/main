@@ -52,6 +52,158 @@ jobs:
           python3 -B -O -S tests/sdga_component_contract.py \
             --output "$RUNNER_TEMP/sdga-task-a-optimized" -v \
             2>&1 | tee "$RUNNER_TEMP/sdga-task-a-optimized.log"
+      - name: Observe pure dependency contracts normally
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          python3 -B -S tests/test_sdga_component_protocol.py -v \
+            2>&1 | tee "$RUNNER_TEMP/sdga-pure-dependency-normal.log"
+          grep -Eq '^Ran 12 tests in ' "$RUNNER_TEMP/sdga-pure-dependency-normal.log"
+          grep -Eq '^OK        if: always()
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import os
+          from pathlib import Path
+          import sys
+          critical = (
+              "source-identities.json", "result.json", "census.json",
+              "subcases.jsonl", "inventory.jsonl",
+              "fixture-classification.json", "commands.json",
+          )
+          for mode in ("normal", "optimized"):
+              root = Path(os.environ["RUNNER_TEMP"]) / ("sdga-task-a-" + mode)
+              print("TASK_A_EVIDENCE_DIRECTORY", mode, root, flush=True)
+              for name in critical:
+                  path = root / name
+                  if not path.is_file():
+                      print("NOT_PRODUCED", mode, name, flush=True)
+                      continue
+                  raw = path.read_bytes()
+                  print("ORIGINAL_RECORD", mode, name, "bytes=" + str(len(raw)),
+                        "sha256=" + hashlib.sha256(raw).hexdigest(), flush=True)
+                  sys.stdout.write(raw.decode("utf-8"))
+                  if not raw.endswith(b"\n"):
+                      sys.stdout.write("\n")
+                  sys.stdout.flush()
+              native = root / "native"
+              if native.is_dir():
+                  for path in sorted(native.iterdir()):
+                      if path.suffix not in (".stdout", ".stderr") or not path.is_file():
+                          continue
+                      raw = path.read_bytes()
+                      print("ORIGINAL_NATIVE_STREAM", mode, path.name,
+                            "bytes=" + str(len(raw)),
+                            "sha256=" + hashlib.sha256(raw).hexdigest(), flush=True)
+                      sys.stdout.write(raw.decode("utf-8"))
+                      if not raw.endswith(b"\n"):
+                          sys.stdout.write("\n")
+                      sys.stdout.flush()
+              for name in ("bootstrap-error.txt", "controller-import.txt"):
+                  path = root / name
+                  if path.is_file():
+                      raw = path.read_bytes()
+                      print("ORIGINAL_SETUP_DIAGNOSTIC", mode, name,
+                            "bytes=" + str(len(raw)),
+                            "sha256=" + hashlib.sha256(raw).hexdigest(), flush=True)
+                      sys.stdout.write(raw.decode("utf-8"))
+                      if not raw.endswith(b"\n"):
+                          sys.stdout.write("\n")
+                      sys.stdout.flush()
+          print("Evidence printed from runner files before upload; no ZIP read is claimed.",
+                flush=True)
+          PY
+      - name: Retain original source, cases, objects and failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sdga-task-a-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/sdga-task-a-normal/
+            ${{ runner.temp }}/sdga-task-a-optimized/
+            ${{ runner.temp }}/sdga-task-a-normal.log
+            ${{ runner.temp }}/sdga-task-a-optimized.log
+            ${{ runner.temp }}/sdga-pure-dependency-normal.log
+            ${{ runner.temp }}/sdga-pure-dependency-optimized.log
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+ "$RUNNER_TEMP/sdga-pure-dependency-normal.log"
+      - name: Observe pure dependency contracts with optimized Python
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          python3 -B -O -S tests/test_sdga_component_protocol.py -v \
+            2>&1 | tee "$RUNNER_TEMP/sdga-pure-dependency-optimized.log"
+          grep -Eq '^Ran 12 tests in ' "$RUNNER_TEMP/sdga-pure-dependency-optimized.log"
+          grep -Eq '^OK        if: always()
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import os
+          from pathlib import Path
+          import sys
+          critical = (
+              "source-identities.json", "result.json", "census.json",
+              "subcases.jsonl", "inventory.jsonl",
+              "fixture-classification.json", "commands.json",
+          )
+          for mode in ("normal", "optimized"):
+              root = Path(os.environ["RUNNER_TEMP"]) / ("sdga-task-a-" + mode)
+              print("TASK_A_EVIDENCE_DIRECTORY", mode, root, flush=True)
+              for name in critical:
+                  path = root / name
+                  if not path.is_file():
+                      print("NOT_PRODUCED", mode, name, flush=True)
+                      continue
+                  raw = path.read_bytes()
+                  print("ORIGINAL_RECORD", mode, name, "bytes=" + str(len(raw)),
+                        "sha256=" + hashlib.sha256(raw).hexdigest(), flush=True)
+                  sys.stdout.write(raw.decode("utf-8"))
+                  if not raw.endswith(b"\n"):
+                      sys.stdout.write("\n")
+                  sys.stdout.flush()
+              native = root / "native"
+              if native.is_dir():
+                  for path in sorted(native.iterdir()):
+                      if path.suffix not in (".stdout", ".stderr") or not path.is_file():
+                          continue
+                      raw = path.read_bytes()
+                      print("ORIGINAL_NATIVE_STREAM", mode, path.name,
+                            "bytes=" + str(len(raw)),
+                            "sha256=" + hashlib.sha256(raw).hexdigest(), flush=True)
+                      sys.stdout.write(raw.decode("utf-8"))
+                      if not raw.endswith(b"\n"):
+                          sys.stdout.write("\n")
+                      sys.stdout.flush()
+              for name in ("bootstrap-error.txt", "controller-import.txt"):
+                  path = root / name
+                  if path.is_file():
+                      raw = path.read_bytes()
+                      print("ORIGINAL_SETUP_DIAGNOSTIC", mode, name,
+                            "bytes=" + str(len(raw)),
+                            "sha256=" + hashlib.sha256(raw).hexdigest(), flush=True)
+                      sys.stdout.write(raw.decode("utf-8"))
+                      if not raw.endswith(b"\n"):
+                          sys.stdout.write("\n")
+                      sys.stdout.flush()
+          print("Evidence printed from runner files before upload; no ZIP read is claimed.",
+                flush=True)
+          PY
+      - name: Retain original source, cases, objects and failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sdga-task-a-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/sdga-task-a-normal/
+            ${{ runner.temp }}/sdga-task-a-optimized/
+            ${{ runner.temp }}/sdga-task-a-normal.log
+            ${{ runner.temp }}/sdga-task-a-optimized.log
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+ "$RUNNER_TEMP/sdga-pure-dependency-optimized.log"
       - name: Print original critical records and native stream identities
         if: always()
         run: |

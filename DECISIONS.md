@@ -575,3 +575,21 @@ both absence observations receive credit. No test or setup failure is masked.
 Controlsb8ec51fb, launcherd7f72edb, workflow613a7840, Safe814c0f31 and
 all production/Task1/frozen profile bytes stay unchanged. Scientific effect
 NONE; classification/qualification BLOCKED; execution_authenticatedfalse.
+
+## 2026-11-10 — observed Task A absence and pure dependency contract slice
+
+Run42741140198/attempt1/job129582185989 verified pinnedLean5045d005 and the
+unchanged authored lock, compiled Safe in both Python modes, then observed six
+Component-absence method failures per mode, zero errors/skips and39not_run
+semantic subcases. Native587e23fe782a51fd251996a88c485ead9a7319a6 has exact
+headtree92ffce75964538a73ca97d48d092c7f8734869f5. Both separate Python cleanup
+preflights actually proved owned-group TERM/KILL/reap/absence. No inventory,
+classification, adverse rejection or mutation credit follows from absence.
+
+Add12ordinary offline pure dependency methods before the Python component:
+31header+14topology call vectors when bodies execute. Pinned deps-json rows
+contain no filename; payload binding is positional, requiring exact native argv
+and source custody later. Duplicate Init import occurrences remain legitimate.
+The two pure APIs may accept empty inputs; the fixed99-module observation may
+never infer empty success. Actual missing-component failure must be observed
+before their minimal implementation. Existing six/39native contracts stay exact.
