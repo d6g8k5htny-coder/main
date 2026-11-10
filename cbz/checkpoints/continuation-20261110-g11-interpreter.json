@@ -1551,5 +1551,46 @@
     },
     "postmerge_runs_at_first_read": [],
     "scope": "sequential observations not atomic; no final G7 or CBZ"
+  },
+  "regression_skip_observations_20261110": {
+    "observed_at_utc": "2026-11-10T07:21:51.436Z",
+    "main_commit": "d1819f0aa4d914c770687606ccd9f131e6b7634f",
+    "main_tree": "079d00619890da57b438b223b6be42732b044998",
+    "original_discovery": {
+      "run": 42771691980,
+      "normal_tests": 2774,
+      "skips": 23,
+      "meaning": "original run remains skipped; no reclassification"
+    },
+    "local_browser": {
+      "source_blobs": 93,
+      "modes": [
+        "normal",
+        "optimized"
+      ],
+      "result": "two errors in each mode: Chromium socket operation not permitted in execution environment; no skip or test pass",
+      "evidence": "original stderr and observation retained"
+    },
+    "hosted_browser": {
+      "run": 42771692322,
+      "job": 129680741504,
+      "source_commit": "d79881f383b82f675f7b597761462c529371bf13",
+      "source_tree": "079d00619890da57b438b223b6be42732b044998",
+      "artifact": 13741893859,
+      "sha256": "727f7031e3a6448fce198ead85d42db10f615e8bf2709a475d683e01050eb05f",
+      "result": "two exact browser methods passed in each mode with zero reported skips; 255 unique CRC-valid artifact members and original result/streams verified",
+      "limit": "separate actual job on tested merge tree, not a no-skip full discovery"
+    },
+    "historical_pytest": {
+      "run": 42751088240,
+      "job": 129614618042,
+      "artifact": 13732894244,
+      "sha256": "dfe50c47462ade6768a2c462f5bbcbab17f6d086f65d74c8939e85ad817d49d0",
+      "source_commit": "fd80e41202ed4ee266956d1e1f85598e90ff1904",
+      "source_tree": "c1435f6d84c557d3fddadcf84bfdecfdf9a5738f",
+      "result": "ten exact tests and ten verified child receipts per mode, no skips, selected seven current source blobs match historical original",
+      "limit": "historical execution not rebound to current commit; no current-run or final G5 claim"
+    },
+    "final": "CBZ-0 and terminal Partial not established"
   }
 }
