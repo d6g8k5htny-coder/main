@@ -1,0 +1,42 @@
+{
+  "kind": "Durable checkpoint readback and fresh Pages observation; not CBZ or terminal Partial",
+  "observed_at_utc": "2026-11-10T07:45:00Z",
+  "archive": {
+    "library_id": "libfile_fde3_f-a52a2797bb0c8191b9e0c5783f17e6dd_59a0f9f234e48191bc19fddcc0f80648",
+    "version": 47,
+    "bytes": 431342660,
+    "sha256": "605f786a1db67f0506e243ff06d4886c5b1bac51f70c5ee38b9e23a84959b7c9",
+    "independently_read_back": true
+  },
+  "report": {
+    "library_id": "libfile_fde3_f-11d44419ad588191bb47dc142d9ce94f_59a0f9f234e48191bc19fddcc0f80648",
+    "version": 37,
+    "bytes": 902744,
+    "sha256": "9bd4f8498962ab9f15210e22080b6db3ca3472d7aa3febc8341cd53a64d1da1b",
+    "independently_read_back": true
+  },
+  "pages": {
+    "run": 42777343418,
+    "job": 129698842124,
+    "at_utc": "2026-11-10T07:44:05.5277434Z",
+    "http": 200,
+    "status": "",
+    "receipt_ref": "6e01d1f5f83d320172e29391eea336e3256aeea2",
+    "source_run_conclusion": "failure",
+    "source_run_attempt": 2,
+    "observation_blob": "caf66cd2663f91185521643e0788b2bf28686d74",
+    "log_blob": "33a276b9020bf1a8c11139651fec6d5f4b91d1e9",
+    "scope": "read-only; empty status does not establish terminal cancellation or public readback"
+  },
+  "pr": {
+    "number": 811,
+    "head": "1ce3edade03e18a42822914749b73b1a68f376b0",
+    "tree": "4325c6a77c1de42f19413ae80e8d63eb04f75409",
+    "state": "draft, fresh checks in progress"
+  },
+  "pending": [
+    "Observe and independently retain corrected-head G11 census and PR checks.",
+    "If checks satisfy normal protections, integrate with fresh head, then update Workspace pin.",
+    "Resolve prepared-publication readback and other remaining gates without assuming empty status is cancellation."
+  ]
+}
