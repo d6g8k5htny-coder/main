@@ -1,5 +1,16 @@
 # CBZ proof and quarantine index
 
+## Auditor-origin boundary — 9 November 2026
+
+The Main and Workspace engineering changes and the auditor-grader repair do
+not modify any theorem, proof disposition, authorship or scientific claim.
+The unapproved axiom in `cbz/contributions/math514/kernel_replay/tests/fixtures/UnapprovedAxiom.lean`
+is a deliberate negative test fixture, not a closed mathematical module; its
+scanner finding remains recorded. The bounded lexical census does not prove
+its transitive isolation or establish a complete axiom audit. Historical Math
+conditional kernel results and continuum limits remain as recorded below.
+
+
 **State: incomplete inventory; CBZ-0 is not established.**
 
 This is the Main cold-start map for proof status. It records exact boundaries;

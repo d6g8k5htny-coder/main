@@ -1,5 +1,18 @@
 # CBZ-0 governance
 
+## Auditor assertion-origin boundary — 9 November 2026
+
+A mutation kill requires a clean designated baseline and an actual failure
+from the selected test body or an explicitly authorized standard unittest
+assertion helper. Capture live traceback code provenance before unittest
+cleanup and reject missing provenance, subject/helper failures, unexpected
+skips, errors and source drift. The recorder's supported domain is trusted
+synchronous unittest, not hostile code. Historical filename-based false kills
+remain preserved and cannot qualify a future gate. Candidate commands and
+limits are registered in [TOOLING.md](TOOLING.md#auditor-origin-controls);
+current-head tests and the final federation G0–G11 pass remain required.
+
+
 The later Math mutation-grader identity defect and its bounded draft correction
 are recorded in [STATUS.md](STATUS.md#later-node-inventory-and-pin-observations--9-november-2026).
 Their historical kernel evidence and scientific limits are unchanged.

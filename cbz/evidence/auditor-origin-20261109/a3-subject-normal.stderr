@@ -1,0 +1,20 @@
+test_float_and_complex_calls (tests.test_cbz_a3_float_census.Signals.test_float_and_complex_calls) ... FAIL
+
+======================================================================
+FAIL: test_float_and_complex_calls (tests.test_cbz_a3_float_census.Signals.test_float_and_complex_calls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/federation-vector-post-integration-20261109/main/tests/test_cbz_a3_float_census.py", line 48, in test_float_and_complex_calls
+    self.assertEqual(kinds("a = float(x)\nb = complex(1, 2)\n"),
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/7abea556a9be/federation-vector-post-integration-20261109/main/tests/test_cbz_a3_float_census.py", line 34, in kinds
+    r = M.census_text(src, "x.py")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/7abea556a9be/auditor-origin-probe-20261109/tests/a3-subject_assertion-normal.py", line 311, in census_text
+    raise AssertionError("ACTUAL_SUBJECT_ORIGIN_PROBE")
+AssertionError: ACTUAL_SUBJECT_ORIGIN_PROBE
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (failures=1)

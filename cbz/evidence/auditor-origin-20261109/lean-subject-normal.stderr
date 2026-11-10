@@ -1,0 +1,20 @@
+test_native_decide_options (tests.test_cbz_layer_a_scan.ViolationTokens.test_native_decide_options) ... FAIL
+
+======================================================================
+FAIL: test_native_decide_options (tests.test_cbz_layer_a_scan.ViolationTokens.test_native_decide_options)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/federation-vector-post-integration-20261109/main/tests/test_cbz_layer_a_scan.py", line 64, in test_native_decide_options
+    self.assertEqual(hits("example : 2 = 2 := by decide +native"), [(1, 31, "native", "violation")])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/7abea556a9be/federation-vector-post-integration-20261109/main/tests/test_cbz_layer_a_scan.py", line 32, in hits
+    return [(f["line"], f["col"], f["kind"], f["severity"]) for f in M.scan_text(text, path)]
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/7abea556a9be/auditor-origin-probe-20261109/tests/lean-subject_assertion-normal.py", line 712, in scan_text
+    raise AssertionError("ACTUAL_SUBJECT_ORIGIN_PROBE")
+AssertionError: ACTUAL_SUBJECT_ORIGIN_PROBE
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

@@ -172,3 +172,27 @@ Append-only. Historical source outcomes remain in their original records.
   engineering test, not continuum closure or independent scientific review.
   Its disposition is reversible through Git history; prior outcomes remain
   preserved.
+
+
+## 2026-11-09 — auditor assertion-origin repair
+
+- Preserve the two real Main grader false kills in each Python mode at
+  `05f2289478a0ee9492adc1eb501466e0f66866df`, their raw child streams and
+  the failed local attempts in [the evidence record](cbz/evidence/auditor-origin-20261109/README.md).
+  A subject assertion is not an authorized oracle outcome.
+- Reuse the existing pre-cleanup live-code recorder for each designated test,
+  require an unchanged-source clean baseline and reject missing provenance,
+  errors, undeclared skips or source drift. Require actual source mutants and
+  adverse controls in both modes; keep declared inner recursion skips visible.
+  Tighten the synthetic formatted-traceback-only expectation to refusal. This
+  changes no scanner subject, theorem, bound or historical result.
+- Record the scoped Main negative-axiom fixture finding, Math's historical
+  unparseable documentary snapshot and Workspace's gitlink refusal. Do not
+  suppress or rewrite any of them to obtain a green audit. Exact-head hosted
+  qualification remains necessary; the action is reversible in Git.
+
+- A later synthetic-producer probe of the actual workflow shell found that an
+  exit-status evidence write could fail while the shell still returned 0.
+  Preserve the red output in the evidence record and fail the job on either
+  metadata-write error; test both guard removals in each Python mode. This
+  controls evidence completeness, not mathematical truth or scientific status.

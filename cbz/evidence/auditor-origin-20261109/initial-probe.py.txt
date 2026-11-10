@@ -1,0 +1,22 @@
+from pathlib import Path
+import hashlib, importlib, json, sys
+root=Path('/workspace/scratch/7abea556a9be/federation-vector-post-integration-20261109/main')
+base=Path('/workspace/scratch/7abea556a9be/auditor-origin-probe-20261109')
+sys.path.insert(0,str(root))
+cases=[('lean','tests.test_cbz_layer_a_scan_mutants','tools/cbz/layer_a_scan.py','test_native_decide_options','scan_text'),('a3','tests.test_cbz_a3_float_census','tools/cbz/a3_float_census.py','test_float_and_complex_calls','census_text')]
+mode='optimized' if sys.flags.optimize else 'normal';rows=[]
+for label,module,source,test,fn in cases:
+ grader=importlib.import_module(module);orig=(root/source).read_bytes();test_id=grader.designated_test_ids()[test]
+ for kind in ['baseline','subject_assertion']:
+  p=base/'tests'/(label+'-'+kind+'-'+mode+'.py')
+  body=orig if kind=='baseline' else orig+('\n\ndef '+fn+'(*args, **kwargs):\n    raise AssertionError("ACTUAL_SUBJECT_ORIGIN_PROBE")\n').encode()
+  p.write_bytes(body)
+  r=grader.run_suite(str(p),test_id);accepted=grader.killed(r,test)
+  stem=base/(label+'-'+kind+'-'+mode)
+  stem.with_suffix('.stdout').write_text(r.stdout);stem.with_suffix('.stderr').write_text(r.stderr)
+  record={'grader':module,'mode':mode,'source':source,'test_id':test_id,'kind':kind,'subject_path':str(p),'original_sha256':hashlib.sha256(orig).hexdigest(),'subject_sha256':hashlib.sha256(body).hexdigest(),'exit_code':r.returncode,'accepted_as_kill':accepted,'stdout_sha256':hashlib.sha256(r.stdout.encode()).hexdigest(),'stderr_sha256':hashlib.sha256(r.stderr.encode()).hexdigest()}
+  rows.append(record)
+  if kind=='baseline' and (r.returncode!=0 or accepted):raise RuntimeError('baseline did not pass or was credited as kill')
+  if kind=='subject_assertion' and (r.returncode!=1 or 'ACTUAL_SUBJECT_ORIGIN_PROBE' not in r.stderr):raise RuntimeError('actual subject-origin failure not observed')
+(base/('results-'+mode+'.json')).write_text(json.dumps(rows,indent=2)+'\n')
+for r in rows:print(r['grader'],r['kind'],'exit',r['exit_code'],'accepted_as_kill',r['accepted_as_kill'])
