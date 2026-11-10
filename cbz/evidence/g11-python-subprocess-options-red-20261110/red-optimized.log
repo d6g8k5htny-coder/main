@@ -1,0 +1,33 @@
+test_invalid_python_hash_operand_cannot_credit_subprocess (tests.test_g11_census.ToolChecks.test_invalid_python_hash_operand_cannot_credit_subprocess) ... FAIL
+test_invalid_python_attached_x_operand_cannot_credit_subprocess (tests.test_g11_census.ToolChecks.test_invalid_python_attached_x_operand_cannot_credit_subprocess) ... FAIL
+test_invalid_shell_option_operand_cannot_credit_subprocess (tests.test_g11_census.ToolChecks.test_invalid_shell_option_operand_cannot_credit_subprocess) ... FAIL
+test_supported_python_option_operands_reach_subprocess (tests.test_g11_census.ToolChecks.test_supported_python_option_operands_reach_subprocess) ... ok
+
+======================================================================
+FAIL: test_invalid_python_hash_operand_cannot_credit_subprocess (tests.test_g11_census.ToolChecks.test_invalid_python_hash_operand_cannot_credit_subprocess)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_subprocess_g11/tests/test_g11_census.py", line 469, in test_invalid_python_hash_operand_cannot_credit_subprocess
+    self.assertFalse(self.tools(tree)['tools/probe.py']['referenced'])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_invalid_python_attached_x_operand_cannot_credit_subprocess (tests.test_g11_census.ToolChecks.test_invalid_python_attached_x_operand_cannot_credit_subprocess)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_subprocess_g11/tests/test_g11_census.py", line 482, in test_invalid_python_attached_x_operand_cannot_credit_subprocess
+    self.assertFalse(self.tools(tree)['tools/probe.py']['referenced'])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_invalid_shell_option_operand_cannot_credit_subprocess (tests.test_g11_census.ToolChecks.test_invalid_shell_option_operand_cannot_credit_subprocess)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_subprocess_g11/tests/test_g11_census.py", line 495, in test_invalid_shell_option_operand_cannot_credit_subprocess
+    self.assertFalse(self.tools(tree)['tools/probe.sh']['referenced'])
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.049s
+
+FAILED (failures=3)
