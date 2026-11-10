@@ -4522,9 +4522,70 @@ def _heredoc_opener(command):
     return delimiter, match.group("strip") == "-"
 
 
+def _unique_workflow_json_object(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("duplicate JSON workflow key")
+        result[key] = value
+    return result
+
+
+def _reject_workflow_json_constant(_value):
+    raise ValueError("nonstandard JSON workflow constant")
+
+
+def _workflow_reference_commands(text):
+    """Extract only job step run strings from strict JSON or supported YAML."""
+    if text.lstrip().startswith("{"):
+        try:
+            workflow = json.loads(text, object_pairs_hook=_unique_workflow_json_object,
+                                  parse_constant=_reject_workflow_json_constant)
+        except (ValueError, TypeError):
+            return []
+        if not isinstance(workflow, dict) or not isinstance(workflow.get("jobs"), dict):
+            return []
+        blocks = []
+        for job in workflow["jobs"].values():
+            if not isinstance(job, dict) or not isinstance(job.get("steps"), list):
+                continue
+            for step in job["steps"]:
+                if isinstance(step, dict) and isinstance(step.get("run"), str):
+                    commands = [_strip_shell_comment(line.strip()).strip()
+                                for line in step["run"].splitlines()]
+                    blocks.append((0, [command for command in commands if command]))
+        return blocks
+    return _workflow_commands(text)
+
+
+def _workflow_unwrap_env(tokens):
+    """Recognize only env with explicit unset options before a command."""
+    if not tokens or tokens[0] != "env":
+        return tokens
+    index = 1
+    while index < len(tokens):
+        token = tokens[index]
+        if token == "--":
+            return tokens[index + 1:]
+        if token in ("-u", "--unset"):
+            if index + 1 >= len(tokens) or not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", tokens[index + 1]):
+                return []
+            index += 2
+            continue
+        if token.startswith("--unset="):
+            if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", token[len("--unset="):]):
+                return []
+            index += 1
+            continue
+        if token.startswith("-") or "=" in token:
+            return []
+        return tokens[index:]
+    return []
+
+
 def workflow_tool_references(text, tools):
     references = set()
-    for _number, commands in _workflow_commands(text):
+    for _number, commands in _workflow_reference_commands(text):
         heredoc = None
         for command in commands:
             if heredoc:
@@ -4537,6 +4598,8 @@ def workflow_tool_references(text, tools):
                 tokens = shlex.split(command)
             except ValueError:
                 tokens = []
+            if tokens and tokens[0] == "env":
+                tokens = _workflow_unwrap_env(tokens)
             if tokens:
                 if tokens[0] in {"python", "python3", "python3.11", "bash", "sh"}:
                     if "-c" not in tokens[1:]:
