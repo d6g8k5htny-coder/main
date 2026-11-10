@@ -74,6 +74,7 @@ class RawOSErrorExitTests(unittest.TestCase):
             isolated = Path(directory)
             tools = isolated / 'tools'
             tools.mkdir()
+            (tools / '__init__.py').write_text('')
             (tools / 'periodic_pilot_custody.py').write_bytes(
                 (REPO / 'tools/periodic_pilot_custody.py').read_bytes())
             with mock.patch.dict(os.environ, clear=False), mock.patch(__name__ + '.REPO', isolated):
