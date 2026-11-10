@@ -1,0 +1,17 @@
+{
+  "original_run": 42790545309,
+  "diagnostic_run": 42795466882,
+  "diagnostic_job": 129759411201,
+  "diagnostic_conclusion": "failure after deliberate diagnostic stop",
+  "diagnostic_artifact": 13753787037,
+  "artifact_sha256": "1e332fe75f6ce3e4cff338c757d900761368b175159b015305547f45d8db31e2",
+  "checkout_head": "3d1c8cbf4ecd6298b195ee92a06829285597e8f9",
+  "checkout_tree": "3cd55d0bbf65e1e940bc9f96d97fd95a91b49f55",
+  "initial_ignored": [],
+  "before_and_after_ignored": [
+    "tools/__pycache__/periodic_pilot_custody.cpython-311.pyc"
+  ],
+  "setup_error": "SOURCE_MISMATCH",
+  "local_reproduction": "exact custody test blobs produce pyc under CPython 3.12 with env unset; env flag and candidate child -B prevent it",
+  "limits": "instrumented diagnostic on same tree with different workflow context; original failing run did not capture its path. Local candidate not integrated; no full G5 or scientific acceptance."
+}
