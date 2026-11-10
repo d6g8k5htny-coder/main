@@ -1,0 +1,1328 @@
+﻿2026-11-10T05:17:08.3436699Z Current runner version: '2.338.2'
+2026-11-10T05:17:08.3453294Z ##[group]Runner Image Provisioner
+2026-11-10T05:17:08.3453900Z Hosted Compute Agent
+2026-11-10T05:17:08.3454276Z Version: 20261028.624
+2026-11-10T05:17:08.3454628Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T05:17:08.3455082Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T05:17:08.3455472Z Worker ID: {29982e14-2e95-4d02-ac63-e3413a222f3c}
+2026-11-10T05:17:08.3455896Z Region: southcentralus
+2026-11-10T05:17:08.3456277Z Cloud: Azure
+2026-11-10T05:17:08.3456596Z ##[endgroup]
+2026-11-10T05:17:08.3457399Z ##[group]Operating System
+2026-11-10T05:17:08.3457751Z Ubuntu
+2026-11-10T05:17:08.3458086Z 26.04.1
+2026-11-10T05:17:08.3458433Z LTS
+2026-11-10T05:17:08.3458731Z ##[endgroup]
+2026-11-10T05:17:08.3459074Z ##[group]Runner Image
+2026-11-10T05:17:08.3459465Z Image: ubuntu-26.04
+2026-11-10T05:17:08.3459782Z Version: 20261101.186.1
+2026-11-10T05:17:08.3460576Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261101.186/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-10T05:17:08.3461746Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261101.186
+2026-11-10T05:17:08.3462288Z ##[endgroup]
+2026-11-10T05:17:08.3463083Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T05:17:08.3464220Z Contents: read
+2026-11-10T05:17:08.3464537Z Metadata: read
+2026-11-10T05:17:08.3464923Z ##[endgroup]
+2026-11-10T05:17:08.3466187Z Secret source: Actions
+2026-11-10T05:17:08.3466787Z Cache mode: write
+2026-11-10T05:17:08.3467189Z Prepare workflow directory
+2026-11-10T05:17:08.3665995Z Prepare all required actions
+2026-11-10T05:17:08.3696302Z Getting action download info
+2026-11-10T05:17:08.6167918Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-10T05:17:08.7243384Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+2026-11-10T05:17:08.8888130Z Complete job name: g11-auditor
+2026-11-10T05:17:08.9419346Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-11-10T05:17:08.9419865Z with:
+2026-11-10T05:17:08.9420112Z   persist-credentials: false
+2026-11-10T05:17:08.9420407Z   repository: d6g8k5htny-coder/main
+2026-11-10T05:17:08.9422526Z   token: ***
+2026-11-10T05:17:08.9423056Z   ssh-strict: true
+2026-11-10T05:17:08.9423323Z   ssh-user: git
+2026-11-10T05:17:08.9423563Z   clean: true
+2026-11-10T05:17:08.9423808Z   sparse-checkout-cone-mode: true
+2026-11-10T05:17:08.9424093Z   fetch-depth: 1
+2026-11-10T05:17:08.9424332Z   fetch-tags: false
+2026-11-10T05:17:08.9424579Z   show-progress: true
+2026-11-10T05:17:08.9424826Z   lfs: false
+2026-11-10T05:17:08.9425055Z   submodules: false
+2026-11-10T05:17:08.9425306Z   set-safe-directory: true
+2026-11-10T05:17:08.9425585Z   allow-unsafe-pr-checkout: false
+2026-11-10T05:17:08.9425959Z ##[endgroup]
+2026-11-10T05:17:09.1247665Z Syncing repository: d6g8k5htny-coder/main
+2026-11-10T05:17:09.1248817Z ##[group]Getting Git version info
+2026-11-10T05:17:09.1249157Z Working directory is '/home/runner/work/main/main'
+2026-11-10T05:17:09.1249696Z [command]/usr/bin/git version
+2026-11-10T05:17:09.1280089Z git version 2.56.0
+2026-11-10T05:17:09.1293501Z ##[endgroup]
+2026-11-10T05:17:09.1301137Z Temporarily overriding HOME='/home/runner/work/_temp/0d3df8a5-9bf4-499f-8028-db293ede5d3d' before making global git config changes
+2026-11-10T05:17:09.1302426Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T05:17:09.1304488Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T05:17:09.1369308Z Deleting the contents of '/home/runner/work/main/main'
+2026-11-10T05:17:09.1370513Z ##[group]Determining repository object format
+2026-11-10T05:17:09.1371375Z ##[endgroup]
+2026-11-10T05:17:09.1372315Z ##[group]Initializing the repository
+2026-11-10T05:17:09.1373000Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-11-10T05:17:09.1457185Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T05:17:09.1458091Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T05:17:09.1458995Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T05:17:09.1459639Z hint: call:
+2026-11-10T05:17:09.1459978Z hint:
+2026-11-10T05:17:09.1460418Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T05:17:09.1460942Z hint:
+2026-11-10T05:17:09.1461437Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T05:17:09.1462245Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T05:17:09.1463005Z hint:
+2026-11-10T05:17:09.1463358Z hint: 	git branch -m <name>
+2026-11-10T05:17:09.1463756Z hint:
+2026-11-10T05:17:09.1464283Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T05:17:09.1467748Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-11-10T05:17:09.1478359Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-11-10T05:17:09.1577517Z ##[endgroup]
+2026-11-10T05:17:09.1578208Z ##[group]Disabling automatic garbage collection
+2026-11-10T05:17:09.1588419Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T05:17:09.1613481Z ##[endgroup]
+2026-11-10T05:17:09.1614432Z ##[group]Setting up auth
+2026-11-10T05:17:09.1615047Z Removing SSH command configuration
+2026-11-10T05:17:09.1619526Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T05:17:09.1649076Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T05:17:09.2000047Z Removing HTTP extra header
+2026-11-10T05:17:09.2002521Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T05:17:09.2030653Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T05:17:09.2239516Z Removing includeIf entries pointing to credentials config files
+2026-11-10T05:17:09.2243686Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T05:17:09.2270718Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T05:17:09.2484529Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-7144d32f-aa46-4b29-aecd-afc2c0777c43.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T05:17:09.2514930Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git.path /home/runner/work/_temp/git-credentials-7144d32f-aa46-4b29-aecd-afc2c0777c43.config
+2026-11-10T05:17:09.2540932Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-7144d32f-aa46-4b29-aecd-afc2c0777c43.config
+2026-11-10T05:17:09.2568397Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-7144d32f-aa46-4b29-aecd-afc2c0777c43.config
+2026-11-10T05:17:09.2593883Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-7144d32f-aa46-4b29-aecd-afc2c0777c43.config
+2026-11-10T05:17:09.2619663Z ##[endgroup]
+2026-11-10T05:17:09.2620092Z ##[group]Fetching the repository
+2026-11-10T05:17:09.2624196Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +db0d076ea7d5d38a78d6c16955844a7d32816cf4:refs/remotes/origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:17:11.8093705Z From https://github.com/d6g8k5htny-coder/main
+2026-11-10T05:17:11.8096131Z  * [new ref]         db0d076ea7d5d38a78d6c16955844a7d32816cf4 -> origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:17:11.8101078Z [command]/usr/bin/git branch --list --remote origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:17:11.8125987Z   origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:17:11.8132611Z [command]/usr/bin/git rev-parse refs/remotes/origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:17:11.8153685Z db0d076ea7d5d38a78d6c16955844a7d32816cf4
+2026-11-10T05:17:11.8157774Z ##[endgroup]
+2026-11-10T05:17:11.8159038Z ##[group]Determining the checkout info
+2026-11-10T05:17:11.8160884Z ##[endgroup]
+2026-11-10T05:17:11.8162024Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T05:17:11.8202458Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T05:17:11.8229799Z ##[group]Checking out the ref
+2026-11-10T05:17:11.8232479Z [command]/usr/bin/git checkout --progress --force -B codex/cbz-architecture-observation-20261110 refs/remotes/origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:17:12.2304380Z Switched to a new branch 'codex/cbz-architecture-observation-20261110'
+2026-11-10T05:17:12.2305816Z branch 'codex/cbz-architecture-observation-20261110' set up to track 'origin/codex/cbz-architecture-observation-20261110'.
+2026-11-10T05:17:12.2335144Z ##[endgroup]
+2026-11-10T05:17:12.2377805Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T05:17:12.2400660Z db0d076ea7d5d38a78d6c16955844a7d32816cf4
+2026-11-10T05:17:12.2411637Z ##[group]Removing auth
+2026-11-10T05:17:12.2411918Z Removing SSH command configuration
+2026-11-10T05:17:12.2412227Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T05:17:12.2439769Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T05:17:12.2665726Z Removing HTTP extra header
+2026-11-10T05:17:12.2668514Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T05:17:12.2694781Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T05:17:12.2909639Z Removing includeIf entries pointing to credentials config files
+2026-11-10T05:17:12.2912143Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T05:17:12.2940875Z includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T05:17:12.2941366Z includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T05:17:12.2941663Z includeif.gitdir:/github/workspace/.git.path
+2026-11-10T05:17:12.2941941Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T05:17:12.2948385Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T05:17:12.2968493Z /home/runner/work/_temp/git-credentials-7144d32f-aa46-4b29-aecd-afc2c0777c43.config
+2026-11-10T05:17:12.2975899Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-7144d32f\-aa46\-4b29\-aecd\-afc2c0777c43\.config
+2026-11-10T05:17:12.3005790Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T05:17:12.3030177Z /home/runner/work/_temp/git-credentials-7144d32f-aa46-4b29-aecd-afc2c0777c43.config
+2026-11-10T05:17:12.3037556Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-7144d32f\-aa46\-4b29\-aecd\-afc2c0777c43\.config
+2026-11-10T05:17:12.3066683Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-10T05:17:12.3086633Z /github/runner_temp/git-credentials-7144d32f-aa46-4b29-aecd-afc2c0777c43.config
+2026-11-10T05:17:12.3092239Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-7144d32f\-aa46\-4b29\-aecd\-afc2c0777c43\.config
+2026-11-10T05:17:12.3120148Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T05:17:12.3139838Z /github/runner_temp/git-credentials-7144d32f-aa46-4b29-aecd-afc2c0777c43.config
+2026-11-10T05:17:12.3145246Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-7144d32f\-aa46\-4b29\-aecd\-afc2c0777c43\.config
+2026-11-10T05:17:12.3173072Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T05:17:12.3391874Z Removing credentials config '/home/runner/work/_temp/git-credentials-7144d32f-aa46-4b29-aecd-afc2c0777c43.config'
+2026-11-10T05:17:12.3399484Z ##[endgroup]
+2026-11-10T05:17:12.3650084Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+2026-11-10T05:17:12.3650541Z with:
+2026-11-10T05:17:12.3650799Z   python-version: 3.11
+2026-11-10T05:17:12.3651064Z   check-latest: false
+2026-11-10T05:17:12.3654018Z   token: ***
+2026-11-10T05:17:12.3654286Z   update-environment: true
+2026-11-10T05:17:12.3654571Z   allow-prereleases: false
+2026-11-10T05:17:12.3654843Z   freethreaded: false
+2026-11-10T05:17:12.3655114Z ##[endgroup]
+2026-11-10T05:17:12.4442477Z ##[group]Installed versions
+2026-11-10T05:17:12.4511018Z Successfully set up CPython (3.11.18)
+2026-11-10T05:17:12.4511534Z ##[endgroup]
+2026-11-10T05:17:12.4664812Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest tests.test_g11_census tests.test_g11_current_architecture_references tests.test_g11_current_atlas_formal_bridge_reference
+2026-11-10T05:17:12.4665886Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest tests.test_g11_census tests.test_g11_current_architecture_references tests.test_g11_current_atlas_formal_bridge_reference[0m
+2026-11-10T05:17:12.4718600Z shell: /usr/bin/bash -e {0}
+2026-11-10T05:17:12.4718804Z env:
+2026-11-10T05:17:12.4718994Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:12.4719278Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:17:12.4719545Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:12.4719785Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:12.4720060Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:12.4720301Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:17:12.4720508Z ##[endgroup]
+2026-11-10T05:17:16.2567557Z .........................................................................................................................................................................................................................................................................
+2026-11-10T05:17:16.2568652Z ----------------------------------------------------------------------
+2026-11-10T05:17:16.2569011Z Ran 265 tests in 3.544s
+2026-11-10T05:17:16.2569144Z 
+2026-11-10T05:17:16.2569251Z OK
+2026-11-10T05:17:16.2736698Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O -m unittest tests.test_g11_census tests.test_g11_current_architecture_references tests.test_g11_current_atlas_formal_bridge_reference
+2026-11-10T05:17:16.2737645Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O -m unittest tests.test_g11_census tests.test_g11_current_architecture_references tests.test_g11_current_atlas_formal_bridge_reference[0m
+2026-11-10T05:17:16.2782247Z shell: /usr/bin/bash -e {0}
+2026-11-10T05:17:16.2782572Z env:
+2026-11-10T05:17:16.2782855Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:16.2783098Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:17:16.2783342Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:16.2783558Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:16.2783807Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:16.2784040Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:17:16.2784251Z ##[endgroup]
+2026-11-10T05:17:21.3245373Z .........................................................................................................................................................................................................................................................................
+2026-11-10T05:17:21.3246185Z ----------------------------------------------------------------------
+2026-11-10T05:17:21.3246550Z Ran 265 tests in 3.853s
+2026-11-10T05:17:21.3246681Z 
+2026-11-10T05:17:21.3246774Z OK
+2026-11-10T05:17:21.3427664Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest tests.test_g11_origin_provenance -v
+2026-11-10T05:17:21.3428297Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest tests.test_g11_origin_provenance -v[0m
+2026-11-10T05:17:21.3470695Z shell: /usr/bin/bash -e {0}
+2026-11-10T05:17:21.3470855Z env:
+2026-11-10T05:17:21.3471013Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:21.3471263Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:17:21.3471505Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:21.3471719Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:21.3471959Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:21.3472200Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:17:21.3472422Z ##[endgroup]
+2026-11-10T05:17:21.9862423Z test_direct_body_and_unittest_oracle_are_authorized (tests.test_g11_origin_provenance.ActualG11Origin.test_direct_body_and_unittest_oracle_are_authorized) ... ok
+2026-11-10T05:17:22.0938856Z test_direct_subject_assertion_is_not_a_kill (tests.test_g11_origin_provenance.ActualG11Origin.test_direct_subject_assertion_is_not_a_kill) ... ok
+2026-11-10T05:17:22.0940376Z test_formatted_traceback_without_live_origin_is_not_a_kill (tests.test_g11_origin_provenance.ActualG11Origin.test_formatted_traceback_without_live_origin_is_not_a_kill) ... ok
+2026-11-10T05:17:22.3055002Z test_lifecycle_and_spoofed_nested_code_are_not_authorized (tests.test_g11_origin_provenance.ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized) ... ok
+2026-11-10T05:17:22.3055765Z test_origin_report_rejects_inconsistent_and_non_oracle_frames (tests.test_g11_origin_provenance.ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames) ... ok
+2026-11-10T05:17:22.3548761Z test_precreated_report_without_runner_completion_is_rejected (tests.test_g11_origin_provenance.ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected) ... ok
+2026-11-10T05:17:22.6860890Z test_selected_body_and_runtime_controls (tests.test_g11_origin_provenance.ActualG11Origin.test_selected_body_and_runtime_controls) ... ok
+2026-11-10T05:17:22.7341734Z test_subject_cannot_precreate_a_forged_origin_report (tests.test_g11_origin_provenance.ActualG11Origin.test_subject_cannot_precreate_a_forged_origin_report) ... ok
+2026-11-10T05:17:23.0679804Z test_subject_helper_and_callback_assertions_are_not_kills (tests.test_g11_origin_provenance.ActualG11Origin.test_subject_helper_and_callback_assertions_are_not_kills) ... ok
+2026-11-10T05:17:23.0682463Z 
+2026-11-10T05:17:23.0682636Z ----------------------------------------------------------------------
+2026-11-10T05:17:23.0683371Z Ran 9 tests in 1.657s
+2026-11-10T05:17:23.0683452Z 
+2026-11-10T05:17:23.0693270Z OK
+2026-11-10T05:17:23.0796334Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O -m unittest tests.test_g11_origin_provenance -v
+2026-11-10T05:17:23.0796948Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O -m unittest tests.test_g11_origin_provenance -v[0m
+2026-11-10T05:17:23.0838034Z shell: /usr/bin/bash -e {0}
+2026-11-10T05:17:23.0838167Z env:
+2026-11-10T05:17:23.0838317Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:23.0838557Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:17:23.0838789Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:23.0838998Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:23.0839204Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:23.0839442Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:17:23.0839624Z ##[endgroup]
+2026-11-10T05:17:24.0595562Z test_direct_body_and_unittest_oracle_are_authorized (tests.test_g11_origin_provenance.ActualG11Origin.test_direct_body_and_unittest_oracle_are_authorized) ... ok
+2026-11-10T05:17:24.3077920Z test_direct_subject_assertion_is_not_a_kill (tests.test_g11_origin_provenance.ActualG11Origin.test_direct_subject_assertion_is_not_a_kill) ... ok
+2026-11-10T05:17:24.3079082Z test_formatted_traceback_without_live_origin_is_not_a_kill (tests.test_g11_origin_provenance.ActualG11Origin.test_formatted_traceback_without_live_origin_is_not_a_kill) ... ok
+2026-11-10T05:17:24.8988489Z test_lifecycle_and_spoofed_nested_code_are_not_authorized (tests.test_g11_origin_provenance.ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized) ... ok
+2026-11-10T05:17:24.8989245Z test_origin_report_rejects_inconsistent_and_non_oracle_frames (tests.test_g11_origin_provenance.ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames) ... ok
+2026-11-10T05:17:25.0416876Z test_precreated_report_without_runner_completion_is_rejected (tests.test_g11_origin_provenance.ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected) ... ok
+2026-11-10T05:17:25.7530494Z test_selected_body_and_runtime_controls (tests.test_g11_origin_provenance.ActualG11Origin.test_selected_body_and_runtime_controls) ... ok
+2026-11-10T05:17:25.8961983Z test_subject_cannot_precreate_a_forged_origin_report (tests.test_g11_origin_provenance.ActualG11Origin.test_subject_cannot_precreate_a_forged_origin_report) ... ok
+2026-11-10T05:17:26.6112212Z test_subject_helper_and_callback_assertions_are_not_kills (tests.test_g11_origin_provenance.ActualG11Origin.test_subject_helper_and_callback_assertions_are_not_kills) ... ok
+2026-11-10T05:17:26.6115829Z 
+2026-11-10T05:17:26.6116043Z ----------------------------------------------------------------------
+2026-11-10T05:17:26.6116573Z Ran 9 tests in 3.324s
+2026-11-10T05:17:26.6116751Z 
+2026-11-10T05:17:26.6116827Z OK
+2026-11-10T05:17:26.6264942Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_origin_mutation_selftest.py
+2026-11-10T05:17:26.6265559Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_origin_mutation_selftest.py[0m
+2026-11-10T05:17:26.6307342Z shell: /usr/bin/bash -e {0}
+2026-11-10T05:17:26.6307485Z env:
+2026-11-10T05:17:26.6307642Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:26.6307891Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:17:26.6308127Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:26.6308348Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:26.6308566Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:26.6308929Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:17:26.6309138Z ##[endgroup]
+2026-11-10T05:17:32.8796706Z {
+2026-11-10T05:17:32.8796955Z   "executed": 5,
+2026-11-10T05:17:32.8797212Z   "inputs_sha256": [
+2026-11-10T05:17:32.8797533Z     "b1b41be15a34a77eb4162d22c116847d96ce66b292c57fc1f423234f915c21ba",
+2026-11-10T05:17:32.8797966Z     "68da14a4457066741f1b57f7ea73760844d2c69edf5b7bd5af6a826712f5f2f2",
+2026-11-10T05:17:32.8798416Z     "9aceb1e40fe4b151bfd46cb5dcdc3e9cfaf633be2fee6d111cf3c0c8ecb76ae0",
+2026-11-10T05:17:32.8798883Z     "289127f9ec27766b2a5ddf87c3a2135b90cf9c48893b0a5a620a19ae4dfa2094"
+2026-11-10T05:17:32.8799196Z   ],
+2026-11-10T05:17:32.8799356Z   "mode": "normal",
+2026-11-10T05:17:32.8799541Z   "results": [
+2026-11-10T05:17:32.8799712Z     {
+2026-11-10T05:17:32.8799872Z       "baseline": {
+2026-11-10T05:17:32.8800058Z         "errors": 0,
+2026-11-10T05:17:32.8800260Z         "exception_type": null,
+2026-11-10T05:17:32.8800509Z         "exit": 0,
+2026-11-10T05:17:32.8800692Z         "failures": 0,
+2026-11-10T05:17:32.8800911Z         "origin_authorized": false,
+2026-11-10T05:17:32.8801149Z         "parsed": true,
+2026-11-10T05:17:32.8801336Z         "ran": 1,
+2026-11-10T05:17:32.8801513Z         "skipped": 0,
+2026-11-10T05:17:32.8801699Z         "status": "OK",
+2026-11-10T05:17:32.8801896Z         "test_id": null,
+2026-11-10T05:17:32.8802095Z         "traceback_line": null,
+2026-11-10T05:17:32.8802310Z         "traceback_method": null
+2026-11-10T05:17:32.8802516Z       },
+2026-11-10T05:17:32.8802673Z       "killed": true,
+2026-11-10T05:17:32.8802991Z       "line": 86,
+2026-11-10T05:17:32.8803158Z       "mutant": {
+2026-11-10T05:17:32.8803326Z         "errors": 0,
+2026-11-10T05:17:32.8803527Z         "exception_type": "AssertionError",
+2026-11-10T05:17:32.8803756Z         "exit": 1,
+2026-11-10T05:17:32.8803925Z         "failures": 1,
+2026-11-10T05:17:32.8804122Z         "origin_authorized": true,
+2026-11-10T05:17:32.8804338Z         "parsed": true,
+2026-11-10T05:17:32.8804520Z         "ran": 1,
+2026-11-10T05:17:32.8804692Z         "skipped": 0,
+2026-11-10T05:17:32.8804876Z         "status": "FAILED",
+2026-11-10T05:17:32.8805327Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_formatted_traceback_without_live_origin_is_not_a_kill",
+2026-11-10T05:17:32.8805805Z         "traceback_line": 86,
+2026-11-10T05:17:32.8806116Z         "traceback_method": "test_formatted_traceback_without_live_origin_is_not_a_kill"
+2026-11-10T05:17:32.8806449Z       },
+2026-11-10T05:17:32.8806632Z       "name": "missing live-origin guard",
+2026-11-10T05:17:32.8807085Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_formatted_traceback_without_live_origin_is_not_a_kill"
+2026-11-10T05:17:32.8807522Z     },
+2026-11-10T05:17:32.8807670Z     {
+2026-11-10T05:17:32.8807824Z       "baseline": {
+2026-11-10T05:17:32.8807995Z         "errors": 0,
+2026-11-10T05:17:32.8808184Z         "exception_type": null,
+2026-11-10T05:17:32.8808390Z         "exit": 0,
+2026-11-10T05:17:32.8808560Z         "failures": 0,
+2026-11-10T05:17:32.8809085Z         "origin_authorized": false,
+2026-11-10T05:17:32.8809306Z         "parsed": true,
+2026-11-10T05:17:32.8809490Z         "ran": 1,
+2026-11-10T05:17:32.8809659Z         "skipped": 0,
+2026-11-10T05:17:32.8809839Z         "status": "OK",
+2026-11-10T05:17:32.8810022Z         "test_id": null,
+2026-11-10T05:17:32.8810215Z         "traceback_line": null,
+2026-11-10T05:17:32.8810427Z         "traceback_method": null
+2026-11-10T05:17:32.8810621Z       },
+2026-11-10T05:17:32.8810778Z       "killed": true,
+2026-11-10T05:17:32.8810957Z       "line": 73,
+2026-11-10T05:17:32.8811135Z       "mutant": {
+2026-11-10T05:17:32.8811316Z         "errors": 0,
+2026-11-10T05:17:32.8811538Z         "exception_type": "AssertionError",
+2026-11-10T05:17:32.8811782Z         "exit": 1,
+2026-11-10T05:17:32.8812003Z         "failures": 1,
+2026-11-10T05:17:32.8812371Z         "origin_authorized": true,
+2026-11-10T05:17:32.8812604Z         "parsed": true,
+2026-11-10T05:17:32.8813083Z         "ran": 1,
+2026-11-10T05:17:32.8813271Z         "skipped": 0,
+2026-11-10T05:17:32.8813469Z         "status": "FAILED",
+2026-11-10T05:17:32.8813910Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_direct_subject_assertion_is_not_a_kill",
+2026-11-10T05:17:32.8814388Z         "traceback_line": 73,
+2026-11-10T05:17:32.8814690Z         "traceback_method": "test_direct_subject_assertion_is_not_a_kill"
+2026-11-10T05:17:32.8815011Z       },
+2026-11-10T05:17:32.8815218Z       "name": "subject and helper suffix accepted",
+2026-11-10T05:17:32.8815692Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_direct_subject_assertion_is_not_a_kill"
+2026-11-10T05:17:32.8816124Z     },
+2026-11-10T05:17:32.8816274Z     {
+2026-11-10T05:17:32.8816424Z       "baseline": {
+2026-11-10T05:17:32.8816620Z         "errors": 0,
+2026-11-10T05:17:32.8816809Z         "exception_type": null,
+2026-11-10T05:17:32.8817020Z         "exit": 0,
+2026-11-10T05:17:32.8817206Z         "failures": 0,
+2026-11-10T05:17:32.8817408Z         "origin_authorized": false,
+2026-11-10T05:17:32.8817647Z         "parsed": true,
+2026-11-10T05:17:32.8817830Z         "ran": 1,
+2026-11-10T05:17:32.8818012Z         "skipped": 0,
+2026-11-10T05:17:32.8818208Z         "status": "OK",
+2026-11-10T05:17:32.8818410Z         "test_id": null,
+2026-11-10T05:17:32.8818619Z         "traceback_line": null,
+2026-11-10T05:17:32.8818855Z         "traceback_method": null
+2026-11-10T05:17:32.8819072Z       },
+2026-11-10T05:17:32.8819242Z       "killed": true,
+2026-11-10T05:17:32.8819436Z       "line": 132,
+2026-11-10T05:17:32.8819618Z       "mutant": {
+2026-11-10T05:17:32.8819798Z         "errors": 0,
+2026-11-10T05:17:32.8820013Z         "exception_type": "AssertionError",
+2026-11-10T05:17:32.8820258Z         "exit": 1,
+2026-11-10T05:17:32.8820442Z         "failures": 1,
+2026-11-10T05:17:32.8840314Z         "origin_authorized": true,
+2026-11-10T05:17:32.8840579Z         "parsed": true,
+2026-11-10T05:17:32.8840800Z         "ran": 1,
+2026-11-10T05:17:32.8840989Z         "skipped": 0,
+2026-11-10T05:17:32.8841192Z         "status": "FAILED",
+2026-11-10T05:17:32.8841683Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized",
+2026-11-10T05:17:32.8842222Z         "traceback_line": 132,
+2026-11-10T05:17:32.8842579Z         "traceback_method": "test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+2026-11-10T05:17:32.8843084Z       },
+2026-11-10T05:17:32.8843283Z       "name": "cleanup phase accepted",
+2026-11-10T05:17:32.8843792Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+2026-11-10T05:17:32.8844292Z     },
+2026-11-10T05:17:32.8844462Z     {
+2026-11-10T05:17:32.8844629Z       "baseline": {
+2026-11-10T05:17:32.8844822Z         "errors": 0,
+2026-11-10T05:17:32.8845031Z         "exception_type": null,
+2026-11-10T05:17:32.8845245Z         "exit": 0,
+2026-11-10T05:17:32.8845441Z         "failures": 0,
+2026-11-10T05:17:32.8845853Z         "origin_authorized": false,
+2026-11-10T05:17:32.8846095Z         "parsed": true,
+2026-11-10T05:17:32.8846293Z         "ran": 1,
+2026-11-10T05:17:32.8846476Z         "skipped": 0,
+2026-11-10T05:17:32.8846678Z         "status": "OK",
+2026-11-10T05:17:32.8846925Z         "test_id": null,
+2026-11-10T05:17:32.8847137Z         "traceback_line": null,
+2026-11-10T05:17:32.8847352Z         "traceback_method": null
+2026-11-10T05:17:32.8847564Z       },
+2026-11-10T05:17:32.8847731Z       "killed": true,
+2026-11-10T05:17:32.8847927Z       "line": 152,
+2026-11-10T05:17:32.8848114Z       "mutant": {
+2026-11-10T05:17:32.8848303Z         "errors": 0,
+2026-11-10T05:17:32.8848527Z         "exception_type": "AssertionError",
+2026-11-10T05:17:32.8848777Z         "exit": 1,
+2026-11-10T05:17:32.8848968Z         "failures": 1,
+2026-11-10T05:17:32.8849185Z         "origin_authorized": true,
+2026-11-10T05:17:32.8849413Z         "parsed": true,
+2026-11-10T05:17:32.8849763Z         "ran": 1,
+2026-11-10T05:17:32.8849948Z         "skipped": 0,
+2026-11-10T05:17:32.8850159Z         "status": "FAILED",
+2026-11-10T05:17:32.8850655Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames",
+2026-11-10T05:17:32.8851186Z         "traceback_line": 152,
+2026-11-10T05:17:32.8851530Z         "traceback_method": "test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+2026-11-10T05:17:32.8851907Z       },
+2026-11-10T05:17:32.8852107Z       "name": "untrusted suffix report accepted",
+2026-11-10T05:17:32.8852633Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+2026-11-10T05:17:32.8853251Z     },
+2026-11-10T05:17:32.8853409Z     {
+2026-11-10T05:17:32.8853573Z       "baseline": {
+2026-11-10T05:17:32.8853756Z         "errors": 0,
+2026-11-10T05:17:32.8853954Z         "exception_type": null,
+2026-11-10T05:17:32.8854172Z         "exit": 0,
+2026-11-10T05:17:32.8854351Z         "failures": 0,
+2026-11-10T05:17:32.8854570Z         "origin_authorized": false,
+2026-11-10T05:17:32.8854803Z         "parsed": true,
+2026-11-10T05:17:32.8854997Z         "ran": 1,
+2026-11-10T05:17:32.8855179Z         "skipped": 0,
+2026-11-10T05:17:32.8855374Z         "status": "OK",
+2026-11-10T05:17:32.8855580Z         "test_id": null,
+2026-11-10T05:17:32.8855788Z         "traceback_line": null,
+2026-11-10T05:17:32.8856016Z         "traceback_method": null
+2026-11-10T05:17:32.8856229Z       },
+2026-11-10T05:17:32.8856397Z       "killed": true,
+2026-11-10T05:17:32.8856584Z       "line": 185,
+2026-11-10T05:17:32.8856777Z       "mutant": {
+2026-11-10T05:17:32.8856953Z         "errors": 0,
+2026-11-10T05:17:32.8857168Z         "exception_type": "AssertionError",
+2026-11-10T05:17:32.8857418Z         "exit": 1,
+2026-11-10T05:17:32.8857602Z         "failures": 1,
+2026-11-10T05:17:32.8857810Z         "origin_authorized": true,
+2026-11-10T05:17:32.8858038Z         "parsed": true,
+2026-11-10T05:17:32.8858232Z         "ran": 1,
+2026-11-10T05:17:32.8858418Z         "skipped": 0,
+2026-11-10T05:17:32.8858616Z         "status": "FAILED",
+2026-11-10T05:17:32.8859110Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected",
+2026-11-10T05:17:32.8859640Z         "traceback_line": 185,
+2026-11-10T05:17:32.8859987Z         "traceback_method": "test_precreated_report_without_runner_completion_is_rejected"
+2026-11-10T05:17:32.8860335Z       },
+2026-11-10T05:17:32.8860538Z       "name": "missing runner completion accepted",
+2026-11-10T05:17:32.8861034Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected"
+2026-11-10T05:17:32.8861502Z     }
+2026-11-10T05:17:32.8861657Z   ],
+2026-11-10T05:17:32.8861827Z   "status": "PASS",
+2026-11-10T05:17:32.8862012Z   "total": 5
+2026-11-10T05:17:32.8862181Z }
+2026-11-10T05:17:32.8905884Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_origin_mutation_selftest.py
+2026-11-10T05:17:32.8906511Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_origin_mutation_selftest.py[0m
+2026-11-10T05:17:32.8948051Z shell: /usr/bin/bash -e {0}
+2026-11-10T05:17:32.8948193Z env:
+2026-11-10T05:17:32.8948348Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:32.8948592Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:17:32.8948826Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:32.8949042Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:32.8949254Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:32.8949533Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:17:32.8949741Z ##[endgroup]
+2026-11-10T05:17:41.7800396Z {
+2026-11-10T05:17:41.7800651Z   "executed": 5,
+2026-11-10T05:17:41.7800891Z   "inputs_sha256": [
+2026-11-10T05:17:41.7801219Z     "b1b41be15a34a77eb4162d22c116847d96ce66b292c57fc1f423234f915c21ba",
+2026-11-10T05:17:41.7801648Z     "68da14a4457066741f1b57f7ea73760844d2c69edf5b7bd5af6a826712f5f2f2",
+2026-11-10T05:17:41.7802082Z     "9aceb1e40fe4b151bfd46cb5dcdc3e9cfaf633be2fee6d111cf3c0c8ecb76ae0",
+2026-11-10T05:17:41.7802509Z     "289127f9ec27766b2a5ddf87c3a2135b90cf9c48893b0a5a620a19ae4dfa2094"
+2026-11-10T05:17:41.7802935Z   ],
+2026-11-10T05:17:41.7803107Z   "mode": "optimized",
+2026-11-10T05:17:41.7803301Z   "results": [
+2026-11-10T05:17:41.7803480Z     {
+2026-11-10T05:17:41.7803642Z       "baseline": {
+2026-11-10T05:17:41.7803820Z         "errors": 0,
+2026-11-10T05:17:41.7804013Z         "exception_type": null,
+2026-11-10T05:17:41.7804236Z         "exit": 0,
+2026-11-10T05:17:41.7804410Z         "failures": 0,
+2026-11-10T05:17:41.7804657Z         "origin_authorized": false,
+2026-11-10T05:17:41.7805137Z         "parsed": true,
+2026-11-10T05:17:41.7805578Z         "ran": 1,
+2026-11-10T05:17:41.7805757Z         "skipped": 0,
+2026-11-10T05:17:41.7805948Z         "status": "OK",
+2026-11-10T05:17:41.7806142Z         "test_id": null,
+2026-11-10T05:17:41.7806330Z         "traceback_line": null,
+2026-11-10T05:17:41.7806546Z         "traceback_method": null
+2026-11-10T05:17:41.7806750Z       },
+2026-11-10T05:17:41.7806904Z       "killed": true,
+2026-11-10T05:17:41.7807082Z       "line": 86,
+2026-11-10T05:17:41.7807253Z       "mutant": {
+2026-11-10T05:17:41.7807430Z         "errors": 0,
+2026-11-10T05:17:41.7807590Z         "exception_type": "AssertionError",
+2026-11-10T05:17:41.7807744Z         "exit": 1,
+2026-11-10T05:17:41.7807860Z         "failures": 1,
+2026-11-10T05:17:41.7807995Z         "origin_authorized": true,
+2026-11-10T05:17:41.7808140Z         "parsed": true,
+2026-11-10T05:17:41.7808261Z         "ran": 1,
+2026-11-10T05:17:41.7808379Z         "skipped": 0,
+2026-11-10T05:17:41.7808501Z         "status": "FAILED",
+2026-11-10T05:17:41.7808805Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_formatted_traceback_without_live_origin_is_not_a_kill",
+2026-11-10T05:17:41.7809115Z         "traceback_line": 86,
+2026-11-10T05:17:41.7809324Z         "traceback_method": "test_formatted_traceback_without_live_origin_is_not_a_kill"
+2026-11-10T05:17:41.7809541Z       },
+2026-11-10T05:17:41.7809662Z       "name": "missing live-origin guard",
+2026-11-10T05:17:41.7809957Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_formatted_traceback_without_live_origin_is_not_a_kill"
+2026-11-10T05:17:41.7810236Z     },
+2026-11-10T05:17:41.7810340Z     {
+2026-11-10T05:17:41.7810443Z       "baseline": {
+2026-11-10T05:17:41.7810558Z         "errors": 0,
+2026-11-10T05:17:41.7810682Z         "exception_type": null,
+2026-11-10T05:17:41.7810812Z         "exit": 0,
+2026-11-10T05:17:41.7810925Z         "failures": 0,
+2026-11-10T05:17:41.7811349Z         "origin_authorized": false,
+2026-11-10T05:17:41.7811495Z         "parsed": true,
+2026-11-10T05:17:41.7811612Z         "ran": 1,
+2026-11-10T05:17:41.7811725Z         "skipped": 0,
+2026-11-10T05:17:41.7811847Z         "status": "OK",
+2026-11-10T05:17:41.7811980Z         "test_id": null,
+2026-11-10T05:17:41.7812111Z         "traceback_line": null,
+2026-11-10T05:17:41.7812251Z         "traceback_method": null
+2026-11-10T05:17:41.7812383Z       },
+2026-11-10T05:17:41.7812487Z       "killed": true,
+2026-11-10T05:17:41.7812604Z       "line": 73,
+2026-11-10T05:17:41.7812712Z       "mutant": {
+2026-11-10T05:17:41.7813051Z         "errors": 0,
+2026-11-10T05:17:41.7813261Z         "exception_type": "AssertionError",
+2026-11-10T05:17:41.7813497Z         "exit": 1,
+2026-11-10T05:17:41.7813667Z         "failures": 1,
+2026-11-10T05:17:41.7813868Z         "origin_authorized": true,
+2026-11-10T05:17:41.7814084Z         "parsed": true,
+2026-11-10T05:17:41.7814268Z         "ran": 1,
+2026-11-10T05:17:41.7814437Z         "skipped": 0,
+2026-11-10T05:17:41.7815051Z         "status": "FAILED",
+2026-11-10T05:17:41.7815311Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_direct_subject_assertion_is_not_a_kill",
+2026-11-10T05:17:41.7815585Z         "traceback_line": 73,
+2026-11-10T05:17:41.7815774Z         "traceback_method": "test_direct_subject_assertion_is_not_a_kill"
+2026-11-10T05:17:41.7815964Z       },
+2026-11-10T05:17:41.7816095Z       "name": "subject and helper suffix accepted",
+2026-11-10T05:17:41.7816385Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_direct_subject_assertion_is_not_a_kill"
+2026-11-10T05:17:41.7816638Z     },
+2026-11-10T05:17:41.7816738Z     {
+2026-11-10T05:17:41.7816845Z       "baseline": {
+2026-11-10T05:17:41.7816962Z         "errors": 0,
+2026-11-10T05:17:41.7817087Z         "exception_type": null,
+2026-11-10T05:17:41.7817220Z         "exit": 0,
+2026-11-10T05:17:41.7817337Z         "failures": 0,
+2026-11-10T05:17:41.7817472Z         "origin_authorized": false,
+2026-11-10T05:17:41.7817614Z         "parsed": true,
+2026-11-10T05:17:41.7817736Z         "ran": 1,
+2026-11-10T05:17:41.7817857Z         "skipped": 0,
+2026-11-10T05:17:41.7817975Z         "status": "OK",
+2026-11-10T05:17:41.7818099Z         "test_id": null,
+2026-11-10T05:17:41.7818227Z         "traceback_line": null,
+2026-11-10T05:17:41.7818367Z         "traceback_method": null
+2026-11-10T05:17:41.7818503Z       },
+2026-11-10T05:17:41.7818609Z       "killed": true,
+2026-11-10T05:17:41.7818727Z       "line": 132,
+2026-11-10T05:17:41.7818835Z       "mutant": {
+2026-11-10T05:17:41.7818946Z         "errors": 0,
+2026-11-10T05:17:41.7819077Z         "exception_type": "AssertionError",
+2026-11-10T05:17:41.7819230Z         "exit": 1,
+2026-11-10T05:17:41.7819344Z         "failures": 1,
+2026-11-10T05:17:41.7819472Z         "origin_authorized": true,
+2026-11-10T05:17:41.7819612Z         "parsed": true,
+2026-11-10T05:17:41.7819730Z         "ran": 1,
+2026-11-10T05:17:41.7819843Z         "skipped": 0,
+2026-11-10T05:17:41.7819972Z         "status": "FAILED",
+2026-11-10T05:17:41.7820252Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized",
+2026-11-10T05:17:41.7820547Z         "traceback_line": 132,
+2026-11-10T05:17:41.7820752Z         "traceback_method": "test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+2026-11-10T05:17:41.7820971Z       },
+2026-11-10T05:17:41.7821087Z       "name": "cleanup phase accepted",
+2026-11-10T05:17:41.7821376Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+2026-11-10T05:17:41.7821655Z     },
+2026-11-10T05:17:41.7821753Z     {
+2026-11-10T05:17:41.7821856Z       "baseline": {
+2026-11-10T05:17:41.7821970Z         "errors": 0,
+2026-11-10T05:17:41.7822091Z         "exception_type": null,
+2026-11-10T05:17:41.7822223Z         "exit": 0,
+2026-11-10T05:17:41.7822335Z         "failures": 0,
+2026-11-10T05:17:41.7822582Z         "origin_authorized": false,
+2026-11-10T05:17:41.7822858Z         "parsed": true,
+2026-11-10T05:17:41.7823022Z         "ran": 1,
+2026-11-10T05:17:41.7823136Z         "skipped": 0,
+2026-11-10T05:17:41.7823258Z         "status": "OK",
+2026-11-10T05:17:41.7823381Z         "test_id": null,
+2026-11-10T05:17:41.7823511Z         "traceback_line": null,
+2026-11-10T05:17:41.7823650Z         "traceback_method": null
+2026-11-10T05:17:41.7823781Z       },
+2026-11-10T05:17:41.7823887Z       "killed": true,
+2026-11-10T05:17:41.7824003Z       "line": 152,
+2026-11-10T05:17:41.7824120Z       "mutant": {
+2026-11-10T05:17:41.7824233Z         "errors": 0,
+2026-11-10T05:17:41.7824364Z         "exception_type": "AssertionError",
+2026-11-10T05:17:41.7824512Z         "exit": 1,
+2026-11-10T05:17:41.7824627Z         "failures": 1,
+2026-11-10T05:17:41.7824773Z         "origin_authorized": true,
+2026-11-10T05:17:41.7824917Z         "parsed": true,
+2026-11-10T05:17:41.7825038Z         "ran": 1,
+2026-11-10T05:17:41.7825148Z         "skipped": 0,
+2026-11-10T05:17:41.7825275Z         "status": "FAILED",
+2026-11-10T05:17:41.7825653Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames",
+2026-11-10T05:17:41.7825955Z         "traceback_line": 152,
+2026-11-10T05:17:41.7826172Z         "traceback_method": "test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+2026-11-10T05:17:41.7826393Z       },
+2026-11-10T05:17:41.7826518Z       "name": "untrusted suffix report accepted",
+2026-11-10T05:17:41.7826830Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+2026-11-10T05:17:41.7827117Z     },
+2026-11-10T05:17:41.7827217Z     {
+2026-11-10T05:17:41.7827320Z       "baseline": {
+2026-11-10T05:17:41.7827447Z         "errors": 0,
+2026-11-10T05:17:41.7827568Z         "exception_type": null,
+2026-11-10T05:17:41.7827704Z         "exit": 0,
+2026-11-10T05:17:41.7827819Z         "failures": 0,
+2026-11-10T05:17:41.7827950Z         "origin_authorized": false,
+2026-11-10T05:17:41.7828098Z         "parsed": true,
+2026-11-10T05:17:41.7828219Z         "ran": 1,
+2026-11-10T05:17:41.7828336Z         "skipped": 0,
+2026-11-10T05:17:41.7828457Z         "status": "OK",
+2026-11-10T05:17:41.7828579Z         "test_id": null,
+2026-11-10T05:17:41.7828706Z         "traceback_line": null,
+2026-11-10T05:17:41.7828845Z         "traceback_method": null
+2026-11-10T05:17:41.7828975Z       },
+2026-11-10T05:17:41.7829084Z       "killed": true,
+2026-11-10T05:17:41.7829202Z       "line": 185,
+2026-11-10T05:17:41.7829315Z       "mutant": {
+2026-11-10T05:17:41.7829427Z         "errors": 0,
+2026-11-10T05:17:41.7829558Z         "exception_type": "AssertionError",
+2026-11-10T05:17:41.7829704Z         "exit": 1,
+2026-11-10T05:17:41.7829819Z         "failures": 1,
+2026-11-10T05:17:41.7829942Z         "origin_authorized": true,
+2026-11-10T05:17:41.7830082Z         "parsed": true,
+2026-11-10T05:17:41.7830199Z         "ran": 1,
+2026-11-10T05:17:41.7830312Z         "skipped": 0,
+2026-11-10T05:17:41.7830438Z         "status": "FAILED",
+2026-11-10T05:17:41.7830726Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected",
+2026-11-10T05:17:41.7831028Z         "traceback_line": 185,
+2026-11-10T05:17:41.7831238Z         "traceback_method": "test_precreated_report_without_runner_completion_is_rejected"
+2026-11-10T05:17:41.7831455Z       },
+2026-11-10T05:17:41.7831580Z       "name": "missing runner completion accepted",
+2026-11-10T05:17:41.7831887Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected"
+2026-11-10T05:17:41.7832166Z     }
+2026-11-10T05:17:41.7832261Z   ],
+2026-11-10T05:17:41.7832370Z   "status": "PASS",
+2026-11-10T05:17:41.7832483Z   "total": 5
+2026-11-10T05:17:41.7832591Z }
+2026-11-10T05:17:41.7899217Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_mutation_selftest.py
+2026-11-10T05:17:41.7899813Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_mutation_selftest.py[0m
+2026-11-10T05:17:41.7941368Z shell: /usr/bin/bash -e {0}
+2026-11-10T05:17:41.7941508Z env:
+2026-11-10T05:17:41.7941659Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:41.7941906Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:17:41.7942140Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:41.7942453Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:41.7942676Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:17:41.7942990Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:17:41.7943203Z ##[endgroup]
+2026-11-10T05:19:06.6306703Z KILLED   pass not detected (target census, exit 1, failures 1, errors 0, skips 0, line 57/57)
+2026-11-10T05:19:06.6307282Z KILLED   ellipsis not detected (target census, exit 1, failures 1, errors 0, skips 0, line 58/58)
+2026-11-10T05:19:06.6308265Z KILLED   NotImplementedError not detected (target census, exit 1, failures 1, errors 0, skips 0, line 59/59)
+2026-11-10T05:19:06.6308850Z KILLED   raise call not unwrapped (target census, exit 1, failures 1, errors 0, skips 0, line 60/60)
+2026-11-10T05:19:06.6309465Z KILLED   docstring-only not reported (target census, exit 1, failures 1, errors 0, skips 0, line 62/62)
+2026-11-10T05:19:06.6310021Z KILLED   docstring not stripped (target census, exit 1, failures 1, errors 0, skips 0, line 65/65)
+2026-11-10T05:19:06.6310588Z KILLED   decorator context ignored (target census, exit 1, failures 1, errors 0, skips 0, line 94/94)
+2026-11-10T05:19:06.6311184Z KILLED   Protocol/ABC context ignored (target census, exit 1, failures 1, errors 0, skips 0, line 94/94)
+2026-11-10T05:19:06.6311766Z KILLED   exception context ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4944/4944)
+2026-11-10T05:19:06.6312360Z KILLED   log_message context ignored (target census, exit 1, failures 1, errors 0, skips 0, line 107/107)
+2026-11-10T05:19:06.6313089Z KILLED   log_message context too broad (target census, exit 1, failures 1, errors 0, skips 0, line 107/107)
+2026-11-10T05:19:06.6313720Z KILLED   module docstring not recorded (target census, exit 1, failures 1, errors 0, skips 0, line 232/232)
+2026-11-10T05:19:06.6314296Z KILLED   class bodies not visited (target census, exit 1, failures 1, errors 0, skips 0, line 71/71)
+2026-11-10T05:19:06.6314860Z KILLED   nested functions not visited (target census, exit 1, failures 1, errors 0, skips 0, line 71/71)
+2026-11-10T05:19:06.6315419Z KILLED   comments read as data (target census, exit 1, failures 1, errors 0, skips 0, line 122/122)
+2026-11-10T05:19:06.6315977Z KILLED   strings read as comments (target census, exit 1, failures 1, errors 0, skips 0, line 122/122)
+2026-11-10T05:19:06.6316565Z KILLED   marker words case-insensitive (target census, exit 1, failures 1, errors 0, skips 0, line 128/128)
+2026-11-10T05:19:06.6317177Z KILLED   marker word boundary dropped (target census, exit 1, failures 1, errors 0, skips 0, line 128/128)
+2026-11-10T05:19:06.6317736Z KILLED   quotes not tracked (target census, exit 1, failures 1, errors 0, skips 0, line 137/137)
+2026-11-10T05:19:06.6318280Z KILLED   string escapes ignored (target census, exit 1, failures 1, errors 0, skips 0, line 143/143)
+2026-11-10T05:19:06.6318816Z KILLED   hash comment needs no whitespace (target census, exit 1, failures 1, errors 0, skips 0, line 147/147)
+2026-11-10T05:19:06.6319182Z KILLED   block comments not entered (target census, exit 1, failures 1, errors 0, skips 0, line 137/137)
+2026-11-10T05:19:06.6319529Z KILLED   block comment end ignored (target census, exit 1, failures 1, errors 0, skips 0, line 137/137)
+2026-11-10T05:19:06.6320077Z KILLED   mentions dropped (target census, exit 1, failures 1, errors 0, skips 0, line 122/122)
+2026-11-10T05:19:06.6320409Z KILLED   noop detection off (target census, exit 1, failures 1, errors 0, skips 0, line 175/175)
+2026-11-10T05:19:06.6320740Z KILLED   block scalar not read (target census, exit 1, failures 1, errors 0, skips 0, line 175/175)
+2026-11-10T05:19:06.6321074Z KILLED   block scalar ends late (target census, exit 1, failures 1, errors 0, skips 0, line 175/175)
+2026-11-10T05:19:06.6321403Z KILLED   inline comment kept (target census, exit 1, failures 1, errors 0, skips 0, line 175/175)
+2026-11-10T05:19:06.6321739Z KILLED   tests counted as tools (target census, exit 1, failures 1, errors 0, skips 0, line 4701/4701)
+2026-11-10T05:19:06.6322082Z KILLED   __init__ counted as tool (target census, exit 1, failures 1, errors 0, skips 0, line 4701/4701)
+2026-11-10T05:19:06.6322443Z KILLED   basename ambiguity ignored (target census, exit 1, failures 1, errors 0, skips 0, line 217/217)
+2026-11-10T05:19:06.6322979Z KILLED   path reference not recognised (target census, exit 1, failures 1, errors 0, skips 0, line 227/227)
+2026-11-10T05:19:06.6323527Z KILLED   import not recognised (target census, exit 1, failures 1, errors 0, skips 0, line 197/197)
+2026-11-10T05:19:06.6324233Z KILLED   from-import list not recognised (target census, exit 1, failures 1, errors 0, skips 0, line 197/197)
+2026-11-10T05:19:06.6324824Z KILLED   basename not recognised (target census, exit 1, failures 1, errors 0, skips 0, line 196/196)
+2026-11-10T05:19:06.6325386Z KILLED   transitive exercise off (target census, exit 1, failures 1, errors 0, skips 0, line 211/211)
+2026-11-10T05:19:06.6325936Z KILLED   site not production (target census, exit 1, failures 1, errors 0, skips 0, line 155/155)
+2026-11-10T05:19:06.6326520Z KILLED   research counted as production (target census, exit 1, failures 1, errors 0, skips 0, line 115/115)
+2026-11-10T05:19:06.6327109Z KILLED   vendor counted as site (target census, exit 1, failures 1, errors 0, skips 0, line 156/156)
+2026-11-10T05:19:06.6327692Z KILLED   undecodable decoded leniently (target census, exit 1, failures 1, errors 0, skips 0, line 4710/4710)
+2026-11-10T05:19:06.6328317Z KILLED   unparseable not a failure class (target census, exit 1, failures 1, errors 0, skips 0, line 4709/4709)
+2026-11-10T05:19:06.6328969Z KILLED   legitimate context still fails (target census, exit 1, failures 1, errors 0, skips 0, line 94/94)
+2026-11-10T05:19:06.6329532Z KILLED   markers do not fail (target census, exit 1, failures 1, errors 0, skips 0, line 152/152)
+2026-11-10T05:19:06.6329903Z KILLED   noop steps do not fail (target census, exit 1, failures 1, errors 0, skips 0, line 178/178)
+2026-11-10T05:19:06.6330246Z KILLED   tool findings do not fail (target census, exit 1, failures 1, errors 0, skips 0, line 204/204)
+2026-11-10T05:19:06.6330584Z KILLED   exit status always zero (target census, exit 1, failures 1, errors 0, skips 0, line 4745/4745)
+2026-11-10T05:19:06.6330946Z KILLED   unreadable revision exits zero (target census, exit 1, failures 1, errors 0, skips 0, line 4754/4754)
+2026-11-10T05:19:06.6331330Z KILLED   decoy decorator names accepted (target census, exit 1, failures 1, errors 0, skips 0, line 4781/4781)
+2026-11-10T05:19:06.6331746Z KILLED   decoy abstract-base names accepted (target census, exit 1, failures 1, errors 0, skips 0, line 4781/4781)
+2026-11-10T05:19:06.6332153Z KILLED   decoy request-handler suffix accepted (target census, exit 1, failures 1, errors 0, skips 0, line 4781/4781)
+2026-11-10T05:19:06.6332597Z KILLED   comment and string mentions count as exercise (target census, exit 1, failures 1, errors 0, skips 0, line 4812/4812)
+2026-11-10T05:19:06.6333164Z KILLED   empty workflow run block not detected (target census, exit 1, failures 1, errors 0, skips 0, line 4848/4848)
+2026-11-10T05:19:06.6333536Z KILLED   YAML comments omitted (target census, exit 1, failures 1, errors 0, skips 0, line 4854/4854)
+2026-11-10T05:19:06.6335297Z KILLED   mutation attribution accepts wrong assertion (target harness, exit 1, failures 1, errors 0, skips 0, line 4866/4866)
+2026-11-10T05:19:06.6335984Z KILLED   function-local decorator shadow accepted (target census, exit 1, failures 1, errors 0, skips 0, line 4801/4801)
+2026-11-10T05:19:06.6336630Z KILLED   python -c path mention counts as execution (target census, exit 1, failures 1, errors 0, skips 0, line 4821/4821)
+2026-11-10T05:19:06.6337263Z KILLED   shell -c path mention counts as execution (target census, exit 1, failures 1, errors 0, skips 0, line 4831/4831)
+2026-11-10T05:19:06.6337933Z KILLED   template literal import text counts as static import (target census, exit 1, failures 1, errors 0, skips 0, line 4838/4838)
+2026-11-10T05:19:06.6338553Z KILLED   parser drops method identity (target harness, exit 1, failures 1, errors 0, skips 0, line 4887/4887)
+2026-11-10T05:19:06.6339023Z KILLED   parser repeats qualified method identity (target harness, exit 1, failures 1, errors 0, skips 0, line 4893/4893)
+2026-11-10T05:19:06.6339438Z KILLED   subTest failure header not parsed (target harness, exit 1, failures 1, errors 0, skips 0, line 4896/4896)
+2026-11-10T05:19:06.6339806Z KILLED   wrong test id credited (target harness, exit 1, failures 1, errors 0, skips 0, line 4868/4868)
+2026-11-10T05:19:06.6340516Z KILLED   nonfailure status credited (target harness, exit 1, failures 1, errors 0, skips 0, line 4870/4870)
+2026-11-10T05:19:06.6340878Z KILLED   error outcome credited (target harness, exit 1, failures 1, errors 0, skips 0, line 4872/4872)
+2026-11-10T05:19:06.6341235Z KILLED   skipped outcome credited (target harness, exit 1, failures 1, errors 0, skips 0, line 4874/4874)
+2026-11-10T05:19:06.6341626Z KILLED   quoted workflow command boundary ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4830/4830)
+2026-11-10T05:19:06.6342036Z KILLED   FAIL header mistaken for exception (target harness, exit 1, failures 1, errors 0, skips 0, line 4890/4890)
+2026-11-10T05:19:06.6342422Z KILLED   outer class exemption leaks (target census, exit 1, failures 1, errors 0, skips 0, line 4944/4944)
+2026-11-10T05:19:06.6342938Z KILLED   local base shadow accepted (target census, exit 1, failures 1, errors 0, skips 0, line 4940/4940)
+2026-11-10T05:19:06.6343322Z KILLED   uncalled helper counts as exercise (target census, exit 1, failures 1, errors 0, skips 0, line 4953/4953)
+2026-11-10T05:19:06.6343711Z KILLED   heredoc body counted as command (target census, exit 1, failures 1, errors 0, skips 0, line 5003/5003)
+2026-11-10T05:19:06.6344096Z KILLED   mutation inventory shrink accepted (target harness, exit 1, failures 1, errors 0, skips 0, line 5022/5022)
+2026-11-10T05:19:06.6344495Z KILLED   hostile Python environment survives (target harness, exit 1, failures 1, errors 0, skips 0, line 5053/5053)
+2026-11-10T05:19:06.6344909Z KILLED   in-scope tracked symlink silently skipped (target census, exit 1, failures 1, errors 0, skips 0, line 5073/5073)
+2026-11-10T05:19:06.6345304Z KILLED   decoy TestCase base credited (target census, exit 1, failures 1, errors 0, skips 0, line 4982/4982)
+2026-11-10T05:19:06.6345684Z KILLED   workflow defaults accepted as steps (target census, exit 1, failures 1, errors 0, skips 0, line 163/163)
+2026-11-10T05:19:06.6346085Z KILLED   static path assignments not bound (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:19:06.6346446Z KILLED   spec loader path ignored (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:19:06.6346789Z KILLED   runpy path ignored (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:19:06.6347138Z KILLED   subprocess path list ignored (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:19:06.6347512Z KILLED   environment path default ignored (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:19:06.6347898Z KILLED   legacy os.path construction ignored (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:19:06.6348386Z KILLED   concatenated command lists ignored (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:19:06.6348766Z KILLED   lazy-load none guard ignored (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:19:06.6349141Z KILLED   arbitrary unknown branch accepted (target census, exit 1, failures 1, errors 0, skips 0, line 393/393)
+2026-11-10T05:19:06.6349529Z KILLED   process wrapper forwarding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:19:06.6349909Z KILLED   nonprocess wrapper accepted (target census, exit 1, failures 1, errors 0, skips 0, line 393/393)
+2026-11-10T05:19:06.6350305Z KILLED   sibling with_name path ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3115/3115)
+2026-11-10T05:19:06.6350693Z KILLED   JavaScript URL tool binding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3138/3138)
+2026-11-10T05:19:06.6351126Z KILLED   JavaScript URL mention accepted without child process (target census, exit 1, failures 1, errors 0, skips 0, line 3138/3138)
+2026-11-10T05:19:06.6351545Z KILLED   decoy Python loader APIs accepted (target census, exit 1, failures 1, errors 0, skips 0, line 393/393)
+2026-11-10T05:19:06.6351996Z KILLED   decoy run_path API accepted (target census, exit 1, failures 1, errors 0, skips 0, line 393/393)
+2026-11-10T05:19:06.6352383Z KILLED   decoy JavaScript child process accepted (target census, exit 1, failures 1, errors 0, skips 0, line 3138/3138)
+2026-11-10T05:19:06.6352981Z KILLED   absolute parent traversal accepts the filesystem root (target census, exit 1, failures 1, errors 0, skips 0, line 404/404)
+2026-11-10T05:19:06.6353447Z KILLED   resolved command list credits command-mode arguments (target census, exit 1, failures 1, errors 0, skips 0, line 422/422)
+2026-11-10T05:19:06.6353889Z KILLED   unreachable wrapper process call accepted (target census, exit 1, failures 1, errors 0, skips 0, line 773/773)
+2026-11-10T05:19:06.6354308Z KILLED   function-local process import ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3099/3099)
+2026-11-10T05:19:06.6354757Z KILLED   JavaScript same-line mention accepted outside call arguments (target census, exit 1, failures 1, errors 0, skips 0, line 3138/3138)
+2026-11-10T05:19:06.6355228Z KILLED   destructured path values rebound as aggregate (target census, exit 1, failures 1, errors 0, skips 0, line 755/755)
+2026-11-10T05:19:06.6355654Z KILLED   rebound wrapper parameter still forwarded (target census, exit 1, failures 1, errors 0, skips 0, line 2703/2703)
+2026-11-10T05:19:06.6356073Z KILLED   local static shadow inherits module value (target census, exit 1, failures 1, errors 0, skips 0, line 3006/3006)
+2026-11-10T05:19:06.6356501Z KILLED   JavaScript quoted and property names credited (target census, exit 1, failures 1, errors 0, skips 0, line 3160/3160)
+2026-11-10T05:19:06.6356929Z KILLED   forwarded command-mode arguments credited (target census, exit 1, failures 1, errors 0, skips 0, line 2877/2877)
+2026-11-10T05:19:06.6357364Z KILLED   augmented assignment retains stale static value (target census, exit 1, failures 1, errors 0, skips 0, line 3023/3023)
+2026-11-10T05:19:06.6357816Z KILLED   JavaScript property call accepted as imported callee (target census, exit 1, failures 1, errors 0, skips 0, line 3179/3179)
+2026-11-10T05:19:06.6358234Z KILLED   unresolved command element dropped (target census, exit 1, failures 1, errors 0, skips 0, line 564/564)
+2026-11-10T05:19:06.6358622Z KILLED   boolean or evaluated in reverse order (target census, exit 1, failures 1, errors 0, skips 0, line 631/631)
+2026-11-10T05:19:06.6359021Z KILLED   shadowed callee inherits module wrapper (target census, exit 1, failures 1, errors 0, skips 0, line 2982/2982)
+2026-11-10T05:19:06.6359460Z KILLED   quoted JavaScript text accepted as child process call (target census, exit 1, failures 1, errors 0, skips 0, line 3196/3196)
+2026-11-10T05:19:06.6360030Z KILLED   resolved starred command elements ignored (target census, exit 1, failures 1, errors 0, skips 0, line 564/564)
+2026-11-10T05:19:06.6360445Z KILLED   dynamic command suffix discards proven prefix (target census, exit 1, failures 1, errors 0, skips 0, line 585/585)
+2026-11-10T05:19:06.6360858Z KILLED   unittest lifecycle methods ignored (target census, exit 1, failures 1, errors 0, skips 0, line 609/609)
+2026-11-10T05:19:06.6361256Z KILLED   import loader wrapper forwarding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2900/2900)
+2026-11-10T05:19:06.6361669Z KILLED   class method registered as module wrapper (target census, exit 1, failures 1, errors 0, skips 0, line 2922/2922)
+2026-11-10T05:19:06.6362242Z KILLED   conditional command alternatives merged (target census, exit 1, failures 1, errors 0, skips 0, line 2941/2941)
+2026-11-10T05:19:06.6362981Z KILLED   reassigned JavaScript URL binding retains stale path (target census, exit 1, failures 1, errors 0, skips 0, line 3213/3213)
+2026-11-10T05:19:06.6363424Z KILLED   path constructor ignores later components (target census, exit 1, failures 1, errors 0, skips 0, line 3085/3085)
+2026-11-10T05:19:06.6363857Z KILLED   command element assignment retains stale sequence (target census, exit 1, failures 1, errors 0, skips 0, line 3070/3070)
+2026-11-10T05:19:06.6364403Z KILLED   JavaScript parameter shadow accepted as imported callee (target census, exit 1, failures 1, errors 0, skips 0, line 3231/3231)
+2026-11-10T05:19:06.6364871Z KILLED   mode switch after script mistaken for interpreter mode (target census, exit 1, failures 1, errors 0, skips 0, line 437/437)
+2026-11-10T05:19:06.6365331Z KILLED   wrapper element write retains caller provenance (target census, exit 1, failures 1, errors 0, skips 0, line 2719/2719)
+2026-11-10T05:19:06.6365768Z KILLED   helper element write falls back to module binding (target census, exit 1, failures 1, errors 0, skips 0, line 2819/2819)
+2026-11-10T05:19:06.6366212Z KILLED   JavaScript default initializer treated as a binding (target census, exit 1, failures 1, errors 0, skips 0, line 3327/3327)
+2026-11-10T05:19:06.6366659Z KILLED   interpreter option operand mistaken for script (target census, exit 1, failures 1, errors 0, skips 0, line 454/454)
+2026-11-10T05:19:06.6367079Z KILLED   command alias survives element write (target census, exit 1, failures 1, errors 0, skips 0, line 2835/2835)
+2026-11-10T05:19:06.6367499Z KILLED   JavaScript URL binding parameter shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3418/3418)
+2026-11-10T05:19:06.6367950Z KILLED   list mutator calls retain stale command provenance (target census, exit 1, failures 1, errors 0, skips 0, line 2858/2858)
+2026-11-10T05:19:06.6368388Z KILLED   JavaScript local declaration shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3249/3249)
+2026-11-10T05:19:06.6368852Z KILLED   JavaScript URL declaration escapes function scope (target census, exit 1, failures 1, errors 0, skips 0, line 3434/3434)
+2026-11-10T05:19:06.6369318Z KILLED   wrapper parameter alias mutation retains caller provenance (target census, exit 1, failures 1, errors 0, skips 0, line 2771/2771)
+2026-11-10T05:19:06.6369764Z KILLED   reassigned wrapper remains registered (target census, exit 1, failures 1, errors 0, skips 0, line 2787/2787)
+2026-11-10T05:19:06.6370204Z KILLED   JavaScript enclosing declaration shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3266/3266)
+2026-11-10T05:19:06.6370651Z KILLED   wrapper traversal continues after return (target census, exit 1, failures 1, errors 0, skips 0, line 787/787)
+2026-11-10T05:19:06.6371071Z KILLED   deferred wrapper availability uses source line (target census, exit 1, failures 1, errors 0, skips 0, line 802/802)
+2026-11-10T05:19:06.6371530Z KILLED   later nonforwarding wrapper definition retains registration (target census, exit 1, failures 1, errors 0, skips 0, line 2802/2802)
+2026-11-10T05:19:06.6372077Z KILLED   list augmented assignment breaks alias identity (target census, exit 1, failures 1, errors 0, skips 0, line 3038/3038)
+2026-11-10T05:19:06.6372526Z KILLED   JavaScript unreachable child-process call accepted (target census, exit 1, failures 1, errors 0, skips 0, line 3688/3688)
+2026-11-10T05:19:06.6373094Z KILLED   deferred caller uses final module binding (target census, exit 1, failures 1, errors 0, skips 0, line 817/817)
+2026-11-10T05:19:06.6373509Z KILLED   JavaScript uncalled helper chain accepted (target census, exit 1, failures 1, errors 0, skips 0, line 3741/3741)
+2026-11-10T05:19:06.6373904Z KILLED   node test callback root ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4664/4664)
+2026-11-10T05:19:06.6374278Z KILLED   none guard branch states combined (target census, exit 1, failures 1, errors 0, skips 0, line 343/343)
+2026-11-10T05:19:06.6374679Z KILLED   node test registration reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4681/4681)
+2026-11-10T05:19:06.6375088Z KILLED   node test registrar shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4697/4697)
+2026-11-10T05:19:06.6375483Z KILLED   none guard branch environments merged (target census, exit 1, failures 1, errors 0, skips 0, line 327/327)
+2026-11-10T05:19:06.6375957Z KILLED   nested helper effects deferred (target census, exit 1, failures 1, errors 0, skips 0, line 835/835)
+2026-11-10T05:19:06.6376364Z KILLED   global assignment stored in helper local binding (target census, exit 1, failures 1, errors 0, skips 0, line 851/851)
+2026-11-10T05:19:06.6376803Z KILLED   command element deletion retains stale sequence (target census, exit 1, failures 1, errors 0, skips 0, line 2733/2733)
+2026-11-10T05:19:06.6377226Z KILLED   JavaScript helper rebinding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4618/4618)
+2026-11-10T05:19:06.6377644Z KILLED   wrapper element deletion retains forwarding (target census, exit 1, failures 1, errors 0, skips 0, line 2747/2747)
+2026-11-10T05:19:06.6378075Z KILLED   declared global remains a local static shadow (target census, exit 1, failures 1, errors 0, skips 0, line 867/867)
+2026-11-10T05:19:06.6378492Z KILLED   JavaScript lexical helper shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4632/4632)
+2026-11-10T05:19:06.6378908Z KILLED   keyword argument helper effects deferred (target census, exit 1, failures 1, errors 0, skips 0, line 883/883)
+2026-11-10T05:19:06.6379320Z KILLED   reassigned Python helper identity ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1024/1024)
+2026-11-10T05:19:06.6379753Z KILLED   JavaScript deferred binding checked at definition (target census, exit 1, failures 1, errors 0, skips 0, line 4646/4646)
+2026-11-10T05:19:06.6380237Z KILLED   earlier argument value reevaluated after later effects (target census, exit 1, failures 1, errors 0, skips 0, line 916/916)
+2026-11-10T05:19:06.6380765Z KILLED   assignment target invalidated before RHS helper (target census, exit 1, failures 1, errors 0, skips 0, line 2687/2687)
+2026-11-10T05:19:06.6381307Z KILLED   sequence element value reevaluated after later effects (target census, exit 1, failures 1, errors 0, skips 0, line 933/933)
+2026-11-10T05:19:06.6381916Z KILLED   JavaScript module block shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3281/3281)
+2026-11-10T05:19:06.6382418Z KILLED   captured sequence values lost through concatenation (target census, exit 1, failures 1, errors 0, skips 0, line 950/950)
+2026-11-10T05:19:06.6383182Z KILLED   Python helper traversal continues after termination (target census, exit 1, failures 1, errors 0, skips 0, line 990/990)
+2026-11-10T05:19:06.6383713Z KILLED   JavaScript destructured block shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3296/3296)
+2026-11-10T05:19:06.6384219Z KILLED   named binary operand reevaluated after later effects (target census, exit 1, failures 1, errors 0, skips 0, line 967/967)
+2026-11-10T05:19:06.6384908Z KILLED   selected branch traversal continues after termination (target census, exit 1, failures 1, errors 0, skips 0, line 1009/1009)
+2026-11-10T05:19:06.6385411Z KILLED   JavaScript ASI declaration shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3312/3312)
+2026-11-10T05:19:06.6395103Z KILLED   repeated helper invocation suppressed (target census, exit 1, failures 1, errors 0, skips 0, line 1046/1046)
+2026-11-10T05:19:06.6395864Z KILLED   global helper reassignment invalidates local identity (target census, exit 1, failures 1, errors 0, skips 0, line 1106/1106)
+2026-11-10T05:19:06.6396638Z KILLED   Boolean short-circuit reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1118/1118)
+2026-11-10T05:19:06.6397215Z KILLED   conditional expression reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1130/1130)
+2026-11-10T05:19:06.6397784Z KILLED   async helper creation treated as execution (target census, exit 1, failures 1, errors 0, skips 0, line 1144/1144)
+2026-11-10T05:19:06.6398388Z KILLED   async forwarding wrapper treated as execution (target census, exit 1, failures 1, errors 0, skips 0, line 1157/1157)
+2026-11-10T05:19:06.6398830Z KILLED   generator helper creation treated as execution (target census, exit 1, failures 1, errors 0, skips 0, line 1172/1172)
+2026-11-10T05:19:06.6399400Z KILLED   comprehension body treated as unconditional (target census, exit 1, failures 1, errors 0, skips 0, line 1204/1204)
+2026-11-10T05:19:06.6399829Z KILLED   chained comparison short circuit ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2630/2630)
+2026-11-10T05:19:06.6400240Z KILLED   JavaScript URL lexical block ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3447/3447)
+2026-11-10T05:19:06.6400659Z KILLED   generator method creation treated as execution (target census, exit 1, failures 1, errors 0, skips 0, line 1189/1189)
+2026-11-10T05:19:06.6401078Z KILLED   comprehension target shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1266/1266)
+2026-11-10T05:19:06.6401507Z KILLED   forwarding wrapper Boolean reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1279/1279)
+2026-11-10T05:19:06.6401960Z KILLED   forwarding wrapper conditional reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1308/1308)
+2026-11-10T05:19:06.6402411Z KILLED   global wrapper reassignment kept in helper scope (target census, exit 1, failures 1, errors 0, skips 0, line 1543/1543)
+2026-11-10T05:19:06.6403054Z KILLED   wrapper reassignment uses lexical line instead of execution order (target census, exit 1, failures 1, errors 0, skips 0, line 1543/1543)
+2026-11-10T05:19:06.6403512Z KILLED   lambda body traversed at construction (target census, exit 1, failures 1, errors 0, skips 0, line 2615/2615)
+2026-11-10T05:19:06.6403937Z KILLED   nonlocal active function destination ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1582/1582)
+2026-11-10T05:19:06.6404362Z KILLED   nonlocal wrapper destination ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1562/1562)
+2026-11-10T05:19:06.6404774Z KILLED   wrapper keyword argument effects deferred (target census, exit 1, failures 1, errors 0, skips 0, line 1595/1595)
+2026-11-10T05:19:06.6405240Z KILLED   forwarding wrapper chained-comparison reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1608/1608)
+2026-11-10T05:19:06.6405689Z KILLED   exception handler reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1630/1630)
+2026-11-10T05:19:06.6406093Z KILLED   skipped exception branch effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1662/1662)
+2026-11-10T05:19:06.6406521Z KILLED   wrapper exception-handler reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1771/1771)
+2026-11-10T05:19:06.6406976Z KILLED   forwarding wrapper comprehension reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1797/1797)
+2026-11-10T05:19:06.6407519Z KILLED   finally termination not propagated (target census, exit 1, failures 1, errors 0, skips 0, line 1822/1822)
+2026-11-10T05:19:06.6407940Z KILLED   JavaScript URL destructured lexical shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3462/3462)
+2026-11-10T05:19:06.6408387Z KILLED   nonlocal static assignment kept in helper scope (target census, exit 1, failures 1, errors 0, skips 0, line 1841/1841)
+2026-11-10T05:19:06.6408795Z KILLED   unknown branch effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1860/1860)
+2026-11-10T05:19:06.6409203Z KILLED   handler-free try body termination not propagated (target census, exit 1, failures 1, errors 0, skips 0, line 2442/2442)
+2026-11-10T05:19:06.6409644Z KILLED   decorated Python helper retains original body (target census, exit 1, failures 1, errors 0, skips 0, line 2469/2469)
+2026-11-10T05:19:06.6410099Z KILLED   non-string executable reaches interpreter membership (target census, exit 1, failures 1, errors 0, skips 0, line 2601/2601)
+2026-11-10T05:19:06.6410548Z KILLED   JavaScript destructured helper shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3479/3479)
+2026-11-10T05:19:06.6411077Z KILLED   JavaScript composite argument identifiers credited (target census, exit 1, failures 1, errors 0, skips 0, line 3509/3509)
+2026-11-10T05:19:06.6411521Z KILLED   JavaScript file URL converter identity ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3549/3549)
+2026-11-10T05:19:06.6411981Z KILLED   possible-effect marker bypasses active helper invalidation (target census, exit 1, failures 1, errors 0, skips 0, line 1687/1687)
+2026-11-10T05:19:06.6412437Z KILLED   possible deletion ignored for wrapper identity (target census, exit 1, failures 1, errors 0, skips 0, line 1687/1687)
+2026-11-10T05:19:06.6413017Z KILLED   exception target binding effect ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1709/1709)
+2026-11-10T05:19:06.6413460Z KILLED   noniterable literal accepted as comprehension source (target census, exit 1, failures 1, errors 0, skips 0, line 1229/1229)
+2026-11-10T05:19:06.6413894Z KILLED   unsupported interpreter option skipped (target census, exit 1, failures 1, errors 0, skips 0, line 471/471)
+2026-11-10T05:19:06.6414304Z KILLED   assignment expression write ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2498/2498)
+2026-11-10T05:19:06.6414743Z KILLED   nested aggregate mutation retains reachable alias provenance (target census, exit 1, failures 1, errors 0, skips 0, line 2583/2583)
+2026-11-10T05:19:06.6415204Z KILLED   decorated Python forwarding wrapper registered (target census, exit 1, failures 1, errors 0, skips 0, line 2485/2485)
+2026-11-10T05:19:06.6415635Z KILLED   JavaScript URL options argument credited (target census, exit 1, failures 1, errors 0, skips 0, line 3526/3526)
+2026-11-10T05:19:06.6416040Z KILLED   reachable events resorted by source line (target census, exit 1, failures 1, errors 0, skips 0, line 2515/2515)
+2026-11-10T05:19:06.6416456Z KILLED   direct loop effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1748/1748)
+2026-11-10T05:19:06.6416844Z KILLED   forwarding wrapper loop effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1748/1748)
+2026-11-10T05:19:06.6417259Z KILLED   subprocess executable override ignored (target census, exit 1, failures 1, errors 0, skips 0, line 503/503)
+2026-11-10T05:19:06.6417676Z KILLED   class body bindings leak into enclosing scope (target census, exit 1, failures 1, errors 0, skips 0, line 2558/2558)
+2026-11-10T05:19:06.6418076Z KILLED   class runtime shadows ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2558/2558)
+2026-11-10T05:19:06.6418448Z KILLED   subprocess shell mode ignored (target census, exit 1, failures 1, errors 0, skips 0, line 538/538)
+2026-11-10T05:19:06.6418837Z KILLED   subprocess positional options accepted (target census, exit 1, failures 1, errors 0, skips 0, line 538/538)
+2026-11-10T05:19:06.6419344Z KILLED   JavaScript URL constructor identity ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3601/3601)
+2026-11-10T05:19:06.6419790Z KILLED   JavaScript URL property write retains stale provenance (target census, exit 1, failures 1, errors 0, skips 0, line 3623/3623)
+2026-11-10T05:19:06.6420269Z KILLED   JavaScript expression short-circuit reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3688/3688)
+2026-11-10T05:19:06.6420709Z KILLED   helper invocation binding frame reused (target census, exit 1, failures 1, errors 0, skips 0, line 1084/1084)
+2026-11-10T05:19:06.6421108Z KILLED   helper invocation import frame reused (target census, exit 1, failures 1, errors 0, skips 0, line 1084/1084)
+2026-11-10T05:19:06.6421519Z KILLED   helper invocation nested definitions reused (target census, exit 1, failures 1, errors 0, skips 0, line 1084/1084)
+2026-11-10T05:19:06.6421955Z KILLED   aggregate str conversion retains argv semantics (target census, exit 1, failures 1, errors 0, skips 0, line 737/737)
+2026-11-10T05:19:06.6422392Z KILLED   forwarding wrapper unknown branch effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1295/1295)
+2026-11-10T05:19:06.6423071Z KILLED   JavaScript URL initializer suffix accepted (target census, exit 1, failures 1, errors 0, skips 0, line 3645/3645)
+2026-11-10T05:19:06.6423499Z KILLED   JavaScript ternary arm reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3721/3721)
+2026-11-10T05:19:06.6423912Z KILLED   skipped Boolean operand effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 658/658)
+2026-11-10T05:19:06.6424351Z KILLED   forwarding wrapper skipped Boolean operand effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 658/658)
+2026-11-10T05:19:06.6424808Z KILLED   nested helper free name falls back to module binding (target census, exit 1, failures 1, errors 0, skips 0, line 680/680)
+2026-11-10T05:19:06.6425228Z KILLED   Python helper signature binding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 714/714)
+2026-11-10T05:19:06.6425653Z KILLED   unknown conditional expression effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1328/1328)
+2026-11-10T05:19:06.6426131Z KILLED   forwarding wrapper unknown conditional expression effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1328/1328)
+2026-11-10T05:19:06.6426594Z KILLED   forwarding wrapper call signature ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1348/1348)
+2026-11-10T05:19:06.6427024Z KILLED   assignment expression leaves import identity stale (target census, exit 1, failures 1, errors 0, skips 0, line 1374/1374)
+2026-11-10T05:19:06.6427460Z KILLED   tuple augmented assignment mutates aliases (target census, exit 1, failures 1, errors 0, skips 0, line 2961/2961)
+2026-11-10T05:19:06.6427901Z KILLED   JavaScript unbraced literal-if reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3913/3913)
+2026-11-10T05:19:06.6428361Z KILLED   JavaScript newline call continuation treated as ASI (target census, exit 1, failures 1, errors 0, skips 0, line 3913/3913)
+2026-11-10T05:19:06.6428816Z KILLED   JavaScript nested-if else not consumed (target census, exit 1, failures 1, errors 0, skips 0, line 3913/3913)
+2026-11-10T05:19:06.6429247Z KILLED   JavaScript concise arrow body treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 4592/4592)
+2026-11-10T05:19:06.6429706Z KILLED   JavaScript concise node-test callback not activated (target census, exit 1, failures 1, errors 0, skips 0, line 4592/4592)
+2026-11-10T05:19:06.6430155Z KILLED   JavaScript spaced block arrow registered as concise (target census, exit 1, failures 1, errors 0, skips 0, line 4603/4603)
+2026-11-10T05:19:06.6430612Z KILLED   annotation-only assignment invalidates import identity (target census, exit 1, failures 1, errors 0, skips 0, line 1420/1420)
+2026-11-10T05:19:06.6431180Z KILLED   helper argument alias binding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1470/1470)
+2026-11-10T05:19:06.6431576Z KILLED   unittest setup ordering ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1518/1518)
+2026-11-10T05:19:06.6431990Z KILLED   quoted JavaScript URL declaration accepted (target census, exit 1, failures 1, errors 0, skips 0, line 4514/4514)
+2026-11-10T05:19:06.6432428Z KILLED   JavaScript URL alias escape retains stale provenance (target census, exit 1, failures 1, errors 0, skips 0, line 4558/4558)
+2026-11-10T05:19:06.6433016Z KILLED   default aggregate argument binding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1470/1470)
+2026-11-10T05:19:06.6433445Z KILLED   variadic positional aggregate binding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1470/1470)
+2026-11-10T05:19:06.6433876Z KILLED   variadic keyword aggregate binding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1470/1470)
+2026-11-10T05:19:06.6434279Z KILLED   assignment target effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2671/2671)
+2026-11-10T05:19:06.6434700Z KILLED   unknown chained-comparison suffix effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2649/2649)
+2026-11-10T05:19:06.6435273Z KILLED   forwarding wrapper unknown chained-comparison suffix effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2649/2649)
+2026-11-10T05:19:06.6435754Z KILLED   unresolved eager-comprehension effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1251/1251)
+2026-11-10T05:19:06.6436230Z KILLED   forwarding wrapper unresolved eager-comprehension effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1251/1251)
+2026-11-10T05:19:06.6436726Z KILLED   uninvoked JavaScript methods treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 3760/3760)
+2026-11-10T05:19:06.6437193Z KILLED   literal-true JavaScript else arm treated as reachable (target census, exit 1, failures 1, errors 0, skips 0, line 3940/3940)
+2026-11-10T05:19:06.6437621Z KILLED   unknown branch helper effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1877/1877)
+2026-11-10T05:19:06.6438093Z KILLED   quoted JavaScript child-process import trusted (target census, exit 1, failures 1, errors 0, skips 0, line 4529/4529)
+2026-11-10T05:19:06.6438525Z KILLED   dead JavaScript URL initializer trusted (target census, exit 1, failures 1, errors 0, skips 0, line 4542/4542)
+2026-11-10T05:19:06.6438954Z KILLED   unknown branch helper parameter mutation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1976/1976)
+2026-11-10T05:19:06.6439425Z KILLED   nested selected JavaScript branch stops reachability checks (target census, exit 1, failures 1, errors 0, skips 0, line 3961/3961)
+2026-11-10T05:19:06.6439882Z KILLED   unproven JavaScript loop body activated (target census, exit 1, failures 1, errors 0, skips 0, line 3992/3992)
+2026-11-10T05:19:06.6440292Z KILLED   terminated JavaScript helper tail activated (target census, exit 1, failures 1, errors 0, skips 0, line 4055/4055)
+2026-11-10T05:19:06.6440736Z KILLED   augmented assignment target reloaded after RHS effects (target census, exit 1, failures 1, errors 0, skips 0, line 3055/3055)
+2026-11-10T05:19:06.6441206Z KILLED   JavaScript default initializer treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 3343/3343)
+2026-11-10T05:19:06.6441661Z KILLED   possible branch rebind retains import identity (target census, exit 1, failures 1, errors 0, skips 0, line 1396/1396)
+2026-11-10T05:19:06.6442068Z KILLED   loop termination tail activated (target census, exit 1, failures 1, errors 0, skips 0, line 4018/4018)
+2026-11-10T05:19:06.6442473Z KILLED   unselected JavaScript switch case activated (target census, exit 1, failures 1, errors 0, skips 0, line 4035/4035)
+2026-11-10T05:19:06.6443180Z KILLED   Python call target identity not captured before arguments (target census, exit 1, failures 1, errors 0, skips 0, line 900/900)
+2026-11-10T05:19:06.6443656Z KILLED   supplied JavaScript argument still runs default initializer (target census, exit 1, failures 1, errors 0, skips 0, line 3367/3367)
+2026-11-10T05:19:06.6444112Z KILLED   nested JavaScript parameter scopes flattened (target census, exit 1, failures 1, errors 0, skips 0, line 3387/3387)
+2026-11-10T05:19:06.6444541Z KILLED   unproven JavaScript catch handler activated (target census, exit 1, failures 1, errors 0, skips 0, line 3403/3403)
+2026-11-10T05:19:06.6444978Z KILLED   skipped JavaScript nullish operand activated (target census, exit 1, failures 1, errors 0, skips 0, line 4075/4075)
+2026-11-10T05:19:06.6445423Z KILLED   JavaScript regular-expression literal treated as code (target census, exit 1, failures 1, errors 0, skips 0, line 4420/4420)
+2026-11-10T05:19:06.6445886Z KILLED   completed JavaScript block termination not propagated (target census, exit 1, failures 1, errors 0, skips 0, line 4457/4457)
+2026-11-10T05:19:06.6446334Z KILLED   unresolved definition-time effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1893/1893)
+2026-11-10T05:19:06.6446850Z KILLED   helper-local parameter alias mutation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1994/1994)
+2026-11-10T05:19:06.6447281Z KILLED   optional JavaScript call arguments activated (target census, exit 1, failures 1, errors 0, skips 0, line 4091/4091)
+2026-11-10T05:19:06.6447726Z KILLED   chained assignment stores delayed past target effects (target census, exit 1, failures 1, errors 0, skips 0, line 2362/2362)
+2026-11-10T05:19:06.6448156Z KILLED   unresolved lambda default effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1908/1908)
+2026-11-10T05:19:06.6448582Z KILLED   optional JavaScript property chains activated (target census, exit 1, failures 1, errors 0, skips 0, line 4109/4109)
+2026-11-10T05:19:06.6449050Z KILLED   JavaScript instance field initializer treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 4158/4158)
+2026-11-10T05:19:06.6449532Z KILLED   JavaScript regex after control header treated as code (target census, exit 1, failures 1, errors 0, skips 0, line 4438/4438)
+2026-11-10T05:19:06.6449976Z KILLED   unresolved class-construction effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1924/1924)
+2026-11-10T05:19:06.6450419Z KILLED   helper definition-time parameter mutation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1941/1941)
+2026-11-10T05:19:06.6450878Z KILLED   continuous optional JavaScript property chain activated (target census, exit 1, failures 1, errors 0, skips 0, line 4126/4126)
+2026-11-10T05:19:06.6451375Z KILLED   computed JavaScript instance field initializer treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 4304/4304)
+2026-11-10T05:19:06.6451885Z KILLED   optional JavaScript computed or call continuation activated (target census, exit 1, failures 1, errors 0, skips 0, line 4142/4142)
+2026-11-10T05:19:06.6452362Z KILLED   computed JavaScript method body treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 3779/3779)
+2026-11-10T05:19:06.6452963Z KILLED   semicolonless JavaScript instance field boundary ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4405/4405)
+2026-11-10T05:19:06.6453428Z KILLED   helper class-construction parameter mutation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1959/1959)
+2026-11-10T05:19:06.6453873Z KILLED   downstream JavaScript await suspension ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3874/3874)
+2026-11-10T05:19:06.6454315Z KILLED   nested computed JavaScript method name unbalanced (target census, exit 1, failures 1, errors 0, skips 0, line 3795/3795)
+2026-11-10T05:19:06.6454851Z KILLED   destructuring assignment element stores delayed (target census, exit 1, failures 1, errors 0, skips 0, line 2380/2380)
+2026-11-10T05:19:06.6455283Z KILLED   quoted JavaScript method name not deferred (target census, exit 1, failures 1, errors 0, skips 0, line 3832/3832)
+2026-11-10T05:19:06.6455712Z KILLED   nested computed JavaScript field name unbalanced (target census, exit 1, failures 1, errors 0, skips 0, line 4316/4316)
+2026-11-10T05:19:06.6456168Z KILLED   destructuring leaf values recomputed after target effects (target census, exit 1, failures 1, errors 0, skips 0, line 2400/2400)
+2026-11-10T05:19:06.6456647Z KILLED   JavaScript static-block assignment treated as instance field (target census, exit 1, failures 1, errors 0, skips 0, line 4392/4392)
+2026-11-10T05:19:06.6457124Z KILLED   nested destructuring values captured before nested target (target census, exit 1, failures 1, errors 0, skips 0, line 2424/2424)
+2026-11-10T05:19:06.6457618Z KILLED   literal-named JavaScript instance field treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 4334/4334)
+2026-11-10T05:19:06.6458092Z KILLED   JavaScript static-block termination ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4476/4476)
+2026-11-10T05:19:06.6458566Z KILLED   extended-numeric JavaScript instance field treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 4360/4360)
+2026-11-10T05:19:06.6459127Z KILLED   JavaScript static-block throw operand suppressed (target census, exit 1, failures 1, errors 0, skips 0, line 4497/4497)
+2026-11-10T05:19:06.6459558Z KILLED   helper default aggregate mutation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2108/2108)
+2026-11-10T05:19:06.6459986Z KILLED   nested helper parameter alias mutation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2127/2127)
+2026-11-10T05:19:06.6460443Z KILLED   numeric JavaScript method body treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 3851/3851)
+2026-11-10T05:19:06.6460934Z KILLED   JavaScript field named static treated as class-definition execution (target census, exit 1, failures 1, errors 0, skips 0, line 4377/4377)
+2026-11-10T05:19:06.6461406Z KILLED   captured default identity invalidation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2146/2146)
+2026-11-10T05:19:06.6461821Z KILLED   proven helper alias branch ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2168/2168)
+2026-11-10T05:19:06.6462220Z KILLED   mutation-time helper alias origin ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2187/2187)
+2026-11-10T05:19:06.6462640Z KILLED   nested captured default invalidation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2328/2328)
+2026-11-10T05:19:06.6463220Z KILLED   annotated helper alias origin ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2310/2310)
+2026-11-10T05:19:06.6463634Z KILLED   nested helper mutation-time alias origin ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2232/2232)
+2026-11-10T05:19:06.6464069Z KILLED   JavaScript class heritage brace treated as body (target census, exit 1, failures 1, errors 0, skips 0, line 4194/4194)
+2026-11-10T05:19:06.6464536Z KILLED   top-level JavaScript heritage expression body treated as class body (target census, exit 1, failures 1, errors 0, skips 0, line 4214/4214)
+2026-11-10T05:19:06.6465034Z KILLED   assignment RHS helper mutation visited after alias rebinding (target census, exit 1, failures 1, errors 0, skips 0, line 2254/2254)
+2026-11-10T05:19:06.6465522Z KILLED   multiline computed JavaScript names skipped by balanced fallback (target census, exit 1, failures 1, errors 0, skips 0, line 3813/3813)
+2026-11-10T05:19:06.6466029Z KILLED   annotated assignment RHS helper mutation visited after alias rebinding (target census, exit 1, failures 1, errors 0, skips 0, line 2274/2274)
+2026-11-10T05:19:06.6466622Z KILLED   private JavaScript heritage name treated as expression keyword (target census, exit 1, failures 1, errors 0, skips 0, line 4239/4239)
+2026-11-10T05:19:06.6467119Z KILLED   malformed JavaScript class structure accepted as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 4291/4291)
+2026-11-10T05:19:06.6467594Z KILLED   JavaScript import specifier treated as class keyword (target census, exit 1, failures 1, errors 0, skips 0, line 4256/4256)
+2026-11-10T05:19:06.6468071Z KILLED   JavaScript default and named import specifier treated as class keyword (target census, exit 1, failures 1, errors 0, skips 0, line 4271/4271)
+2026-11-10T05:19:06.6468577Z KILLED   Unicode and escaped JavaScript instance field identifiers ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4176/4176)
+2026-11-10T05:19:06.6469040Z KILLED   helper destructuring alias origin ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2012/2012)
+2026-11-10T05:19:06.6469439Z KILLED   helper return alias origin ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2032/2032)
+2026-11-10T05:19:06.6469830Z KILLED   helper container alias origin ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2051/2051)
+2026-11-10T05:19:06.6470235Z KILLED   unknown nested aggregate mutation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2072/2072)
+2026-11-10T05:19:06.6470736Z KILLED   direct unknown nested aggregate effect ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2091/2091)
+2026-11-10T05:19:06.6471101Z G11_SELFTEST_PASS: baseline 263 tests, 328/328 mutations killed (328 executed)
+2026-11-10T05:19:06.6493774Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_mutation_selftest.py
+2026-11-10T05:19:06.6494375Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_mutation_selftest.py[0m
+2026-11-10T05:19:06.6535876Z shell: /usr/bin/bash -e {0}
+2026-11-10T05:19:06.6536018Z env:
+2026-11-10T05:19:06.6536171Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:19:06.6536411Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:19:06.6536646Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:19:06.6536872Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:19:06.6537087Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:19:06.6537308Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:19:06.6537512Z ##[endgroup]
+2026-11-10T05:21:16.9598413Z KILLED   pass not detected (target census, exit 1, failures 1, errors 0, skips 0, line 57/57)
+2026-11-10T05:21:16.9598803Z KILLED   ellipsis not detected (target census, exit 1, failures 1, errors 0, skips 0, line 58/58)
+2026-11-10T05:21:16.9599413Z KILLED   NotImplementedError not detected (target census, exit 1, failures 1, errors 0, skips 0, line 59/59)
+2026-11-10T05:21:16.9599930Z KILLED   raise call not unwrapped (target census, exit 1, failures 1, errors 0, skips 0, line 60/60)
+2026-11-10T05:21:16.9600426Z KILLED   docstring-only not reported (target census, exit 1, failures 1, errors 0, skips 0, line 62/62)
+2026-11-10T05:21:16.9600981Z KILLED   docstring not stripped (target census, exit 1, failures 1, errors 0, skips 0, line 65/65)
+2026-11-10T05:21:16.9601504Z KILLED   decorator context ignored (target census, exit 1, failures 1, errors 0, skips 0, line 94/94)
+2026-11-10T05:21:16.9602018Z KILLED   Protocol/ABC context ignored (target census, exit 1, failures 1, errors 0, skips 0, line 94/94)
+2026-11-10T05:21:16.9602523Z KILLED   exception context ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4944/4944)
+2026-11-10T05:21:16.9603195Z KILLED   log_message context ignored (target census, exit 1, failures 1, errors 0, skips 0, line 107/107)
+2026-11-10T05:21:16.9603705Z KILLED   log_message context too broad (target census, exit 1, failures 1, errors 0, skips 0, line 107/107)
+2026-11-10T05:21:16.9604207Z KILLED   module docstring not recorded (target census, exit 1, failures 1, errors 0, skips 0, line 232/232)
+2026-11-10T05:21:16.9604694Z KILLED   class bodies not visited (target census, exit 1, failures 1, errors 0, skips 0, line 71/71)
+2026-11-10T05:21:16.9605215Z KILLED   nested functions not visited (target census, exit 1, failures 1, errors 0, skips 0, line 71/71)
+2026-11-10T05:21:16.9605699Z KILLED   comments read as data (target census, exit 1, failures 1, errors 0, skips 0, line 122/122)
+2026-11-10T05:21:16.9606195Z KILLED   strings read as comments (target census, exit 1, failures 1, errors 0, skips 0, line 122/122)
+2026-11-10T05:21:16.9606710Z KILLED   marker words case-insensitive (target census, exit 1, failures 1, errors 0, skips 0, line 128/128)
+2026-11-10T05:21:16.9607210Z KILLED   marker word boundary dropped (target census, exit 1, failures 1, errors 0, skips 0, line 128/128)
+2026-11-10T05:21:16.9607695Z KILLED   quotes not tracked (target census, exit 1, failures 1, errors 0, skips 0, line 137/137)
+2026-11-10T05:21:16.9608182Z KILLED   string escapes ignored (target census, exit 1, failures 1, errors 0, skips 0, line 143/143)
+2026-11-10T05:21:16.9608711Z KILLED   hash comment needs no whitespace (target census, exit 1, failures 1, errors 0, skips 0, line 147/147)
+2026-11-10T05:21:16.9609584Z KILLED   block comments not entered (target census, exit 1, failures 1, errors 0, skips 0, line 137/137)
+2026-11-10T05:21:16.9610056Z KILLED   block comment end ignored (target census, exit 1, failures 1, errors 0, skips 0, line 137/137)
+2026-11-10T05:21:16.9610734Z KILLED   mentions dropped (target census, exit 1, failures 1, errors 0, skips 0, line 122/122)
+2026-11-10T05:21:16.9611184Z KILLED   noop detection off (target census, exit 1, failures 1, errors 0, skips 0, line 175/175)
+2026-11-10T05:21:16.9611660Z KILLED   block scalar not read (target census, exit 1, failures 1, errors 0, skips 0, line 175/175)
+2026-11-10T05:21:16.9612140Z KILLED   block scalar ends late (target census, exit 1, failures 1, errors 0, skips 0, line 175/175)
+2026-11-10T05:21:16.9612611Z KILLED   inline comment kept (target census, exit 1, failures 1, errors 0, skips 0, line 175/175)
+2026-11-10T05:21:16.9613287Z KILLED   tests counted as tools (target census, exit 1, failures 1, errors 0, skips 0, line 4701/4701)
+2026-11-10T05:21:16.9613780Z KILLED   __init__ counted as tool (target census, exit 1, failures 1, errors 0, skips 0, line 4701/4701)
+2026-11-10T05:21:16.9614288Z KILLED   basename ambiguity ignored (target census, exit 1, failures 1, errors 0, skips 0, line 217/217)
+2026-11-10T05:21:16.9614793Z KILLED   path reference not recognised (target census, exit 1, failures 1, errors 0, skips 0, line 227/227)
+2026-11-10T05:21:16.9615279Z KILLED   import not recognised (target census, exit 1, failures 1, errors 0, skips 0, line 197/197)
+2026-11-10T05:21:16.9615796Z KILLED   from-import list not recognised (target census, exit 1, failures 1, errors 0, skips 0, line 197/197)
+2026-11-10T05:21:16.9616388Z KILLED   basename not recognised (target census, exit 1, failures 1, errors 0, skips 0, line 196/196)
+2026-11-10T05:21:16.9616728Z KILLED   transitive exercise off (target census, exit 1, failures 1, errors 0, skips 0, line 211/211)
+2026-11-10T05:21:16.9617054Z KILLED   site not production (target census, exit 1, failures 1, errors 0, skips 0, line 155/155)
+2026-11-10T05:21:16.9617392Z KILLED   research counted as production (target census, exit 1, failures 1, errors 0, skips 0, line 115/115)
+2026-11-10T05:21:16.9617728Z KILLED   vendor counted as site (target census, exit 1, failures 1, errors 0, skips 0, line 156/156)
+2026-11-10T05:21:16.9618223Z KILLED   undecodable decoded leniently (target census, exit 1, failures 1, errors 0, skips 0, line 4710/4710)
+2026-11-10T05:21:16.9618747Z KILLED   unparseable not a failure class (target census, exit 1, failures 1, errors 0, skips 0, line 4709/4709)
+2026-11-10T05:21:16.9619251Z KILLED   legitimate context still fails (target census, exit 1, failures 1, errors 0, skips 0, line 94/94)
+2026-11-10T05:21:16.9619725Z KILLED   markers do not fail (target census, exit 1, failures 1, errors 0, skips 0, line 152/152)
+2026-11-10T05:21:16.9620206Z KILLED   noop steps do not fail (target census, exit 1, failures 1, errors 0, skips 0, line 178/178)
+2026-11-10T05:21:16.9620696Z KILLED   tool findings do not fail (target census, exit 1, failures 1, errors 0, skips 0, line 204/204)
+2026-11-10T05:21:16.9621191Z KILLED   exit status always zero (target census, exit 1, failures 1, errors 0, skips 0, line 4745/4745)
+2026-11-10T05:21:16.9621706Z KILLED   unreadable revision exits zero (target census, exit 1, failures 1, errors 0, skips 0, line 4754/4754)
+2026-11-10T05:21:16.9622227Z KILLED   decoy decorator names accepted (target census, exit 1, failures 1, errors 0, skips 0, line 4781/4781)
+2026-11-10T05:21:16.9623334Z KILLED   decoy abstract-base names accepted (target census, exit 1, failures 1, errors 0, skips 0, line 4781/4781)
+2026-11-10T05:21:16.9624376Z KILLED   decoy request-handler suffix accepted (target census, exit 1, failures 1, errors 0, skips 0, line 4781/4781)
+2026-11-10T05:21:16.9625297Z KILLED   comment and string mentions count as exercise (target census, exit 1, failures 1, errors 0, skips 0, line 4812/4812)
+2026-11-10T05:21:16.9626197Z KILLED   empty workflow run block not detected (target census, exit 1, failures 1, errors 0, skips 0, line 4848/4848)
+2026-11-10T05:21:16.9626783Z KILLED   YAML comments omitted (target census, exit 1, failures 1, errors 0, skips 0, line 4854/4854)
+2026-11-10T05:21:16.9627553Z KILLED   mutation attribution accepts wrong assertion (target harness, exit 1, failures 1, errors 0, skips 0, line 4866/4866)
+2026-11-10T05:21:16.9628243Z KILLED   function-local decorator shadow accepted (target census, exit 1, failures 1, errors 0, skips 0, line 4801/4801)
+2026-11-10T05:21:16.9628906Z KILLED   python -c path mention counts as execution (target census, exit 1, failures 1, errors 0, skips 0, line 4821/4821)
+2026-11-10T05:21:16.9629551Z KILLED   shell -c path mention counts as execution (target census, exit 1, failures 1, errors 0, skips 0, line 4831/4831)
+2026-11-10T05:21:16.9630220Z KILLED   template literal import text counts as static import (target census, exit 1, failures 1, errors 0, skips 0, line 4838/4838)
+2026-11-10T05:21:16.9630878Z KILLED   parser drops method identity (target harness, exit 1, failures 1, errors 0, skips 0, line 4887/4887)
+2026-11-10T05:21:16.9631497Z KILLED   parser repeats qualified method identity (target harness, exit 1, failures 1, errors 0, skips 0, line 4893/4893)
+2026-11-10T05:21:16.9632130Z KILLED   subTest failure header not parsed (target harness, exit 1, failures 1, errors 0, skips 0, line 4896/4896)
+2026-11-10T05:21:16.9632861Z KILLED   wrong test id credited (target harness, exit 1, failures 1, errors 0, skips 0, line 4868/4868)
+2026-11-10T05:21:16.9633421Z KILLED   nonfailure status credited (target harness, exit 1, failures 1, errors 0, skips 0, line 4870/4870)
+2026-11-10T05:21:16.9633989Z KILLED   error outcome credited (target harness, exit 1, failures 1, errors 0, skips 0, line 4872/4872)
+2026-11-10T05:21:16.9634350Z KILLED   skipped outcome credited (target harness, exit 1, failures 1, errors 0, skips 0, line 4874/4874)
+2026-11-10T05:21:16.9634747Z KILLED   quoted workflow command boundary ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4830/4830)
+2026-11-10T05:21:16.9635135Z KILLED   FAIL header mistaken for exception (target harness, exit 1, failures 1, errors 0, skips 0, line 4890/4890)
+2026-11-10T05:21:16.9635500Z KILLED   outer class exemption leaks (target census, exit 1, failures 1, errors 0, skips 0, line 4944/4944)
+2026-11-10T05:21:16.9635845Z KILLED   local base shadow accepted (target census, exit 1, failures 1, errors 0, skips 0, line 4940/4940)
+2026-11-10T05:21:16.9636199Z KILLED   uncalled helper counts as exercise (target census, exit 1, failures 1, errors 0, skips 0, line 4953/4953)
+2026-11-10T05:21:16.9636559Z KILLED   heredoc body counted as command (target census, exit 1, failures 1, errors 0, skips 0, line 5003/5003)
+2026-11-10T05:21:16.9636928Z KILLED   mutation inventory shrink accepted (target harness, exit 1, failures 1, errors 0, skips 0, line 5022/5022)
+2026-11-10T05:21:16.9637311Z KILLED   hostile Python environment survives (target harness, exit 1, failures 1, errors 0, skips 0, line 5053/5053)
+2026-11-10T05:21:16.9637709Z KILLED   in-scope tracked symlink silently skipped (target census, exit 1, failures 1, errors 0, skips 0, line 5073/5073)
+2026-11-10T05:21:16.9638085Z KILLED   decoy TestCase base credited (target census, exit 1, failures 1, errors 0, skips 0, line 4982/4982)
+2026-11-10T05:21:16.9638449Z KILLED   workflow defaults accepted as steps (target census, exit 1, failures 1, errors 0, skips 0, line 163/163)
+2026-11-10T05:21:16.9638815Z KILLED   static path assignments not bound (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:21:16.9639163Z KILLED   spec loader path ignored (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:21:16.9639493Z KILLED   runpy path ignored (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:21:16.9639825Z KILLED   subprocess path list ignored (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:21:16.9640266Z KILLED   environment path default ignored (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:21:16.9640635Z KILLED   legacy os.path construction ignored (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:21:16.9641066Z KILLED   concatenated command lists ignored (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:21:16.9641424Z KILLED   lazy-load none guard ignored (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:21:16.9641785Z KILLED   arbitrary unknown branch accepted (target census, exit 1, failures 1, errors 0, skips 0, line 393/393)
+2026-11-10T05:21:16.9642148Z KILLED   process wrapper forwarding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 287/287)
+2026-11-10T05:21:16.9642510Z KILLED   nonprocess wrapper accepted (target census, exit 1, failures 1, errors 0, skips 0, line 393/393)
+2026-11-10T05:21:16.9643052Z KILLED   sibling with_name path ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3115/3115)
+2026-11-10T05:21:16.9643417Z KILLED   JavaScript URL tool binding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3138/3138)
+2026-11-10T05:21:16.9643829Z KILLED   JavaScript URL mention accepted without child process (target census, exit 1, failures 1, errors 0, skips 0, line 3138/3138)
+2026-11-10T05:21:16.9644230Z KILLED   decoy Python loader APIs accepted (target census, exit 1, failures 1, errors 0, skips 0, line 393/393)
+2026-11-10T05:21:16.9644587Z KILLED   decoy run_path API accepted (target census, exit 1, failures 1, errors 0, skips 0, line 393/393)
+2026-11-10T05:21:16.9644958Z KILLED   decoy JavaScript child process accepted (target census, exit 1, failures 1, errors 0, skips 0, line 3138/3138)
+2026-11-10T05:21:16.9645381Z KILLED   absolute parent traversal accepts the filesystem root (target census, exit 1, failures 1, errors 0, skips 0, line 404/404)
+2026-11-10T05:21:16.9645823Z KILLED   resolved command list credits command-mode arguments (target census, exit 1, failures 1, errors 0, skips 0, line 422/422)
+2026-11-10T05:21:16.9646237Z KILLED   unreachable wrapper process call accepted (target census, exit 1, failures 1, errors 0, skips 0, line 773/773)
+2026-11-10T05:21:16.9646631Z KILLED   function-local process import ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3099/3099)
+2026-11-10T05:21:16.9647060Z KILLED   JavaScript same-line mention accepted outside call arguments (target census, exit 1, failures 1, errors 0, skips 0, line 3138/3138)
+2026-11-10T05:21:16.9647502Z KILLED   destructured path values rebound as aggregate (target census, exit 1, failures 1, errors 0, skips 0, line 755/755)
+2026-11-10T05:21:16.9647907Z KILLED   rebound wrapper parameter still forwarded (target census, exit 1, failures 1, errors 0, skips 0, line 2703/2703)
+2026-11-10T05:21:16.9648301Z KILLED   local static shadow inherits module value (target census, exit 1, failures 1, errors 0, skips 0, line 3006/3006)
+2026-11-10T05:21:16.9648708Z KILLED   JavaScript quoted and property names credited (target census, exit 1, failures 1, errors 0, skips 0, line 3160/3160)
+2026-11-10T05:21:16.9649116Z KILLED   forwarded command-mode arguments credited (target census, exit 1, failures 1, errors 0, skips 0, line 2877/2877)
+2026-11-10T05:21:16.9649533Z KILLED   augmented assignment retains stale static value (target census, exit 1, failures 1, errors 0, skips 0, line 3023/3023)
+2026-11-10T05:21:16.9649965Z KILLED   JavaScript property call accepted as imported callee (target census, exit 1, failures 1, errors 0, skips 0, line 3179/3179)
+2026-11-10T05:21:16.9650366Z KILLED   unresolved command element dropped (target census, exit 1, failures 1, errors 0, skips 0, line 564/564)
+2026-11-10T05:21:16.9650740Z KILLED   boolean or evaluated in reverse order (target census, exit 1, failures 1, errors 0, skips 0, line 631/631)
+2026-11-10T05:21:16.9651123Z KILLED   shadowed callee inherits module wrapper (target census, exit 1, failures 1, errors 0, skips 0, line 2982/2982)
+2026-11-10T05:21:16.9651635Z KILLED   quoted JavaScript text accepted as child process call (target census, exit 1, failures 1, errors 0, skips 0, line 3196/3196)
+2026-11-10T05:21:16.9652134Z KILLED   resolved starred command elements ignored (target census, exit 1, failures 1, errors 0, skips 0, line 564/564)
+2026-11-10T05:21:16.9652533Z KILLED   dynamic command suffix discards proven prefix (target census, exit 1, failures 1, errors 0, skips 0, line 585/585)
+2026-11-10T05:21:16.9653055Z KILLED   unittest lifecycle methods ignored (target census, exit 1, failures 1, errors 0, skips 0, line 609/609)
+2026-11-10T05:21:16.9653438Z KILLED   import loader wrapper forwarding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2900/2900)
+2026-11-10T05:21:16.9653834Z KILLED   class method registered as module wrapper (target census, exit 1, failures 1, errors 0, skips 0, line 2922/2922)
+2026-11-10T05:21:16.9654235Z KILLED   conditional command alternatives merged (target census, exit 1, failures 1, errors 0, skips 0, line 2941/2941)
+2026-11-10T05:21:16.9654652Z KILLED   reassigned JavaScript URL binding retains stale path (target census, exit 1, failures 1, errors 0, skips 0, line 3213/3213)
+2026-11-10T05:21:16.9655069Z KILLED   path constructor ignores later components (target census, exit 1, failures 1, errors 0, skips 0, line 3085/3085)
+2026-11-10T05:21:16.9655483Z KILLED   command element assignment retains stale sequence (target census, exit 1, failures 1, errors 0, skips 0, line 3070/3070)
+2026-11-10T05:21:16.9655924Z KILLED   JavaScript parameter shadow accepted as imported callee (target census, exit 1, failures 1, errors 0, skips 0, line 3231/3231)
+2026-11-10T05:21:16.9656366Z KILLED   mode switch after script mistaken for interpreter mode (target census, exit 1, failures 1, errors 0, skips 0, line 437/437)
+2026-11-10T05:21:16.9656790Z KILLED   wrapper element write retains caller provenance (target census, exit 1, failures 1, errors 0, skips 0, line 2719/2719)
+2026-11-10T05:21:16.9657233Z KILLED   helper element write falls back to module binding (target census, exit 1, failures 1, errors 0, skips 0, line 2819/2819)
+2026-11-10T05:21:16.9657665Z KILLED   JavaScript default initializer treated as a binding (target census, exit 1, failures 1, errors 0, skips 0, line 3327/3327)
+2026-11-10T05:21:16.9658109Z KILLED   interpreter option operand mistaken for script (target census, exit 1, failures 1, errors 0, skips 0, line 454/454)
+2026-11-10T05:21:16.9658509Z KILLED   command alias survives element write (target census, exit 1, failures 1, errors 0, skips 0, line 2835/2835)
+2026-11-10T05:21:16.9658916Z KILLED   JavaScript URL binding parameter shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3418/3418)
+2026-11-10T05:21:16.9659342Z KILLED   list mutator calls retain stale command provenance (target census, exit 1, failures 1, errors 0, skips 0, line 2858/2858)
+2026-11-10T05:21:16.9659766Z KILLED   JavaScript local declaration shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3249/3249)
+2026-11-10T05:21:16.9660181Z KILLED   JavaScript URL declaration escapes function scope (target census, exit 1, failures 1, errors 0, skips 0, line 3434/3434)
+2026-11-10T05:21:16.9660627Z KILLED   wrapper parameter alias mutation retains caller provenance (target census, exit 1, failures 1, errors 0, skips 0, line 2771/2771)
+2026-11-10T05:21:16.9661052Z KILLED   reassigned wrapper remains registered (target census, exit 1, failures 1, errors 0, skips 0, line 2787/2787)
+2026-11-10T05:21:16.9661462Z KILLED   JavaScript enclosing declaration shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3266/3266)
+2026-11-10T05:21:16.9661868Z KILLED   wrapper traversal continues after return (target census, exit 1, failures 1, errors 0, skips 0, line 787/787)
+2026-11-10T05:21:16.9662277Z KILLED   deferred wrapper availability uses source line (target census, exit 1, failures 1, errors 0, skips 0, line 802/802)
+2026-11-10T05:21:16.9662926Z KILLED   later nonforwarding wrapper definition retains registration (target census, exit 1, failures 1, errors 0, skips 0, line 2802/2802)
+2026-11-10T05:21:16.9663452Z KILLED   list augmented assignment breaks alias identity (target census, exit 1, failures 1, errors 0, skips 0, line 3038/3038)
+2026-11-10T05:21:16.9663879Z KILLED   JavaScript unreachable child-process call accepted (target census, exit 1, failures 1, errors 0, skips 0, line 3688/3688)
+2026-11-10T05:21:16.9664288Z KILLED   deferred caller uses final module binding (target census, exit 1, failures 1, errors 0, skips 0, line 817/817)
+2026-11-10T05:21:16.9664683Z KILLED   JavaScript uncalled helper chain accepted (target census, exit 1, failures 1, errors 0, skips 0, line 3741/3741)
+2026-11-10T05:21:16.9665065Z KILLED   node test callback root ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4664/4664)
+2026-11-10T05:21:16.9665423Z KILLED   none guard branch states combined (target census, exit 1, failures 1, errors 0, skips 0, line 343/343)
+2026-11-10T05:21:16.9665809Z KILLED   node test registration reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4681/4681)
+2026-11-10T05:21:16.9666199Z KILLED   node test registrar shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4697/4697)
+2026-11-10T05:21:16.9666574Z KILLED   none guard branch environments merged (target census, exit 1, failures 1, errors 0, skips 0, line 327/327)
+2026-11-10T05:21:16.9666943Z KILLED   nested helper effects deferred (target census, exit 1, failures 1, errors 0, skips 0, line 835/835)
+2026-11-10T05:21:16.9667327Z KILLED   global assignment stored in helper local binding (target census, exit 1, failures 1, errors 0, skips 0, line 851/851)
+2026-11-10T05:21:16.9667747Z KILLED   command element deletion retains stale sequence (target census, exit 1, failures 1, errors 0, skips 0, line 2733/2733)
+2026-11-10T05:21:16.9668149Z KILLED   JavaScript helper rebinding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4618/4618)
+2026-11-10T05:21:16.9668544Z KILLED   wrapper element deletion retains forwarding (target census, exit 1, failures 1, errors 0, skips 0, line 2747/2747)
+2026-11-10T05:21:16.9668949Z KILLED   declared global remains a local static shadow (target census, exit 1, failures 1, errors 0, skips 0, line 867/867)
+2026-11-10T05:21:16.9669343Z KILLED   JavaScript lexical helper shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4632/4632)
+2026-11-10T05:21:16.9669734Z KILLED   keyword argument helper effects deferred (target census, exit 1, failures 1, errors 0, skips 0, line 883/883)
+2026-11-10T05:21:16.9670130Z KILLED   reassigned Python helper identity ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1024/1024)
+2026-11-10T05:21:16.9670545Z KILLED   JavaScript deferred binding checked at definition (target census, exit 1, failures 1, errors 0, skips 0, line 4646/4646)
+2026-11-10T05:21:16.9671005Z KILLED   earlier argument value reevaluated after later effects (target census, exit 1, failures 1, errors 0, skips 0, line 916/916)
+2026-11-10T05:21:16.9671430Z KILLED   assignment target invalidated before RHS helper (target census, exit 1, failures 1, errors 0, skips 0, line 2687/2687)
+2026-11-10T05:21:16.9671860Z KILLED   sequence element value reevaluated after later effects (target census, exit 1, failures 1, errors 0, skips 0, line 933/933)
+2026-11-10T05:21:16.9672267Z KILLED   JavaScript module block shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3281/3281)
+2026-11-10T05:21:16.9672686Z KILLED   captured sequence values lost through concatenation (target census, exit 1, failures 1, errors 0, skips 0, line 950/950)
+2026-11-10T05:21:16.9673234Z KILLED   Python helper traversal continues after termination (target census, exit 1, failures 1, errors 0, skips 0, line 990/990)
+2026-11-10T05:21:16.9673653Z KILLED   JavaScript destructured block shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3296/3296)
+2026-11-10T05:21:16.9674165Z KILLED   named binary operand reevaluated after later effects (target census, exit 1, failures 1, errors 0, skips 0, line 967/967)
+2026-11-10T05:21:16.9674694Z KILLED   selected branch traversal continues after termination (target census, exit 1, failures 1, errors 0, skips 0, line 1009/1009)
+2026-11-10T05:21:16.9675114Z KILLED   JavaScript ASI declaration shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3312/3312)
+2026-11-10T05:21:16.9675510Z KILLED   repeated helper invocation suppressed (target census, exit 1, failures 1, errors 0, skips 0, line 1046/1046)
+2026-11-10T05:21:16.9675926Z KILLED   global helper reassignment invalidates local identity (target census, exit 1, failures 1, errors 0, skips 0, line 1106/1106)
+2026-11-10T05:21:16.9676351Z KILLED   Boolean short-circuit reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1118/1118)
+2026-11-10T05:21:16.9676761Z KILLED   conditional expression reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1130/1130)
+2026-11-10T05:21:16.9677187Z KILLED   async helper creation treated as execution (target census, exit 1, failures 1, errors 0, skips 0, line 1144/1144)
+2026-11-10T05:21:16.9677595Z KILLED   async forwarding wrapper treated as execution (target census, exit 1, failures 1, errors 0, skips 0, line 1157/1157)
+2026-11-10T05:21:16.9678009Z KILLED   generator helper creation treated as execution (target census, exit 1, failures 1, errors 0, skips 0, line 1172/1172)
+2026-11-10T05:21:16.9678430Z KILLED   comprehension body treated as unconditional (target census, exit 1, failures 1, errors 0, skips 0, line 1204/1204)
+2026-11-10T05:21:16.9678832Z KILLED   chained comparison short circuit ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2630/2630)
+2026-11-10T05:21:16.9679213Z KILLED   JavaScript URL lexical block ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3447/3447)
+2026-11-10T05:21:16.9679609Z KILLED   generator method creation treated as execution (target census, exit 1, failures 1, errors 0, skips 0, line 1189/1189)
+2026-11-10T05:21:16.9680002Z KILLED   comprehension target shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1266/1266)
+2026-11-10T05:21:16.9680416Z KILLED   forwarding wrapper Boolean reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1279/1279)
+2026-11-10T05:21:16.9680845Z KILLED   forwarding wrapper conditional reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1308/1308)
+2026-11-10T05:21:16.9681271Z KILLED   global wrapper reassignment kept in helper scope (target census, exit 1, failures 1, errors 0, skips 0, line 1543/1543)
+2026-11-10T05:21:16.9681716Z KILLED   wrapper reassignment uses lexical line instead of execution order (target census, exit 1, failures 1, errors 0, skips 0, line 1543/1543)
+2026-11-10T05:21:16.9682144Z KILLED   lambda body traversed at construction (target census, exit 1, failures 1, errors 0, skips 0, line 2615/2615)
+2026-11-10T05:21:16.9682541Z KILLED   nonlocal active function destination ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1582/1582)
+2026-11-10T05:21:16.9683093Z KILLED   nonlocal wrapper destination ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1562/1562)
+2026-11-10T05:21:16.9683487Z KILLED   wrapper keyword argument effects deferred (target census, exit 1, failures 1, errors 0, skips 0, line 1595/1595)
+2026-11-10T05:21:16.9683918Z KILLED   forwarding wrapper chained-comparison reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1608/1608)
+2026-11-10T05:21:16.9684341Z KILLED   exception handler reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1630/1630)
+2026-11-10T05:21:16.9684735Z KILLED   skipped exception branch effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1662/1662)
+2026-11-10T05:21:16.9685232Z KILLED   wrapper exception-handler reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1771/1771)
+2026-11-10T05:21:16.9685671Z KILLED   forwarding wrapper comprehension reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1797/1797)
+2026-11-10T05:21:16.9686241Z KILLED   finally termination not propagated (target census, exit 1, failures 1, errors 0, skips 0, line 1822/1822)
+2026-11-10T05:21:16.9686644Z KILLED   JavaScript URL destructured lexical shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3462/3462)
+2026-11-10T05:21:16.9687064Z KILLED   nonlocal static assignment kept in helper scope (target census, exit 1, failures 1, errors 0, skips 0, line 1841/1841)
+2026-11-10T05:21:16.9687449Z KILLED   unknown branch effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1860/1860)
+2026-11-10T05:21:16.9687838Z KILLED   handler-free try body termination not propagated (target census, exit 1, failures 1, errors 0, skips 0, line 2442/2442)
+2026-11-10T05:21:16.9688257Z KILLED   decorated Python helper retains original body (target census, exit 1, failures 1, errors 0, skips 0, line 2469/2469)
+2026-11-10T05:21:16.9688691Z KILLED   non-string executable reaches interpreter membership (target census, exit 1, failures 1, errors 0, skips 0, line 2601/2601)
+2026-11-10T05:21:16.9689116Z KILLED   JavaScript destructured helper shadow ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3479/3479)
+2026-11-10T05:21:16.9689537Z KILLED   JavaScript composite argument identifiers credited (target census, exit 1, failures 1, errors 0, skips 0, line 3509/3509)
+2026-11-10T05:21:16.9689959Z KILLED   JavaScript file URL converter identity ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3549/3549)
+2026-11-10T05:21:16.9690395Z KILLED   possible-effect marker bypasses active helper invalidation (target census, exit 1, failures 1, errors 0, skips 0, line 1687/1687)
+2026-11-10T05:21:16.9690836Z KILLED   possible deletion ignored for wrapper identity (target census, exit 1, failures 1, errors 0, skips 0, line 1687/1687)
+2026-11-10T05:21:16.9691241Z KILLED   exception target binding effect ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1709/1709)
+2026-11-10T05:21:16.9691654Z KILLED   noniterable literal accepted as comprehension source (target census, exit 1, failures 1, errors 0, skips 0, line 1229/1229)
+2026-11-10T05:21:16.9692072Z KILLED   unsupported interpreter option skipped (target census, exit 1, failures 1, errors 0, skips 0, line 471/471)
+2026-11-10T05:21:16.9692480Z KILLED   assignment expression write ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2498/2498)
+2026-11-10T05:21:16.9693054Z KILLED   nested aggregate mutation retains reachable alias provenance (target census, exit 1, failures 1, errors 0, skips 0, line 2583/2583)
+2026-11-10T05:21:16.9693496Z KILLED   decorated Python forwarding wrapper registered (target census, exit 1, failures 1, errors 0, skips 0, line 2485/2485)
+2026-11-10T05:21:16.9693910Z KILLED   JavaScript URL options argument credited (target census, exit 1, failures 1, errors 0, skips 0, line 3526/3526)
+2026-11-10T05:21:16.9694297Z KILLED   reachable events resorted by source line (target census, exit 1, failures 1, errors 0, skips 0, line 2515/2515)
+2026-11-10T05:21:16.9694664Z KILLED   direct loop effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1748/1748)
+2026-11-10T05:21:16.9695034Z KILLED   forwarding wrapper loop effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1748/1748)
+2026-11-10T05:21:16.9695418Z KILLED   subprocess executable override ignored (target census, exit 1, failures 1, errors 0, skips 0, line 503/503)
+2026-11-10T05:21:16.9695814Z KILLED   class body bindings leak into enclosing scope (target census, exit 1, failures 1, errors 0, skips 0, line 2558/2558)
+2026-11-10T05:21:16.9696198Z KILLED   class runtime shadows ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2558/2558)
+2026-11-10T05:21:16.9696640Z KILLED   subprocess shell mode ignored (target census, exit 1, failures 1, errors 0, skips 0, line 538/538)
+2026-11-10T05:21:16.9697009Z KILLED   subprocess positional options accepted (target census, exit 1, failures 1, errors 0, skips 0, line 538/538)
+2026-11-10T05:21:16.9697480Z KILLED   JavaScript URL constructor identity ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3601/3601)
+2026-11-10T05:21:16.9697904Z KILLED   JavaScript URL property write retains stale provenance (target census, exit 1, failures 1, errors 0, skips 0, line 3623/3623)
+2026-11-10T05:21:16.9698352Z KILLED   JavaScript expression short-circuit reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3688/3688)
+2026-11-10T05:21:16.9698775Z KILLED   helper invocation binding frame reused (target census, exit 1, failures 1, errors 0, skips 0, line 1084/1084)
+2026-11-10T05:21:16.9699161Z KILLED   helper invocation import frame reused (target census, exit 1, failures 1, errors 0, skips 0, line 1084/1084)
+2026-11-10T05:21:16.9699556Z KILLED   helper invocation nested definitions reused (target census, exit 1, failures 1, errors 0, skips 0, line 1084/1084)
+2026-11-10T05:21:16.9699973Z KILLED   aggregate str conversion retains argv semantics (target census, exit 1, failures 1, errors 0, skips 0, line 737/737)
+2026-11-10T05:21:16.9700393Z KILLED   forwarding wrapper unknown branch effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1295/1295)
+2026-11-10T05:21:16.9700810Z KILLED   JavaScript URL initializer suffix accepted (target census, exit 1, failures 1, errors 0, skips 0, line 3645/3645)
+2026-11-10T05:21:16.9701215Z KILLED   JavaScript ternary arm reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3721/3721)
+2026-11-10T05:21:16.9701609Z KILLED   skipped Boolean operand effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 658/658)
+2026-11-10T05:21:16.9702024Z KILLED   forwarding wrapper skipped Boolean operand effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 658/658)
+2026-11-10T05:21:16.9702454Z KILLED   nested helper free name falls back to module binding (target census, exit 1, failures 1, errors 0, skips 0, line 680/680)
+2026-11-10T05:21:16.9702947Z KILLED   Python helper signature binding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 714/714)
+2026-11-10T05:21:16.9703348Z KILLED   unknown conditional expression effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1328/1328)
+2026-11-10T05:21:16.9703801Z KILLED   forwarding wrapper unknown conditional expression effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1328/1328)
+2026-11-10T05:21:16.9704243Z KILLED   forwarding wrapper call signature ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1348/1348)
+2026-11-10T05:21:16.9704653Z KILLED   assignment expression leaves import identity stale (target census, exit 1, failures 1, errors 0, skips 0, line 1374/1374)
+2026-11-10T05:21:16.9705075Z KILLED   tuple augmented assignment mutates aliases (target census, exit 1, failures 1, errors 0, skips 0, line 2961/2961)
+2026-11-10T05:21:16.9705503Z KILLED   JavaScript unbraced literal-if reachability ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3913/3913)
+2026-11-10T05:21:16.9705933Z KILLED   JavaScript newline call continuation treated as ASI (target census, exit 1, failures 1, errors 0, skips 0, line 3913/3913)
+2026-11-10T05:21:16.9706345Z KILLED   JavaScript nested-if else not consumed (target census, exit 1, failures 1, errors 0, skips 0, line 3913/3913)
+2026-11-10T05:21:16.9706760Z KILLED   JavaScript concise arrow body treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 4592/4592)
+2026-11-10T05:21:16.9707200Z KILLED   JavaScript concise node-test callback not activated (target census, exit 1, failures 1, errors 0, skips 0, line 4592/4592)
+2026-11-10T05:21:16.9707714Z KILLED   JavaScript spaced block arrow registered as concise (target census, exit 1, failures 1, errors 0, skips 0, line 4603/4603)
+2026-11-10T05:21:16.9708151Z KILLED   annotation-only assignment invalidates import identity (target census, exit 1, failures 1, errors 0, skips 0, line 1420/1420)
+2026-11-10T05:21:16.9708637Z KILLED   helper argument alias binding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1470/1470)
+2026-11-10T05:21:16.9709017Z KILLED   unittest setup ordering ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1518/1518)
+2026-11-10T05:21:16.9709402Z KILLED   quoted JavaScript URL declaration accepted (target census, exit 1, failures 1, errors 0, skips 0, line 4514/4514)
+2026-11-10T05:21:16.9709963Z KILLED   JavaScript URL alias escape retains stale provenance (target census, exit 1, failures 1, errors 0, skips 0, line 4558/4558)
+2026-11-10T05:21:16.9710639Z KILLED   default aggregate argument binding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1470/1470)
+2026-11-10T05:21:16.9711312Z KILLED   variadic positional aggregate binding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1470/1470)
+2026-11-10T05:21:16.9711973Z KILLED   variadic keyword aggregate binding ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1470/1470)
+2026-11-10T05:21:16.9712442Z KILLED   assignment target effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2671/2671)
+2026-11-10T05:21:16.9712987Z KILLED   unknown chained-comparison suffix effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2649/2649)
+2026-11-10T05:21:16.9713450Z KILLED   forwarding wrapper unknown chained-comparison suffix effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2649/2649)
+2026-11-10T05:21:16.9713908Z KILLED   unresolved eager-comprehension effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1251/1251)
+2026-11-10T05:21:16.9714359Z KILLED   forwarding wrapper unresolved eager-comprehension effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1251/1251)
+2026-11-10T05:21:16.9714830Z KILLED   uninvoked JavaScript methods treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 3760/3760)
+2026-11-10T05:21:16.9715297Z KILLED   literal-true JavaScript else arm treated as reachable (target census, exit 1, failures 1, errors 0, skips 0, line 3940/3940)
+2026-11-10T05:21:16.9715701Z KILLED   unknown branch helper effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1877/1877)
+2026-11-10T05:21:16.9716102Z KILLED   quoted JavaScript child-process import trusted (target census, exit 1, failures 1, errors 0, skips 0, line 4529/4529)
+2026-11-10T05:21:16.9716510Z KILLED   dead JavaScript URL initializer trusted (target census, exit 1, failures 1, errors 0, skips 0, line 4542/4542)
+2026-11-10T05:21:16.9716923Z KILLED   unknown branch helper parameter mutation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1976/1976)
+2026-11-10T05:21:16.9717373Z KILLED   nested selected JavaScript branch stops reachability checks (target census, exit 1, failures 1, errors 0, skips 0, line 3961/3961)
+2026-11-10T05:21:16.9717811Z KILLED   unproven JavaScript loop body activated (target census, exit 1, failures 1, errors 0, skips 0, line 3992/3992)
+2026-11-10T05:21:16.9718211Z KILLED   terminated JavaScript helper tail activated (target census, exit 1, failures 1, errors 0, skips 0, line 4055/4055)
+2026-11-10T05:21:16.9718632Z KILLED   augmented assignment target reloaded after RHS effects (target census, exit 1, failures 1, errors 0, skips 0, line 3055/3055)
+2026-11-10T05:21:16.9719080Z KILLED   JavaScript default initializer treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 3343/3343)
+2026-11-10T05:21:16.9719513Z KILLED   possible branch rebind retains import identity (target census, exit 1, failures 1, errors 0, skips 0, line 1396/1396)
+2026-11-10T05:21:16.9719992Z KILLED   loop termination tail activated (target census, exit 1, failures 1, errors 0, skips 0, line 4018/4018)
+2026-11-10T05:21:16.9720385Z KILLED   unselected JavaScript switch case activated (target census, exit 1, failures 1, errors 0, skips 0, line 4035/4035)
+2026-11-10T05:21:16.9720892Z KILLED   Python call target identity not captured before arguments (target census, exit 1, failures 1, errors 0, skips 0, line 900/900)
+2026-11-10T05:21:16.9721344Z KILLED   supplied JavaScript argument still runs default initializer (target census, exit 1, failures 1, errors 0, skips 0, line 3367/3367)
+2026-11-10T05:21:16.9721778Z KILLED   nested JavaScript parameter scopes flattened (target census, exit 1, failures 1, errors 0, skips 0, line 3387/3387)
+2026-11-10T05:21:16.9722184Z KILLED   unproven JavaScript catch handler activated (target census, exit 1, failures 1, errors 0, skips 0, line 3403/3403)
+2026-11-10T05:21:16.9722595Z KILLED   skipped JavaScript nullish operand activated (target census, exit 1, failures 1, errors 0, skips 0, line 4075/4075)
+2026-11-10T05:21:16.9723202Z KILLED   JavaScript regular-expression literal treated as code (target census, exit 1, failures 1, errors 0, skips 0, line 4420/4420)
+2026-11-10T05:21:16.9723640Z KILLED   completed JavaScript block termination not propagated (target census, exit 1, failures 1, errors 0, skips 0, line 4457/4457)
+2026-11-10T05:21:16.9724062Z KILLED   unresolved definition-time effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1893/1893)
+2026-11-10T05:21:16.9724474Z KILLED   helper-local parameter alias mutation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1994/1994)
+2026-11-10T05:21:16.9724883Z KILLED   optional JavaScript call arguments activated (target census, exit 1, failures 1, errors 0, skips 0, line 4091/4091)
+2026-11-10T05:21:16.9725304Z KILLED   chained assignment stores delayed past target effects (target census, exit 1, failures 1, errors 0, skips 0, line 2362/2362)
+2026-11-10T05:21:16.9725728Z KILLED   unresolved lambda default effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1908/1908)
+2026-11-10T05:21:16.9726136Z KILLED   optional JavaScript property chains activated (target census, exit 1, failures 1, errors 0, skips 0, line 4109/4109)
+2026-11-10T05:21:16.9726583Z KILLED   JavaScript instance field initializer treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 4158/4158)
+2026-11-10T05:21:16.9727038Z KILLED   JavaScript regex after control header treated as code (target census, exit 1, failures 1, errors 0, skips 0, line 4438/4438)
+2026-11-10T05:21:16.9727459Z KILLED   unresolved class-construction effects ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1924/1924)
+2026-11-10T05:21:16.9727882Z KILLED   helper definition-time parameter mutation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1941/1941)
+2026-11-10T05:21:16.9728323Z KILLED   continuous optional JavaScript property chain activated (target census, exit 1, failures 1, errors 0, skips 0, line 4126/4126)
+2026-11-10T05:21:16.9728803Z KILLED   computed JavaScript instance field initializer treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 4304/4304)
+2026-11-10T05:21:16.9729289Z KILLED   optional JavaScript computed or call continuation activated (target census, exit 1, failures 1, errors 0, skips 0, line 4142/4142)
+2026-11-10T05:21:16.9729741Z KILLED   computed JavaScript method body treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 3779/3779)
+2026-11-10T05:21:16.9730192Z KILLED   semicolonless JavaScript instance field boundary ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4405/4405)
+2026-11-10T05:21:16.9730634Z KILLED   helper class-construction parameter mutation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 1959/1959)
+2026-11-10T05:21:16.9731064Z KILLED   downstream JavaScript await suspension ignored (target census, exit 1, failures 1, errors 0, skips 0, line 3874/3874)
+2026-11-10T05:21:16.9731569Z KILLED   nested computed JavaScript method name unbalanced (target census, exit 1, failures 1, errors 0, skips 0, line 3795/3795)
+2026-11-10T05:21:16.9732069Z KILLED   destructuring assignment element stores delayed (target census, exit 1, failures 1, errors 0, skips 0, line 2380/2380)
+2026-11-10T05:21:16.9732479Z KILLED   quoted JavaScript method name not deferred (target census, exit 1, failures 1, errors 0, skips 0, line 3832/3832)
+2026-11-10T05:21:16.9733035Z KILLED   nested computed JavaScript field name unbalanced (target census, exit 1, failures 1, errors 0, skips 0, line 4316/4316)
+2026-11-10T05:21:16.9733470Z KILLED   destructuring leaf values recomputed after target effects (target census, exit 1, failures 1, errors 0, skips 0, line 2400/2400)
+2026-11-10T05:21:16.9733929Z KILLED   JavaScript static-block assignment treated as instance field (target census, exit 1, failures 1, errors 0, skips 0, line 4392/4392)
+2026-11-10T05:21:16.9734382Z KILLED   nested destructuring values captured before nested target (target census, exit 1, failures 1, errors 0, skips 0, line 2424/2424)
+2026-11-10T05:21:16.9734849Z KILLED   literal-named JavaScript instance field treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 4334/4334)
+2026-11-10T05:21:16.9735298Z KILLED   JavaScript static-block termination ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4476/4476)
+2026-11-10T05:21:16.9735753Z KILLED   extended-numeric JavaScript instance field treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 4360/4360)
+2026-11-10T05:21:16.9736210Z KILLED   JavaScript static-block throw operand suppressed (target census, exit 1, failures 1, errors 0, skips 0, line 4497/4497)
+2026-11-10T05:21:16.9736634Z KILLED   helper default aggregate mutation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2108/2108)
+2026-11-10T05:21:16.9737038Z KILLED   nested helper parameter alias mutation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2127/2127)
+2026-11-10T05:21:16.9737473Z KILLED   numeric JavaScript method body treated as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 3851/3851)
+2026-11-10T05:21:16.9737942Z KILLED   JavaScript field named static treated as class-definition execution (target census, exit 1, failures 1, errors 0, skips 0, line 4377/4377)
+2026-11-10T05:21:16.9738396Z KILLED   captured default identity invalidation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2146/2146)
+2026-11-10T05:21:16.9738790Z KILLED   proven helper alias branch ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2168/2168)
+2026-11-10T05:21:16.9739183Z KILLED   mutation-time helper alias origin ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2187/2187)
+2026-11-10T05:21:16.9739588Z KILLED   nested captured default invalidation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2328/2328)
+2026-11-10T05:21:16.9739985Z KILLED   annotated helper alias origin ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2310/2310)
+2026-11-10T05:21:16.9740382Z KILLED   nested helper mutation-time alias origin ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2232/2232)
+2026-11-10T05:21:16.9740795Z KILLED   JavaScript class heritage brace treated as body (target census, exit 1, failures 1, errors 0, skips 0, line 4194/4194)
+2026-11-10T05:21:16.9741251Z KILLED   top-level JavaScript heritage expression body treated as class body (target census, exit 1, failures 1, errors 0, skips 0, line 4214/4214)
+2026-11-10T05:21:16.9741732Z KILLED   assignment RHS helper mutation visited after alias rebinding (target census, exit 1, failures 1, errors 0, skips 0, line 2254/2254)
+2026-11-10T05:21:16.9742199Z KILLED   multiline computed JavaScript names skipped by balanced fallback (target census, exit 1, failures 1, errors 0, skips 0, line 3813/3813)
+2026-11-10T05:21:16.9742805Z KILLED   annotated assignment RHS helper mutation visited after alias rebinding (target census, exit 1, failures 1, errors 0, skips 0, line 2274/2274)
+2026-11-10T05:21:16.9743364Z KILLED   private JavaScript heritage name treated as expression keyword (target census, exit 1, failures 1, errors 0, skips 0, line 4239/4239)
+2026-11-10T05:21:16.9743838Z KILLED   malformed JavaScript class structure accepted as module execution (target census, exit 1, failures 1, errors 0, skips 0, line 4291/4291)
+2026-11-10T05:21:16.9744299Z KILLED   JavaScript import specifier treated as class keyword (target census, exit 1, failures 1, errors 0, skips 0, line 4256/4256)
+2026-11-10T05:21:16.9744755Z KILLED   JavaScript default and named import specifier treated as class keyword (target census, exit 1, failures 1, errors 0, skips 0, line 4271/4271)
+2026-11-10T05:21:16.9745237Z KILLED   Unicode and escaped JavaScript instance field identifiers ignored (target census, exit 1, failures 1, errors 0, skips 0, line 4176/4176)
+2026-11-10T05:21:16.9745679Z KILLED   helper destructuring alias origin ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2012/2012)
+2026-11-10T05:21:16.9746281Z KILLED   helper return alias origin ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2032/2032)
+2026-11-10T05:21:16.9746764Z KILLED   helper container alias origin ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2051/2051)
+2026-11-10T05:21:16.9747214Z KILLED   unknown nested aggregate mutation ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2072/2072)
+2026-11-10T05:21:16.9757511Z KILLED   direct unknown nested aggregate effect ignored (target census, exit 1, failures 1, errors 0, skips 0, line 2091/2091)
+2026-11-10T05:21:16.9757927Z G11_SELFTEST_PASS: baseline 263 tests, 328/328 mutations killed (328 executed)
+2026-11-10T05:21:16.9825892Z Post job cleanup.
+2026-11-10T05:21:17.0811903Z Post job cleanup.
+2026-11-10T05:21:17.1393200Z [command]/usr/bin/git version
+2026-11-10T05:21:17.1431318Z git version 2.56.0
+2026-11-10T05:21:17.1453607Z Temporarily overriding HOME='/home/runner/work/_temp/7466b150-7a14-480a-b736-11de354e4ff6' before making global git config changes
+2026-11-10T05:21:17.1454303Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T05:21:17.1456793Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T05:21:17.1488293Z Removing SSH command configuration
+2026-11-10T05:21:17.1492657Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T05:21:17.1532721Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T05:21:17.1795340Z Removing HTTP extra header
+2026-11-10T05:21:17.1801065Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T05:21:17.1843133Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T05:21:17.2099721Z Removing includeIf entries pointing to credentials config files
+2026-11-10T05:21:17.2105671Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T05:21:17.2135333Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T05:21:17.2489250Z Cleaning up orphan processes

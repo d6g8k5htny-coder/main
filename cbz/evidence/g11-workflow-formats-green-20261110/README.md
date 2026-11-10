@@ -1,0 +1,3 @@
+# G11 workflow-format regression: scoped hosted pass
+
+Hosted run 42762550208, job 129651447237, tested debug commit 67b8bc3e7b806957975fa9fe0b2cb7499c49248d. Five methods passed without reported skips in each Python 3.11.18 mode, including the three native workflow paths, the env-unset case, strict JSON job-step runs, unsupported env cases and duplicate-key/metadata controls. The original full log is retained. GitHub reported artifact 13738148306 SHA-256 040e70cbce6688d7bb6cd244a4cff83c37b45196a230dce083ee769992173792; its ZIP was not independently read here. This scoped test pass does not imply the format mutations, original 328 mutations, current census or final G11 passed.

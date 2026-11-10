@@ -1,5 +1,36 @@
 # G11 auditor — bounded census, not certification
 
+## Interpreter-option scope
+
+For workflow command references, the bounded parser recognizes supported interpreter flags and fails closed on Python or shell options with unvalidated operands. Version, help, alternate-code and shell syntax-only options do not count as script execution references. This is a static reference census, not proof that a command ran, a full shell parser or a security sandbox. The [actual non-execution cases](../../cbz/evidence/g11-interpreter-module-red-20261110/) and [invalid operand failures](../../cbz/evidence/g11-interpreter-operand-red-20261110/) remain preserved.
+
+
+## Workflow formats and explicit limits
+
+The census recognizes direct tool commands wrapped in `env -u NAME`, `env --unset NAME` or `env --unset=NAME`, with optional `--`, and strict JSON object workflows at `jobs.*.steps[].run`. Other env options and assignments are not credited. Duplicate keys, nonstandard JSON constants and invalid job/step/run shapes fail closed as unparseable; JSON no-op and unsupported-flow findings use line 0 when an exact source line is unavailable. Static reference recognition does not establish execution, evaluate dynamic conditions, or implement all shell/GitHub workflow semantics.
+
+```sh
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest tests.test_g11_workflow_formats
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O -m unittest tests.test_g11_workflow_formats
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_workflow_formats_mutation_selftest.py
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_workflow_formats_mutation_selftest.py
+```
+
+The prior [composed-tree census failure](../../cbz/evidence/g11-composed-census-20261110/) and actual red tests remain preserved. Eighteen format methods and nineteen format mutations passed in each mode on the recorded debug source; that earlier source's original 328 campaign stopped on an absent mutation target. After adaptation and resealing, source `764d20556eafbf61b373fbf10be859c0ed4c8475` completed all 328 named mutations per mode. The current composed census and final federation G11 remain separate.
+
+## Current assertion-origin guard
+
+The earlier filename-based mutation grader accepted actual subject, helper and callback assertions in run 42760114483. Preserve that historical result and do not infer sound attribution from its old totals. The candidate captures live traceback/code identities before unittest cleanup and accepts only the selected synchronous test body followed by explicitly enumerated unittest oracle code. It validates a runner-completion marker before reading the child report. It is not a security sandbox against arbitrary hostile Python in the same process.
+
+```sh
+python3 -B -S -m unittest tests.test_g11_origin_provenance
+python3 -B -S -O -m unittest tests.test_g11_origin_provenance
+python3 -B -S tools/cbz/g11_origin_mutation_selftest.py
+python3 -B -S -O tools/cbz/g11_origin_mutation_selftest.py
+```
+
+Local Python 3.12.14 passed nine origin methods and five bounded guard mutations in each mode; [red and local evidence](../../cbz/evidence/g11-origin-selftest-local-20261110/) retains actual failures and source-bound results. Hosted run 42761158495 subsequently passed the 265 census controls, nine origin methods, five guard mutations and all 328 existing mutation cases in each mode on debug commit `db0d076ea7d5d38a78d6c16955844a7d32816cf4`; [the original log and parsed result](../../cbz/evidence/g11-origin-hosted-20261110/) are retained. The composed candidate and final G11 gate remain separately required. No common final G11 run is implied.
+
 ## Purpose
 
 `tools/cbz/g11_census.py` reads tracked blob bytes from one Git revision and reports review triggers for the owner-defined G11 tooling-hygiene criterion: Python stubs, code-comment markers, no-op workflow run steps, and tool documentation/static-reference checks. It is a triage instrument, not a proof, a Layer A certificate, or a federation-wide G11 admission.

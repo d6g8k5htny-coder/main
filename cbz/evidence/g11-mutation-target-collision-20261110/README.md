@@ -1,0 +1,3 @@
+# Existing G11 mutation target collision
+
+Hosted run 42762931771, job 129652655119, on debug commit b476d71875baa7be6ecacc2f55b26a240a699ef0 stopped the normal original G11 mutation self-test with exit 2. The new JSON finding duplicated the literal target for the historical mutation named “unparseable not a failure class”; the harness reported two occurrences instead of exactly one. The optimized original mutation step was not run. Its complete decoded job log is retained. This was a harness error, not a passed mutation campaign; the source fix preserves the same unparseable finding class while removing the duplicate target text.

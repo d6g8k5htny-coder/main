@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_checkpoint_20261110_input/cbz-custody-replay-53ptkkdr/text-custody/cold_restore_captured_text_blobs.py", line 5, in <module>
+    d=root/'large-nonancestor-tree-20261110'/name;sel=d/'selected-text-sources';m=json.loads((d/'inventory.json').read_text());b=json.loads((sel/'blob-manifest.json').read_text());out=sel/'cold-check';out.mkdir(exist_ok=False);repo=out/'cold.git';subprocess.run(['git','init','--bare','-q',str(repo)],check=True);dest=repo/'objects'/'pack'
+                                                                                                                                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1311, in mkdir
+    os.mkdir(self, mode)
+FileExistsError: [Errno 17] File exists: '/workspace/scratch/7abea556a9be/cbz_checkpoint_20261110_input/cbz-custody-replay-53ptkkdr/text-custody/large-nonancestor-tree-20261110/main/selected-text-sources/cold-check'

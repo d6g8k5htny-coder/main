@@ -1,0 +1,30 @@
+import json,pathlib,shutil,subprocess,tempfile
+root=pathlib.Path('cbz_checkpoint_20261110_input').resolve()
+base=root/'empty-status-test'
+out=root/'new-evidence/empty-deployment-status'
+out.mkdir(exist_ok=True,parents=True)
+mut=pathlib.Path(tempfile.mkdtemp(prefix='empty-status-mutant-',dir=root))/'tree'
+shutil.copytree(base,mut)
+p=mut/'tools/cbz_site_receipt_recovery.py'
+s=p.read_text()
+needle="deployment.get('status') != 'deployment_cancelled'"
+if s.count(needle)!=1: raise ValueError('mutation anchor')
+p.write_text(s.replace(needle,"deployment.get('status') not in ('deployment_cancelled', '')"))
+selected='tests.test_cbz_site_recovery.SiteRecoveryTests.test_nonterminal_or_unknown_deployment_refuses'
+records=[]
+for mode in ('normal','optimized'):
+ prefix=['python3','-B']+(['-O'] if mode=='optimized' else [])+['-S','-m','unittest','-v']
+ for case,folder,target in [('baseline',base,selected),('mutant',mut,selected),('full-module',base,'tests.test_cbz_site_recovery')]:
+  argv=prefix+[target]
+  result=subprocess.run(argv,cwd=folder,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=120)
+  (out/(case+'-'+mode+'.log')).write_text(result.stdout)
+  if case=='mutant':
+   valid=(result.returncode!=0 and 'FAIL: test_nonterminal_or_unknown_deployment_refuses' in result.stdout and 'AssertionError' in result.stdout and 'FAILED (failures=1)' in result.stdout and 'ERROR:' not in result.stdout and 'skipped' not in result.stdout)
+  else:
+   valid=(result.returncode==0 and result.stdout.rstrip().endswith('OK') and 'skipped' not in result.stdout)
+  item={'mode':mode,'case':case,'argv':argv,'exit':result.returncode,'valid':valid}
+  records.append(item)
+  (out/'results.json').write_text(json.dumps({'source_commit':'4aec958f263c8e67b01ed83e3c43150a0098fae3','observed_status':'','mutation':'accept empty deployment status as canceled','runs':records},indent=2)+'\n')
+  print(json.dumps(item),flush=True)
+  if not valid: raise SystemExit(1)
+(out/'mutant-source.py.txt').write_text(p.read_text())

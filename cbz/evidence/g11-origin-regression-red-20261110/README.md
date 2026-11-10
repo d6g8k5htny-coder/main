@@ -1,0 +1,3 @@
+# Actual-source origin regression, before repair
+
+Run 42760506612, job 129644817015, source commit 9a9f4be576845c8c3d399aa02531fe1900e3cda7, ran three methods in each Python 3.11.18 mode. The selected-body and RuntimeError controls passed. The formatted-traceback-only check and all three subject/helper/callback origin subcases failed in both modes, four failures per mode and no reported skips. Job and both steps reported failure; no result is reclassified. GitHub reported artifact 13737093590 SHA-256 b97500749c5a2e47ee2b885346e9b82be005bb6b353c4c4d4a4400eaf68925f2; ZIP bytes were not independently verified here. The original job log and exact test and workflow are preserved.

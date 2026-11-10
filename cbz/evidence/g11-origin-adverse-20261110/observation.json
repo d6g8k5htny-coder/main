@@ -1,0 +1,433 @@
+{
+  "schema": "cbz.g11-origin-adverse.v1",
+  "observed_at_utc": "2026-11-10T05:07:47Z",
+  "source_ref": "991ecf42c248d293aa3eda45828f815f5d71e25d",
+  "main_default_same_source": "b6be588c82d2256c917b7d26d901085bc90319fb",
+  "source_blobs": {
+    "harness": "adf6e0890bf15d363010d21c0995e3ddfcc4d6d0",
+    "subject": "7a11ba516bcff857d365765d0683a8d0629c8c79",
+    "test": "915bd010a9abe2c5e53b14aab5ffa498b72bb15e"
+  },
+  "run": 42760114483,
+  "job": 129643558161,
+  "artifact": {
+    "id": 13737331554,
+    "reported_sha256": "587ecbffd69abd84ec6ed0eba005eac2626636a82e21fc192dc1b22225a8a361",
+    "size_bytes": 16771,
+    "independent_zip_readback": false
+  },
+  "summaries": [
+    {
+      "expected_line": 4866,
+      "false_kills": [
+        "subject_assert",
+        "helper_assert",
+        "callback_assert"
+      ],
+      "mode": "normal",
+      "source_after": {
+        "harness": "1a0ec01f0fdb4ab6b1c7c10806b84ea5082db6b2c23245a8b9ffaffbcc60c985",
+        "subject": "b1b41be15a34a77eb4162d22c116847d96ce66b292c57fc1f423234f915c21ba",
+        "test": "085b602538aa73b7c4e4bc90e30a712dc3fc1d8e66e7fcf440deecdf282a6b5f"
+      },
+      "source_sha256": {
+        "harness": "1a0ec01f0fdb4ab6b1c7c10806b84ea5082db6b2c23245a8b9ffaffbcc60c985",
+        "subject": "b1b41be15a34a77eb4162d22c116847d96ce66b292c57fc1f423234f915c21ba",
+        "test": "085b602538aa73b7c4e4bc90e30a712dc3fc1d8e66e7fcf440deecdf282a6b5f"
+      },
+      "status": "FAIL",
+      "test": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion"
+    },
+    {
+      "expected_line": 4866,
+      "false_kills": [
+        "subject_assert",
+        "helper_assert",
+        "callback_assert"
+      ],
+      "mode": "optimized",
+      "source_after": {
+        "harness": "1a0ec01f0fdb4ab6b1c7c10806b84ea5082db6b2c23245a8b9ffaffbcc60c985",
+        "subject": "b1b41be15a34a77eb4162d22c116847d96ce66b292c57fc1f423234f915c21ba",
+        "test": "085b602538aa73b7c4e4bc90e30a712dc3fc1d8e66e7fcf440deecdf282a6b5f"
+      },
+      "source_sha256": {
+        "harness": "1a0ec01f0fdb4ab6b1c7c10806b84ea5082db6b2c23245a8b9ffaffbcc60c985",
+        "subject": "b1b41be15a34a77eb4162d22c116847d96ce66b292c57fc1f423234f915c21ba",
+        "test": "085b602538aa73b7c4e4bc90e30a712dc3fc1d8e66e7fcf440deecdf282a6b5f"
+      },
+      "status": "FAIL",
+      "test": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion"
+    }
+  ],
+  "cases": [
+    {
+      "accepted_as_kill": false,
+      "command": [
+        "/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "-v"
+      ],
+      "expected_line": 4866,
+      "expected_test": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+      "mutation": "",
+      "name": "baseline",
+      "outcome": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "variant_sha256": "1a0ec01f0fdb4ab6b1c7c10806b84ea5082db6b2c23245a8b9ffaffbcc60c985"
+    },
+    {
+      "accepted_as_kill": true,
+      "command": [
+        "/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "-v"
+      ],
+      "expected_line": 4866,
+      "expected_test": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+      "mutation": "declared mutation: replace exact line guard with True",
+      "name": "selected_oracle",
+      "outcome": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "traceback_line": 4866,
+        "traceback_method": "test_mutation_kill_requires_exact_target_assertion"
+      },
+      "variant_sha256": "4b0c9b1ed906196ac043d4efc6c86efbd318a14f575f69e66fad8f00046c1865"
+    },
+    {
+      "accepted_as_kill": true,
+      "command": [
+        "/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "-v"
+      ],
+      "expected_line": 4866,
+      "expected_test": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+      "mutation": "    if outcome.get('traceback_line') == 18:\n        raise AssertionError('PROBE_SUBJECT_ASSERT')\n",
+      "name": "subject_assert",
+      "outcome": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "traceback_line": 4866,
+        "traceback_method": "test_mutation_kill_requires_exact_target_assertion"
+      },
+      "variant_sha256": "6bd1ccbf66914db54a8b5aad78840fed73360156044461a260ac3c8737f9d5bb"
+    },
+    {
+      "accepted_as_kill": true,
+      "command": [
+        "/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "-v"
+      ],
+      "expected_line": 4866,
+      "expected_test": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+      "mutation": "    if outcome.get('traceback_line') == 18:\n        def helper():\n            raise AssertionError('PROBE_HELPER_ASSERT')\n        return helper()\n",
+      "name": "helper_assert",
+      "outcome": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "traceback_line": 4866,
+        "traceback_method": "test_mutation_kill_requires_exact_target_assertion"
+      },
+      "variant_sha256": "02234fc333e8c8a7a4c42255ba02473d1b7edf7ebbff477e57b79e3ff76bd9fc"
+    },
+    {
+      "accepted_as_kill": true,
+      "command": [
+        "/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "-v"
+      ],
+      "expected_line": 4866,
+      "expected_test": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+      "mutation": "    if outcome.get('traceback_line') == 18:\n        def invoke(callback):\n            return callback()\n        def callback():\n            raise AssertionError('PROBE_CALLBACK_ASSERT')\n        return invoke(callback)\n",
+      "name": "callback_assert",
+      "outcome": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "traceback_line": 4866,
+        "traceback_method": "test_mutation_kill_requires_exact_target_assertion"
+      },
+      "variant_sha256": "dfcf6fa0de0ccf4d421a84ca6defbc1f51ead3671ea12e873d44ba754102d3e3"
+    },
+    {
+      "accepted_as_kill": false,
+      "command": [
+        "/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "-v"
+      ],
+      "expected_line": 4866,
+      "expected_test": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+      "mutation": "    if outcome.get('traceback_line') == 18:\n        raise RuntimeError('PROBE_RUNTIME_ERROR')\n",
+      "name": "runtime_error",
+      "outcome": {
+        "errors": 1,
+        "exception_type": null,
+        "exit": 1,
+        "failures": 0,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "variant_sha256": "292177b98cb9edbe9c3e40559452aec27fd5bc66ae11894de7a8c195d9773222"
+    },
+    {
+      "accepted_as_kill": false,
+      "command": [
+        "/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3",
+        "-B",
+        "-S",
+        "-O",
+        "-m",
+        "unittest",
+        "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "-v"
+      ],
+      "expected_line": 4866,
+      "expected_test": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+      "mutation": "",
+      "name": "baseline",
+      "outcome": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "variant_sha256": "1a0ec01f0fdb4ab6b1c7c10806b84ea5082db6b2c23245a8b9ffaffbcc60c985"
+    },
+    {
+      "accepted_as_kill": true,
+      "command": [
+        "/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3",
+        "-B",
+        "-S",
+        "-O",
+        "-m",
+        "unittest",
+        "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "-v"
+      ],
+      "expected_line": 4866,
+      "expected_test": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+      "mutation": "declared mutation: replace exact line guard with True",
+      "name": "selected_oracle",
+      "outcome": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "traceback_line": 4866,
+        "traceback_method": "test_mutation_kill_requires_exact_target_assertion"
+      },
+      "variant_sha256": "4b0c9b1ed906196ac043d4efc6c86efbd318a14f575f69e66fad8f00046c1865"
+    },
+    {
+      "accepted_as_kill": true,
+      "command": [
+        "/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3",
+        "-B",
+        "-S",
+        "-O",
+        "-m",
+        "unittest",
+        "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "-v"
+      ],
+      "expected_line": 4866,
+      "expected_test": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+      "mutation": "    if outcome.get('traceback_line') == 18:\n        raise AssertionError('PROBE_SUBJECT_ASSERT')\n",
+      "name": "subject_assert",
+      "outcome": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "traceback_line": 4866,
+        "traceback_method": "test_mutation_kill_requires_exact_target_assertion"
+      },
+      "variant_sha256": "6bd1ccbf66914db54a8b5aad78840fed73360156044461a260ac3c8737f9d5bb"
+    },
+    {
+      "accepted_as_kill": true,
+      "command": [
+        "/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3",
+        "-B",
+        "-S",
+        "-O",
+        "-m",
+        "unittest",
+        "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "-v"
+      ],
+      "expected_line": 4866,
+      "expected_test": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+      "mutation": "    if outcome.get('traceback_line') == 18:\n        def helper():\n            raise AssertionError('PROBE_HELPER_ASSERT')\n        return helper()\n",
+      "name": "helper_assert",
+      "outcome": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "traceback_line": 4866,
+        "traceback_method": "test_mutation_kill_requires_exact_target_assertion"
+      },
+      "variant_sha256": "02234fc333e8c8a7a4c42255ba02473d1b7edf7ebbff477e57b79e3ff76bd9fc"
+    },
+    {
+      "accepted_as_kill": true,
+      "command": [
+        "/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3",
+        "-B",
+        "-S",
+        "-O",
+        "-m",
+        "unittest",
+        "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "-v"
+      ],
+      "expected_line": 4866,
+      "expected_test": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+      "mutation": "    if outcome.get('traceback_line') == 18:\n        def invoke(callback):\n            return callback()\n        def callback():\n            raise AssertionError('PROBE_CALLBACK_ASSERT')\n        return invoke(callback)\n",
+      "name": "callback_assert",
+      "outcome": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "traceback_line": 4866,
+        "traceback_method": "test_mutation_kill_requires_exact_target_assertion"
+      },
+      "variant_sha256": "dfcf6fa0de0ccf4d421a84ca6defbc1f51ead3671ea12e873d44ba754102d3e3"
+    },
+    {
+      "accepted_as_kill": false,
+      "command": [
+        "/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3",
+        "-B",
+        "-S",
+        "-O",
+        "-m",
+        "unittest",
+        "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+        "-v"
+      ],
+      "expected_line": 4866,
+      "expected_test": "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+      "mutation": "    if outcome.get('traceback_line') == 18:\n        raise RuntimeError('PROBE_RUNTIME_ERROR')\n",
+      "name": "runtime_error",
+      "outcome": {
+        "errors": 1,
+        "exception_type": null,
+        "exit": 1,
+        "failures": 0,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "variant_sha256": "292177b98cb9edbe9c3e40559452aec27fd5bc66ae11894de7a8c195d9773222"
+    }
+  ],
+  "scope": "Actual selected test and existing parent grader, one real target, 6 child cases per Python mode; not an exhaustive census of earlier mutation outcomes.",
+  "disposition": "Existing G11 mutation counts retain their observed historical outputs but are not sound attribution qualification until origin-provenance repair and fresh actual tests/mutations."
+}

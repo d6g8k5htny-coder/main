@@ -1,0 +1,70 @@
+name: CBZ exact selected-text binary capture
+on:
+  push:
+    branches: [codex/cbz-architecture-observation-20261110]
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: b5019e3fe65fef7657cf69326e8ca496e34a94d4
+          path: source
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Capture exact native Git blobs
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - <<'PY'
+          import hashlib, json, os, pathlib, shutil, stat, subprocess
+          source = pathlib.Path('source')
+          expected_commit = 'b5019e3fe65fef7657cf69326e8ca496e34a94d4'
+          actual = subprocess.check_output(['git', '-C', str(source), 'rev-parse', 'HEAD'], text=True).strip()
+          if actual != expected_commit: raise ValueError('checkout identity')
+          expected = {
+              "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/Math-/heads-and-trees.idx": "43e7ea901f6a03e098fd0b3ecdf8ea48319908ec",
+              "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/Math-/heads-and-trees.pack": "9889cb79fdd75e940a854a85e212fafdb7cfd735",
+              "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/Math-/selected-text-sources/bindings.jsonl.gz": "631a5093e525a5c6d855f1142c4aa753bc9997d1",
+              "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/Math-/selected-text-sources/selected-blobs.idx": "aebf66c1c7857d7286a82809a225376cd638e253",
+              "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/Math-/selected-text-sources/selected-blobs.pack": "32d76d1a3e015bf2257226735759f24504ef9bb3",
+              "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/main/heads-and-trees.idx": "4ab7398f49292b6d7d63e2b638adf08d287819ff",
+              "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/main/heads-and-trees.pack": "278b39e6058b4b7716fc6c356b505071d0b90fa3",
+              "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/main/selected-text-sources/bindings.jsonl.gz": "c6630d778dcb9fbb594265b91fecdb8839168ff8",
+              "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/main/selected-text-sources/selected-blobs.idx": "23a1ddf5e09a3198a0c7e01174fe839e1f09af12",
+              "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/main/selected-text-sources/selected-blobs.pack": "458497751c167f73b2042df7626a08828bdff64e",
+              "cbz/evidence/public-selected-text-custody-20261110/verification-history.tar.gz": "9a776be9c451983ff053ae779017fadcfd116066"
+          }
+          out = pathlib.Path(os.environ['RUNNER_TEMP']) / 'cbz-pr800-binaries'
+          out.mkdir()
+          rows = []
+          total = 0
+          for path, git_oid in expected.items():
+              p = pathlib.PurePosixPath(path)
+              if p.is_absolute() or '..' in p.parts: raise ValueError('unsafe path')
+              src = source.joinpath(*p.parts)
+              info = src.lstat()
+              if not stat.S_ISREG(info.st_mode) or info.st_size > 256 * 1024 * 1024: raise ValueError('unsafe file')
+              raw = src.read_bytes()
+              total += len(raw)
+              if total > 512 * 1024 * 1024: raise ValueError('capture bound')
+              oid = hashlib.sha1(('blob ' + str(len(raw)) + '\0').encode() + raw).hexdigest()
+              if oid != git_oid: raise ValueError('Git blob mismatch: ' + path)
+              dest = out.joinpath(*p.parts)
+              dest.parent.mkdir(parents=True, exist_ok=True)
+              dest.write_bytes(raw)
+              rows.append({'path': path, 'git_blob': oid, 'sha256': hashlib.sha256(raw).hexdigest(), 'bytes': len(raw)})
+          manifest = {'source_commit': expected_commit, 'source_tree':'d3b577f61a95d51383e72f17435eaef8b92e0e7b', 'run_id': os.environ['GITHUB_RUN_ID'], 'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'], 'count':len(rows), 'total_bytes':total, 'files':rows}
+          (out / 'manifest.json').write_text(json.dumps(manifest, sort_keys=True, indent=2) + '\n')
+          print(json.dumps({'source_commit':actual,'files':len(rows),'bytes':total,'git_blob_check':'PASS'}))
+          PY
+      - name: Retain captured native blobs
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-pr800-native-binaries-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/cbz-pr800-binaries
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30

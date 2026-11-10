@@ -1,0 +1,3 @@
+# Final candidate workflow-format controls
+
+Hosted run 42763200241, job 129653494675, on debug commit 101cc0fea2dbafac9af29dec925aa94c51804714 ran twelve workflow-format methods in each Python 3.11.18 mode; all passed without reported skips. The original full log is retained. GitHub reported artifact 13738631206 SHA-256 9b2c76aa176cfaaa0dcf71f96c0709d4b7ac57ed7b939e45432cca31595c3cdc; its ZIP was not independently read here. The eight format mutations and original 328 mutation campaign are separate and were still running at this observation. This is not a current-tree G11 or federation qualification.

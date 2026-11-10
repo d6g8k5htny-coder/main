@@ -1,0 +1,61 @@
+{
+  "source": "b5019e3fe65fef7657cf69326e8ca496e34a94d4",
+  "runs": [
+    {
+      "label": "math-preflight-normal",
+      "argv": [
+        "python3",
+        "-B",
+        "-S",
+        "cold_restore_captured_text_blobs.py",
+        "Math-"
+      ],
+      "exit": 0,
+      "timed_out": false,
+      "seconds": 10.701,
+      "copy": "/workspace/scratch/7abea556a9be/cbz_checkpoint_20261110_input/cbz-custody-adverse-x4yh66m8"
+    },
+    {
+      "label": "adverse-normal",
+      "argv": [
+        "python3",
+        "-B",
+        "-S",
+        "test_captured_text_blobs_adverse.py"
+      ],
+      "exit": 0,
+      "timed_out": false,
+      "seconds": 3.423,
+      "copy": "/workspace/scratch/7abea556a9be/cbz_checkpoint_20261110_input/cbz-custody-adverse-x4yh66m8"
+    },
+    {
+      "label": "math-preflight-optimized",
+      "argv": [
+        "python3",
+        "-B",
+        "-O",
+        "-S",
+        "cold_restore_captured_text_blobs.py",
+        "Math-"
+      ],
+      "exit": 0,
+      "timed_out": false,
+      "seconds": 10.796,
+      "copy": "/workspace/scratch/7abea556a9be/cbz_checkpoint_20261110_input/cbz-custody-adverse-yytvx4md"
+    },
+    {
+      "label": "adverse-optimized",
+      "argv": [
+        "python3",
+        "-B",
+        "-O",
+        "-S",
+        "test_captured_text_blobs_adverse.py"
+      ],
+      "exit": 0,
+      "timed_out": false,
+      "seconds": 3.523,
+      "copy": "/workspace/scratch/7abea556a9be/cbz_checkpoint_20261110_input/cbz-custody-adverse-yytvx4md"
+    }
+  ]
+}

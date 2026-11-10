@@ -1,0 +1,196 @@
+﻿2026-11-10T05:38:38.9895588Z Current runner version: '2.338.2'
+2026-11-10T05:38:38.9911461Z ##[group]Runner Image Provisioner
+2026-11-10T05:38:38.9911959Z Hosted Compute Agent
+2026-11-10T05:38:38.9912392Z Version: 20261028.624
+2026-11-10T05:38:38.9912763Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T05:38:38.9913172Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T05:38:38.9913687Z Worker ID: {84d67b1c-1469-4a1d-9dfb-4491fa6798ef}
+2026-11-10T05:38:38.9914099Z Region: westus3
+2026-11-10T05:38:38.9914457Z Cloud: Azure
+2026-11-10T05:38:38.9914782Z ##[endgroup]
+2026-11-10T05:38:38.9915721Z ##[group]Operating System
+2026-11-10T05:38:38.9916378Z Ubuntu
+2026-11-10T05:38:38.9916719Z 24.04.5
+2026-11-10T05:38:38.9917046Z LTS
+2026-11-10T05:38:38.9917365Z ##[endgroup]
+2026-11-10T05:38:38.9917689Z ##[group]Runner Image
+2026-11-10T05:38:38.9918131Z Image: ubuntu-24.04
+2026-11-10T05:38:38.9918461Z Version: 20261101.360.1
+2026-11-10T05:38:38.9919228Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T05:38:38.9920295Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T05:38:38.9920909Z ##[endgroup]
+2026-11-10T05:38:38.9921592Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T05:38:38.9922922Z Actions: read
+2026-11-10T05:38:38.9923247Z Contents: read
+2026-11-10T05:38:38.9923675Z Metadata: read
+2026-11-10T05:38:38.9924000Z ##[endgroup]
+2026-11-10T05:38:38.9925266Z Secret source: Actions
+2026-11-10T05:38:38.9925820Z Cache mode: write
+2026-11-10T05:38:38.9926607Z Prepare workflow directory
+2026-11-10T05:38:39.0124868Z Prepare all required actions
+2026-11-10T05:38:39.0155220Z Getting action download info
+2026-11-10T05:38:39.2769754Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-10T05:38:39.3661288Z Download action repository 'actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-10T05:38:39.5189439Z Complete job name: verify
+2026-11-10T05:38:39.5714016Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-11-10T05:38:39.5714730Z with:
+2026-11-10T05:38:39.5714973Z   persist-credentials: false
+2026-11-10T05:38:39.5715260Z   repository: d6g8k5htny-coder/main
+2026-11-10T05:38:39.5717526Z   token: ***
+2026-11-10T05:38:39.5717750Z   ssh-strict: true
+2026-11-10T05:38:39.5717984Z   ssh-user: git
+2026-11-10T05:38:39.5718213Z   clean: true
+2026-11-10T05:38:39.5718452Z   sparse-checkout-cone-mode: true
+2026-11-10T05:38:39.5718727Z   fetch-depth: 1
+2026-11-10T05:38:39.5718954Z   fetch-tags: false
+2026-11-10T05:38:39.5719190Z   show-progress: true
+2026-11-10T05:38:39.5719422Z   lfs: false
+2026-11-10T05:38:39.5719641Z   submodules: false
+2026-11-10T05:38:39.5719879Z   set-safe-directory: true
+2026-11-10T05:38:39.5720144Z   allow-unsafe-pr-checkout: false
+2026-11-10T05:38:39.5720542Z ##[endgroup]
+2026-11-10T05:38:39.7926368Z Syncing repository: d6g8k5htny-coder/main
+2026-11-10T05:38:39.7927705Z ##[group]Getting Git version info
+2026-11-10T05:38:39.7928222Z Working directory is '/home/runner/work/main/main'
+2026-11-10T05:38:39.7928990Z [command]/usr/bin/git version
+2026-11-10T05:38:39.8003132Z git version 2.56.0
+2026-11-10T05:38:39.8016215Z ##[endgroup]
+2026-11-10T05:38:39.8022995Z Temporarily overriding HOME='/home/runner/work/_temp/9f31ed49-a1fd-43a4-9f9d-392e790d91a4' before making global git config changes
+2026-11-10T05:38:39.8024243Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T05:38:39.8027410Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T05:38:39.8068006Z Deleting the contents of '/home/runner/work/main/main'
+2026-11-10T05:38:39.8070156Z ##[group]Determining repository object format
+2026-11-10T05:38:39.8071078Z ##[endgroup]
+2026-11-10T05:38:39.8071656Z ##[group]Initializing the repository
+2026-11-10T05:38:39.8073480Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-11-10T05:38:39.8183508Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T05:38:39.8184137Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T05:38:39.8184619Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T05:38:39.8184994Z hint: call:
+2026-11-10T05:38:39.8185205Z hint:
+2026-11-10T05:38:39.8185491Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T05:38:39.8185807Z hint:
+2026-11-10T05:38:39.8186318Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T05:38:39.8187083Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T05:38:39.8187689Z hint:
+2026-11-10T05:38:39.8188013Z hint: 	git branch -m <name>
+2026-11-10T05:38:39.8188393Z hint:
+2026-11-10T05:38:39.8188895Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T05:38:39.8189770Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-11-10T05:38:39.8198708Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-11-10T05:38:39.8244208Z ##[endgroup]
+2026-11-10T05:38:39.8244857Z ##[group]Disabling automatic garbage collection
+2026-11-10T05:38:39.8247393Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T05:38:39.8278953Z ##[endgroup]
+2026-11-10T05:38:39.8279921Z ##[group]Setting up auth
+2026-11-10T05:38:39.8280355Z Removing SSH command configuration
+2026-11-10T05:38:39.8284435Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T05:38:39.8318197Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T05:38:39.8626739Z Removing HTTP extra header
+2026-11-10T05:38:39.8630932Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T05:38:39.8669391Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T05:38:39.8847994Z Removing includeIf entries pointing to credentials config files
+2026-11-10T05:38:39.8851437Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T05:38:39.8887913Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T05:38:39.9070100Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-70e6d1ab-439a-4ba9-adcd-eaaf060390a2.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T05:38:39.9109508Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git.path /home/runner/work/_temp/git-credentials-70e6d1ab-439a-4ba9-adcd-eaaf060390a2.config
+2026-11-10T05:38:39.9145437Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-70e6d1ab-439a-4ba9-adcd-eaaf060390a2.config
+2026-11-10T05:38:39.9181467Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-70e6d1ab-439a-4ba9-adcd-eaaf060390a2.config
+2026-11-10T05:38:39.9216998Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-70e6d1ab-439a-4ba9-adcd-eaaf060390a2.config
+2026-11-10T05:38:39.9252402Z ##[endgroup]
+2026-11-10T05:38:39.9252992Z ##[group]Fetching the repository
+2026-11-10T05:38:39.9257847Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +8b563410fa64678b73aef4e1025fe8c2dce58672:refs/remotes/origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:38:42.6840303Z From https://github.com/d6g8k5htny-coder/main
+2026-11-10T05:38:42.6842336Z  * [new ref]         8b563410fa64678b73aef4e1025fe8c2dce58672 -> origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:38:42.6847754Z [command]/usr/bin/git branch --list --remote origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:38:42.6879582Z   origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:38:42.6885166Z [command]/usr/bin/git rev-parse refs/remotes/origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:38:42.6914830Z 8b563410fa64678b73aef4e1025fe8c2dce58672
+2026-11-10T05:38:42.6919289Z ##[endgroup]
+2026-11-10T05:38:42.6920610Z ##[group]Determining the checkout info
+2026-11-10T05:38:42.6922081Z ##[endgroup]
+2026-11-10T05:38:42.6922741Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T05:38:42.6978513Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T05:38:42.7014521Z ##[group]Checking out the ref
+2026-11-10T05:38:42.7017661Z [command]/usr/bin/git checkout --progress --force -B codex/cbz-architecture-observation-20261110 refs/remotes/origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:38:43.1027255Z Switched to a new branch 'codex/cbz-architecture-observation-20261110'
+2026-11-10T05:38:43.1029928Z branch 'codex/cbz-architecture-observation-20261110' set up to track 'origin/codex/cbz-architecture-observation-20261110'.
+2026-11-10T05:38:43.1061469Z ##[endgroup]
+2026-11-10T05:38:43.1111764Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T05:38:43.1143113Z 8b563410fa64678b73aef4e1025fe8c2dce58672
+2026-11-10T05:38:43.1153049Z ##[group]Removing auth
+2026-11-10T05:38:43.1153281Z Removing SSH command configuration
+2026-11-10T05:38:43.1153570Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T05:38:43.1189205Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T05:38:43.1376489Z Removing HTTP extra header
+2026-11-10T05:38:43.1378703Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T05:38:43.1412203Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T05:38:43.1594558Z Removing includeIf entries pointing to credentials config files
+2026-11-10T05:38:43.1598556Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T05:38:43.1632627Z includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T05:38:43.1633130Z includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T05:38:43.1633490Z includeif.gitdir:/github/workspace/.git.path
+2026-11-10T05:38:43.1633758Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T05:38:43.1639515Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T05:38:43.1669847Z /home/runner/work/_temp/git-credentials-70e6d1ab-439a-4ba9-adcd-eaaf060390a2.config
+2026-11-10T05:38:43.1676785Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-70e6d1ab\-439a\-4ba9\-adcd\-eaaf060390a2\.config
+2026-11-10T05:38:43.1715490Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T05:38:43.1744178Z /home/runner/work/_temp/git-credentials-70e6d1ab-439a-4ba9-adcd-eaaf060390a2.config
+2026-11-10T05:38:43.1750283Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-70e6d1ab\-439a\-4ba9\-adcd\-eaaf060390a2\.config
+2026-11-10T05:38:43.1789171Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-10T05:38:43.1818511Z /github/runner_temp/git-credentials-70e6d1ab-439a-4ba9-adcd-eaaf060390a2.config
+2026-11-10T05:38:43.1823811Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-70e6d1ab\-439a\-4ba9\-adcd\-eaaf060390a2\.config
+2026-11-10T05:38:43.1860119Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T05:38:43.1888829Z /github/runner_temp/git-credentials-70e6d1ab-439a-4ba9-adcd-eaaf060390a2.config
+2026-11-10T05:38:43.1894151Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-70e6d1ab\-439a\-4ba9\-adcd\-eaaf060390a2\.config
+2026-11-10T05:38:43.1931940Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T05:38:43.2117852Z Removing credentials config '/home/runner/work/_temp/git-credentials-70e6d1ab-439a-4ba9-adcd-eaaf060390a2.config'
+2026-11-10T05:38:43.2124814Z ##[endgroup]
+2026-11-10T05:38:43.2309616Z ##[group]Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+2026-11-10T05:38:43.2309895Z with:
+2026-11-10T05:38:43.2310046Z   python-version: 3.11
+2026-11-10T05:38:43.2310198Z   check-latest: false
+2026-11-10T05:38:43.2311797Z   token: ***
+2026-11-10T05:38:43.2311940Z   update-environment: true
+2026-11-10T05:38:43.2312105Z   allow-prereleases: false
+2026-11-10T05:38:43.2312260Z   freethreaded: false
+2026-11-10T05:38:43.2312407Z ##[endgroup]
+2026-11-10T05:38:43.3168005Z ##[group]Installed versions
+2026-11-10T05:38:43.3231377Z (node:2219) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T05:38:43.3232660Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T05:38:43.3234870Z Successfully set up CPython (3.11.18)
+2026-11-10T05:38:43.3235278Z ##[endgroup]
+2026-11-10T05:38:43.3410971Z ##[group]Run python3 -B -S .github/cbz-g11-census-verify.py
+2026-11-10T05:38:43.3411355Z [36;1mpython3 -B -S .github/cbz-g11-census-verify.py[0m
+2026-11-10T05:38:43.3519445Z shell: /usr/bin/bash -e {0}
+2026-11-10T05:38:43.3519822Z env:
+2026-11-10T05:38:43.3520135Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:38:43.3520584Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:38:43.3521011Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:38:43.3521393Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:38:43.3521779Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:38:43.3522181Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:38:43.3524247Z   GH_TOKEN: ***
+2026-11-10T05:38:43.3524396Z ##[endgroup]
+2026-11-10T05:38:44.1777235Z CENSUS_ZIP_VERIFIED {"artifact": 13737684031, "commit": "0f7412c5933a97dfa15d84667d176bcc60a130e6", "failing_tools": ["tools/cbz/g11_origin_mutation_selftest.py", "tools/cbz_site_publisher_cas_mutations.py", "tools/cbz_site_recovery_mutations.py"], "report_sha256": "6a48e545d508299a158a99a5826e7ecda5d45e7ac4e54102b9c4a9f33106d3ce", "reports": 2, "status": "FAIL", "zip_bytes": 10188, "zip_sha256": "99ab43607660da2132055acd3ee1f8694c0184bce10444722397a49f90a31cdf"}
+2026-11-10T05:38:44.1823214Z CENSUS_ZIP_BASE64=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
+2026-11-10T05:38:44.1925682Z Post job cleanup.
+2026-11-10T05:38:44.2655635Z (node:2231) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T05:38:44.2656327Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T05:38:44.2795689Z Post job cleanup.
+2026-11-10T05:38:44.3372171Z [command]/usr/bin/git version
+2026-11-10T05:38:44.3410486Z git version 2.56.0
+2026-11-10T05:38:44.3434281Z Temporarily overriding HOME='/home/runner/work/_temp/dd10dea1-a8c6-4545-b52b-3aba4a5c2cdc' before making global git config changes
+2026-11-10T05:38:44.3435240Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T05:38:44.3437103Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T05:38:44.3465103Z Removing SSH command configuration
+2026-11-10T05:38:44.3470168Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T05:38:44.3500628Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T05:38:44.3707420Z Removing HTTP extra header
+2026-11-10T05:38:44.3713133Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T05:38:44.3747413Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T05:38:44.3987355Z Removing includeIf entries pointing to credentials config files
+2026-11-10T05:38:44.3992202Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T05:38:44.4033036Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T05:38:44.4354832Z Cleaning up orphan processes
+2026-11-10T05:38:44.4597746Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

@@ -1,0 +1,7 @@
+# Navigation regression: retained 23 skips
+
+Hosted navigation run `42751061652`, job `129614529651`, checked tested merge `8943bd095d8e99c27318b71c317957cccad700b6` of the earlier #801 candidate. Its artifact `13733993008` has reported and independently checked ZIP SHA-256 `0e7d59f9e976f3da5f21415be6a691df8d853e2430f94dd7663d656b72eeac7b`, seven unique members and valid CRCs. Readback job `129621981496` observed `Ran 2720 tests` and `OK (skipped=23)`. Each skipped test and its reason is recorded in `observation.json`.
+
+A second bounded readback job `129622722990` emitted the exact UTF-8 `tests-normal.log` member as ordered base64 chunks. Its reported raw length is `550415` bytes and SHA-256 is `6aa77f6d03f7814dbcf3a9837e4c676295372507cb8fabe44d0d4f3e89601073`. The Git blob `b9ae07f06f2879875b488b63c2b94dc2dd613e03` was read back and independently re-encoded to the same complete base64 bytes. The original test log and decoded navigation/inspection job logs are retained here. The diagnostic workflow is retained as text, not an active workflow on this evidence branch.
+
+The 23 skips cover five restricted-container cases, two browser cases, two Lean cases, four real-record/live-source cases and ten pytest cases. Several populations had separate successful scoped executions, but those do not erase skips in this full discovery run. The outcome is not full no-skip G5, a final G0–G11 pass, or CBZ-0.

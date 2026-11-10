@@ -1260,3 +1260,117 @@ Scientific NONE; classification/qualification BLOCKED; execution_authenticated f
   Root source read precedes publication; integration waits for independently
   read new native original receipts and current checks/review. This visibility
   stage grants no extra G5, CBZ, scientific or negative-E2E credit.
+
+## 2026-11-10 — Refresh the engineering hard-gate source pin
+
+- Preserve the exact prior stale `eng.hard-gate` record and observed Math
+  source variants under `cbz/evidence/hard-gate-source-refresh-20261110/`.
+  Point the candidate record and matching projection to Math `9bdfc54b76173b57912503bfcf901a5f9d43b09c`,
+  separately observed as its default at `2026-11-10T04:01:01Z`.
+- The old and new directory trees differ in the source manifest and two
+  temporary Git-test configuration lines. The graph and production gate
+  objects are unchanged. Retain the current Math downstream job and its
+  historical limits; do not infer mathematical proof, independent review,
+  final pins or scientific acceptance.
+- The freshness label is a time-bound source observation, not a guarantee of
+  future tips. Require actual current-tree live observations and normal
+  protected checks before serial integration; preserve any failures.
+
+## 2026-11-10 — Preserve and correct hard-gate cohort contract failure
+
+- Hosted job `129621544420` on tested merge
+  `d1e2d717522b65359a6c94569c35e110585b611a` ran 23 live-contract tests
+  in each mode and failed two in each: the former explicit three-fresh-node
+  expectation conflicts with this candidate's four. The dependent live job
+  `129621764656` was skipped. Preserve the original test source and full
+  decoded failure log under the hard-gate evidence directory.
+- Update those exact contract expectations to the four named fresh nodes and
+  twelve observed sources. Retain the existing side24 and discussion refusal
+  cases, and add changed-object and unavailable-source subcases for both new
+  hard-gate URLs. No live check, mathematical claim or regression is waived;
+  new hosted outcomes must be observed.
+
+## 2026-11-10 — Retain scoped live and regression observations
+
+- Preserve the corrected hard-gate candidate's actual normal/optimized
+  contract, node-status and live-observation logs under
+  `cbz/evidence/hard-gate-live-observation-20261110/`. On tested merge
+  `d06f5a0fcd00d2ae9a12b0c470c1254ac4c5c126`, the live job observed four
+  fresh records and twelve source observations in each mode at Math
+  `9bdfc54b`; no scientific or final-gate credit follows.
+- Preserve the exact earlier 2,720-test navigation log with its 23 explicit
+  skips and the separate Main `3f05f849` site readback failure. Their
+  artifacts, source commits and limits are recorded in the corresponding
+  evidence directories; neither failure nor skip is reclassified.
+- Keep the diagnostic source and ancestry recoverable while omitting temporary
+  diagnostic workflows from this candidate tree. Re-run appropriate required
+  checks for the new composition and use fresh source/ref guards.
+
+
+## 2026-11-10 — Preserve current ref and publication-failure observations
+
+- [Layer B / evidence] Retain the public subset of a non-atomic GitHub App ref inventory and separately source-pinned public tree/gitlink observations. All eight Workspace gitlink commits resolved; its Main pin was stale against the separately observed default. Keep transport and tag-namespace read errors, archival scope and missing ancestry/local-Git/final-gate coverage explicit. Evidence is in `cbz/evidence/public-federation-observation-20261110/`; no source or scientific verdict changes.
+- Retain Main `97663b47` site build job `129621637586` as an actual public-readback failure with deploy skipped, plus the earlier #801 integration guard snapshot and native diagnostic ancestry. No receipt was rewritten by this evidence composition. Fresh source, required checks and final ref comparisons remain necessary.
+
+
+## 2026-11-10 — Preserve current publisher artifact bytes
+
+- [Layer B / evidence] Retain both #802 tested-merge `0f088dc3` component ZIPs and decoded hosted logs at their original outcome. The source-bound readback checked ZIP digests/CRCs, source hashes, unit outcomes and mutation-origin records; a later hosted job compared the Git bytes with fresh artifact downloads and refused three deliberately altered inputs per archive. The direct connector's binary blob readback refused non-UTF-8; the hosted check is the actual verification. This is not a live ref write, deployment, independent scientific review or final G0--G11 pass.
+- Preserve diagnostic workflow source and ancestry as text; remove the temporary workflow from the debug branch tip. An earlier attempted #804 ref update named the wrong branch and returned a GraphQL error; a fresh read showed the actual branch unchanged before a guarded non-force update to the correct branch. No default ref was altered by that failed call.
+
+
+## 2026-11-10 — Integrate publisher and selected source custody
+
+- [Layer B / integration] Main #802 merged normally at `944dc555e38c4a2912d613276e1750976e6675d5`, tree `275c6fb32e1ce5b6db05c6007146442ee3d8b991`; Main #800 merged normally at `2f878f8eb5c621dcf9231e4a1bf582b685321130`, tree `d3b577f61a95d51383e72f17435eaef8b92e0e7b`. Each published tree matched its tested merge and each used fresh expected-head, ref and required-check guards. Preserve the guard snapshots, all earlier failures and source histories. Neither integration writes a receipt or closes mathematics.
+- [Layer B / adverse evidence] Authenticated read-only Pages observation returned HTTP 200 with an empty deployment status. Preserve the actual result and keep the explicit cancellation guard; do not infer cancellation. Add an empty-status no-write test and a designated mutant that admits that value. Actual Python 3.12.14 controls passed 34 per mode; the live-provenance runner observed 38 selected-oracle pairs and three unauthorized-origin refusals per mode. The new mutant was rejected by the selected test body in both modes. This is source-bound local evidence, not a live recovery or final G0.
+- [Layer B / custody] Reconstruct exact selected-text blobs and perform local Main/Math cold readbacks in both modes and 38 specified adverse children in each outer mode. Preserve the initial reused-directory and missing-prerequisite failures and their causes, then retain the successful isolated runs. No proof, bound, axiom, authorship, scientific status or historical failure is altered.
+
+## Main #797 integration and subsequent Pages observation — 10 November 2026
+
+- **Disposition:** Main #797 merged normally at `b6be588c82d2256c917b7d26d901085bc90319fb`, after the exact head, tested tree, 18 successful checks and separately observed federation/receipt refs were preserved in `cbz/evidence/integration-guards-20261110/main-797-before.json`. The merge tree equals tested tree `c7db1b6521d37b13a1ec1a695fcad9cf65af99e6`; original histories and failed controls remain. This integration is a published, recoverable Git action; no bypass or force was used. The newly registered tool remains scoped and classification/qualification remain BLOCKED.
+- **Conflict and resolution:** the source run's deployment action logged cancellation after timeout, but authenticated Pages status later returned an empty string. The previous observed public artifact matched its receipt on a separate read. Keep the empty-status refusal and retain both observations rather than infer terminal cancellation or alter the receipt. The initial observer's import failure and later successful read are preserved, and the temporary workflows were removed.
+- **Tool scope:** the exact temporary read-only workflow and original job outputs are retained under `cbz/evidence/pages-predecessor-read-20261110/`; its public readback is time-bound operational evidence, not a proof, review or final gate.
+
+- **Hosted attempt failure:** #804 run `42757368825` attempt 1 refused daemon preparation; a normal retry passed architecture but verify refused its prior-attempt formal receipt. Preserve both actual failures and the retry's scoped success under `cbz/evidence/pr804-hosted-attempts-20261110/`; require fresh source-bound checks on the recomposed tree rather than treating either attempt as aggregate success.
+
+## 2026-11-10 — Preserve and repair G11 assertion-origin attribution
+
+- Preserve actual hosted run 42760114483 and its six observed false kills, plus the independent red regression and provisional forged-report failure, at their original source identities and outcomes. Historical mutation counts remain observations; they do not establish sound attribution or refute kernel statements.
+- Capture live traceback/code provenance before unittest cleanup, bind the designated selected body and explicit unittest-oracle suffix, reject missing or inconsistent reports and require a runner-completion marker. This supports synchronous unittest bodies and does not provide a security boundary against arbitrary hostile in-process Python.
+- Preserve the original 263 census methods and 328 mutation definitions. Add nine origin test methods and five bounded origin-guard mutations; retain actual local normal and optimized results and the failed first mutation-driver attempt. Register exact commands and limitations in STATUS, GOVERNANCE, TOOLING and the G11 auditor guide. Final hosted and federation gates remain separately required.
+- Compose #804 with later Main #805 by retaining both append-only DECISIONS suffixes and all peer source/evidence leaves; no peer/default ref is overwritten by this candidate.
+
+## 2026-11-10 — Retain repaired G11 hosted component execution
+
+Run 42761158495, job 129646886891, on debug commit `db0d076ea7d5d38a78d6c16955844a7d32816cf4`, actually completed 265 census controls, nine origin methods, five origin-guard mutations and 328 existing G11 mutations in each Python 3.11.18 mode. The full original log, source hashes and individually parsed records are retained at `cbz/evidence/g11-origin-hosted-20261110/`. This scoped component result does not bind the later composed tree, close scientific claims or substitute for the final federation G11 gate.
+
+## 2026-11-10 — Preserve G11 provenance and repair workflow formats
+
+- Retain the old composed-tree G11 census failure and independently verified ZIP at its original commit, plus the workflow-format, JSON no-op/parse, invalid-shape and mutation-target-collision failures. Do not relabel historical false kills or infer proof/scientific conclusions.
+- Preserve live selected-body/oracle traceback frames and lifecycle state in mutation results, test report-completion and adverse guards, and retain the independently verified hosted provenance ZIP for debug source `b65ebdbbc6af587af2c6706105286edcbbfeb531`. This is not a security boundary for arbitrary hostile in-process Python.
+- Extend bounded static references for env-unset wrappers and strict JSON job-step runs; report malformed or unsupported JSON/flow-style workflow input as unparseable and JSON no-op findings at line 0 where precise position is unavailable. Do not equate static references with execution or claim full workflow-language coverage. The original 328 mutation definitions remain; thirteen workflow-format adverse mutations and their commands are registered in STATUS and TOOLING.
+- Retain Workspace #71 pre- and post-merge evidence at the original source and observed run. Pin observations are non-atomic and do not establish final G7. Fresh candidate and federation gates remain required.
+
+## 2026-11-10 — Retain revised-scanner mutation run
+
+Hosted run 42763200124 on debug commit `101cc0fea2dbafac9af29dec925aa94c51804714` completed the original 328 G11 mutation cases in each mode against the staged census, origin-grader and original census-test blobs. The original full log and the individually checked 656 selected-origin records are retained under `cbz/evidence/g11-current-scanner-hosted-20261110/`; its format suite was the earlier eight-case source. Its reported ZIP digest has not been independently verified. This is component evidence, not a composed census or the final G11 gate.
+
+## 2026-11-10 — Refuse nonexecuting interpreter references
+
+- Preserve the earlier exact-candidate census PASS with its later demonstrated false-reference limitation and retain the actual Python/shell subprocess failures, invalid option-operand failures and automatic-workflow skips. Static references remain distinct from execution evidence.
+- Reuse the bounded interpreter argument parser for workflow references and reject interpreter option operands that this workflow census does not validate. Preserve the 18-method paired controls and 19 format mutants from their actual debug source; no full current-tree qualification follows from those component results.
+- Correct the earlier prospective statement that all 328 original mutation definitions would remain unchanged: the 328 names remain, but one shell `-c` mutation target and replacement were adapted to the refactored parser. Its original bytes, absent-target failures, sealed-inventory failure and both digest values are retained. Paired preflight checked target uniqueness and actually killed the adapted case; the complete resealed 328 campaign and fresh composed census remain separate requirements.
+
+The original `ef2903b4028ca369223ff2128cc5f81ca6749ee0` census ZIP was independently verified and then read back byte-identically from its native Git blob; the later interpreter false-reference boundary still applies. A source comparison found only the adapted case tuple changed in the prior harness, and only the inventory digest changed in the original census test.
+
+## 2026-11-10 — Retain resealed G11 component execution
+
+Hosted run 42765075896 on debug source `764d20556eafbf61b373fbf10be859c0ed4c8475` completed 265 census controls, twelve origin controls, seven origin mutations, eighteen workflow-format controls, nineteen format mutations and all 328 named original mutations in each mode. The full original log and individually parsed 708 mutant records are retained at `cbz/evidence/g11-sealed-interpreter-hosted-20261110/`. This source-bound component pass does not establish a fresh composed census, mathematical acceptance or the final federation G11 gate.
+
+The original 764d mutation ZIP was independently verified in run 42765703024, including both baselines and all 656 original origin records, then read back byte-identically from its native Git blob. This does not change the scope or establish the final federation gate.
+
+## 2026-11-10 — Recompose the G11 candidate after Main #806
+
+Compose the existing #804 candidate with Main merge `d291b42801a26252a046d8ca78a6bd62abc448ae` as first parent. Retain the complete new Main decision ledger as prefix, both earlier #804 ledger segments, all four #806 changed leaves and all #804 source/evidence changes. The prior `709975c6ff42f0bca020abd4164a45479e29a0df` census and check results remain source-bound to that earlier composition; fresh current-composition checks and pin observations are required. No mathematical statement, scientific review or historical failure is rebound.
+
+The prior exact-head census at `709975c6ff42f0bca020abd4164a45479e29a0df` actually passed in both modes; its independently verified and byte-read-back original ZIP and logs are retained at `cbz/evidence/g11-sealed-candidate-census-20261110/`. The 06:04 non-atomic pin observation predates #806 and remains historical. A fresh census on this recomposition is still required.

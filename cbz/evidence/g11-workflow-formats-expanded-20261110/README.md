@@ -1,0 +1,3 @@
+# Expanded G11 workflow-format controls
+
+Hosted run 42763520234, job 129654549737, at debug commit d061ac0967fd35c311defd5f228502420755aa31 ran thirteen workflow-format methods per Python 3.11.18 mode with no reported skips; both passed. The new unset-equals check and the prior JSON no-op, invalid syntax and shape cases were included. The original full log is retained. GitHub reported artifact 13739425051 SHA-256 fbc43ef1493cd1b91e261bba061da73aec43e7caba062cd90f11aaf82df3635d; its ZIP was not independently read here. The expanded thirteen format mutations, existing 328 mutation cases, and final G11 require separate evidence.

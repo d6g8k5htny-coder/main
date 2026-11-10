@@ -1,0 +1,48 @@
+{
+  "source": "b5019e3fe65fef7657cf69326e8ca496e34a94d4",
+  "runs": [
+    {
+      "label": "main-optimized-isolated",
+      "argv": [
+        "python3",
+        "-B",
+        "-O",
+        "-S",
+        "cold_restore_captured_text_blobs.py",
+        "main"
+      ],
+      "exit": 0,
+      "timed_out": false,
+      "seconds": 10.139,
+      "copy": "/workspace/scratch/7abea556a9be/cbz_checkpoint_20261110_input/cbz-custody-isolated-1sw__nrv"
+    },
+    {
+      "label": "math-optimized-isolated",
+      "argv": [
+        "python3",
+        "-B",
+        "-O",
+        "-S",
+        "cold_restore_captured_text_blobs.py",
+        "Math-"
+      ],
+      "exit": 0,
+      "timed_out": false,
+      "seconds": 10.545,
+      "copy": "/workspace/scratch/7abea556a9be/cbz_checkpoint_20261110_input/cbz-custody-isolated-q25q25pp"
+    },
+    {
+      "label": "adverse-normal-isolated",
+      "argv": [
+        "python3",
+        "-B",
+        "-S",
+        "test_captured_text_blobs_adverse.py"
+      ],
+      "exit": 1,
+      "timed_out": false,
+      "seconds": 0.114,
+      "copy": "/workspace/scratch/7abea556a9be/cbz_checkpoint_20261110_input/cbz-custody-isolated-7uxmvk23"
+    }
+  ]
+}

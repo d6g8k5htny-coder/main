@@ -1,0 +1,150 @@
+{
+  "executed": 4,
+  "inputs_sha256": [
+    "b1b41be15a34a77eb4162d22c116847d96ce66b292c57fc1f423234f915c21ba",
+    "68da14a4457066741f1b57f7ea73760844d2c69edf5b7bd5af6a826712f5f2f2",
+    "86018341138d79e7abd90fbf366386a550aea31500a67039fee2bdcf534d6a61",
+    "3e8acc01f01102e7fe03089986e85e3740a3f263185a9dbafd9f4bf3203ef47b"
+  ],
+  "mode": "normal",
+  "results": [
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 80,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_formatted_traceback_without_live_origin_is_not_a_kill",
+        "traceback_line": 80,
+        "traceback_method": "test_formatted_traceback_without_live_origin_is_not_a_kill"
+      },
+      "name": "missing live-origin guard",
+      "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_formatted_traceback_without_live_origin_is_not_a_kill"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": false,
+      "line": 67,
+      "mutant": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 1,
+        "failures": 3,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "name": "subject and helper suffix accepted",
+      "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_subject_helper_and_callback_assertions_are_not_kills"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 126,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized",
+        "traceback_line": 126,
+        "traceback_method": "test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+      },
+      "name": "cleanup phase accepted",
+      "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+    },
+    {
+      "baseline": {
+        "errors": 0,
+        "exception_type": null,
+        "exit": 0,
+        "failures": 0,
+        "origin_authorized": false,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "OK",
+        "test_id": null,
+        "traceback_line": null,
+        "traceback_method": null
+      },
+      "killed": true,
+      "line": 146,
+      "mutant": {
+        "errors": 0,
+        "exception_type": "AssertionError",
+        "exit": 1,
+        "failures": 1,
+        "origin_authorized": true,
+        "parsed": true,
+        "ran": 1,
+        "skipped": 0,
+        "status": "FAILED",
+        "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames",
+        "traceback_line": 146,
+        "traceback_method": "test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+      },
+      "name": "untrusted suffix report accepted",
+      "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+    }
+  ],
+  "status": "FAIL",
+  "total": 4
+}

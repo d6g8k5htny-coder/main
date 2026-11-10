@@ -1,0 +1,475 @@
+﻿2026-11-10T05:47:33.9330023Z Current runner version: '2.338.2'
+2026-11-10T05:47:33.9365490Z ##[group]Runner Image Provisioner
+2026-11-10T05:47:33.9366872Z Hosted Compute Agent
+2026-11-10T05:47:33.9367904Z Version: 20261028.624
+2026-11-10T05:47:33.9368957Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T05:47:33.9370194Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T05:47:33.9371419Z Worker ID: {c97899fd-4054-42e4-b433-a3fe979ee123}
+2026-11-10T05:47:33.9372678Z Region: eastus
+2026-11-10T05:47:33.9374207Z Cloud: Azure
+2026-11-10T05:47:33.9375345Z ##[endgroup]
+2026-11-10T05:47:33.9377832Z ##[group]Operating System
+2026-11-10T05:47:33.9378917Z Ubuntu
+2026-11-10T05:47:33.9379859Z 24.04.5
+2026-11-10T05:47:33.9380870Z LTS
+2026-11-10T05:47:33.9381710Z ##[endgroup]
+2026-11-10T05:47:33.9382555Z ##[group]Runner Image
+2026-11-10T05:47:33.9383688Z Image: ubuntu-24.04
+2026-11-10T05:47:33.9384708Z Version: 20261101.360.1
+2026-11-10T05:47:33.9387243Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T05:47:33.9390055Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T05:47:33.9391794Z ##[endgroup]
+2026-11-10T05:47:33.9393755Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T05:47:33.9396988Z Contents: read
+2026-11-10T05:47:33.9398057Z Metadata: read
+2026-11-10T05:47:33.9399044Z ##[endgroup]
+2026-11-10T05:47:33.9402025Z Secret source: Actions
+2026-11-10T05:47:33.9403690Z Cache mode: write
+2026-11-10T05:47:33.9405359Z Prepare workflow directory
+2026-11-10T05:47:33.9878323Z Prepare all required actions
+2026-11-10T05:47:33.9928293Z Getting action download info
+2026-11-10T05:47:34.1889038Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-10T05:47:34.3367149Z Download action repository 'actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-10T05:47:34.4452123Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+2026-11-10T05:47:34.6645218Z Complete job name: origin-regression
+2026-11-10T05:47:34.7519133Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-11-10T05:47:34.7520230Z with:
+2026-11-10T05:47:34.7520687Z   persist-credentials: false
+2026-11-10T05:47:34.7521247Z   repository: d6g8k5htny-coder/main
+2026-11-10T05:47:34.7524849Z   token: ***
+2026-11-10T05:47:34.7525511Z   ssh-strict: true
+2026-11-10T05:47:34.7525979Z   ssh-user: git
+2026-11-10T05:47:34.7526423Z   clean: true
+2026-11-10T05:47:34.7526872Z   sparse-checkout-cone-mode: true
+2026-11-10T05:47:34.7527413Z   fetch-depth: 1
+2026-11-10T05:47:34.7527852Z   fetch-tags: false
+2026-11-10T05:47:34.7528364Z   show-progress: true
+2026-11-10T05:47:34.7528817Z   lfs: false
+2026-11-10T05:47:34.7529234Z   submodules: false
+2026-11-10T05:47:34.7529688Z   set-safe-directory: true
+2026-11-10T05:47:34.7530206Z   allow-unsafe-pr-checkout: false
+2026-11-10T05:47:34.7531019Z ##[endgroup]
+2026-11-10T05:47:35.3397675Z Syncing repository: d6g8k5htny-coder/main
+2026-11-10T05:47:35.3400211Z ##[group]Getting Git version info
+2026-11-10T05:47:35.3401580Z Working directory is '/home/runner/work/main/main'
+2026-11-10T05:47:35.3403306Z [command]/usr/bin/git version
+2026-11-10T05:47:35.3498188Z git version 2.56.0
+2026-11-10T05:47:35.3525490Z ##[endgroup]
+2026-11-10T05:47:35.3536718Z Temporarily overriding HOME='/home/runner/work/_temp/6a26e95d-8688-4cf9-92c7-840747499324' before making global git config changes
+2026-11-10T05:47:35.3542660Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T05:47:35.3544483Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T05:47:35.3800371Z Deleting the contents of '/home/runner/work/main/main'
+2026-11-10T05:47:35.3806094Z ##[group]Determining repository object format
+2026-11-10T05:47:35.3808143Z ##[endgroup]
+2026-11-10T05:47:35.3810103Z ##[group]Initializing the repository
+2026-11-10T05:47:35.3813806Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-11-10T05:47:35.3942841Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T05:47:35.3945622Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T05:47:35.3947401Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T05:47:35.3956274Z hint: call:
+2026-11-10T05:47:35.3976397Z hint:
+2026-11-10T05:47:35.3977441Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T05:47:35.3978600Z hint:
+2026-11-10T05:47:35.3979676Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T05:47:35.3981463Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T05:47:35.3982937Z hint:
+2026-11-10T05:47:35.3983878Z hint: 	git branch -m <name>
+2026-11-10T05:47:35.3985644Z hint:
+2026-11-10T05:47:35.3986635Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T05:47:35.3987771Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-11-10T05:47:35.3990105Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-11-10T05:47:35.4040294Z ##[endgroup]
+2026-11-10T05:47:35.4042064Z ##[group]Disabling automatic garbage collection
+2026-11-10T05:47:35.4044588Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T05:47:35.4089088Z ##[endgroup]
+2026-11-10T05:47:35.4090377Z ##[group]Setting up auth
+2026-11-10T05:47:35.4091309Z Removing SSH command configuration
+2026-11-10T05:47:35.4098413Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T05:47:35.4252479Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T05:47:35.4821943Z Removing HTTP extra header
+2026-11-10T05:47:35.4827535Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T05:47:35.4871955Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T05:47:35.5140961Z Removing includeIf entries pointing to credentials config files
+2026-11-10T05:47:35.5149574Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T05:47:35.5195840Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T05:47:35.5440898Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-36651642-f805-42e9-8d12-e6b9ba534957.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T05:47:35.5490696Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git.path /home/runner/work/_temp/git-credentials-36651642-f805-42e9-8d12-e6b9ba534957.config
+2026-11-10T05:47:35.5534211Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-36651642-f805-42e9-8d12-e6b9ba534957.config
+2026-11-10T05:47:35.5662243Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-36651642-f805-42e9-8d12-e6b9ba534957.config
+2026-11-10T05:47:35.5709697Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-36651642-f805-42e9-8d12-e6b9ba534957.config
+2026-11-10T05:47:35.5753480Z ##[endgroup]
+2026-11-10T05:47:35.5755721Z ##[group]Fetching the repository
+2026-11-10T05:47:35.5764822Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +0458a1c59573bc03eb0b4d5eaa168ae432d81a28:refs/remotes/origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:47:38.0516950Z From https://github.com/d6g8k5htny-coder/main
+2026-11-10T05:47:38.0520775Z  * [new ref]         0458a1c59573bc03eb0b4d5eaa168ae432d81a28 -> origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:47:38.0526133Z [command]/usr/bin/git branch --list --remote origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:47:38.0564727Z   origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:47:38.0574761Z [command]/usr/bin/git rev-parse refs/remotes/origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:47:38.0612554Z 0458a1c59573bc03eb0b4d5eaa168ae432d81a28
+2026-11-10T05:47:38.0618483Z ##[endgroup]
+2026-11-10T05:47:38.0620311Z ##[group]Determining the checkout info
+2026-11-10T05:47:38.0622224Z ##[endgroup]
+2026-11-10T05:47:38.0623634Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T05:47:38.0688478Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T05:47:38.0736492Z ##[group]Checking out the ref
+2026-11-10T05:47:38.0737933Z [command]/usr/bin/git checkout --progress --force -B codex/cbz-architecture-observation-20261110 refs/remotes/origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:47:38.6667809Z Switched to a new branch 'codex/cbz-architecture-observation-20261110'
+2026-11-10T05:47:38.6673695Z branch 'codex/cbz-architecture-observation-20261110' set up to track 'origin/codex/cbz-architecture-observation-20261110'.
+2026-11-10T05:47:38.6726772Z ##[endgroup]
+2026-11-10T05:47:38.6786665Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T05:47:38.6825624Z 0458a1c59573bc03eb0b4d5eaa168ae432d81a28
+2026-11-10T05:47:38.6837104Z ##[group]Removing auth
+2026-11-10T05:47:38.6837755Z Removing SSH command configuration
+2026-11-10T05:47:38.6842256Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T05:47:38.6892067Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T05:47:38.7166766Z Removing HTTP extra header
+2026-11-10T05:47:38.7170748Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T05:47:38.7214827Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T05:47:38.7463811Z Removing includeIf entries pointing to credentials config files
+2026-11-10T05:47:38.7468652Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T05:47:38.7517464Z includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T05:47:38.7518340Z includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T05:47:38.7518841Z includeif.gitdir:/github/workspace/.git.path
+2026-11-10T05:47:38.7519429Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T05:47:38.7527370Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T05:47:38.7562929Z /home/runner/work/_temp/git-credentials-36651642-f805-42e9-8d12-e6b9ba534957.config
+2026-11-10T05:47:38.7572928Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-36651642\-f805\-42e9\-8d12\-e6b9ba534957\.config
+2026-11-10T05:47:38.7625561Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T05:47:38.7660722Z /home/runner/work/_temp/git-credentials-36651642-f805-42e9-8d12-e6b9ba534957.config
+2026-11-10T05:47:38.7670140Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-36651642\-f805\-42e9\-8d12\-e6b9ba534957\.config
+2026-11-10T05:47:38.7719109Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-10T05:47:38.7755583Z /github/runner_temp/git-credentials-36651642-f805-42e9-8d12-e6b9ba534957.config
+2026-11-10T05:47:38.7764438Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-36651642\-f805\-42e9\-8d12\-e6b9ba534957\.config
+2026-11-10T05:47:38.7810521Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T05:47:38.7845240Z /github/runner_temp/git-credentials-36651642-f805-42e9-8d12-e6b9ba534957.config
+2026-11-10T05:47:38.7854699Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-36651642\-f805\-42e9\-8d12\-e6b9ba534957\.config
+2026-11-10T05:47:38.7901472Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T05:47:38.8150299Z Removing credentials config '/home/runner/work/_temp/git-credentials-36651642-f805-42e9-8d12-e6b9ba534957.config'
+2026-11-10T05:47:38.8160455Z ##[endgroup]
+2026-11-10T05:47:38.8502978Z ##[group]Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+2026-11-10T05:47:38.8503424Z with:
+2026-11-10T05:47:38.8503638Z   python-version: 3.11
+2026-11-10T05:47:38.8503877Z   check-latest: false
+2026-11-10T05:47:38.8506619Z   token: ***
+2026-11-10T05:47:38.8506854Z   update-environment: true
+2026-11-10T05:47:38.8507100Z   allow-prereleases: false
+2026-11-10T05:47:38.8507329Z   freethreaded: false
+2026-11-10T05:47:38.8507638Z ##[endgroup]
+2026-11-10T05:47:38.9894120Z ##[group]Installed versions
+2026-11-10T05:47:38.9989210Z (node:2403) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T05:47:38.9990211Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T05:47:39.0042248Z Successfully set up CPython (3.11.18)
+2026-11-10T05:47:39.0043245Z ##[endgroup]
+2026-11-10T05:47:39.0232406Z ##[group]Run set -o pipefail
+2026-11-10T05:47:39.0232945Z [36;1mset -o pipefail[0m
+2026-11-10T05:47:39.0233822Z [36;1mpython -B -S -m unittest tests.test_g11_workflow_formats -v 2>&1 | tee "$RUNNER_TEMP/g11-workflow-formats-normal.log"[0m
+2026-11-10T05:47:39.0280950Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T05:47:39.0281528Z env:
+2026-11-10T05:47:39.0281952Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:47:39.0282675Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:47:39.0283399Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:47:39.0284049Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:47:39.0284701Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:47:39.0285652Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:47:39.0286241Z ##[endgroup]
+2026-11-10T05:47:39.2215247Z test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) ... ok
+2026-11-10T05:47:39.2217728Z test_duplicate_json_workflow_is_unparseable (tests.test_g11_workflow_formats.WorkflowFormats.test_duplicate_json_workflow_is_unparseable) ... ok
+2026-11-10T05:47:39.2219732Z test_env_unset_equals_preserves_direct_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_env_unset_equals_preserves_direct_reference) ... ok
+2026-11-10T05:47:39.2226920Z test_env_unset_preserves_direct_execution_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_env_unset_preserves_direct_execution_reference) ... ok
+2026-11-10T05:47:39.2228112Z test_env_unsupported_or_nonexecution_is_not_credited (tests.test_g11_workflow_formats.WorkflowFormats.test_env_unsupported_or_nonexecution_is_not_credited) ... ok
+2026-11-10T05:47:39.2307309Z test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) ... 
+2026-11-10T05:47:39.2309525Z   test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='-V') ... FAIL
+2026-11-10T05:47:39.2340886Z   test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='--version') ... FAIL
+2026-11-10T05:47:39.2371308Z   test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='--help') ... FAIL
+2026-11-10T05:47:39.2503048Z   test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='-cprint(1)') ... FAIL
+2026-11-10T05:47:39.2975412Z   test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='-mjson.tool') ... FAIL
+2026-11-10T05:47:39.2983870Z test_invalid_json_job_step_shapes_are_unparseable (tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_json_job_step_shapes_are_unparseable) ... ok
+2026-11-10T05:47:39.2986036Z test_json_array_workflow_is_unparseable (tests.test_g11_workflow_formats.WorkflowFormats.test_json_array_workflow_is_unparseable) ... ok
+2026-11-10T05:47:39.2987110Z test_json_duplicate_keys_and_non_run_paths_are_refused (tests.test_g11_workflow_formats.WorkflowFormats.test_json_duplicate_keys_and_non_run_paths_are_refused) ... ok
+2026-11-10T05:47:39.2996840Z test_json_noop_step_is_failing (tests.test_g11_workflow_formats.WorkflowFormats.test_json_noop_step_is_failing) ... ok
+2026-11-10T05:47:39.2998206Z test_json_workflow_recognizes_only_job_step_runs (tests.test_g11_workflow_formats.WorkflowFormats.test_json_workflow_recognizes_only_job_step_runs) ... ok
+2026-11-10T05:47:39.2999490Z test_non_noop_json_run_is_not_a_noop (tests.test_g11_workflow_formats.WorkflowFormats.test_non_noop_json_run_is_not_a_noop) ... ok
+2026-11-10T05:47:39.3000746Z test_nonstandard_json_constant_is_unparseable (tests.test_g11_workflow_formats.WorkflowFormats.test_nonstandard_json_constant_is_unparseable) ... ok
+2026-11-10T05:47:39.3001926Z test_nonstring_json_run_is_unparseable (tests.test_g11_workflow_formats.WorkflowFormats.test_nonstring_json_run_is_unparseable) ... ok
+2026-11-10T05:47:39.3025210Z test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) ... 
+2026-11-10T05:47:39.3027191Z   test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) (interpreter='bash', option='-n') ... FAIL
+2026-11-10T05:47:39.3049890Z   test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) (interpreter='sh', option='-n') ... FAIL
+2026-11-10T05:47:39.3073707Z   test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) (interpreter='bash', option='--version') ... FAIL
+2026-11-10T05:47:39.3097056Z   test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) (interpreter='sh', option='--version') ... FAIL
+2026-11-10T05:47:39.3098719Z 
+2026-11-10T05:47:39.3099168Z ======================================================================
+2026-11-10T05:47:39.3101345Z FAIL: test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='-V')
+2026-11-10T05:47:39.3103026Z ----------------------------------------------------------------------
+2026-11-10T05:47:39.3103702Z Traceback (most recent call last):
+2026-11-10T05:47:39.3112698Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 124, in test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference
+2026-11-10T05:47:39.3114151Z     self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())
+2026-11-10T05:47:39.3115278Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:39.3116003Z 'tools/cbz/g11_origin_mutation_selftest.py'
+2026-11-10T05:47:39.3116406Z 
+2026-11-10T05:47:39.3116638Z ======================================================================
+2026-11-10T05:47:39.3118392Z FAIL: test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='--version')
+2026-11-10T05:47:39.3120112Z ----------------------------------------------------------------------
+2026-11-10T05:47:39.3120742Z Traceback (most recent call last):
+2026-11-10T05:47:39.3122147Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 124, in test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference
+2026-11-10T05:47:39.3123585Z     self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())
+2026-11-10T05:47:39.3124420Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:39.3125468Z 'tools/cbz/g11_origin_mutation_selftest.py'
+2026-11-10T05:47:39.3125874Z 
+2026-11-10T05:47:39.3126111Z ======================================================================
+2026-11-10T05:47:39.3128095Z FAIL: test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='--help')
+2026-11-10T05:47:39.3129871Z ----------------------------------------------------------------------
+2026-11-10T05:47:39.3130516Z Traceback (most recent call last):
+2026-11-10T05:47:39.3131815Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 124, in test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference
+2026-11-10T05:47:39.3133241Z     self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())
+2026-11-10T05:47:39.3134066Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:39.3134734Z 'tools/cbz/g11_origin_mutation_selftest.py'
+2026-11-10T05:47:39.3135502Z 
+2026-11-10T05:47:39.3135733Z ======================================================================
+2026-11-10T05:47:39.3137491Z FAIL: test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='-cprint(1)')
+2026-11-10T05:47:39.3139263Z ----------------------------------------------------------------------
+2026-11-10T05:47:39.3139887Z Traceback (most recent call last):
+2026-11-10T05:47:39.3141212Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 124, in test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference
+2026-11-10T05:47:39.3142594Z     self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())
+2026-11-10T05:47:39.3143412Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:39.3144087Z 'tools/cbz/g11_origin_mutation_selftest.py'
+2026-11-10T05:47:39.3144478Z 
+2026-11-10T05:47:39.3144688Z ======================================================================
+2026-11-10T05:47:39.3146965Z FAIL: test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='-mjson.tool')
+2026-11-10T05:47:39.3149032Z ----------------------------------------------------------------------
+2026-11-10T05:47:39.3149712Z Traceback (most recent call last):
+2026-11-10T05:47:39.3151043Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 124, in test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference
+2026-11-10T05:47:39.3152485Z     self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())
+2026-11-10T05:47:39.3153309Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:39.3153992Z 'tools/cbz/g11_origin_mutation_selftest.py'
+2026-11-10T05:47:39.3154362Z 
+2026-11-10T05:47:39.3154577Z ======================================================================
+2026-11-10T05:47:39.3156628Z FAIL: test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) (interpreter='bash', option='-n')
+2026-11-10T05:47:39.3158382Z ----------------------------------------------------------------------
+2026-11-10T05:47:39.3159020Z Traceback (most recent call last):
+2026-11-10T05:47:39.3160255Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 142, in test_shell_no_execution_options_are_not_tool_references
+2026-11-10T05:47:39.3161607Z     self.assertEqual(g11.workflow_tool_references(text, {shell_tool}), set())
+2026-11-10T05:47:39.3162499Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:39.3163247Z 'tools/cbz/example_guard.sh'
+2026-11-10T05:47:39.3163568Z 
+2026-11-10T05:47:39.3163789Z ======================================================================
+2026-11-10T05:47:39.3165633Z FAIL: test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) (interpreter='sh', option='-n')
+2026-11-10T05:47:39.3167346Z ----------------------------------------------------------------------
+2026-11-10T05:47:39.3168441Z Traceback (most recent call last):
+2026-11-10T05:47:39.3169749Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 142, in test_shell_no_execution_options_are_not_tool_references
+2026-11-10T05:47:39.3171103Z     self.assertEqual(g11.workflow_tool_references(text, {shell_tool}), set())
+2026-11-10T05:47:39.3171965Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:39.3172622Z 'tools/cbz/example_guard.sh'
+2026-11-10T05:47:39.3172943Z 
+2026-11-10T05:47:39.3173158Z ======================================================================
+2026-11-10T05:47:39.3174817Z FAIL: test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) (interpreter='bash', option='--version')
+2026-11-10T05:47:39.3176884Z ----------------------------------------------------------------------
+2026-11-10T05:47:39.3177570Z Traceback (most recent call last):
+2026-11-10T05:47:39.3178836Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 142, in test_shell_no_execution_options_are_not_tool_references
+2026-11-10T05:47:39.3180203Z     self.assertEqual(g11.workflow_tool_references(text, {shell_tool}), set())
+2026-11-10T05:47:39.3181068Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:39.3181664Z 'tools/cbz/example_guard.sh'
+2026-11-10T05:47:39.3181966Z 
+2026-11-10T05:47:39.3182186Z ======================================================================
+2026-11-10T05:47:39.3183943Z FAIL: test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) (interpreter='sh', option='--version')
+2026-11-10T05:47:39.3186045Z ----------------------------------------------------------------------
+2026-11-10T05:47:39.3186710Z Traceback (most recent call last):
+2026-11-10T05:47:39.3188313Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 142, in test_shell_no_execution_options_are_not_tool_references
+2026-11-10T05:47:39.3189656Z     self.assertEqual(g11.workflow_tool_references(text, {shell_tool}), set())
+2026-11-10T05:47:39.3190514Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:39.3191118Z 'tools/cbz/example_guard.sh'
+2026-11-10T05:47:39.3191393Z 
+2026-11-10T05:47:39.3191645Z ----------------------------------------------------------------------
+2026-11-10T05:47:39.3192227Z Ran 15 tests in 0.094s
+2026-11-10T05:47:39.3192466Z 
+2026-11-10T05:47:39.3192607Z FAILED (failures=9)
+2026-11-10T05:47:39.3220802Z ##[error]Process completed with exit code 1.
+2026-11-10T05:47:39.3279228Z ##[group]Run set -o pipefail
+2026-11-10T05:47:39.3279567Z [36;1mset -o pipefail[0m
+2026-11-10T05:47:39.3280118Z [36;1mpython -B -S -O -m unittest tests.test_g11_workflow_formats -v 2>&1 | tee "$RUNNER_TEMP/g11-workflow-formats-optimized.log"[0m
+2026-11-10T05:47:39.3301819Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T05:47:39.3302169Z env:
+2026-11-10T05:47:39.3302436Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:47:39.3302878Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:47:39.3303328Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:47:39.3303750Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:47:39.3304138Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:47:39.3304527Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:47:39.3304854Z ##[endgroup]
+2026-11-10T05:47:40.0797276Z test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) ... ok
+2026-11-10T05:47:40.0806819Z test_duplicate_json_workflow_is_unparseable (tests.test_g11_workflow_formats.WorkflowFormats.test_duplicate_json_workflow_is_unparseable) ... ok
+2026-11-10T05:47:40.0808757Z test_env_unset_equals_preserves_direct_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_env_unset_equals_preserves_direct_reference) ... ok
+2026-11-10T05:47:40.0810769Z test_env_unset_preserves_direct_execution_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_env_unset_preserves_direct_execution_reference) ... ok
+2026-11-10T05:47:40.0812851Z test_env_unsupported_or_nonexecution_is_not_credited (tests.test_g11_workflow_formats.WorkflowFormats.test_env_unsupported_or_nonexecution_is_not_credited) ... ok
+2026-11-10T05:47:40.1094570Z test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) ... 
+2026-11-10T05:47:40.1096342Z   test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='-V') ... FAIL
+2026-11-10T05:47:40.1127163Z   test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='--version') ... FAIL
+2026-11-10T05:47:40.1155801Z   test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='--help') ... FAIL
+2026-11-10T05:47:40.1271842Z   test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='-cprint(1)') ... FAIL
+2026-11-10T05:47:40.1598265Z   test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='-mjson.tool') ... FAIL
+2026-11-10T05:47:40.1605796Z test_invalid_json_job_step_shapes_are_unparseable (tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_json_job_step_shapes_are_unparseable) ... ok
+2026-11-10T05:47:40.1607973Z test_json_array_workflow_is_unparseable (tests.test_g11_workflow_formats.WorkflowFormats.test_json_array_workflow_is_unparseable) ... ok
+2026-11-10T05:47:40.1610438Z test_json_duplicate_keys_and_non_run_paths_are_refused (tests.test_g11_workflow_formats.WorkflowFormats.test_json_duplicate_keys_and_non_run_paths_are_refused) ... ok
+2026-11-10T05:47:40.1612955Z test_json_noop_step_is_failing (tests.test_g11_workflow_formats.WorkflowFormats.test_json_noop_step_is_failing) ... ok
+2026-11-10T05:47:40.1615191Z test_json_workflow_recognizes_only_job_step_runs (tests.test_g11_workflow_formats.WorkflowFormats.test_json_workflow_recognizes_only_job_step_runs) ... ok
+2026-11-10T05:47:40.1617027Z test_non_noop_json_run_is_not_a_noop (tests.test_g11_workflow_formats.WorkflowFormats.test_non_noop_json_run_is_not_a_noop) ... ok
+2026-11-10T05:47:40.1618794Z test_nonstandard_json_constant_is_unparseable (tests.test_g11_workflow_formats.WorkflowFormats.test_nonstandard_json_constant_is_unparseable) ... ok
+2026-11-10T05:47:40.1620584Z test_nonstring_json_run_is_unparseable (tests.test_g11_workflow_formats.WorkflowFormats.test_nonstring_json_run_is_unparseable) ... ok
+2026-11-10T05:47:40.1641883Z test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) ... 
+2026-11-10T05:47:40.1644300Z   test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) (interpreter='bash', option='-n') ... FAIL
+2026-11-10T05:47:40.1659912Z   test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) (interpreter='sh', option='-n') ... FAIL
+2026-11-10T05:47:40.1680634Z   test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) (interpreter='bash', option='--version') ... FAIL
+2026-11-10T05:47:40.1696630Z   test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) (interpreter='sh', option='--version') ... FAIL
+2026-11-10T05:47:40.1698123Z 
+2026-11-10T05:47:40.1698360Z ======================================================================
+2026-11-10T05:47:40.1700028Z FAIL: test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='-V')
+2026-11-10T05:47:40.1701694Z ----------------------------------------------------------------------
+2026-11-10T05:47:40.1702305Z Traceback (most recent call last):
+2026-11-10T05:47:40.1703582Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 124, in test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference
+2026-11-10T05:47:40.1704735Z     self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())
+2026-11-10T05:47:40.1705604Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:40.1706128Z 'tools/cbz/g11_origin_mutation_selftest.py'
+2026-11-10T05:47:40.1706421Z 
+2026-11-10T05:47:40.1706586Z ======================================================================
+2026-11-10T05:47:40.1707957Z FAIL: test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='--version')
+2026-11-10T05:47:40.1709492Z ----------------------------------------------------------------------
+2026-11-10T05:47:40.1710268Z Traceback (most recent call last):
+2026-11-10T05:47:40.1711363Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 124, in test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference
+2026-11-10T05:47:40.1712489Z     self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())
+2026-11-10T05:47:40.1713138Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:40.1713683Z 'tools/cbz/g11_origin_mutation_selftest.py'
+2026-11-10T05:47:40.1713976Z 
+2026-11-10T05:47:40.1714145Z ======================================================================
+2026-11-10T05:47:40.1715905Z FAIL: test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='--help')
+2026-11-10T05:47:40.1717324Z ----------------------------------------------------------------------
+2026-11-10T05:47:40.1717825Z Traceback (most recent call last):
+2026-11-10T05:47:40.1718900Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 124, in test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference
+2026-11-10T05:47:40.1720084Z     self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())
+2026-11-10T05:47:40.1720834Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:40.1721441Z 'tools/cbz/g11_origin_mutation_selftest.py'
+2026-11-10T05:47:40.1721777Z 
+2026-11-10T05:47:40.1721974Z ======================================================================
+2026-11-10T05:47:40.1723573Z FAIL: test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='-cprint(1)')
+2026-11-10T05:47:40.1725400Z ----------------------------------------------------------------------
+2026-11-10T05:47:40.1726003Z Traceback (most recent call last):
+2026-11-10T05:47:40.1727167Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 124, in test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference
+2026-11-10T05:47:40.1728422Z     self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())
+2026-11-10T05:47:40.1729113Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:40.1729606Z 'tools/cbz/g11_origin_mutation_selftest.py'
+2026-11-10T05:47:40.1729890Z 
+2026-11-10T05:47:40.1730045Z ======================================================================
+2026-11-10T05:47:40.1731497Z FAIL: test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) (option='-mjson.tool')
+2026-11-10T05:47:40.1733064Z ----------------------------------------------------------------------
+2026-11-10T05:47:40.1733667Z Traceback (most recent call last):
+2026-11-10T05:47:40.1735128Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 124, in test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference
+2026-11-10T05:47:40.1736459Z     self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())
+2026-11-10T05:47:40.1737221Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:40.1737846Z 'tools/cbz/g11_origin_mutation_selftest.py'
+2026-11-10T05:47:40.1738205Z 
+2026-11-10T05:47:40.1738397Z ======================================================================
+2026-11-10T05:47:40.1739919Z FAIL: test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) (interpreter='bash', option='-n')
+2026-11-10T05:47:40.1741439Z ----------------------------------------------------------------------
+2026-11-10T05:47:40.1742036Z Traceback (most recent call last):
+2026-11-10T05:47:40.1743127Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 142, in test_shell_no_execution_options_are_not_tool_references
+2026-11-10T05:47:40.1744518Z     self.assertEqual(g11.workflow_tool_references(text, {shell_tool}), set())
+2026-11-10T05:47:40.1745453Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:40.1746035Z 'tools/cbz/example_guard.sh'
+2026-11-10T05:47:40.1746302Z 
+2026-11-10T05:47:40.1746504Z ======================================================================
+2026-11-10T05:47:40.1747875Z FAIL: test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) (interpreter='sh', option='-n')
+2026-11-10T05:47:40.1749416Z ----------------------------------------------------------------------
+2026-11-10T05:47:40.1750205Z Traceback (most recent call last):
+2026-11-10T05:47:40.1751294Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 142, in test_shell_no_execution_options_are_not_tool_references
+2026-11-10T05:47:40.1752354Z     self.assertEqual(g11.workflow_tool_references(text, {shell_tool}), set())
+2026-11-10T05:47:40.1753111Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:40.1753647Z 'tools/cbz/example_guard.sh'
+2026-11-10T05:47:40.1753891Z 
+2026-11-10T05:47:40.1754069Z ======================================================================
+2026-11-10T05:47:40.1755699Z FAIL: test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) (interpreter='bash', option='--version')
+2026-11-10T05:47:40.1757160Z ----------------------------------------------------------------------
+2026-11-10T05:47:40.1757694Z Traceback (most recent call last):
+2026-11-10T05:47:40.1758742Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 142, in test_shell_no_execution_options_are_not_tool_references
+2026-11-10T05:47:40.1759888Z     self.assertEqual(g11.workflow_tool_references(text, {shell_tool}), set())
+2026-11-10T05:47:40.1760634Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:40.1761188Z 'tools/cbz/example_guard.sh'
+2026-11-10T05:47:40.1761441Z 
+2026-11-10T05:47:40.1761620Z ======================================================================
+2026-11-10T05:47:40.1763048Z FAIL: test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) (interpreter='sh', option='--version')
+2026-11-10T05:47:40.1764511Z ----------------------------------------------------------------------
+2026-11-10T05:47:40.1765272Z Traceback (most recent call last):
+2026-11-10T05:47:40.1766340Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 142, in test_shell_no_execution_options_are_not_tool_references
+2026-11-10T05:47:40.1767526Z     self.assertEqual(g11.workflow_tool_references(text, {shell_tool}), set())
+2026-11-10T05:47:40.1768275Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:47:40.1768835Z 'tools/cbz/example_guard.sh'
+2026-11-10T05:47:40.1769087Z 
+2026-11-10T05:47:40.1769333Z ----------------------------------------------------------------------
+2026-11-10T05:47:40.1769856Z Ran 15 tests in 0.095s
+2026-11-10T05:47:40.1770083Z 
+2026-11-10T05:47:40.1770217Z FAILED (failures=9)
+2026-11-10T05:47:40.1832701Z ##[error]Process completed with exit code 1.
+2026-11-10T05:47:40.1930189Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+2026-11-10T05:47:40.1930615Z with:
+2026-11-10T05:47:40.1930854Z   name: cbz-g11-workflow-formats-42764317867-1
+2026-11-10T05:47:40.1931456Z   path: /home/runner/work/_temp/g11-workflow-formats-normal.log
+/home/runner/work/_temp/g11-workflow-formats-optimized.log
+
+2026-11-10T05:47:40.1932027Z   if-no-files-found: error
+2026-11-10T05:47:40.1932257Z   retention-days: 90
+2026-11-10T05:47:40.1932473Z   compression-level: 6
+2026-11-10T05:47:40.1932691Z   overwrite: false
+2026-11-10T05:47:40.1932900Z   include-hidden-files: false
+2026-11-10T05:47:40.1933291Z   archive: true
+2026-11-10T05:47:40.1933479Z env:
+2026-11-10T05:47:40.1933727Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:47:40.1934159Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:47:40.1934585Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:47:40.1935310Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:47:40.1935727Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:47:40.1936115Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:47:40.1936437Z ##[endgroup]
+2026-11-10T05:47:40.3405880Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-11-10T05:47:40.3411145Z The least common ancestor is /home/runner/work/_temp. This will be the root directory of the artifact
+2026-11-10T05:47:40.3412068Z With the provided path, there will be 2 files uploaded
+2026-11-10T05:47:40.3425855Z Artifact name is valid!
+2026-11-10T05:47:40.3435697Z Root directory input is valid!
+2026-11-10T05:47:40.5691399Z Uploading artifact: cbz-g11-workflow-formats-42764317867-1.zip
+2026-11-10T05:47:40.5732554Z Beginning upload of artifact content to blob storage
+2026-11-10T05:47:40.6510143Z Uploaded bytes 2048
+2026-11-10T05:47:40.6656349Z Finished uploading artifact content to blob storage!
+2026-11-10T05:47:40.6657677Z SHA256 digest of uploaded artifact is 79aa6f229440d0a7cac9407ebe21dbe50863430665e13c4140556935621555eb
+2026-11-10T05:47:40.6658785Z Finalizing artifact upload
+2026-11-10T05:47:41.0273327Z Artifact cbz-g11-workflow-formats-42764317867-1 successfully finalized. Artifact ID 13738777653
+2026-11-10T05:47:41.0275562Z Artifact cbz-g11-workflow-formats-42764317867-1 has been successfully uploaded! Final size is 2048 bytes. Artifact ID is 13738777653
+2026-11-10T05:47:41.0278485Z Artifact download URL: https://github.com/d6g8k5htny-coder/main/actions/runs/42764317867/artifacts/13738777653
+2026-11-10T05:47:41.0416740Z ##[group]Run printf 'normal=%s optimized=%s\n' "$NORMAL" "$OPTIMIZED"
+2026-11-10T05:47:41.0417282Z [36;1mprintf 'normal=%s optimized=%s\n' "$NORMAL" "$OPTIMIZED"[0m
+2026-11-10T05:47:41.0417718Z [36;1mtest "$NORMAL" = success && test "$OPTIMIZED" = success[0m
+2026-11-10T05:47:41.0438939Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T05:47:41.0439294Z env:
+2026-11-10T05:47:41.0439564Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:47:41.0440018Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:47:41.0440469Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:47:41.0440874Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:47:41.0441287Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:47:41.0441698Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:47:41.0442040Z   NORMAL: failure
+2026-11-10T05:47:41.0442289Z   OPTIMIZED: failure
+2026-11-10T05:47:41.0442510Z ##[endgroup]
+2026-11-10T05:47:41.0485528Z normal=failure optimized=failure
+2026-11-10T05:47:41.0488850Z ##[error]Process completed with exit code 1.
+2026-11-10T05:47:41.0586520Z Post job cleanup.
+2026-11-10T05:47:41.1440356Z [command]/usr/bin/git version
+2026-11-10T05:47:41.1489517Z git version 2.56.0
+2026-11-10T05:47:41.1529797Z Temporarily overriding HOME='/home/runner/work/_temp/1feacee1-80c3-417c-a2d8-b7ffc26550a6' before making global git config changes
+2026-11-10T05:47:41.1531103Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T05:47:41.1539557Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T05:47:41.1577008Z Removing SSH command configuration
+2026-11-10T05:47:41.1581674Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T05:47:41.1636887Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T05:47:41.1926712Z Removing HTTP extra header
+2026-11-10T05:47:41.1933097Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T05:47:41.1986880Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T05:47:41.2266536Z Removing includeIf entries pointing to credentials config files
+2026-11-10T05:47:41.2273135Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T05:47:41.2323510Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T05:47:41.2792101Z Cleaning up orphan processes
+2026-11-10T05:47:41.3172420Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

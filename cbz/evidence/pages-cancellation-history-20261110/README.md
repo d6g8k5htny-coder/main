@@ -1,0 +1,3 @@
+# Historical Pages cancellation request
+
+The exact prepared deployment's original workflow run `42737966287`, attempt 2, deploy job `129594477275`, reported timeout after `syncing_files` and then logged `Canceled deployment with ID 6d928a3216233fb75dc717ee0b2d2e4bb08db266` at 02:55 UTC. That is the action's recorded outcome; later authenticated status reads at 04:33 and 04:48 returned HTTP 200 with an empty status, not `deployment_cancelled`. The response does not independently establish the terminal state required by the recovery guard. The complete decoded failure log is preserved. No new cancellation or receipt write was made by this evidence capture.

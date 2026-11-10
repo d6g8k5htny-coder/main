@@ -1,0 +1,50 @@
+name: CBZ verify retained publication artifact bytes
+on:
+  push:
+    branches: [codex/cbz-architecture-observation-20261110]
+permissions:
+  actions: read
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Compare Git bytes to source artifacts and adverse controls
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/cbz-retained-zip"
+          for pair in publisher:13735390469 recovery:13734861854; do
+            name="${pair%%:*}"; id="${pair#*:}"
+            curl --fail --silent --show-error --location --max-time 60 -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/$id/zip" --output "$RUNNER_TEMP/cbz-retained-zip/$name.zip"
+          done
+          python3 -I -B -S - "$RUNNER_TEMP/cbz-retained-zip" <<'PY'
+          import hashlib, json, pathlib, sys, zipfile
+          root = pathlib.Path(sys.argv[1])
+          evidence = pathlib.Path('cbz/evidence/current-publication-artifacts-20261110')
+          expected = {
+              'publisher': ('0fa1e3136e5313a9a1efebc2925187e4e8f51e04199ec8cf32676ff1bb2a8e35', 279671, 81),
+              'recovery': ('e095ca2da66e8588d0504f10ea21ac4cf66804a8aa5e8f8f8ac69a4d8a662eef', 380889, 241),
+          }
+          def admit(data, original, digest, size):
+              return data == original and len(data) == size and hashlib.sha256(data).hexdigest() == digest
+          for name, (digest, size, count) in expected.items():
+              raw = (evidence / (name + '.zip')).read_bytes()
+              downloaded = (root / (name + '.zip')).read_bytes()
+              if not admit(raw, downloaded, digest, size): raise ValueError('retained ZIP mismatch')
+              with zipfile.ZipFile(evidence / (name + '.zip')) as archive:
+                  names = archive.namelist()
+                  if len(names) != count or len(set(names)) != count or archive.testzip() is not None:
+                      raise ValueError('ZIP member count, uniqueness or CRC mismatch')
+              changed = bytearray(raw); changed[len(changed) // 2] ^= 1
+              if admit(bytes(changed), downloaded, digest, size): raise ValueError('changed byte admitted')
+              if admit(raw[:-1], downloaded, digest, size): raise ValueError('truncation admitted')
+              if admit(raw, downloaded, '0' * 64, size): raise ValueError('wrong digest admitted')
+              print(json.dumps({'artifact':name,'sha256':digest,'bytes':size,'entries':count,'git_equals_artifact':True,'crc':'PASS','adverse_refusals':3}, sort_keys=True))
+          PY

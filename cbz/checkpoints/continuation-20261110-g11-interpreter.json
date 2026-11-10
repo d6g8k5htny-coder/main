@@ -1,0 +1,78 @@
+{
+  "date": "2026-11-10",
+  "kind": "source-bound continuation; not CBZ or terminal partial",
+  "main_default": "964390a94c08f00f119dc3b2e0be16180c1544e2",
+  "workspace_default": "47221adf89749dc226e8e3578af2f8fd7c16ea20",
+  "workspace_main_pin": "964390a94c08f00f119dc3b2e0be16180c1544e2",
+  "draft": {
+    "pr": 804,
+    "head": "ef2903b4028ca369223ff2128cc5f81ca6749ee0",
+    "tree": "8a26d14e12f20ea82c6cec1f134b18de5d55505b",
+    "state": "draft; do not integrate this head due to adverse interpreter findings"
+  },
+  "component": {
+    "source_commit": "764d20556eafbf61b373fbf10be859c0ed4c8475",
+    "census_blob": "904a4e417a7565918412c599bfcbdbdd420c9515",
+    "grader_blob": "6d6d8fd951c5386626caed81a43d377b19a036f6",
+    "census_test_blob": "d29f90b5d783297867cd078668ae9dc9b512801e",
+    "format_test_blob": "516e0c00b7d484d5dfe7802fa9b5f7d41f4cae57",
+    "format_mutation_blob": "1dce19dc61ccbdedfc34a6fb5ec5afeb8bc034f4",
+    "quick_run": 42764811971,
+    "quick_result": "18 format tests per mode passed on e918; census and format-test blobs match",
+    "mutation_format_run": 42764811708,
+    "mutation_format_result": "19 mutations per mode passed on e918; original campaign stopped on missing shell target, optimized original skipped",
+    "preflight_run": 42764942230,
+    "preflight_result": "328 original and 19 format target identities checked; adapted shell -c case actually killed in both modes on 90f; test-seal constant updated afterwards",
+    "full_run": 42765075896,
+    "full_result_at_observation": "completed SUCCESS on 764d: 265 census controls, 12 origin controls, 7 origin mutations, 18 format controls, 19 format mutations, 328 original named mutations per mode; 708 mutant records individually parsed",
+    "artifact": {
+      "id": 13739088970,
+      "sha256_reported_by_github": "469846303fd3d92b164f4215a5fd9cbf97851d1878574cdd67d7e2d97bc65b00",
+      "independently_verified": true,
+      "verification_run": 42765703024,
+      "git_blob": "bc860708411c830f85e95a35a0b74104c59c1309",
+      "git_readback": "byte-identical"
+    }
+  },
+  "preserved_adverse_runs": [
+    42764251621,
+    42764317867,
+    42764419760,
+    42764251561,
+    42764317723,
+    42764419811,
+    42764722321,
+    42764722548,
+    42764566342,
+    42764811708,
+    42764942455
+  ],
+  "historical_composed_census": {
+    "run": 42764099456,
+    "result": "PASS normal and optimized on ef290; subsequently exposed interpreter attribution defect limits result",
+    "artifact": 13739226619,
+    "artifact_sha256_reported_by_github": "d62c42e871159133e789f7693f1f04dcf0cfc787e8284cad21b334208ef542ae",
+    "independently_unpacked": true,
+    "native_blob": "e3ded3e03d48fba2413b54089d625ae5eeee6340",
+    "native_readback": "byte-identical"
+  },
+  "prior_format_component": {
+    "run": 42763520074,
+    "source": "d061ac0967fd35c311defd5f228502420755aa31",
+    "results": "265 census controls,12 origin tests,7 origin mutations,13 format tests,13 format mutations,328 original mutations in each mode; full log independently parsed",
+    "limitation": "interpreter flaw was subsequently demonstrated"
+  },
+  "next": [
+    "Compose verified source into existing #804 with fresh-head CAS and append truthful canonical records.",
+    "Run new exact-candidate census in both modes and normal required checks; preserve originals.",
+    "After normal integration, refresh Workspace pin against current Main; no final G7 or G11 from scoped observations."
+  ],
+  "math": "No historical mathematical statement or kernel result was rebound. Scientific review and acceptance are not inferred.",
+  "sealed_inventory": {
+    "prior": "97820c30570ab5dd2d72842d94495e1b0d695bd1307f43124a25db7535d09691",
+    "adapted": "d5a22f00dd281026ec6535d6dd8aa81695f3e2968d050bb15ac2c553fa743cdd",
+    "one_mutation": "shell -c path mention counts as execution",
+    "old_definition": "cbz/evidence/g11-interpreter-target-missing-20261110/original-harness.py.txt",
+    "note": "328 mutation names retained; one target and replacement explicitly adapted, prior bytes preserved; do not claim all original definitions unchanged."
+  }
+}

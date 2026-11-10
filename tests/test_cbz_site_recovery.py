@@ -182,6 +182,8 @@ class SiteRecoveryTests(unittest.TestCase):
         self.assertEqual(self.refusal_observation(), ('prepared Pages deployment is not confirmed canceled', self.failed['head'], []))
         self.platform.deployment['status'] = 'deployment_lost'
         self.assertEqual(self.refusal_observation(), ('prepared Pages deployment is not confirmed canceled', self.failed['head'], []))
+        self.platform.deployment['status'] = ''
+        self.assertEqual(self.refusal_observation(), ('prepared Pages deployment is not confirmed canceled', self.failed['head'], []))
 
     def test_current_main_mismatch_refuses(self):
         self.platform.main = 'e' * 40

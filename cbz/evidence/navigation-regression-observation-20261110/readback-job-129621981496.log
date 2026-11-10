@@ -1,0 +1,66 @@
+﻿2026-11-10T04:03:34.5907132Z Current runner version: '2.338.2'
+2026-11-10T04:03:34.5930111Z ##[group]Runner Image Provisioner
+2026-11-10T04:03:34.5931158Z Hosted Compute Agent
+2026-11-10T04:03:34.5931764Z Version: 20261028.624
+2026-11-10T04:03:34.5932452Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T04:03:34.5933366Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T04:03:34.5934053Z Worker ID: {dc8c6937-b8af-429d-bbe9-3e998c77d842}
+2026-11-10T04:03:34.5934778Z Region: westcentralus
+2026-11-10T04:03:34.5935323Z Cloud: Azure
+2026-11-10T04:03:34.5935856Z ##[endgroup]
+2026-11-10T04:03:34.5937497Z ##[group]Operating System
+2026-11-10T04:03:34.5938143Z Ubuntu
+2026-11-10T04:03:34.5938682Z 24.04.5
+2026-11-10T04:03:34.5939167Z LTS
+2026-11-10T04:03:34.5939679Z ##[endgroup]
+2026-11-10T04:03:34.5940194Z ##[group]Runner Image
+2026-11-10T04:03:34.5940728Z Image: ubuntu-24.04
+2026-11-10T04:03:34.5941318Z Version: 20261101.360.1
+2026-11-10T04:03:34.5942491Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T04:03:34.5944128Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T04:03:34.5945021Z ##[endgroup]
+2026-11-10T04:03:34.5946198Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T04:03:34.5948138Z Actions: read
+2026-11-10T04:03:34.5948728Z Contents: read
+2026-11-10T04:03:34.5949256Z Metadata: read
+2026-11-10T04:03:34.5949858Z ##[endgroup]
+2026-11-10T04:03:34.5951876Z Secret source: Actions
+2026-11-10T04:03:34.5953290Z Cache mode: write
+2026-11-10T04:03:34.5954140Z Prepare workflow directory
+2026-11-10T04:03:34.6250623Z Prepare all required actions
+2026-11-10T04:03:34.6371349Z Complete job name: inspect
+2026-11-10T04:03:34.7467882Z ##[group]Run set -euo pipefail
+2026-11-10T04:03:34.7469144Z [36;1mset -euo pipefail[0m
+2026-11-10T04:03:34.7470359Z [36;1marchive="$RUNNER_TEMP/navigation-artifact.zip"[0m
+2026-11-10T04:03:34.7471435Z [36;1mulimit -f 8192[0m
+2026-11-10T04:03:34.7474455Z [36;1mcurl --fail --silent --show-error --location --max-time 60 -H "Authorization: ***" -H 'Accept: application/vnd.github+json' 'https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13733993008/zip' --output "$archive"[0m
+2026-11-10T04:03:34.7477527Z [36;1mpython3 -I -B -S - "$archive" <<'PY'[0m
+2026-11-10T04:03:34.7478633Z [36;1mimport hashlib, json, pathlib, re, sys, zipfile[0m
+2026-11-10T04:03:34.7479929Z [36;1mpath = pathlib.Path(sys.argv[1])[0m
+2026-11-10T04:03:34.7481169Z [36;1mif path.stat().st_size > 2 * 1024 * 1024: raise ValueError('archive bound')[0m
+2026-11-10T04:03:34.7482643Z [36;1mraw = path.read_bytes(); digest = hashlib.sha256(raw).hexdigest()[0m
+2026-11-10T04:03:34.7484957Z [36;1mif digest != '0e7d59f9e976f3da5f21415be6a691df8d853e2430f94dd7663d656b72eeac7b': raise ValueError('archive digest')[0m
+2026-11-10T04:03:34.7486742Z [36;1mwith zipfile.ZipFile(path) as archive:[0m
+2026-11-10T04:03:34.7488096Z [36;1m    entries = archive.infolist(); names = [x.filename for x in entries][0m
+2026-11-10T04:03:34.7490221Z [36;1m    if len(entries) > 1000 or len(names) != len(set(names)) or sum(x.file_size for x in entries) > 64 * 1024 * 1024: raise ValueError('archive population or size')[0m
+2026-11-10T04:03:34.7492637Z [36;1m    if any(n.startswith('/') or '..' in n.split('/') or '\\' in n for n in names): raise ValueError('unsafe archive name')[0m
+2026-11-10T04:03:34.7494497Z [36;1m    if archive.testzip() is not None: raise ValueError('archive CRC')[0m
+2026-11-10T04:03:34.7495792Z [36;1m    def get(name):[0m
+2026-11-10T04:03:34.7497002Z [36;1m        found = [x for x in entries if x.filename == name or x.filename.endswith('/' + name)][0m
+2026-11-10T04:03:34.7499003Z [36;1m        if len(found) != 1 or found[0].file_size > 32 * 1024 * 1024: raise ValueError('missing or ambiguous bounded member: ' + name)[0m
+2026-11-10T04:03:34.7500700Z [36;1m        return archive.read(found[0]).decode('utf-8')[0m
+2026-11-10T04:03:34.7501796Z [36;1m    commit = get('commit.txt').strip()[0m
+2026-11-10T04:03:34.7503754Z [36;1m    if commit != '8943bd095d8e99c27318b71c317957cccad700b6': raise ValueError('tested merge mismatch')[0m
+2026-11-10T04:03:34.7505308Z [36;1m    log = get('tests-normal.log')[0m
+2026-11-10T04:03:34.7506456Z [36;1m    summaries = re.findall(r'(?m)^Ran [0-9]+ tests? in [0-9.]+s$', log)[0m
+2026-11-10T04:03:34.7508015Z [36;1m    footers = re.findall(r'(?m)^(?:OK|FAILED)(?: \([^\n]*\))?$', log)[0m
+2026-11-10T04:03:34.7509428Z [36;1m    skipped = [line for line in log.splitlines() if ' ... skipped ' in line][0m
+2026-11-10T04:03:34.7511104Z [36;1m    if len(summaries) != 1 or len(footers) != 1: raise ValueError('ambiguous test summary')[0m
+2026-11-10T04:03:34.7514195Z [36;1m    print(json.dumps({'run_id': 42751061652, 'artifact_id': 13733993008, 'sha256': digest, 'members': len(entries), 'crc': 'PASS', 'tested_merge': commit, 'summary': summaries[0], 'footer': footers[0], 'explicit_skip_lines': skipped}, sort_keys=True))[0m
+2026-11-10T04:03:34.7516741Z [36;1mPY[0m
+2026-11-10T04:03:34.7794359Z shell: /usr/bin/bash -e {0}
+2026-11-10T04:03:34.7795260Z env:
+2026-11-10T04:03:34.7799291Z   GH_TOKEN: ***
+2026-11-10T04:03:34.7799823Z ##[endgroup]
+2026-11-10T04:03:35.6266222Z {"artifact_id": 13733993008, "crc": "PASS", "explicit_skip_lines": ["test_kernel_enforces_cpu_memory_and_process_limits (test_architecture_sandbox.ArchitectureSandbox.test_kernel_enforces_cpu_memory_and_process_limits) ... skipped 'requires hosted restricted container'", "test_network_namespace_has_no_external_interface_or_route (test_architecture_sandbox.ArchitectureSandbox.test_network_namespace_has_no_external_interface_or_route) ... skipped 'requires hosted restricted container'", "test_nonroot_and_no_new_privileges (test_architecture_sandbox.ArchitectureSandbox.test_nonroot_and_no_new_privileges) ... skipped 'requires hosted restricted container'", "test_output_quota_stops_disk_exhaustion_and_cleanup_recovers_space (test_architecture_sandbox.ArchitectureSandbox.test_output_quota_stops_disk_exhaustion_and_cleanup_recovers_space) ... skipped 'requires hosted restricted container'", "test_source_mount_is_read_only_and_environment_has_no_publishing_secret (test_architecture_sandbox.ArchitectureSandbox.test_source_mount_is_read_only_and_environment_has_no_publishing_secret) ... skipped 'requires hosted restricted container'", "test_keyboard_focus_ring_fits_inside_the_list_scroll_boundary (test_atlas_focus_geometry.AtlasListFocusGeometry.test_keyboard_focus_ring_fits_inside_the_list_scroll_boundary) ... skipped 'Optional Playwright and local Chromium are required'", "test_new_selection_after_a_long_read_keeps_its_heading_visible (test_atlas_reader_scroll.AtlasReaderScroll.test_new_selection_after_a_long_read_keeps_its_heading_visible) ... skipped 'Optional Playwright and a local Chromium browser are required'", "test_actual_clean_and_omitted_constants (test_formal_compiled_inventory.PinnedLeanInventoryTests.test_actual_clean_and_omitted_constants) ... skipped 'pinned Lean unavailable'", "test_real_package_executes_with_receipt (test_formal_gate.RepositoryControls.test_real_package_executes_with_receipt) ... skipped 'Lean toolchain not installed'", "test_real_records_cited_artifacts_when_present (test_living_project_validation.RealRecordTests.test_real_records_cited_artifacts_when_present) ... skipped 'no real record cites repo artifact paths; missing-artifact checks are not exercised'", "test_real_records_dependencies_when_present (test_living_project_validation.RealRecordTests.test_real_records_dependencies_when_present) ... skipped 'no real record carries depends_on; dependency checks are not exercised. depends_on is not interface v0. Dependency validation is not proof verification.'", "test_real_records_fresh_against_live_source_head (test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head) ... skipped 'fresh records eng.d0-packet-allowlist-fix, math.lifetime-remainder, math.side24-coefficient are not compared to a live source head; tools/validate_node_status.py performs no network fetch, so this check is skipped instead of passed'", "test_real_records_owner_released_url_consistency (test_living_project_validation.RealRecordTests.test_real_records_owner_released_url_consistency) ... skipped 'every real record has owner null; owner/released_url consistency is not exercised (released_url must stay on the owner object and must not clear it)'", "test_changed_byte_is_not_hidden (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_changed_byte_is_not_hidden) ... skipped 'installed pytest required'", "test_clean_root_run_prevents_package_bytecode (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_clean_root_run_prevents_package_bytecode) ... skipped 'installed pytest required'", "test_dirty_bytecode_is_preserved_and_rejected (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_dirty_bytecode_is_preserved_and_rejected) ... skipped 'installed pytest required'", "test_discovery_keeps_neighbours_and_same_basename (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_discovery_keeps_neighbours_and_same_basename) ... skipped 'installed pytest required'", "test_empty_cache_directory_is_accepted (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_empty_cache_directory_is_accepted) ... skipped 'installed pytest required'", "test_exclusion_is_exact (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_exclusion_is_exact) ... skipped 'installed pytest required'", "test_explicit_B_baseline_works (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_explicit_B_baseline_works) ... skipped 'installed pytest required'", "test_extra_file_is_not_hidden (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_extra_file_is_not_hidden) ... skipped 'installed pytest required'", "test_missing_file_is_not_hidden (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_missing_file_is_not_hidden) ... skipped 'installed pytest required'", "test_neighbour_failures_are_not_suppressed (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_neighbour_failures_are_not_suppressed) ... skipped 'installed pytest required'"], "footer": "OK (skipped=23)", "members": 7, "run_id": 42751061652, "sha256": "0e7d59f9e976f3da5f21415be6a691df8d853e2430f94dd7663d656b72eeac7b", "summary": "Ran 2720 tests in 736.918s", "tested_merge": "8943bd095d8e99c27318b71c317957cccad700b6"}
+2026-11-10T04:03:35.6463974Z Cleaning up orphan processes

@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_checkpoint_20261110_input/cbz-custody-isolated-7uxmvk23/text-custody/verify_captured_text_blobs.py", line 15, in <module>
+    if subprocess.check_output(['git','--no-lazy-fetch','-C',a.repo,'rev-parse',head+'^{tree}'],stderr=subprocess.PIPE).strip().decode()!=v['tree']:raise ValueError('head tree identity')
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', '--no-lazy-fetch', '-C', '/workspace/scratch/7abea556a9be/cbz_checkpoint_20261110_input/cbz-custody-isolated-7uxmvk23/text-custody/large-nonancestor-tree-20261110/Math-/selected-text-sources/cold-check/cold.git', 'rev-parse', '00d06a4b3acd0ba4d7a224fcb166ad124fe2d253^{tree}']' returned non-zero exit status 128.

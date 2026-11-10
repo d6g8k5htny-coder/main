@@ -1,0 +1,5 @@
+# Independently verified G11 provenance artifact
+
+Run 42763610405, job 129654833382, independently downloaded hosted artifact 13738108831 without forwarding the GitHub token to its signed redirect. It verified the original 67,548-byte ZIP SHA-256 dd7a9ea89dd4762e8c978324af0cece67bce2f48ae4fe9d6cdbcf52eefd81a0a, two unique members and all ZIP CRCs. The normal and optimized JSON reports were each 919,315 bytes, with SHA-256 399ce2dfbce47cd86341e752cff65c9c00a24e6884165602fa742eae43e124a5 and abbe200f284f60cb5af9f3e749682a102d348d4d86de8c69f5e81bf008283234, respectively. All 656 original mutation records had a clean baseline, one actual selected-body failure, no errors/skips, the expected line and preserved authorized live-origin frames. Names were unique in each mode and matched across modes. The exact ZIP, verifier source, workflow and original full log are retained here.
+
+The artifact belongs to debug commit b65ebdbbc6af587af2c6706105286edcbbfeb531 before subsequent G11 scanner changes. It is scoped component evidence, not current composed-tree or final federation G11 qualification.

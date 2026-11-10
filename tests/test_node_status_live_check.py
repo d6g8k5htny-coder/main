@@ -26,6 +26,7 @@ RECORD_NAMES = (
 )
 FRESH_NODES = [
     "eng.d0-packet-allowlist-fix",
+    "eng.hard-gate",
     "math.lifetime-remainder",
     "math.side24-coefficient",
 ]
@@ -138,17 +139,15 @@ class NodeStatusLiveContract(unittest.TestCase):
         before = self.snapshot()
         result = self.evaluate(module)
         self.assertEqual(result["records_total"], 4)
-        self.assertEqual(result["fresh_candidates"], 3)
-        self.assertEqual(result["fresh_checked"], 3)
+        self.assertEqual(result["fresh_candidates"], 4)
+        self.assertEqual(result["fresh_checked"], 4)
         self.assertEqual(result["fresh_nodes"], FRESH_NODES)
-        self.assertEqual(result["nonfresh_records"], [
-            {"node_id": "eng.hard-gate", "declared_status": "stale"}
-        ])
+        self.assertEqual(result["nonfresh_records"], [])
         self.assertEqual(result["input_sha256"], {name: sha(raw) for name, raw in before.items()})
         self.assertEqual(result["identity"], self.identity)
         self.assertEqual(result["observed_heads"], {"Math-": HEAD})
-        self.assertEqual(result["source_observation_count"], 10)
-        self.assertEqual(len(result["source_observations"]), 10)
+        self.assertEqual(result["source_observation_count"], 12)
+        self.assertEqual(len(result["source_observations"]), 12)
         self.assertEqual(result["scientific_effect"], "NONE")
         self.assertIs(result["cbz_green"], False)
         self.assertEqual(self.snapshot(), before)
@@ -219,9 +218,15 @@ class NodeStatusLiveContract(unittest.TestCase):
 
     def test_changed_cited_git_object_refuses(self):
         module = self.subject()
-        url = "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/coefficients/side24_v1/PROOF.md"
-        with self.assertRaises(module.LiveCheckError):
-            self.evaluate(module, SyntheticSourceObserver(changed=url))
+        urls = (
+            "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/coefficients/side24_v1/PROOF.md",
+            "https://github.com/d6g8k5htny-coder/Math-/blob/9bdfc54b76173b57912503bfcf901a5f9d43b09c/frontiers/downstream_gate_20260925/GRAPH.json",
+            "https://github.com/d6g8k5htny-coder/Math-/tree/9bdfc54b76173b57912503bfcf901a5f9d43b09c/frontiers/downstream_gate_20260925",
+        )
+        for url in urls:
+            with self.subTest(url=url):
+                with self.assertRaises(module.LiveCheckError):
+                    self.evaluate(module, SyntheticSourceObserver(changed=url))
 
     def test_changed_cited_discussion_timestamp_refuses(self):
         module = self.subject()
@@ -230,8 +235,15 @@ class NodeStatusLiveContract(unittest.TestCase):
 
     def test_unavailable_source_cannot_become_fresh(self):
         module = self.subject()
-        with self.assertRaises(module.LiveCheckError):
-            self.evaluate(module, SyntheticSourceObserver(unavailable=COMMENT))
+        urls = (
+            COMMENT,
+            "https://github.com/d6g8k5htny-coder/Math-/blob/9bdfc54b76173b57912503bfcf901a5f9d43b09c/frontiers/downstream_gate_20260925/GRAPH.json",
+            "https://github.com/d6g8k5htny-coder/Math-/tree/9bdfc54b76173b57912503bfcf901a5f9d43b09c/frontiers/downstream_gate_20260925",
+        )
+        for url in urls:
+            with self.subTest(url=url):
+                with self.assertRaises(module.LiveCheckError):
+                    self.evaluate(module, SyntheticSourceObserver(unavailable=url))
 
     def test_record_byte_drift_even_with_unchanged_json_value_refuses(self):
         module = self.subject()
@@ -325,8 +337,10 @@ class NodeStatusLiveContract(unittest.TestCase):
         with patch.dict(os.environ, {"GITHUB_TOKEN": "SYNTHETIC_NOT_A_CREDENTIAL"}):
             with patch.object(module, "ContentObserver", return_value=observer) as factory:
                 result = module.run_live(self.root, identity=self.identity)
-        self.assertEqual(result["fresh_checked"], 3)
-        self.assertEqual(result["source_observation_count"], 10)
+        self.assertEqual(result["fresh_checked"], 4)
+        self.assertEqual(result["fresh_nodes"], FRESH_NODES)
+        self.assertEqual(result["nonfresh_records"], [])
+        self.assertEqual(result["source_observation_count"], 12)
         factory.assert_called_once_with()
 
 

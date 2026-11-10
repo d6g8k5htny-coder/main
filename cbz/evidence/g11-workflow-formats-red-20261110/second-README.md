@@ -1,0 +1,3 @@
+# Workflow-reference regression: exact native fixtures
+
+Hosted run 42762430862, job 129651056215, at debug commit 5b5e1a2a013b976ca7bbfb67d74b0cc1137cd49a used the exact publisher and recovery workflow blobs from candidate 0f7412c5933a97dfa15d84667d176bcc60a130e6. Five methods ran per Python 3.11.18 mode with five failures and no errors: the three actual workflow-reference subcases, an env-unset case and a JSON job-step run case. Unsupported/non-execution env cases and duplicate-key/metadata-only JSON controls passed. The full original job log is retained. The earlier fixture-setup errors remain in first-job.log. These are bounded static-reference defects; a static reference alone is not proof of runtime execution or a final G11 gate.
