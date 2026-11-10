@@ -243,3 +243,106 @@ Append-only. Historical source outcomes remain in their original records.
   parents were verified; postmerge runs require separate observation. Any
   subsequent Main integration needs another guarded pin refresh and does not
   establish an atomic federation vector or a scientific disposition.
+
+## 2026-11-09 — Q-9006 live companion offline contract before implementation
+
+- Phase2 / LayerB. Current real-record live-freshness method always skips.
+  Authentic current inputs exist; preserve their source pins and production
+  cited-object-content-v1 semantics rather than equating whole commit heads.
+- Root read and accepted a separate mandatory read-only live companion design.
+  First publish22 direct offline contracts and a read-only normal/optimized
+  runner with no production module or live token. Initial missing-companion
+  AssertionErrors must be observed and retained before helper implementation.
+  Synthetic external replies and constructor checks earn no live coverage.
+- Future live execution requires actual default production HTTPS observer,
+  authenticated read-only access, complete four-record validation, all three
+  declared-fresh candidates, unchanged schema/graph/record bytes, and exact
+  source/run/mode/counter observations. Stale, unknown, unavailable or partial
+  evidence fails; eng.hard-gate remains explicitly stale. No fallback/retry.
+- Existing dormant test/history and Q-9002--Q-9005 ownership/schema obligations
+  stay unchanged. No mathematical owner, record, disposition, scientific effect,
+  full G5, CBZ-0 or terminal Partial result is manufactured by this draft.
+
+## 2026-11-09 — actual Q-9006 absence and retained-discussion counterexample
+
+- Root independently read run42703408274/attempt1/job129453795288 at
+  head55d2796e170d0de8400eefa57a14667e60e20f56/tree783f2ffe45d795e78a4caf76e2ba6cd3ee558149.
+  Normal22 and optimized22 each failed exactly22 missing-companion assertions,
+  zero errors/skips. All44 failures precede helper import; they are initial
+  implementation absence, not semantic adverse/mutation/live coverage.
+- Author then implemented only the evaluator and mandatory-token/default
+  observer wrapper against unchanged22 contracts, without a CLI or data edits.
+  Fresh static review found a retained-discussion evidence gap: a boundary can
+  return the old timestamp while retaining a newer timestamp. Default current
+  observer is internally consistent; this is an adverse-boundary control gap,
+  not an observed live failure.
+- Add exactly one23rd test against the unchanged helper, preserving all prior
+  assertions. Observe its intended missing-exception assertion and all original
+  bodies before authorizing the minimal consistency guard. Synthetic replies
+  and helper-supplied identities confer no actual HTTPS/execution/scientific
+  credit. Current dormant coverage and Q-9002--Q-9005 remain unchanged.
+
+## 2026-11-09 — observed discussion RED and CLI source-contract phase
+
+- Root independently read run42705281101/attempt1/job129460339539 at
+  head58e0faf28334dcfaf43c648f8c14f80866582510/tree6e2d934f5d19a45812ee27c06a7f2047e05d29c6.
+  Both modes ran23 tests:22old bodies passed, one new retained-discussion
+  counterexample failed with LiveCheckError not raised, zero errors/skips.
+  It returned the old timestamp while retaining one second newer evidence.
+- Author was then authorized to bind every retained discussion timestamp to
+  captured source revisions. The helper now carries URL/revision pairs while
+  preserving observation multiplicities, head/object checks and all23 tests.
+  Actual current-source helper qualification remains required.
+- Add18 separate offline CLI contracts against this still CLI-absent helper.
+  Owned Git fixtures bind actual commit and nine selected bytes; the child
+  harness denies Python HTTP/socket connections and supplies no token. Caller
+  root, run context, source drift, safe output, actual mode and parse/help
+  cases must execute. Subtests can produce33 failures among18 test methods;
+  actual logs determine the count. No CLI implementation is authorized until
+  those expected missing-behavior failures are observed and retained.
+- This phase has no actual HTTPS/live, proof, scientific, fullG5 or CBZ credit.
+  Existing dormant history and Q-9002--Q-9005 remain unchanged. The read-only
+  runner executes both helper and CLI contracts in each mode and retains
+  original logs even when a preceding cell fails.
+
+## 2026-11-10 — source-first freshness CLI and current Main composition
+
+- Root independently read run42708393309/attempt1/job129471163663 atf5f301b:
+  both helper modes passed23 methods; both CLI modes ran18 methods with33
+  intended test-body failures, zero errors/skips. Per mode:27 silent refusal
+  failures, one help failure, four wrong exits and one changed dependency
+  actually executed before binding. No HTTP was performed.
+- After that RED, author implemented only a stdlib CLI bootstrap that verifies
+  native context, actual HEAD/tree, nine raw/blob bindings, output and auth
+  before project imports. All23helper+18CLI contracts remain unchanged.
+- Compose currentMainc32e6f27d318e25708939105285366a7a0daf971 and complete feature ancestry.
+  Preserve every current canonical byte as a prefix and all peer code/workflows.
+  Existing node schema, records, graph, validator and refresh helper stay intact.
+  Math9bdf has unchanged cited file bytes; historical directory staleness remains.
+- Offline41-method controls per mode must pass before the authenticated live
+  job runs. Actual source/run/attempt/mode/exits and endpoint bindings are
+  required; until observed, implementation and live results remain pending.
+  No record, proof, bound, ownership, scientific status or gate threshold changes.
+- Local execution is unavailable. Source and original hosted outcomes remain
+  on GitHub; incomplete local metadata writes are not assumed persisted.
+  Dormant history, Q-9002--Q-9005, fullG5 and CBZ remain unawarded.
+
+## 2026-11-10 — preserve actual freshness observations and import-binding gap
+
+Actual dff06396e6c266b142697cc6e13ed443e0312f2e/tree656b17a4 passed all23helper
+and18CLI methods per Python mode in runs42726210162 and42726210888, attempt1.
+Both actual live modes returnedFRESH:4records,3declared-fresh candidates and10
+observations. Native testedda7f8e49721c6c4d3a6272f070348ec8ea016d83 has ordered
+parents[c32e6f27,dff06396] and identicaltree; all9native source bindings and
+HEAD endpoints matched. eng.hard-gate remains stale; cbz_greenfalse/NONE.
+Original printed reports/logs were read; artifactZIP member bytes were not.
+
+Fresh static review found normal Python imports can select an unbound sibling
+package or timestamp-valid bytecode despite the9bound raw files. Preserve all
+original41methods and add2CLI methods, each covering validator and refresh.
+A fake-token/no-network trace reaches actualrun_live then stops beforebody;
+only actual unbound-code marker absence can pass after phase/binding guards.
+Publish these20CLI controls against unchangedc549e575 production and require
+actual assertionRED before any loader repair. No current positive or live
+qualification follows from this test-only phase. Preserve complete current
+Main da92c829 code/evidence/canonical prefixes and full feature ancestry.
