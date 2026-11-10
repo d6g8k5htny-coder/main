@@ -1,17 +1,22 @@
 # G11 auditor — bounded census, not certification
 
+## Interpreter-option scope
+
+For workflow command references, the bounded parser recognizes supported interpreter flags and fails closed on Python or shell options with unvalidated operands. Version, help, alternate-code and shell syntax-only options do not count as script execution references. This is a static reference census, not proof that a command ran, a full shell parser or a security sandbox. The [actual non-execution cases](../../cbz/evidence/g11-interpreter-module-red-20261110/) and [invalid operand failures](../../cbz/evidence/g11-interpreter-operand-red-20261110/) remain preserved.
+
+
 ## Workflow formats and explicit limits
 
 The census recognizes direct tool commands wrapped in `env -u NAME`, `env --unset NAME` or `env --unset=NAME`, with optional `--`, and strict JSON object workflows at `jobs.*.steps[].run`. Other env options and assignments are not credited. Duplicate keys, nonstandard JSON constants and invalid job/step/run shapes fail closed as unparseable; JSON no-op and unsupported-flow findings use line 0 when an exact source line is unavailable. Static reference recognition does not establish execution, evaluate dynamic conditions, or implement all shell/GitHub workflow semantics.
 
 ```sh
-python3 -B -S -m unittest tests.test_g11_workflow_formats
-python3 -B -S -O -m unittest tests.test_g11_workflow_formats
-python3 -B -S tools/cbz/g11_workflow_formats_mutation_selftest.py
-python3 -B -S -O tools/cbz/g11_workflow_formats_mutation_selftest.py
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest tests.test_g11_workflow_formats
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O -m unittest tests.test_g11_workflow_formats
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_workflow_formats_mutation_selftest.py
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_workflow_formats_mutation_selftest.py
 ```
 
-The prior [composed-tree census failure](../../cbz/evidence/g11-composed-census-20261110/) and actual red tests remain preserved. Thirteen format methods have passed in each mode on the debug source; the newer full mutation campaign and composed-tree census must be verified separately.
+The prior [composed-tree census failure](../../cbz/evidence/g11-composed-census-20261110/) and actual red tests remain preserved. Eighteen format methods and nineteen format mutations passed in each mode on the recorded debug source; that earlier source's original 328 campaign stopped on an absent mutation target. After adaptation and resealing, source `764d20556eafbf61b373fbf10be859c0ed4c8475` completed all 328 named mutations per mode. The current composed census and final federation G11 remain separate.
 
 ## Current assertion-origin guard
 

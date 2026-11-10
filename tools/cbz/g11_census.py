@@ -4602,6 +4602,28 @@ def _workflow_unwrap_env(tokens):
     return []
 
 
+def _workflow_interpreter_options_bounded(tokens):
+    """Refuse interpreter options whose operands are not validated here."""
+    interpreter = tokens[0]
+    if interpreter in {"python", "python3", "python3.11"}:
+        operand_options = {"-W", "-X", "--check-hash-based-pycs"}
+        attached_options = ("-W", "-X")
+    elif interpreter in {"bash", "sh"}:
+        operand_options = {"-O", "+O", "-o", "+o", "--init-file", "--rcfile"}
+        attached_options = ()
+    else:
+        return True
+    for token in tokens[1:]:
+        if token in ("--", "-m"):
+            return True
+        if token in operand_options or any(token.startswith(option) for option in attached_options):
+            return False
+        if token.startswith(("-", "+")):
+            continue
+        return True
+    return True
+
+
 def workflow_tool_references(text, tools):
     references = set()
     for _number, commands in _workflow_reference_commands(text):
@@ -4619,25 +4641,20 @@ def workflow_tool_references(text, tools):
                 tokens = []
             if tokens and tokens[0] == "env":
                 tokens = _workflow_unwrap_env(tokens)
+            if tokens and not _workflow_interpreter_options_bounded(tokens):
+                tokens = []
             if tokens:
-                if tokens[0] in {"python", "python3", "python3.11", "bash", "sh"}:
-                    if "-c" not in tokens[1:]:
-                        for index, token in enumerate(tokens[1:], 1):
-                            if token == "-m" and index + 1 < len(tokens):
-                                module_path = tokens[index + 1].replace(".", "/") + ".py"
-                                if module_path in tools:
-                                    references.add(module_path)
-                                break
-                            if token.startswith("-"):
-                                continue
-                            path = _tool_for_token(token, tools)
-                            if path:
-                                references.add(path)
+                references.update(_command_tool_values(tokens, tools))
+                if tokens[0] in {"python", "python3", "python3.11"}:
+                    for index, token in enumerate(tokens[1:], 1):
+                        if token == "--":
                             break
-                else:
-                    path = _tool_for_token(tokens[0], tools)
-                    if path:
-                        references.add(path)
+                        if token == "-m":
+                            if index + 1 < len(tokens):
+                                module_path = tokens[index + 1].replace(".", "/") + ".py"
+                                if module_path in tools and _command_tool_values(tokens[:index] + [module_path], tools) == {module_path}:
+                                    references.add(module_path)
+                            break
             opener = _heredoc_opener(command)
             if opener:
                 heredoc = opener

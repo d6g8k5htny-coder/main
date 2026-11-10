@@ -1,5 +1,10 @@
 # CBZ proof and quarantine index
 
+## Interpreter-option tooling boundary
+
+The G11 interpreter-option findings, repairs and retained failures concern tool-reference attribution only; they do not close, refute or rebind mathematical statements or establish scientific review.
+
+
 ## Current G11 parser and origin repair boundary
 
 The G11 env/JSON parser and assertion-origin work changes tooling evidence only. Its preserved failures and source-bound component checks neither close nor refute any mathematical proof or scientific claim.

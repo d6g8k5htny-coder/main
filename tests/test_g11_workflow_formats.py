@@ -106,5 +106,82 @@ class WorkflowFormats(unittest.TestCase):
         text = yaml_run("env --unset=PYTHONPATH python3 -B -S " + TOOL)
         self.assertEqual(g11.workflow_tool_references(text, TOOLS), {TOOL})
 
+
+    def test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference(self):
+        import shlex
+        import subprocess
+        import tempfile
+
+        for option in ("-V", "--version", "--help", "-cprint(1)", "-mjson.tool"):
+            with self.subTest(option=option), tempfile.TemporaryDirectory() as root:
+                path = Path(root) / TOOL
+                path.parent.mkdir(parents=True)
+                path.write_text("from pathlib import Path\nPath('tool_was_executed').touch()\n", encoding="utf-8")
+                subprocess.run([sys.executable, option, TOOL], cwd=root, capture_output=True, text=True,
+                               timeout=10, check=False)
+                self.assertFalse((Path(root) / "tool_was_executed").exists())
+                text = yaml_run("python3 " + shlex.quote(option) + " " + TOOL)
+                self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())
+
+
+    def test_shell_no_execution_options_are_not_tool_references(self):
+        import subprocess
+        import tempfile
+
+        shell_tool = "tools/cbz/example_guard.sh"
+        for interpreter, option in (("bash", "-n"), ("sh", "-n"),
+                                    ("bash", "--version"), ("sh", "--version")):
+            with self.subTest(interpreter=interpreter, option=option), tempfile.TemporaryDirectory() as root:
+                path = Path(root) / shell_tool
+                path.parent.mkdir(parents=True)
+                path.write_text("touch tool_was_executed\n", encoding="utf-8")
+                subprocess.run([interpreter, option, shell_tool], cwd=root, capture_output=True, text=True,
+                               timeout=10, check=False)
+                self.assertFalse((Path(root) / "tool_was_executed").exists())
+                text = yaml_run(interpreter + " " + option + " " + shell_tool)
+                self.assertEqual(g11.workflow_tool_references(text, {shell_tool}), set())
+
+
+    def test_python_module_direct_reference_with_supported_options(self):
+        text = yaml_run("python3 -B -S -m tools.cbz.g11_origin_mutation_selftest")
+        self.assertEqual(g11.workflow_tool_references(text, TOOLS), {TOOL})
+
+    def test_python_module_after_early_exit_is_not_a_reference(self):
+        import subprocess
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as root:
+            path = Path(root) / TOOL
+            path.parent.mkdir(parents=True)
+            path.write_text("from pathlib import Path\nPath('tool_was_executed').touch()\n", encoding="utf-8")
+            subprocess.run([sys.executable, "-V", "-m", "tools.cbz.g11_origin_mutation_selftest"],
+                           cwd=root, capture_output=True, text=True, timeout=10, check=False)
+            self.assertFalse((Path(root) / "tool_was_executed").exists())
+            text = yaml_run("python3 -V -m tools.cbz.g11_origin_mutation_selftest")
+            self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())
+
+
+    def test_invalid_interpreter_option_operands_do_not_execute_tool(self):
+        import shlex
+        import subprocess
+        import tempfile
+
+        shell_tool = "tools/cbz/example_guard.sh"
+        cases = (("python3", "--check-hash-based-pycs", "invalid", TOOL),
+                 ("bash", "-o", "not_a_real_option", shell_tool),
+                 ("sh", "-o", "not_a_real_option", shell_tool))
+        for interpreter, option, operand, tool in cases:
+            with self.subTest(interpreter=interpreter), tempfile.TemporaryDirectory() as root:
+                path = Path(root) / tool
+                path.parent.mkdir(parents=True)
+                content = ("from pathlib import Path\nPath('tool_was_executed').touch()\n"
+                           if tool.endswith(".py") else "touch tool_was_executed\n")
+                path.write_text(content, encoding="utf-8")
+                command = [sys.executable if interpreter == "python3" else interpreter, option, operand, tool]
+                subprocess.run(command, cwd=root, capture_output=True, text=True, timeout=10, check=False)
+                self.assertFalse((Path(root) / "tool_was_executed").exists())
+                text = yaml_run(shlex.join([interpreter, option, operand, tool]))
+                self.assertEqual(g11.workflow_tool_references(text, {tool}), set())
+
 if __name__ == "__main__":
     unittest.main()

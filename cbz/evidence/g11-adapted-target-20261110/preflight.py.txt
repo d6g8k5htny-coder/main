@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+"""Check G11 mutation target identities and execute the adapted shell case."""
+import hashlib
+import json
+import os
+import sys
+import tempfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / "tools" / "cbz"))
+import g11_mutation_selftest as h
+import g11_workflow_formats_mutation_selftest as fmt
+
+tool_source = (ROOT / h.TOOL).read_text(encoding="utf-8")
+test_source = (ROOT / h.TESTS).read_text(encoding="utf-8")
+harness_source = (ROOT / h.HARNESS).read_text(encoding="utf-8")
+format_source = (ROOT / fmt.FORMAT_TEST).read_text(encoding="utf-8")
+cases = h._build_cases()
+h._validate_mutation_inventory(cases)
+errors = []
+for name, target, old, new, test_id, fragment in cases:
+    source = tool_source if target == "census" else harness_source
+    if old == new or source.count(old) != 1:
+        errors.append({"name": name, "target": target, "count": source.count(old)})
+    try:
+        h._assertion_line(test_source, test_id, fragment)
+    except h.HarnessError as exc:
+        errors.append({"name": name, "assertion": str(exc)})
+for name, old, new, test_id, fragment in fmt.CASES:
+    if old == new or tool_source.count(old) != 1:
+        errors.append({"name": name, "target": "format", "count": tool_source.count(old)})
+    try:
+        h._assertion_line(format_source, test_id, fragment)
+    except h.HarnessError as exc:
+        errors.append({"name": name, "assertion": str(exc)})
+if len(cases) != 328 or len(fmt.CASES) != 19:
+    errors.append({"inventory": [len(cases), len(fmt.CASES)]})
+report = {"mode": "optimized" if sys.flags.optimize else "normal",
+          "original_cases": len(cases), "format_cases": len(fmt.CASES),
+          "source_sha256": [hashlib.sha256(s.encode()).hexdigest()
+                            for s in (tool_source, test_source, harness_source, format_source)],
+          "errors": errors}
+if not errors:
+    chosen = [c for c in cases if c[0] == "shell -c path mention counts as execution"]
+    if len(chosen) != 1:
+        report["errors"].append({"adapted_case_count": len(chosen)})
+    else:
+        name, target, old, new, test_id, fragment = chosen[0]
+        line = h._assertion_line(test_source, test_id, fragment)
+        with tempfile.TemporaryDirectory(prefix="g11-adapted-case-") as temp:
+            original, mutated = (Path(temp) / "original", Path(temp) / "mutated")
+            h._sandbox(tool_source, test_source, harness_source, str(original))
+            h._sandbox(tool_source.replace(old, new, 1), test_source, harness_source, str(mutated))
+            baseline = h._run(str(original), test_id)
+            mutant = h._run(str(mutated), test_id)
+        clean = (baseline.get("parsed") is True and baseline.get("exit") == 0
+                 and baseline.get("ran") == 1 and baseline.get("status") == "OK"
+                 and baseline.get("failures") == 0 and baseline.get("errors") == 0
+                 and baseline.get("skipped") == 0)
+        killed = clean and h.qualifies_kill(mutant, test_id, line)
+        report["adapted_case"] = {"name": name, "test": test_id, "line": line,
+                                  "baseline": baseline, "mutant": mutant, "killed": killed}
+        if not killed:
+            report["errors"].append({"adapted_case": "not killed"})
+report["status"] = "PASS" if not report["errors"] else "FAIL"
+print(json.dumps(report, sort_keys=True))
+raise SystemExit(0 if not report["errors"] else 2)

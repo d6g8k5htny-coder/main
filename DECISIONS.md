@@ -1272,3 +1272,17 @@ Run 42761158495, job 129646886891, on debug commit `db0d076ea7d5d38a78d6c1695584
 ## 2026-11-10 — Retain revised-scanner mutation run
 
 Hosted run 42763200124 on debug commit `101cc0fea2dbafac9af29dec925aa94c51804714` completed the original 328 G11 mutation cases in each mode against the staged census, origin-grader and original census-test blobs. The original full log and the individually checked 656 selected-origin records are retained under `cbz/evidence/g11-current-scanner-hosted-20261110/`; its format suite was the earlier eight-case source. Its reported ZIP digest has not been independently verified. This is component evidence, not a composed census or the final G11 gate.
+
+## 2026-11-10 — Refuse nonexecuting interpreter references
+
+- Preserve the earlier exact-candidate census PASS with its later demonstrated false-reference limitation and retain the actual Python/shell subprocess failures, invalid option-operand failures and automatic-workflow skips. Static references remain distinct from execution evidence.
+- Reuse the bounded interpreter argument parser for workflow references and reject interpreter option operands that this workflow census does not validate. Preserve the 18-method paired controls and 19 format mutants from their actual debug source; no full current-tree qualification follows from those component results.
+- Correct the earlier prospective statement that all 328 original mutation definitions would remain unchanged: the 328 names remain, but one shell `-c` mutation target and replacement were adapted to the refactored parser. Its original bytes, absent-target failures, sealed-inventory failure and both digest values are retained. Paired preflight checked target uniqueness and actually killed the adapted case; the complete resealed 328 campaign and fresh composed census remain separate requirements.
+
+The original `ef2903b4028ca369223ff2128cc5f81ca6749ee0` census ZIP was independently verified and then read back byte-identically from its native Git blob; the later interpreter false-reference boundary still applies. A source comparison found only the adapted case tuple changed in the prior harness, and only the inventory digest changed in the original census test.
+
+## 2026-11-10 — Retain resealed G11 component execution
+
+Hosted run 42765075896 on debug source `764d20556eafbf61b373fbf10be859c0ed4c8475` completed 265 census controls, twelve origin controls, seven origin mutations, eighteen workflow-format controls, nineteen format mutations and all 328 named original mutations in each mode. The full original log and individually parsed 708 mutant records are retained at `cbz/evidence/g11-sealed-interpreter-hosted-20261110/`. This source-bound component pass does not establish a fresh composed census, mathematical acceptance or the final federation G11 gate.
+
+The original 764d mutation ZIP was independently verified in run 42765703024, including both baselines and all 656 original origin records, then read back byte-identically from its native Git blob. This does not change the scope or establish the final federation gate.

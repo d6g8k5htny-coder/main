@@ -1,5 +1,10 @@
 # CBZ baseline ledger
 
+## Interpreter attribution evidence boundary
+
+The earlier exact-candidate G11 PASS is preserved with its later demonstrated interpreter-option attribution limitation. Eighteen bounded workflow controls and nineteen format mutations passed per mode on the recorded debug source; the original 328-case run then stopped at a missing target. One mutation target was adapted and its earlier definition retained. Current composed and final federation G11 evidence remains required.
+
+
 ## Latest G11 evidence boundary
 
 The former composed-tree census returned FAIL for three unexercised-tool reports. Its original reports and verified ZIP are preserved; a bounded source repair for env and JSON job-step references is staged and requires a fresh census. The revised origin runner's hosted component evidence is source-bound; no final G11, full Layer A audit or federation gate follows.

@@ -1,27 +1,32 @@
 # CBZ mission-tool registry
 
+## G11 bounded interpreter handling
+
+The workflow reference scanner reuses the bounded argument parser and refuses Python or shell interpreter options whose operands are not validated. Version/help, alternate-code and syntax-only controls are tested using actual subprocesses and no-execution markers. The 18-method workflow-format suite and 19-case mutation commands appear below. A static reference is not an execution receipt; unsupported option forms fail closed.
+
+
 ## G11 workflow-format mutation verification
 
 Purpose: exercise bounded static recognition of direct tool commands behind supported `env` unset options and inside strict JSON job-step run strings, while rejecting unsupported forms and invalid JSON workflow shapes.
 
 ```sh
-python3 -B -S -m unittest tests.test_g11_workflow_formats
-python3 -B -S -O -m unittest tests.test_g11_workflow_formats
-python3 -B -S tools/cbz/g11_workflow_formats_mutation_selftest.py
-python3 -B -S -O tools/cbz/g11_workflow_formats_mutation_selftest.py
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest tests.test_g11_workflow_formats
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O -m unittest tests.test_g11_workflow_formats
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_workflow_formats_mutation_selftest.py
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_workflow_formats_mutation_selftest.py
 ```
 
-The thirteen declared mutations require clean selected baselines and authorized selected-body failures. The actual old-census failure, red cases and bounded test results are retained under `cbz/evidence/g11-composed-census-20261110/` and `cbz/evidence/g11-workflow-formats-*`. Source references are static evidence, not proof of workflow execution; full JSON workflow semantics, arbitrary shell and dynamic conditions are not certified. JSON no-op and invalid-input findings use line 0 when their exact source line is unavailable.
+The nineteen declared mutations require clean selected baselines and authorized selected-body failures; the source-bound 19-case execution and its limits are recorded in STATUS. The actual old-census failure, red cases and bounded test results are retained under `cbz/evidence/g11-composed-census-20261110/` and `cbz/evidence/g11-workflow-formats-*`. Source references are static evidence, not proof of workflow execution; full JSON workflow semantics, arbitrary shell and dynamic conditions are not certified. JSON no-op and invalid-input findings use line 0 when their exact source line is unavailable.
 
 ## G11 assertion-origin mutation verification
 
 Purpose: test that the G11 mutation grader credits only the designated test body's actual assertion or its explicitly enumerated unittest oracle, using live pre-cleanup traceback code identities. Historical filename-filtered totals remain observations with an origin-attribution limitation; see [the adverse run](cbz/evidence/g11-origin-adverse-20261110/).
 
 ```sh
-python3 -B -S -m unittest tests.test_g11_origin_provenance
-python3 -B -S -O -m unittest tests.test_g11_origin_provenance
-python3 -B -S tools/cbz/g11_origin_mutation_selftest.py
-python3 -B -S -O tools/cbz/g11_origin_mutation_selftest.py
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest tests.test_g11_origin_provenance
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O -m unittest tests.test_g11_origin_provenance
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_origin_mutation_selftest.py
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_origin_mutation_selftest.py
 ```
 
 The earlier five bounded guard mutations each required a clean selected baseline and an actual authorized selected-body failure; the current seven-case source is recorded in STATUS. Local 3.12.14 results, prior adverse failures and supported-domain limits are in [the local evidence](cbz/evidence/g11-origin-selftest-local-20261110/). The existing census and original 328 mutations remain separate, and this tool does not certify arbitrary hostile code or the final G11 gate.
@@ -36,11 +41,11 @@ Main #797 integrated the bounded compiled-object inventory and custody controls 
 Purpose: refuse the observed empty deployment status without changing the receipt, and detect a mutant that would treat it as canceled. The recovery tool remains limited to its explicit authenticated cancellation contract. Source, local controls, origin records, actual outputs and their boundaries are in `cbz/evidence/empty-pages-status-adverse-20261110/`. Python 3.12.14 ran 34 controls and 38 clean-baseline/selected-oracle mutation pairs per mode, with three unauthorized origins rejected per mode. Fresh hosted checks are required; this is not a live recovery or final G0. Run:
 
 ```sh
-python3 -B -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
 python3 -B -O -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
 CBZ_SITE_NORMAL=$(mktemp -d)/mutations
 CBZ_SITE_OPTIMIZED=$(mktemp -d)/mutations
-python3 -B -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_NORMAL"
+env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_NORMAL"
 python3 -B -O -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_OPTIMIZED"
 ```
 

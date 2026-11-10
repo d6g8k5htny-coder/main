@@ -1,0 +1,1719 @@
+﻿2026-11-10T05:51:30.9957981Z Current runner version: '2.338.2'
+2026-11-10T05:51:30.9977603Z ##[group]Runner Image Provisioner
+2026-11-10T05:51:30.9978392Z Hosted Compute Agent
+2026-11-10T05:51:30.9978908Z Version: 20261028.624
+2026-11-10T05:51:30.9979498Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T05:51:30.9980085Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T05:51:30.9980607Z Worker ID: {db1fec97-243a-460b-9275-b0a118c5e500}
+2026-11-10T05:51:30.9981547Z Region: southcentralus
+2026-11-10T05:51:30.9982050Z Cloud: Azure
+2026-11-10T05:51:30.9982510Z ##[endgroup]
+2026-11-10T05:51:30.9983873Z ##[group]Operating System
+2026-11-10T05:51:30.9984380Z Ubuntu
+2026-11-10T05:51:30.9984866Z 26.04.1
+2026-11-10T05:51:30.9985322Z LTS
+2026-11-10T05:51:30.9985799Z ##[endgroup]
+2026-11-10T05:51:30.9986251Z ##[group]Runner Image
+2026-11-10T05:51:30.9986734Z Image: ubuntu-26.04
+2026-11-10T05:51:30.9987353Z Version: 20261101.186.1
+2026-11-10T05:51:30.9988405Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261101.186/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-10T05:51:30.9989645Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261101.186
+2026-11-10T05:51:30.9990442Z ##[endgroup]
+2026-11-10T05:51:30.9991369Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T05:51:30.9993151Z Contents: read
+2026-11-10T05:51:30.9993696Z Metadata: read
+2026-11-10T05:51:30.9994157Z ##[endgroup]
+2026-11-10T05:51:30.9995791Z Secret source: Actions
+2026-11-10T05:51:30.9996702Z Cache mode: write
+2026-11-10T05:51:30.9997374Z Prepare workflow directory
+2026-11-10T05:51:31.0329865Z Prepare all required actions
+2026-11-10T05:51:31.0368900Z Getting action download info
+2026-11-10T05:51:31.2590343Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-10T05:51:31.3677810Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+2026-11-10T05:51:31.4470140Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+2026-11-10T05:51:31.6159827Z Complete job name: g11-auditor
+2026-11-10T05:51:31.6891161Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-11-10T05:51:31.6891949Z with:
+2026-11-10T05:51:31.6892305Z   persist-credentials: false
+2026-11-10T05:51:31.6892731Z   repository: d6g8k5htny-coder/main
+2026-11-10T05:51:31.6895993Z   token: ***
+2026-11-10T05:51:31.6896345Z   ssh-strict: true
+2026-11-10T05:51:31.6896700Z   ssh-user: git
+2026-11-10T05:51:31.6897033Z   clean: true
+2026-11-10T05:51:31.6897521Z   sparse-checkout-cone-mode: true
+2026-11-10T05:51:31.6897937Z   fetch-depth: 1
+2026-11-10T05:51:31.6898291Z   fetch-tags: false
+2026-11-10T05:51:31.6898646Z   show-progress: true
+2026-11-10T05:51:31.6899001Z   lfs: false
+2026-11-10T05:51:31.6899336Z   submodules: false
+2026-11-10T05:51:31.6899688Z   set-safe-directory: true
+2026-11-10T05:51:31.6900089Z   allow-unsafe-pr-checkout: false
+2026-11-10T05:51:31.6900674Z ##[endgroup]
+2026-11-10T05:51:31.9351072Z Syncing repository: d6g8k5htny-coder/main
+2026-11-10T05:51:31.9353117Z ##[group]Getting Git version info
+2026-11-10T05:51:31.9353939Z Working directory is '/home/runner/work/main/main'
+2026-11-10T05:51:31.9355130Z [command]/usr/bin/git version
+2026-11-10T05:51:31.9368260Z git version 2.56.0
+2026-11-10T05:51:31.9383246Z ##[endgroup]
+2026-11-10T05:51:31.9392170Z Temporarily overriding HOME='/home/runner/work/_temp/2e130073-8319-45e5-8309-3990c7bcc784' before making global git config changes
+2026-11-10T05:51:31.9393679Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T05:51:31.9395431Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T05:51:31.9455062Z Deleting the contents of '/home/runner/work/main/main'
+2026-11-10T05:51:31.9458146Z ##[group]Determining repository object format
+2026-11-10T05:51:31.9459215Z ##[endgroup]
+2026-11-10T05:51:31.9460164Z ##[group]Initializing the repository
+2026-11-10T05:51:31.9462732Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-11-10T05:51:31.9611187Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T05:51:31.9612567Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T05:51:31.9613417Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T05:51:31.9613988Z hint: call:
+2026-11-10T05:51:31.9614320Z hint:
+2026-11-10T05:51:31.9614737Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T05:51:31.9615228Z hint:
+2026-11-10T05:51:31.9615681Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T05:51:31.9616397Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T05:51:31.9616971Z hint:
+2026-11-10T05:51:31.9617507Z hint: 	git branch -m <name>
+2026-11-10T05:51:31.9617902Z hint:
+2026-11-10T05:51:31.9618417Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T05:51:31.9624305Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-11-10T05:51:31.9633893Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-11-10T05:51:31.9684943Z ##[endgroup]
+2026-11-10T05:51:31.9685985Z ##[group]Disabling automatic garbage collection
+2026-11-10T05:51:31.9700440Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T05:51:31.9748817Z ##[endgroup]
+2026-11-10T05:51:31.9749748Z ##[group]Setting up auth
+2026-11-10T05:51:31.9750494Z Removing SSH command configuration
+2026-11-10T05:51:31.9751586Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T05:51:31.9772082Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T05:51:32.0159190Z Removing HTTP extra header
+2026-11-10T05:51:32.0164328Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T05:51:32.0199741Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T05:51:32.0433169Z Removing includeIf entries pointing to credentials config files
+2026-11-10T05:51:32.0438638Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T05:51:32.0478359Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T05:51:32.0724794Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-473cce68-57f0-4055-8493-6c560974e9a0.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T05:51:32.0755884Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git.path /home/runner/work/_temp/git-credentials-473cce68-57f0-4055-8493-6c560974e9a0.config
+2026-11-10T05:51:32.0783506Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-473cce68-57f0-4055-8493-6c560974e9a0.config
+2026-11-10T05:51:32.0815007Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-473cce68-57f0-4055-8493-6c560974e9a0.config
+2026-11-10T05:51:32.0843334Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-473cce68-57f0-4055-8493-6c560974e9a0.config
+2026-11-10T05:51:32.0869136Z ##[endgroup]
+2026-11-10T05:51:32.0869814Z ##[group]Fetching the repository
+2026-11-10T05:51:32.0876167Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +0c117a7ce415c23232e65adac8d73954b229a6c8:refs/remotes/origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:51:35.1078694Z From https://github.com/d6g8k5htny-coder/main
+2026-11-10T05:51:35.1081190Z  * [new ref]         0c117a7ce415c23232e65adac8d73954b229a6c8 -> origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:51:35.1086306Z [command]/usr/bin/git branch --list --remote origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:51:35.1114818Z   origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:51:35.1121539Z [command]/usr/bin/git rev-parse refs/remotes/origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:51:35.1141643Z 0c117a7ce415c23232e65adac8d73954b229a6c8
+2026-11-10T05:51:35.1145665Z ##[endgroup]
+2026-11-10T05:51:35.1146710Z ##[group]Determining the checkout info
+2026-11-10T05:51:35.1148144Z ##[endgroup]
+2026-11-10T05:51:35.1149207Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T05:51:35.1195097Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T05:51:35.1222549Z ##[group]Checking out the ref
+2026-11-10T05:51:35.1225957Z [command]/usr/bin/git checkout --progress --force -B codex/cbz-architecture-observation-20261110 refs/remotes/origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:51:35.6223870Z Switched to a new branch 'codex/cbz-architecture-observation-20261110'
+2026-11-10T05:51:35.6227846Z branch 'codex/cbz-architecture-observation-20261110' set up to track 'origin/codex/cbz-architecture-observation-20261110'.
+2026-11-10T05:51:35.6260940Z ##[endgroup]
+2026-11-10T05:51:35.6304833Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T05:51:35.6394153Z 0c117a7ce415c23232e65adac8d73954b229a6c8
+2026-11-10T05:51:35.6395556Z ##[group]Removing auth
+2026-11-10T05:51:35.6395847Z Removing SSH command configuration
+2026-11-10T05:51:35.6396248Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T05:51:35.6408756Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T05:51:35.6611897Z Removing HTTP extra header
+2026-11-10T05:51:35.6615096Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T05:51:35.6642683Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T05:51:35.6875244Z Removing includeIf entries pointing to credentials config files
+2026-11-10T05:51:35.6877951Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T05:51:35.6901085Z includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T05:51:35.6902042Z includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T05:51:35.6902723Z includeif.gitdir:/github/workspace/.git.path
+2026-11-10T05:51:35.6903354Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T05:51:35.6914669Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T05:51:35.6929084Z /home/runner/work/_temp/git-credentials-473cce68-57f0-4055-8493-6c560974e9a0.config
+2026-11-10T05:51:35.6937628Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-473cce68\-57f0\-4055\-8493\-6c560974e9a0\.config
+2026-11-10T05:51:35.6968822Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T05:51:35.6994891Z /home/runner/work/_temp/git-credentials-473cce68-57f0-4055-8493-6c560974e9a0.config
+2026-11-10T05:51:35.7002002Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-473cce68\-57f0\-4055\-8493\-6c560974e9a0\.config
+2026-11-10T05:51:35.7033233Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-10T05:51:35.7053762Z /github/runner_temp/git-credentials-473cce68-57f0-4055-8493-6c560974e9a0.config
+2026-11-10T05:51:35.7060101Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-473cce68\-57f0\-4055\-8493\-6c560974e9a0\.config
+2026-11-10T05:51:35.7090249Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T05:51:35.7109965Z /github/runner_temp/git-credentials-473cce68-57f0-4055-8493-6c560974e9a0.config
+2026-11-10T05:51:35.7116000Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-473cce68\-57f0\-4055\-8493\-6c560974e9a0\.config
+2026-11-10T05:51:35.7144731Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T05:51:35.7377106Z Removing credentials config '/home/runner/work/_temp/git-credentials-473cce68-57f0-4055-8493-6c560974e9a0.config'
+2026-11-10T05:51:35.7384850Z ##[endgroup]
+2026-11-10T05:51:35.7598431Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+2026-11-10T05:51:35.7598811Z with:
+2026-11-10T05:51:35.7599035Z   python-version: 3.11
+2026-11-10T05:51:35.7599269Z   check-latest: false
+2026-11-10T05:51:35.7601412Z   token: ***
+2026-11-10T05:51:35.7601644Z   update-environment: true
+2026-11-10T05:51:35.7601902Z   allow-prereleases: false
+2026-11-10T05:51:35.7602141Z   freethreaded: false
+2026-11-10T05:51:35.7602365Z ##[endgroup]
+2026-11-10T05:51:35.8567921Z ##[group]Installed versions
+2026-11-10T05:51:35.8655068Z Successfully set up CPython (3.11.18)
+2026-11-10T05:51:35.8655676Z ##[endgroup]
+2026-11-10T05:51:35.8788114Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest tests.test_g11_census tests.test_g11_current_architecture_references tests.test_g11_current_atlas_formal_bridge_reference
+2026-11-10T05:51:35.8789666Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest tests.test_g11_census tests.test_g11_current_architecture_references tests.test_g11_current_atlas_formal_bridge_reference[0m
+2026-11-10T05:51:35.8849976Z shell: /usr/bin/bash -e {0}
+2026-11-10T05:51:35.8850360Z env:
+2026-11-10T05:51:35.8850740Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:35.8851287Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:51:35.8851885Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:35.8852298Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:35.8852942Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:35.8853456Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:51:35.8853839Z ##[endgroup]
+2026-11-10T05:51:40.8889378Z .........................................................................................................................................................................................................................................................................
+2026-11-10T05:51:40.8890511Z ----------------------------------------------------------------------
+2026-11-10T05:51:40.8890981Z Ran 265 tests in 4.800s
+2026-11-10T05:51:40.8891194Z 
+2026-11-10T05:51:40.8891294Z OK
+2026-11-10T05:51:40.9065863Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O -m unittest tests.test_g11_census tests.test_g11_current_architecture_references tests.test_g11_current_atlas_formal_bridge_reference
+2026-11-10T05:51:40.9067422Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O -m unittest tests.test_g11_census tests.test_g11_current_architecture_references tests.test_g11_current_atlas_formal_bridge_reference[0m
+2026-11-10T05:51:40.9114147Z shell: /usr/bin/bash -e {0}
+2026-11-10T05:51:40.9114364Z env:
+2026-11-10T05:51:40.9114590Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:40.9114960Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:51:40.9115311Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:40.9115616Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:40.9115951Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:40.9116266Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:51:40.9116553Z ##[endgroup]
+2026-11-10T05:51:47.1696835Z .........................................................................................................................................................................................................................................................................
+2026-11-10T05:51:47.1698081Z ----------------------------------------------------------------------
+2026-11-10T05:51:47.1698483Z Ran 265 tests in 4.866s
+2026-11-10T05:51:47.1698648Z 
+2026-11-10T05:51:47.1698745Z OK
+2026-11-10T05:51:47.1873284Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest tests.test_g11_origin_provenance -v
+2026-11-10T05:51:47.1874171Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest tests.test_g11_origin_provenance -v[0m
+2026-11-10T05:51:47.1918223Z shell: /usr/bin/bash -e {0}
+2026-11-10T05:51:47.1918438Z env:
+2026-11-10T05:51:47.1918659Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:47.1919022Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:51:47.1919516Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:47.1919830Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:47.1920153Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:47.1920454Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:51:47.1920752Z ##[endgroup]
+2026-11-10T05:51:48.1090182Z test_direct_body_and_unittest_oracle_are_authorized (tests.test_g11_origin_provenance.ActualG11Origin.test_direct_body_and_unittest_oracle_are_authorized) ... ok
+2026-11-10T05:51:48.2447841Z test_direct_subject_assertion_is_not_a_kill (tests.test_g11_origin_provenance.ActualG11Origin.test_direct_subject_assertion_is_not_a_kill) ... ok
+2026-11-10T05:51:48.2449219Z test_false_origin_authorization_is_not_a_kill (tests.test_g11_origin_provenance.ActualG11Origin.test_false_origin_authorization_is_not_a_kill) ... ok
+2026-11-10T05:51:48.2450585Z test_formatted_traceback_without_live_origin_is_not_a_kill (tests.test_g11_origin_provenance.ActualG11Origin.test_formatted_traceback_without_live_origin_is_not_a_kill) ... ok
+2026-11-10T05:51:48.4711370Z test_lifecycle_and_spoofed_nested_code_are_not_authorized (tests.test_g11_origin_provenance.ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized) ... ok
+2026-11-10T05:51:48.5281915Z test_live_failure_retains_actual_origin_frames (tests.test_g11_origin_provenance.ActualG11Origin.test_live_failure_retains_actual_origin_frames) ... ok
+2026-11-10T05:51:48.5282871Z test_origin_report_rejects_inconsistent_and_non_oracle_frames (tests.test_g11_origin_provenance.ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames) ... ok
+2026-11-10T05:51:48.5854908Z test_precreated_report_without_runner_completion_is_rejected (tests.test_g11_origin_provenance.ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected) ... ok
+2026-11-10T05:51:48.9745907Z test_selected_body_and_runtime_controls (tests.test_g11_origin_provenance.ActualG11Origin.test_selected_body_and_runtime_controls) ... ok
+2026-11-10T05:51:49.0317455Z test_subject_cannot_precreate_a_forged_origin_report (tests.test_g11_origin_provenance.ActualG11Origin.test_subject_cannot_precreate_a_forged_origin_report) ... ok
+2026-11-10T05:51:49.4214574Z test_subject_helper_and_callback_assertions_are_not_kills (tests.test_g11_origin_provenance.ActualG11Origin.test_subject_helper_and_callback_assertions_are_not_kills) ... ok
+2026-11-10T05:51:49.4215514Z test_unapproved_origin_provenance_is_not_a_kill (tests.test_g11_origin_provenance.ActualG11Origin.test_unapproved_origin_provenance_is_not_a_kill) ... ok
+2026-11-10T05:51:49.4218956Z 
+2026-11-10T05:51:49.4219304Z ----------------------------------------------------------------------
+2026-11-10T05:51:49.4219753Z Ran 12 tests in 2.153s
+2026-11-10T05:51:49.4220139Z 
+2026-11-10T05:51:49.4220237Z OK
+2026-11-10T05:51:49.4352227Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O -m unittest tests.test_g11_origin_provenance -v
+2026-11-10T05:51:49.4353133Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O -m unittest tests.test_g11_origin_provenance -v[0m
+2026-11-10T05:51:49.4397375Z shell: /usr/bin/bash -e {0}
+2026-11-10T05:51:49.4397584Z env:
+2026-11-10T05:51:49.4397814Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:49.4398169Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:51:49.4398505Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:49.4398806Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:49.4399106Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:49.4399437Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:51:49.4399698Z ##[endgroup]
+2026-11-10T05:51:50.7422014Z test_direct_body_and_unittest_oracle_are_authorized (tests.test_g11_origin_provenance.ActualG11Origin.test_direct_body_and_unittest_oracle_are_authorized) ... ok
+2026-11-10T05:51:51.0394564Z test_direct_subject_assertion_is_not_a_kill (tests.test_g11_origin_provenance.ActualG11Origin.test_direct_subject_assertion_is_not_a_kill) ... ok
+2026-11-10T05:51:51.0396441Z test_false_origin_authorization_is_not_a_kill (tests.test_g11_origin_provenance.ActualG11Origin.test_false_origin_authorization_is_not_a_kill) ... ok
+2026-11-10T05:51:51.0398454Z test_formatted_traceback_without_live_origin_is_not_a_kill (tests.test_g11_origin_provenance.ActualG11Origin.test_formatted_traceback_without_live_origin_is_not_a_kill) ... ok
+2026-11-10T05:51:51.7552165Z test_lifecycle_and_spoofed_nested_code_are_not_authorized (tests.test_g11_origin_provenance.ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized) ... ok
+2026-11-10T05:51:51.9331909Z test_live_failure_retains_actual_origin_frames (tests.test_g11_origin_provenance.ActualG11Origin.test_live_failure_retains_actual_origin_frames) ... ok
+2026-11-10T05:51:51.9332880Z test_origin_report_rejects_inconsistent_and_non_oracle_frames (tests.test_g11_origin_provenance.ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames) ... ok
+2026-11-10T05:51:52.1114723Z test_precreated_report_without_runner_completion_is_rejected (tests.test_g11_origin_provenance.ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected) ... ok
+2026-11-10T05:51:52.9714550Z test_selected_body_and_runtime_controls (tests.test_g11_origin_provenance.ActualG11Origin.test_selected_body_and_runtime_controls) ... ok
+2026-11-10T05:51:53.1492819Z test_subject_cannot_precreate_a_forged_origin_report (tests.test_g11_origin_provenance.ActualG11Origin.test_subject_cannot_precreate_a_forged_origin_report) ... ok
+2026-11-10T05:51:54.0158490Z test_subject_helper_and_callback_assertions_are_not_kills (tests.test_g11_origin_provenance.ActualG11Origin.test_subject_helper_and_callback_assertions_are_not_kills) ... ok
+2026-11-10T05:51:54.0159420Z test_unapproved_origin_provenance_is_not_a_kill (tests.test_g11_origin_provenance.ActualG11Origin.test_unapproved_origin_provenance_is_not_a_kill) ... ok
+2026-11-10T05:51:54.0162822Z 
+2026-11-10T05:51:54.0163130Z ----------------------------------------------------------------------
+2026-11-10T05:51:54.0167917Z Ran 12 tests in 4.342s
+2026-11-10T05:51:54.0168258Z 
+2026-11-10T05:51:54.0168493Z OK
+2026-11-10T05:51:54.0291190Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_origin_mutation_selftest.py
+2026-11-10T05:51:54.0292065Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_origin_mutation_selftest.py[0m
+2026-11-10T05:51:54.0335325Z shell: /usr/bin/bash -e {0}
+2026-11-10T05:51:54.0335546Z env:
+2026-11-10T05:51:54.0335772Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:54.0336137Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:51:54.0336494Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:54.0336798Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:54.0337093Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:51:54.0337486Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:51:54.0337786Z ##[endgroup]
+2026-11-10T05:52:06.6477965Z {
+2026-11-10T05:52:06.6478279Z   "executed": 7,
+2026-11-10T05:52:06.6478591Z   "inputs_sha256": [
+2026-11-10T05:52:06.6479022Z     "796cccb74930643ae2aa2bb723dabc9027f3f5de8398f09572a72e107aeeb3ae",
+2026-11-10T05:52:06.6479617Z     "c1f6492ff8bee83188d6db9cbf92dd69fd351f46ce929debba2f8829d15199c1",
+2026-11-10T05:52:06.6480000Z     "f182a0bafdd78bde3db19a73fb2cf39c6b8e3f8874f50ac65ced68bf8828a555",
+2026-11-10T05:52:06.6480370Z     "596705cd925c35ad18d0e85d848a6cd6b19c412fe97214703104475a5f0f80f0"
+2026-11-10T05:52:06.6480641Z   ],
+2026-11-10T05:52:06.6480791Z   "mode": "normal",
+2026-11-10T05:52:06.6480958Z   "results": [
+2026-11-10T05:52:06.6481145Z     {
+2026-11-10T05:52:06.6481293Z       "baseline": {
+2026-11-10T05:52:06.6481459Z         "errors": 0,
+2026-11-10T05:52:06.6481639Z         "exception_type": null,
+2026-11-10T05:52:06.6481833Z         "exit": 0,
+2026-11-10T05:52:06.6481996Z         "failures": 0,
+2026-11-10T05:52:06.6482194Z         "origin_authorized": false,
+2026-11-10T05:52:06.6482399Z         "parsed": true,
+2026-11-10T05:52:06.6482569Z         "ran": 1,
+2026-11-10T05:52:06.6482727Z         "skipped": 0,
+2026-11-10T05:52:06.6482893Z         "status": "OK",
+2026-11-10T05:52:06.6483063Z         "test_id": null,
+2026-11-10T05:52:06.6483242Z         "traceback_line": null,
+2026-11-10T05:52:06.6483437Z         "traceback_method": null
+2026-11-10T05:52:06.6483620Z       },
+2026-11-10T05:52:06.6483769Z       "killed": true,
+2026-11-10T05:52:06.6483931Z       "line": 212,
+2026-11-10T05:52:06.6484088Z       "mutant": {
+2026-11-10T05:52:06.6484262Z         "errors": 0,
+2026-11-10T05:52:06.6484449Z         "exception_type": "AssertionError",
+2026-11-10T05:52:06.6484675Z         "exit": 1,
+2026-11-10T05:52:06.6484836Z         "failures": 1,
+2026-11-10T05:52:06.6485085Z         "origin_authorized": true,
+2026-11-10T05:52:06.6485303Z         "origin_provenance": {
+2026-11-10T05:52:06.6485596Z           "authorized": true,
+2026-11-10T05:52:06.6485787Z           "entered": 1,
+2026-11-10T05:52:06.6485982Z           "exception": "AssertionError",
+2026-11-10T05:52:06.6486189Z           "frames": [
+2026-11-10T05:52:06.6486348Z             {
+2026-11-10T05:52:06.6486645Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6486990Z               "firstlineno": 52,
+2026-11-10T05:52:06.6487355Z               "lineno": 57,
+2026-11-10T05:52:06.6487643Z               "name": "testPartExecutor",
+2026-11-10T05:52:06.6487859Z               "oracle": false,
+2026-11-10T05:52:06.6488076Z               "qualname": "_Outcome.testPartExecutor",
+2026-11-10T05:52:06.6488539Z               "selected": false
+2026-11-10T05:52:06.6488729Z             },
+2026-11-10T05:52:06.6488881Z             {
+2026-11-10T05:52:06.6489172Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6489512Z               "firstlineno": 589,
+2026-11-10T05:52:06.6489858Z               "lineno": 623,
+2026-11-10T05:52:06.6490042Z               "name": "run",
+2026-11-10T05:52:06.6490220Z               "oracle": false,
+2026-11-10T05:52:06.6490415Z               "qualname": "TestCase.run",
+2026-11-10T05:52:06.6490624Z               "selected": false
+2026-11-10T05:52:06.6490804Z             },
+2026-11-10T05:52:06.6490962Z             {
+2026-11-10T05:52:06.6491196Z               "filename": "/tmp/g11-origin-mutants-rk7gad0y/0-mutant/<string>",
+2026-11-10T05:52:06.6491481Z               "firstlineno": 56,
+2026-11-10T05:52:06.6491677Z               "lineno": 62,
+2026-11-10T05:52:06.6491861Z               "name": "call_body",
+2026-11-10T05:52:06.6492064Z               "oracle": false,
+2026-11-10T05:52:06.6492248Z               "qualname": "call_body",
+2026-11-10T05:52:06.6492445Z               "selected": false
+2026-11-10T05:52:06.6492621Z             },
+2026-11-10T05:52:06.6492770Z             {
+2026-11-10T05:52:06.6493087Z               "filename": "/tmp/g11-origin-mutants-rk7gad0y/0-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:06.6493453Z               "firstlineno": 205,
+2026-11-10T05:52:06.6493648Z               "lineno": 212,
+2026-11-10T05:52:06.6493881Z               "name": "test_false_origin_authorization_is_not_a_kill",
+2026-11-10T05:52:06.6494147Z               "oracle": false,
+2026-11-10T05:52:06.6494438Z               "qualname": "ActualG11Origin.test_false_origin_authorization_is_not_a_kill",
+2026-11-10T05:52:06.6494759Z               "selected": true
+2026-11-10T05:52:06.6494938Z             },
+2026-11-10T05:52:06.6495090Z             {
+2026-11-10T05:52:06.6495380Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6495744Z               "firstlineno": 705,
+2026-11-10T05:52:06.6495934Z               "lineno": 709,
+2026-11-10T05:52:06.6496120Z               "name": "assertFalse",
+2026-11-10T05:52:06.6496322Z               "oracle": true,
+2026-11-10T05:52:06.6496534Z               "qualname": "TestCase.assertFalse",
+2026-11-10T05:52:06.6496759Z               "selected": false
+2026-11-10T05:52:06.6496943Z             }
+2026-11-10T05:52:06.6497096Z           ],
+2026-11-10T05:52:06.6497534Z           "kind": "failure",
+2026-11-10T05:52:06.6497733Z           "phase": "body-exited",
+2026-11-10T05:52:06.6497937Z           "selected": {
+2026-11-10T05:52:06.6498271Z             "filename": "/tmp/g11-origin-mutants-rk7gad0y/0-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:06.6498626Z             "firstlineno": 205,
+2026-11-10T05:52:06.6498864Z             "name": "test_false_origin_authorization_is_not_a_kill"
+2026-11-10T05:52:06.6499110Z           },
+2026-11-10T05:52:06.6499313Z           "test": "test_false_origin_authorization_is_not_a_kill"
+2026-11-10T05:52:06.6499552Z         },
+2026-11-10T05:52:06.6499708Z         "parsed": true,
+2026-11-10T05:52:06.6499879Z         "ran": 1,
+2026-11-10T05:52:06.6500042Z         "skipped": 0,
+2026-11-10T05:52:06.6500226Z         "status": "FAILED",
+2026-11-10T05:52:06.6500613Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_false_origin_authorization_is_not_a_kill",
+2026-11-10T05:52:06.6501013Z         "traceback_line": 212,
+2026-11-10T05:52:06.6501280Z         "traceback_method": "test_false_origin_authorization_is_not_a_kill"
+2026-11-10T05:52:06.6501556Z       },
+2026-11-10T05:52:06.6501724Z       "name": "missing live-origin guard",
+2026-11-10T05:52:06.6502101Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_false_origin_authorization_is_not_a_kill"
+2026-11-10T05:52:06.6502473Z     },
+2026-11-10T05:52:06.6502616Z     {
+2026-11-10T05:52:06.6502766Z       "baseline": {
+2026-11-10T05:52:06.6503050Z         "errors": 0,
+2026-11-10T05:52:06.6503231Z         "exception_type": null,
+2026-11-10T05:52:06.6503417Z         "exit": 0,
+2026-11-10T05:52:06.6503576Z         "failures": 0,
+2026-11-10T05:52:06.6503758Z         "origin_authorized": false,
+2026-11-10T05:52:06.6503959Z         "parsed": true,
+2026-11-10T05:52:06.6504234Z         "ran": 1,
+2026-11-10T05:52:06.6504422Z         "skipped": 0,
+2026-11-10T05:52:06.6504600Z         "status": "OK",
+2026-11-10T05:52:06.6504765Z         "test_id": null,
+2026-11-10T05:52:06.6504945Z         "traceback_line": null,
+2026-11-10T05:52:06.6505138Z         "traceback_method": null
+2026-11-10T05:52:06.6505323Z       },
+2026-11-10T05:52:06.6505476Z       "killed": true,
+2026-11-10T05:52:06.6505637Z       "line": 73,
+2026-11-10T05:52:06.6505790Z       "mutant": {
+2026-11-10T05:52:06.6505943Z         "errors": 0,
+2026-11-10T05:52:06.6506127Z         "exception_type": "AssertionError",
+2026-11-10T05:52:06.6506333Z         "exit": 1,
+2026-11-10T05:52:06.6506498Z         "failures": 1,
+2026-11-10T05:52:06.6506681Z         "origin_authorized": true,
+2026-11-10T05:52:06.6506885Z         "origin_provenance": {
+2026-11-10T05:52:06.6507083Z           "authorized": true,
+2026-11-10T05:52:06.6507392Z           "entered": 1,
+2026-11-10T05:52:06.6507573Z           "exception": "AssertionError",
+2026-11-10T05:52:06.6507790Z           "frames": [
+2026-11-10T05:52:06.6507951Z             {
+2026-11-10T05:52:06.6508240Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6508583Z               "firstlineno": 52,
+2026-11-10T05:52:06.6508785Z               "lineno": 57,
+2026-11-10T05:52:06.6508991Z               "name": "testPartExecutor",
+2026-11-10T05:52:06.6509203Z               "oracle": false,
+2026-11-10T05:52:06.6509417Z               "qualname": "_Outcome.testPartExecutor",
+2026-11-10T05:52:06.6509688Z               "selected": false
+2026-11-10T05:52:06.6509868Z             },
+2026-11-10T05:52:06.6510026Z             {
+2026-11-10T05:52:06.6510310Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6510680Z               "firstlineno": 589,
+2026-11-10T05:52:06.6510880Z               "lineno": 623,
+2026-11-10T05:52:06.6511060Z               "name": "run",
+2026-11-10T05:52:06.6511251Z               "oracle": false,
+2026-11-10T05:52:06.6511444Z               "qualname": "TestCase.run",
+2026-11-10T05:52:06.6511652Z               "selected": false
+2026-11-10T05:52:06.6511829Z             },
+2026-11-10T05:52:06.6511977Z             {
+2026-11-10T05:52:06.6512207Z               "filename": "/tmp/g11-origin-mutants-rk7gad0y/1-mutant/<string>",
+2026-11-10T05:52:06.6512489Z               "firstlineno": 56,
+2026-11-10T05:52:06.6512678Z               "lineno": 62,
+2026-11-10T05:52:06.6512864Z               "name": "call_body",
+2026-11-10T05:52:06.6513056Z               "oracle": false,
+2026-11-10T05:52:06.6513249Z               "qualname": "call_body",
+2026-11-10T05:52:06.6513458Z               "selected": false
+2026-11-10T05:52:06.6513631Z             },
+2026-11-10T05:52:06.6513792Z             {
+2026-11-10T05:52:06.6514108Z               "filename": "/tmp/g11-origin-mutants-rk7gad0y/1-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:06.6514477Z               "firstlineno": 69,
+2026-11-10T05:52:06.6514679Z               "lineno": 73,
+2026-11-10T05:52:06.6514915Z               "name": "test_direct_subject_assertion_is_not_a_kill",
+2026-11-10T05:52:06.6515169Z               "oracle": false,
+2026-11-10T05:52:06.6515454Z               "qualname": "ActualG11Origin.test_direct_subject_assertion_is_not_a_kill",
+2026-11-10T05:52:06.6515770Z               "selected": true
+2026-11-10T05:52:06.6515949Z             },
+2026-11-10T05:52:06.6516101Z             {
+2026-11-10T05:52:06.6516381Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6516720Z               "firstlineno": 705,
+2026-11-10T05:52:06.6517041Z               "lineno": 709,
+2026-11-10T05:52:06.6517333Z               "name": "assertFalse",
+2026-11-10T05:52:06.6517533Z               "oracle": true,
+2026-11-10T05:52:06.6517742Z               "qualname": "TestCase.assertFalse",
+2026-11-10T05:52:06.6517973Z               "selected": false
+2026-11-10T05:52:06.6518250Z             }
+2026-11-10T05:52:06.6518405Z           ],
+2026-11-10T05:52:06.6518563Z           "kind": "failure",
+2026-11-10T05:52:06.6518753Z           "phase": "body-exited",
+2026-11-10T05:52:06.6518945Z           "selected": {
+2026-11-10T05:52:06.6519262Z             "filename": "/tmp/g11-origin-mutants-rk7gad0y/1-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:06.6519613Z             "firstlineno": 69,
+2026-11-10T05:52:06.6519834Z             "name": "test_direct_subject_assertion_is_not_a_kill"
+2026-11-10T05:52:06.6520077Z           },
+2026-11-10T05:52:06.6520275Z           "test": "test_direct_subject_assertion_is_not_a_kill"
+2026-11-10T05:52:06.6520516Z         },
+2026-11-10T05:52:06.6520676Z         "parsed": true,
+2026-11-10T05:52:06.6520842Z         "ran": 1,
+2026-11-10T05:52:06.6521004Z         "skipped": 0,
+2026-11-10T05:52:06.6521178Z         "status": "FAILED",
+2026-11-10T05:52:06.6521536Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_direct_subject_assertion_is_not_a_kill",
+2026-11-10T05:52:06.6521921Z         "traceback_line": 73,
+2026-11-10T05:52:06.6522183Z         "traceback_method": "test_direct_subject_assertion_is_not_a_kill"
+2026-11-10T05:52:06.6522453Z       },
+2026-11-10T05:52:06.6522643Z       "name": "subject and helper suffix accepted",
+2026-11-10T05:52:06.6523041Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_direct_subject_assertion_is_not_a_kill"
+2026-11-10T05:52:06.6523401Z     },
+2026-11-10T05:52:06.6523546Z     {
+2026-11-10T05:52:06.6523695Z       "baseline": {
+2026-11-10T05:52:06.6523857Z         "errors": 0,
+2026-11-10T05:52:06.6524031Z         "exception_type": null,
+2026-11-10T05:52:06.6524218Z         "exit": 0,
+2026-11-10T05:52:06.6524379Z         "failures": 0,
+2026-11-10T05:52:06.6524557Z         "origin_authorized": false,
+2026-11-10T05:52:06.6524760Z         "parsed": true,
+2026-11-10T05:52:06.6524933Z         "ran": 1,
+2026-11-10T05:52:06.6525092Z         "skipped": 0,
+2026-11-10T05:52:06.6525261Z         "status": "OK",
+2026-11-10T05:52:06.6525431Z         "test_id": null,
+2026-11-10T05:52:06.6525613Z         "traceback_line": null,
+2026-11-10T05:52:06.6525806Z         "traceback_method": null
+2026-11-10T05:52:06.6525986Z       },
+2026-11-10T05:52:06.6526136Z       "killed": true,
+2026-11-10T05:52:06.6526297Z       "line": 132,
+2026-11-10T05:52:06.6526454Z       "mutant": {
+2026-11-10T05:52:06.6526610Z         "errors": 0,
+2026-11-10T05:52:06.6526803Z         "exception_type": "AssertionError",
+2026-11-10T05:52:06.6527013Z         "exit": 1,
+2026-11-10T05:52:06.6527353Z         "failures": 1,
+2026-11-10T05:52:06.6527580Z         "origin_authorized": true,
+2026-11-10T05:52:06.6527788Z         "origin_provenance": {
+2026-11-10T05:52:06.6527981Z           "authorized": true,
+2026-11-10T05:52:06.6528168Z           "entered": 1,
+2026-11-10T05:52:06.6528346Z           "exception": "AssertionError",
+2026-11-10T05:52:06.6528566Z           "frames": [
+2026-11-10T05:52:06.6528727Z             {
+2026-11-10T05:52:06.6529024Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6529358Z               "firstlineno": 52,
+2026-11-10T05:52:06.6529544Z               "lineno": 57,
+2026-11-10T05:52:06.6529737Z               "name": "testPartExecutor",
+2026-11-10T05:52:06.6529949Z               "oracle": false,
+2026-11-10T05:52:06.6530161Z               "qualname": "_Outcome.testPartExecutor",
+2026-11-10T05:52:06.6530394Z               "selected": false
+2026-11-10T05:52:06.6530572Z             },
+2026-11-10T05:52:06.6530723Z             {
+2026-11-10T05:52:06.6531026Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6531508Z               "firstlineno": 519,
+2026-11-10T05:52:06.6531703Z               "lineno": 538,
+2026-11-10T05:52:06.6531902Z               "name": "subTest",
+2026-11-10T05:52:06.6532089Z               "oracle": false,
+2026-11-10T05:52:06.6532382Z               "qualname": "TestCase.subTest",
+2026-11-10T05:52:06.6532609Z               "selected": false
+2026-11-10T05:52:06.6532787Z             },
+2026-11-10T05:52:06.6532934Z             {
+2026-11-10T05:52:06.6533233Z               "filename": "/tmp/g11-origin-mutants-rk7gad0y/2-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:06.6533590Z               "firstlineno": 108,
+2026-11-10T05:52:06.6533776Z               "lineno": 132,
+2026-11-10T05:52:06.6534038Z               "name": "test_lifecycle_and_spoofed_nested_code_are_not_authorized",
+2026-11-10T05:52:06.6534323Z               "oracle": false,
+2026-11-10T05:52:06.6534639Z               "qualname": "ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized",
+2026-11-10T05:52:06.6534991Z               "selected": true
+2026-11-10T05:52:06.6535167Z             },
+2026-11-10T05:52:06.6535314Z             {
+2026-11-10T05:52:06.6535585Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6535920Z               "firstlineno": 705,
+2026-11-10T05:52:06.6536109Z               "lineno": 709,
+2026-11-10T05:52:06.6536295Z               "name": "assertFalse",
+2026-11-10T05:52:06.6536495Z               "oracle": true,
+2026-11-10T05:52:06.6536695Z               "qualname": "TestCase.assertFalse",
+2026-11-10T05:52:06.6536916Z               "selected": false
+2026-11-10T05:52:06.6537098Z             }
+2026-11-10T05:52:06.6537418Z           ],
+2026-11-10T05:52:06.6537578Z           "kind": "failure",
+2026-11-10T05:52:06.6537760Z           "phase": "body",
+2026-11-10T05:52:06.6537943Z           "selected": {
+2026-11-10T05:52:06.6538258Z             "filename": "/tmp/g11-origin-mutants-rk7gad0y/2-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:06.6538611Z             "firstlineno": 108,
+2026-11-10T05:52:06.6538866Z             "name": "test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+2026-11-10T05:52:06.6539134Z           },
+2026-11-10T05:52:06.6539362Z           "test": "test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+2026-11-10T05:52:06.6539638Z         },
+2026-11-10T05:52:06.6539797Z         "parsed": true,
+2026-11-10T05:52:06.6539967Z         "ran": 1,
+2026-11-10T05:52:06.6540125Z         "skipped": 0,
+2026-11-10T05:52:06.6540297Z         "status": "FAILED",
+2026-11-10T05:52:06.6540688Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized",
+2026-11-10T05:52:06.6541116Z         "traceback_line": 132,
+2026-11-10T05:52:06.6541435Z         "traceback_method": "test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+2026-11-10T05:52:06.6541737Z       },
+2026-11-10T05:52:06.6541914Z       "name": "cleanup phase accepted",
+2026-11-10T05:52:06.6542319Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+2026-11-10T05:52:06.6542716Z     },
+2026-11-10T05:52:06.6542861Z     {
+2026-11-10T05:52:06.6543008Z       "baseline": {
+2026-11-10T05:52:06.6543179Z         "errors": 0,
+2026-11-10T05:52:06.6543348Z         "exception_type": null,
+2026-11-10T05:52:06.6543530Z         "exit": 0,
+2026-11-10T05:52:06.6543690Z         "failures": 0,
+2026-11-10T05:52:06.6543868Z         "origin_authorized": false,
+2026-11-10T05:52:06.6544069Z         "parsed": true,
+2026-11-10T05:52:06.6544242Z         "ran": 1,
+2026-11-10T05:52:06.6544402Z         "skipped": 0,
+2026-11-10T05:52:06.6544568Z         "status": "OK",
+2026-11-10T05:52:06.6544737Z         "test_id": null,
+2026-11-10T05:52:06.6544916Z         "traceback_line": null,
+2026-11-10T05:52:06.6545106Z         "traceback_method": null
+2026-11-10T05:52:06.6545411Z       },
+2026-11-10T05:52:06.6545565Z       "killed": true,
+2026-11-10T05:52:06.6545729Z       "line": 152,
+2026-11-10T05:52:06.6545885Z       "mutant": {
+2026-11-10T05:52:06.6546044Z         "errors": 0,
+2026-11-10T05:52:06.6546227Z         "exception_type": "AssertionError",
+2026-11-10T05:52:06.6546447Z         "exit": 1,
+2026-11-10T05:52:06.6546707Z         "failures": 1,
+2026-11-10T05:52:06.6546892Z         "origin_authorized": true,
+2026-11-10T05:52:06.6547101Z         "origin_provenance": {
+2026-11-10T05:52:06.6547396Z           "authorized": true,
+2026-11-10T05:52:06.6547585Z           "entered": 1,
+2026-11-10T05:52:06.6547773Z           "exception": "AssertionError",
+2026-11-10T05:52:06.6547981Z           "frames": [
+2026-11-10T05:52:06.6548149Z             {
+2026-11-10T05:52:06.6548531Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6549038Z               "firstlineno": 52,
+2026-11-10T05:52:06.6549307Z               "lineno": 57,
+2026-11-10T05:52:06.6549591Z               "name": "testPartExecutor",
+2026-11-10T05:52:06.6549903Z               "oracle": false,
+2026-11-10T05:52:06.6550222Z               "qualname": "_Outcome.testPartExecutor",
+2026-11-10T05:52:06.6550593Z               "selected": false
+2026-11-10T05:52:06.6550862Z             },
+2026-11-10T05:52:06.6551074Z             {
+2026-11-10T05:52:06.6551504Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6552042Z               "firstlineno": 589,
+2026-11-10T05:52:06.6552525Z               "lineno": 623,
+2026-11-10T05:52:06.6552781Z               "name": "run",
+2026-11-10T05:52:06.6553042Z               "oracle": false,
+2026-11-10T05:52:06.6553237Z               "qualname": "TestCase.run",
+2026-11-10T05:52:06.6553446Z               "selected": false
+2026-11-10T05:52:06.6553626Z             },
+2026-11-10T05:52:06.6553774Z             {
+2026-11-10T05:52:06.6554006Z               "filename": "/tmp/g11-origin-mutants-rk7gad0y/3-mutant/<string>",
+2026-11-10T05:52:06.6554302Z               "firstlineno": 56,
+2026-11-10T05:52:06.6554499Z               "lineno": 62,
+2026-11-10T05:52:06.6554684Z               "name": "call_body",
+2026-11-10T05:52:06.6554876Z               "oracle": false,
+2026-11-10T05:52:06.6555070Z               "qualname": "call_body",
+2026-11-10T05:52:06.6555266Z               "selected": false
+2026-11-10T05:52:06.6555441Z             },
+2026-11-10T05:52:06.6555588Z             {
+2026-11-10T05:52:06.6555887Z               "filename": "/tmp/g11-origin-mutants-rk7gad0y/3-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:06.6556240Z               "firstlineno": 135,
+2026-11-10T05:52:06.6556429Z               "lineno": 152,
+2026-11-10T05:52:06.6556698Z               "name": "test_origin_report_rejects_inconsistent_and_non_oracle_frames",
+2026-11-10T05:52:06.6556994Z               "oracle": false,
+2026-11-10T05:52:06.6557747Z               "qualname": "ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames",
+2026-11-10T05:52:06.6558105Z               "selected": true
+2026-11-10T05:52:06.6558281Z             },
+2026-11-10T05:52:06.6558429Z             {
+2026-11-10T05:52:06.6558712Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6559053Z               "firstlineno": 705,
+2026-11-10T05:52:06.6559242Z               "lineno": 709,
+2026-11-10T05:52:06.6559432Z               "name": "assertFalse",
+2026-11-10T05:52:06.6559633Z               "oracle": true,
+2026-11-10T05:52:06.6559835Z               "qualname": "TestCase.assertFalse",
+2026-11-10T05:52:06.6560060Z               "selected": false
+2026-11-10T05:52:06.6560241Z             }
+2026-11-10T05:52:06.6560389Z           ],
+2026-11-10T05:52:06.6560537Z           "kind": "failure",
+2026-11-10T05:52:06.6560783Z           "phase": "body-exited",
+2026-11-10T05:52:06.6560972Z           "selected": {
+2026-11-10T05:52:06.6561290Z             "filename": "/tmp/g11-origin-mutants-rk7gad0y/3-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:06.6561803Z             "firstlineno": 135,
+2026-11-10T05:52:06.6562074Z             "name": "test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+2026-11-10T05:52:06.6562358Z           },
+2026-11-10T05:52:06.6562684Z           "test": "test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+2026-11-10T05:52:06.6562971Z         },
+2026-11-10T05:52:06.6563127Z         "parsed": true,
+2026-11-10T05:52:06.6563295Z         "ran": 1,
+2026-11-10T05:52:06.6563457Z         "skipped": 0,
+2026-11-10T05:52:06.6563628Z         "status": "FAILED",
+2026-11-10T05:52:06.6564029Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames",
+2026-11-10T05:52:06.6564465Z         "traceback_line": 152,
+2026-11-10T05:52:06.6564759Z         "traceback_method": "test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+2026-11-10T05:52:06.6565071Z       },
+2026-11-10T05:52:06.6565255Z       "name": "untrusted suffix report accepted",
+2026-11-10T05:52:06.6565680Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+2026-11-10T05:52:06.6566083Z     },
+2026-11-10T05:52:06.6566226Z     {
+2026-11-10T05:52:06.6566378Z       "baseline": {
+2026-11-10T05:52:06.6566544Z         "errors": 0,
+2026-11-10T05:52:06.6566722Z         "exception_type": null,
+2026-11-10T05:52:06.6566906Z         "exit": 0,
+2026-11-10T05:52:06.6567069Z         "failures": 0,
+2026-11-10T05:52:06.6567434Z         "origin_authorized": false,
+2026-11-10T05:52:06.6567638Z         "parsed": true,
+2026-11-10T05:52:06.6567808Z         "ran": 1,
+2026-11-10T05:52:06.6567965Z         "skipped": 0,
+2026-11-10T05:52:06.6568135Z         "status": "OK",
+2026-11-10T05:52:06.6568306Z         "test_id": null,
+2026-11-10T05:52:06.6568486Z         "traceback_line": null,
+2026-11-10T05:52:06.6568682Z         "traceback_method": null
+2026-11-10T05:52:06.6568881Z       },
+2026-11-10T05:52:06.6569028Z       "killed": true,
+2026-11-10T05:52:06.6569190Z       "line": 185,
+2026-11-10T05:52:06.6569343Z       "mutant": {
+2026-11-10T05:52:06.6569496Z         "errors": 0,
+2026-11-10T05:52:06.6569679Z         "exception_type": "AssertionError",
+2026-11-10T05:52:06.6569895Z         "exit": 1,
+2026-11-10T05:52:06.6570065Z         "failures": 1,
+2026-11-10T05:52:06.6570248Z         "origin_authorized": true,
+2026-11-10T05:52:06.6570454Z         "origin_provenance": {
+2026-11-10T05:52:06.6570646Z           "authorized": true,
+2026-11-10T05:52:06.6570844Z           "entered": 1,
+2026-11-10T05:52:06.6571034Z           "exception": "AssertionError",
+2026-11-10T05:52:06.6571242Z           "frames": [
+2026-11-10T05:52:06.6571406Z             {
+2026-11-10T05:52:06.6571696Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6572035Z               "firstlineno": 52,
+2026-11-10T05:52:06.6572231Z               "lineno": 57,
+2026-11-10T05:52:06.6572428Z               "name": "testPartExecutor",
+2026-11-10T05:52:06.6572639Z               "oracle": false,
+2026-11-10T05:52:06.6572853Z               "qualname": "_Outcome.testPartExecutor",
+2026-11-10T05:52:06.6573096Z               "selected": false
+2026-11-10T05:52:06.6573282Z             },
+2026-11-10T05:52:06.6573434Z             {
+2026-11-10T05:52:06.6573712Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6574043Z               "firstlineno": 589,
+2026-11-10T05:52:06.6574241Z               "lineno": 623,
+2026-11-10T05:52:06.6574424Z               "name": "run",
+2026-11-10T05:52:06.6574605Z               "oracle": false,
+2026-11-10T05:52:06.6574796Z               "qualname": "TestCase.run",
+2026-11-10T05:52:06.6575008Z               "selected": false
+2026-11-10T05:52:06.6575187Z             },
+2026-11-10T05:52:06.6575339Z             {
+2026-11-10T05:52:06.6575565Z               "filename": "/tmp/g11-origin-mutants-rk7gad0y/4-mutant/<string>",
+2026-11-10T05:52:06.6575985Z               "firstlineno": 56,
+2026-11-10T05:52:06.6576175Z               "lineno": 62,
+2026-11-10T05:52:06.6576358Z               "name": "call_body",
+2026-11-10T05:52:06.6576555Z               "oracle": false,
+2026-11-10T05:52:06.6576839Z               "qualname": "call_body",
+2026-11-10T05:52:06.6577044Z               "selected": false
+2026-11-10T05:52:06.6577394Z             },
+2026-11-10T05:52:06.6577545Z             {
+2026-11-10T05:52:06.6577864Z               "filename": "/tmp/g11-origin-mutants-rk7gad0y/4-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:06.6578220Z               "firstlineno": 172,
+2026-11-10T05:52:06.6578418Z               "lineno": 185,
+2026-11-10T05:52:06.6578687Z               "name": "test_precreated_report_without_runner_completion_is_rejected",
+2026-11-10T05:52:06.6578987Z               "oracle": false,
+2026-11-10T05:52:06.6579313Z               "qualname": "ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected",
+2026-11-10T05:52:06.6579674Z               "selected": true
+2026-11-10T05:52:06.6579853Z             },
+2026-11-10T05:52:06.6580013Z             {
+2026-11-10T05:52:06.6580301Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6580639Z               "firstlineno": 705,
+2026-11-10T05:52:06.6580830Z               "lineno": 709,
+2026-11-10T05:52:06.6581018Z               "name": "assertFalse",
+2026-11-10T05:52:06.6581221Z               "oracle": true,
+2026-11-10T05:52:06.6581424Z               "qualname": "TestCase.assertFalse",
+2026-11-10T05:52:06.6581645Z               "selected": false
+2026-11-10T05:52:06.6581822Z             }
+2026-11-10T05:52:06.6581970Z           ],
+2026-11-10T05:52:06.6582127Z           "kind": "failure",
+2026-11-10T05:52:06.6582321Z           "phase": "body-exited",
+2026-11-10T05:52:06.6582510Z           "selected": {
+2026-11-10T05:52:06.6582833Z             "filename": "/tmp/g11-origin-mutants-rk7gad0y/4-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:06.6583185Z             "firstlineno": 172,
+2026-11-10T05:52:06.6583456Z             "name": "test_precreated_report_without_runner_completion_is_rejected"
+2026-11-10T05:52:06.6583740Z           },
+2026-11-10T05:52:06.6583972Z           "test": "test_precreated_report_without_runner_completion_is_rejected"
+2026-11-10T05:52:06.6584248Z         },
+2026-11-10T05:52:06.6584402Z         "parsed": true,
+2026-11-10T05:52:06.6584571Z         "ran": 1,
+2026-11-10T05:52:06.6584744Z         "skipped": 0,
+2026-11-10T05:52:06.6584919Z         "status": "FAILED",
+2026-11-10T05:52:06.6585323Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected",
+2026-11-10T05:52:06.6585753Z         "traceback_line": 185,
+2026-11-10T05:52:06.6586050Z         "traceback_method": "test_precreated_report_without_runner_completion_is_rejected"
+2026-11-10T05:52:06.6586365Z       },
+2026-11-10T05:52:06.6586543Z       "name": "missing runner completion accepted",
+2026-11-10T05:52:06.6586981Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected"
+2026-11-10T05:52:06.6587531Z     },
+2026-11-10T05:52:06.6587685Z     {
+2026-11-10T05:52:06.6587838Z       "baseline": {
+2026-11-10T05:52:06.6588003Z         "errors": 0,
+2026-11-10T05:52:06.6588179Z         "exception_type": null,
+2026-11-10T05:52:06.6588369Z         "exit": 0,
+2026-11-10T05:52:06.6588536Z         "failures": 0,
+2026-11-10T05:52:06.6588714Z         "origin_authorized": false,
+2026-11-10T05:52:06.6588914Z         "parsed": true,
+2026-11-10T05:52:06.6589077Z         "ran": 1,
+2026-11-10T05:52:06.6589233Z         "skipped": 0,
+2026-11-10T05:52:06.6589419Z         "status": "OK",
+2026-11-10T05:52:06.6589597Z         "test_id": null,
+2026-11-10T05:52:06.6589782Z         "traceback_line": null,
+2026-11-10T05:52:06.6589976Z         "traceback_method": null
+2026-11-10T05:52:06.6590331Z       },
+2026-11-10T05:52:06.6590481Z       "killed": true,
+2026-11-10T05:52:06.6590645Z       "line": 221,
+2026-11-10T05:52:06.6590802Z       "mutant": {
+2026-11-10T05:52:06.6590960Z         "errors": 0,
+2026-11-10T05:52:06.6591143Z         "exception_type": "AssertionError",
+2026-11-10T05:52:06.6591449Z         "exit": 1,
+2026-11-10T05:52:06.6591610Z         "failures": 1,
+2026-11-10T05:52:06.6591800Z         "origin_authorized": true,
+2026-11-10T05:52:06.6591999Z         "origin_provenance": {
+2026-11-10T05:52:06.6592189Z           "authorized": true,
+2026-11-10T05:52:06.6592372Z           "entered": 1,
+2026-11-10T05:52:06.6592550Z           "exception": "AssertionError",
+2026-11-10T05:52:06.6592752Z           "frames": [
+2026-11-10T05:52:06.6592913Z             {
+2026-11-10T05:52:06.6593198Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6593534Z               "firstlineno": 52,
+2026-11-10T05:52:06.6593731Z               "lineno": 57,
+2026-11-10T05:52:06.6593928Z               "name": "testPartExecutor",
+2026-11-10T05:52:06.6594138Z               "oracle": false,
+2026-11-10T05:52:06.6594346Z               "qualname": "_Outcome.testPartExecutor",
+2026-11-10T05:52:06.6594575Z               "selected": false
+2026-11-10T05:52:06.6594758Z             },
+2026-11-10T05:52:06.6594910Z             {
+2026-11-10T05:52:06.6595180Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6595510Z               "firstlineno": 589,
+2026-11-10T05:52:06.6595702Z               "lineno": 623,
+2026-11-10T05:52:06.6595884Z               "name": "run",
+2026-11-10T05:52:06.6596069Z               "oracle": false,
+2026-11-10T05:52:06.6596254Z               "qualname": "TestCase.run",
+2026-11-10T05:52:06.6596458Z               "selected": false
+2026-11-10T05:52:06.6596635Z             },
+2026-11-10T05:52:06.6596785Z             {
+2026-11-10T05:52:06.6597016Z               "filename": "/tmp/g11-origin-mutants-rk7gad0y/5-mutant/<string>",
+2026-11-10T05:52:06.6597478Z               "firstlineno": 56,
+2026-11-10T05:52:06.6597667Z               "lineno": 62,
+2026-11-10T05:52:06.6597850Z               "name": "call_body",
+2026-11-10T05:52:06.6598046Z               "oracle": false,
+2026-11-10T05:52:06.6598247Z               "qualname": "call_body",
+2026-11-10T05:52:06.6598456Z               "selected": false
+2026-11-10T05:52:06.6598631Z             },
+2026-11-10T05:52:06.6598784Z             {
+2026-11-10T05:52:06.6599085Z               "filename": "/tmp/g11-origin-mutants-rk7gad0y/5-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:06.6599436Z               "firstlineno": 214,
+2026-11-10T05:52:06.6599628Z               "lineno": 221,
+2026-11-10T05:52:06.6599862Z               "name": "test_unapproved_origin_provenance_is_not_a_kill",
+2026-11-10T05:52:06.6600124Z               "oracle": false,
+2026-11-10T05:52:06.6600419Z               "qualname": "ActualG11Origin.test_unapproved_origin_provenance_is_not_a_kill",
+2026-11-10T05:52:06.6600748Z               "selected": true
+2026-11-10T05:52:06.6600921Z             },
+2026-11-10T05:52:06.6601068Z             {
+2026-11-10T05:52:06.6601342Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6601675Z               "firstlineno": 705,
+2026-11-10T05:52:06.6601862Z               "lineno": 709,
+2026-11-10T05:52:06.6602049Z               "name": "assertFalse",
+2026-11-10T05:52:06.6602249Z               "oracle": true,
+2026-11-10T05:52:06.6602456Z               "qualname": "TestCase.assertFalse",
+2026-11-10T05:52:06.6602680Z               "selected": false
+2026-11-10T05:52:06.6602866Z             }
+2026-11-10T05:52:06.6603009Z           ],
+2026-11-10T05:52:06.6603165Z           "kind": "failure",
+2026-11-10T05:52:06.6603347Z           "phase": "body-exited",
+2026-11-10T05:52:06.6603537Z           "selected": {
+2026-11-10T05:52:06.6603851Z             "filename": "/tmp/g11-origin-mutants-rk7gad0y/5-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:06.6604347Z             "firstlineno": 214,
+2026-11-10T05:52:06.6604586Z             "name": "test_unapproved_origin_provenance_is_not_a_kill"
+2026-11-10T05:52:06.6604837Z           },
+2026-11-10T05:52:06.6605141Z           "test": "test_unapproved_origin_provenance_is_not_a_kill"
+2026-11-10T05:52:06.6605398Z         },
+2026-11-10T05:52:06.6605553Z         "parsed": true,
+2026-11-10T05:52:06.6605721Z         "ran": 1,
+2026-11-10T05:52:06.6605887Z         "skipped": 0,
+2026-11-10T05:52:06.6606064Z         "status": "FAILED",
+2026-11-10T05:52:06.6606441Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_unapproved_origin_provenance_is_not_a_kill",
+2026-11-10T05:52:06.6606835Z         "traceback_line": 221,
+2026-11-10T05:52:06.6607102Z         "traceback_method": "test_unapproved_origin_provenance_is_not_a_kill"
+2026-11-10T05:52:06.6607548Z       },
+2026-11-10T05:52:06.6607740Z       "name": "unapproved origin provenance credited",
+2026-11-10T05:52:06.6608147Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_unapproved_origin_provenance_is_not_a_kill"
+2026-11-10T05:52:06.6608519Z     },
+2026-11-10T05:52:06.6608664Z     {
+2026-11-10T05:52:06.6608810Z       "baseline": {
+2026-11-10T05:52:06.6608983Z         "errors": 0,
+2026-11-10T05:52:06.6609158Z         "exception_type": null,
+2026-11-10T05:52:06.6609340Z         "exit": 0,
+2026-11-10T05:52:06.6609503Z         "failures": 0,
+2026-11-10T05:52:06.6609680Z         "origin_authorized": false,
+2026-11-10T05:52:06.6609883Z         "parsed": true,
+2026-11-10T05:52:06.6610057Z         "ran": 1,
+2026-11-10T05:52:06.6610220Z         "skipped": 0,
+2026-11-10T05:52:06.6610389Z         "status": "OK",
+2026-11-10T05:52:06.6610588Z         "test_id": null,
+2026-11-10T05:52:06.6610771Z         "traceback_line": null,
+2026-11-10T05:52:06.6610962Z         "traceback_method": null
+2026-11-10T05:52:06.6611143Z       },
+2026-11-10T05:52:06.6611302Z       "killed": true,
+2026-11-10T05:52:06.6611462Z       "line": 192,
+2026-11-10T05:52:06.6611622Z       "mutant": {
+2026-11-10T05:52:06.6611781Z         "errors": 0,
+2026-11-10T05:52:06.6611969Z         "exception_type": "AssertionError",
+2026-11-10T05:52:06.6612178Z         "exit": 1,
+2026-11-10T05:52:06.6612339Z         "failures": 1,
+2026-11-10T05:52:06.6612517Z         "origin_authorized": true,
+2026-11-10T05:52:06.6612722Z         "origin_provenance": {
+2026-11-10T05:52:06.6612916Z           "authorized": true,
+2026-11-10T05:52:06.6613097Z           "entered": 1,
+2026-11-10T05:52:06.6613277Z           "exception": "AssertionError",
+2026-11-10T05:52:06.6613483Z           "frames": [
+2026-11-10T05:52:06.6613644Z             {
+2026-11-10T05:52:06.6613928Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6614268Z               "firstlineno": 52,
+2026-11-10T05:52:06.6614459Z               "lineno": 57,
+2026-11-10T05:52:06.6614658Z               "name": "testPartExecutor",
+2026-11-10T05:52:06.6614868Z               "oracle": false,
+2026-11-10T05:52:06.6615076Z               "qualname": "_Outcome.testPartExecutor",
+2026-11-10T05:52:06.6615305Z               "selected": false
+2026-11-10T05:52:06.6615482Z             },
+2026-11-10T05:52:06.6615629Z             {
+2026-11-10T05:52:06.6615904Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6616243Z               "firstlineno": 589,
+2026-11-10T05:52:06.6616572Z               "lineno": 623,
+2026-11-10T05:52:06.6616851Z               "name": "run",
+2026-11-10T05:52:06.6617090Z               "oracle": false,
+2026-11-10T05:52:06.6617695Z               "qualname": "TestCase.run",
+2026-11-10T05:52:06.6618088Z               "selected": false
+2026-11-10T05:52:06.6618403Z             },
+2026-11-10T05:52:06.6618648Z             {
+2026-11-10T05:52:06.6618965Z               "filename": "/tmp/g11-origin-mutants-rk7gad0y/6-mutant/<string>",
+2026-11-10T05:52:06.6619557Z               "firstlineno": 56,
+2026-11-10T05:52:06.6628784Z               "lineno": 62,
+2026-11-10T05:52:06.6629007Z               "name": "call_body",
+2026-11-10T05:52:06.6629222Z               "oracle": false,
+2026-11-10T05:52:06.6629424Z               "qualname": "call_body",
+2026-11-10T05:52:06.6629794Z               "selected": false
+2026-11-10T05:52:06.6629981Z             },
+2026-11-10T05:52:06.6630128Z             {
+2026-11-10T05:52:06.6630443Z               "filename": "/tmp/g11-origin-mutants-rk7gad0y/6-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:06.6630810Z               "firstlineno": 188,
+2026-11-10T05:52:06.6631006Z               "lineno": 192,
+2026-11-10T05:52:06.6631250Z               "name": "test_live_failure_retains_actual_origin_frames",
+2026-11-10T05:52:06.6631517Z               "oracle": false,
+2026-11-10T05:52:06.6631817Z               "qualname": "ActualG11Origin.test_live_failure_retains_actual_origin_frames",
+2026-11-10T05:52:06.6632144Z               "selected": true
+2026-11-10T05:52:06.6632317Z             },
+2026-11-10T05:52:06.6632468Z             {
+2026-11-10T05:52:06.6632764Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6633135Z               "firstlineno": 1135,
+2026-11-10T05:52:06.6633339Z               "lineno": 1140,
+2026-11-10T05:52:06.6633533Z               "name": "assertIn",
+2026-11-10T05:52:06.6633728Z               "oracle": true,
+2026-11-10T05:52:06.6633927Z               "qualname": "TestCase.assertIn",
+2026-11-10T05:52:06.6634149Z               "selected": false
+2026-11-10T05:52:06.6634332Z             },
+2026-11-10T05:52:06.6634478Z             {
+2026-11-10T05:52:06.6634769Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:06.6635110Z               "firstlineno": 701,
+2026-11-10T05:52:06.6635304Z               "lineno": 703,
+2026-11-10T05:52:06.6635489Z               "name": "fail",
+2026-11-10T05:52:06.6635679Z               "oracle": true,
+2026-11-10T05:52:06.6635874Z               "qualname": "TestCase.fail",
+2026-11-10T05:52:06.6636075Z               "selected": false
+2026-11-10T05:52:06.6636246Z             }
+2026-11-10T05:52:06.6636385Z           ],
+2026-11-10T05:52:06.6636541Z           "kind": "failure",
+2026-11-10T05:52:06.6636719Z           "phase": "body-exited",
+2026-11-10T05:52:06.6636901Z           "selected": {
+2026-11-10T05:52:06.6637386Z             "filename": "/tmp/g11-origin-mutants-rk7gad0y/6-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:06.6637745Z             "firstlineno": 188,
+2026-11-10T05:52:06.6637976Z             "name": "test_live_failure_retains_actual_origin_frames"
+2026-11-10T05:52:06.6638222Z           },
+2026-11-10T05:52:06.6638419Z           "test": "test_live_failure_retains_actual_origin_frames"
+2026-11-10T05:52:06.6638659Z         },
+2026-11-10T05:52:06.6638813Z         "parsed": true,
+2026-11-10T05:52:06.6638981Z         "ran": 1,
+2026-11-10T05:52:06.6639148Z         "skipped": 0,
+2026-11-10T05:52:06.6639320Z         "status": "FAILED",
+2026-11-10T05:52:06.6639691Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_live_failure_retains_actual_origin_frames",
+2026-11-10T05:52:06.6640083Z         "traceback_line": 192,
+2026-11-10T05:52:06.6640358Z         "traceback_method": "test_live_failure_retains_actual_origin_frames"
+2026-11-10T05:52:06.6640638Z       },
+2026-11-10T05:52:06.6640797Z       "name": "origin frames omitted",
+2026-11-10T05:52:06.6641165Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_live_failure_retains_actual_origin_frames"
+2026-11-10T05:52:06.6641530Z     }
+2026-11-10T05:52:06.6641665Z   ],
+2026-11-10T05:52:06.6641819Z   "status": "PASS",
+2026-11-10T05:52:06.6641983Z   "total": 7
+2026-11-10T05:52:06.6642137Z }
+2026-11-10T05:52:06.6669200Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_origin_mutation_selftest.py
+2026-11-10T05:52:06.6670210Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_origin_mutation_selftest.py[0m
+2026-11-10T05:52:06.6713585Z shell: /usr/bin/bash -e {0}
+2026-11-10T05:52:06.6713788Z env:
+2026-11-10T05:52:06.6714010Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:52:06.6714358Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:52:06.6714687Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:52:06.6714981Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:52:06.6715278Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:52:06.6715571Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:52:06.6715858Z ##[endgroup]
+2026-11-10T05:52:23.0956086Z {
+2026-11-10T05:52:23.0956366Z   "executed": 7,
+2026-11-10T05:52:23.0956647Z   "inputs_sha256": [
+2026-11-10T05:52:23.0957086Z     "796cccb74930643ae2aa2bb723dabc9027f3f5de8398f09572a72e107aeeb3ae",
+2026-11-10T05:52:23.0957821Z     "c1f6492ff8bee83188d6db9cbf92dd69fd351f46ce929debba2f8829d15199c1",
+2026-11-10T05:52:23.0958363Z     "f182a0bafdd78bde3db19a73fb2cf39c6b8e3f8874f50ac65ced68bf8828a555",
+2026-11-10T05:52:23.0958897Z     "596705cd925c35ad18d0e85d848a6cd6b19c412fe97214703104475a5f0f80f0"
+2026-11-10T05:52:23.0959287Z   ],
+2026-11-10T05:52:23.0959492Z   "mode": "optimized",
+2026-11-10T05:52:23.0959724Z   "results": [
+2026-11-10T05:52:23.0959924Z     {
+2026-11-10T05:52:23.0960122Z       "baseline": {
+2026-11-10T05:52:23.0960344Z         "errors": 0,
+2026-11-10T05:52:23.0960584Z         "exception_type": null,
+2026-11-10T05:52:23.0960840Z         "exit": 0,
+2026-11-10T05:52:23.0961062Z         "failures": 0,
+2026-11-10T05:52:23.0961338Z         "origin_authorized": false,
+2026-11-10T05:52:23.0961632Z         "parsed": true,
+2026-11-10T05:52:23.0961864Z         "ran": 1,
+2026-11-10T05:52:23.0962092Z         "skipped": 0,
+2026-11-10T05:52:23.0962328Z         "status": "OK",
+2026-11-10T05:52:23.0962558Z         "test_id": null,
+2026-11-10T05:52:23.0962811Z         "traceback_line": null,
+2026-11-10T05:52:23.0963082Z         "traceback_method": null
+2026-11-10T05:52:23.0963334Z       },
+2026-11-10T05:52:23.0963540Z       "killed": true,
+2026-11-10T05:52:23.0963764Z       "line": 212,
+2026-11-10T05:52:23.0963971Z       "mutant": {
+2026-11-10T05:52:23.0964184Z         "errors": 0,
+2026-11-10T05:52:23.0964445Z         "exception_type": "AssertionError",
+2026-11-10T05:52:23.0964735Z         "exit": 1,
+2026-11-10T05:52:23.0964947Z         "failures": 1,
+2026-11-10T05:52:23.0965190Z         "origin_authorized": true,
+2026-11-10T05:52:23.0965467Z         "origin_provenance": {
+2026-11-10T05:52:23.0965730Z           "authorized": true,
+2026-11-10T05:52:23.0965988Z           "entered": 1,
+2026-11-10T05:52:23.0966237Z           "exception": "AssertionError",
+2026-11-10T05:52:23.0966518Z           "frames": [
+2026-11-10T05:52:23.0966839Z             {
+2026-11-10T05:52:23.0967478Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.0968010Z               "firstlineno": 52,
+2026-11-10T05:52:23.0968265Z               "lineno": 57,
+2026-11-10T05:52:23.0968522Z               "name": "testPartExecutor",
+2026-11-10T05:52:23.0968803Z               "oracle": false,
+2026-11-10T05:52:23.0969096Z               "qualname": "_Outcome.testPartExecutor",
+2026-11-10T05:52:23.0969410Z               "selected": false
+2026-11-10T05:52:23.0969648Z             },
+2026-11-10T05:52:23.0969847Z             {
+2026-11-10T05:52:23.0970235Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.0970781Z               "firstlineno": 589,
+2026-11-10T05:52:23.0971535Z               "lineno": 623,
+2026-11-10T05:52:23.0971821Z               "name": "run",
+2026-11-10T05:52:23.0972081Z               "oracle": false,
+2026-11-10T05:52:23.0972621Z               "qualname": "TestCase.run",
+2026-11-10T05:52:23.0972925Z               "selected": false
+2026-11-10T05:52:23.0973177Z             },
+2026-11-10T05:52:23.0973388Z             {
+2026-11-10T05:52:23.0973729Z               "filename": "/tmp/g11-origin-mutants-i5e6gps8/0-mutant/<string>",
+2026-11-10T05:52:23.0974150Z               "firstlineno": 56,
+2026-11-10T05:52:23.0974424Z               "lineno": 62,
+2026-11-10T05:52:23.0974684Z               "name": "call_body",
+2026-11-10T05:52:23.0974961Z               "oracle": false,
+2026-11-10T05:52:23.0975230Z               "qualname": "call_body",
+2026-11-10T05:52:23.0975516Z               "selected": false
+2026-11-10T05:52:23.0975768Z             },
+2026-11-10T05:52:23.0975970Z             {
+2026-11-10T05:52:23.0976436Z               "filename": "/tmp/g11-origin-mutants-i5e6gps8/0-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:23.0976974Z               "firstlineno": 205,
+2026-11-10T05:52:23.0977386Z               "lineno": 212,
+2026-11-10T05:52:23.0977738Z               "name": "test_false_origin_authorization_is_not_a_kill",
+2026-11-10T05:52:23.0978133Z               "oracle": false,
+2026-11-10T05:52:23.0978561Z               "qualname": "ActualG11Origin.test_false_origin_authorization_is_not_a_kill",
+2026-11-10T05:52:23.0979035Z               "selected": true
+2026-11-10T05:52:23.0979277Z             },
+2026-11-10T05:52:23.0979469Z             {
+2026-11-10T05:52:23.0979855Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.0980365Z               "firstlineno": 705,
+2026-11-10T05:52:23.0980641Z               "lineno": 709,
+2026-11-10T05:52:23.0980919Z               "name": "assertFalse",
+2026-11-10T05:52:23.0981227Z               "oracle": true,
+2026-11-10T05:52:23.0981544Z               "qualname": "TestCase.assertFalse",
+2026-11-10T05:52:23.0981879Z               "selected": false
+2026-11-10T05:52:23.0982146Z             }
+2026-11-10T05:52:23.0982375Z           ],
+2026-11-10T05:52:23.0982597Z           "kind": "failure",
+2026-11-10T05:52:23.0982876Z           "phase": "body-exited",
+2026-11-10T05:52:23.0983162Z           "selected": {
+2026-11-10T05:52:23.0983653Z             "filename": "/tmp/g11-origin-mutants-i5e6gps8/0-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:23.0984213Z             "firstlineno": 205,
+2026-11-10T05:52:23.0984562Z             "name": "test_false_origin_authorization_is_not_a_kill"
+2026-11-10T05:52:23.0984932Z           },
+2026-11-10T05:52:23.0985224Z           "test": "test_false_origin_authorization_is_not_a_kill"
+2026-11-10T05:52:23.0985581Z         },
+2026-11-10T05:52:23.0985803Z         "parsed": true,
+2026-11-10T05:52:23.0986050Z         "ran": 1,
+2026-11-10T05:52:23.0986281Z         "skipped": 0,
+2026-11-10T05:52:23.0986544Z         "status": "FAILED",
+2026-11-10T05:52:23.0987461Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_false_origin_authorization_is_not_a_kill",
+2026-11-10T05:52:23.0988136Z         "traceback_line": 212,
+2026-11-10T05:52:23.0988557Z         "traceback_method": "test_false_origin_authorization_is_not_a_kill"
+2026-11-10T05:52:23.0989007Z       },
+2026-11-10T05:52:23.0989264Z       "name": "missing live-origin guard",
+2026-11-10T05:52:23.0989879Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_false_origin_authorization_is_not_a_kill"
+2026-11-10T05:52:23.0990462Z     },
+2026-11-10T05:52:23.0990672Z     {
+2026-11-10T05:52:23.0990884Z       "baseline": {
+2026-11-10T05:52:23.0991100Z         "errors": 0,
+2026-11-10T05:52:23.0991330Z         "exception_type": null,
+2026-11-10T05:52:23.0991595Z         "exit": 0,
+2026-11-10T05:52:23.0991820Z         "failures": 0,
+2026-11-10T05:52:23.0992103Z         "origin_authorized": false,
+2026-11-10T05:52:23.0992440Z         "parsed": true,
+2026-11-10T05:52:23.0992861Z         "ran": 1,
+2026-11-10T05:52:23.0993113Z         "skipped": 0,
+2026-11-10T05:52:23.0993361Z         "status": "OK",
+2026-11-10T05:52:23.0993759Z         "test_id": null,
+2026-11-10T05:52:23.0994027Z         "traceback_line": null,
+2026-11-10T05:52:23.0994317Z         "traceback_method": null
+2026-11-10T05:52:23.0994587Z       },
+2026-11-10T05:52:23.0994782Z       "killed": true,
+2026-11-10T05:52:23.0995022Z       "line": 73,
+2026-11-10T05:52:23.0995237Z       "mutant": {
+2026-11-10T05:52:23.0995460Z         "errors": 0,
+2026-11-10T05:52:23.0995727Z         "exception_type": "AssertionError",
+2026-11-10T05:52:23.0996028Z         "exit": 1,
+2026-11-10T05:52:23.0996255Z         "failures": 1,
+2026-11-10T05:52:23.0996500Z         "origin_authorized": true,
+2026-11-10T05:52:23.0996787Z         "origin_provenance": {
+2026-11-10T05:52:23.0997064Z           "authorized": true,
+2026-11-10T05:52:23.0997457Z           "entered": 1,
+2026-11-10T05:52:23.0997743Z           "exception": "AssertionError",
+2026-11-10T05:52:23.0998043Z           "frames": [
+2026-11-10T05:52:23.0998264Z             {
+2026-11-10T05:52:23.0998696Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.0999231Z               "firstlineno": 52,
+2026-11-10T05:52:23.0999509Z               "lineno": 57,
+2026-11-10T05:52:23.0999814Z               "name": "testPartExecutor",
+2026-11-10T05:52:23.1000121Z               "oracle": false,
+2026-11-10T05:52:23.1000429Z               "qualname": "_Outcome.testPartExecutor",
+2026-11-10T05:52:23.1000786Z               "selected": false
+2026-11-10T05:52:23.1001052Z             },
+2026-11-10T05:52:23.1001270Z             {
+2026-11-10T05:52:23.1001709Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1002232Z               "firstlineno": 589,
+2026-11-10T05:52:23.1002500Z               "lineno": 623,
+2026-11-10T05:52:23.1002732Z               "name": "run",
+2026-11-10T05:52:23.1002969Z               "oracle": false,
+2026-11-10T05:52:23.1003241Z               "qualname": "TestCase.run",
+2026-11-10T05:52:23.1003548Z               "selected": false
+2026-11-10T05:52:23.1003808Z             },
+2026-11-10T05:52:23.1004011Z             {
+2026-11-10T05:52:23.1004349Z               "filename": "/tmp/g11-origin-mutants-i5e6gps8/1-mutant/<string>",
+2026-11-10T05:52:23.1004771Z               "firstlineno": 56,
+2026-11-10T05:52:23.1005053Z               "lineno": 62,
+2026-11-10T05:52:23.1005328Z               "name": "call_body",
+2026-11-10T05:52:23.1005620Z               "oracle": false,
+2026-11-10T05:52:23.1005890Z               "qualname": "call_body",
+2026-11-10T05:52:23.1006183Z               "selected": false
+2026-11-10T05:52:23.1006435Z             },
+2026-11-10T05:52:23.1006641Z             {
+2026-11-10T05:52:23.1007131Z               "filename": "/tmp/g11-origin-mutants-i5e6gps8/1-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:23.1007800Z               "firstlineno": 69,
+2026-11-10T05:52:23.1008075Z               "lineno": 73,
+2026-11-10T05:52:23.1008413Z               "name": "test_direct_subject_assertion_is_not_a_kill",
+2026-11-10T05:52:23.1008805Z               "oracle": false,
+2026-11-10T05:52:23.1009237Z               "qualname": "ActualG11Origin.test_direct_subject_assertion_is_not_a_kill",
+2026-11-10T05:52:23.1009720Z               "selected": true
+2026-11-10T05:52:23.1009984Z             },
+2026-11-10T05:52:23.1010194Z             {
+2026-11-10T05:52:23.1010649Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1011191Z               "firstlineno": 705,
+2026-11-10T05:52:23.1011491Z               "lineno": 709,
+2026-11-10T05:52:23.1011774Z               "name": "assertFalse",
+2026-11-10T05:52:23.1012053Z               "oracle": true,
+2026-11-10T05:52:23.1012374Z               "qualname": "TestCase.assertFalse",
+2026-11-10T05:52:23.1012732Z               "selected": false
+2026-11-10T05:52:23.1013174Z             }
+2026-11-10T05:52:23.1013401Z           ],
+2026-11-10T05:52:23.1013638Z           "kind": "failure",
+2026-11-10T05:52:23.1014077Z           "phase": "body-exited",
+2026-11-10T05:52:23.1014384Z           "selected": {
+2026-11-10T05:52:23.1014938Z             "filename": "/tmp/g11-origin-mutants-i5e6gps8/1-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:23.1015538Z             "firstlineno": 69,
+2026-11-10T05:52:23.1015888Z             "name": "test_direct_subject_assertion_is_not_a_kill"
+2026-11-10T05:52:23.1016241Z           },
+2026-11-10T05:52:23.1016524Z           "test": "test_direct_subject_assertion_is_not_a_kill"
+2026-11-10T05:52:23.1016908Z         },
+2026-11-10T05:52:23.1017136Z         "parsed": true,
+2026-11-10T05:52:23.1017532Z         "ran": 1,
+2026-11-10T05:52:23.1017780Z         "skipped": 0,
+2026-11-10T05:52:23.1018039Z         "status": "FAILED",
+2026-11-10T05:52:23.1018611Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_direct_subject_assertion_is_not_a_kill",
+2026-11-10T05:52:23.1019239Z         "traceback_line": 73,
+2026-11-10T05:52:23.1019657Z         "traceback_method": "test_direct_subject_assertion_is_not_a_kill"
+2026-11-10T05:52:23.1020110Z       },
+2026-11-10T05:52:23.1020386Z       "name": "subject and helper suffix accepted",
+2026-11-10T05:52:23.1021046Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_direct_subject_assertion_is_not_a_kill"
+2026-11-10T05:52:23.1021618Z     },
+2026-11-10T05:52:23.1021838Z     {
+2026-11-10T05:52:23.1022062Z       "baseline": {
+2026-11-10T05:52:23.1022317Z         "errors": 0,
+2026-11-10T05:52:23.1022591Z         "exception_type": null,
+2026-11-10T05:52:23.1022854Z         "exit": 0,
+2026-11-10T05:52:23.1023094Z         "failures": 0,
+2026-11-10T05:52:23.1023357Z         "origin_authorized": false,
+2026-11-10T05:52:23.1023656Z         "parsed": true,
+2026-11-10T05:52:23.1023904Z         "ran": 1,
+2026-11-10T05:52:23.1024152Z         "skipped": 0,
+2026-11-10T05:52:23.1024406Z         "status": "OK",
+2026-11-10T05:52:23.1024654Z         "test_id": null,
+2026-11-10T05:52:23.1024926Z         "traceback_line": null,
+2026-11-10T05:52:23.1025230Z         "traceback_method": null
+2026-11-10T05:52:23.1025503Z       },
+2026-11-10T05:52:23.1025706Z       "killed": true,
+2026-11-10T05:52:23.1025938Z       "line": 132,
+2026-11-10T05:52:23.1026167Z       "mutant": {
+2026-11-10T05:52:23.1026388Z         "errors": 0,
+2026-11-10T05:52:23.1026659Z         "exception_type": "AssertionError",
+2026-11-10T05:52:23.1026980Z         "exit": 1,
+2026-11-10T05:52:23.1027350Z         "failures": 1,
+2026-11-10T05:52:23.1027626Z         "origin_authorized": true,
+2026-11-10T05:52:23.1027956Z         "origin_provenance": {
+2026-11-10T05:52:23.1028253Z           "authorized": true,
+2026-11-10T05:52:23.1028534Z           "entered": 1,
+2026-11-10T05:52:23.1028817Z           "exception": "AssertionError",
+2026-11-10T05:52:23.1029133Z           "frames": [
+2026-11-10T05:52:23.1029367Z             {
+2026-11-10T05:52:23.1029824Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1030382Z               "firstlineno": 52,
+2026-11-10T05:52:23.1030676Z               "lineno": 57,
+2026-11-10T05:52:23.1030968Z               "name": "testPartExecutor",
+2026-11-10T05:52:23.1031295Z               "oracle": false,
+2026-11-10T05:52:23.1031619Z               "qualname": "_Outcome.testPartExecutor",
+2026-11-10T05:52:23.1031974Z               "selected": false
+2026-11-10T05:52:23.1032249Z             },
+2026-11-10T05:52:23.1032472Z             {
+2026-11-10T05:52:23.1032936Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1033466Z               "firstlineno": 519,
+2026-11-10T05:52:23.1033828Z               "lineno": 538,
+2026-11-10T05:52:23.1034116Z               "name": "subTest",
+2026-11-10T05:52:23.1034389Z               "oracle": false,
+2026-11-10T05:52:23.1034876Z               "qualname": "TestCase.subTest",
+2026-11-10T05:52:23.1035231Z               "selected": false
+2026-11-10T05:52:23.1035507Z             },
+2026-11-10T05:52:23.1035832Z             {
+2026-11-10T05:52:23.1036312Z               "filename": "/tmp/g11-origin-mutants-i5e6gps8/2-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:23.1036911Z               "firstlineno": 108,
+2026-11-10T05:52:23.1037331Z               "lineno": 132,
+2026-11-10T05:52:23.1037754Z               "name": "test_lifecycle_and_spoofed_nested_code_are_not_authorized",
+2026-11-10T05:52:23.1038154Z               "oracle": false,
+2026-11-10T05:52:23.1038642Z               "qualname": "ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized",
+2026-11-10T05:52:23.1039180Z               "selected": true
+2026-11-10T05:52:23.1039431Z             },
+2026-11-10T05:52:23.1039633Z             {
+2026-11-10T05:52:23.1040058Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1040582Z               "firstlineno": 705,
+2026-11-10T05:52:23.1040855Z               "lineno": 709,
+2026-11-10T05:52:23.1041137Z               "name": "assertFalse",
+2026-11-10T05:52:23.1041458Z               "oracle": true,
+2026-11-10T05:52:23.1041780Z               "qualname": "TestCase.assertFalse",
+2026-11-10T05:52:23.1042117Z               "selected": false
+2026-11-10T05:52:23.1042385Z             }
+2026-11-10T05:52:23.1042590Z           ],
+2026-11-10T05:52:23.1042808Z           "kind": "failure",
+2026-11-10T05:52:23.1043081Z           "phase": "body",
+2026-11-10T05:52:23.1043342Z           "selected": {
+2026-11-10T05:52:23.1043908Z             "filename": "/tmp/g11-origin-mutants-i5e6gps8/2-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:23.1044478Z             "firstlineno": 108,
+2026-11-10T05:52:23.1044867Z             "name": "test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+2026-11-10T05:52:23.1045299Z           },
+2026-11-10T05:52:23.1045648Z           "test": "test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+2026-11-10T05:52:23.1046064Z         },
+2026-11-10T05:52:23.1046277Z         "parsed": true,
+2026-11-10T05:52:23.1046517Z         "ran": 1,
+2026-11-10T05:52:23.1046755Z         "skipped": 0,
+2026-11-10T05:52:23.1047005Z         "status": "FAILED",
+2026-11-10T05:52:23.1047676Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized",
+2026-11-10T05:52:23.1048387Z         "traceback_line": 132,
+2026-11-10T05:52:23.1048821Z         "traceback_method": "test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+2026-11-10T05:52:23.1049267Z       },
+2026-11-10T05:52:23.1049489Z       "name": "cleanup phase accepted",
+2026-11-10T05:52:23.1050139Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_lifecycle_and_spoofed_nested_code_are_not_authorized"
+2026-11-10T05:52:23.1050752Z     },
+2026-11-10T05:52:23.1050940Z     {
+2026-11-10T05:52:23.1051130Z       "baseline": {
+2026-11-10T05:52:23.1051349Z         "errors": 0,
+2026-11-10T05:52:23.1051580Z         "exception_type": null,
+2026-11-10T05:52:23.1051850Z         "exit": 0,
+2026-11-10T05:52:23.1052095Z         "failures": 0,
+2026-11-10T05:52:23.1052371Z         "origin_authorized": false,
+2026-11-10T05:52:23.1052693Z         "parsed": true,
+2026-11-10T05:52:23.1052948Z         "ran": 1,
+2026-11-10T05:52:23.1053181Z         "skipped": 0,
+2026-11-10T05:52:23.1053427Z         "status": "OK",
+2026-11-10T05:52:23.1053654Z         "test_id": null,
+2026-11-10T05:52:23.1053894Z         "traceback_line": null,
+2026-11-10T05:52:23.1054153Z         "traceback_method": null
+2026-11-10T05:52:23.1054406Z       },
+2026-11-10T05:52:23.1054607Z       "killed": true,
+2026-11-10T05:52:23.1054826Z       "line": 152,
+2026-11-10T05:52:23.1055051Z       "mutant": {
+2026-11-10T05:52:23.1055260Z         "errors": 0,
+2026-11-10T05:52:23.1055515Z         "exception_type": "AssertionError",
+2026-11-10T05:52:23.1055822Z         "exit": 1,
+2026-11-10T05:52:23.1056209Z         "failures": 1,
+2026-11-10T05:52:23.1056484Z         "origin_authorized": true,
+2026-11-10T05:52:23.1056809Z         "origin_provenance": {
+2026-11-10T05:52:23.1057388Z           "authorized": true,
+2026-11-10T05:52:23.1057653Z           "entered": 1,
+2026-11-10T05:52:23.1057904Z           "exception": "AssertionError",
+2026-11-10T05:52:23.1058206Z           "frames": [
+2026-11-10T05:52:23.1058402Z             {
+2026-11-10T05:52:23.1058707Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1059048Z               "firstlineno": 52,
+2026-11-10T05:52:23.1059245Z               "lineno": 57,
+2026-11-10T05:52:23.1059448Z               "name": "testPartExecutor",
+2026-11-10T05:52:23.1059661Z               "oracle": false,
+2026-11-10T05:52:23.1059878Z               "qualname": "_Outcome.testPartExecutor",
+2026-11-10T05:52:23.1060113Z               "selected": false
+2026-11-10T05:52:23.1060302Z             },
+2026-11-10T05:52:23.1060456Z             {
+2026-11-10T05:52:23.1060810Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1061513Z               "firstlineno": 589,
+2026-11-10T05:52:23.1061820Z               "lineno": 623,
+2026-11-10T05:52:23.1062085Z               "name": "run",
+2026-11-10T05:52:23.1062349Z               "oracle": false,
+2026-11-10T05:52:23.1062647Z               "qualname": "TestCase.run",
+2026-11-10T05:52:23.1062968Z               "selected": false
+2026-11-10T05:52:23.1063206Z             },
+2026-11-10T05:52:23.1063360Z             {
+2026-11-10T05:52:23.1063606Z               "filename": "/tmp/g11-origin-mutants-i5e6gps8/3-mutant/<string>",
+2026-11-10T05:52:23.1063898Z               "firstlineno": 56,
+2026-11-10T05:52:23.1064101Z               "lineno": 62,
+2026-11-10T05:52:23.1064291Z               "name": "call_body",
+2026-11-10T05:52:23.1064492Z               "oracle": false,
+2026-11-10T05:52:23.1064690Z               "qualname": "call_body",
+2026-11-10T05:52:23.1064894Z               "selected": false
+2026-11-10T05:52:23.1065072Z             },
+2026-11-10T05:52:23.1065218Z             {
+2026-11-10T05:52:23.1065529Z               "filename": "/tmp/g11-origin-mutants-i5e6gps8/3-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:23.1065902Z               "firstlineno": 135,
+2026-11-10T05:52:23.1066108Z               "lineno": 152,
+2026-11-10T05:52:23.1066391Z               "name": "test_origin_report_rejects_inconsistent_and_non_oracle_frames",
+2026-11-10T05:52:23.1066694Z               "oracle": false,
+2026-11-10T05:52:23.1067030Z               "qualname": "ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames",
+2026-11-10T05:52:23.1067562Z               "selected": true
+2026-11-10T05:52:23.1067738Z             },
+2026-11-10T05:52:23.1067894Z             {
+2026-11-10T05:52:23.1068183Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1068522Z               "firstlineno": 705,
+2026-11-10T05:52:23.1068719Z               "lineno": 709,
+2026-11-10T05:52:23.1068924Z               "name": "assertFalse",
+2026-11-10T05:52:23.1069131Z               "oracle": true,
+2026-11-10T05:52:23.1069334Z               "qualname": "TestCase.assertFalse",
+2026-11-10T05:52:23.1069560Z               "selected": false
+2026-11-10T05:52:23.1069743Z             }
+2026-11-10T05:52:23.1069892Z           ],
+2026-11-10T05:52:23.1070050Z           "kind": "failure",
+2026-11-10T05:52:23.1070239Z           "phase": "body-exited",
+2026-11-10T05:52:23.1070429Z           "selected": {
+2026-11-10T05:52:23.1070758Z             "filename": "/tmp/g11-origin-mutants-i5e6gps8/3-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:23.1071116Z             "firstlineno": 135,
+2026-11-10T05:52:23.1071389Z             "name": "test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+2026-11-10T05:52:23.1071674Z           },
+2026-11-10T05:52:23.1072037Z           "test": "test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+2026-11-10T05:52:23.1072324Z         },
+2026-11-10T05:52:23.1072480Z         "parsed": true,
+2026-11-10T05:52:23.1072740Z         "ran": 1,
+2026-11-10T05:52:23.1072902Z         "skipped": 0,
+2026-11-10T05:52:23.1073077Z         "status": "FAILED",
+2026-11-10T05:52:23.1073480Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames",
+2026-11-10T05:52:23.1073921Z         "traceback_line": 152,
+2026-11-10T05:52:23.1074219Z         "traceback_method": "test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+2026-11-10T05:52:23.1074534Z       },
+2026-11-10T05:52:23.1074711Z       "name": "untrusted suffix report accepted",
+2026-11-10T05:52:23.1075143Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_origin_report_rejects_inconsistent_and_non_oracle_frames"
+2026-11-10T05:52:23.1075550Z     },
+2026-11-10T05:52:23.1075714Z     {
+2026-11-10T05:52:23.1075867Z       "baseline": {
+2026-11-10T05:52:23.1076034Z         "errors": 0,
+2026-11-10T05:52:23.1076212Z         "exception_type": null,
+2026-11-10T05:52:23.1076408Z         "exit": 0,
+2026-11-10T05:52:23.1076567Z         "failures": 0,
+2026-11-10T05:52:23.1076748Z         "origin_authorized": false,
+2026-11-10T05:52:23.1076950Z         "parsed": true,
+2026-11-10T05:52:23.1077114Z         "ran": 1,
+2026-11-10T05:52:23.1077433Z         "skipped": 0,
+2026-11-10T05:52:23.1077605Z         "status": "OK",
+2026-11-10T05:52:23.1077774Z         "test_id": null,
+2026-11-10T05:52:23.1077955Z         "traceback_line": null,
+2026-11-10T05:52:23.1078149Z         "traceback_method": null
+2026-11-10T05:52:23.1078332Z       },
+2026-11-10T05:52:23.1078495Z       "killed": true,
+2026-11-10T05:52:23.1078661Z       "line": 185,
+2026-11-10T05:52:23.1078815Z       "mutant": {
+2026-11-10T05:52:23.1078975Z         "errors": 0,
+2026-11-10T05:52:23.1079161Z         "exception_type": "AssertionError",
+2026-11-10T05:52:23.1079379Z         "exit": 1,
+2026-11-10T05:52:23.1079542Z         "failures": 1,
+2026-11-10T05:52:23.1079720Z         "origin_authorized": true,
+2026-11-10T05:52:23.1079929Z         "origin_provenance": {
+2026-11-10T05:52:23.1080126Z           "authorized": true,
+2026-11-10T05:52:23.1080310Z           "entered": 1,
+2026-11-10T05:52:23.1080495Z           "exception": "AssertionError",
+2026-11-10T05:52:23.1080700Z           "frames": [
+2026-11-10T05:52:23.1080859Z             {
+2026-11-10T05:52:23.1081147Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1081490Z               "firstlineno": 52,
+2026-11-10T05:52:23.1081684Z               "lineno": 57,
+2026-11-10T05:52:23.1081887Z               "name": "testPartExecutor",
+2026-11-10T05:52:23.1082098Z               "oracle": false,
+2026-11-10T05:52:23.1082308Z               "qualname": "_Outcome.testPartExecutor",
+2026-11-10T05:52:23.1082544Z               "selected": false
+2026-11-10T05:52:23.1082733Z             },
+2026-11-10T05:52:23.1082887Z             {
+2026-11-10T05:52:23.1083163Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1083499Z               "firstlineno": 589,
+2026-11-10T05:52:23.1083697Z               "lineno": 623,
+2026-11-10T05:52:23.1083876Z               "name": "run",
+2026-11-10T05:52:23.1084055Z               "oracle": false,
+2026-11-10T05:52:23.1084244Z               "qualname": "TestCase.run",
+2026-11-10T05:52:23.1084451Z               "selected": false
+2026-11-10T05:52:23.1084624Z             },
+2026-11-10T05:52:23.1084779Z             {
+2026-11-10T05:52:23.1085135Z               "filename": "/tmp/g11-origin-mutants-i5e6gps8/4-mutant/<string>",
+2026-11-10T05:52:23.1085579Z               "firstlineno": 56,
+2026-11-10T05:52:23.1085860Z               "lineno": 62,
+2026-11-10T05:52:23.1086103Z               "name": "call_body",
+2026-11-10T05:52:23.1086301Z               "oracle": false,
+2026-11-10T05:52:23.1086611Z               "qualname": "call_body",
+2026-11-10T05:52:23.1086819Z               "selected": false
+2026-11-10T05:52:23.1086995Z             },
+2026-11-10T05:52:23.1087390Z             {
+2026-11-10T05:52:23.1087705Z               "filename": "/tmp/g11-origin-mutants-i5e6gps8/4-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:23.1088056Z               "firstlineno": 172,
+2026-11-10T05:52:23.1088251Z               "lineno": 185,
+2026-11-10T05:52:23.1088521Z               "name": "test_precreated_report_without_runner_completion_is_rejected",
+2026-11-10T05:52:23.1088816Z               "oracle": false,
+2026-11-10T05:52:23.1089139Z               "qualname": "ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected",
+2026-11-10T05:52:23.1089482Z               "selected": true
+2026-11-10T05:52:23.1089656Z             },
+2026-11-10T05:52:23.1089804Z             {
+2026-11-10T05:52:23.1090092Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1090424Z               "firstlineno": 705,
+2026-11-10T05:52:23.1090613Z               "lineno": 709,
+2026-11-10T05:52:23.1090805Z               "name": "assertFalse",
+2026-11-10T05:52:23.1091005Z               "oracle": true,
+2026-11-10T05:52:23.1091209Z               "qualname": "TestCase.assertFalse",
+2026-11-10T05:52:23.1091431Z               "selected": false
+2026-11-10T05:52:23.1091607Z             }
+2026-11-10T05:52:23.1091755Z           ],
+2026-11-10T05:52:23.1091913Z           "kind": "failure",
+2026-11-10T05:52:23.1092104Z           "phase": "body-exited",
+2026-11-10T05:52:23.1092295Z           "selected": {
+2026-11-10T05:52:23.1092612Z             "filename": "/tmp/g11-origin-mutants-i5e6gps8/4-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:23.1092958Z             "firstlineno": 172,
+2026-11-10T05:52:23.1093222Z             "name": "test_precreated_report_without_runner_completion_is_rejected"
+2026-11-10T05:52:23.1093498Z           },
+2026-11-10T05:52:23.1093731Z           "test": "test_precreated_report_without_runner_completion_is_rejected"
+2026-11-10T05:52:23.1094005Z         },
+2026-11-10T05:52:23.1094163Z         "parsed": true,
+2026-11-10T05:52:23.1094333Z         "ran": 1,
+2026-11-10T05:52:23.1094498Z         "skipped": 0,
+2026-11-10T05:52:23.1094679Z         "status": "FAILED",
+2026-11-10T05:52:23.1095084Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected",
+2026-11-10T05:52:23.1095517Z         "traceback_line": 185,
+2026-11-10T05:52:23.1095813Z         "traceback_method": "test_precreated_report_without_runner_completion_is_rejected"
+2026-11-10T05:52:23.1096123Z       },
+2026-11-10T05:52:23.1096306Z       "name": "missing runner completion accepted",
+2026-11-10T05:52:23.1096742Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_precreated_report_without_runner_completion_is_rejected"
+2026-11-10T05:52:23.1097317Z     },
+2026-11-10T05:52:23.1097474Z     {
+2026-11-10T05:52:23.1097685Z       "baseline": {
+2026-11-10T05:52:23.1097979Z         "errors": 0,
+2026-11-10T05:52:23.1098325Z         "exception_type": null,
+2026-11-10T05:52:23.1098643Z         "exit": 0,
+2026-11-10T05:52:23.1098924Z         "failures": 0,
+2026-11-10T05:52:23.1099208Z         "origin_authorized": false,
+2026-11-10T05:52:23.1099529Z         "parsed": true,
+2026-11-10T05:52:23.1109154Z         "ran": 1,
+2026-11-10T05:52:23.1109391Z         "skipped": 0,
+2026-11-10T05:52:23.1109582Z         "status": "OK",
+2026-11-10T05:52:23.1109777Z         "test_id": null,
+2026-11-10T05:52:23.1109964Z         "traceback_line": null,
+2026-11-10T05:52:23.1110168Z         "traceback_method": null
+2026-11-10T05:52:23.1110358Z       },
+2026-11-10T05:52:23.1110510Z       "killed": true,
+2026-11-10T05:52:23.1110678Z       "line": 221,
+2026-11-10T05:52:23.1110835Z       "mutant": {
+2026-11-10T05:52:23.1110998Z         "errors": 0,
+2026-11-10T05:52:23.1111187Z         "exception_type": "AssertionError",
+2026-11-10T05:52:23.1111587Z         "exit": 1,
+2026-11-10T05:52:23.1111752Z         "failures": 1,
+2026-11-10T05:52:23.1111941Z         "origin_authorized": true,
+2026-11-10T05:52:23.1112249Z         "origin_provenance": {
+2026-11-10T05:52:23.1112442Z           "authorized": true,
+2026-11-10T05:52:23.1112625Z           "entered": 1,
+2026-11-10T05:52:23.1112810Z           "exception": "AssertionError",
+2026-11-10T05:52:23.1113016Z           "frames": [
+2026-11-10T05:52:23.1113177Z             {
+2026-11-10T05:52:23.1113477Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1113833Z               "firstlineno": 52,
+2026-11-10T05:52:23.1114025Z               "lineno": 57,
+2026-11-10T05:52:23.1114234Z               "name": "testPartExecutor",
+2026-11-10T05:52:23.1114445Z               "oracle": false,
+2026-11-10T05:52:23.1114666Z               "qualname": "_Outcome.testPartExecutor",
+2026-11-10T05:52:23.1114899Z               "selected": false
+2026-11-10T05:52:23.1115085Z             },
+2026-11-10T05:52:23.1115239Z             {
+2026-11-10T05:52:23.1115527Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1115871Z               "firstlineno": 589,
+2026-11-10T05:52:23.1116068Z               "lineno": 623,
+2026-11-10T05:52:23.1116255Z               "name": "run",
+2026-11-10T05:52:23.1116576Z               "oracle": false,
+2026-11-10T05:52:23.1116781Z               "qualname": "TestCase.run",
+2026-11-10T05:52:23.1116995Z               "selected": false
+2026-11-10T05:52:23.1117350Z             },
+2026-11-10T05:52:23.1117509Z             {
+2026-11-10T05:52:23.1117744Z               "filename": "/tmp/g11-origin-mutants-i5e6gps8/5-mutant/<string>",
+2026-11-10T05:52:23.1118030Z               "firstlineno": 56,
+2026-11-10T05:52:23.1118221Z               "lineno": 62,
+2026-11-10T05:52:23.1118406Z               "name": "call_body",
+2026-11-10T05:52:23.1118600Z               "oracle": false,
+2026-11-10T05:52:23.1118805Z               "qualname": "call_body",
+2026-11-10T05:52:23.1119007Z               "selected": false
+2026-11-10T05:52:23.1119180Z             },
+2026-11-10T05:52:23.1119327Z             {
+2026-11-10T05:52:23.1119635Z               "filename": "/tmp/g11-origin-mutants-i5e6gps8/5-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:23.1119987Z               "firstlineno": 214,
+2026-11-10T05:52:23.1120181Z               "lineno": 221,
+2026-11-10T05:52:23.1120416Z               "name": "test_unapproved_origin_provenance_is_not_a_kill",
+2026-11-10T05:52:23.1120677Z               "oracle": false,
+2026-11-10T05:52:23.1120972Z               "qualname": "ActualG11Origin.test_unapproved_origin_provenance_is_not_a_kill",
+2026-11-10T05:52:23.1121293Z               "selected": true
+2026-11-10T05:52:23.1121469Z             },
+2026-11-10T05:52:23.1121621Z             {
+2026-11-10T05:52:23.1121910Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1122251Z               "firstlineno": 705,
+2026-11-10T05:52:23.1122442Z               "lineno": 709,
+2026-11-10T05:52:23.1122627Z               "name": "assertFalse",
+2026-11-10T05:52:23.1122829Z               "oracle": true,
+2026-11-10T05:52:23.1123033Z               "qualname": "TestCase.assertFalse",
+2026-11-10T05:52:23.1123260Z               "selected": false
+2026-11-10T05:52:23.1123446Z             }
+2026-11-10T05:52:23.1123595Z           ],
+2026-11-10T05:52:23.1123750Z           "kind": "failure",
+2026-11-10T05:52:23.1123934Z           "phase": "body-exited",
+2026-11-10T05:52:23.1124124Z           "selected": {
+2026-11-10T05:52:23.1124461Z             "filename": "/tmp/g11-origin-mutants-i5e6gps8/5-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:23.1124817Z             "firstlineno": 214,
+2026-11-10T05:52:23.1125055Z             "name": "test_unapproved_origin_provenance_is_not_a_kill"
+2026-11-10T05:52:23.1125302Z           },
+2026-11-10T05:52:23.1125619Z           "test": "test_unapproved_origin_provenance_is_not_a_kill"
+2026-11-10T05:52:23.1125876Z         },
+2026-11-10T05:52:23.1126033Z         "parsed": true,
+2026-11-10T05:52:23.1126298Z         "ran": 1,
+2026-11-10T05:52:23.1126457Z         "skipped": 0,
+2026-11-10T05:52:23.1126629Z         "status": "FAILED",
+2026-11-10T05:52:23.1127005Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_unapproved_origin_provenance_is_not_a_kill",
+2026-11-10T05:52:23.1127521Z         "traceback_line": 221,
+2026-11-10T05:52:23.1127792Z         "traceback_method": "test_unapproved_origin_provenance_is_not_a_kill"
+2026-11-10T05:52:23.1128074Z       },
+2026-11-10T05:52:23.1128257Z       "name": "unapproved origin provenance credited",
+2026-11-10T05:52:23.1128674Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_unapproved_origin_provenance_is_not_a_kill"
+2026-11-10T05:52:23.1129040Z     },
+2026-11-10T05:52:23.1129184Z     {
+2026-11-10T05:52:23.1129330Z       "baseline": {
+2026-11-10T05:52:23.1129498Z         "errors": 0,
+2026-11-10T05:52:23.1129668Z         "exception_type": null,
+2026-11-10T05:52:23.1129856Z         "exit": 0,
+2026-11-10T05:52:23.1130019Z         "failures": 0,
+2026-11-10T05:52:23.1130198Z         "origin_authorized": false,
+2026-11-10T05:52:23.1130397Z         "parsed": true,
+2026-11-10T05:52:23.1130579Z         "ran": 1,
+2026-11-10T05:52:23.1130740Z         "skipped": 0,
+2026-11-10T05:52:23.1130908Z         "status": "OK",
+2026-11-10T05:52:23.1131079Z         "test_id": null,
+2026-11-10T05:52:23.1131258Z         "traceback_line": null,
+2026-11-10T05:52:23.1131449Z         "traceback_method": null
+2026-11-10T05:52:23.1131635Z       },
+2026-11-10T05:52:23.1131785Z       "killed": true,
+2026-11-10T05:52:23.1131949Z       "line": 192,
+2026-11-10T05:52:23.1132101Z       "mutant": {
+2026-11-10T05:52:23.1132256Z         "errors": 0,
+2026-11-10T05:52:23.1132448Z         "exception_type": "AssertionError",
+2026-11-10T05:52:23.1132658Z         "exit": 1,
+2026-11-10T05:52:23.1132821Z         "failures": 1,
+2026-11-10T05:52:23.1132996Z         "origin_authorized": true,
+2026-11-10T05:52:23.1133197Z         "origin_provenance": {
+2026-11-10T05:52:23.1133395Z           "authorized": true,
+2026-11-10T05:52:23.1133581Z           "entered": 1,
+2026-11-10T05:52:23.1133757Z           "exception": "AssertionError",
+2026-11-10T05:52:23.1133962Z           "frames": [
+2026-11-10T05:52:23.1134119Z             {
+2026-11-10T05:52:23.1134410Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1134749Z               "firstlineno": 52,
+2026-11-10T05:52:23.1134938Z               "lineno": 57,
+2026-11-10T05:52:23.1135124Z               "name": "testPartExecutor",
+2026-11-10T05:52:23.1135352Z               "oracle": false,
+2026-11-10T05:52:23.1135550Z               "qualname": "_Outcome.testPartExecutor",
+2026-11-10T05:52:23.1135774Z               "selected": false
+2026-11-10T05:52:23.1135948Z             },
+2026-11-10T05:52:23.1136095Z             {
+2026-11-10T05:52:23.1136364Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1136701Z               "firstlineno": 589,
+2026-11-10T05:52:23.1136894Z               "lineno": 623,
+2026-11-10T05:52:23.1137071Z               "name": "run",
+2026-11-10T05:52:23.1137340Z               "oracle": false,
+2026-11-10T05:52:23.1137535Z               "qualname": "TestCase.run",
+2026-11-10T05:52:23.1137741Z               "selected": false
+2026-11-10T05:52:23.1137917Z             },
+2026-11-10T05:52:23.1138064Z             {
+2026-11-10T05:52:23.1138291Z               "filename": "/tmp/g11-origin-mutants-i5e6gps8/6-mutant/<string>",
+2026-11-10T05:52:23.1138570Z               "firstlineno": 56,
+2026-11-10T05:52:23.1138749Z               "lineno": 62,
+2026-11-10T05:52:23.1138929Z               "name": "call_body",
+2026-11-10T05:52:23.1139119Z               "oracle": false,
+2026-11-10T05:52:23.1139310Z               "qualname": "call_body",
+2026-11-10T05:52:23.1139618Z               "selected": false
+2026-11-10T05:52:23.1139796Z             },
+2026-11-10T05:52:23.1139939Z             {
+2026-11-10T05:52:23.1140336Z               "filename": "/tmp/g11-origin-mutants-i5e6gps8/6-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:23.1140708Z               "firstlineno": 188,
+2026-11-10T05:52:23.1140904Z               "lineno": 192,
+2026-11-10T05:52:23.1141137Z               "name": "test_live_failure_retains_actual_origin_frames",
+2026-11-10T05:52:23.1141392Z               "oracle": false,
+2026-11-10T05:52:23.1141681Z               "qualname": "ActualG11Origin.test_live_failure_retains_actual_origin_frames",
+2026-11-10T05:52:23.1141993Z               "selected": true
+2026-11-10T05:52:23.1142165Z             },
+2026-11-10T05:52:23.1142313Z             {
+2026-11-10T05:52:23.1142586Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1142920Z               "firstlineno": 1135,
+2026-11-10T05:52:23.1143112Z               "lineno": 1140,
+2026-11-10T05:52:23.1143291Z               "name": "assertIn",
+2026-11-10T05:52:23.1143475Z               "oracle": true,
+2026-11-10T05:52:23.1143668Z               "qualname": "TestCase.assertIn",
+2026-11-10T05:52:23.1143924Z               "selected": false
+2026-11-10T05:52:23.1144102Z             },
+2026-11-10T05:52:23.1144246Z             {
+2026-11-10T05:52:23.1144511Z               "filename": "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/unittest/case.py",
+2026-11-10T05:52:23.1144830Z               "firstlineno": 701,
+2026-11-10T05:52:23.1145019Z               "lineno": 703,
+2026-11-10T05:52:23.1145194Z               "name": "fail",
+2026-11-10T05:52:23.1145363Z               "oracle": true,
+2026-11-10T05:52:23.1145549Z               "qualname": "TestCase.fail",
+2026-11-10T05:52:23.1145752Z               "selected": false
+2026-11-10T05:52:23.1145921Z             }
+2026-11-10T05:52:23.1146063Z           ],
+2026-11-10T05:52:23.1146216Z           "kind": "failure",
+2026-11-10T05:52:23.1146394Z           "phase": "body-exited",
+2026-11-10T05:52:23.1146581Z           "selected": {
+2026-11-10T05:52:23.1146900Z             "filename": "/tmp/g11-origin-mutants-i5e6gps8/6-mutant/tests/test_g11_origin_provenance.py",
+2026-11-10T05:52:23.1147336Z             "firstlineno": 188,
+2026-11-10T05:52:23.1147566Z             "name": "test_live_failure_retains_actual_origin_frames"
+2026-11-10T05:52:23.1147796Z           },
+2026-11-10T05:52:23.1147986Z           "test": "test_live_failure_retains_actual_origin_frames"
+2026-11-10T05:52:23.1148216Z         },
+2026-11-10T05:52:23.1148360Z         "parsed": true,
+2026-11-10T05:52:23.1148522Z         "ran": 1,
+2026-11-10T05:52:23.1148677Z         "skipped": 0,
+2026-11-10T05:52:23.1148840Z         "status": "FAILED",
+2026-11-10T05:52:23.1149200Z         "test_id": "tests.test_g11_origin_provenance.ActualG11Origin.test_live_failure_retains_actual_origin_frames",
+2026-11-10T05:52:23.1149593Z         "traceback_line": 192,
+2026-11-10T05:52:23.1149853Z         "traceback_method": "test_live_failure_retains_actual_origin_frames"
+2026-11-10T05:52:23.1150125Z       },
+2026-11-10T05:52:23.1150287Z       "name": "origin frames omitted",
+2026-11-10T05:52:23.1150649Z       "test": "tests.test_g11_origin_provenance.ActualG11Origin.test_live_failure_retains_actual_origin_frames"
+2026-11-10T05:52:23.1151004Z     }
+2026-11-10T05:52:23.1151138Z   ],
+2026-11-10T05:52:23.1151282Z   "status": "PASS",
+2026-11-10T05:52:23.1151443Z   "total": 7
+2026-11-10T05:52:23.1151591Z }
+2026-11-10T05:52:23.1177575Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest tests.test_g11_workflow_formats -v
+2026-11-10T05:52:23.1178437Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -m unittest tests.test_g11_workflow_formats -v[0m
+2026-11-10T05:52:23.1221567Z shell: /usr/bin/bash -e {0}
+2026-11-10T05:52:23.1221765Z env:
+2026-11-10T05:52:23.1221977Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:52:23.1222314Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:52:23.1222765Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:52:23.1223059Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:52:23.1223351Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:52:23.1223638Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:52:23.1223921Z ##[endgroup]
+2026-11-10T05:52:23.2267018Z test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) ... ok
+2026-11-10T05:52:23.2270733Z test_duplicate_json_workflow_is_unparseable (tests.test_g11_workflow_formats.WorkflowFormats.test_duplicate_json_workflow_is_unparseable) ... ok
+2026-11-10T05:52:23.2271712Z test_env_unset_equals_preserves_direct_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_env_unset_equals_preserves_direct_reference) ... ok
+2026-11-10T05:52:23.2272517Z test_env_unset_preserves_direct_execution_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_env_unset_preserves_direct_execution_reference) ... ok
+2026-11-10T05:52:23.2273901Z test_env_unsupported_or_nonexecution_is_not_credited (tests.test_g11_workflow_formats.WorkflowFormats.test_env_unsupported_or_nonexecution_is_not_credited) ... ok
+2026-11-10T05:52:23.3022908Z test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference) ... ok
+2026-11-10T05:52:23.3044715Z test_invalid_interpreter_option_operands_do_not_execute_tool (tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_interpreter_option_operands_do_not_execute_tool) ... 
+2026-11-10T05:52:23.3045872Z   test_invalid_interpreter_option_operands_do_not_execute_tool (tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_interpreter_option_operands_do_not_execute_tool) (interpreter='python3') ... FAIL
+2026-11-10T05:52:23.3122719Z   test_invalid_interpreter_option_operands_do_not_execute_tool (tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_interpreter_option_operands_do_not_execute_tool) (interpreter='bash') ... FAIL
+2026-11-10T05:52:23.3136922Z   test_invalid_interpreter_option_operands_do_not_execute_tool (tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_interpreter_option_operands_do_not_execute_tool) (interpreter='sh') ... FAIL
+2026-11-10T05:52:23.3141842Z test_invalid_json_job_step_shapes_are_unparseable (tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_json_job_step_shapes_are_unparseable) ... ok
+2026-11-10T05:52:23.3143175Z test_json_array_workflow_is_unparseable (tests.test_g11_workflow_formats.WorkflowFormats.test_json_array_workflow_is_unparseable) ... ok
+2026-11-10T05:52:23.3144510Z test_json_duplicate_keys_and_non_run_paths_are_refused (tests.test_g11_workflow_formats.WorkflowFormats.test_json_duplicate_keys_and_non_run_paths_are_refused) ... ok
+2026-11-10T05:52:23.3145790Z test_json_noop_step_is_failing (tests.test_g11_workflow_formats.WorkflowFormats.test_json_noop_step_is_failing) ... ok
+2026-11-10T05:52:23.3146994Z test_json_workflow_recognizes_only_job_step_runs (tests.test_g11_workflow_formats.WorkflowFormats.test_json_workflow_recognizes_only_job_step_runs) ... ok
+2026-11-10T05:52:23.3148717Z test_non_noop_json_run_is_not_a_noop (tests.test_g11_workflow_formats.WorkflowFormats.test_non_noop_json_run_is_not_a_noop) ... ok
+2026-11-10T05:52:23.3149936Z test_nonstandard_json_constant_is_unparseable (tests.test_g11_workflow_formats.WorkflowFormats.test_nonstandard_json_constant_is_unparseable) ... ok
+2026-11-10T05:52:23.3151158Z test_nonstring_json_run_is_unparseable (tests.test_g11_workflow_formats.WorkflowFormats.test_nonstring_json_run_is_unparseable) ... ok
+2026-11-10T05:52:23.3170172Z test_python_module_after_early_exit_is_not_a_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_python_module_after_early_exit_is_not_a_reference) ... ok
+2026-11-10T05:52:23.3171953Z test_python_module_direct_reference_with_supported_options (tests.test_g11_workflow_formats.WorkflowFormats.test_python_module_direct_reference_with_supported_options) ... ok
+2026-11-10T05:52:23.3223377Z test_shell_no_execution_options_are_not_tool_references (tests.test_g11_workflow_formats.WorkflowFormats.test_shell_no_execution_options_are_not_tool_references) ... ok
+2026-11-10T05:52:23.3224189Z 
+2026-11-10T05:52:23.3224329Z ======================================================================
+2026-11-10T05:52:23.3225429Z FAIL: test_invalid_interpreter_option_operands_do_not_execute_tool (tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_interpreter_option_operands_do_not_execute_tool) (interpreter='python3')
+2026-11-10T05:52:23.3226483Z ----------------------------------------------------------------------
+2026-11-10T05:52:23.3226882Z Traceback (most recent call last):
+2026-11-10T05:52:23.3233079Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 184, in test_invalid_interpreter_option_operands_do_not_execute_tool
+2026-11-10T05:52:23.3233978Z     self.assertEqual(g11.workflow_tool_references(text, {tool}), set())
+2026-11-10T05:52:23.3234489Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:52:23.3234888Z 'tools/cbz/g11_origin_mutation_selftest.py'
+2026-11-10T05:52:23.3235105Z 
+2026-11-10T05:52:23.3235241Z ======================================================================
+2026-11-10T05:52:23.3236173Z FAIL: test_invalid_interpreter_option_operands_do_not_execute_tool (tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_interpreter_option_operands_do_not_execute_tool) (interpreter='bash')
+2026-11-10T05:52:23.3237330Z ----------------------------------------------------------------------
+2026-11-10T05:52:23.3237741Z Traceback (most recent call last):
+2026-11-10T05:52:23.3238497Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 184, in test_invalid_interpreter_option_operands_do_not_execute_tool
+2026-11-10T05:52:23.3239303Z     self.assertEqual(g11.workflow_tool_references(text, {tool}), set())
+2026-11-10T05:52:23.3239861Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:52:23.3240304Z 'tools/cbz/example_guard.sh'
+2026-11-10T05:52:23.3240510Z 
+2026-11-10T05:52:23.3240649Z ======================================================================
+2026-11-10T05:52:23.3241745Z FAIL: test_invalid_interpreter_option_operands_do_not_execute_tool (tests.test_g11_workflow_formats.WorkflowFormats.test_invalid_interpreter_option_operands_do_not_execute_tool) (interpreter='sh')
+2026-11-10T05:52:23.3242888Z ----------------------------------------------------------------------
+2026-11-10T05:52:23.3243334Z Traceback (most recent call last):
+2026-11-10T05:52:23.3244173Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 184, in test_invalid_interpreter_option_operands_do_not_execute_tool
+2026-11-10T05:52:23.3245041Z     self.assertEqual(g11.workflow_tool_references(text, {tool}), set())
+2026-11-10T05:52:23.3245586Z AssertionError: Items in the first set but not the second:
+2026-11-10T05:52:23.3246000Z 'tools/cbz/example_guard.sh'
+2026-11-10T05:52:23.3246193Z 
+2026-11-10T05:52:23.3246357Z ----------------------------------------------------------------------
+2026-11-10T05:52:23.3246712Z Ran 18 tests in 0.099s
+2026-11-10T05:52:23.3246859Z 
+2026-11-10T05:52:23.3247471Z FAILED (failures=3)
+2026-11-10T05:52:23.3326414Z ##[error]Process completed with exit code 1.
+2026-11-10T05:52:23.3423768Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+2026-11-10T05:52:23.3424093Z with:
+2026-11-10T05:52:23.3424284Z   name: cbz-g11-provenance-42764722548-1
+2026-11-10T05:52:23.3424708Z   path: /home/runner/work/_temp/g11-mutations-normal.json
+/home/runner/work/_temp/g11-mutations-optimized.json
+
+2026-11-10T05:52:23.3425122Z   if-no-files-found: error
+2026-11-10T05:52:23.3425315Z   retention-days: 90
+2026-11-10T05:52:23.3425491Z   compression-level: 6
+2026-11-10T05:52:23.3425800Z   overwrite: false
+2026-11-10T05:52:23.3425976Z   include-hidden-files: false
+2026-11-10T05:52:23.3426166Z   archive: true
+2026-11-10T05:52:23.3426326Z env:
+2026-11-10T05:52:23.3426532Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:52:23.3426873Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:52:23.3427394Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:52:23.3427719Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:52:23.3428010Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:52:23.3428306Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:52:23.3428569Z ##[endgroup]
+2026-11-10T05:52:23.4559300Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-11-10T05:52:23.4560611Z The least common ancestor is /home/runner/work/_temp. This will be the root directory of the artifact
+2026-11-10T05:52:23.4575579Z ##[error]No files were found with the provided path: /home/runner/work/_temp/g11-mutations-normal.json
+/home/runner/work/_temp/g11-mutations-optimized.json. No artifacts will be uploaded.
+2026-11-10T05:52:23.4725382Z Post job cleanup.
+2026-11-10T05:52:23.5424361Z [command]/usr/bin/git version
+2026-11-10T05:52:23.5500620Z git version 2.56.0
+2026-11-10T05:52:23.5529412Z Temporarily overriding HOME='/home/runner/work/_temp/fa854842-748c-490b-864c-75d630927266' before making global git config changes
+2026-11-10T05:52:23.5530653Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T05:52:23.5533444Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T05:52:23.5563890Z Removing SSH command configuration
+2026-11-10T05:52:23.5569218Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T05:52:23.5599789Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T05:52:23.5865624Z Removing HTTP extra header
+2026-11-10T05:52:23.5870502Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T05:52:23.5902493Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T05:52:23.6163961Z Removing includeIf entries pointing to credentials config files
+2026-11-10T05:52:23.6170327Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T05:52:23.6199756Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T05:52:23.6577639Z Cleaning up orphan processes
