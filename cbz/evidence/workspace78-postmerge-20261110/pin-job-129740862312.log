@@ -1,0 +1,482 @@
+﻿2026-11-10T09:21:43.0756098Z Current runner version: '2.338.2'
+2026-11-10T09:21:43.0795562Z ##[group]Runner Image Provisioner
+2026-11-10T09:21:43.0796856Z Hosted Compute Agent
+2026-11-10T09:21:43.0797982Z Version: 20261028.624
+2026-11-10T09:21:43.0799095Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T09:21:43.0800369Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T09:21:43.0801791Z Worker ID: {e32ded08-282f-4ee9-8e8c-186feee04021}
+2026-11-10T09:21:43.0803199Z Region: eastus
+2026-11-10T09:21:43.0804239Z Cloud: Azure
+2026-11-10T09:21:43.0805476Z ##[endgroup]
+2026-11-10T09:21:43.0807881Z ##[group]Operating System
+2026-11-10T09:21:43.0809021Z Ubuntu
+2026-11-10T09:21:43.0810022Z 24.04.5
+2026-11-10T09:21:43.0811004Z LTS
+2026-11-10T09:21:43.0811890Z ##[endgroup]
+2026-11-10T09:21:43.0813052Z ##[group]Runner Image
+2026-11-10T09:21:43.0814204Z Image: ubuntu-24.04
+2026-11-10T09:21:43.0815602Z Version: 20261101.360.1
+2026-11-10T09:21:43.0817887Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T09:21:43.0820911Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T09:21:43.0822883Z ##[endgroup]
+2026-11-10T09:21:43.0824804Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T09:21:43.0828020Z Contents: read
+2026-11-10T09:21:43.0829044Z Metadata: read
+2026-11-10T09:21:43.0829995Z ##[endgroup]
+2026-11-10T09:21:43.0833146Z Secret source: Actions
+2026-11-10T09:21:43.0834834Z Cache mode: write
+2026-11-10T09:21:43.0836364Z Prepare workflow directory
+2026-11-10T09:21:43.1334185Z Prepare all required actions
+2026-11-10T09:21:43.1409507Z Getting action download info
+2026-11-10T09:21:43.2737060Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-10T09:21:43.4157628Z Download action repository 'actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-10T09:21:43.7158931Z Complete job name: verify-pins
+2026-11-10T09:21:43.8063121Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-11-10T09:21:43.8064191Z with:
+2026-11-10T09:21:43.8064642Z   submodules: false
+2026-11-10T09:21:43.8065422Z   repository: d6g8k5htny-coder/Universal-Law-Workspace
+2026-11-10T09:21:43.8069328Z   token: ***
+2026-11-10T09:21:43.8069784Z   ssh-strict: true
+2026-11-10T09:21:43.8070243Z   ssh-user: git
+2026-11-10T09:21:43.8070713Z   persist-credentials: true
+2026-11-10T09:21:43.8071215Z   clean: true
+2026-11-10T09:21:43.8071673Z   sparse-checkout-cone-mode: true
+2026-11-10T09:21:43.8072205Z   fetch-depth: 1
+2026-11-10T09:21:43.8072669Z   fetch-tags: false
+2026-11-10T09:21:43.8073141Z   show-progress: true
+2026-11-10T09:21:43.8073616Z   lfs: false
+2026-11-10T09:21:43.8074068Z   set-safe-directory: true
+2026-11-10T09:21:43.8074597Z   allow-unsafe-pr-checkout: false
+2026-11-10T09:21:43.8075571Z ##[endgroup]
+2026-11-10T09:21:44.3409375Z Syncing repository: d6g8k5htny-coder/Universal-Law-Workspace
+2026-11-10T09:21:44.3411777Z ##[group]Getting Git version info
+2026-11-10T09:21:44.3412801Z Working directory is '/home/runner/work/Universal-Law-Workspace/Universal-Law-Workspace'
+2026-11-10T09:21:44.3414122Z [command]/usr/bin/git version
+2026-11-10T09:21:44.3649329Z git version 2.56.0
+2026-11-10T09:21:44.3684415Z ##[endgroup]
+2026-11-10T09:21:44.3692661Z Temporarily overriding HOME='/home/runner/work/_temp/77c1fe22-8257-4c90-8ddb-bdd0b9a5c5ca' before making global git config changes
+2026-11-10T09:21:44.3694494Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T09:21:44.3700317Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Universal-Law-Workspace/Universal-Law-Workspace
+2026-11-10T09:21:44.3778562Z Deleting the contents of '/home/runner/work/Universal-Law-Workspace/Universal-Law-Workspace'
+2026-11-10T09:21:44.3783646Z ##[group]Initializing the repository
+2026-11-10T09:21:44.3789364Z [command]/usr/bin/git init /home/runner/work/Universal-Law-Workspace/Universal-Law-Workspace
+2026-11-10T09:21:44.4082783Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T09:21:44.4084732Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T09:21:44.4086804Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T09:21:44.4088179Z hint: call:
+2026-11-10T09:21:44.4088884Z hint:
+2026-11-10T09:21:44.4089897Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T09:21:44.4091022Z hint:
+2026-11-10T09:21:44.4092030Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T09:21:44.4093825Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T09:21:44.4095398Z hint:
+2026-11-10T09:21:44.4096132Z hint: 	git branch -m <name>
+2026-11-10T09:21:44.4096969Z hint:
+2026-11-10T09:21:44.4098275Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T09:21:44.4100875Z Initialized empty Git repository in /home/runner/work/Universal-Law-Workspace/Universal-Law-Workspace/.git/
+2026-11-10T09:21:44.4121940Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/Universal-Law-Workspace
+2026-11-10T09:21:44.4179800Z ##[endgroup]
+2026-11-10T09:21:44.4181345Z ##[group]Disabling automatic garbage collection
+2026-11-10T09:21:44.4183228Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T09:21:44.4223246Z ##[endgroup]
+2026-11-10T09:21:44.4224069Z ##[group]Setting up auth
+2026-11-10T09:21:44.4232574Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T09:21:44.4289301Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T09:21:44.4747146Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T09:21:44.4792989Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T09:21:44.5034781Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T09:21:44.5080049Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T09:21:44.5332101Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T09:21:44.5380208Z ##[endgroup]
+2026-11-10T09:21:44.5381528Z ##[group]Fetching the repository
+2026-11-10T09:21:44.5394211Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +5ee815d60d5e11cb590b2a3b274fd13104bd915d:refs/remotes/origin/main
+2026-11-10T09:21:44.9393242Z From https://github.com/d6g8k5htny-coder/Universal-Law-Workspace
+2026-11-10T09:21:44.9394979Z  * [new ref]         5ee815d60d5e11cb590b2a3b274fd13104bd915d -> origin/main
+2026-11-10T09:21:44.9408806Z ##[endgroup]
+2026-11-10T09:21:44.9410571Z ##[group]Determining the checkout info
+2026-11-10T09:21:44.9411922Z ##[endgroup]
+2026-11-10T09:21:44.9412719Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T09:21:44.9469749Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T09:21:44.9520049Z ##[group]Checking out the ref
+2026-11-10T09:21:44.9521518Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-11-10T09:21:44.9764117Z Switched to a new branch 'main'
+2026-11-10T09:21:44.9770256Z branch 'main' set up to track 'origin/main'.
+2026-11-10T09:21:44.9779241Z ##[endgroup]
+2026-11-10T09:21:44.9828552Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T09:21:44.9862679Z 5ee815d60d5e11cb590b2a3b274fd13104bd915d
+2026-11-10T09:21:45.0257836Z ##[group]Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+2026-11-10T09:21:45.0259851Z with:
+2026-11-10T09:21:45.0261399Z   python-version: 3.11
+2026-11-10T09:21:45.0262558Z   check-latest: false
+2026-11-10T09:21:45.0273029Z   token: ***
+2026-11-10T09:21:45.0274030Z   update-environment: true
+2026-11-10T09:21:45.0275365Z   allow-prereleases: false
+2026-11-10T09:21:45.0276492Z   freethreaded: false
+2026-11-10T09:21:45.0277489Z ##[endgroup]
+2026-11-10T09:21:45.1723794Z ##[group]Installed versions
+2026-11-10T09:21:45.1847712Z (node:2297) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T09:21:45.1851233Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T09:21:45.1854209Z Successfully set up CPython (3.11.18)
+2026-11-10T09:21:45.1857819Z ##[endgroup]
+2026-11-10T09:21:45.2107162Z ##[group]Run python3 tools/verify_pins.py --network
+2026-11-10T09:21:45.2108929Z [36;1mpython3 tools/verify_pins.py --network[0m
+2026-11-10T09:21:45.2155034Z shell: /usr/bin/bash -e {0}
+2026-11-10T09:21:45.2157385Z env:
+2026-11-10T09:21:45.2159339Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T09:21:45.2161342Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T09:21:45.2163260Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T09:21:45.2164979Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T09:21:45.2167191Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T09:21:45.2169504Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T09:21:45.2171037Z ##[endgroup]
+2026-11-10T09:21:54.4117926Z info: repos/main: pin equals remote main tip
+2026-11-10T09:21:54.4118459Z info: repos/Math-: pin equals remote main tip
+2026-11-10T09:21:54.4119001Z info: repos/meta-framework: pin equals remote main tip
+2026-11-10T09:21:54.4119427Z info: repos/query-: pin equals remote main tip
+2026-11-10T09:21:54.4119840Z info: repos/google-drive: pin equals remote main tip
+2026-11-10T09:21:54.4120262Z info: repos/trial: pin equals remote main tip
+2026-11-10T09:21:54.4120677Z info: repos/governance-: pin equals remote main tip
+2026-11-10T09:21:54.4121111Z info: repos/sandbox: pin equals remote main tip
+2026-11-10T09:21:54.4121596Z verify_pins: OK (8 pin(s) agree with tree and .gitmodules; remotes checked)
+2026-11-10T09:21:54.4223753Z ##[group]Run python3 tools/verify_pins.py --require-current
+2026-11-10T09:21:54.4224298Z [36;1mpython3 tools/verify_pins.py --require-current[0m
+2026-11-10T09:21:54.4246456Z shell: /usr/bin/bash -e {0}
+2026-11-10T09:21:54.4246766Z env:
+2026-11-10T09:21:54.4247100Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T09:21:54.4247603Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T09:21:54.4248125Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T09:21:54.4248585Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T09:21:54.4249048Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T09:21:54.4249508Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T09:21:54.4249876Z ##[endgroup]
+2026-11-10T09:22:03.3013353Z info: repos/main: pin equals remote default main tip
+2026-11-10T09:22:03.3014020Z info: repos/Math-: pin equals remote default main tip
+2026-11-10T09:22:03.3014713Z info: repos/meta-framework: pin equals remote default main tip
+2026-11-10T09:22:03.3015868Z info: repos/query-: pin equals remote default main tip
+2026-11-10T09:22:03.3016691Z info: repos/google-drive: pin equals remote default main tip
+2026-11-10T09:22:03.3017462Z info: repos/trial: pin equals remote default main tip
+2026-11-10T09:22:03.3018202Z info: repos/governance-: pin equals remote default main tip
+2026-11-10T09:22:03.3018912Z info: repos/sandbox: pin equals remote default main tip
+2026-11-10T09:22:03.3019825Z verify_pins: OK (8 pin(s) agree with tree and .gitmodules; remotes checked; current tips required)
+2026-11-10T09:22:03.3107591Z ##[group]Run python3 tools/verify_canonical_inputs.py
+2026-11-10T09:22:03.3108339Z [36;1mpython3 tools/verify_canonical_inputs.py[0m
+2026-11-10T09:22:03.3128999Z shell: /usr/bin/bash -e {0}
+2026-11-10T09:22:03.3129254Z env:
+2026-11-10T09:22:03.3129530Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T09:22:03.3129995Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T09:22:03.3130452Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T09:22:03.3130847Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T09:22:03.3131234Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T09:22:03.3131643Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T09:22:03.3131979Z ##[endgroup]
+2026-11-10T09:22:10.8277589Z OK: repository_registry: pinned d6g8k5htny-coder/meta-framework registry.json at 0f5894f81a5462c10ee5ec8f8109f466e712e47e
+2026-11-10T09:22:10.8279352Z OK: scientific_authority_map: separate-ref d6g8k5htny-coder/main architecture/scientific_state/v1/AUTHORITY_MAP.json at a01c72f1937875b94bfd78e183a6dbbdb2b04da4
+2026-11-10T09:22:10.8281232Z OK: downstream_gate: pinned d6g8k5htny-coder/Math- frontiers/downstream_gate_20260925/GRAPH.json at 9bdfc54b76173b57912503bfcf901a5f9d43b09c
+2026-11-10T09:22:10.8282868Z OK: landing_claims: pinned d6g8k5htny-coder/Math- claims/LANDING_CLAIMS.json at 9bdfc54b76173b57912503bfcf901a5f9d43b09c
+2026-11-10T09:22:10.8284091Z verify_canonical_inputs: OK (4 canonical inputs; default-tip currency is separate)
+2026-11-10T09:22:10.8391517Z ##[group]Run set -euo pipefail
+2026-11-10T09:22:10.8391848Z [36;1mset -euo pipefail[0m
+2026-11-10T09:22:10.8392265Z [36;1mpython3 -m unittest discover -s tests -v 2>&1 | tee "$RUNNER_TEMP/discovery.log"[0m
+2026-11-10T09:22:10.8393116Z [36;1mgrep -Eq '^Ran [1-9][0-9]* tests? in ' "$RUNNER_TEMP/discovery.log" || { echo "::error::unittest discovery collected 0 tests or returned no count"; exit 1; }[0m
+2026-11-10T09:22:10.8416165Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T09:22:10.8416526Z env:
+2026-11-10T09:22:10.8416791Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T09:22:10.8417220Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T09:22:10.8417660Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T09:22:10.8418050Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T09:22:10.8418446Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T09:22:10.8418851Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T09:22:10.8419182Z ##[endgroup]
+2026-11-10T09:22:11.1495053Z test_directory_census_and_json (test_cbz_a3_float_census.CommandLine.test_directory_census_and_json) ... ok
+2026-11-10T09:22:11.1962873Z test_encodings_in_directory_and_git_modes (test_cbz_a3_float_census.CommandLine.test_encodings_in_directory_and_git_modes) ... ok
+2026-11-10T09:22:11.2482292Z test_git_mode (test_cbz_a3_float_census.CommandLine.test_git_mode) ... ok
+2026-11-10T09:22:11.3184917Z test_missing_root_is_an_error (test_cbz_a3_float_census.CommandLine.test_missing_root_is_an_error) ... ok
+2026-11-10T09:22:11.3198978Z test_traversal_error_fails_closed (test_cbz_a3_float_census.CommandLine.test_traversal_error_fails_closed) ... a3_float_census: error: [Errno 13] Permission denied: '/tmp/tmpy405lqrx/certs'
+2026-11-10T09:22:11.3200770Z ok
+2026-11-10T09:22:11.3556640Z test_unparseable_exit_one (test_cbz_a3_float_census.CommandLine.test_unparseable_exit_one) ... ok
+2026-11-10T09:22:11.3932202Z test_usage (test_cbz_a3_float_census.CommandLine.test_usage) ... ok
+2026-11-10T09:22:18.7709823Z test_every_mutant_is_killed (test_cbz_a3_float_census.SelfMutation.test_every_mutant_is_killed) ... ok
+2026-11-10T09:22:19.1208039Z test_harness_control_unmutated_copy_passes (test_cbz_a3_float_census.SelfMutation.test_harness_control_unmutated_copy_passes) ... ok
+2026-11-10T09:22:19.1217168Z test_alias_imported_after_its_use_in_a_function (test_cbz_a3_float_census.Signals.test_alias_imported_after_its_use_in_a_function) ... ok
+2026-11-10T09:22:19.1219493Z test_declared_source_encodings_are_honoured (test_cbz_a3_float_census.Signals.test_declared_source_encodings_are_honoured) ... ok
+2026-11-10T09:22:19.1220931Z test_exact_modules_and_mixed (test_cbz_a3_float_census.Signals.test_exact_modules_and_mixed) ... ok
+2026-11-10T09:22:19.1222381Z test_float_and_complex_calls (test_cbz_a3_float_census.Signals.test_float_and_complex_calls) ... ok
+2026-11-10T09:22:19.1223676Z test_float_literals (test_cbz_a3_float_census.Signals.test_float_literals) ... ok
+2026-11-10T09:22:19.1224848Z test_float_modules (test_cbz_a3_float_census.Signals.test_float_modules) ... ok
+2026-11-10T09:22:19.1226367Z test_floor_division_is_exact (test_cbz_a3_float_census.Signals.test_floor_division_is_exact) ... ok
+2026-11-10T09:22:19.1227890Z test_int_and_bool_literals_are_not_float (test_cbz_a3_float_census.Signals.test_int_and_bool_literals_are_not_float) ... ok
+2026-11-10T09:22:19.1246178Z test_interval_layer (test_cbz_a3_float_census.Signals.test_interval_layer) ... ok
+2026-11-10T09:22:19.1248025Z test_interval_module_imported_through_parent_package (test_cbz_a3_float_census.Signals.test_interval_module_imported_through_parent_package) ... ok
+2026-11-10T09:22:19.1249984Z test_math_alias_and_from_import (test_cbz_a3_float_census.Signals.test_math_alias_and_from_import) ... ok
+2026-11-10T09:22:19.1251593Z test_math_float_and_exact_math (test_cbz_a3_float_census.Signals.test_math_float_and_exact_math) ... ok
+2026-11-10T09:22:19.1253465Z test_mpmath_interval (test_cbz_a3_float_census.Signals.test_mpmath_interval) ... ok
+2026-11-10T09:22:19.1255439Z test_strings_and_comments_are_not_code (test_cbz_a3_float_census.Signals.test_strings_and_comments_are_not_code) ... ok
+2026-11-10T09:22:19.1257324Z test_true_division_and_augmented (test_cbz_a3_float_census.Signals.test_true_division_and_augmented) ... ok
+2026-11-10T09:22:19.1258971Z test_unparseable_fails_closed (test_cbz_a3_float_census.Signals.test_unparseable_fails_closed) ... ok
+2026-11-10T09:22:19.1260773Z test_unrelated_attribute_named_like_math (test_cbz_a3_float_census.Signals.test_unrelated_attribute_named_like_math) ... ok
+2026-11-10T09:22:19.1607522Z test_clean_tree_exits_zero (test_cbz_layer_a_scan.CommandLine.test_clean_tree_exits_zero) ... ok
+2026-11-10T09:22:19.2772194Z test_context_does_not_depend_on_path_spelling (test_cbz_layer_a_scan.CommandLine.test_context_does_not_depend_on_path_spelling) ... ok
+2026-11-10T09:22:19.3491185Z test_evidence_violation_reported_not_failing_by_default (test_cbz_layer_a_scan.CommandLine.test_evidence_violation_reported_not_failing_by_default) ... ok
+2026-11-10T09:22:19.4236460Z test_explicit_context_root (test_cbz_layer_a_scan.CommandLine.test_explicit_context_root) ... ok
+2026-11-10T09:22:19.6684255Z test_fail_on_rejects_unknown_contexts (test_cbz_layer_a_scan.CommandLine.test_fail_on_rejects_unknown_contexts) ... ok
+2026-11-10T09:22:19.7154506Z test_git_environment_cannot_redirect_context (test_cbz_layer_a_scan.CommandLine.test_git_environment_cannot_redirect_context) ... ok
+2026-11-10T09:22:19.7672445Z test_git_tree_mode (test_cbz_layer_a_scan.CommandLine.test_git_tree_mode) ... ok
+2026-11-10T09:22:20.0149800Z test_invalid_nested_git_markers_preserve_outer_context (test_cbz_layer_a_scan.CommandLine.test_invalid_nested_git_markers_preserve_outer_context) ... ok
+2026-11-10T09:22:20.0701838Z test_linked_worktree_gitfile_supplies_its_own_context (test_cbz_layer_a_scan.CommandLine.test_linked_worktree_gitfile_supplies_its_own_context) ... ok
+2026-11-10T09:22:20.0748067Z test_missing_git_executable_fails_closed (test_cbz_layer_a_scan.CommandLine.test_missing_git_executable_fails_closed) ... layer_a_scan: error: git
+2026-11-10T09:22:20.0757137Z ok
+2026-11-10T09:22:20.1796421Z test_missing_scan_root_is_an_error (test_cbz_layer_a_scan.CommandLine.test_missing_scan_root_is_an_error) ... ok
+2026-11-10T09:22:20.1804471Z test_no_worktree_uses_scan_argument_context (test_cbz_layer_a_scan.CommandLine.test_no_worktree_uses_scan_argument_context) ... ok
+2026-11-10T09:22:20.2158887Z test_non_lean_files_ignored (test_cbz_layer_a_scan.CommandLine.test_non_lean_files_ignored) ... ok
+2026-11-10T09:22:20.2514548Z test_production_violation_fails (test_cbz_layer_a_scan.CommandLine.test_production_violation_fails) ... ok
+2026-11-10T09:22:20.3321772Z test_real_outer_repository_retains_archive_context (test_cbz_layer_a_scan.CommandLine.test_real_outer_repository_retains_archive_context) ... ok
+2026-11-10T09:22:20.3675042Z test_review_only_does_not_fail (test_cbz_layer_a_scan.CommandLine.test_review_only_does_not_fail) ... ok
+2026-11-10T09:22:20.4095107Z test_symlinked_checkout_keeps_lexical_context (test_cbz_layer_a_scan.CommandLine.test_symlinked_checkout_keeps_lexical_context) ... ok
+2026-11-10T09:22:20.4107021Z test_traversal_error_fails_closed (test_cbz_layer_a_scan.CommandLine.test_traversal_error_fails_closed) ... layer_a_scan: error: [Errno 13] Permission denied: '/tmp/tmpcu_ag4d1/proofs'
+2026-11-10T09:22:20.4116135Z ok
+2026-11-10T09:22:20.4463066Z test_undecodable_fails_closed (test_cbz_layer_a_scan.CommandLine.test_undecodable_fails_closed) ... ok
+2026-11-10T09:22:20.5293847Z test_unrelated_ancestor_does_not_change_context (test_cbz_layer_a_scan.CommandLine.test_unrelated_ancestor_does_not_change_context) ... ok
+2026-11-10T09:22:20.5728194Z test_unrelated_configured_worktree_fails_closed (test_cbz_layer_a_scan.CommandLine.test_unrelated_configured_worktree_fails_closed) ... ok
+2026-11-10T09:22:20.5736231Z test_unvalidated_markers_do_not_establish_a_worktree (test_cbz_layer_a_scan.CommandLine.test_unvalidated_markers_do_not_establish_a_worktree) ... ok
+2026-11-10T09:22:20.6089564Z test_usage_error (test_cbz_layer_a_scan.CommandLine.test_usage_error) ... ok
+2026-11-10T09:22:20.6090806Z test_context_classification (test_cbz_layer_a_scan.Context.test_context_classification) ... ok
+2026-11-10T09:22:20.6444524Z test_lex_error_fails_the_run (test_cbz_layer_a_scan.FailClosed.test_lex_error_fails_the_run) ... ok
+2026-11-10T09:22:20.6449571Z test_terminated_constructs_are_not_errors (test_cbz_layer_a_scan.FailClosed.test_terminated_constructs_are_not_errors) ... ok
+2026-11-10T09:22:20.6454317Z test_unterminated_constructs_are_errors (test_cbz_layer_a_scan.FailClosed.test_unterminated_constructs_are_errors) ... ok
+2026-11-10T09:22:20.6457326Z test_block_comments_nested_and_doc (test_cbz_layer_a_scan.NotCode.test_block_comments_nested_and_doc) ... ok
+2026-11-10T09:22:20.6460334Z test_char_literals_do_not_open_strings (test_cbz_layer_a_scan.NotCode.test_char_literals_do_not_open_strings) ... ok
+2026-11-10T09:22:20.6463450Z test_escaped_constant_names_are_the_same_constants (test_cbz_layer_a_scan.NotCode.test_escaped_constant_names_are_the_same_constants) ... ok
+2026-11-10T09:22:20.6465149Z test_escaped_keyword_names_are_identifiers (test_cbz_layer_a_scan.NotCode.test_escaped_keyword_names_are_identifiers) ... ok
+2026-11-10T09:22:20.6476521Z test_identifiers_containing_keywords (test_cbz_layer_a_scan.NotCode.test_identifiers_containing_keywords) ... ok
+2026-11-10T09:22:20.6477278Z test_interpolated_strings (test_cbz_layer_a_scan.NotCode.test_interpolated_strings) ... ok
+2026-11-10T09:22:20.6477848Z test_line_comment (test_cbz_layer_a_scan.NotCode.test_line_comment) ... ok
+2026-11-10T09:22:20.6478342Z test_raw_strings (test_cbz_layer_a_scan.NotCode.test_raw_strings) ... ok
+2026-11-10T09:22:20.6478799Z test_strings (test_cbz_layer_a_scan.NotCode.test_strings) ... ok
+2026-11-10T09:22:20.6481759Z test_each_violation_token_detected (test_cbz_layer_a_scan.ViolationTokens.test_each_violation_token_detected) ... ok
+2026-11-10T09:22:20.6482892Z test_eof_without_newline (test_cbz_layer_a_scan.ViolationTokens.test_eof_without_newline) ... ok
+2026-11-10T09:22:20.6484085Z test_multiple_and_positions (test_cbz_layer_a_scan.ViolationTokens.test_multiple_and_positions) ... ok
+2026-11-10T09:22:20.6488710Z test_native_decide_options (test_cbz_layer_a_scan.ViolationTokens.test_native_decide_options) ... ok
+2026-11-10T09:22:20.6496104Z test_native_options_across_comments_and_lines (test_cbz_layer_a_scan.ViolationTokens.test_native_options_across_comments_and_lines) ... ok
+2026-11-10T09:22:20.6498819Z test_review_tokens (test_cbz_layer_a_scan.ViolationTokens.test_review_tokens) ... ok
+2026-11-10T09:22:20.6500223Z test_stop_only_at_line_start (test_cbz_layer_a_scan.ViolationTokens.test_stop_only_at_line_start) ... ok
+2026-11-10T09:22:20.6501391Z test_unicode_before_token_counts_characters (test_cbz_layer_a_scan.ViolationTokens.test_unicode_before_token_counts_characters) ... ok
+2026-11-10T09:23:49.2514650Z test_every_mutant_is_killed (test_cbz_layer_a_scan_mutants.ScannerMutants.test_every_mutant_is_killed) ... ok
+2026-11-10T09:23:50.8426891Z test_unmutated_scanner_passes_its_suite (test_cbz_layer_a_scan_mutants.ScannerMutants.test_unmutated_scanner_passes_its_suite) ... ok
+2026-11-10T09:23:50.9002814Z test_canonical_manifest_explicit_and_default_path_pass (test_check_workspace_json_duplicates.JSONDuplicateControls.test_canonical_manifest_explicit_and_default_path_pass) ... ok
+2026-11-10T09:23:50.9569149Z test_conflicting_root_authority_is_rejected_in_both_orders (test_check_workspace_json_duplicates.JSONDuplicateControls.test_conflicting_root_authority_is_rejected_in_both_orders) ... ok
+2026-11-10T09:23:51.1266061Z test_conflicting_source_members_are_rejected_in_both_orders (test_check_workspace_json_duplicates.JSONDuplicateControls.test_conflicting_source_members_are_rejected_in_both_orders) ... ok
+2026-11-10T09:23:51.1556171Z test_default_path_also_uses_duplicate_rejection (test_check_workspace_json_duplicates.JSONDuplicateControls.test_default_path_also_uses_duplicate_rejection) ... ok
+2026-11-10T09:23:51.2397435Z test_duplicates_in_nested_objects_and_arrays_are_rejected (test_check_workspace_json_duplicates.JSONDuplicateControls.test_duplicates_in_nested_objects_and_arrays_are_rejected) ... ok
+2026-11-10T09:23:51.4107889Z test_equal_valued_members_are_not_silently_coalesced (test_check_workspace_json_duplicates.JSONDuplicateControls.test_equal_valued_members_are_not_silently_coalesced) ... ok
+2026-11-10T09:23:51.5806013Z test_escaped_equivalent_and_unusual_names_are_rejected_safely (test_check_workspace_json_duplicates.JSONDuplicateControls.test_escaped_equivalent_and_unusual_names_are_rejected_safely) ... ok
+2026-11-10T09:23:51.7498370Z test_nonduplicate_malformed_inputs_keep_their_refusal_interface (test_check_workspace_json_duplicates.JSONDuplicateControls.test_nonduplicate_malformed_inputs_keep_their_refusal_interface) ... ok
+2026-11-10T09:23:51.7788694Z test_repeated_canonical_input_objects_are_rejected (test_check_workspace_json_duplicates.JSONDuplicateControls.test_repeated_canonical_input_objects_are_rejected) ... ok
+2026-11-10T09:23:51.8922978Z test_repeated_names_in_distinct_objects_and_string_text_are_valid (test_check_workspace_json_duplicates.JSONDuplicateControls.test_repeated_names_in_distinct_objects_and_string_text_are_valid) ... ok
+2026-11-10T09:23:51.9484325Z test_repository_entry_members_are_rejected (test_check_workspace_json_duplicates.JSONDuplicateControls.test_repository_entry_members_are_rejected) ... ok
+2026-11-10T09:23:52.0629126Z test_symlinked_temp_root_preserves_both_path_contracts (test_check_workspace_json_duplicates.JSONDuplicateControls.test_symlinked_temp_root_preserves_both_path_contracts) ... ok
+2026-11-10T09:23:52.0650951Z test_authority_asserted_away_from_the_checked_field_is_refused (test_check_workspace_root_keys.RootKeyControls.test_authority_asserted_away_from_the_checked_field_is_refused) ... ok
+2026-11-10T09:23:52.0655922Z test_authority_false_away_from_the_checked_field_is_still_refused_as_unsupported_or_passes (test_check_workspace_root_keys.RootKeyControls.test_authority_false_away_from_the_checked_field_is_still_refused_as_unsupported_or_passes) ... ok
+2026-11-10T09:23:52.0658861Z test_committed_manifest_passes (test_check_workspace_root_keys.RootKeyControls.test_committed_manifest_passes) ... ok
+2026-11-10T09:23:52.0674187Z test_every_forbidden_key_is_refused_at_the_root (test_check_workspace_root_keys.RootKeyControls.test_every_forbidden_key_is_refused_at_the_root) ... ok
+2026-11-10T09:23:52.0678757Z test_lemma_closed_and_promotion_permission_together_are_refused (test_check_workspace_root_keys.RootKeyControls.test_lemma_closed_and_promotion_permission_together_are_refused) ... ok
+2026-11-10T09:23:52.0682611Z test_nested_forbidden_key_is_still_refused (test_check_workspace_root_keys.RootKeyControls.test_nested_forbidden_key_is_still_refused) ... ok
+2026-11-10T09:23:52.2304807Z test_current_and_explicit_historical_sources_pass (test_verify_canonical_inputs.CanonicalInputControls.test_current_and_explicit_historical_sources_pass) ... ok
+2026-11-10T09:23:52.3312743Z test_dirty_pins_manifest_fails (test_verify_canonical_inputs.CanonicalInputControls.test_dirty_pins_manifest_fails) ... ok
+2026-11-10T09:23:52.4360682Z test_dirty_workspace_manifest_fails (test_verify_canonical_inputs.CanonicalInputControls.test_dirty_workspace_manifest_fails) ... ok
+2026-11-10T09:23:52.5504411Z test_duplicate_manifest_members_fail (test_verify_canonical_inputs.CanonicalInputControls.test_duplicate_manifest_members_fail) ... ok
+2026-11-10T09:23:52.6683309Z test_empty_canonical_inputs_fails (test_verify_canonical_inputs.CanonicalInputControls.test_empty_canonical_inputs_fails) ... ok
+2026-11-10T09:23:52.8340464Z test_explicit_newer_commit_is_not_called_historical (test_verify_canonical_inputs.CanonicalInputControls.test_explicit_newer_commit_is_not_called_historical) ... ok
+2026-11-10T09:23:52.9739376Z test_fetched_commit_identity_mismatch_fails (test_verify_canonical_inputs.CanonicalInputControls.test_fetched_commit_identity_mismatch_fails) ... ok
+2026-11-10T09:23:53.0900350Z test_gitlink_mismatch_fails (test_verify_canonical_inputs.CanonicalInputControls.test_gitlink_mismatch_fails) ... ok
+2026-11-10T09:23:53.1925539Z test_gitmodules_change_fails (test_verify_canonical_inputs.CanonicalInputControls.test_gitmodules_change_fails) ... ok
+2026-11-10T09:23:53.2971954Z test_identical_symlinked_workspace_manifest_fails (test_verify_canonical_inputs.CanonicalInputControls.test_identical_symlinked_workspace_manifest_fails) ... ok
+2026-11-10T09:23:53.4657219Z test_manifest_change_during_fetch_fails (test_verify_canonical_inputs.CanonicalInputControls.test_manifest_change_during_fetch_fails) ... ok
+2026-11-10T09:23:53.6144834Z test_missing_path_fails (test_verify_canonical_inputs.CanonicalInputControls.test_missing_path_fails) ... ok
+2026-11-10T09:23:53.7325584Z test_mutable_historical_ref_fails (test_verify_canonical_inputs.CanonicalInputControls.test_mutable_historical_ref_fails) ... ok
+2026-11-10T09:23:53.8518850Z test_nonpublic_source_cannot_be_skipped (test_verify_canonical_inputs.CanonicalInputControls.test_nonpublic_source_cannot_be_skipped) ... ok
+2026-11-10T09:23:53.9682960Z test_pinned_repository_must_be_listed_in_workspace (test_verify_canonical_inputs.CanonicalInputControls.test_pinned_repository_must_be_listed_in_workspace) ... ok
+2026-11-10T09:23:54.1469685Z test_symlinked_source_is_not_accepted_as_a_blob (test_verify_canonical_inputs.CanonicalInputControls.test_symlinked_source_is_not_accepted_as_a_blob) ... ok
+2026-11-10T09:23:54.2641811Z test_unavailable_remote_fails (test_verify_canonical_inputs.CanonicalInputControls.test_unavailable_remote_fails) ... ok
+2026-11-10T09:23:54.4122065Z test_unfetchable_historical_commit_fails (test_verify_canonical_inputs.CanonicalInputControls.test_unfetchable_historical_commit_fails) ... ok
+2026-11-10T09:23:54.5334146Z test_unmapped_repository_fails (test_verify_canonical_inputs.CanonicalInputControls.test_unmapped_repository_fails) ... ok
+2026-11-10T09:23:54.7049499Z test_workspace_head_change_during_fetch_fails (test_verify_canonical_inputs.CanonicalInputControls.test_workspace_head_change_during_fetch_fails) ... ok
+2026-11-10T09:23:54.8442049Z test_wrong_current_blob_fails (test_verify_canonical_inputs.CanonicalInputControls.test_wrong_current_blob_fails) ... ok
+2026-11-10T09:23:55.5195699Z test_actual_silent_checker_exit_is_not_a_mutation_kill (test_verify_canonical_inputs_mutations.CanonicalHarnessControls.test_actual_silent_checker_exit_is_not_a_mutation_kill) ... ok
+2026-11-10T09:23:55.5224633Z test_checker_result_protocol_has_positive_and_crash_controls (test_verify_canonical_inputs_mutations.CanonicalHarnessControls.test_checker_result_protocol_has_positive_and_crash_controls) ... ok
+2026-11-10T09:23:55.5228329Z test_exact_named_control_event_and_assertion_are_required (test_verify_canonical_inputs_mutations.CanonicalHarnessControls.test_exact_named_control_event_and_assertion_are_required) ... ok
+2026-11-10T09:23:55.5273300Z test_four_actual_harness_source_mutants_are_rejected (test_verify_canonical_inputs_mutations.CanonicalHarnessControls.test_four_actual_harness_source_mutants_are_rejected) ... ok
+2026-11-10T09:24:01.2123042Z test_all_named_guard_mutations_are_detected (test_verify_canonical_inputs_mutations.CanonicalMutationControls.test_all_named_guard_mutations_are_detected) ... ok
+2026-11-10T09:24:02.0765824Z test_cleanup_failure_stops_more_requests (test_verify_federation_vector.CliControls.test_cleanup_failure_stops_more_requests) ... ok
+2026-11-10T09:24:02.7260809Z test_cli_new_output_and_overwrite_refusal (test_verify_federation_vector.CliControls.test_cli_new_output_and_overwrite_refusal) ... {"status": "FAIL", "error": "OUTPUT_SETUP", "cbz_green": false}
+2026-11-10T09:24:02.7427193Z ok
+2026-11-10T09:24:02.7948084Z test_cli_source_output_and_symlink_refused (test_verify_federation_vector.CliControls.test_cli_source_output_and_symlink_refused) ... {"status": "FAIL", "error": "OUTPUT_SETUP", "cbz_green": false}
+2026-11-10T09:24:02.7952471Z {"status": "FAIL", "error": "OUTPUT_SETUP", "cbz_green": false}
+2026-11-10T09:24:02.8112076Z ok
+2026-11-10T09:24:02.8805453Z test_local_failure_does_not_contact_network (test_verify_federation_vector.CliControls.test_local_failure_does_not_contact_network) ... ok
+2026-11-10T09:24:03.2705544Z test_midrun_head_drift_refused (test_verify_federation_vector.CliControls.test_midrun_head_drift_refused) ... ok
+2026-11-10T09:24:03.9216496Z test_network_failure_blocks_aggregate (test_verify_federation_vector.CliControls.test_network_failure_blocks_aggregate) ... ok
+2026-11-10T09:24:04.5808825Z test_no_default_tip_equality_requirement (test_verify_federation_vector.CliControls.test_no_default_tip_equality_requirement) ... ok
+2026-11-10T09:24:05.2308928Z test_offline_report_keeps_scope_and_no_network_claim (test_verify_federation_vector.CliControls.test_offline_report_keeps_scope_and_no_network_claim) ... ok
+2026-11-10T09:24:05.8852363Z test_raw_transport_secret_never_enters_report (test_verify_federation_vector.CliControls.test_raw_transport_secret_never_enters_report) ... ok
+2026-11-10T09:24:06.2867601Z test_selected_input_change_during_network_refused (test_verify_federation_vector.CliControls.test_selected_input_change_during_network_refused) ... ok
+2026-11-10T09:24:06.8222328Z test_all_nine_native_locks_pass (test_verify_federation_vector.LockControls.test_all_nine_native_locks_pass) ... ok
+2026-11-10T09:24:07.1878440Z test_dependency_revision_drift_refused (test_verify_federation_vector.LockControls.test_dependency_revision_drift_refused) ... ok
+2026-11-10T09:24:07.5510760Z test_dependency_url_credentials_refused (test_verify_federation_vector.LockControls.test_dependency_url_credentials_refused) ... ok
+2026-11-10T09:24:07.9137276Z test_duplicate_dependency_name_refused (test_verify_federation_vector.LockControls.test_duplicate_dependency_name_refused) ... ok
+2026-11-10T09:24:08.2792220Z test_floating_resolved_revision_refused (test_verify_federation_vector.LockControls.test_floating_resolved_revision_refused) ... ok
+2026-11-10T09:24:08.6391558Z test_lock_schema_or_unknown_entry_refused (test_verify_federation_vector.LockControls.test_lock_schema_or_unknown_entry_refused) ... ok
+2026-11-10T09:24:08.7501331Z test_lock_working_drift_refused (test_verify_federation_vector.LockControls.test_lock_working_drift_refused) ... ok
+2026-11-10T09:24:09.9850673Z test_noncanonical_path_dependency_aliases_refused (test_verify_federation_vector.LockControls.test_noncanonical_path_dependency_aliases_refused) ... ok
+2026-11-10T09:24:10.3456450Z test_path_dependency_outside_math_refused (test_verify_federation_vector.LockControls.test_path_dependency_outside_math_refused) ... ok
+2026-11-10T09:24:10.6943922Z test_path_dependency_sibling_same_tree_passes (test_verify_federation_vector.LockControls.test_path_dependency_sibling_same_tree_passes) ... ok
+2026-11-10T09:24:11.0561413Z test_path_target_configuration_name_mismatch_refused (test_verify_federation_vector.LockControls.test_path_target_configuration_name_mismatch_refused) ... ok
+2026-11-10T09:24:11.4192607Z test_path_target_name_mismatch_refused (test_verify_federation_vector.LockControls.test_path_target_name_mismatch_refused) ... ok
+2026-11-10T09:24:11.8078858Z test_toolchain_disagreement_refused (test_verify_federation_vector.LockControls.test_toolchain_disagreement_refused) ... ok
+2026-11-10T09:24:12.1685544Z test_unknown_dependency_type_refused (test_verify_federation_vector.LockControls.test_unknown_dependency_type_refused) ... ok
+2026-11-10T09:24:12.4273717Z test_cleanup_failure_has_explicit_status (test_verify_federation_vector.NetworkControls.test_cleanup_failure_has_explicit_status) ... ok
+2026-11-10T09:24:12.4923381Z test_credentialed_or_nonhttps_url_refused (test_verify_federation_vector.NetworkControls.test_credentialed_or_nonhttps_url_refused) ... ok
+2026-11-10T09:24:12.5608868Z test_fetch_nonzero_cannot_pass (test_verify_federation_vector.NetworkControls.test_fetch_nonzero_cannot_pass) ... ok
+2026-11-10T09:24:12.9376219Z test_network_includes_canonical_historical_commit (test_verify_federation_vector.NetworkControls.test_network_includes_canonical_historical_commit) ... ok
+2026-11-10T09:24:13.2579733Z test_timeout_reaps_child (test_verify_federation_vector.NetworkControls.test_timeout_reaps_child) ... ok
+2026-11-10T09:24:13.3634136Z test_transport_does_not_change_source_refs_or_config (test_verify_federation_vector.NetworkControls.test_transport_does_not_change_source_refs_or_config) ... ok
+2026-11-10T09:24:13.4340546Z test_transport_secrets_are_not_serialized (test_verify_federation_vector.NetworkControls.test_transport_secrets_are_not_serialized) ... ok
+2026-11-10T09:24:13.5294313Z test_unadvertised_exact_commit_fetch_passes (test_verify_federation_vector.NetworkControls.test_unadvertised_exact_commit_fetch_passes) ... ok
+2026-11-10T09:24:13.6006298Z test_wrong_fetched_commit_refused (test_verify_federation_vector.NetworkControls.test_wrong_fetched_commit_refused) ... ok
+2026-11-10T09:24:13.6205362Z test_cleanup_error_code_survives_sanitization_without_git (test_verify_federation_vector.TransportCleanupControl.test_cleanup_error_code_survives_sanitization_without_git) ... ok
+2026-11-10T09:24:14.1418463Z test_ambient_git_override_cannot_substitute_source (test_verify_federation_vector.VectorSources.test_ambient_git_override_cannot_substitute_source) ... ok
+2026-11-10T09:24:14.4910286Z test_exact_twelve_sources_and_index_parity (test_verify_federation_vector.VectorSources.test_exact_twelve_sources_and_index_parity) ... ok
+2026-11-10T09:24:14.8399383Z test_full_working_parity_is_not_inferred (test_verify_federation_vector.VectorSources.test_full_working_parity_is_not_inferred) ... ok
+2026-11-10T09:24:15.2056107Z test_linked_worktree_uses_its_own_index (test_verify_federation_vector.VectorSources.test_linked_worktree_uses_its_own_index) ... ok
+2026-11-10T09:24:15.7923647Z test_no_git_status_or_filter_execution (test_verify_federation_vector.VectorSources.test_no_git_status_or_filter_execution) ... ok
+2026-11-10T09:24:15.8612312Z test_noncommit_or_floating_revision_refused (test_verify_federation_vector.VectorSources.test_noncommit_or_floating_revision_refused) ... ok
+2026-11-10T09:24:15.9283262Z test_oversized_control_refused (test_verify_federation_vector.VectorSources.test_oversized_control_refused) ... ok
+2026-11-10T09:24:16.0170608Z test_selected_input_executable_mode_drift_refused (test_verify_federation_vector.VectorSources.test_selected_input_executable_mode_drift_refused) ... ok
+2026-11-10T09:24:16.1070400Z test_selected_input_symlink_refused (test_verify_federation_vector.VectorSources.test_selected_input_symlink_refused) ... ok
+2026-11-10T09:24:16.1968998Z test_selected_input_working_substitution_refused (test_verify_federation_vector.VectorSources.test_selected_input_working_substitution_refused) ... ok
+2026-11-10T09:24:16.2793962Z test_staged_change_refused (test_verify_federation_vector.VectorSources.test_staged_change_refused) ... ok
+2026-11-10T09:24:16.3479220Z test_vector_extra_or_duplicate_key_refused (test_verify_federation_vector.VectorSources.test_vector_extra_or_duplicate_key_refused) ... ok
+2026-11-10T09:24:16.4148843Z test_vector_omission_rejected (test_verify_federation_vector.VectorSources.test_vector_omission_rejected) ... ok
+2026-11-10T09:24:16.4920797Z test_wrong_checkout_head_refused (test_verify_federation_vector.VectorSources.test_wrong_checkout_head_refused) ... ok
+2026-11-10T09:24:17.0456584Z test_canonical_unlisted_repository_refused (test_verify_federation_vector.WorkspaceControls.test_canonical_unlisted_repository_refused) ... ok
+2026-11-10T09:24:17.4274221Z test_canonical_wrong_blob_refused (test_verify_federation_vector.WorkspaceControls.test_canonical_wrong_blob_refused) ... ok
+2026-11-10T09:24:17.8036365Z test_exact_workspace_and_four_sources_pass (test_verify_federation_vector.WorkspaceControls.test_exact_workspace_and_four_sources_pass) ... ok
+2026-11-10T09:24:18.1778832Z test_explicit_canonical_annotated_tag_oid_refused (test_verify_federation_vector.WorkspaceControls.test_explicit_canonical_annotated_tag_oid_refused) ... ok
+2026-11-10T09:24:18.5496848Z test_explicit_canonical_tree_oid_refused (test_verify_federation_vector.WorkspaceControls.test_explicit_canonical_tree_oid_refused) ... ok
+2026-11-10T09:24:18.9253865Z test_explicit_separate_canonical_ref_supported (test_verify_federation_vector.WorkspaceControls.test_explicit_separate_canonical_ref_supported) ... ok
+2026-11-10T09:24:19.2875732Z test_extra_gitlink_refused (test_verify_federation_vector.WorkspaceControls.test_extra_gitlink_refused) ... ok
+2026-11-10T09:24:19.6458341Z test_missing_or_extra_canonical_key_refused (test_verify_federation_vector.WorkspaceControls.test_missing_or_extra_canonical_key_refused) ... ok
+2026-11-10T09:24:20.0049386Z test_sandbox_pin_skew_rejected (test_verify_federation_vector.WorkspaceControls.test_sandbox_pin_skew_rejected) ... ok
+2026-11-10T09:24:20.3811300Z test_source_blob_symlink_refused (test_verify_federation_vector.WorkspaceControls.test_source_blob_symlink_refused) ... ok
+2026-11-10T09:24:21.7157137Z test_actual_subject_crash_skip_syntax_and_silent_exit_are_not_kills (test_verify_federation_vector_mutations.MutationControls.test_actual_subject_crash_skip_syntax_and_silent_exit_are_not_kills) ... ok
+2026-11-10T09:24:24.7994838Z test_assert_raises_exit_is_authorized_on_current_python (test_verify_federation_vector_mutations.MutationControls.test_assert_raises_exit_is_authorized_on_current_python) ... ok
+2026-11-10T09:24:30.6441261Z test_callsite_and_oracle_path_removals_reopen_deferred_failures (test_verify_federation_vector_mutations.MutationControls.test_callsite_and_oracle_path_removals_reopen_deferred_failures) ... ok
+2026-11-10T09:24:37.1014789Z test_deferred_subject_assertions_in_unittest_code_are_not_kills (test_verify_federation_vector_mutations.MutationControls.test_deferred_subject_assertions_in_unittest_code_are_not_kills) ... ok
+2026-11-10T09:24:37.1016540Z test_empty_failure_event_is_refused_without_crash (test_verify_federation_vector_mutations.MutationControls.test_empty_failure_event_is_refused_without_crash) ... ok
+2026-11-10T09:24:37.1017751Z test_forged_transcript_without_native_event_is_not_kill (test_verify_federation_vector_mutations.MutationControls.test_forged_transcript_without_native_event_is_not_kill) ... ok
+2026-11-10T09:24:37.1019273Z test_lifecycle_assertion_is_not_selected_dispatch (test_verify_federation_vector_mutations.MutationControls.test_lifecycle_assertion_is_not_selected_dispatch) ... ok
+2026-11-10T09:24:37.1039112Z test_malformed_counts_nonce_and_origin_cannot_qualify (test_verify_federation_vector_mutations.MutationControls.test_malformed_counts_nonce_and_origin_cannot_qualify) ... ok
+2026-11-10T09:24:37.1870228Z test_oracle_positions_refuse_changed_or_missing_selected_source (test_verify_federation_vector_mutations.MutationControls.test_oracle_positions_refuse_changed_or_missing_selected_source) ... ok
+2026-11-10T09:24:39.3996104Z test_origin_guard_removal_reopens_real_spoofed_subject (test_verify_federation_vector_mutations.MutationControls.test_origin_guard_removal_reopens_real_spoofed_subject) ... ok
+2026-11-10T09:24:40.4921909Z test_subject_assertion_from_unittest_named_path_is_not_a_kill (test_verify_federation_vector_mutations.MutationControls.test_subject_assertion_from_unittest_named_path_is_not_a_kill) ... ok
+2026-11-10T09:24:40.4937023Z test_subject_assertion_is_not_selected_body_failure (test_verify_federation_vector_mutations.MutationControls.test_subject_assertion_is_not_selected_body_failure) ... ok
+2026-11-10T09:24:56.9007580Z test_thirteen_source_mutants_are_killed_by_designated_body_assertions (test_verify_federation_vector_mutations.MutationControls.test_thirteen_source_mutants_are_killed_by_designated_body_assertions) ... ok
+2026-11-10T09:24:56.9008823Z test_committed_real_tree_passes (test_verify_pins.VerifyPinsControls.test_committed_real_tree_passes)
+2026-11-10T09:24:56.9408929Z The real workspace (parent of this tests/ directory) must pass ... ok
+2026-11-10T09:24:56.9409832Z test_consistent_fixture_passes (test_verify_pins.VerifyPinsControls.test_consistent_fixture_passes)
+2026-11-10T09:24:56.9967748Z The fixture builder itself yields a passing workspace, so the ... ok
+2026-11-10T09:24:56.9968438Z test_flags_redirect_the_checker (test_verify_pins.VerifyPinsControls.test_flags_redirect_the_checker)
+2026-11-10T09:24:57.0907814Z --pins pointing at a file that disagrees with an otherwise-good ... ok
+2026-11-10T09:24:57.1460235Z test_gitlink_sha_differs_from_pins_fails (test_verify_pins.VerifyPinsControls.test_gitlink_sha_differs_from_pins_fails) ... ok
+2026-11-10T09:24:57.1997654Z test_missing_gitlink_fails (test_verify_pins.VerifyPinsControls.test_missing_gitlink_fails) ... ok
+2026-11-10T09:24:57.2549718Z test_opt_in_without_update_none_fails (test_verify_pins.VerifyPinsControls.test_opt_in_without_update_none_fails) ... ok
+2026-11-10T09:24:57.3100755Z test_prefix_match_is_not_accepted (test_verify_pins.VerifyPinsControls.test_prefix_match_is_not_accepted) ... ok
+2026-11-10T09:24:57.3101664Z test_readme_table_renders_pins_json (test_verify_pins.VerifyPinsControls.test_readme_table_renders_pins_json)
+2026-11-10T09:24:57.3107186Z README's table is a rendering of pins.json: every pinned SHA must ... ok
+2026-11-10T09:24:57.3675976Z test_unlisted_gitlink_fails (test_verify_pins.VerifyPinsControls.test_unlisted_gitlink_fails) ... ok
+2026-11-10T09:24:57.4229440Z test_update_none_without_opt_in_fails (test_verify_pins.VerifyPinsControls.test_update_none_without_opt_in_fails) ... ok
+2026-11-10T09:24:57.4782245Z test_url_or_branch_mismatch_fails (test_verify_pins.VerifyPinsControls.test_url_or_branch_mismatch_fails) ... ok
+2026-11-10T09:24:58.0574102Z test_conflicting_pin_and_flags_rejected_in_both_orders (test_verify_pins.VerifyPinsDuplicateJSONControls.test_conflicting_pin_and_flags_rejected_in_both_orders) ... ok
+2026-11-10T09:24:58.9267055Z test_duplicate_diagnostics_are_ascii_safe_before_git (test_verify_pins.VerifyPinsDuplicateJSONControls.test_duplicate_diagnostics_are_ascii_safe_before_git) ... ok
+2026-11-10T09:24:59.0844458Z test_duplicate_in_nested_object_is_rejected (test_verify_pins.VerifyPinsDuplicateJSONControls.test_duplicate_in_nested_object_is_rejected) ... ok
+2026-11-10T09:24:59.1703449Z test_duplicate_rejection_precedes_git_even_with_network_requested (test_verify_pins.VerifyPinsDuplicateJSONControls.test_duplicate_rejection_precedes_git_even_with_network_requested) ... ok
+2026-11-10T09:24:59.4637308Z test_duplicate_root_members_rejected_in_both_orders (test_verify_pins.VerifyPinsDuplicateJSONControls.test_duplicate_root_members_rejected_in_both_orders) ... ok
+2026-11-10T09:24:59.6185359Z test_escaped_equivalent_member_rejected_in_both_orders (test_verify_pins.VerifyPinsDuplicateJSONControls.test_escaped_equivalent_member_rejected_in_both_orders) ... ok
+2026-11-10T09:24:59.7048268Z test_identical_duplicate_is_still_ambiguous (test_verify_pins.VerifyPinsDuplicateJSONControls.test_identical_duplicate_is_still_ambiguous) ... ok
+2026-11-10T09:24:59.9667814Z test_empty_remote_lookup_reports_unknown_configured_tip (test_verify_pins.VerifyPinsNetworkControls.test_empty_remote_lookup_reports_unknown_configured_tip) ... ok
+2026-11-10T09:25:00.2369346Z test_known_differing_tip_output_is_unchanged (test_verify_pins.VerifyPinsNetworkControls.test_known_differing_tip_output_is_unchanged) ... ok
+2026-11-10T09:25:00.4939856Z test_known_equal_tip_output_is_unchanged (test_verify_pins.VerifyPinsNetworkControls.test_known_equal_tip_output_is_unchanged) ... ok
+2026-11-10T09:25:00.7531158Z test_observed_default_mismatch_retained_when_configured_tip_unknown (test_verify_pins.VerifyPinsNetworkControls.test_observed_default_mismatch_retained_when_configured_tip_unknown) ... ok
+2026-11-10T09:25:01.0120221Z test_unobserved_default_does_not_hide_known_configured_tip (test_verify_pins.VerifyPinsNetworkControls.test_unobserved_default_does_not_hide_known_configured_tip) ... ok
+2026-11-10T09:25:01.0490914Z test_git_failure_is_reported (test_verify_pins.VerifyPinsShapeControls.test_git_failure_is_reported) ... ok
+2026-11-10T09:25:01.3226116Z test_gitmodules_defects_fail (test_verify_pins.VerifyPinsShapeControls.test_gitmodules_defects_fail) ... ok
+2026-11-10T09:25:01.6801334Z test_pins_shape_defects_fail (test_verify_pins.VerifyPinsShapeControls.test_pins_shape_defects_fail) ... ok
+2026-11-10T09:25:01.7884386Z test_clean_valid_and_mismatched_checkout (test_verify_pins_git_integrity.GitIntegrityControls.test_clean_valid_and_mismatched_checkout) ... ok
+2026-11-10T09:25:01.8586423Z test_combined_git_routing_overrides_cannot_select_foreign_head (test_verify_pins_git_integrity.GitIntegrityControls.test_combined_git_routing_overrides_cannot_select_foreign_head) ... ok
+2026-11-10T09:25:01.9656605Z test_inherited_git_dir_cannot_select_foreign_head (test_verify_pins_git_integrity.GitIntegrityControls.test_inherited_git_dir_cannot_select_foreign_head) ... ok
+2026-11-10T09:25:02.1121822Z test_local_replace_ref_cannot_substitute_committed_head_tree (test_verify_pins_git_integrity.GitIntegrityControls.test_local_replace_ref_cannot_substitute_committed_head_tree) ... ok
+2026-11-10T09:25:02.2795637Z test_offline_network_mode_rejects_foreign_git_dir_without_side_effect (test_verify_pins_git_integrity.GitIntegrityControls.test_offline_network_mode_rejects_foreign_git_dir_without_side_effect) ... ok
+2026-11-10T09:25:02.3870871Z test_offline_network_valid_selected_checkout_ignores_foreign_dir (test_verify_pins_git_integrity.GitIntegrityControls.test_offline_network_valid_selected_checkout_ignores_foreign_dir) ... ok
+2026-11-10T09:25:02.6221056Z test_existing_refusals_remain_handled (test_verify_pins_input_types.PinInputTypeTests.test_existing_refusals_remain_handled) ... ok
+2026-11-10T09:25:02.6237829Z test_mixed_bad_entries_retain_later_diagnostics_and_do_not_reach_git (test_verify_pins_input_types.PinInputTypeTests.test_mixed_bad_entries_retain_later_diagnostics_and_do_not_reach_git) ... ok
+2026-11-10T09:25:02.8292159Z test_nonobject_entries_are_handled (test_verify_pins_input_types.PinInputTypeTests.test_nonobject_entries_are_handled) ... ok
+2026-11-10T09:25:03.0345741Z test_nonobject_roots_are_handled (test_verify_pins_input_types.PinInputTypeTests.test_nonobject_roots_are_handled) ... ok
+2026-11-10T09:25:03.2756170Z test_nonstring_or_empty_paths_are_handled (test_verify_pins_input_types.PinInputTypeTests.test_nonstring_or_empty_paths_are_handled) ... ok
+2026-11-10T09:25:03.2767709Z test_unexpected_programming_error_is_not_hidden (test_verify_pins_input_types.PinInputTypeTests.test_unexpected_programming_error_is_not_hidden) ... ok
+2026-11-10T09:25:03.3699216Z test_valid_local_git_tree_and_wrong_pin_control (test_verify_pins_input_types.PinInputTypeTests.test_valid_local_git_tree_and_wrong_pin_control) ... ok
+2026-11-10T09:25:03.3705478Z test_valid_manifest_and_input_bytes_are_preserved (test_verify_pins_input_types.PinInputTypeTests.test_valid_manifest_and_input_bytes_are_preserved) ... ok
+2026-11-10T09:25:03.8676544Z test_actual_silent_checker_exit_cannot_count_as_a_kill (test_verify_pins_mutations.StrictPinHarnessControls.test_actual_silent_checker_exit_cannot_count_as_a_kill) ... ok
+2026-11-10T09:25:03.8679120Z test_exact_named_observation_and_assertion_are_required (test_verify_pins_mutations.StrictPinHarnessControls.test_exact_named_observation_and_assertion_are_required) ... ok
+2026-11-10T09:25:03.8703044Z test_four_actual_classifier_source_mutants_are_rejected (test_verify_pins_mutations.StrictPinHarnessControls.test_four_actual_classifier_source_mutants_are_rejected) ... ok
+2026-11-10T09:25:03.8705073Z test_pin_result_protocol_has_positive_and_crash_controls (test_verify_pins_mutations.StrictPinHarnessControls.test_pin_result_protocol_has_positive_and_crash_controls) ... ok
+2026-11-10T09:25:03.8738738Z test_specific_demoted_reason_is_required_even_if_another_guard_refuses (test_verify_pins_mutations.StrictPinHarnessControls.test_specific_demoted_reason_is_required_even_if_another_guard_refuses) ... ok
+2026-11-10T09:25:08.8953961Z test_all_named_guard_removals_are_detected (test_verify_pins_mutations.StrictPinMutationControls.test_all_named_guard_removals_are_detected) ... ok
+2026-11-10T09:25:08.9962558Z test_duplicate_branch_advertisement_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_duplicate_branch_advertisement_is_rejected) ... ok
+2026-11-10T09:25:09.0964040Z test_failed_remote_tip_lookup_is_rejected_after_successful_fetch (test_verify_pins_strict.StrictCurrentPinTests.test_failed_remote_tip_lookup_is_rejected_after_successful_fetch) ... ok
+2026-11-10T09:25:09.1973243Z test_inconsistent_head_and_branch_advertisement_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_inconsistent_head_and_branch_advertisement_is_rejected) ... ok
+2026-11-10T09:25:09.2789474Z test_initial_manifest_mismatch_does_not_start_remote_lookup (test_verify_pins_strict.StrictCurrentPinTests.test_initial_manifest_mismatch_does_not_start_remote_lookup) ... ok
+2026-11-10T09:25:09.3822679Z test_legacy_tip_difference_does_not_claim_ancestry (test_verify_pins_strict.StrictCurrentPinTests.test_legacy_tip_difference_does_not_claim_ancestry) ... ok
+2026-11-10T09:25:09.4802226Z test_matching_public_default_and_branch_are_accepted (test_verify_pins_strict.StrictCurrentPinTests.test_matching_public_default_and_branch_are_accepted) ... ok
+2026-11-10T09:25:09.5800672Z test_missing_configured_branch_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_missing_configured_branch_is_rejected) ... ok
+2026-11-10T09:25:09.6802395Z test_missing_default_branch_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_missing_default_branch_is_rejected) ... ok
+2026-11-10T09:25:09.7836564Z test_missing_head_commit_is_rejected_even_when_branch_tip_matches (test_verify_pins_strict.StrictCurrentPinTests.test_missing_head_commit_is_rejected_even_when_branch_tip_matches) ... ok
+2026-11-10T09:25:09.9481759Z test_newer_remote_tip_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_newer_remote_tip_is_rejected) ... ok
+2026-11-10T09:25:10.0527474Z test_pin_manifest_change_during_lookup_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_pin_manifest_change_during_lookup_is_rejected) ... ok
+2026-11-10T09:25:10.1284905Z test_skipped_nonpublic_repository_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_skipped_nonpublic_repository_is_rejected) ... ok
+2026-11-10T09:25:10.1995675Z test_symlinked_gitmodules_is_rejected_even_with_identical_bytes (test_verify_pins_strict.StrictCurrentPinTests.test_symlinked_gitmodules_is_rejected_even_with_identical_bytes) ... ok
+2026-11-10T09:25:10.2836836Z test_working_gitmodules_cannot_mask_committed_mismatch (test_verify_pins_strict.StrictCurrentPinTests.test_working_gitmodules_cannot_mask_committed_mismatch) ... ok
+2026-11-10T09:25:10.3671813Z test_working_pins_cannot_mask_a_different_committed_manifest (test_verify_pins_strict.StrictCurrentPinTests.test_working_pins_cannot_mask_a_different_committed_manifest) ... ok
+2026-11-10T09:25:10.4768997Z test_workspace_head_change_during_lookup_is_rejected (test_verify_pins_strict.StrictCurrentPinTests.test_workspace_head_change_during_lookup_is_rejected) ... ok
+2026-11-10T09:25:10.5784285Z test_wrong_default_branch_is_rejected_even_when_pin_matches_main (test_verify_pins_strict.StrictCurrentPinTests.test_wrong_default_branch_is_rejected_even_when_pin_matches_main) ... ok
+2026-11-10T09:25:10.6081185Z test_canonical_input_repository_must_be_in_federation (test_workspace_contract.WorkspaceContractTests.test_canonical_input_repository_must_be_in_federation) ... ok
+2026-11-10T09:25:10.6384091Z test_canonical_input_requires_observed_blob (test_workspace_contract.WorkspaceContractTests.test_canonical_input_requires_observed_blob) ... ok
+2026-11-10T09:25:10.6684988Z test_committed_manifest_passes_and_does_not_duplicate_role_registry (test_workspace_contract.WorkspaceContractTests.test_committed_manifest_passes_and_does_not_duplicate_role_registry) ... ok
+2026-11-10T09:25:10.6979600Z test_duplicate_repository_is_rejected (test_workspace_contract.WorkspaceContractTests.test_duplicate_repository_is_rejected) ... ok
+2026-11-10T09:25:10.7273315Z test_forbidden_status_field_is_rejected_anywhere (test_workspace_contract.WorkspaceContractTests.test_forbidden_status_field_is_rejected_anywhere) ... ok
+2026-11-10T09:25:10.7569523Z test_repository_role_metadata_is_rejected (test_workspace_contract.WorkspaceContractTests.test_repository_role_metadata_is_rejected) ... ok
+2026-11-10T09:25:10.7860719Z test_required_repository_cannot_disappear (test_workspace_contract.WorkspaceContractTests.test_required_repository_cannot_disappear) ... ok
+2026-11-10T09:25:10.8185105Z test_status_authority_must_stay_false (test_workspace_contract.WorkspaceContractTests.test_status_authority_must_stay_false) ... ok
+2026-11-10T09:25:10.8186269Z 
+2026-11-10T09:25:10.8186521Z ----------------------------------------------------------------------
+2026-11-10T09:25:10.8187071Z Ran 258 tests in 179.706s
+2026-11-10T09:25:10.8187322Z 
+2026-11-10T09:25:10.8187443Z OK
+2026-11-10T09:25:10.8187783Z {"status": "PASS", "cbz_green": false}
+2026-11-10T09:25:10.8474222Z Post job cleanup.
+2026-11-10T09:25:10.9770062Z (node:32326) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T09:25:10.9771098Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T09:25:10.9946582Z Post job cleanup.
+2026-11-10T09:25:11.0913688Z [command]/usr/bin/git version
+2026-11-10T09:25:11.0960177Z git version 2.56.0
+2026-11-10T09:25:11.1035445Z Temporarily overriding HOME='/home/runner/work/_temp/fcd352d3-8b91-4f08-96ce-cca4dd25f9f1' before making global git config changes
+2026-11-10T09:25:11.1037290Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T09:25:11.1042079Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Universal-Law-Workspace/Universal-Law-Workspace
+2026-11-10T09:25:11.1090603Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T09:25:11.1130957Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T09:25:11.1446545Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T09:25:11.1478574Z http.https://github.com/.extraheader
+2026-11-10T09:25:11.1546325Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-10T09:25:11.1551739Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T09:25:11.1826755Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T09:25:11.1886791Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T09:25:11.2334308Z Cleaning up orphan processes
+2026-11-10T09:25:11.2783357Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
