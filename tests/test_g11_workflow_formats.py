@@ -106,5 +106,22 @@ class WorkflowFormats(unittest.TestCase):
         text = yaml_run("env --unset=PYTHONPATH python3 -B -S " + TOOL)
         self.assertEqual(g11.workflow_tool_references(text, TOOLS), {TOOL})
 
+
+    def test_interpreter_early_exit_or_alternate_code_is_not_a_tool_reference(self):
+        import shlex
+        import subprocess
+        import tempfile
+
+        for option in ("-V", "--version", "--help", "-cprint(1)", "-mjson.tool"):
+            with self.subTest(option=option), tempfile.TemporaryDirectory() as root:
+                path = Path(root) / TOOL
+                path.parent.mkdir(parents=True)
+                path.write_text("from pathlib import Path\nPath('tool_was_executed').touch()\n", encoding="utf-8")
+                subprocess.run([sys.executable, option, TOOL], cwd=root, capture_output=True, text=True,
+                               timeout=10, check=False)
+                self.assertFalse((Path(root) / "tool_was_executed").exists())
+                text = yaml_run("python3 " + shlex.quote(option) + " " + TOOL)
+                self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())
+
 if __name__ == "__main__":
     unittest.main()
