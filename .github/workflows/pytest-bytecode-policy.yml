@@ -26,9 +26,6 @@ jobs:
   pytest-policy:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
-    env:
-      POLICY_EVIDENCE: ${{ runner.temp }}/pytest-policy-${{ github.run_id }}-${{ github.run_attempt }}
-      POLICY_VENV: ${{ runner.temp }}/pytest-policy-venv-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -38,9 +35,13 @@ jobs:
           python-version: '3.11'
       - name: Bind native sources and prepare genuine hashlocked pytest
         id: prepare
+        env:
+          POLICY_EVIDENCE: ${{ runner.temp }}/pytest-policy-${{ github.run_id }}-${{ github.run_attempt }}
+          POLICY_VENV: ${{ runner.temp }}/pytest-policy-venv-${{ github.run_id }}-${{ github.run_attempt }}
         shell: bash
         run: |
           set -euo pipefail
+          printf '%s\n' "POLICY_EVIDENCE=$POLICY_EVIDENCE" "POLICY_VENV=$POLICY_VENV" >> "$GITHUB_ENV"
           mkdir -m 0700 "$POLICY_EVIDENCE"
           ruby -rpsych -e 'Psych.safe_load(File.read(ARGV.fetch(0)), aliases: false)' .github/workflows/pytest-bytecode-policy.yml
           cat > "$POLICY_EVIDENCE/driver.py" <<'PY'
@@ -293,7 +294,7 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: pytest-bytecode-policy-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ env.POLICY_EVIDENCE }}/
+          path: ${{ runner.temp }}/pytest-policy-${{ github.run_id }}-${{ github.run_attempt }}/
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 30

@@ -58,3 +58,7 @@ Dependency acquisition details are recorded in staged tests/pytest-bytecode-depe
 ## Authorized publication composition
 
 The fresh base is Main3f05f8493afac71c6f4aac5c1db5aeb46194d98a/treeabbe9dad2d2302bd478b6d9660732c9d51c450fe, after the Q-9002 integration. The existing ten-method test, conftest, Reactor validator and hypergraph dependency-version source retain their exact original blobs. Entire current DECISIONS/GOVERNANCE/TOOLING contents are preserved before additive registration. The reviewed workflow/hashlock/provenance bytes remain unchanged. Root authorized this execution method and publication after source review; no artificial new-test baseline is required for these already existing ten dormant methods. Actual hosted results, including failed outcomes if any, must be recorded separately before any integration decision.
+
+## Retained author-family correction 1
+
+The initial published workflow63deafff/run42750759039 failed GitHub validation before any job: native annotation lines30/31 rejected runner.temp in job-level env. This is a zero-job configuration failure, not a test-body RED or execution result. The corrected workflow moves the two paths to prepare-step env, persists them through GITHUB_ENV at its start, and uses a fixed step-context runner.temp artifact path even when preparation cannot run. Tests, dependency hashes, method identities, commands and qualification guards are unchanged. This source correction remains subject to actual native hosted execution; the failed run is preserved in ancestry and the decision ledger.
