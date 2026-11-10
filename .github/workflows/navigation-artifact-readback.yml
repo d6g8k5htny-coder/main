@@ -1,0 +1,340 @@
+name: Read retained navigation failure
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/navigation-artifact-readback.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  original-navigation-artifact:
+    name: Read only the retained navigation failure
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify and print only the fixed original failed-run artifact
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python -I -B -S - <<'PY'
+          import binascii
+          import hashlib
+          import io
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import secrets
+          import selectors
+          import signal
+          import stat
+          import subprocess
+          import sys
+          import time
+          import traceback
+          import zipfile
+          
+          PURPOSE = "DIAGNOSTIC_EXISTING_FAILURE_ONLY"
+          REPOSITORY = "d6g8k5htny-coder/main"
+          RUN = 42782254230
+          ATTEMPT = 1
+          JOB = 129714840608
+          ARTIFACT = 13747193068
+          HEAD = "b574a3074303eabad9c12bf2d8a79a917abd073c"
+          CHECKED = "b305fcd91d58f54256ed951132480a3f5599aee0"
+          TREE = "9ed60a47cf08ceb037cb7734c987ac74e776a677"
+          PARENTS = ["02973f3975a1c4cc91b7c51d372f65717c9b3c5c", HEAD]
+          ZIP_SIZE = 71260
+          ZIP_SHA256 = "e7d75a9f81888443637446a9ec98d40422ac05708429aa15979ab4e15d149918"
+          NAMES = ("python.txt", "commit.txt", "landing.txt", "tests-normal.log")
+          MEMBER_LIMIT = 8 * 1024 * 1024
+          REQUESTS = (
+              ("old-attempt.json", "repos/d6g8k5htny-coder/main/actions/runs/42782254230/attempts/1", 128 * 1024),
+              ("old-jobs.json", "repos/d6g8k5htny-coder/main/actions/runs/42782254230/attempts/1/jobs?per_page=100", 128 * 1024),
+              ("old-artifact.json", "repos/d6g8k5htny-coder/main/actions/artifacts/13747193068", 64 * 1024),
+              ("old-checked-commit.json", "repos/d6g8k5htny-coder/main/git/commits/b305fcd91d58f54256ed951132480a3f5599aee0", 64 * 1024),
+              ("original-artifact.zip", "repos/d6g8k5htny-coder/main/actions/artifacts/13747193068/zip", ZIP_SIZE),
+          )
+          
+          temporary = Path(os.environ["RUNNER_TEMP"]).resolve(strict=True)
+          workspace = Path(os.environ["GITHUB_WORKSPACE"]).resolve(strict=True)
+          out = temporary / "navigation-original-artifact-42782254230-1"
+          if out.is_relative_to(workspace):
+              raise RuntimeError("diagnostic destination is inside source")
+          out.mkdir(mode=0o700, exist_ok=False)
+          
+          def encoded(value):
+              return (json.dumps(value, sort_keys=True, ensure_ascii=True, allow_nan=False) + "\n").encode("ascii")
+          
+          def require(condition, reason):
+              if not condition:
+                  raise ValueError(reason)
+          
+          observation = {
+              "purpose": PURPOSE, "status": "STARTED",
+              "original_run_id": RUN, "original_run_attempt": ATTEMPT,
+              "original_job_id": JOB, "original_artifact_id": ARTIFACT,
+              "original_head": HEAD, "original_checked_commit": CHECKED,
+              "original_checked_tree": TREE, "original_ordered_parents": PARENTS,
+              "reader_run_id": os.environ.get("GITHUB_RUN_ID"),
+              "reader_run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
+              "reader_github_sha": os.environ.get("GITHUB_SHA"),
+              "no_original_tests_executed": True,
+              "new_test_qualification": False, "full_Main_pass": False,
+              "owner_claim": False, "G5_claim": False, "CBZ_claim": False,
+              "scientific_effect": "NONE", "requests": [], "members": [],
+          }
+          (out / "observation.json").write_bytes(encoded(observation))
+          
+          def request(index):
+              # The request table above is closed; no CLI argument, API response, or
+              # archive member can supply a command, endpoint, host, or output path.
+              name, endpoint, limit = REQUESTS[index]
+              environment = os.environ.copy()
+              environment.pop("GH_TOKEN", None)
+              environment.pop("GH_DEBUG", None)
+              environment.update(GH_HOST="github.com", GH_PROMPT_DISABLED="1", GH_PAGER="cat",
+                                 NO_COLOR="1", CLICOLOR="0")
+              require(bool(environment.get("GITHUB_TOKEN")), "native GITHUB_TOKEN is absent")
+              command = ["gh", "api", "--method", "GET", "--hostname", "github.com", endpoint]
+              chunks = {"stdout": bytearray(), "stderr": bytearray()}
+              limits = {"stdout": limit, "stderr": 64 * 1024}
+              record = {"name": name, "endpoint": endpoint, "method": "GET",
+                        "status": "STARTED", "stdout_complete": False, "stderr_complete": False}
+              observation["requests"].append(record)
+              process = None
+              error = None
+              selector = selectors.DefaultSelector()
+              deadline = time.monotonic() + 90
+              try:
+                  process = subprocess.Popen(command, env=environment, stdin=subprocess.DEVNULL,
+                                             stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                             start_new_session=True)
+                  for channel, stream in (("stdout", process.stdout), ("stderr", process.stderr)):
+                      os.set_blocking(stream.fileno(), False)
+                      selector.register(stream, selectors.EVENT_READ, channel)
+                  while selector.get_map():
+                      remaining = deadline - time.monotonic()
+                      if remaining <= 0:
+                          raise TimeoutError("fixed gh GET exceeded 90 seconds")
+                      for key, _ in selector.select(min(remaining, 1.0)):
+                          channel = key.data
+                          allowance = limits[channel] + 1 - len(chunks[channel])
+                          data = os.read(key.fileobj.fileno(), min(64 * 1024, allowance))
+                          if not data:
+                              selector.unregister(key.fileobj)
+                              key.fileobj.close()
+                              record[channel + "_complete"] = True
+                          else:
+                              chunks[channel].extend(data)
+                              if len(chunks[channel]) > limits[channel]:
+                                  raise ValueError("fixed gh GET " + channel + " exceeds byte bound")
+                  remaining = deadline - time.monotonic()
+                  if remaining <= 0:
+                      raise TimeoutError("fixed gh GET exceeded 90 seconds")
+                  record["exit_code"] = process.wait(timeout=remaining)
+                  require(record["exit_code"] == 0, "fixed gh GET returned nonzero native exit")
+                  record["status"] = "COMPLETE"
+              except Exception as caught:
+                  error = caught
+                  record["status"] = "NATIVE_ERROR"
+                  record["error_type"] = type(caught).__name__
+                  record["error"] = str(caught)
+              finally:
+                  if process is not None and process.poll() is None:
+                      try:
+                          os.killpg(process.pid, signal.SIGKILL)
+                      except ProcessLookupError:
+                          pass
+                      process.wait(timeout=5)
+                  selector.close()
+                  if process is not None:
+                      for stream in (process.stdout, process.stderr):
+                          if stream is not None and not stream.closed:
+                              stream.close()
+                      record.setdefault("exit_code", process.returncode)
+                  for channel in ("stdout", "stderr"):
+                      raw = bytes(chunks[channel])
+                      record[channel + "_bytes_retained"] = len(raw)
+                      record[channel + "_sha256"] = hashlib.sha256(raw).hexdigest()
+                      # Partial/error responses have their explicit completeness flags.
+                      # They are never passed to metadata or archive acceptance.
+                      suffix = "" if channel == "stdout" and record["status"] == "COMPLETE" else ".gh-" + channel + ".bin"
+                      (out / (name + suffix)).write_bytes(raw)
+                  (out / "observation.json").write_bytes(encoded(observation))
+              if error is not None:
+                  raise error
+              return bytes(chunks["stdout"])
+          
+          def parse(raw):
+              def unique(pairs):
+                  value = {}
+                  for key, item in pairs:
+                      require(key not in value, "duplicate metadata key")
+                      value[key] = item
+                  return value
+              def reject_constant(value):
+                  raise ValueError("non-finite metadata number")
+              value = json.loads(raw.decode("utf-8"), object_pairs_hook=unique,
+                                 parse_constant=reject_constant)
+              require(type(value) is dict, "metadata is not an object")
+              return value
+          
+          def emit(records, filename):
+              nonce = secrets.token_hex(32)
+              while any(nonce.encode("ascii") in raw for _, raw in records):
+                  nonce = secrets.token_hex(32)
+              frames = [("::stop-commands::" + nonce + "\n").encode("ascii")]
+              frames.append(b"DIAGNOSTIC_CONTEXT " + encoded({
+                  "purpose": PURPOSE, "repository": REPOSITORY,
+                  "original_run_id": RUN, "original_run_attempt": ATTEMPT,
+                  "original_job_id": JOB, "original_artifact_id": ARTIFACT,
+                  "original_head": HEAD, "original_checked_commit": CHECKED,
+                  "original_checked_tree": TREE, "original_ordered_parents": PARENTS,
+                  "reader_run_id": observation["reader_run_id"],
+                  "reader_run_attempt": observation["reader_run_attempt"],
+                  "reader_github_sha": observation["reader_github_sha"],
+                  "no_original_tests_executed": True,
+              }))
+              for name, raw in records:
+                  # Decode only to validate UTF-8. Print the original bytes unchanged.
+                  raw.decode("utf-8", errors="strict")
+                  frames.append(b"DIAGNOSTIC_ORIGINAL_FILE " + encoded({
+                      "name": name, "original_bytes": len(raw),
+                      "sha256": hashlib.sha256(raw).hexdigest(),
+                      "utf8": "valid", "prefix_truncated": False,
+                      "framing_newline_after": bool(raw and not raw.endswith(b"\n")),
+                  }))
+                  frames.append(raw)
+                  if raw and not raw.endswith(b"\n"):
+                      frames.append(b"\n")
+                  frames.append(b"DIAGNOSTIC_ORIGINAL_FILE_END " + encoded({
+                      "name": name, "original_bytes": len(raw),
+                  }))
+              frames.append(("::" + nonce + "::\n").encode("ascii"))
+              stream = b"".join(frames)
+              (out / filename).write_bytes(stream)
+              require(sys.stdout.buffer.write(stream) == len(stream), "short native stdout write")
+              sys.stdout.buffer.flush()
+          
+          code = 1
+          try:
+              responses = [request(index) for index in range(len(REQUESTS))]
+              attempt, jobs, artifact, checked = [parse(raw) for raw in responses[:4]]
+              require(attempt.get("id") == RUN and attempt.get("run_attempt") == ATTEMPT
+                      and attempt.get("head_sha") == HEAD
+                      and attempt.get("head_commit", {}).get("tree_id") == TREE
+                      and attempt.get("repository", {}).get("id") == 1117225690
+                      and attempt.get("repository", {}).get("full_name") == REPOSITORY
+                      and attempt.get("head_repository", {}).get("id") == 1117225690
+                      and attempt.get("event") == "pull_request"
+                      and attempt.get("path") == ".github/workflows/navigation.yml"
+                      and attempt.get("status") == "completed"
+                      and attempt.get("conclusion") == "failure", "old attempt binding mismatch")
+              require(jobs.get("total_count") == 1 and type(jobs.get("jobs")) is list
+                      and len(jobs["jobs"]) == 1, "old attempt job population mismatch")
+              job = jobs["jobs"][0]
+              require(job.get("id") == JOB and job.get("run_id") == RUN
+                      and job.get("run_attempt") == ATTEMPT and job.get("head_sha") == HEAD
+                      and job.get("name") == "navigation"
+                      and job.get("status") == "completed" and job.get("conclusion") == "failure",
+                      "old job binding mismatch")
+              failed = [step for step in job.get("steps", [])
+                        if step.get("number") == 5]
+              require(len(failed) == 1 and failed[0].get("name") == "Current landing and navigation controls"
+                      and failed[0].get("status") == "completed"
+                      and failed[0].get("conclusion") == "failure", "old failed step binding mismatch")
+              native_artifact = artifact.get("workflow_run", {})
+              require(artifact.get("id") == ARTIFACT
+                      and artifact.get("name") == "research-navigation-42782254230"
+                      and artifact.get("size_in_bytes") == ZIP_SIZE
+                      and artifact.get("digest") == "sha256:" + ZIP_SHA256
+                      and artifact.get("expired") is False
+                      and native_artifact.get("id") == RUN
+                      and native_artifact.get("repository_id") == 1117225690
+                      and native_artifact.get("head_repository_id") == 1117225690
+                      and native_artifact.get("head_sha") == HEAD, "old artifact binding mismatch")
+              require(checked.get("sha") == CHECKED and checked.get("tree", {}).get("sha") == TREE
+                      and [parent.get("sha") for parent in checked.get("parents", [])] == PARENTS
+                      and checked.get("verification", {}).get("verified") is True
+                      and checked.get("verification", {}).get("reason") == "valid",
+                      "old signed checked commit binding mismatch")
+              raw_zip = responses[4]
+              require(len(raw_zip) == ZIP_SIZE and hashlib.sha256(raw_zip).hexdigest() == ZIP_SHA256,
+                      "original raw ZIP size or digest mismatch")
+              original = {}
+              with zipfile.ZipFile(io.BytesIO(raw_zip), mode="r") as source:
+                  infos = source.infolist()
+                  require(len(infos) == len(NAMES)
+                          and len({item.filename for item in infos}) == len(NAMES)
+                          and {item.filename for item in infos} == set(NAMES),
+                          "original ZIP member layout mismatch")
+                  require(sum(item.file_size for item in infos) <= len(NAMES) * MEMBER_LIMIT,
+                          "original ZIP total member extent exceeds bound")
+                  for item in infos:
+                      kind = stat.S_IFMT(item.external_attr >> 16)
+                      require(item.orig_filename == item.filename and not item.is_dir()
+                              and kind in (0, stat.S_IFREG)
+                              and not item.flag_bits & 1
+                              and item.compress_type in (zipfile.ZIP_STORED, zipfile.ZIP_DEFLATED)
+                              and 0 <= item.file_size <= MEMBER_LIMIT
+                              and 0 <= item.compress_size <= ZIP_SIZE
+                              and 0 <= item.header_offset < ZIP_SIZE,
+                              "original ZIP member type or bounds refused")
+                      with source.open(item, mode="r") as member:
+                          raw = member.read(MEMBER_LIMIT + 1)
+                          require(len(raw) <= MEMBER_LIMIT and member.read(1) == b"",
+                                  "original member exceeds byte bound")
+                      require(len(raw) == item.file_size
+                              and binascii.crc32(raw) & 0xffffffff == item.CRC,
+                              "original member extent or CRC mismatch")
+                      raw.decode("utf-8", errors="strict")
+                      original[item.filename] = raw
+                      observation["members"].append({
+                          "name": item.filename, "original_bytes": len(raw),
+                          "compressed_bytes": item.compress_size, "crc32": item.CRC,
+                          "sha256": hashlib.sha256(raw).hexdigest(), "utf8": "valid",
+                      })
+              require(original["commit.txt"] == (CHECKED + "\n").encode("ascii"),
+                      "original commit member differs from signed checked context")
+              observation["raw_zip_bytes"] = len(raw_zip)
+              observation["raw_zip_sha256"] = hashlib.sha256(raw_zip).hexdigest()
+              observation["native_metadata_and_raw_members_verified"] = True
+              emit([(name, original[name]) for name in NAMES], "original-member-stream.bin")
+              observation["status"] = "ORIGINAL_BYTES_VERIFIED_AND_PRINTED"
+              code = 0
+          except Exception as error:
+              observation["status"] = "READER_REFUSED_OR_NATIVE_ERROR"
+              observation["error_type"] = type(error).__name__
+              observation["error"] = str(error)
+              raw_error = traceback.format_exc().encode("utf-8")
+              (out / "reader-error.log").write_bytes(raw_error)
+              # This is the reader's actual error, never a substitute original test log.
+              error_records = [("reader-error.log", raw_error)]
+              for record in observation["requests"]:
+                  stderr = out / (record["name"] + ".gh-stderr.bin")
+                  if stderr.is_file() and stderr.stat().st_size:
+                      error_records.append((record["name"] + ".gh-stderr.bin", stderr.read_bytes()))
+              emit(error_records, "reader-error-stream.bin")
+          finally:
+              (out / "observation.json").write_bytes(encoded(observation))
+          raise SystemExit(code)
+          PY
+      - name: Retain original ZIP, metadata, member stream and actual reader errors
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: navigation-original-artifact-42782254230-1
+          path: ${{ runner.temp }}/navigation-original-artifact-42782254230-1/
+          if-no-files-found: error
+          retention-days: 30

@@ -63,6 +63,160 @@ jobs:
           tail -n 3 navigation-evidence/graph525-optimized.log | head -n 1 | grep -Eq '^Ran 1 test in ' || { echo '::error::optimized graph-binding test count invalid'; exit 1; }
           tail -n 1 navigation-evidence/graph525-optimized.log | grep -Fxq 'OK' || { echo '::error::optimized graph-binding test did not finish cleanly'; exit 1; }
           if grep -Fq ' ... skipped ' navigation-evidence/graph525-optimized.log; then echo '::error::graph-binding test or subtest skipped'; exit 1; fi
+      - name: Print original navigation files without replay or reconstruction
+        if: always()
+        run: |
+          python -I -B -S - <<'PY'
+          import hashlib
+          import json
+          import os
+          import re
+          import secrets
+          import stat
+          import subprocess
+          import sys
+          
+          FILES = ("python.txt", "commit.txt", "landing.txt", "tests-normal.log",
+                   "navigation.json", "history-reader.log", "graph525-optimized.log")
+          LIMIT = 8 * 1024 * 1024
+          FIELDS = ("st_dev", "st_ino", "st_mode", "st_nlink", "st_size",
+                    "st_mtime_ns", "st_ctime_ns")
+          
+          def stamp(value):
+              return tuple(getattr(value, field) for field in FIELDS)
+          
+          def git_value(revision):
+              environment = {key: value for key, value in os.environ.items()
+                             if not key.startswith("GIT_")}
+              environment.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
+                                 GIT_NO_REPLACE_OBJECTS="1", GIT_OPTIONAL_LOCKS="0")
+              process = subprocess.run(
+                  ["git", "--no-replace-objects", "--literal-pathspecs", "-c",
+                   "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null",
+                   "rev-parse", "--verify", revision],
+                  env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                  timeout=20, check=True)
+              value = process.stdout.decode("ascii").strip()
+              if not re.fullmatch(r"[0-9a-f]{40}", value):
+                  raise ValueError("INVALID_GIT_IDENTITY")
+              return value
+          
+          context = {name: os.environ.get(name) for name in
+                     ("GITHUB_REPOSITORY", "GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT", "GITHUB_SHA")}
+          context.update(purpose="DIAGNOSTIC_ORIGINAL_NAVIGATION_FILES_ONLY",
+                         working_directory=os.getcwd())
+          problem = False
+          try:
+              context["HEAD"] = git_value("HEAD")
+              context["tree"] = git_value("HEAD^{tree}")
+              if (context["HEAD"] != context["GITHUB_SHA"]
+                      or not re.fullmatch(r"[1-9][0-9]*", context["GITHUB_RUN_ID"] or "")
+                      or not re.fullmatch(r"[1-9][0-9]*", context["GITHUB_RUN_ATTEMPT"] or "")
+                      or not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+",
+                                          context["GITHUB_REPOSITORY"] or "")):
+                  raise ValueError("NATIVE_CONTEXT_MISMATCH")
+              context["status"] = "GIT_AND_NATIVE_CONTEXT_MATCH"
+          except (OSError, subprocess.SubprocessError, UnicodeError, ValueError) as error:
+              problem = True
+              context.update(status="CONTEXT_UNAVAILABLE", error=type(error).__name__,
+                             detail=str(error))
+          print("NAVIGATION_ORIGINAL_CONTEXT " + json.dumps(context, sort_keys=True), flush=True)
+          
+          def original(evidence, root, name):
+              descriptor = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                                   dir_fd=evidence)
+              try:
+                  before = os.fstat(descriptor)
+                  if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1:
+                      raise ValueError("NOT_SINGLE_LINK_REGULAR_FILE")
+                  if before.st_size > LIMIT:
+                      raise ValueError("ORIGINAL_EXCEEDS_8_MIB")
+                  data = bytearray()
+                  while True:
+                      block = os.read(descriptor, min(65536, LIMIT + 1 - len(data)))
+                      if not block:
+                          break
+                      data.extend(block)
+                      if len(data) > LIMIT:
+                          raise ValueError("ORIGINAL_EXCEEDS_8_MIB")
+                  after = os.fstat(descriptor)
+                  try:
+                      named = os.stat(name, dir_fd=evidence, follow_symlinks=False)
+                      current_directory = os.stat("navigation-evidence", dir_fd=root,
+                                                  follow_symlinks=False)
+                      opened_directory = os.fstat(evidence)
+                  except OSError as error:
+                      raise ValueError("ORIGINAL_PATH_CHANGED_DURING_READ") from error
+                  if (stamp(before) != stamp(after) or stamp(before) != stamp(named)
+                          or len(data) != before.st_size
+                          or not stat.S_ISDIR(current_directory.st_mode)
+                          or (current_directory.st_dev, current_directory.st_ino)
+                          != (opened_directory.st_dev, opened_directory.st_ino)):
+                      raise ValueError("ORIGINAL_CHANGED_DURING_READ")
+                  return bytes(data)
+              finally:
+                  os.close(descriptor)
+          
+          records = []
+          root = os.open(".", os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+          evidence = None
+          directory_error = None
+          try:
+              try:
+                  evidence = os.open("navigation-evidence",
+                                     os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                                     dir_fd=root)
+              except OSError as error:
+                  directory_error = error
+              for name in FILES:
+                  try:
+                      if evidence is None:
+                          raise directory_error
+                      raw = original(evidence, root, name)
+                      utf8 = True
+                      try:
+                          raw.decode("utf-8", errors="strict")
+                      except UnicodeError:
+                          utf8 = False
+                          problem = True
+                      records.append(({"path": "navigation-evidence/" + name,
+                                       "status": "PRESENT", "original_bytes": len(raw),
+                                       "sha256": hashlib.sha256(raw).hexdigest(),
+                                       "utf8_valid": utf8}, raw))
+                  except FileNotFoundError as error:
+                      records.append(({"path": "navigation-evidence/" + name,
+                                       "status": "NOT_PRODUCED", "errno": error.errno}, None))
+                  except (OSError, ValueError) as error:
+                      problem = True
+                      records.append(({"path": "navigation-evidence/" + name,
+                                       "status": "READ_REFUSED", "error": type(error).__name__,
+                                       "detail": str(error)}, None))
+          finally:
+              if evidence is not None:
+                  os.close(evidence)
+              os.close(root)
+          
+          nonce = secrets.token_hex(32)
+          while any(("::" + nonce + "::").encode("ascii") in raw
+                    for metadata, raw in records if raw is not None):
+              nonce = secrets.token_hex(32)
+          print("::stop-commands::" + nonce, flush=True)
+          try:
+              for metadata, raw in records:
+                  print("NAVIGATION_ORIGINAL_FILE " + json.dumps(metadata, sort_keys=True), flush=True)
+                  if raw is not None:
+                      if sys.stdout.buffer.write(raw) != len(raw):
+                          raise OSError("SHORT_ORIGINAL_OUTPUT")
+                      if not raw.endswith(b"\n"):
+                          sys.stdout.buffer.write(b"\n")
+                      sys.stdout.buffer.flush()
+                      print("NAVIGATION_ORIGINAL_FILE_END " + json.dumps(
+                          {"path": metadata["path"], "printed_original_bytes": len(raw),
+                           "sha256": metadata["sha256"]}, sort_keys=True), flush=True)
+          finally:
+              print("::" + nonce + "::", flush=True)
+          raise SystemExit(1 if problem else 0)
+          PY
       - name: Preserve actual results including failures
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
