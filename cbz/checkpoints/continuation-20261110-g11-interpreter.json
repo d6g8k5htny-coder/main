@@ -67,9 +67,9 @@
     "limitation": "interpreter flaw was subsequently demonstrated"
   },
   "next": [
-    "Run exact recomposed #804 census and observe required checks; prior 709 census is source-bound and not final qualification.",
-    "Fresh-head compare and normal integration only after checks; recheck peer #807 and current refs.",
-    "Refresh Workspace pin after Main integration; current Workspace pin predates #806 and is stale.",
+    "Independently verify and retain original recomposed census ZIP.",
+    "Observe normal required checks on Main #804 and Workspace #72; recheck all relevant refs before each normal integration.",
+    "If Main advances again, recompose affected candidate and refresh Workspace pin.",
     "Do not claim final federation G7, G11 or CBZ from component observations."
   ],
   "math": "No historical mathematical statement or kernel result was rebound. Scientific review and acceptance are not inferred.",
@@ -105,8 +105,22 @@
   "candidate_census": {
     "run": 42766557037,
     "debug_head": "e4bb1d16759784500fa2a92238af3ddf2ba6ef67",
-    "status_at_observation": "in progress; outcome not yet observed",
+    "status_at_observation": "completed SUCCESS in normal and optimized modes; 1507 scanned files, 6036 tracked leaves, zero findings, failing tools and skips",
     "commit": "16b4e198a5799e0e1a40b7032e6b6d4d1e981c2f",
-    "tree": "0653510713b14da67c0d3746aee854d47c4ed869"
+    "tree": "0653510713b14da67c0d3746aee854d47c4ed869",
+    "report_sha256": "a36ecc697be18397e6b67f4886b4f43cd2c1719061dfb66a144d137f553944aa",
+    "artifact": {
+      "id": 13739842855,
+      "sha256_reported_by_github": "9bbe98d289e834e9ee71c187d6e00edc8eaee76f9761c187b3a644cf803fc1dd",
+      "independently_verified": false
+    }
+  },
+  "workspace_draft": {
+    "pr": 72,
+    "head": "1281233c3f6b82e127e9ba85e43f3a0e44b3d0e0",
+    "tree": "c8bfa765f5cd564e894397390c4abf1588731d38",
+    "base": "47221adf89749dc226e8e3578af2f8fd7c16ea20",
+    "proposed_main": "d291b42801a26252a046d8ca78a6bd62abc448ae",
+    "state": "draft; required checks in progress; recheck Main before integration"
   }
 }
