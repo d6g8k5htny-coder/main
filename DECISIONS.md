@@ -1178,3 +1178,85 @@ all fresh peer/canonical prefixes and only appending this feature's owned ledger
 suffixes. Actual candidate10/52+pure12+custody3/6both modes/21-10-55/drift0
 and fresh scoped helper/wiring review remain required. Draft only, no merge.
 Scientific NONE; classification/qualification BLOCKED; execution_authenticated false.
+
+## 2026-11-10 — Expose the original Q9006 method's live-execution gap
+
+- [Layer B / test-first component] Publish a draft adding two fixed mandatory
+  native normal/optimized steps to the existing node-status live workflow.
+  Each selects the original real-record freshness method, binds ten actual
+  source inputs before/after, preserves parent outcomes and original logs,
+  and requires exactly one complete method result with terminal plain OK.
+- The original test remains exactly blob
+  `87d63d104ab29387ddb3f7236d76b2e835e205d8`; CLI, refresh, validator,
+  schema, four records and graph inputs remain unchanged. The staged workflow
+  is `78d8269bf0884ac601bd82f9784eddfdbb174cbc`; its source-only plan is
+  [Q9006_ORIGINAL_METHOD_PLAN.md](docs/cbz/Q9006_ORIGINAL_METHOD_PLAN.md).
+  Root source read and a separate source-stage review accepted this draft
+  publication; source review is not native execution evidence.
+- Expected first observation: the unchanged original method skips once in
+  each mode and the strict guard fails. No original-method live/network
+  execution credit, full G5, CBZ or scientific award is claimed. Native R0
+  has not yet been observed at publication. Preserve any setup/source fault
+  separately; it cannot count as the expected skip failure.
+- Retain the existing offline 23/20 controls, authenticated companion commands,
+  read-only permissions and actions. Cohort checks bind actual current inputs;
+  the frozen three-fresh/one-stale observation does not impose a permanent
+  status on a future genuine peer record update. Original-method strengthening
+  waits for Root's independent read of actual native R0 evidence.
+- Scope and reversibility: this draft changes workflow, owned plan and this
+  appended decision only, preserving the entire fresh canonical prefix from
+  Main `2f878f8eb5c621dcf9231e4a1bf582b685321130`. No default ref,
+  mathematical source, ownership, hold or scientific status is changed;
+  ordinary review can revise or close the draft before integration.
+
+## 2026-11-10 — Preserve Q9006 native skip RED and stage actual original-method execution
+
+- [Layer B / bounded component] Native R0 run `42757945583`/attempt1 tested
+  signed merge `6d0645bd851973696ff4afdee24ccb17d192687f`, tree
+  `97d08f92edaeea48a2185f4a09b63e4560b48a6a`. The 86 offline outcomes
+  passed and two separate authenticated companions reported FRESH. The original
+  method itself skipped once normally and optimized in 0.001s; both raw parent
+  exits were zero, and both strict guards refused only
+  `EXACT_ONE_ID_PLAIN_OK_CONTRACT_REFUSED`. Ten-input source snapshots matched.
+- Root independently read those original native job logs/source bindings and
+  authorized the narrow original-method strengthening. Preserve that actual
+  skip deficiency and its original source; it earns no original-method live
+  or network credit. Artifact metadata is recorded separately; no ZIP-member
+  readback is claimed.
+- Stage the original method plus necessary imports to invoke the unchanged
+  actual authenticated CLI in matching modes, retain exclusive external child
+  outputs/exits, and check native/source/receipt/cohort contracts. Cohorts and
+  source counts derive from current actual records, with no record/status edit.
+  Bounded negative admission controls exercise the same guard without recursive
+  unittest or any network; their retained scope grants no live-source credit.
+- Preserve workflow `78d8269bf0884ac601bd82f9784eddfdbb174cbc`, all other
+  method bodies/assertions, nine production/input leaves, the full fresh Main
+  canonical prefix and the complete earlier Q806 decision suffix. See the
+  [owned plan](docs/cbz/Q9006_ORIGINAL_METHOD_PLAN.md). Actual strengthened
+  normal/optimized execution remains pending; no full G5, CBZ or scientific
+  award follows from staging. Root source read precedes publication, and final
+  source/native review precedes ordinary integration.
+
+## 2026-11-10 — Retain first Q9006 GREEN and expose original child receipt bytes
+
+- [Layer B / evidence visibility] First strengthened run `42763310272`/1,
+  signed native `3390c5fb8f004fa092765d593592203f5d0609f9` on tree
+  `b3acd535fb6c2f7deab6a814d73fc1009acdba43`, passed offline86 and
+  both exact original-method modes (5.733s/5.432s, plain OK, parent0,
+  strict PASS). Root independently read those originals and ten-input source
+  snapshots. Preserve that first GREEN and earlier R0 as exact source-bound
+  outcomes, with no archive-member claim.
+- The original method's own child JSON/stdout/stderr/exit files were retained
+  but not independently readable in the original job log. Separate companion
+  reports cannot replace those original receipts or the guard metadata.
+- Stage one retention-only print step before upload: bounded regular/no-follow
+  reads of eight fixed original files, strict UTF8 and stable identity checks,
+  native source/byte-extent/SHA256 markers and original byte printing, with
+  workflow commands disabled during content. Missing/errors remain explicit,
+  retained and failing. No original receipt is parsed or rebuilt by the printer.
+- Preserve test `3bcd5829ea60e8e8ac58979bc7f33e4fd7838201`, both strict
+  drivers and all production inputs/assertions. Removing only the added print
+  step recovers workflow `78d8269bf0884ac601bd82f9784eddfdbb174cbc` exactly.
+  Root source read precedes publication; integration waits for independently
+  read new native original receipts and current checks/review. This visibility
+  stage grants no extra G5, CBZ, scientific or negative-E2E credit.
