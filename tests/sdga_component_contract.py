@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""Explicit Task A+B+C hosted contracts; Task C additions remain test first.
+"""Explicit Task A+B+C+D hosted contracts; Task D additions remain test first.
 
-Thirteen unittest methods declare 61 subcases; original Task A remains six/39. Absence, compile/setup failure and unrun
-subcases are evidence categories, never semantic rejections or passing coverage.
+Fifteen unittest methods declare 67 subcases: 61 Lean and 6 Python_controller.
+Separate output admission has 2 methods/6 routes outside that census.
+Original Task A remains six/39. Absence, compile/setup failure and unrun subcases
+are evidence categories, never semantic rejections or passing coverage.
 Run explicitly; this file is outside ordinary offline test_*.py discovery.
 """
 from __future__ import annotations
@@ -20,6 +22,7 @@ from pathlib import Path
 import resource
 import shutil
 import signal
+import stat
 import subprocess
 import sys
 import time
@@ -62,6 +65,11 @@ CASES.update({
     "C09": ("actual-source-ci", "singleton-resolved-refs", "clean-base-absence",
             "kernel-type-rejection"),
     "C10": ("good-base-setup", "singleton-resolved-refs", "duplicate-base-guard"),
+})
+CASES.update({
+    "C11": ("raw-union-preserved", "raw-extra-block"),
+    "C14": ("actual-ir-binding", "raw-names-preserved", "ci-backed-accounted",
+            "residue-retained-blocked"),
 })
 PURE_C15 = {"malformed-transcript", "deps-json-error-row", "duplicate-vertex",
             "missing-local-edge", "cycle"}
@@ -184,12 +192,74 @@ def object_custody(paths, expected_manifest, evidence_path):
                 raise RuntimeError("OBJECT_DRIFT: after observation")
 
 
+
+def _load_ir_io_subject(expected=None):
+    """Execute only captured bytes from the exact canonical production file."""
+    subject = ROOT / "tools" / "sdga_ir_evidence.py"
+    canonical = subject.resolve(strict=True)
+    if canonical != subject.absolute():
+        raise RuntimeError("IR_SOURCE_PATH: production helper alias is not admitted")
+    raw = canonical.read_bytes()
+    binding = {
+        "path": str(canonical), "bytes": len(raw), "sha256": digest(raw),
+        "git_blob": hashlib.sha1(
+            b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest(),
+    }
+    if expected is not None and binding != expected:
+        raise RuntimeError("IR_SOURCE_DRIFT: production helper changed after capture")
+    if canonical.read_bytes() != raw:
+        raise RuntimeError("IR_SOURCE_DRIFT: helper changed before captured execution")
+    namespace = {"__name__": "sdga_ir_io_captured_subject",
+                 "__file__": str(canonical), "__package__": None}
+    exec(compile(raw, str(canonical), "exec"), namespace)
+    api = {}
+    for name in ("admit_output_root", "retain_ir_manifest"):
+        if not callable(namespace.get(name)):
+            raise RuntimeError("IR_SOURCE_API: missing " + name)
+        api[name] = namespace[name]
+    if canonical.read_bytes() != raw:
+        raise RuntimeError("IR_SOURCE_DRIFT: helper changed during captured execution")
+    return api, binding
+
+
+
+def _append_ir_cause(error, prior):
+    """Preserve existing evidence-error causes before attaching an earlier failure."""
+    if prior is None or prior is error:
+        return error
+    seen = set()
+    tail = error
+    while tail.__cause__ is not None:
+        if id(tail) in seen:
+            error.add_note("Earlier evidence failure: " + type(prior).__name__ + ": " + str(prior))
+            return error
+        seen.add(id(tail))
+        if tail.__cause__ is prior:
+            return error
+        tail = tail.__cause__
+    seen.add(id(tail))
+    node = prior
+    prior_seen = set()
+    while node is not None and id(node) not in prior_seen:
+        if node is error or id(node) in seen:
+            error.add_note("Earlier evidence failure: " + type(prior).__name__ + ": " + str(prior))
+            return error
+        prior_seen.add(id(node))
+        node = node.__cause__
+    tail.__cause__ = prior
+    return error
+
+
 class Evidence:
     def __init__(self, output):
-        if output.exists():
-            raise ValueError("OUTPUT_NOT_FRESH: " + str(output))
-        output.mkdir(parents=True)
-        self.output = output.resolve()
+        subject, self.ir_subject_binding = _load_ir_io_subject()
+        self.source_roots = (ROOT.resolve(strict=True),)
+        self.output = subject["admit_output_root"](output, self.source_roots)
+        self.ir_expected = {}
+        self.ir_contexts = []
+        self.ir_observations = []
+        self.ir_failures = []
+        self.ir_final = None
         self.owned = self.output / "owned"
         self.owned.mkdir()
         self.native = self.output / "native"
@@ -247,11 +317,19 @@ class Evidence:
                     "status": "not_run", "reason": "not yet invoked",
                 }
         self.capture_sources()
+        captured = self.identities["sources"]["tools/sdga_ir_evidence.py"]
+        if not captured["exists"] or any(
+                captured[key] != self.ir_subject_binding[key]
+                for key in ("bytes", "sha256", "git_blob")):
+            raise RuntimeError("IR_SOURCE_DRIFT: capture differs from executed helper bytes")
+        self.identities["ir_io_subject"] = copy.deepcopy(self.ir_subject_binding)
         self.flush()
 
     def capture_sources(self):
         paths = [Path(__file__).resolve(), BRIDGE, CONTROLLER,
                  ROOT / "tests" / "sdga_object_custody_contract.py",
+                 ROOT / "tests" / "sdga_ir_evidence_contract.py",
+                 ROOT / "tools" / "sdga_ir_evidence.py",
                  ROOT / "tools" / "sdga_scope.py",
                  ROOT / ".github" / "workflows" / "sdga-component-contract.yml",
                  ROOT / "tests" / "fixtures" / "sdga_scope" / "scope-f532.json"]
@@ -276,13 +354,13 @@ class Evidence:
         self.identities["original_task_a_subcases"] = 39
         self.identities["original_task_a_cases"] = {k: list(v) for k, v in TASK_A_CASES.items()}
         self.identities["task_b_fixed_fixtures"] = list(TASK_B_FIXTURES)
-        self.identities["declared_python_methods"] = 13
-        self.identities["declared_subcases"] = 61
+        self.identities["declared_python_methods"] = 15
+        self.identities["declared_subcases"] = 67
         self.identities["task_b_methods"] = 4
         self.identities["task_b_subcases"] = 13
         self.identities["task_c_methods"] = 3
         self.identities["task_c_subcases"] = 9
-        self.identities["lean_subcases"] = 55
+        self.identities["lean_subcases"] = 61
         self.identities["python_controller_subcases"] = 6
         self.identities["separate_python_custody_regression_included"] = False
         profile = self.identities["sources"]["tests/fixtures/sdga_scope/scope-f532.json"]
@@ -372,6 +450,9 @@ class Evidence:
             raise ValueError("EXPECTED_TIMEOUT_SCOPE: fixed cleanup preflight only")
         if self.scheduling_blocked or self.subreaper is None:
             raise RuntimeError("PROCESS_SCHEDULING_BLOCKED: cleanup unavailable or uncertain")
+        if self.ir_failures:
+            raise RuntimeError("IR_EVIDENCE_BLOCKED: earlier generated-output failure")
+        self._check_generated("before-command-" + label)
         index = len(self.commands) + 1
         prefix = self.native / ("%02d-%s" % (index, label))
         env = os.environ.copy()
@@ -526,6 +607,8 @@ class Evidence:
     def observe_lean(self, label, lean_args, *, requests, search_root=None, env_extra=None):
         if self.object_failures:
             raise RuntimeError("OBJECT_CUSTODY_BLOCKED: earlier custody failure")
+        if self.ir_failures:
+            raise RuntimeError("IR_EVIDENCE_BLOCKED: earlier generated-output failure")
         names = [str(Path(path).resolve()) for path in requests]
         if any(name not in self.request_objects for name in names):
             raise ValueError("OBJECT_REQUEST_UNBOUND: fixed observation request")
@@ -535,19 +618,23 @@ class Evidence:
         record_path = self.custody / ("%02d-%s.json" %
                                      (len(self.object_observations) + 1, label))
         pending = None
+        context = None
         try:
+            context = self._prepare_ir(label, lean_args, names)
+            self._check_generated("before-" + label)
             with object_custody(paths, expected, record_path):
                 return self.lean(label, lean_args, search_root=search_root, env_extra=env_extra)
-        except BaseException as exc:
-            pending = exc
+        except BaseException as error:
+            pending = error
             raise
         finally:
+            secondary = None
+            command = self.commands[-1] if self.commands and self.commands[-1]["label"] == label else None
             try:
                 if record_path.is_file():
                     record = json.loads(record_path.read_text(encoding="utf-8"))
                 else:
                     record = {"status": "fail", "error": "custody record not produced"}
-                command = self.commands[-1] if self.commands and self.commands[-1]["label"] == label else None
                 record["native_label"] = label
                 record["native_outcome"] = None if command is None else {
                     key: command[key] for key in
@@ -557,12 +644,202 @@ class Evidence:
                 self.object_observations.append(record)
                 if record["status"] != "pass":
                     self.object_failures.append(str(record_path))
+            except BaseException as error:
+                self.object_failures.append(str(record_path) + ": " + str(error))
+                secondary = error
+            try:
+                # A before-measurement error still has its attempted CLI context.
+                if context is None and self.ir_contexts and self.ir_contexts[-1]["label"] == label:
+                    context = self.ir_contexts[-1]
+                if context is not None:
+                    original = pending if pending is not None else secondary
+                    self._retain_ir(
+                        context, command, record_path,
+                        None if original is None else type(original).__name__ + ": " + str(original))
+            except BaseException as error:
+                if not any(row.get("native_label") == label for row in self.ir_failures):
+                    self.ir_failures.append({
+                        "stage": "retention-finally", "native_label": label,
+                        "error": type(error).__name__ + ": " + str(error)})
+                _append_ir_cause(error, secondary)
+                secondary = error
+            try:
+                self._check_generated("after-" + label)
+            except BaseException as error:
+                _append_ir_cause(error, secondary)
+                secondary = error
+            try:
                 self.flush()
-            except BaseException as custody_error:
-                self.object_failures.append(str(record_path) + ": " + str(custody_error))
+            except BaseException as error:
+                self.ir_failures.append({"stage": "metadata", "native_label": label,
+                                         "error": type(error).__name__ + ": " + str(error)})
+                _append_ir_cause(error, secondary)
+                secondary = error
+            if secondary is not None:
                 if pending is not None:
-                    raise pending from custody_error
+                    _append_ir_cause(pending, secondary)
+                    raise pending
+                raise secondary
+
+
+    def _generated_state(self, path):
+        path = Path(path)
+        if not path.is_absolute() or not path.is_relative_to(self.output):
+            raise OSError("IR_OUTPUT_PATH: expected canonical output child")
+        try:
+            info = path.lstat()
+        except FileNotFoundError:
+            return {"exists": False}
+        if not stat.S_ISREG(info.st_mode) or path.resolve(strict=True) != path:
+            raise OSError("IR_OUTPUT_TYPE: expected a regular canonical artifact")
+        raw = path.read_bytes()
+        return {"exists": True, "bytes": len(raw), "sha256": digest(raw)}
+
+    def _register_generated(self, path, label, kind):
+        path = Path(path)
+        state = self._generated_state(path)
+        if not state["exists"]:
+            return
+        name = str(path)
+        prior = self.ir_expected.get(name)
+        if prior is not None:
+            if state != prior["measurement"]:
+                raise RuntimeError("IR_OUTPUT_DRIFT: cannot replace expected bytes: " + name)
+            return
+        self.ir_expected[name] = {
+            "measurement": copy.deepcopy(state), "producer_label": label, "kind": kind}
+
+    def _check_generated(self, stage):
+        after = {}
+        drift = []
+        measurement_errors = []
+        for name, expected in self.ir_expected.items():
+            try:
+                after[name] = self._generated_state(Path(name))
+                if after[name] != expected["measurement"]:
+                    drift.append(name)
+            except OSError as error:
+                after[name] = None
+                measurement_errors.append(name + ": " + type(error).__name__ + ": " + str(error))
+        if drift or measurement_errors:
+            self.ir_failures.append({"stage": stage, "drift": drift,
+                                     "measurement_errors": measurement_errors})
+            raise RuntimeError("IR_OUTPUT_DRIFT: " + stage)
+        return after
+
+    def _prepare_ir(self, label, lean_args, requested_names):
+        if (len(lean_args) != 4 or lean_args[0] != "--run"
+                or Path(lean_args[1]).resolve() != BRIDGE
+                or lean_args[2] not in ("inventory", "replay")):
+            return None
+        argument = Path(lean_args[3])
+        if not argument.is_absolute():
+            # lake/lean runs from FIXTURE, including the frozen relative probe.
+            argument = FIXTURE / argument
+        origin = argument.resolve()
+        if str(origin) not in requested_names or str(origin) not in self.request_objects:
+            raise ValueError("IR_REQUEST_UNBOUND: CLI request differs from guarded inputs")
+        if not origin.is_relative_to(self.output):
+            raise ValueError("IR_REQUEST_PATH: request is outside the admitted output root")
+        mode = lean_args[2]
+        manifest = Path(str(origin) + "." + mode + ".ir-manifest.json")
+        ordinal = len(self.object_observations) + 1
+        envelope = self.output / "ir-evidence" / ("%02d-%s.json" % (ordinal, label))
+        prior = self.ir_expected.get(str(manifest))
+        context = {
+            "label": label, "ordinal": ordinal, "mode": mode,
+            "request_path": origin, "manifest_path": manifest, "envelope_path": envelope,
+            "manifest_before": None, "manifest_before_error": None,
+            "producer_label": None if prior is None else prior["producer_label"],
+            "requires_manifest": False,
+        }
+        self.ir_contexts.append(context)
+        try:
+            context["manifest_before"] = self._generated_state(manifest)
+        except OSError as error:
+            context["manifest_before_error"] = type(error).__name__ + ": " + str(error)
+            raise
+        return context
+
+    def _retain_ir(self, context, command, custody_path, observation_error):
+        pending = None
+        envelope = None
+        transport = {
+            "label": context["label"], "ordinal": context["ordinal"],
+            "command": copy.deepcopy(command),
+            "manifest_before": copy.deepcopy(context["manifest_before"]),
+            "manifest_before_error": context["manifest_before_error"],
+            "producer_label": context["producer_label"],
+        }
+        context["requires_manifest"] = command is not None and command["exit_code"] == 0
+        try:
+            subject, _ = _load_ir_io_subject(self.ir_subject_binding)
+            envelope = subject["retain_ir_manifest"](
+                mode=context["mode"], request_path=context["request_path"],
+                output_root=self.output, source_roots=self.source_roots,
+                native_outcome=transport, custody_record=custody_path,
+                source_bindings=copy.deepcopy(self.identities["sources"]),
+                observation_error=observation_error)
+            self.ir_observations.append({
+                "native_label": context["label"], "mode": context["mode"],
+                "manifest_path": str(context["manifest_path"]),
+                "envelope_path": str(context["envelope_path"]),
+                "validation_status": envelope["validation_status"],
+                "manifest_completeness": envelope["manifest_completeness"],
+                "registration": envelope["registration"],
+            })
+            if envelope["validation_status"] != "valid":
+                raise RuntimeError("IR_EVIDENCE_INVALID: " + context["label"])
+        except BaseException as error:
+            pending = error
+            self.ir_failures.append({"stage": "retention", "native_label": context["label"],
+                                     "error": type(error).__name__ + ": " + str(error)})
+            raise
+        finally:
+            try:
+                # Preserve even failed/partial bytes, without replacing a first expectation.
+                manifest_label = (envelope.get("producer_label") if envelope is not None
+                                  else context["producer_label"])
+                if context["manifest_before"] == {"exists": False}:
+                    manifest_label = context["label"]
+                self._register_generated(context["manifest_path"], manifest_label, "manifest")
+                self._register_generated(context["envelope_path"], context["label"], "envelope")
+            except BaseException as registration_error:
+                self.ir_failures.append({
+                    "stage": "registration", "native_label": context["label"],
+                    "error": type(registration_error).__name__ + ": " + str(registration_error)})
+                if pending is not None:
+                    _append_ir_cause(pending, registration_error)
+                    raise pending
                 raise
+
+    def finalize_ir(self):
+        after = {}
+        error = None
+        try:
+            after = self._check_generated("final")
+        except BaseException as failure:
+            error = type(failure).__name__ + ": " + str(failure)
+        missing_envelopes = sorted(
+            str(context["envelope_path"]) for context in self.ir_contexts
+            if str(context["envelope_path"]) not in self.ir_expected)
+        missing_manifests = sorted(
+            str(context["manifest_path"]) for context in self.ir_contexts
+            if context["requires_manifest"]
+            and str(context["manifest_path"]) not in self.ir_expected)
+        self.ir_final = {
+            "status": ("pass" if not self.ir_failures and error is None
+                       and not missing_envelopes and not missing_manifests else "fail"),
+            "contexts": len(self.ir_contexts), "expected_contexts": 7,
+            "after": after, "missing_envelopes": missing_envelopes,
+            "missing_required_manifests": missing_manifests,
+            "finalization_error": error,
+            "registry_entries": len(self.ir_expected),
+        }
+        if len(self.ir_contexts) != 7:
+            self.ir_final["status"] = "fail"
+        self.flush()
+        return self.ir_final["status"] == "pass"
 
     def finalize_objects(self):
         after = None
@@ -579,11 +856,11 @@ class Evidence:
             "observation_count": len(self.object_observations),
             "request_count": len(self.request_bindings),
             "path_count": len(self.object_expected),
-            "expected_observation_count": 25,
+            "expected_observation_count": 28,
             "expected_request_count": 10,
             "expected_path_count": 55,
             "status": ("pass" if error is None and not drift and not self.object_failures
-                       and len(self.object_observations) == 25
+                       and len(self.object_observations) == 28
                        and len(self.request_bindings) == 10
                        and len(self.object_expected) == 55 else "fail"),
         }
@@ -748,6 +1025,22 @@ class Evidence:
 
     def flush(self):
         self.identities["cli_replay"] = self.cli_replay
+        self.identities["ir_evidence"] = {
+            "expected_generated_outputs": self.ir_expected,
+            "contexts": [{
+                "native_label": row["label"], "ordinal": row["ordinal"], "mode": row["mode"],
+                "request_path": str(row["request_path"]),
+                "manifest_path": str(row["manifest_path"]),
+                "envelope_path": str(row["envelope_path"]),
+                "manifest_before": row["manifest_before"],
+                "manifest_before_error": row["manifest_before_error"],
+                "previous_producer_label": row["producer_label"],
+                "requires_manifest": row["requires_manifest"],
+            } for row in self.ir_contexts],
+            "observations": self.ir_observations, "failures": self.ir_failures,
+            "final": self.ir_final, "outside_method_and_subcase_census": True,
+        }
+        json_write(self.output / "ir-evidence-registry.json", self.identities["ir_evidence"])
         self.identities["object_custody"] = {
             "expected": self.object_expected, "request_bindings": self.request_bindings,
             "observations": self.object_observations, "failures": self.object_failures,
@@ -763,7 +1056,7 @@ class Evidence:
         for row in self.records.values():
             statuses[row["status"]] = statuses.get(row["status"], 0) + 1
         json_write(self.output / "census.json", {
-            "declared_python_methods": 13, "declared_subcases": 61,
+            "declared_python_methods": 15, "declared_subcases": 67,
             "original_task_a_methods": 6, "original_task_a_subcases": 39,
             "actual_subcase_statuses": statuses,
             "scientific_effect": "NONE", "qualification": "BLOCKED",
@@ -1274,6 +1567,365 @@ class TaskAContracts(unittest.TestCase):
         self.assertEqual(guard["contamination"], "successful-original-complete-map-replay")
 
 
+    # Task D assertions are scoped here. Baseline C bootstrap never imports or
+    # requires the absent I/O module or sidecars at the test-first checkpoint.
+    def d_json(self, path):
+        def unique(pairs):
+            value = {}
+            for key, item in pairs:
+                self.assertNotIn(key, value, "duplicate artifact JSON field")
+                value[key] = item
+            return value
+        self.assertTrue(path.is_file(), "IMPLEMENTATION_ABSENCE: required IR artifact " + str(path))
+        return json.loads(path.read_bytes().decode("utf-8"), object_pairs_hook=unique)
+
+    def d_keys(self, value, fields):
+        self.assertIs(type(value), dict)
+        self.assertEqual(set(value), set(fields.split()))
+
+    def d_nat(self, value):
+        self.assertIs(type(value), int)
+        self.assertGreaterEqual(value, 0)
+
+    def d_hash(self, value, length=64):
+        self.assertIs(type(value), str)
+        self.assertEqual(len(value), length)
+        self.assertTrue(all(char in "0123456789abcdef" for char in value))
+
+    def d_wire(self, value, anonymous=False):
+        self.assertIs(type(value), str)
+        decoded = STATE.task1.decode_name(value)
+        self.assertEqual(STATE.task1.encode_name(decoded), value)
+        self.assertTrue(anonymous or value != "")
+
+    def d_state(self, value, nullable=False):
+        if nullable and value is None:
+            return
+        self.assertIs(type(value), dict)
+        self.assertIs(type(value.get("exists")), bool)
+        if value["exists"]:
+            self.d_keys(value, "exists bytes sha256")
+            self.d_nat(value["bytes"])
+            self.d_hash(value["sha256"])
+        else:
+            self.d_keys(value, "exists")
+
+    def d_policy(self, policy):
+        self.d_keys(policy, "olean_extras ir_residue combined")
+        self.assertTrue(all(value in ("clear", "blocked") for value in policy.values()))
+        self.assertEqual(policy["combined"], "blocked" if "blocked" in (
+            policy["olean_extras"], policy["ir_residue"]) else "clear")
+
+    def d_core(self, core):
+        self.d_keys(core, "olean_parts olean_extra_union ir_parts ir_occurrences "
+                    "ci_backed_names unexplained_residue policy")
+        for family in ("olean_parts", "ir_parts"):
+            self.assertIs(type(core[family]), list)
+            self.assertEqual(len(core[family]), len(STATE.request[family]))
+            for part, requested in zip(core[family], STATE.request[family]):
+                self.d_keys(part, "level path declared_sha256 is_module const_names "
+                            "constant_names extra_const_names extension_entries")
+                self.assertEqual({key: part[key] for key in ("level", "path")},
+                                 {key: requested[key] for key in ("level", "path")})
+                self.assertEqual(part["declared_sha256"], requested["sha256"])
+                self.assertIs(type(part["is_module"]), bool)
+                for field in ("const_names", "constant_names", "extra_const_names"):
+                    self.assertIs(type(part[field]), list)
+                    for name in part[field]:
+                        self.d_wire(name)
+                self.assertIs(type(part["extension_entries"]), list)
+                for extension in part["extension_entries"]:
+                    self.d_keys(extension, "name entry_count")
+                    self.d_wire(extension["name"], anonymous=True)
+                    self.d_nat(extension["entry_count"])
+        expected_extra = list(dict.fromkeys(
+            name for part in core["olean_parts"] for name in part["extra_const_names"]))
+        self.assertEqual(core["olean_extra_union"], expected_extra)
+        owned = {row["name"] for row in STATE.inventory["declarations"]}
+        occurrences = []
+        backed, residue = [], []
+        for part_index, part in enumerate(core["ir_parts"]):
+            for field in ("const_names", "constant_names", "extra_const_names"):
+                for index, name in enumerate(part[field]):
+                    is_owned = name in owned
+                    occurrences.append({"part_index": part_index, "field": field, "index": index,
+                                        "name": name, "ci_backed": is_owned})
+                    population = backed if is_owned else residue
+                    if name not in population:
+                        population.append(name)
+        self.assertIs(type(core["ir_occurrences"]), list)
+        for occurrence in core["ir_occurrences"]:
+            self.d_keys(occurrence, "part_index field index name ci_backed")
+            self.d_nat(occurrence["part_index"])
+            self.d_nat(occurrence["index"])
+            self.assertIs(type(occurrence["ci_backed"]), bool)
+            self.d_wire(occurrence["name"])
+        self.assertEqual(core["ir_occurrences"], occurrences)
+        self.assertEqual(core["ci_backed_names"], backed)
+        self.assertEqual(core["unexplained_residue"], residue)
+        self.d_policy(core["policy"])
+        self.assertEqual(core["policy"], {
+            "olean_extras": "blocked" if expected_extra else "clear",
+            "ir_residue": "blocked" if residue else "clear",
+            "combined": "blocked" if expected_extra or residue else "clear"})
+        return core
+
+    def d_manifest(self, mode, core):
+        path = Path(str(STATE.request_path.resolve()) + "." + mode + ".ir-manifest.json")
+        record = self.d_json(path)
+        fields = ("record schema mode request_path scope_id profile_sha256 module hash_semantics "
+                  "completeness olean_parts olean_extra_union ir_parts ir_occurrences ci_backed_names "
+                  "unexplained_residue policy scientific_effect qualification classification_status "
+                  "execution_authenticated")
+        self.d_keys(record, fields)
+        self.assertIs(type(record["schema"]), int)
+        self.assertEqual(record["schema"], 1)
+        self.assertEqual(record["record"], "sdga-ir-manifest")
+        self.assertEqual(record["mode"], mode)
+        self.assertEqual(record["request_path"], str(STATE.request_path.resolve()))
+        for name in ("scope_id", "profile_sha256", "module"):
+            self.assertEqual(record[name], STATE.request[name])
+        self.assertEqual(record["hash_semantics"], "request-declared")
+        self.assertEqual(record["completeness"], "complete")
+        for name, wanted in (("scientific_effect", "NONE"), ("qualification", "BLOCKED"),
+                             ("classification_status", "BLOCKED")):
+            self.assertEqual(record[name], wanted)
+        self.assertIs(record["execution_authenticated"], False)
+        actual_core = {key: record[key] for key in core}
+        self.assertEqual(self.d_core(actual_core), core)
+        for part in STATE.request["olean_parts"] + STATE.request["ir_parts"]:
+            measured = STATE.object_expected[part["path"]]
+            self.assertTrue(measured["exists"])
+            self.assertEqual(measured["sha256"], part["sha256"])
+            self.assertEqual(digest(Path(part["path"]).read_bytes()), measured["sha256"])
+        return path
+
+    def d_envelope(self, label, mode, manifest_path):
+        root = STATE.output / "ir-evidence"
+        self.assertTrue(root.is_dir(), "IMPLEMENTATION_ABSENCE: production IR retention envelopes")
+        matches = []
+        for path in sorted(root.glob("*.json")):
+            record = self.d_json(path)
+            self.d_keys(record, "record schema mode request_path request_measurement manifest_path "
+                        "manifest_before manifest_after manifest_completeness registration producer_label "
+                        "native_outcome observation_error input_custody source_bindings policy validation_status "
+                        "errors scientific_effect qualification classification_status execution_authenticated")
+            self.assertEqual(record["record"], "sdga-ir-envelope")
+            self.assertIs(type(record["schema"]), int)
+            self.assertEqual(record["schema"], 1)
+            self.assertIn(record["mode"], ("inventory", "replay"))
+            self.assertIs(type(record["request_path"]), str)
+            self.assertIs(type(record["manifest_path"]), str)
+            for key in ("request_measurement", "manifest_before", "manifest_after"):
+                self.d_state(record[key], nullable=True)
+            self.assertIn(record["manifest_completeness"], ("complete", "missing", "invalid", "unreadable"))
+            self.assertIn(record["registration"], ("new", "preexisting", "none"))
+            for key in ("producer_label", "observation_error"):
+                self.assertTrue(record[key] is None or type(record[key]) is str)
+            self.assertIn(record["validation_status"], ("valid", "invalid"))
+            self.assertIs(type(record["errors"]), list)
+            for error in record["errors"]:
+                self.d_keys(error, "stage code message")
+                self.assertIn(error["stage"], ("admission", "before", "native", "after",
+                                               "schema", "binding", "retention", "final"))
+                self.assertIs(type(error["code"]), str)
+                self.assertIs(type(error["message"]), str)
+            if record["policy"] is not None:
+                self.d_policy(record["policy"])
+            custody = record["input_custody"]
+            self.d_keys(custody, "path status sha256")
+            self.assertIs(type(custody["path"]), str)
+            self.assertIn(custody["status"], ("pass", "fail", "not_produced"))
+            if custody["sha256"] is not None:
+                self.d_hash(custody["sha256"])
+            self.assertIs(type(record["source_bindings"]), list)
+            source_names = []
+            for source in record["source_bindings"]:
+                self.d_keys(source, "path exists bytes sha256 git_blob")
+                self.assertIs(type(source["path"]), str)
+                self.assertIs(type(source["exists"]), bool)
+                source_names.append(source["path"])
+                if source["exists"]:
+                    self.d_nat(source["bytes"])
+                    self.d_hash(source["sha256"])
+                    self.d_hash(source["git_blob"], 40)
+                else:
+                    self.assertIsNone(source["bytes"])
+                    self.assertIsNone(source["sha256"])
+                    self.assertIsNone(source["git_blob"])
+            self.assertEqual(source_names, sorted(set(source_names)))
+            for key, wanted in (("scientific_effect", "NONE"), ("qualification", "BLOCKED"),
+                                ("classification_status", "BLOCKED")):
+                self.assertEqual(record[key], wanted)
+            self.assertIs(record["execution_authenticated"], False)
+            native = record["native_outcome"]
+            if native is not None:
+                self.d_keys(native, "label argv cwd exit_code timed_out launch_error interruption "
+                            "cleanup_confirmed stdout stderr")
+                for key in ("label", "cwd"):
+                    self.assertIs(type(native[key]), str)
+                self.assertIs(type(native["argv"]), list)
+                self.assertTrue(all(type(item) is str for item in native["argv"]))
+                self.assertTrue(native["exit_code"] is None or type(native["exit_code"]) is int)
+                self.assertIs(type(native["timed_out"]), bool)
+                for key in ("launch_error", "interruption"):
+                    self.assertTrue(native[key] is None or type(native[key]) is str)
+                self.assertTrue(native["cleanup_confirmed"] is None
+                                or type(native["cleanup_confirmed"]) is bool)
+                for field in ("stdout", "stderr"):
+                    stream = native[field]
+                    self.d_keys(stream, "path bytes sha256")
+                    self.assertIs(type(stream["path"]), str)
+                    self.d_nat(stream["bytes"])
+                    self.d_hash(stream["sha256"])
+                if native["label"] == label:
+                    matches.append((path, record))
+        self.assertEqual(len(matches), 1, "missing/duplicate actual observation envelope")
+        path, record = matches[0]
+        native = record["native_outcome"]
+        command = next(item for item in STATE.commands if item["label"] == label)
+        self.assertEqual(record["mode"], mode)
+        self.assertEqual(record["request_path"], str(STATE.request_path.resolve()))
+        self.assertEqual(record["manifest_path"], str(manifest_path))
+        self.assertEqual(record["request_measurement"], STATE.object_expected[str(STATE.request_path)])
+        self.assertEqual(record["manifest_completeness"], "complete")
+        self.assertEqual(record["validation_status"], "valid")
+        if command["exit_code"] == 0:
+            self.assertEqual(record["errors"], [])
+        else:
+            self.assertLessEqual(len(record["errors"]), 1,
+                                 "collision envelope allows only zero or one native error")
+            self.assertEqual(label, "cli-ir-sidecar-collision")
+            for error in record["errors"]:
+                self.assertEqual(error["stage"], "native")
+                self.assertEqual(error["code"], "SIDECAR_COLLISION")
+                self.assertEqual(error["message"],
+                                 Path(command["stderr_path"]).read_bytes().decode("utf-8").strip())
+        self.assertEqual(record["input_custody"]["status"], "pass")
+        self.assertEqual(record["policy"], self.d_json(manifest_path)["policy"])
+        self.assertIsNone(record["observation_error"])
+        custody_path = Path(record["input_custody"]["path"])
+        self.assertEqual(custody_path.resolve(), custody_path)
+        self.assertEqual(custody_path.parent, STATE.custody)
+        custody_bytes = custody_path.read_bytes()
+        self.assertEqual(digest(custody_bytes), record["input_custody"]["sha256"])
+        self.assertEqual(json.loads(custody_bytes)["native_label"], label)
+        for key in ("argv", "cwd", "exit_code", "timed_out", "launch_error"):
+            self.assertEqual(native[key], command[key])
+        self.assertEqual(native["interruption"], command.get("interruption"))
+        self.assertEqual(native["cleanup_confirmed"], command["cleanup"]["confirmed"])
+        for field in ("stdout", "stderr"):
+            self.assertEqual(native[field], {
+                "path": command[field + "_path"], "bytes": command[field + "_bytes"],
+                "sha256": command[field + "_sha256"]})
+            raw = Path(native[field]["path"]).read_bytes()
+            self.assertEqual((len(raw), digest(raw)),
+                             (native[field]["bytes"], native[field]["sha256"]))
+        expected_sources = STATE.identities["sources"]
+        self.assertEqual({source["path"] for source in record["source_bindings"]}, set(expected_sources))
+        for source in record["source_bindings"]:
+            expected = expected_sources[source["path"]]
+            self.assertEqual(source["exists"], expected["exists"])
+            for key in ("bytes", "sha256", "git_blob"):
+                self.assertEqual(source[key], expected.get(key))
+        actual = manifest_path.read_bytes()
+        self.assertEqual(record["manifest_after"],
+                         {"exists": True, "bytes": len(actual), "sha256": digest(actual)})
+        return record
+
+
+    def d_base_files(self, rows):
+        expected = []
+        for family in ("olean", "ir"):
+            for index, part in enumerate(STATE.request[family + "_parts"]):
+                expected.append({"family": family, "part_index": index,
+                                 "level": part["level"], "path": part["path"],
+                                 "declared_sha256": part["sha256"]})
+        self.assertEqual(rows, expected)
+
+    def test_C11_actual_raw_olean_extra_refusal(self):
+        rows = self.native_case("C11")
+        detail = rows[0]["detail"]
+        raw = detail["raw_setup"]["olean_parts"]
+        extras = list(dict.fromkeys(name for part in raw for name in part["extra_const_names"]))
+        self.assertEqual(detail["original_union"], extras)
+        self.assertEqual(STATE.inventory["modules"][0]["extra_const_names"], extras)
+        mutation = detail["mutation"]
+        self.assertEqual(mutation["metadata_origin"], "altered_in_memory")
+        self.assertEqual(mutation["base_request_path"], str(STATE.request_path))
+        self.d_base_files(mutation["base_files"])
+        change = mutation["alteration"]
+        self.assertEqual(change["family"], "olean")
+        self.assertEqual(change["part_index"], 2)
+        self.assertEqual(change["field"], "extra_const_names")
+        self.assertEqual(change["operation"], "append")
+        self.assertEqual(mutation["after"], mutation["before"] + [change["appended_name"]])
+        self.assertEqual(change["old_length"], len(mutation["before"]))
+        self.assertEqual(rows[1]["detail"]["expected_code"], "UNSUPPORTED_EXTRAS")
+        self.assertEqual(rows[1]["detail"]["reported_name"], change["appended_name"])
+
+    def test_C14_actual_ir_provenance_and_residue(self):
+        rows = self.native_case("C14")
+        core = self.d_core(rows[0]["detail"]["core"])
+        self.d_base_files(rows[0]["detail"]["base_files"])
+        self.assertEqual(rows[1]["detail"]["core"], core)
+        witness = rows[2]["detail"]
+        self.assertEqual((witness["part_index"], witness["field"]), (1, "extra_const_names"))
+        self.assertIs(witness["ci_backed"], True)
+        self.assertEqual(core["ir_parts"][1]["extra_const_names"][witness["index"]], witness["name"])
+        self.assertIn(witness["name"], {row["name"] for row in STATE.inventory["declarations"]})
+        residue = rows[3]["detail"]
+        for field in ("dependency_present", "owned_absent", "raw_absent"):
+            self.assertIs(residue[field], True)
+        self.assertEqual(residue["name"], STATE.task1.encode_name(("Nat",)))
+        self.assertEqual(residue["expected_code"], "UNSUPPORTED_IR_RESIDUE")
+        self.assertIn(residue["name"], residue["core"]["unexplained_residue"])
+        self.assertNotIn(residue["name"], residue["core"]["ci_backed_names"])
+        self.assertEqual(residue["core"]["policy"]["ir_residue"], "blocked")
+        mutation = residue["mutation"]
+        self.assertEqual(mutation["metadata_origin"], "altered_in_memory")
+        self.assertEqual(mutation["base_request_path"], str(STATE.request_path))
+        self.d_base_files(mutation["base_files"])
+        self.assertEqual(mutation["after"], mutation["before"] + [residue["name"]])
+        self.assertEqual(mutation["alteration"], {
+            "family": "ir", "part_index": 1, "field": "extra_const_names", "operation": "append",
+            "old_length": len(mutation["before"]), "appended_name": residue["name"]})
+        inventory_path = self.d_manifest("inventory", core)
+        replay_path = self.d_manifest("replay", core)
+        self.assertNotEqual(inventory_path, replay_path)
+        inventory_envelope = self.d_envelope("inventory", "inventory", inventory_path)
+        replay_envelope = self.d_envelope("cli-safe-replay", "replay", replay_path)
+        self.assertEqual(inventory_envelope["registration"], "new")
+        self.assertEqual(replay_envelope["registration"], "new")
+        self.assertEqual(inventory_envelope["manifest_before"], {"exists": False})
+        self.assertEqual(replay_envelope["manifest_before"], {"exists": False})
+        self.assertEqual(inventory_envelope["producer_label"], "inventory")
+        self.assertEqual(replay_envelope["producer_label"], "cli-safe-replay")
+        before = inventory_path.read_bytes()
+        relative_request = os.path.relpath(STATE.request_path, FIXTURE)
+        self.assertFalse(Path(relative_request).is_absolute())
+        command, out, err = STATE.observe_lean(
+            "cli-ir-sidecar-collision",
+            ["--run", str(BRIDGE), "inventory", relative_request],
+            requests=(STATE.request_path,))
+        self.assertNotEqual(command["exit_code"], 0)
+        self.assertEqual(out, b"", "collision must precede successful inventory/end")
+        lines = err.decode("utf-8").splitlines()
+        self.assertEqual(len(lines), 1)
+        self.assertTrue(lines[0].startswith("SDGA_ERROR SIDECAR_COLLISION:"))
+        self.assertEqual(inventory_path.read_bytes(), before, "native sidecar was overwritten")
+        collision = self.d_envelope("cli-ir-sidecar-collision", "inventory", inventory_path)
+        self.assertEqual(collision["registration"], "preexisting")
+        self.assertEqual(collision["producer_label"], inventory_envelope["producer_label"])
+        self.assertEqual(collision["manifest_before"], collision["manifest_after"])
+        json_write(STATE.output / "task-d-sidecar-observation.json", {
+            "record": "task-d-sidecar-observation", "native_collision": command,
+            "relative_request_argument": relative_request,
+            "inventory_path": str(inventory_path), "replay_path": str(replay_path),
+            "inventory_bytes": len(before), "inventory_sha256": digest(before),
+            "global_qualification": "BLOCKED", "outside_67_supplemental_collision": True})
+
+
 class Result(unittest.TextTestResult):
     def startTestRun(self):
         self.method_rows = []
@@ -1337,14 +1989,15 @@ def main():
                 before["exists"] and before["sha256"] != after.get("sha256")):
             drift.append(relative)
     objects_complete = STATE.finalize_objects()
+    ir_complete = STATE.finalize_ir()
     STATE.identities["source_after"] = source_after
     STATE.identities["source_drift"] = drift
     STATE.flush()
     final = {
-        "record": "task-a-b-c-result", "methods_run": result.testsRun,
+        "record": "task-a-b-c-d-result", "methods_run": result.testsRun,
         "method_results": result.method_rows,
         "failures": len(result.failures), "errors": len(result.errors),
-        "skipped": len(result.skipped), "declared_subcases": 61,
+        "skipped": len(result.skipped), "declared_subcases": 67,
         "original_task_a_methods": 6, "original_task_a_subcases": 39,
         "observed_subcases": sum(row["status"] != "not_run" for row in STATE.records.values()),
         "subcase_pass": sum(row["status"] == "pass" for row in STATE.records.values()),
@@ -1356,6 +2009,8 @@ def main():
         "source_drift": drift,
         "object_custody": STATE.object_final,
         "object_custody_failures": STATE.object_failures,
+        "ir_evidence": STATE.ir_final,
+        "ir_evidence_failures": STATE.ir_failures,
         "cli_replay": STATE.cli_replay,
         "cleanup_only_preflight": STATE.cleanup_preflight,
         "process_scheduling_blocked": STATE.scheduling_blocked,
@@ -1363,9 +2018,9 @@ def main():
     json_write(STATE.output / "result.json", final)
     print(json.dumps(final, sort_keys=True), flush=True)
     complete = (
-        result.wasSuccessful() and result.testsRun == 13 and not result.skipped
-        and final["subcase_pass"] == 61 and final["subcase_fail"] == 0
-        and final["subcase_not_run"] == 0 and not drift and objects_complete
+        result.wasSuccessful() and result.testsRun == 15 and not result.skipped
+        and final["subcase_pass"] == 67 and final["subcase_fail"] == 0
+        and final["subcase_not_run"] == 0 and not drift and objects_complete and ir_complete
         and final["cli_replay"]["status"] == "pass"
         and STATE.cleanup_preflight is not None
         and STATE.cleanup_preflight["status"] == "pass" and not STATE.scheduling_blocked)
