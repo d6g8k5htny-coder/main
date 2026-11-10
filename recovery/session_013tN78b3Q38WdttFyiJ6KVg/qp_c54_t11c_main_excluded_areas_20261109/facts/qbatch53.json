@@ -1,0 +1,384 @@
+{
+ "batch": 53,
+ "kind": "math",
+ "objects": [
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s7_x345_qualification@refs/pull/444/head",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s7_x345_qualification",
+   "ref": "refs/pull/444/head",
+   "pr": 444,
+   "pr_open": false,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "4870bff1d3e2cdc2ca57b8936605dd530ee1f7fc",
+   "triage_title": "S7 source-bound qualification of recovered xAI reviews X3/X4/X5 of D1 parent P (UNIFORM_MATRIX_CAP_AND_LIFETIME, 9350ad6e)",
+   "triage_summary": "Each recovered review is qualified against its LEDGER interface. X3 on A2 is PASS_SCOPED_PARTIAL: the frame-uniform enlarged-covariance lower bound, the 'A2 uniform gap', is not at full depth. X4 on A4 is PARTIAL, missing the uniform-in-r B_r bound and the CAP norm comparison. X5 on A3 is PASS_SCOPED_FULL, using the E1-correct congruence but taking no A3-E1 credit. The sympy and mpmath scripts re-derive det T_r=12r^-(d+3), the U3 kernel, the Schur bounds and the (5.1)-(5.3) identities.",
+   "triage_hint": "claim S7-X345-QUALIFICATION-01CZ-20261018; main#419 comments 6250111892 (result), 6249748719 (pickup), row §7 of 6244043691; main#112 c5841317882 (X3), c5841289285 (X4), c5841352633 (X5); Math- RECOVERED_REVIEWS.json and reviews/d1_chain_reconciliation_20260928/LEDGER.json at b6fc0e64; erratum E1 imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s7_x345_qualification/qual_results.json",
+     "git_blob": "e7b05eb8da843af9522141db4c10d8b493af706e",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH_REVIEW"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s7_x345_qualification/result.md",
+     "git_blob": "bf34e7fa0ba3836ac39821571a2af809ecc20f7f",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH_REVIEW"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s7_x345_qualification/work_X3A2/check_a2.py",
+     "git_blob": "bfe7784bc3a3d5fca5ee0f92a06eaaa0da0c432f",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s7_x345_qualification/work_X3A2/gap_probe.py",
+     "git_blob": "9bdaf327f9d3a2b6d915b95fdc2dec60f5bc114c",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s7_x345_qualification/work_X3A2_adv2/gap.py",
+     "git_blob": "f6b2a46f19194bb26a85f601d3e5ff686c4f1345",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s7_x345_qualification/work_X3A2_adv2/rederive.py",
+     "git_blob": "a205f0458845c83e8b2471f5607fdfb62ca467a7",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s7_x345_qualification/work_X3A2adv1/chk.py",
+     "git_blob": "4d2f47bd79600f6b405acd5c07b13db917ce60fa",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s7_x345_qualification/work_x4a4/scripts/check_a4.py",
+     "git_blob": "706b0fcd22d6f92648b68101480ce36dbaf1a7e2",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s7_x345_qualification/work_x4a4/scripts/check_a4b.py",
+     "git_blob": "254f0917a8b91fa53e275d3c3ba79265f19476ad",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s7_x345_qualification/work_x4a4_adv2/scripts/br_bound.py",
+     "git_blob": "d47be6b18a725c9567b25853bb3f559c8bfcaa42",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s7_x345_qualification/work_x5a3/check_x5.py",
+     "git_blob": "1ee705cfc56459870bb4c57b281bf3575a8a469d",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s7_x345_qualification/work_x5a3_adv2/adv2.py",
+     "git_blob": "fdeb164d0a59a34f7c563849f2b8cf12405a567d",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk@refs/pull/444/head",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk",
+   "ref": "refs/pull/444/head",
+   "pr": 444,
+   "pr_open": false,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "4870bff1d3e2cdc2ca57b8936605dd530ee1f7fc",
+   "triage_title": "S9-SIDE24-CROSSWALK-01CZ-20261018: CL-AUD-LSDER071-076/LS-CLS-077 chain vs Math- coefficients/side24_v1 c_(3,24) record, lenses and core checks",
+   "triage_summary": "Claims FORMULA-LEVEL MATCH at d=3, L=24: LS-DER-056 (24)-(25) equals parent P Eq. (15.2) integrand by integrand, and chain c_(3,inf)=2^(-23/6)3^(-8/3)(29√6-36)Γ(1/6)π^(-5/2) equals PROOF.md formula (1). The side-24 correction P_3(24)e^(-288), with P_3(24)=-620813376/35, is consistent with PROOF.md (4); four lenses return MATCH_WITH_NOTES.",
+   "triage_hint": "Result main#419/6251210737 (pickup 6250181901, checkpoint 6251083329); comment_census_rows ['?'] on files 15,16,65; recovery row §9; D3-F3 main#65/6242964593; Math- e329fba1 side24_v1; Lean spec Math- 077a168",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/lens_all.json",
+     "git_blob": "d5d0b46d63d891e7d99c63ce484fbd4a28f56646",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH_REVIEW"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/result.md",
+     "git_blob": "2e71a46defdbfb404bf177ae3e4989733f6383a8",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH_REVIEW",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/result_full.md",
+     "git_blob": "c6d0558dc13eb6bccd41908c142d8c1444dc7d7d",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH_REVIEW",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/sym_core.py",
+     "git_blob": "eaa12775ee47244a5e303214a4925e3795536bad",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/sym_finiteL.py",
+     "git_blob": "5ccea307835b0ee204362a78cb858568cc831a53",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work@refs/pull/444/head",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work",
+   "ref": "refs/pull/444/head",
+   "pr": 444,
+   "pr_open": false,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "4870bff1d3e2cdc2ca57b8936605dd530ee1f7fc",
+   "triage_title": "S9 side-24 crosswalk lens and adversarial-verifier scripts (work/ subdirectories)",
+   "triage_summary": "Sympy/mpmath scripts that re-derive pin Jacobians, the kappa=6k factor map, the B_3 constant, conditional laws and cone moments (D0=29/6-√6), plus the first-order periodization correction P_3(L)=-2L^6/21+7L^4/5-3L^2 from P (15.1)-(15.2). They also check LS-DER-061/063 printed constants against closed forms and the PROOF.md enclosure at high precision.",
+   "triage_hint": "Evidence for main#419/6251210737 items 1-7; comment_census_rows ['?'] on files 18,22,29; CL-AUD-LSDER071 Gate A; LS-DER-055 (27); LS-DER-063 vs CL-AUD-LSDER062 R2",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/adv-factors-fidelity/adv_sym.py",
+     "git_blob": "82370710725e2ffa82243be4d4020b293f955468",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/adv-math-correction/fv_fast.py",
+     "git_blob": "94294ade1ca768aa1fd0650be09656888af47532",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/adv-math-correction/fv_indep.py",
+     "git_blob": "22d8f64dcaf4535533b00dd81f279d5fab6045bc",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/adv-math-correction/iso_law.py",
+     "git_blob": "edcd4060e2fc60a9b24ea3eaabb9e38493cf6fe5",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/adv-math-correction/num1.py",
+     "git_blob": "639a81a84480d6566cceff64fb4ac833e7ebe965",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/adv-math-correction/str6.py",
+     "git_blob": "1f910d026b563ff38ffc748c4cf4936a9b470c4c",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/adv-math-custody/num.py",
+     "git_blob": "e34aaa79fe34f8cbc2daf572933a2326946130c8",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/adv-math-custody/p3_from_P152.py",
+     "git_blob": "f47873b088225f7ec4d1742c33fb5fc6310f5961",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/adv-math-custody/prefactor.py",
+     "git_blob": "64ccdae25efc395d308e02ee44724d70f0e7e4da",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/adv-math-factors/condlaw.py",
+     "git_blob": "7a1102002cad7f83ae1cfb505f8e86e40d489885",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/adv-math-factors/indep.py",
+     "git_blob": "fcb86ea69cd71d8d92cdb0a86b7884edb3cd4384",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/adv-math-objects/jac.py",
+     "git_blob": "5c6b9e254240eeb3760f4e8b3f6a3121be425084",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/adv-math-objects/num.py",
+     "git_blob": "aa248f7ccd87a1f419f4eb396a06fbc39344502b",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/adv-math-objects/sym.py",
+     "git_blob": "f2024b6a767a58a9fa13e900fe3370d4f39bf63c",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/adv-source-fidelity/indep.py",
+     "git_blob": "40d613886150e5f0de17b32d81d63847da97be13",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/custody-and-verdict-scope/supersede.py",
+     "git_blob": "b45a2fc7ab1b1e1eab3dbfc974801dae0d77fd4c",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/factor-map/fm_num.py",
+     "git_blob": "8837cf9a4f6a0baf00a518884684f1e35b2ee9d8",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/factor-map/fm_sym.py",
+     "git_blob": "13f8739ecd1ff65721da77764293454945bf6bfb",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/objects-and-conventions/ledger.py",
+     "git_blob": "8c403e34065f80f3a5e0ee16d58024e8d103e669",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/objects-and-conventions/objects.py",
+     "git_blob": "7b7142498afaa54b0a51b9141c03bf4ab30e5eff",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/side-24-correction-and-numerics/digits.py",
+     "git_blob": "93ac47bd996b2ef82b4f200c899aa38074d14e81",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/side-24-correction-and-numerics/first_variation.py",
+     "git_blob": "fb9c12036fbe2b03917b21a7db3b4bc777b1edb8",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/side-24-correction-and-numerics/jets.py",
+     "git_blob": "067e638d6d19b99923af3430f5c2073d9c00129c",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/side-24-correction-and-numerics/numerics.py",
+     "git_blob": "473e28e774b9e2c34df5f0f00d68e33b55000733",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/source-fidelity-correction/fv.py",
+     "git_blob": "67e93ca1a8114007d0bb773fa9cdaa2c62f20f8b",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/source-fidelity-correction/v1.py",
+     "git_blob": "aac85a1caa848c32f297f961eaf9644289935fc2",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/source-fidelity-correction/v2.py",
+     "git_blob": "66c6794d879f2d616455274834bef55286565eb7",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s9_side24_crosswalk/work/source-fidelity-custody/nums.py",
+     "git_blob": "b7f006501d005fc6d98426c011584158dfa3c6a3",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,370 @@
+{
+ "batch": 50,
+ "kind": "math",
+ "objects": [
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input#3@refs/pull/444/head",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input",
+   "ref": "refs/pull/444/head",
+   "pr": 444,
+   "pr_open": false,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "4870bff1d3e2cdc2ca57b8936605dd530ee1f7fc",
+   "triage_title": "Kernel cancellation and conditioning analysis: beta=b-a^2, nu3=c-b^2/a, kappa4, kappa6 and small-L positivity (work_cancellation, lens_b, verify_scripts, verify_out)",
+   "triage_summary": "Componentwise condition numbers at the ORIGINAL weights: beta amplifies by at most 10^0.40, while nu3 amplifies by 10^101.9 at L=1/2 (10^284.8 at L=0.3). Cancellation-free double-sum forms amplify by about 10^0.7/10^0.86, and their identities check to about 1e-500. Certified mu2_lo>0 first appears at L=0.60 (80 bits) and L=0.48 (128 bits).",
+   "triage_hint": "Kernel result 6244357886 notes (a)-(b), correcting note (a) of 6243882168; comment_census_rows ? on files 71, 72, 74",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/captured_runs/kernel_check_ab97a356_01.txt",
+     "git_blob": "86266ed4452f9dc25062b1234b88d45474b88009",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/captured_runs/kernel_check_ab97a356_02.txt",
+     "git_blob": "b57a79bbb0ec97a316c189902cda26107553bd58",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/captured_runs/kernel_check_ab97a356_03.txt",
+     "git_blob": "7b1384568a33eb7b739de48ab4479923bd44c00b",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/captured_runs/verify1_a7c70714_01.txt",
+     "git_blob": "08ee8aea003074f0270b49fc67b1694a1de8a29f",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/captured_runs/verify1_a7c70714_02.txt",
+     "git_blob": "a2403fabc8d3f2aa78cfe004c7cc977c594eab4b",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/captured_runs/verify1_a7c70714_05.txt",
+     "git_blob": "83dcd3dac2b9370a34bec881a34ff096de986c2c",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/captured_runs/verify1_a7c70714_06.txt",
+     "git_blob": "c38276eb43c42e96422a7504f2e4a2c292cce9ba",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/captured_runs/verify1_ac556a91_04.txt",
+     "git_blob": "177406fc7d665dd9435c748bc006c6e9f212bddb",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/captured_runs/verify1_ac556a91_05.txt",
+     "git_blob": "365f5dd5a528de4dc255628288d3a0c6ba90dde2",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/captured_runs/verify1_ac556a91_06.txt",
+     "git_blob": "0a224d4fd25ed0d8091335e0fbe47a434c5b0c96",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/captured_runs/verify2_ac97c0df_01.txt",
+     "git_blob": "e442de23bf52451006cb15dff4eddfe843f8bcf0",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/lens_b/chk.py",
+     "git_blob": "186ae6a410b4f20a01d32cd2538d9834bcd26bb1",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/verify_out/cumulants.txt",
+     "git_blob": "4221d042ebd7d26616731442743b3df92ed80535",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/verify_scripts/kcf.py",
+     "git_blob": "16a693d98387f053d406cb6a0c73f5ce32ba5718",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_cancellation/out/cancel_rows.json",
+     "git_blob": "cfafc518d8eecd3c141f8b52863853299e32176c",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_cancellation/scripts/cancel.py",
+     "git_blob": "86bd34a1aa0f81d5aecbe0d84bd407ee4dae8656",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_cancellation/scripts/cumulants.py",
+     "git_blob": "2f3b72fa451cb5ed9ab26226b12ac97d83c23f49",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_cancellation/scripts/thresholds.py",
+     "git_blob": "7987c4ec28003aa9d6a61dc507259d4f51642f95",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_containment/tight@refs/pull/444/head",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_containment/tight",
+   "ref": "refs/pull/444/head",
+   "pr": 444,
+   "pr_open": false,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "4870bff1d3e2cdc2ca57b8936605dd530ee1f7fc",
+   "triage_title": "TEST_ONLY checker-minimal boundary certificates for the NUM moment kernel (work_containment/tight)",
+   "triage_summary": "Eleven distinct-path TEST_ONLY interval certificates (the README's 12, one duplicated at 106_128.json) built by tighten.py. Each enclosure is the exact forward image the checker demands, rounded only to the 2^-bits grid, for z, mu2, mu4, mu6 at point and interval L from 7/400 to 30. All are accepted, and all contain the mpmath reference. No scientific target.",
+   "triage_hint": "Kernel result 6244357886 §2 (12 boundary certificates); comment_census_rows ? on files 82, 84",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_containment/tight/105.json",
+     "git_blob": "0e80c982036da0c9034cbf18488282a5ba7caca8",
+     "also_at": [
+      "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_containment/tight/106_128.json"
+     ],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_containment/tight/197_128.json",
+     "git_blob": "376b18e1329828d233dd471b182a4cadf6af2d7b",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_containment/tight/201.json",
+     "git_blob": "3bd462cf849f82aa104a048bd8689a1bfdeb15f2",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_containment/tight/210.json",
+     "git_blob": "08b585c699096ebf76fa72a9519d4deb5f70c2ac",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_containment/tight/290.json",
+     "git_blob": "1af65cc56a4e03a594d5d98c7b216583241653c0",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_containment/tight/326.json",
+     "git_blob": "8c2eb58fdac3fc76639473614aa025f116045922",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_containment/tight/350.json",
+     "git_blob": "a6c10be34857da85ea0614b5ded9a9348674c147",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_containment/tight/interval_certificate.TEST_ONLY.json",
+     "git_blob": "e878109a5c618ffb9c4f6135f9ea7ffed6e980c0",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_containment/tight/interval_certificate.TEST_ONLY_128.json",
+     "git_blob": "ae31585fa3cb5756262fc7a5bb17b7c0b1f6685b",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_containment/tight/point_certificate.TEST_ONLY.json",
+     "git_blob": "a73cb5d408f8d5f6a0e7e3c88389e2e09993b2b0",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/kernel_input/work_containment/tight/point_certificate.TEST_ONLY_128.json",
+     "git_blob": "0ef74d0a7fc3296dfb19cb9ea9cfc48a2be13c61",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/m193_gad_input@refs/pull/444/head",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/m193_gad_input",
+   "ref": "refs/pull/444/head",
+   "pr": 444,
+   "pr_open": false,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "4870bff1d3e2cdc2ca57b8936605dd530ee1f7fc",
+   "triage_title": "GAD proof §§5-6 checks: moments, regression and He=0 transverse law (m193_gad_input/work_s5moments, work_s6)",
+   "triage_summary": "Symbolic (general d), exact-rational (random product laws, three seeds) and mpmath (actual lattice law) checks of eqs (8)-(14): kappa4/kappa6 definitions, V(e), B(e), R, and Gamma_e = C - R B^-1 R^T from the Fourier construction. All exact checks pass, with worst relative error 6e-50. nu3 is also compared with the M13 floor.",
+   "triage_hint": "GAD result 6243882168 §1-2; comment_census_rows ? on files 116-120",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/m193_gad_input/work_s5moments/exact_discrete.py",
+     "git_blob": "d500bb2bfdee4d6f7667f083ca5cc6e1c58d73bc",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/m193_gad_input/work_s5moments/lattice_law.py",
+     "git_blob": "7ae1540793367e3c83185403c1a857f6c43ba8ba",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/m193_gad_input/work_s5moments/m13_small_L.py",
+     "git_blob": "04c74bdfb886a0dd0236146641c3476062d8767f",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/m193_gad_input/work_s5moments/sym_check.py",
+     "git_blob": "0b00e11de0212a0aefd25893340c47098a58283d",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/m193_gad_input/work_s6/check_s6_exact.py",
+     "git_blob": "589023de1fa20cec1820d18faaa4a12ddafcf06b",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/m193_gad_input/work_s6/check_s6_mp.py",
+     "git_blob": "e85d5d0f332940628f17a4864c3d6bfb71d30366",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/m193_gad_input/work_s6/check_s6_sym.py",
+     "git_blob": "570872da75b792157df6fe4bc0e37360f9be93d4",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/m193_gad_input/work_s6/out_exact_seed20261017.txt",
+     "git_blob": "7d8ecde1da469e5017131020498affe011e3c8bc",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/m193_gad_input/work_s6/out_exact_seed7.txt",
+     "git_blob": "d90f3602f4e7a0c53f4c1d58ce418778d7d04293",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/m193_gad_input/work_s6/out_exact_seed99.txt",
+     "git_blob": "76787506d20f5fa12ef48dd82d36b94f661b7ffc",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/m193_gad_input/work_s6/out_mp.txt",
+     "git_blob": "1d52e67ee1acf8ab866269f77bc7a13fba2ba4a9",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/m193_gad_input/work_s6/out_sym.txt",
+     "git_blob": "202b58d0d49890767271578821f79e42e47d2c7e",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  }
+ ]
+}

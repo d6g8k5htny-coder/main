@@ -1,0 +1,255 @@
+{
+ "batch": 10,
+ "rows": [
+  {
+   "git_blob": "3f77bc7e4b819de5429568a0d10bfcdcfdd9f94e",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264_controls/round1_backup/stale/controls/thm_RejectSeparationWithoutNonzeroCoeff.lean",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "L1-L6: theorem 'rejected' expected-failure control (separation)",
+   "note": "Stale negative control fixture.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "cf3fd18b866f74a8d86a9a00dcfc5b740a8eaedd",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264_controls/round1_backup/stale/scanneg/axiom.lean",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "diff vs index 50: injected 'axiom ordinaryH0Control_bad : False'",
+   "note": "Scanner negative test input.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "8636ae242764253b462075d99602cbcb8408f3d1",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264_controls/round1_backup/stale/scanneg/nodoc.lean",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "diff vs index 50: one docstring deleted",
+   "note": "Scanner negative test input.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "ab40e4dfe70f2c02b6ccd6c548315fb8c74659a7",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264_controls/round1_backup/stale/scanneg/setoption.lean",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "diff vs index 50: injected set_option maxHeartbeats",
+   "note": "Scanner negative test input.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "046661b35442b77fc89273a346c82e09b47596ce",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264_controls/round1_backup/stale/scanneg/sorry.lean",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "diff vs index 50: one proof replaced by sorry",
+   "note": "Scanner negative test input.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "59fbb2020ea06883c4d2fe8effda86912eb9f970",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/fixer_infra/probe/Gen.lean",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "L1-L40: fixture declarations incl. escape families (axiom, sorry, smuggled theorem)",
+   "note": "Test fixture for the environment audit; trivial arithmetic only.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "8641848b2859dbd5e14377439f63cbae3df18316",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/fixer_infra/probe/Hidden.lean",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "L10-L19: negative-control constants (hidden axiom, sorry, instance) for the audit",
+   "note": "Audit negative-control fixture.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "7d765677182c3190c513c4f38919b10b58fcd09d",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/infra_scratch/AuditProbe.lean",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "L1-L30: proof-audit probe with sorry/axiom/smuggled controls",
+   "note": "Audit tooling probe.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "79fb5f95ef8c3005518ea868833c6876e5fedc35",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/infra_scratch/FalseArith.lean",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "L1-L4: false-arithmetic negative control expected to be rejected",
+   "note": "Negative-control fixture for the proof checker.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "a305146012d68e33f69b708ff63c2cb8808e38fa",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/infra_scratch/MetaProbe.lean",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "L1-L30: meta probe of registered-Prop proof classification",
+   "note": "Audit tooling probe.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "4d6ffef417f59cf6a63411a5675726a0a4f50c0a",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/register_update10/update_register10.py",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "L1-L25: register update script for round-5 theorems",
+   "note": "Round-10 REGISTER.json update tool.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "a8b04d07de27cbeb73da4de8eb880c420794cbf2",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/register_update13/update_register13.py",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "L1-L45: register update script appending three round-6 proved entries by exact replacement",
+   "note": "update_register13.py (final, with the EC_DESC d=2,3 fix). Register custody tool.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "35ce0db55a02993ef8840ca1813cce84ecb080d5",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/register_update13/update_register13.v1.py",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "L1-L15: same register update script, pre-fix EC_DESC/WF_PENDING6 wording",
+   "note": "v1 register updater; produced the ee641a24 register (idx 0).",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "8fc15a72975f2b7ad3b18187ce2dbbd8fff534b0",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/register_update15/LEAN_VERIFICATION_SPECIFICATION_e665b69c.md",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "WORKING",
+   "evidence": "L1-L9: 'Scientific effect NONE ... a specification and an inventory of formal statements'",
+   "note": "Rendered Lean verification specification: versions, gates, receipts, statement-register inventory and roadmap; indexes math, claims none itself.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "138d9fb5030b07c910d3f263fd782d66f2695ff9",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/register_update6/test_doc.md",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "WORKING",
+   "evidence": "L1-L9: 'Scientific effect NONE ... inventory of formal statements'",
+   "note": "Test render of the Lean verification specification; inventory/specification prose, no own mathematical claim.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "bba56a5f2ac5f2f205e5d4ac4e444119e07c28c1",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/register_update7/mdoc/doc_9ecbbc3.md",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "WORKING",
+   "evidence": "L3-L7: 'Scientific effect: NONE ... a specification and an inventory of formal statements'",
+   "note": "Lean verification specification: environment, gates and statement-register rendering. States no theorem of its own. T11b classed it COPY_OR_EXPOSITION_OF.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "32b0cc5c961398fd31db7198c25cc1fd443e703e",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/register_update7/mdoc/sanity6.md",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "WORKING",
+   "evidence": "L3-L7: specification/inventory doc, 'Scientific effect: NONE'",
+   "note": "Sanity re-render of the spec doc; sha256 891427a6 equals the committed dc97752f version.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "9d6346d267a2ea4eb78cb8154fee0af8930dffd0",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/register_update7/mdoc/test7.md",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "WORKING",
+   "evidence": "L3-L7: spec/inventory doc; round-7 render output sha256 0fb51bbf",
+   "note": "Round-7 render (test7). The final 804a992d text fixes the verifier's F1 and F2 findings. Inventory/exposition of Lean statement status only.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "70a40140db3f7c141b61185c42ffc0a05b19568a",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/audit_indep/gen_scratch.py",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "L1-L5: Python audit helper scanning modules with packet check.py",
+   "note": "Generates _audit_scratch.lean and _audit_targets.json; compares with integrator target list.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "4d48797467b9b8a6d332d72d7d2826e58416f0a8",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/integrate/assemble.py",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "L1-L5: integration script merging lane files into three modules",
+   "note": "Slices lane deliverables, dedups helpers, repoints call sites; embeds module docstrings and short inventory theorems.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "c89c271a16c30e935c85ea7f843c766c16acacea",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/verify_d0/D0_negctrl_14.lean",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "L51: pairingSum q 0 <= 14, deliberately false negative control",
+   "note": "Negative control expected to fail compilation; no mathematical claim of its own.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "092c841a86c63fd0837458e508225558b40fcc92",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/verify_rc/control_false.lean",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "L149: deliberately false Poisson tail bound, negative control",
+   "note": "Negative control expected to fail; no mathematical claim of its own.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "3f7b4c4630eab8171cce80dae4ce380d5b781e16",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/verify_th/_vth_control.lean",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "ENGINEERING",
+   "evidence": "L41: injected sorry; L151-L153 narrowed control theorem ctrlNarrowed",
+   "note": "Negative control for the verifier environment audit.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "2b64da433cc6931563c9b63cbb9be57b08cf08d0",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/spec_doc/roadmap.md",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "WORKING",
+   "evidence": "L1-L40: ordered plan of Lean proof steps with Mathlib names",
+   "note": "Roadmap of future formalisation targets; plan, no result.",
+   "why": "flagged"
+  },
+  {
+   "git_blob": "3dffd5549142535e004bf901b8cdf92b8f8e97cf",
+   "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/vr9/doc.md",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "label": "WORKING",
+   "evidence": "L1-L10: 'specification and an inventory of formal statements... not a status register', effect NONE",
+   "note": "Lean verification specification render: environment pins, gates, receipts, register coverage inventory, roadmap. Process/spec document, no own math claim.",
+   "why": "flagged"
+  }
+ ]
+}

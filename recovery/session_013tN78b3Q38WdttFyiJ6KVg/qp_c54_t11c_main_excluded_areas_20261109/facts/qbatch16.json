@@ -1,0 +1,515 @@
+{
+ "batch": 16,
+ "kind": "math",
+ "objects": [
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion@refs/heads/claude/recovery-01cz-20261013",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "triage_title": "companions/torus_filtration_20261011 drafts (Claude compile-fix lane): README, SCOPE, compile-fix record, positive Lean examples",
+   "triage_summary": "Pre-integration drafts of the isolated Lean companion that compile-fixes the C254 modules under namespace TorusFiltration at Lean 4.34.1 / Mathlib d13f23b7, stating what the 41 theorems and 17 definitions establish (topology and scaffolding only) and listing exclusions. Compile-fix record asserts all statement lines unchanged and axioms within propext/Classical.choice/Quot.sound; Positive.lean instantiates the theorems on concrete inputs.",
+   "triage_hint": "Final versions on Math- at commit 0dd0cb17 (README blob 942f02e8, SCOPE blob 68361d93); claim 8a5c7a24; Math- PR #419 comments 6111093545, 6111139060, 6111255007",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/COMPILE_FIXES.md",
+     "git_blob": "52d581f5a7e1a5d695286c5ffc59b2c2f8b73b01",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/apply_scratch/N21/companions/torus_filtration_20261011/README.md",
+     "git_blob": "79af210ed291e5d5c985fbb991f572aa78b2195e",
+     "also_at": [
+      "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/apply_scratch/N23/companions/torus_filtration_20261011/README.md",
+      "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/apply_scratch/w14/companions/torus_filtration_20261011/README.md"
+     ],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/apply_scratch/real/Positive.lean",
+     "git_blob": "a1d986aa6499ce8f3fa437edab283027646b64ae",
+     "also_at": [
+      "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/review_scratch/emit_now/Positive.lean",
+      "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/review_scratch/evidence_corrupt/Positive.lean",
+      "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/review_scratch/evidence_keep/Positive.lean"
+     ],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/apply_scratch/sweep/mut_base/companions/torus_filtration_20261011/README.md",
+     "git_blob": "7f78627f6a823b31200645dcb375a5577cfa1c1e",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/apply_scratch/sweep/mut_base/companions/torus_filtration_20261011/SCOPE.md",
+     "git_blob": "16a2295f95c74f78923394a49e882bd523f1167a",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/review_scratch@refs/heads/claude/recovery-01cz-20261013",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/review_scratch",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "triage_title": "C254 torus quotient and closed-superlevel filtration Lean companion (companions/torus_filtration_20261011): README, SCOPE, local kernel-check receipt",
+   "triage_summary": "Lean companion of 41 theorems and 17 definitions (namespace TorusFiltration, compile-fixed from handoff ResearchFormalCoreR1): the period-lattice torus quotient is a covering map, compact and path connected; periodic functions descend; paths lift with an existential endpoint; higher-path and global-max properties transfer; closed superlevel sets have monotone inclusions; path-component and singular-H0 functor laws hold. The local receipt records kernel-checked status at Lean 4.34.1 / Mathlib d13f23b7 with only standard axioms. Alignment is PENDING_INDEPENDENT_REVIEW and scientific_acceptance is false.",
+   "triage_hint": "Claim 8a5c7a24-784b-4aaa-b951-cd9f37b0dc64 (R17 Work Events 1559); Math- PR #419 comments 6111056103, 6111059166, 6111059498, 6111059848, 6111255007, 6111093545, 6111139060; no comment_census_rows or impl_sourcing_rows in batch entries",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/review_scratch/finish_real.json",
+     "git_blob": "6252f8a1dbaff02adb5135e42910775041013939",
+     "also_at": [
+      "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/review_scratch/evidence_keep/receipt.json"
+     ],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/review_scratch/mut_W01/companions/torus_filtration_20261011/README.md",
+     "git_blob": "14023b1a7ba3c9666e40c80418efbd64bf73a777",
+     "also_at": [
+      "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/review_scratch/mut_W02/companions/torus_filtration_20261011/README.md",
+      "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/review_scratch/mut_W03/companions/torus_filtration_20261011/README.md",
+      "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/review_scratch/mut_W04/companions/torus_filtration_20261011/README.md"
+     ],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/review_scratch/mut_W01/companions/torus_filtration_20261011/SCOPE.md",
+     "git_blob": "297053533fb33ace55b6cbdd3baafbc6328d35a0",
+     "also_at": [
+      "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/review_scratch/mut_W02/companions/torus_filtration_20261011/SCOPE.md",
+      "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/review_scratch/mut_W03/companions/torus_filtration_20261011/SCOPE.md",
+      "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/companion/review_scratch/mut_W04/companions/torus_filtration_20261011/SCOPE.md"
+     ],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/overlay@refs/heads/claude/recovery-01cz-20261013",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/overlay",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "triage_title": "C254 candidate formal/ overlay for ResearchFormalCoreR1 (scope, TORUS_FILTRATION, blueprint, implementer report, nonauthor source review, D2 Schur test)",
+   "triage_summary": "The overlay states the exact coverage and nonclaims of the 104-target R1 core, including the 41 C254 torus/superlevel targets, gives blueprint lemma statements with proof sketches, and includes the author's proof-construction report. The Codex nonauthor source review (F1-F4) finds no required correction but keeps COMPILATION HOLD. test_d2_schur.py carries exact rational checks of the D2 determinant/Schur identities and endpoint bounds.",
+   "triage_hint": "Math- PR #419 comments 6111059166 (overlay), 6111059498 (nonauthor source review), 6111059848 (implementer report), 6111255007 (C255 route); claim 8a5c7a24; R17 Work Events 1559",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/overlay/NONAUTHOR_SOURCE_REVIEW.md",
+     "git_blob": "0870fd4d9c62862b017447aff05167231d0268f3",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH_REVIEW"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/overlay/SCOPE.md",
+     "git_blob": "a5682fb9890ad0858ad3ef6aecfdb235a3f28043",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/overlay/TORUS_FILTRATION.md",
+     "git_blob": "4db6a960f6c6fc3763b84769dc3cee766d3e46e3",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/overlay/blueprint/src/content.tex",
+     "git_blob": "031b37b47df53759cf2a4bf7e232f2ffb4e5cc48",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/overlay/task-1-report.md",
+     "git_blob": "f44932cdaa6a3dac38b966c5baa8f1206a77cff3",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c254/overlay/tests/test_d2_schur.py",
+     "git_blob": "e388becd901f70587415e03a0ed3b04ed5f8c7ba",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c263@refs/heads/claude/recovery-01cz-20261013",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c263",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "triage_title": "C263 SuperlevelBar.lean: total strict-clearance cut and death height for continuous Euclidean heights (torus_filtration companion, Math- #428)",
+   "triage_summary": "Codex-authored Lean module (20 theorems) defining essentiality, a strict-clearance set and a death height (sSup, zero default), and proving the exact strict supremum cut, nonemptiness for continuous nonessential inputs, guarded death bound and cut uniqueness. Owner compile readback: the handoff fails only on a deprecated if_pos; successor 346eea94 elaborates with standard axioms.",
+   "triage_hint": "comment_census_rows '?' on indices 4,5,10 (also 3 Audit263.lean, ENGINEERING); Math- #428 comments 6113033147 (handoff), 6113033545, 6113229784; successor sha256 346eea94; handoff sha256 d74dc8b2",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c263/SuperlevelBar.handoff.lean",
+     "git_blob": "0886eafd6bd685baa86e852405083060ae3e14c9",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c263/c6113033147.json",
+     "git_blob": "0b9543307088b9449c9644378151389ad46cc3f0",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c263/compile_note.json",
+     "git_blob": "10290515dd920ebd1825a8c5725371b2251c7ef8",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH_REVIEW"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c263/compile_note.md",
+     "git_blob": "7df7bf902b8c9728898c05b06b9c624af0fde170",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH_REVIEW",
+     "comment_census_rows": [
+      "?"
+     ]
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264@refs/heads/claude/recovery-01cz-20261013",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "triage_title": "C264 OrdinaryH0.lean: singular H0 naturally isomorphic to path-component coproducts, with owner repair (Math- #428)",
+   "triage_summary": "Codex handoff proves naturality of Mathlib's objectwise singularHomology0Iso from zero-cycle generators, the natural iso to component-indexed coproducts, point-class separation for nonzero coefficients and a closed-superlevel difference-vanishes-iff-JoinedIn criterion. V1 failed to compile (unsolved naturality goal); the owner's rw/erw repair (successor 3d6b0d6b) elaborates with standard axioms.",
+   "triage_hint": "comment_census_rows '?' on indices 12,13,18,20 (also 11 Audit264.lean, ENGINEERING); Math- #428 comments 6113276830, 6113300903, 6113372506, 6113438262; handoff sha256 261dd052; successor 3d6b0d6b",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264/OrdinaryH0.handoff.lean",
+     "git_blob": "f860473eaafb7910d919fd5f3714f0cd147f4d78",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264/c6113276830.json",
+     "git_blob": "1567ef39aae4eae288eb5d1fc81537e690586a61",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264/c6113372506.json",
+     "git_blob": "e7a82e57dc8ff9a91aec7ef1b7a7e78ed1def125",
+     "also_at": [
+      "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/verif_ec7/c_6113372506.json"
+     ],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264/compile_note.json",
+     "git_blob": "c1fee51e4ac388480e6bc36400e0ad2cc971b73a",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH_REVIEW"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264/compile_note.md",
+     "git_blob": "f0c51f188a95ad3d63fce1469e534bea5827014b",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH_REVIEW",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264/repair_note.json",
+     "git_blob": "b9ddf4bc6d4c48239c84585ae7574c435e5ff3dd",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264/repair_note.md",
+     "git_blob": "d9d1f6800956118c0783e25eae1b9cbf093a650a",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264_controls/verify@refs/heads/claude/recovery-01cz-20261013",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264_controls/verify",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "triage_title": "Same-account verifier independent Lean checks of the OrdinaryH0Controls fixtures (verify/, r2, round2)",
+   "triage_summary": "Verifier Lean files that re-prove fixture semantics independently of the author's control theorems, prove the negation of each expected-failure control (merger kills point class, separation without nonzero coefficient, nonmerger kills difference), and show that the true sibling statements hold.",
+   "triage_hint": "",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264_controls/verify/audit/Independent.lean",
+     "git_blob": "b09aa8b80404c010eaa0fb9b1459cda6817da7bb",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264_controls/verify/r2/audit/Statements.lean",
+     "git_blob": "2bd8fc333162825c2fa15f9b1738f17297c17d78",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/c264_controls/verify/round2/extra/Semantics.lean",
+     "git_blob": "40d761d3cae4ce6af718fb402a755bf397690ef3",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/elab/neg@refs/heads/claude/recovery-01cz-20261013",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/elab/neg",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "triage_title": "P15 statement-only Lean module (copy of Math- Specifications/P15.lean used as elaboration probe)",
+   "triage_summary": "Statement-only Mathlib definitions and Props for the P15 realized covers, price boundary, restricted and full transformed-price budgets (F2, F3 enclosure, rho_star < 6/7 certificate). Byte-identical to Math- main blob 3544d430 plus appended #print axioms/#check lines.",
+   "triage_hint": "Math- #419 statement register specifications/lean_statements_20261010 (REGISTER.json); P15.lean blob 3544d430",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/elab/neg/P15probe.lean",
+     "git_blob": "9186a80f4b98415cd0176873276c2f83d474739f",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/field_lifetime_work@refs/heads/claude/recovery-01cz-20261013",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/field_lifetime_work",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "triage_title": "Lifetime-track statement-only Lean drafts (Specifications/Lifetime.lean header and body)",
+   "triage_summary": "Pre-landing drafts of the Lifetime.lean module. They state as Props the parent lifetime Theorems A/B/C (1.1)-(1.3), the bounded remainder (R1) and the planar elder lower bound/rate/density gap (E2, E4, E11) over Gaussian-field, superlevel-bar and pair-law interfaces. They differ from the landed Math- blob f2508f7f only in a few docstring lines.",
+   "triage_hint": "Math- #419 statement register; Lifetime.lean blob f2508f7f on Math- main; claim ids math.uniform-matrix-cap-lifetime, lifetime-remainder, OA-ELDER-LOWER-DENSITY-GAP-20260928-v1",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/field_lifetime_work/lifetime_body.txt",
+     "git_blob": "691612cf55a2c8b58477435c41e54564bd55c968",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/field_lifetime_work/lifetime_header.txt",
+     "git_blob": "45460977b8528f7ce98154fbd8eba51d7e510715",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/fixer_fl@refs/heads/claude/recovery-01cz-20261013",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/fixer_fl",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "triage_title": "Math- #419 statement register: Field.lean and Lifetime.lean pre-fixer versions (scratch/lvs/fixer_fl)",
+   "triage_summary": "Statement-only Lean modules defining the periodized Gaussian field interface, critical-point/inertia predicates, pair and density-version objects, and Prop shapes of parent lifetime Theorems A, B, C, remainder R1 and planar E2/E4/E11. Nothing is proved; alignment PENDING_INDEPENDENT_REVIEW.",
+   "triage_hint": "Math- #419 (specifications/lean_statements_20261010); claim ids math.uniform-matrix-cap-lifetime, D1-parent-lifetime-Theorems-A-B-C, math.lifetime-remainder, OA-ELDER-LOWER-DENSITY-GAP-20260928-v1",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/fixer_fl/Field.before.lean",
+     "git_blob": "54d7bc0d1e8c6e004ec5e3e579c8d626f332c79a",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/fixer_fl/Lifetime.before.lean",
+     "git_blob": "b11c56708d7fdf58628f7ace0e363ea4aa3c178c",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/fixer_rn@refs/heads/claude/recovery-01cz-20261013",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/fixer_rn",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "triage_title": "RN.lean statement module: verifier vacuity proofs and fixer amendments (scratch/lvs/fixer_rn)",
+   "triage_summary": "Verifier kernel scratch proves the unamended PinnedLawInterface is uninhabited for L>0 and the unamended Theorem O Prop holds vacuously. The fixer gates the pin fields on 0<r<L and restricts Theorem O hypotheses to 0<r<=r0; the gated/amended copies are negative controls, and RN_scratch_full is the amended statement module.",
+   "triage_hint": "Math- #419 statement register (Specifications/RN.lean); landing claims rn-count-interface, rn-fixed-remote-window, rn-fixed-annulus-window; math.rn-region.witness-collision",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/fixer_rn/EmptyInterface_baseline.lean",
+     "git_blob": "10f1009cb0cb3d21277898082ef37978f52de9ec",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/fixer_rn/EmptyInterface_gated.lean",
+     "git_blob": "64a2e6273b502ed02f28c03f87360c3701b06e80",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/fixer_rn/RN_scratch_full.lean",
+     "git_blob": "229193c18cca5a631047eb2d84402240ca28222f",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/fixer_rn/VacuityO_amended.lean",
+     "git_blob": "e17781db9b72e4340a1d81a56f061037cd84efe2",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/fixer_rn/VacuityO_baseline.lean",
+     "git_blob": "e7f911cc5bbf75509b53498aebc7a978cfa09e0c",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/gov@refs/heads/claude/recovery-01cz-20261013",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/gov",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "triage_title": "governance- d=2 mesoscopic contact-chart Taylor sympy check, pre-repair version (scratch/lvs/gov)",
+   "triage_summary": "Sympy check that d=2 contact Taylor leading powers are (r^2, r, r^2) and that the height residual is O(r^3) with 2k y1^3 term; the r^3 coefficient assertion is vacuous ('or True') and carries a wrong extra fxyy term.",
+   "triage_hint": "QP-C54-T6-004 (governance-@1b62ca2f amendments/check_mesoscopic_d2_taylor.py repaired, and 20260925-mesoscopic-d2-chart-handoff.md)",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/gov/check_mesoscopic_d2_taylor.py",
+     "git_blob": "a2f761f16dcf02591c82bf52a30d40e0ec7752b5",
+     "also_at": [
+      "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/gov/orig/check_mesoscopic_d2_taylor.py"
+     ],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/r6commit@refs/heads/claude/recovery-01cz-20261013",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/r6commit",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "triage_title": "Math- lean_statement_proofs_20261011 round-6 local check.py --execute receipts (scratch/lvs/r6commit)",
+   "triage_summary": "Local receipts report formalization_status kernel-checked, leanchecker PASS and 78 theorems covering 77 registered Props (P15, RN N1-N5 and O, Side24 including ImageBound, EntrywiseCovarianceBound, CovarianceOrdering) at 965c62b3 and 9e305ea5.",
+   "triage_hint": "Math- #441 (round 6, SpecificationProofs/Side24Images.lean); proof packet landed via Math- #422/#423/#434/#439",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/r6commit/receipt_local_965c62b.json",
+     "git_blob": "759f887b9454dec0cc8e9f9dae04bf3982d2206d",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/r6commit/receipt_local_final.json",
+     "git_blob": "632de94aa0ed0a99009e8d7e97c97fa97ed00bdd",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  }
+ ]
+}

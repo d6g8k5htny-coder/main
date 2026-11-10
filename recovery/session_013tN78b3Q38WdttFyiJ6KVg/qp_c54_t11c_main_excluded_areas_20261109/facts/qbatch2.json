@@ -1,0 +1,341 @@
+{
+ "batch": 2,
+ "kind": "math",
+ "objects": [
+  {
+   "object": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019@refs/heads/claude/determined-bardeen-mrqy4y",
+   "directory": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019",
+   "ref": "refs/heads/claude/determined-bardeen-mrqy4y",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "9880b78c63a31356e156d252ff6ef30309835fab",
+   "triage_title": "C8 nonauthor review of Math- frontiers/nongaussian_smoothing_admission_20261017/PROOF.md, slice H0 (p=0), with sympy controls and d=1 Monte Carlo (recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019)",
+   "triage_summary": "Provider-distinct review of the NG smoothing-admission theorem for p=0, d>=1, giving PASS_SCOPED with no must-fix. Sympy controls confirm the Jacobian 12 r^-(d+3), block identity (17), the constants 144*12^(-7/3)=12^(-1/3) and the cumulants 9504 and 8. A d=1 circle Monte Carlo of F=G+eps(H^2-1) finds the short-bar rate follows formula (6) (5.3201, 4.5991, 3.8689, 3.3923 for eps=0..3), not the covariance-matched Gaussian (4.1250, 2.8960, 2.2625), after grid-loss correction.",
+   "triage_hint": "Record C8-NG-XPROV-REVIEW-H0-20261019; pickup Math-#476/6275564531; reviewed Math- PROOF.md blob 9df1a2c4 SHA-256 322195ff..., landed in Math-#476 as 4e722922; GAD import SHA 8d992e19...faf319; comment_census_rows ['?'] on files 0,1,2,4,7,8,12,13,18,22,24,25,35,36,37; impl_sourcing_rows ['?'] on 13 (kappa.py), 22 (ng_controls.py), 35 (simulate.py)",
+   "files": [
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/OWN_FINDINGS_NG_H0_before_REVIEW.md",
+     "git_blob": "b5d789d5d2d59504a833ffa3dec74f84f400711b",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH_REVIEW",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/README.md",
+     "git_blob": "b4a8572816a5d47eaab70546658552ab4db21756",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH_REVIEW",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/bins.py",
+     "git_blob": "2cb3484f1fe9f611ef48a643c77cb1bead2605dc",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/bins_log.txt",
+     "git_blob": "f4663d45c458675f7562018c89125ed0f978f509",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/gauss_matched.py",
+     "git_blob": "c1b16d1b2a4c557db57e39651fc293629ea71a63",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/gm_eps1.json",
+     "git_blob": "0e0d0ddb51390521218c8568e1d5942d2fd9b190",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/gm_eps3.json",
+     "git_blob": "5900add3098171a57485a8e2ceaced8d7e582367",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/gridloss.json",
+     "git_blob": "e18d9feee4adcdb8515040a81ea0e1d223252e23",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/gridloss.py",
+     "git_blob": "1ba09dfc1d18977331933264acd6aa5ec7c3eb5b",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/infl_eps0.json",
+     "git_blob": "f674253a898e16785d14b3cf5c21399a85903944",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/infl_eps1.json",
+     "git_blob": "489cd489c0c0ba71aca49bba89234f17e8e31faf",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/infl_eps3.json",
+     "git_blob": "18cf33d1bb1532efb1608896c014f599a6a3bc21",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/inflect.py",
+     "git_blob": "59d593d4ef4470bc63a627b33512dba87d04d449",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/kappa.py",
+     "git_blob": "35b6af5a54b0ee39dd4e8fbb5b9eb81cf4024926",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ],
+     "impl_sourcing_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/kappa_eps0.json",
+     "git_blob": "9f8f3d1408f60bfaeacd7aede3b89bb7fff24931",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/kappa_eps1.json",
+     "git_blob": "5ab700fbc6416a27864e1eb713df049dce96ac8f",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/kappa_eps2.json",
+     "git_blob": "6052b72c9c4f048ed7e765823eb5ad2b556ec0a7",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/kappa_eps3.json",
+     "git_blob": "93cdf9c0abeee7081a5370c7855443ab4eaa1f6e",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/kappa_kernel.py",
+     "git_blob": "5a34a61f2d22c0026d26b08ac5fbd57f50e396e4",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/kk_eps0.json",
+     "git_blob": "668f34696bcfd6b32646ebd1f8a90197fdcba824",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/kk_eps1.json",
+     "git_blob": "0ae805ac00649854772d8c73c4598c708d0ba51f",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/newton_vs_bisect_log.txt",
+     "git_blob": "d4909a2b804e477b13afa93fa8e34b7607f9c03a",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/ng_controls.py",
+     "git_blob": "b3771c7a9c9afc0bc2e43bfb9febc46315e144cc",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ],
+     "impl_sourcing_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/ng_controls_log.txt",
+     "git_blob": "cdece370bf763af14e179158e0c8ea46522bb6a6",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/pool.py",
+     "git_blob": "6169028a3cf58f1afb558d07dadd4f421ec0231c",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/pool_log.txt",
+     "git_blob": "22d5f7770ad163e2e48b6ccc78ed5fbc052c2761",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/sim_eps0_J4096.json",
+     "git_blob": "e5b8e6d85b6d6182061b1c6068d0bd62826296fd",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/sim_eps1_J4096.json",
+     "git_blob": "1ba0b6612bfefa5e959e8a424d87e099423c6286",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/sim_eps1_J8192.json",
+     "git_blob": "f61b337fad1b5b56b85db51551985b72f39849c4",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/simb_eps1_R6e5.json",
+     "git_blob": "7a40698251c46355a1e4e15ab54ef500695be3c0",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/sims_eps1_a.json",
+     "git_blob": "12961f56403d801eea1c10e854d0d82ebbad4289",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/sims_eps1_b.json",
+     "git_blob": "df332e7c0a97da34e0deb204ba676d76ab016c8d",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/sims_eps2.json",
+     "git_blob": "f2ca74265d9bb8588fd9c922c2fdc107567c521d",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/sims_eps3.json",
+     "git_blob": "12fa8ee1b871bdc18463e2c20d4c7f058934282a",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/sims_eps3_J16384.json",
+     "git_blob": "7a5888bc735aec014d59eec4daad0233dab088fa",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/simulate.py",
+     "git_blob": "382e018ccc1521d8509d40641fe8cca3157b6c05",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ],
+     "impl_sourcing_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/simulate_bisect.py",
+     "git_blob": "3ff8046f6720bb29180586b58132eeb47c702cad",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    },
+    {
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/simulate_small.py",
+     "git_blob": "d74eb27f8e81a1d13f2a9da8f538f33b218af4df",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH",
+     "comment_census_rows": [
+      "?"
+     ]
+    }
+   ]
+  }
+ ]
+}

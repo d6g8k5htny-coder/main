@@ -1,0 +1,367 @@
+{
+ "batch": 18,
+ "kind": "math",
+ "objects": [
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4#2@refs/heads/claude/recovery-01cz-20261013",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "triage_title": "Round-4 Lean proofs: DerivativePairingBound, DerivativeBoundAtLeastOne, DerivativeBoundAtZero (dp_/d1_/d0_ lanes)",
+   "triage_summary": "Iterated Frechet derivatives of the Gaussian Kinf satisfy b_{q+2} <= |x| b_{q+1} + (q+1) b_q, giving |D^q Kinf(x)u| <= exp(-|x|^2/2) pairingSum q |x| for q <= 6; corollaries 76|x|^6 e^{-|x|^2/2} for |x|>=1 and 15 at 0.",
+   "triage_hint": "side24-coefficient (SIDE24-COEFFICIENT-D23-20260924-v1); triage wf_a3531fd8-891; main-branch UniversalLaw.Side24.pairing_sum_six, sixth_moment_double_factorial named as not reused",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/probes/Side24-derivatives-lattice_1.lean",
+     "git_blob": "b318ca8929b4cfdc9f4a3a397ba11479daf97b33",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/probes/Side24-derivatives-lattice_3.lean",
+     "git_blob": "9827a79186aabedec4db02f29cc1f056791b4f4a",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/probes/Side24-derivatives-lattice_5.lean",
+     "git_blob": "8a688e0d96feeaa74284b5123f6fd185d53febbf",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/probes/Side24-derivatives-lattice_verify_1.lean",
+     "git_blob": "47719dd6b70824027985f538fe01bcaf317bf468",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/scratch/DerivativeBoundAtZero_axioms.lean",
+     "git_blob": "25254b258bc6b21ddb14b962cde7b60cecfca022",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/scratch/DerivativePairingBound_axioms.lean",
+     "git_blob": "9bc7d1ebfb621013ecd9d392e434e82a80ca8b24",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/scratch/DerivativePairingBound_env.lean",
+     "git_blob": "5a35de89b1f5316630474be03222186749df8463",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/verify/d1/verify_d1.lean",
+     "git_blob": "b1f07d07c4df2a3ba5ce1a58a63908ee1c1dccc4",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/verify_d0/D0_verify.lean",
+     "git_blob": "ed912c91e17d7fc1f6e1d050f603f34b24edecc0",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/verify_d0/D0_verify2.lean",
+     "git_blob": "5345b0866d0fee8683f0fda1c2e47c3794b1927f",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/verify_dp/_dp_audit.lean",
+     "git_blob": "5ee010ccfa5a65fda56827bf4261095efe1fcfa2",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/DerivativeBoundAtLeastOne.lean",
+     "git_blob": "e9defc339426e751245cb5be6b5949a8dd55cd54",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/DerivativeBoundAtZero.lean",
+     "git_blob": "2d5c144bf99b9b0a8e80f2c34c8a2e39bd4caea2",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/DerivativePairingBound.lean",
+     "git_blob": "383d95426273791668080135f7398d4cc23f29be",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/_d1_axioms.lean",
+     "git_blob": "f91582139dcf259c7d7723293141a8e67d20902d",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/_d1_envaudit.lean",
+     "git_blob": "9a4a291b9289e324949c60da22b253e26708434e",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4#3@refs/heads/claude/recovery-01cz-20261013",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "triage_title": "Round-4 Lean proofs: ReferenceOddAndPinBlocks and ReferencePinDensityProduct (rb_/rp_ lanes)",
+   "triage_summary": "Contractions of Kinf at 0 in an orthonormal frame give gradCov = 1, pinCov = diag(3,1,...,1), Var(t)=15, Cov(t,G)=(-3,0,..), tau^2=6; hence p_G(0) p_V(0) = (2pi)^(-d)/sqrt 3 for d in {2,3}. Probe 27 also tests the ReferenceCovarianceLowerBound route.",
+   "triage_hint": "side24-coefficient (SIDE24-COEFFICIENT-D23-20260924-v1); triage wf_a3531fd8-891; main UniversalLaw.Side24.pin_determinant_and_joint_dimension named as not reused",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/probes/Side24-covariance-density_3.lean",
+     "git_blob": "f70ee5b719f5d0171d2afc57597f494c0e35b7ad",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/probes/Side24-covariance-density_4.lean",
+     "git_blob": "bbc1523dc366415755f285203df155bed14b3acd",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/probes/Side24-covariance-density_5.lean",
+     "git_blob": "f76cf9af11cae31c6a8df1010ffcf5f3b971b53d",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/probes/Side24-covariance-density_verify_2.lean",
+     "git_blob": "4933d1558dff3b006fd5a60561c96eb17587cc37",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/ReferenceOddAndPinBlocks.lean",
+     "git_blob": "5eec132f2ca839b457173290c2e928cda57aed7b",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/ReferencePinDensityProduct.lean",
+     "git_blob": "823ba29e7e670d924331d7138a1072ff11a4d045",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/_rb_axioms_envaudit.lean",
+     "git_blob": "50c5e7220f2ef50c790625c8bf227a875147d7f1",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/_rb_verify_scratch.lean",
+     "git_blob": "427ed406afe11f58cd876b72c7e83bfa7219da10",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/_rp_axioms.lean",
+     "git_blob": "35caa8f2ddae5a9346704f18a0e5e9b2f39bbf1f",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/_rp_envaudit.lean",
+     "git_blob": "5e29fcfa0f5f33f834aa803823705eb23ed4d32b",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/_rpv_scratch.lean",
+     "git_blob": "098e2d42363b73562d5cb3789df78f459984e329",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4#4@refs/heads/claude/recovery-01cz-20261013",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "triage_title": "Round-4 Lean proofs: IntegrandRatioBounds and DensityComparison (ir_/dc_ lanes)",
+   "triage_summary": "Section 4 integrand-ratio bounds with epsilon = 10^-108 and the Gaussian density comparison under a Loewner-order covariance hypothesis (1 <= M implies 1 <= det M). Probes 21-22 also contain the gradCov derivative route.",
+   "triage_hint": "side24-coefficient (SIDE24-COEFFICIENT-D23-20260924-v1); triage wf_a3531fd8-891",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/probes/Side24-covariance-density_1.lean",
+     "git_blob": "522bbe0487b2704a78f03e7b188f8dde0306aa71",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/probes/Side24-covariance-density_2.lean",
+     "git_blob": "78f4e8bc66ef01846b815819efea6a7a30128045",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/probes/Side24-covariance-density_verify_1.lean",
+     "git_blob": "b27d58f1a375ab5c4cf214777e8e8fdea5f730c7",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/verify_dc/scratch.lean",
+     "git_blob": "b078725abe5c0ada3198361879279f02d7568474",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/verify_ir/scratch.lean",
+     "git_blob": "93f989fb4e39d13f2198977544c0f13cc9bff2a0",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/verify_ir/stripped_code.lean",
+     "git_blob": "e5d89f0cf5d5f7167db8df47aab04a205e08d051",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/DensityComparison.lean",
+     "git_blob": "46bf867ec29341458cdb81e3a1f0f898d395af43",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/IntegrandRatioBounds.lean",
+     "git_blob": "dd08259306f81f993d95e22dfe2757fa4f1ac97f",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/_dc_axioms_envaudit.lean",
+     "git_blob": "8d6674d04decbe8a0c2ff6dc5183bc07d1ef8f61",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/_ir_axioms_envaudit.lean",
+     "git_blob": "06798f29d5cd4afee2dc9a8600e94b4bed94e8f6",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  },
+  {
+   "object": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4#5@refs/heads/claude/recovery-01cz-20261013",
+   "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4",
+   "ref": "refs/heads/claude/recovery-01cz-20261013",
+   "pr": null,
+   "pr_open": null,
+   "orphan": null,
+   "repository": "d6g8k5htny-coder/main",
+   "commit": "1268570f479b18fcf5cd768009854f010b35ef88",
+   "triage_title": "Round-4 Lean proof: LatticeImageSumBound (li_ lane)",
+   "triage_summary": "Bound on the lattice-image sum of imageTerm over Fin d -> Z for d <= 3, via power-mean inequalities and piFinset product bounds; uses Side24Elementary Aux lemmas. Triage PROVABLE_WITH_WORK.",
+   "triage_hint": "side24-coefficient (SIDE24-COEFFICIENT-D23-20260924-v1); triage wf_a3531fd8-891",
+   "files": [
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/probes/Side24-derivatives-lattice_verify_3.lean",
+     "git_blob": "58fa1b3da6987a51fd16a798c67223f849462be4",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/LatticeImageSumBound.lean",
+     "git_blob": "636e98c9f89141acc83046a751129b9bce5e07c1",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/_li_axioms.lean",
+     "git_blob": "02472d6c79cf131f2f70096017ae37049106374e",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/_li_envaudit.lean",
+     "git_blob": "b8af966616940f5db65fafd09bdc0ac2bf3e9f4b",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/_li_scratch1.lean",
+     "git_blob": "0987bccd6a89f37d689d4e0d523b909ec2af480a",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    },
+    {
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/round4/work/_liv_scratch.lean",
+     "git_blob": "9bf7844e940859d4dbaa9e916543ddbc99ee16b4",
+     "also_at": [],
+     "same_bytes_at": [],
+     "triage_label": "MATH"
+    }
+   ]
+  }
+ ]
+}
