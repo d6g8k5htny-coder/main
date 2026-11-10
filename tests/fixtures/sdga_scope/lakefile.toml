@@ -1,0 +1,219 @@
+name = "source_derivative_gaussian"
+version = "0.1.0"
+defaultTargets = ["SourceDerivativeGaussian", "ContactJetCovariance", "SourceContactCovariance", "SourceConfluentPins", "SourceContactSchur", "SourceDerivativeContinuity", "ConfluentIntegralIdentities", "SourceEndpointRegression", "GaussianRegressionLimits", "SourceEndpointParameters", "SourceContactEndpointParameters", "SourceConfluentLimits", "SourcePhysicalEndpointKernel", "SourceEndpointEstimates", "SourceSmoothConditionalKernel", "SourceSmoothPalm", "GaussianWeightedMajorants", "SourceConditionalMajorant", "SourcePinCurvatureBounds", "ScalarProductCurvatureBound", "SourceCurvatureDecomposition", "SourceWeightedCurvatureBound", "SourcePinPreservingQuartic", "SourceSmoothTopology", "SourceRawPinConditioning", "SourceQuarticCaptureAlgebra", "SourceMorseIncidence", "SourceSmoothParameterSpace", "SourceLifetimePairFiniteness", "SourceCompactTargetMoments", "AdaptiveFoldScalarBarrier", "AdaptiveFoldTransverseRidge", "AdaptiveFoldBoundaryPath", "SourceAdaptiveFoldChart", "SourceAdaptiveFoldEstimates", "SourceActualFoldDeath", "SourceActualFoldTorus", "SourceActualFoldH0", "SourceFoldWeightedProbability", "SourceGapPinCurvature", "SourceAllTargetCurvatureResidual", "SourceGapWeightedNumerator", "SourceCompactGapNormalizer", "SourceCompactFoldWeightedProbability", "SourceActualFoldCandidate", "SourceFinitePinKernel", "SourceFiniteTrig", "SourceRemoteJetWitness", "SourceRemoteJetGaussian", "SourceEndpointHessianWitness", "SourceH0OlderClearance", "SourceEndpointHessianGaussian", "SourceTwoRemoteFirstJetWitness", "SourceIntrinsicH0Interface", "SourceTwoRemoteFirstJetGaussian", "SourceIntrinsicH0WeightedProbability", "SourceRawPinFreeCoordinates", "SourceFramedConfluentCovariance", "SourceGapConditionalMorseDistinct", "SourceActualMorseLocalModel", "SourceActualTorusSuperlevelLocalBasis", "SourceActualTorusRegularSlab", "SourceActualFiniteSuperlevelComponents", "SourceActualQuotientSaddleCollar", "SourceActualSaddleUppercuts", "SourceActualRegularLocalCollar", "SourceActualLowerSeparation"]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "d13f23b723b8a846827a245b89c10fc7d3f11612"
+
+[[lean_lib]]
+name = "SourceDerivativeInputs"
+srcDir = "inputs"
+roots = ["GaussianSeriesFoundation", "SpectralWeights", "SourceFourierSeries", "SourceC4", "SourceGaussianLaw", "SourceLattice", "SourceKernel", "SourceCovariance", "SourceTorus", "SourceTorusC4", "SourceSmooth", "SourceSmoothCarrier", "ResearchFormalCoreR1.DeterminantMoment", "ResearchFormalCoreR1.GaussianScalarMoments", "ResearchFormalCoreR1.GaussianJetMoments", "ResearchFormalCoreR1.GaussianNormalizer", "ResearchFormalCoreR1.EndpointGaussianMoments", "ResearchFormalCoreR1.NormalizerFloor", "ResearchFormalCoreR1.EndpointNormalizerBridge", "ResearchFormalCoreR1.GaussianCoupling", "ResearchFormalCoreR1.GaussianNormalizerLimit", "ResearchFormalCoreR1.PalmReweighting", "ResearchFormalCoreR1.GaussianRegressionKernel", "Lifetime", "SourceLifetimeGeometry"]
+
+[[lean_lib]]
+name = "SourceDerivativeGaussian"
+
+[[lean_lib]]
+name = "ContactJetCovariance"
+
+[[lean_lib]]
+name = "SourceContactCovariance"
+
+[[lean_lib]]
+name = "SourceConfluentPins"
+
+[[lean_lib]]
+name = "SourceContactSchur"
+
+[[lean_lib]]
+name = "SourceDerivativeContinuity"
+
+[[lean_lib]]
+name = "ConfluentIntegralIdentities"
+
+[[lean_lib]]
+name = "SourceEndpointRegression"
+
+[[lean_lib]]
+name = "GaussianRegressionLimits"
+
+[[lean_lib]]
+name = "SourceEndpointParameters"
+
+[[lean_lib]]
+name = "SourceContactEndpointParameters"
+
+[[lean_lib]]
+name = "SourceConfluentLimits"
+
+[[lean_lib]]
+name = "SourcePhysicalEndpointKernel"
+
+[[lean_lib]]
+name = "SourceEndpointEstimates"
+
+[[lean_lib]]
+name = "SourceSmoothConditionalKernel"
+
+[[lean_lib]]
+name = "SourceSmoothPalm"
+
+[[lean_lib]]
+name = "GaussianWeightedMajorants"
+
+[[lean_lib]]
+name = "SourceConditionalMajorant"
+
+[[lean_lib]]
+name = "SourcePinCurvatureBounds"
+
+[[lean_lib]]
+name = "ScalarProductCurvatureBound"
+
+[[lean_lib]]
+name = "SourceCurvatureDecomposition"
+
+[[lean_lib]]
+name = "SourceWeightedCurvatureBound"
+
+[[lean_lib]]
+name = "SourcePinPreservingQuartic"
+
+[[lean_lib]]
+name = "SourceSmoothTopology"
+
+[[lean_lib]]
+name = "SourceRawPinConditioning"
+
+[[lean_lib]]
+name = "SourceQuarticCaptureAlgebra"
+
+[[lean_lib]]
+name = "SourceMorseIncidence"
+
+[[lean_lib]]
+name = "SourceSmoothParameterSpace"
+
+[[lean_lib]]
+name = "SourceLifetimePairFiniteness"
+
+[[lean_lib]]
+name = "SourceCompactTargetMoments"
+
+[[lean_lib]]
+name = "AdaptiveFoldScalarBarrier"
+
+[[lean_lib]]
+name = "AdaptiveFoldTransverseRidge"
+
+[[lean_lib]]
+name = "AdaptiveFoldBoundaryPath"
+
+[[lean_lib]]
+name = "SourceAdaptiveFoldChart"
+
+[[lean_lib]]
+name = "SourceAdaptiveFoldEstimates"
+
+[[lean_lib]]
+name = "SourceElderInputs"
+srcDir = "inputs/elder"
+roots = ["SuperlevelBar", "ElderClearance", "ReusedCompactFrontier", "ClosedSuperlevel", "OrdinaryH0", "ElderInterval", "ElderBridge"]
+
+[[lean_lib]]
+name = "SourceActualFoldDeath"
+
+[[lean_lib]]
+name = "SourceActualFoldTorus"
+
+[[lean_lib]]
+name = "SourceActualFoldH0"
+
+[[lean_lib]]
+name = "SourceFoldWeightedProbability"
+
+[[lean_lib]]
+name = "SourceGapPinCurvature"
+
+[[lean_lib]]
+name = "SourceAllTargetCurvatureResidual"
+
+[[lean_lib]]
+name = "SourceGapWeightedNumerator"
+
+[[lean_lib]]
+name = "SourceCompactGapNormalizer"
+
+[[lean_lib]]
+name = "SourceCompactFoldWeightedProbability"
+
+[[lean_lib]]
+name = "SourceActualFoldCandidate"
+
+[[lean_lib]]
+name = "SourceFinitePinKernel"
+
+[[lean_lib]]
+name = "SourceFiniteTrig"
+
+[[lean_lib]]
+name = "SourceRemoteJetWitness"
+
+[[lean_lib]]
+name = "SourceRemoteJetGaussian"
+
+[[lean_lib]]
+name = "SourceEndpointHessianWitness"
+
+[[lean_lib]]
+name = "SourceH0OlderClearance"
+
+[[lean_lib]]
+name = "SourceEndpointHessianGaussian"
+
+[[lean_lib]]
+name = "SourceTwoRemoteFirstJetWitness"
+
+[[lean_lib]]
+name = "SourceIntrinsicH0Interface"
+
+[[lean_lib]]
+name = "SourceTwoRemoteFirstJetGaussian"
+
+[[lean_lib]]
+name = "SourceIntrinsicH0WeightedProbability"
+
+[[lean_lib]]
+name = "SourceRawPinFreeCoordinates"
+
+[[lean_lib]]
+name = "SourceFramedConfluentCovariance"
+
+[[lean_lib]]
+name = "SourceGapConditionalMorseDistinct"
+
+[[lean_lib]]
+name = "SourceActualMorseLocalModel"
+
+[[lean_lib]]
+name = "SourceActualTorusSuperlevelLocalBasis"
+
+[[lean_lib]]
+name = "SourceActualTorusRegularSlab"
+
+[[lean_lib]]
+name = "SourceActualFiniteSuperlevelComponents"
+
+[[lean_lib]]
+name = "SourceActualQuotientSaddleCollar"
+
+[[lean_lib]]
+name = "SourceActualSaddleUppercuts"
+
+[[lean_lib]]
+name = "SourceActualRegularLocalCollar"
+
+[[lean_lib]]
+name = "SourceActualLowerSeparation"
