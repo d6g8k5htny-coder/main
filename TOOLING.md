@@ -1,5 +1,19 @@
 # CBZ mission-tool registry
 
+## Prepared Pages original-byte observer — 10 November 2026
+
+Purpose and scope: verify the exact preserved prepared receipt and its original Pages and metadata ZIPs offline, including source fingerprint and control bytes. With the two original ZIPs (`13728153243.zip` and `13728342519.zip`), `prepared-receipt-original.json`, `verify_prepared_artifact.py` and `check_prepared_verifier.py` copied into an isolated directory named by `CBZ_PAGES_STAGE`, run:
+
+```sh
+(cd "$CBZ_PAGES_STAGE" && python3 -B -S verify_prepared_artifact.py prepared-receipt-original.json 13728153243.zip 13728342519.zip)
+(cd "$CBZ_PAGES_STAGE" && python3 -B -S check_prepared_verifier.py)
+```
+
+The originals are preserved in the separately owned contribution evidence archive; the repository contains the receipt, scripts and recorded outputs. This is an exact-input offline observer, not public readback, a deployment check, a full G0 auditor or the final gate pass. The observer passed on the retained originals and its driver rejected an altered receipt, truncated Pages ZIP, truncated metadata ZIP and changed fingerprint domain in each Python mode.
+
+Recorded source and results: [observer](cbz/evidence/pages-prepared-original-20261110/verify_prepared_artifact.py), [adverse driver](cbz/evidence/pages-prepared-original-20261110/check_prepared_verifier.py), [observed outcomes](cbz/evidence/pages-prepared-original-20261110/prepared-verifier-adverse.json), and [original artifact observation](cbz/evidence/pages-prepared-original-20261110/original-artifacts-observation.json). It is fixed to these exact recorded inputs; it is not a general archive certifier.
+
+
 ## Python subprocess operand validation
 
 Purpose: prevent unsupported or invalid interpreter-option operands in Python subprocess references from manufacturing a static tool-reference credit. The implementation supports only Python `--check-hash-based-pycs` values `default`, `always`, `never`; `-W` values `default`, `error`, `ignore`, `always`, `module`, `once`; and `-X dev`, in separate or supported attached form. Shell options with operands and other values are conservatively uncredited. Supported references are not execution receipts.

@@ -1580,3 +1580,10 @@ Scientific NONE; qualification/classification BLOCKED; authfalse.
 ## 2026-11-10 — Compose G11 operand repair over Main #807
 
 - Preserve the complete `cff23146a56949e03cad4b15bdc4f07feba665ae` peer tree and decision-ledger prefix, then append the two prior G11 decisions. The earlier `d51700eb5466158206c3431f6b99c4db036fdc95` census and hosted checks retain their original source identities; require fresh checks and a current-tree census for the composition. The separately observed Workspace pin is stale after #807 and must be refreshed. The prepared Pages status is still empty; no terminal cancellation or recovery is inferred. This reversible composition changes no mathematical statement, historical outcome or scientific status.
+
+## Decisions: integrated component and custody observations — 10 November 2026
+
+- Integrated Main #810 as `d1819f0aa4d914c770687606ccd9f131e6b7634f` and Workspace #75 as `31b9b90785be2a5dac9cda5d36bcc941348f001f` using expected-head normal merges and their observed checks. These published merge commits are preserved; subsequent pin freshness must be checked anew.
+- Preserved the actual 2,774-test Main discovery result with 23 skips, the separate successful hosted two-test browser controls in each mode, and the failed local Chromium socket attempts. Historical pytest results retain their earlier source binding. No skipped result was converted into a full regression pass.
+- Retained the prepared Pages original bytes and registered a fixed-input offline observer with its original and four adverse cases per mode. The actual newer site build failed public readback and skipped deployment; an empty deployment-status response is not a cancellation signal. No recovery or public acceptance was inferred.
+- These component observations do not alter mathematical statements, proof boundaries, authorship, prior failures or scientific acceptance. Full G0–G11 and the STATUS-only cold start remain to be executed and observed.

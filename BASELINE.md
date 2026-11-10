@@ -1,5 +1,12 @@
 # CBZ baseline ledger
 
+## Current observed limitations — 10 November 2026
+
+Main #810 and Workspace #75 were integrated with the tested trees. The Main post-merge discovery run reported 2,774 tests with 23 skips; separate successful browser controls do not turn that discovery run into a no-skip gate. Main post-merge site publication failed at prepared-publication readback and did not deploy. The retained original prepared archive matches its receipt offline; live readback and recovery are not established. Sequential pin observations are not a final atomic federation gate, and any Main advance requires a new Workspace pin. See [STATUS](STATUS.md) for source-bound runs, commands and evidence.
+
+No complete final G0–G11 pass, STATUS-only cold-start qualification, full Layer A audit or CBZ-0 is claimed by these observations.
+
+
 ## Main #807 and G11 recomposition boundary
 
 Main #807 integrates scoped SDGA fixture replay tooling with qualification and classification BLOCKED and no scientific acceptance. The earlier expanded G11 census passed on its own tree; the combined tree requires fresh evidence and the final federation gates.
