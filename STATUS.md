@@ -2,6 +2,13 @@
 
 ## Historical foundation custody — 10 November 2026
 
+Workspace #64 merged as `a3ac03329c6c54f0e3df4f159d894b2a8e70de44`, pinning
+Main `eed4e646565bf670d87b5ec41b9ae18f8a20d35a` and Math `9bdfc54b`.
+Its hosted candidate contract ran 254 tests per mode without skips, and its
+pin job checked eight current pins and four canonical inputs. These were
+sequential observations; postmerge checks require their own observation.
+This later Main candidate would require another guarded Workspace refresh.
+
 The closed-unmerged Main #695 catalog is preserved as exact historical bytes,
 not admitted as current proof status. Its 184 records contain the eleven
 named fields; six are regression or real-record coverage records without an

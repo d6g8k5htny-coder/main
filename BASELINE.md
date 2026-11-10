@@ -2,6 +2,11 @@
 
 ## Historical foundation custody candidate — 10 November 2026
 
+At the observed published cut Workspace `a3ac03329c6c54f0e3df4f159d894b2a8e70de44`
+pins Main `eed4e646565bf670d87b5ec41b9ae18f8a20d35a` and Math `9bdfc54b`.
+Its hosted candidate controls passed in both modes; postmerge outcomes and a
+later pin refresh remain separate from any final federation gate.
+
 The unmerged #695 catalog and three named source archives are now preserved
 as exact bytes and indexed with their source identities. Their historical
 statuses have not been adopted as current proof or quarantine dispositions.

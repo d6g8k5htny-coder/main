@@ -237,3 +237,9 @@ Append-only. Historical source outcomes remain in their original records.
   not authorize deletion of other tags, admit current quarantines, award an
   independent review, or satisfy any final G0–G11 or CBZ criterion. This
   ordinary Git addition is recoverable and has no scientific effect.
+
+- Workspace #64 integrated the Main `eed4e646` pin through normal required
+  checks after fresh sequential ref observations. Its tested tree and merge
+  parents were verified; postmerge runs require separate observation. Any
+  subsequent Main integration needs another guarded pin refresh and does not
+  establish an atomic federation vector or a scientific disposition.
