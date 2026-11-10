@@ -378,6 +378,151 @@ or mathematical source; full feature ancestry and previous source-specific
 48-control receipts remain retained. Exact current-tree checks are required
 before integration. No old CI is rebound or scientific gate awarded.
 
+## 2026-11-09 — Q-9006 live companion offline contract before implementation
+
+- Phase2 / LayerB. Current real-record live-freshness method always skips.
+  Authentic current inputs exist; preserve their source pins and production
+  cited-object-content-v1 semantics rather than equating whole commit heads.
+- Root read and accepted a separate mandatory read-only live companion design.
+  First publish22 direct offline contracts and a read-only normal/optimized
+  runner with no production module or live token. Initial missing-companion
+  AssertionErrors must be observed and retained before helper implementation.
+  Synthetic external replies and constructor checks earn no live coverage.
+- Future live execution requires actual default production HTTPS observer,
+  authenticated read-only access, complete four-record validation, all three
+  declared-fresh candidates, unchanged schema/graph/record bytes, and exact
+  source/run/mode/counter observations. Stale, unknown, unavailable or partial
+  evidence fails; eng.hard-gate remains explicitly stale. No fallback/retry.
+- Existing dormant test/history and Q-9002--Q-9005 ownership/schema obligations
+  stay unchanged. No mathematical owner, record, disposition, scientific effect,
+  full G5, CBZ-0 or terminal Partial result is manufactured by this draft.
+
+## 2026-11-09 — actual Q-9006 absence and retained-discussion counterexample
+
+- Root independently read run42703408274/attempt1/job129453795288 at
+  head55d2796e170d0de8400eefa57a14667e60e20f56/tree783f2ffe45d795e78a4caf76e2ba6cd3ee558149.
+  Normal22 and optimized22 each failed exactly22 missing-companion assertions,
+  zero errors/skips. All44 failures precede helper import; they are initial
+  implementation absence, not semantic adverse/mutation/live coverage.
+- Author then implemented only the evaluator and mandatory-token/default
+  observer wrapper against unchanged22 contracts, without a CLI or data edits.
+  Fresh static review found a retained-discussion evidence gap: a boundary can
+  return the old timestamp while retaining a newer timestamp. Default current
+  observer is internally consistent; this is an adverse-boundary control gap,
+  not an observed live failure.
+- Add exactly one23rd test against the unchanged helper, preserving all prior
+  assertions. Observe its intended missing-exception assertion and all original
+  bodies before authorizing the minimal consistency guard. Synthetic replies
+  and helper-supplied identities confer no actual HTTPS/execution/scientific
+  credit. Current dormant coverage and Q-9002--Q-9005 remain unchanged.
+
+## 2026-11-09 — observed discussion RED and CLI source-contract phase
+
+- Root independently read run42705281101/attempt1/job129460339539 at
+  head58e0faf28334dcfaf43c648f8c14f80866582510/tree6e2d934f5d19a45812ee27c06a7f2047e05d29c6.
+  Both modes ran23 tests:22old bodies passed, one new retained-discussion
+  counterexample failed with LiveCheckError not raised, zero errors/skips.
+  It returned the old timestamp while retaining one second newer evidence.
+- Author was then authorized to bind every retained discussion timestamp to
+  captured source revisions. The helper now carries URL/revision pairs while
+  preserving observation multiplicities, head/object checks and all23 tests.
+  Actual current-source helper qualification remains required.
+- Add18 separate offline CLI contracts against this still CLI-absent helper.
+  Owned Git fixtures bind actual commit and nine selected bytes; the child
+  harness denies Python HTTP/socket connections and supplies no token. Caller
+  root, run context, source drift, safe output, actual mode and parse/help
+  cases must execute. Subtests can produce33 failures among18 test methods;
+  actual logs determine the count. No CLI implementation is authorized until
+  those expected missing-behavior failures are observed and retained.
+- This phase has no actual HTTPS/live, proof, scientific, fullG5 or CBZ credit.
+  Existing dormant history and Q-9002--Q-9005 remain unchanged. The read-only
+  runner executes both helper and CLI contracts in each mode and retains
+  original logs even when a preceding cell fails.
+
+## 2026-11-10 — source-first freshness CLI and current Main composition
+
+- Root independently read run42708393309/attempt1/job129471163663 atf5f301b:
+  both helper modes passed23 methods; both CLI modes ran18 methods with33
+  intended test-body failures, zero errors/skips. Per mode:27 silent refusal
+  failures, one help failure, four wrong exits and one changed dependency
+  actually executed before binding. No HTTP was performed.
+- After that RED, author implemented only a stdlib CLI bootstrap that verifies
+  native context, actual HEAD/tree, nine raw/blob bindings, output and auth
+  before project imports. All23helper+18CLI contracts remain unchanged.
+- Compose currentMainc32e6f27d318e25708939105285366a7a0daf971 and complete feature ancestry.
+  Preserve every current canonical byte as a prefix and all peer code/workflows.
+  Existing node schema, records, graph, validator and refresh helper stay intact.
+  Math9bdf has unchanged cited file bytes; historical directory staleness remains.
+- Offline41-method controls per mode must pass before the authenticated live
+  job runs. Actual source/run/attempt/mode/exits and endpoint bindings are
+  required; until observed, implementation and live results remain pending.
+  No record, proof, bound, ownership, scientific status or gate threshold changes.
+- Local execution is unavailable. Source and original hosted outcomes remain
+  on GitHub; incomplete local metadata writes are not assumed persisted.
+  Dormant history, Q-9002--Q-9005, fullG5 and CBZ remain unawarded.
+
+## 2026-11-10 — preserve actual freshness observations and import-binding gap
+
+Actual dff06396e6c266b142697cc6e13ed443e0312f2e/tree656b17a4 passed all23helper
+and18CLI methods per Python mode in runs42726210162 and42726210888, attempt1.
+Both actual live modes returnedFRESH:4records,3declared-fresh candidates and10
+observations. Native testedda7f8e49721c6c4d3a6272f070348ec8ea016d83 has ordered
+parents[c32e6f27,dff06396] and identicaltree; all9native source bindings and
+HEAD endpoints matched. eng.hard-gate remains stale; cbz_greenfalse/NONE.
+Original printed reports/logs were read; artifactZIP member bytes were not.
+
+Fresh static review found normal Python imports can select an unbound sibling
+package or timestamp-valid bytecode despite the9bound raw files. Preserve all
+original41methods and add2CLI methods, each covering validator and refresh.
+A fake-token/no-network trace reaches actualrun_live then stops beforebody;
+only actual unbound-code marker absence can pass after phase/binding guards.
+Publish these20CLI controls against unchangedc549e575 production and require
+actual assertionRED before any loader repair. No current positive or live
+qualification follows from this test-only phase. Preserve complete current
+Main da92c829 code/evidence/canonical prefixes and full feature ancestry.
+
+## 2026-11-10 — observed project-import RED and captured-source loader repair
+
+Root independently read run42733597339/attempt1/job129557347677 at20154095:
+23helper methods passed normally/optimized;20CLI methods ran per mode, all18
+originals passed with exactly4new marker-presence assertion failures in each
+mode, zero errors/skips. Both dependencies actually executed unbound sibling
+packages and timestamp-valid bytecode. Native4f462ab4036b9af4c98b5ef151a0b8f85446dade
+has parents[da92c829,20154095], exacttree24f1c64ce62d1978bf7cd07c6ae19ad46962f9f6.
+Both live jobs were skipped after contract failure; no HTTP/live credit.
+
+After actual RED, repair only project loading: capture the already verified
+validator/refresh raw bytes during source binding, compile/execute those bytes
+directly as named modules, register boundvalidator before refresh imports it,
+and bypass project package/pyc resolution. Ordinary helper imports retain their
+API. The existing helper body, all43methods, records/schema/graph/refresh and
+validator sources remain unchanged. Fresh normal/O controls, actual native
+live observations, scoped loader review and current checks remain required.
+Preserve latest Main ae8de850 STATUS delta and complete feature ancestry.
+
+## 2026-11-10 — source-specific freshness qualification and preservation of SDGA integration
+
+At f24c8adf34b03cc3f509db8cc0abc9da502a3323, actual runs42737057760/attempt1
+and42737057869/attempt1 each passed86 offline outcomes:23helper and20CLI
+methods in both normal and optimized modes, zero failures/errors/skips.
+Contract jobs129568736389/129568740081 and live jobs129568960660/129569015409
+retain the source-specific observations. All four actual normal/optimized
+JSON reports returned FRESH for4records,3declared-fresh candidates and10
+observations; eng.hard-gate stayed stale, scientific effect NONE and cbz_greenfalse.
+Native214f76770f4b500827e858e3f14df9db8c01dc46 has ordered parents[ae8de850,f24c8adf]
+and exacttree6c9616ce9c461602452581d7dddfa6a402456b0c. All9native source
+bindings matched. The original20154095 import-binding RED remains retained.
+
+Compose entire current Main6d928a3216233fb75dc717ee0b2d2e4bb08db266, including
+merged PR787's14paths and complete current canonical document bytes, with only
+the11owned freshness entries and complete feature ancestry. Production1e485218,
+all43methods, workflow and fixed plans retain exact f24 bytes; canonical owned
+suffixes are appended after each entire current Main document. This composition
+requires its own86offline outcomes, actual normal/optimized live observations,
+source binding review and current required checks before integration. Prior
+source-specific qualification is not rebound to the new composition. No record,
+proof, ownership, scientific disposition, gate threshold, fullG5 or CBZ award changes.
+
 
 ## Historical tag custody and Pages retry — 10 November 2026
 
@@ -400,3 +545,8 @@ before integration. No old CI is rebound or scientific gate awarded.
   published peer ledger suffix and then the complete custody suffix, without
   rewriting either. The resulting combined source requires fresh checks and
   a new expected-head guard; no proof or scientific status changes.
+
+- After Main #788 advanced the default, the custody and peer decision appends
+  conflicted. This composition retains the complete published peer suffix and
+  then the complete custody suffix; it requires new source-specific checks and
+  an expected-head guard. No proof or scientific status changes.

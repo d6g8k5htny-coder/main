@@ -1,5 +1,13 @@
 # CBZ baseline ledger
 
+## Later Main and pin observation - 10 November 2026, 02:02 UTC
+
+Main #788 `ad64930cbdc0d27bd896fc6231649e211ebf1562` adds the source-bound
+freshness companion; its historical failures and evidence limits are retained.
+Workspace #66 still pins `ae8de850`; a proposed refresh to `6d928a32` became
+stale and its integration guard refused. A new guarded pin and federation cut
+remain necessary. No final gate, proof or scientific acceptance is awarded.
+
 ## Later Main and pin observation — 10 November 2026
 
 Main #787 `6d928a3216233fb75dc717ee0b2d2e4bb08db266` adds the bounded SDGA

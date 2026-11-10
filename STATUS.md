@@ -1,5 +1,15 @@
 # CBZ-0 execution status
 
+## Later Main and pin observation - 10 November 2026, 02:02 UTC
+
+Main #788 merged as `ad64930cbdc0d27bd896fc6231649e211ebf1562`, adding
+the source-bound real-record freshness companion and retaining its prior
+failed import-binding controls. Its recorded limits are in GOVERNANCE and
+DECISIONS; this observation does not award a final gate, proof or scientific
+acceptance. Workspace #66 pins Main `ae8de850`; the proposed refresh to
+`6d928a32` became stale and its fresh integration guard refused. The pin must
+be checked against the next actual Main tip after this candidate integrates.
+
 ## Later Main and pin observation — 10 November 2026, 01:48 UTC
 
 Main #787 merged as `6d928a3216233fb75dc717ee0b2d2e4bb08db266`, adding a
