@@ -1,0 +1,597 @@
+{
+  "schema": 1,
+  "record": "sdga-task-c-r1-observation",
+  "status": "OBSERVED_PUBLIC_REPLAY_CLI_IMPLEMENTATION_ABSENCE_RED",
+  "repository": "d6g8k5htny-coder/main",
+  "pr": 807,
+  "Draft": true,
+  "feature_head": "2850d98a75565a1c74815a864ce77956c07bf652",
+  "feature_tree": "caa1506fb3db73d08e8f9b80decea155b90fea0f",
+  "feature_ordered_parents": [
+    "964390a94c08f00f119dc3b2e0be16180c1544e2",
+    "fa0deec246fa603d7c45aae27df7684de35538ee"
+  ],
+  "run": 42761796853,
+  "attempt": 1,
+  "job": 129648973831,
+  "native_merge": "e080ce31514a334ec95ab12ff5e9a4d351f99a32",
+  "native_tree": "caa1506fb3db73d08e8f9b80decea155b90fea0f",
+  "native_ordered_parents": [
+    "964390a94c08f00f119dc3b2e0be16180c1544e2",
+    "2850d98a75565a1c74815a864ce77956c07bf652"
+  ],
+  "native_merge_API_verified": true,
+  "source_bindings": {
+    "launcher": "86842b2814fbceaa7d7d65b0d0088546dbc3bb06",
+    "Controls": "c25cd01838c152403eba1acd39fb029a488bb21f",
+    "Component": "7f89460edca71754dbce9a07de229ad39ad3e851",
+    "workflow": "f22987c60144ae7db6202cae6085402ca2c2f947",
+    "custody_test": "a9e147e246abfacf9561d286aef65086dedd2c66",
+    "pure_protocol": "8809f1974998f9094a0f1239ecca56ddcf272a88",
+    "Task1": "14d4617b523c29007da4bdb95ee6ee4dc588a86c"
+  },
+  "log": {
+    "blob": "d179dbe624c7156288967fb6078b30a551f10e55",
+    "utf8_bytes": 1454841,
+    "sha256": "60def27b0708afb984e9f02bf0617508e43dd52d2de0db8f893ad6f600cb578e",
+    "runner_original_blocks_matched": 214
+  },
+  "original_packet": {
+    "blob": "6ad8187f85b76866773edce6988e4d0a9eb8c35b",
+    "blocks": 214,
+    "kind_counts": {
+      "ORIGINAL_CUSTODY_RECORD": 56,
+      "ORIGINAL_RECORD": 14,
+      "ORIGINAL_NATIVE_STREAM": 144
+    },
+    "every_runner_marker_UTF8_length_and_SHA256_matched": true
+  },
+  "observations": [
+    {
+      "mode": "normal",
+      "methods_run": 13,
+      "method_successes": 10,
+      "method_failures": 3,
+      "unittest_failure_entries": 4,
+      "errors": 0,
+      "skips": 0,
+      "declared_unique_IDs": 61,
+      "observed_IDs": 59,
+      "subcase_pass": 56,
+      "subcase_fail": 3,
+      "subcase_not_run": 2,
+      "all_original_A_B52_pass": true,
+      "CLI_supplement": {
+        "case_id": "C08",
+        "command": {
+          "argv": [
+            "lake",
+            "env",
+            "env",
+            "LEAN_PATH=/home/runner/work/_temp/sdga-task-a-normal/owned",
+            "lean",
+            "--threads=2",
+            "--run",
+            "/home/runner/work/main/main/main/tools/sdga/Component.lean",
+            "replay",
+            "/home/runner/work/_temp/sdga-task-a-normal/request.json"
+          ],
+          "cleanup": {
+            "confirmed": true,
+            "errors": [],
+            "group_absent": true,
+            "leader_reaped": true,
+            "pgid": 2657,
+            "reaped_descendants": [],
+            "signals": []
+          },
+          "cumulative_child_maxrss_kib": 5713136,
+          "cwd": "/home/runner/work/main/main/main/tests/fixtures/sdga_component",
+          "declared_env": {},
+          "exit_code": 1,
+          "finished_monotonic_ns": 102557357571,
+          "finished_utc": "2026-11-10T05:24:41.567400+00:00",
+          "label": "cli-safe-replay",
+          "launch_error": null,
+          "pgid": 2657,
+          "pid": 2657,
+          "started_monotonic_ns": 98481399258,
+          "started_utc": "2026-11-10T05:24:37.491442+00:00",
+          "stderr_bytes": 81,
+          "stderr_path": "/home/runner/work/_temp/sdga-task-a-normal/native/26-cli-safe-replay.stderr",
+          "stderr_sha256": "a8f51638ab236011717428cf6e4bc09a82c949c251ca025cb7bf00f43e0c1001",
+          "stdout_bytes": 0,
+          "stdout_path": "/home/runner/work/_temp/sdga-task-a-normal/native/26-cli-safe-replay.stdout",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "timed_out": false,
+          "timeout_expected_cleanup_only": false,
+          "timeout_seconds": 180
+        },
+        "error": "AssertionError: 1 != 0 : public replay CLI must succeed; raw native outcome retained",
+        "executor": "Lean_cli",
+        "outside_declared_method_and_subcase_census": true,
+        "probe_id": "cli-safe-replay",
+        "receipt": null,
+        "record": "supplemental-cli-replay",
+        "status": "fail",
+        "stderr_hex": "534447415f4552524f52204e4f545f494d504c454d454e5445443a205461736b2043206b65726e656c207265706c6179206973206e6f7420696d706c656d656e746564206f72207175616c69666965640a",
+        "stdout_hex": ""
+      },
+      "CLI_stderr_text": "SDGA_ERROR NOT_IMPLEMENTED: Task C kernel replay is not implemented or qualified\n",
+      "CLI_original_native_stream_independently_matches_supplement": true,
+      "C_helper_rows": [
+        {
+          "case_id": "C08",
+          "detail": {
+            "all_owned_absent": true,
+            "direct_imports": [
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": true,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": true,
+                "module": "Lean"
+              }
+            ],
+            "owned_count": 15,
+            "target_absent": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "clean-base-absence"
+        },
+        {
+          "case_id": "C08",
+          "detail": "SDGA_ERROR NOT_IMPLEMENTED: Task C kernel replay is not implemented or qualified",
+          "error_code": "CONTROL_ASSERT",
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "fail",
+          "subcase_id": "full-safe-replay"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "altered_field": "value",
+            "name": "s46697874757265/s53616665/s676f6f64",
+            "replacement": "Nat.zero",
+            "same_group": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "actual-source-ci"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "resolved_references": [
+              "s54727565",
+              "s4e6174/s7a65726f"
+            ],
+            "singleton_names": [
+              "s46697874757265/s53616665/s676f6f64"
+            ]
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "singleton-resolved-refs"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "all_owned_absent": true,
+            "direct_imports": [
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": true,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": true,
+                "module": "Lean"
+              }
+            ],
+            "owned_count": 15,
+            "target_absent": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "clean-base-absence"
+        },
+        {
+          "case_id": "C09",
+          "detail": "CONTROL_ASSERT: expected exact upstream kernel declaration type mismatch; observed SDGA_ERROR NOT_IMPLEMENTED: Task C kernel replay is not implemented or qualified",
+          "error_code": "CONTROL_ASSERT",
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "fail",
+          "subcase_id": "kernel-type-rejection"
+        },
+        {
+          "case_id": "C10",
+          "detail": "SDGA_ERROR NOT_IMPLEMENTED: Task C kernel replay is not implemented or qualified",
+          "error_code": "CONTROL_ASSERT",
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "fail",
+          "subcase_id": "good-base-setup"
+        },
+        {
+          "case_id": "C10",
+          "executor": "Lean",
+          "reason": "body not reached; inspect failed method",
+          "record": "subcase",
+          "status": "not_run",
+          "subcase_id": "singleton-resolved-refs"
+        },
+        {
+          "case_id": "C10",
+          "executor": "Lean",
+          "reason": "body not reached; inspect failed method",
+          "record": "subcase",
+          "status": "not_run",
+          "subcase_id": "duplicate-base-guard"
+        }
+      ],
+      "file_custody": {
+        "observations": 25,
+        "bindings": 10,
+        "paths": 55,
+        "status": "pass",
+        "drift": [],
+        "interpretation": "file/object stability PASS does not mean native CLI/replay success"
+      },
+      "source_drift": [],
+      "bootstrap_errors": [],
+      "B_fixture_errors": {},
+      "pure_protocol_methods": 12,
+      "pure_protocol_conclusion": "pass",
+      "separate_custody": {
+        "methods": 3,
+        "routes": 6,
+        "errors": 0,
+        "failures": 0,
+        "skips": 0
+      },
+      "cleanup_preflight": "pass",
+      "command_count": 36,
+      "all_recorded_intervals_sequential": true,
+      "noncleanup_timeouts": [],
+      "unconfirmed_cleanup": [],
+      "max_cumulative_child_maxrss_kib": 5713344,
+      "rss_scope": "cumulative RUSAGE_CHILDREN maxrss, not per-process or concurrent memory",
+      "native_source_commit": "e080ce31514a334ec95ab12ff5e9a4d351f99a32",
+      "native_source_tree": "caa1506fb3db73d08e8f9b80decea155b90fea0f",
+      "pinned_toolchain": "5045d0056413266e57c625dcd7c365b10e377c52"
+    },
+    {
+      "mode": "optimized",
+      "methods_run": 13,
+      "method_successes": 10,
+      "method_failures": 3,
+      "unittest_failure_entries": 4,
+      "errors": 0,
+      "skips": 0,
+      "declared_unique_IDs": 61,
+      "observed_IDs": 59,
+      "subcase_pass": 56,
+      "subcase_fail": 3,
+      "subcase_not_run": 2,
+      "all_original_A_B52_pass": true,
+      "CLI_supplement": {
+        "case_id": "C08",
+        "command": {
+          "argv": [
+            "lake",
+            "env",
+            "env",
+            "LEAN_PATH=/home/runner/work/_temp/sdga-task-a-optimized/owned",
+            "lean",
+            "--threads=2",
+            "--run",
+            "/home/runner/work/main/main/main/tools/sdga/Component.lean",
+            "replay",
+            "/home/runner/work/_temp/sdga-task-a-optimized/request.json"
+          ],
+          "cleanup": {
+            "confirmed": true,
+            "errors": [],
+            "group_absent": true,
+            "leader_reaped": true,
+            "pgid": 3049,
+            "reaped_descendants": [],
+            "signals": []
+          },
+          "cumulative_child_maxrss_kib": 5713316,
+          "cwd": "/home/runner/work/main/main/main/tests/fixtures/sdga_component",
+          "declared_env": {},
+          "exit_code": 1,
+          "finished_monotonic_ns": 189109944648,
+          "finished_utc": "2026-11-10T05:26:08.119987+00:00",
+          "label": "cli-safe-replay",
+          "launch_error": null,
+          "pgid": 3049,
+          "pid": 3049,
+          "started_monotonic_ns": 185032793863,
+          "started_utc": "2026-11-10T05:26:04.042839+00:00",
+          "stderr_bytes": 81,
+          "stderr_path": "/home/runner/work/_temp/sdga-task-a-optimized/native/26-cli-safe-replay.stderr",
+          "stderr_sha256": "a8f51638ab236011717428cf6e4bc09a82c949c251ca025cb7bf00f43e0c1001",
+          "stdout_bytes": 0,
+          "stdout_path": "/home/runner/work/_temp/sdga-task-a-optimized/native/26-cli-safe-replay.stdout",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "timed_out": false,
+          "timeout_expected_cleanup_only": false,
+          "timeout_seconds": 180
+        },
+        "error": "AssertionError: 1 != 0 : public replay CLI must succeed; raw native outcome retained",
+        "executor": "Lean_cli",
+        "outside_declared_method_and_subcase_census": true,
+        "probe_id": "cli-safe-replay",
+        "receipt": null,
+        "record": "supplemental-cli-replay",
+        "status": "fail",
+        "stderr_hex": "534447415f4552524f52204e4f545f494d504c454d454e5445443a205461736b2043206b65726e656c207265706c6179206973206e6f7420696d706c656d656e746564206f72207175616c69666965640a",
+        "stdout_hex": ""
+      },
+      "CLI_stderr_text": "SDGA_ERROR NOT_IMPLEMENTED: Task C kernel replay is not implemented or qualified\n",
+      "CLI_original_native_stream_independently_matches_supplement": true,
+      "C_helper_rows": [
+        {
+          "case_id": "C08",
+          "detail": {
+            "all_owned_absent": true,
+            "direct_imports": [
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": true,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": true,
+                "module": "Lean"
+              }
+            ],
+            "owned_count": 15,
+            "target_absent": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "clean-base-absence"
+        },
+        {
+          "case_id": "C08",
+          "detail": "SDGA_ERROR NOT_IMPLEMENTED: Task C kernel replay is not implemented or qualified",
+          "error_code": "CONTROL_ASSERT",
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "fail",
+          "subcase_id": "full-safe-replay"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "altered_field": "value",
+            "name": "s46697874757265/s53616665/s676f6f64",
+            "replacement": "Nat.zero",
+            "same_group": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "actual-source-ci"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "resolved_references": [
+              "s54727565",
+              "s4e6174/s7a65726f"
+            ],
+            "singleton_names": [
+              "s46697874757265/s53616665/s676f6f64"
+            ]
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "singleton-resolved-refs"
+        },
+        {
+          "case_id": "C09",
+          "detail": {
+            "all_owned_absent": true,
+            "direct_imports": [
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": true,
+                "isMeta": true,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": false,
+                "module": "Init"
+              },
+              {
+                "importAll": false,
+                "isExported": false,
+                "isMeta": true,
+                "module": "Lean"
+              }
+            ],
+            "owned_count": 15,
+            "target_absent": true
+          },
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "pass",
+          "subcase_id": "clean-base-absence"
+        },
+        {
+          "case_id": "C09",
+          "detail": "CONTROL_ASSERT: expected exact upstream kernel declaration type mismatch; observed SDGA_ERROR NOT_IMPLEMENTED: Task C kernel replay is not implemented or qualified",
+          "error_code": "CONTROL_ASSERT",
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "fail",
+          "subcase_id": "kernel-type-rejection"
+        },
+        {
+          "case_id": "C10",
+          "detail": "SDGA_ERROR NOT_IMPLEMENTED: Task C kernel replay is not implemented or qualified",
+          "error_code": "CONTROL_ASSERT",
+          "executor": "Lean",
+          "record": "subcase",
+          "status": "fail",
+          "subcase_id": "good-base-setup"
+        },
+        {
+          "case_id": "C10",
+          "executor": "Lean",
+          "reason": "body not reached; inspect failed method",
+          "record": "subcase",
+          "status": "not_run",
+          "subcase_id": "singleton-resolved-refs"
+        },
+        {
+          "case_id": "C10",
+          "executor": "Lean",
+          "reason": "body not reached; inspect failed method",
+          "record": "subcase",
+          "status": "not_run",
+          "subcase_id": "duplicate-base-guard"
+        }
+      ],
+      "file_custody": {
+        "observations": 25,
+        "bindings": 10,
+        "paths": 55,
+        "status": "pass",
+        "drift": [],
+        "interpretation": "file/object stability PASS does not mean native CLI/replay success"
+      },
+      "source_drift": [],
+      "bootstrap_errors": [],
+      "B_fixture_errors": {},
+      "pure_protocol_methods": 12,
+      "pure_protocol_conclusion": "pass",
+      "separate_custody": {
+        "methods": 3,
+        "routes": 6,
+        "errors": 0,
+        "failures": 0,
+        "skips": 0
+      },
+      "cleanup_preflight": "pass",
+      "command_count": 36,
+      "all_recorded_intervals_sequential": true,
+      "noncleanup_timeouts": [],
+      "unconfirmed_cleanup": [],
+      "max_cumulative_child_maxrss_kib": 5713412,
+      "rss_scope": "cumulative RUSAGE_CHILDREN maxrss, not per-process or concurrent memory",
+      "native_source_commit": "e080ce31514a334ec95ab12ff5e9a4d351f99a32",
+      "native_source_tree": "caa1506fb3db73d08e8f9b80decea155b90fea0f",
+      "pinned_toolchain": "5045d0056413266e57c625dcd7c365b10e377c52"
+    }
+  ],
+  "limits": {
+    "workflow_timeout_minutes": 25,
+    "native_timeout_seconds": 180,
+    "LEAN_NUM_THREADS": "2",
+    "lean_threads": 2,
+    "lake_job_cap": "none asserted",
+    "processes": "sequential recorded invocation intervals"
+  },
+  "artifact": {
+    "id": 13737927810,
+    "name": "sdga-task-a-42761796853-1",
+    "size_in_bytes": 7245488,
+    "url": "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13737927810",
+    "archive_download_url": "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13737927810/zip",
+    "expired": false,
+    "created_at": "2026-11-10T05:26:42Z",
+    "expires_at": "2026-12-10T05:26:40Z",
+    "updated_at": "2026-11-10T05:26:42Z",
+    "digest": "sha256:7bb437cedb4ceeaf8c099c794898a87dc06edb0ec48a9fe44eaa4ab5f352c386",
+    "workflow_run": {
+      "id": 42761796853,
+      "repository_id": 1117225690,
+      "head_repository_id": 1117225690,
+      "head_branch": "codex/cbz-sdga-kernel-task-c-20261110",
+      "head_sha": "2850d98a75565a1c74815a864ce77956c07bf652"
+    }
+  },
+  "artifact_zip_downloaded_unpacked_or_independently_read": false,
+  "interpretation": "Actual independent public CLI was reached despite shared-helper failure, returned NOT_IMPLEMENTED/nonzero with exact retained stderr, and failed the mandatory positive probe. No success receipt was emitted. Existing helper-stub RED remains. No kernel replay success/type rejection/duplicateBase/CLI success/mutation-kill credit.",
+  "R0_receipt": "332d5b81c11b046f6d43f3d67eb1d8898ab6acd0",
+  "harness_repairs": 0,
+  "production_implementation_started": false,
+  "root_actual_R1_read_and_GO_required_before_any_production": true,
+  "no_manual_reruns": true,
+  "no_workflow_changes": true,
+  "no_comments_reviews_settings_or_merge": true,
+  "scientific_effect": "NONE",
+  "qualification": "BLOCKED",
+  "classification_status": "BLOCKED",
+  "execution_authenticated": false
+}

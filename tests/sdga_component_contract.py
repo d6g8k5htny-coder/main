@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Explicit Task A+B hosted contracts; Task B additions remain test first.
+"""Explicit Task A+B+C hosted contracts; Task C additions remain test first.
 
-Ten unittest methods declare 52 subcases; original Task A remains six/39. Absence, compile/setup failure and unrun
+Thirteen unittest methods declare 61 subcases; original Task A remains six/39. Absence, compile/setup failure and unrun
 subcases are evidence categories, never semantic rejections or passing coverage.
 Run explicitly; this file is outside ordinary offline test_*.py discovery.
 """
@@ -56,6 +56,13 @@ CASES.update({
     "C07": ("unsafe-info", "partial-info", "unsafe-replay-skip", "partial-replay-skip"),
 })
 TASK_B_FIXTURES = ("BadDependency", "AxiomUse", "Skipped", "OwnedAxiom")
+TASK_B_CASES = {case: names for case, names in CASES.items() if case not in TASK_A_CASES}
+CASES.update({
+    "C08": ("clean-base-absence", "full-safe-replay"),
+    "C09": ("actual-source-ci", "singleton-resolved-refs", "clean-base-absence",
+            "kernel-type-rejection"),
+    "C10": ("good-base-setup", "singleton-resolved-refs", "duplicate-base-guard"),
+})
 PURE_C15 = {"malformed-transcript", "deps-json-error-row", "duplicate-vertex",
             "missing-local-edge", "cycle"}
 STATE = None
@@ -203,6 +210,12 @@ class Evidence:
         self.bootstrap_errors = []
         self.task_b_errors = {}
         self.task_b_dependency_request = self.output / "task-b-BadDependency-request.json"
+        self.cli_replay = {
+            "record": "supplemental-cli-replay", "probe_id": "cli-safe-replay",
+            "case_id": "C08", "executor": "Lean_cli", "status": "not_run",
+            "outside_declared_method_and_subcase_census": True,
+            "command": None, "stdout_hex": None, "stderr_hex": None, "receipt": None,
+        }
         self.inventory = None
         self.inventory_text = None
         self.request = None
@@ -263,8 +276,15 @@ class Evidence:
         self.identities["original_task_a_subcases"] = 39
         self.identities["original_task_a_cases"] = {k: list(v) for k, v in TASK_A_CASES.items()}
         self.identities["task_b_fixed_fixtures"] = list(TASK_B_FIXTURES)
-        self.identities["declared_python_methods"] = 10
-        self.identities["declared_subcases"] = 52
+        self.identities["declared_python_methods"] = 13
+        self.identities["declared_subcases"] = 61
+        self.identities["task_b_methods"] = 4
+        self.identities["task_b_subcases"] = 13
+        self.identities["task_c_methods"] = 3
+        self.identities["task_c_subcases"] = 9
+        self.identities["lean_subcases"] = 55
+        self.identities["python_controller_subcases"] = 6
+        self.identities["separate_python_custody_regression_included"] = False
         profile = self.identities["sources"]["tests/fixtures/sdga_scope/scope-f532.json"]
         self.identities["fixed_profile_matches"] = (
             profile.get("git_blob") == "4c6b4ea59eb07a17ebfed536b07688c53c01eb64")
@@ -559,11 +579,11 @@ class Evidence:
             "observation_count": len(self.object_observations),
             "request_count": len(self.request_bindings),
             "path_count": len(self.object_expected),
-            "expected_observation_count": 21,
+            "expected_observation_count": 25,
             "expected_request_count": 10,
             "expected_path_count": 55,
             "status": ("pass" if error is None and not drift and not self.object_failures
-                       and len(self.object_observations) == 21
+                       and len(self.object_observations) == 25
                        and len(self.request_bindings) == 10
                        and len(self.object_expected) == 55 else "fail"),
         }
@@ -727,6 +747,7 @@ class Evidence:
         }
 
     def flush(self):
+        self.identities["cli_replay"] = self.cli_replay
         self.identities["object_custody"] = {
             "expected": self.object_expected, "request_bindings": self.request_bindings,
             "observations": self.object_observations, "failures": self.object_failures,
@@ -742,7 +763,7 @@ class Evidence:
         for row in self.records.values():
             statuses[row["status"]] = statuses.get(row["status"], 0) + 1
         json_write(self.output / "census.json", {
-            "declared_python_methods": 10, "declared_subcases": 52,
+            "declared_python_methods": 13, "declared_subcases": 61,
             "original_task_a_methods": 6, "original_task_a_subcases": 39,
             "actual_subcase_statuses": statuses,
             "scientific_effect": "NONE", "qualification": "BLOCKED",
@@ -1140,6 +1161,119 @@ class TaskAContracts(unittest.TestCase):
 
 
 
+    def test_C08_actual_complete_safe_kernel_replay(self):
+        with self.subTest(route="shared-helper"):
+            rows = self.native_case("C08")
+            detail = rows[-1]["detail"]
+            self.assertEqual(detail["helper"], "SDGA.replayOwned")
+            self.assertEqual(detail["owned_count"], len(STATE.inventory["declarations"]))
+            self.assertEqual(detail["skipped_names"], [])
+            self.assertIn(STATE.task1.encode_name(("Fixture", "Safe", "Switch")),
+                          detail["inductives"])
+            self.assertGreaterEqual(len(detail["constructors"]), 2)
+            self.assertTrue(detail["recursors"])
+
+        with self.subTest(route="public-cli"):
+            self.require_bridge()
+            STATE.cli_replay["status"] = "running"
+            STATE.flush()
+            command = None
+            try:
+                command, out, err = STATE.observe_lean(
+                    "cli-safe-replay",
+                    ["--run", str(BRIDGE), "replay", str(STATE.request_path)],
+                    requests=(STATE.request_path,))
+                STATE.cli_replay.update(
+                    command=copy.deepcopy(command),
+                    stdout_hex=out.hex(), stderr_hex=err.hex())
+                self.assertEqual(command["exit_code"], 0,
+                                 "public replay CLI must succeed; raw native outcome retained")
+                self.assertEqual(err, b"", "public replay CLI success emitted stderr")
+                lines = out.decode("utf-8").splitlines()
+                self.assertEqual(len(lines), 1,
+                                 "public replay CLI must emit exactly one success receipt")
+                def receipt_object(pairs):
+                    value = dict(pairs)
+                    self.assertEqual(len(pairs), len(value),
+                                     "public replay receipt repeats a JSON field")
+                    return value
+                receipt = json.loads(lines[0], object_pairs_hook=receipt_object)
+                self.assertIs(type(receipt), dict)
+                native_names = [row["name"] for row in STATE.inventory["declarations"]]
+                expected = {
+                    "schema": "cbz.sdga.kernel-replay.v1",
+                    "module": STATE.request["module"],
+                    "scope_id": STATE.request["scope_id"],
+                    "profile_sha256": STATE.request["profile_sha256"],
+                    "helper": "SDGA.replayOwned",
+                    "owned_count": len(native_names),
+                    "replayed_names": sorted(native_names),
+                    "skipped_names": [],
+                    "scientific_effect": "NONE",
+                    "qualification": "BLOCKED",
+                    "classification_status": "BLOCKED",
+                    "execution_authenticated": False,
+                }
+                self.assertEqual(set(receipt), set(expected))
+                self.assertIs(type(receipt["owned_count"]), int)
+                self.assertIs(receipt["execution_authenticated"], False)
+                self.assertIs(type(receipt["replayed_names"]), list)
+                self.assertTrue(all(type(name) is str for name in receipt["replayed_names"]))
+                self.assertEqual(len(receipt["replayed_names"]),
+                                 len(set(receipt["replayed_names"])),
+                                 "public replay receipt repeats an owned Name")
+                normalized = dict(receipt)
+                normalized["replayed_names"] = sorted(receipt["replayed_names"])
+                self.assertEqual(normalized, expected,
+                                 "public replay receipt differs from actual request/inventory")
+                STATE.cli_replay.update(status="pass", receipt=receipt)
+            except BaseException as exc:
+                if command is None and STATE.commands and STATE.commands[-1]["label"] == "cli-safe-replay":
+                    STATE.cli_replay["command"] = copy.deepcopy(STATE.commands[-1])
+                STATE.cli_replay.update(status="fail", error=type(exc).__name__ + ": " + str(exc))
+                try:
+                    STATE.flush()
+                except BaseException as record_error:
+                    raise exc from record_error
+                raise
+            else:
+                STATE.flush()
+
+    def test_C09_actual_malformed_theorem_kernel_rejection(self):
+        rows = self.native_case("C09")
+        name = STATE.task1.encode_name(("Fixture", "Safe", "good"))
+        references = {STATE.task1.encode_name(("True",)),
+                      STATE.task1.encode_name(("Nat", "zero"))}
+        self.assertEqual(rows[0]["detail"]["name"], name)
+        self.assertEqual(rows[0]["detail"]["altered_field"], "value")
+        self.assertEqual(rows[1]["detail"]["singleton_names"], [name])
+        self.assertEqual(set(rows[1]["detail"]["resolved_references"]), references)
+        self.assertTrue(rows[2]["detail"]["target_absent"])
+        self.assertTrue(rows[2]["detail"]["all_owned_absent"])
+        rejection = rows[3]["detail"]
+        self.assertEqual(rejection["helper"], "SDGA.replayOwned")
+        self.assertEqual(rejection["kernel_cause"], "declTypeMismatch")
+        self.assertEqual(rejection["singleton_names"], [name])
+        self.assertTrue(rejection["native_error"].startswith(
+            "while replaying declaration 'Fixture.Safe.good':\n"))
+        self.assertIn("(kernel) declaration type mismatch", rejection["native_error"])
+
+    def test_C10_actual_good_replay_then_duplicate_base_guard(self):
+        rows = self.native_case("C10")
+        name = STATE.task1.encode_name(("Fixture", "Safe", "good"))
+        setup = rows[0]["detail"]
+        self.assertEqual(setup["helper"], "SDGA.replayOwned")
+        self.assertEqual(setup["owned_count"], len(STATE.inventory["declarations"]))
+        self.assertEqual(setup["skipped_names"], [])
+        self.assertEqual(rows[1]["detail"]["singleton_names"], [name])
+        guard = rows[2]["detail"]
+        self.assertEqual(guard["helper"], "SDGA.replayOwned")
+        self.assertEqual(guard["expected_code"], "DUPLICATE_BASE")
+        self.assertEqual(guard["singleton_names"], [name])
+        self.assertEqual(guard["native_error"], "SDGA_ERROR DUPLICATE_BASE: " + name)
+        self.assertEqual(guard["contamination"], "successful-original-complete-map-replay")
+
+
 class Result(unittest.TextTestResult):
     def startTestRun(self):
         self.method_rows = []
@@ -1207,10 +1341,10 @@ def main():
     STATE.identities["source_drift"] = drift
     STATE.flush()
     final = {
-        "record": "task-a-b-result", "methods_run": result.testsRun,
+        "record": "task-a-b-c-result", "methods_run": result.testsRun,
         "method_results": result.method_rows,
         "failures": len(result.failures), "errors": len(result.errors),
-        "skipped": len(result.skipped), "declared_subcases": 52,
+        "skipped": len(result.skipped), "declared_subcases": 61,
         "original_task_a_methods": 6, "original_task_a_subcases": 39,
         "observed_subcases": sum(row["status"] != "not_run" for row in STATE.records.values()),
         "subcase_pass": sum(row["status"] == "pass" for row in STATE.records.values()),
@@ -1222,15 +1356,17 @@ def main():
         "source_drift": drift,
         "object_custody": STATE.object_final,
         "object_custody_failures": STATE.object_failures,
+        "cli_replay": STATE.cli_replay,
         "cleanup_only_preflight": STATE.cleanup_preflight,
         "process_scheduling_blocked": STATE.scheduling_blocked,
     }
     json_write(STATE.output / "result.json", final)
     print(json.dumps(final, sort_keys=True), flush=True)
     complete = (
-        result.wasSuccessful() and result.testsRun == 10 and not result.skipped
-        and final["subcase_pass"] == 52 and final["subcase_fail"] == 0
+        result.wasSuccessful() and result.testsRun == 13 and not result.skipped
+        and final["subcase_pass"] == 61 and final["subcase_fail"] == 0
         and final["subcase_not_run"] == 0 and not drift and objects_complete
+        and final["cli_replay"]["status"] == "pass"
         and STATE.cleanup_preflight is not None
         and STATE.cleanup_preflight["status"] == "pass" and not STATE.scheduling_blocked)
     return 0 if complete else 1
