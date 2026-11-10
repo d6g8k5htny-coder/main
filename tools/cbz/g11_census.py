@@ -4620,24 +4620,17 @@ def workflow_tool_references(text, tools):
             if tokens and tokens[0] == "env":
                 tokens = _workflow_unwrap_env(tokens)
             if tokens:
-                if tokens[0] in {"python", "python3", "python3.11", "bash", "sh"}:
-                    if "-c" not in tokens[1:]:
-                        for index, token in enumerate(tokens[1:], 1):
-                            if token == "-m" and index + 1 < len(tokens):
-                                module_path = tokens[index + 1].replace(".", "/") + ".py"
-                                if module_path in tools:
-                                    references.add(module_path)
-                                break
-                            if token.startswith("-"):
-                                continue
-                            path = _tool_for_token(token, tools)
-                            if path:
-                                references.add(path)
+                references.update(_command_tool_values(tokens, tools))
+                if tokens[0] in {"python", "python3", "python3.11"}:
+                    for index, token in enumerate(tokens[1:], 1):
+                        if token == "--":
                             break
-                else:
-                    path = _tool_for_token(tokens[0], tools)
-                    if path:
-                        references.add(path)
+                        if token == "-m":
+                            if index + 1 < len(tokens):
+                                module_path = tokens[index + 1].replace(".", "/") + ".py"
+                                if module_path in tools and _command_tool_values(tokens[:index] + [module_path], tools) == {module_path}:
+                                    references.add(module_path)
+                            break
             opener = _heredoc_opener(command)
             if opener:
                 heredoc = opener
