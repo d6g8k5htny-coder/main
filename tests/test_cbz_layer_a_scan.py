@@ -59,6 +59,39 @@ class ViolationTokens(unittest.TestCase):
             with self.subTest(src=src):
                 self.assertEqual(hits(src), want)
 
+    def test_kernel_bypass_option_members_are_not_lost_in_dotted_names(self):
+        # The option object is also used through its methods, not just as the
+        # last component of `set_option debug.skipKernelTC true`.
+        for src in (
+            'def x := debug.skipKernelTC.set opts true',
+            'def x := debug.«skipKernelTC».set opts true',
+            'def x := debug.skipKernelTC.get opts',
+        ):
+            with self.subTest(src=src):
+                self.assertEqual(hits(src), [(1, 10, 'skipKernelTC', 'violation')])
+        for src in (
+            '-- debug.skipKernelTC.set opts true',
+            'def x := "debug.skipKernelTC.set"',
+            'def x := debug.skipKernelTCish.set opts true',
+            'def x := debug.«skipKernelTC.set» opts true',
+        ):
+            with self.subTest(src=src):
+                self.assertEqual(hits(src), [])
+
+    def test_real_kernel_replay_negative_fixtures_fail_cli_scan(self):
+        fixture_dir = os.path.join(WORKSPACE, 'cbz', 'contributions', 'math514',
+                                   'kernel_replay', 'tests', 'fixtures')
+        paths = [os.path.join(fixture_dir, name + '.lean')
+                 for name in ('BadPublic', 'BadPrivate')]
+        for path in paths:
+            with self.subTest(path=path), open(path, encoding='utf-8') as stream:
+                self.assertEqual(hits(stream.read()), [(13, 41, 'skipKernelTC', 'violation')])
+        result = cli(paths)
+        self.assertEqual(result.returncode, 1, (result.stdout, result.stderr))
+        self.assertEqual(result.stderr, '')
+        summary = json.loads(result.stdout.splitlines()[-1])
+        self.assertEqual((summary['files'], summary['violations'], summary['failing']), (2, 2, 2))
+
     def test_native_decide_options(self):
         # `decide +native` and `native := true` evaluate by the compiler (ofReduceBool)
         self.assertEqual(hits("example : 2 = 2 := by decide +native"), [(1, 31, "native", "violation")])

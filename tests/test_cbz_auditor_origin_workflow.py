@@ -28,7 +28,7 @@ if '--version' in sys.argv:
     print('Python synthetic guard fixture'); raise SystemExit(0)
 origin = 'tests.test_cbz_auditor_origin_mutations' in sys.argv
 key = 'CBZ_AUDITOR_ORIGIN_MUTATION_EVIDENCE_DIR' if origin else 'CBZ_AUDITOR_EVIDENCE_DIR'
-count = 10 if origin else 202
+count = 10 if origin else 204
 if os.environ.get('CBZ_GUARD_CASE') == 'missing' and not origin:
     count -= 1
 out = pathlib.Path(os.environ[key])
@@ -38,7 +38,7 @@ if os.environ.get('CBZ_GUARD_CASE') == 'census_exit' and not origin:
     (out.parent / 'census.exit').mkdir()
 for i in range(count):
     (out / ('fixture-%03d.json' % i)).write_text('{}')
-print('Ran %d tests in 0.001s' % (22 if origin else 83))
+print('Ran %d tests in 0.001s' % (22 if origin else 85))
 if os.environ.get('CBZ_GUARD_CASE') == 'skip' and origin:
     print("test_fixture ... skipped 'synthetic'")
 print('OK')
@@ -90,7 +90,7 @@ class AuditorOriginWorkflowGuards(unittest.TestCase):
             ('dirty', 'if [ -s "$evidence/worktree-before.txt" ]; then', 'if false; then'),
             ('failure', 'else status=$?; failed=1; fi', 'else status=$?; :; fi'),
             ('skip', "if grep -Fq ' ... skipped '", "if false && grep -Fq ' ... skipped '"),
-            ('missing', '-eq 202 ] || failed=1', '-eq 201 ] || failed=1'),
+            ('missing', '-eq 204 ] || failed=1', '-eq 203 ] || failed=1'),
             ('origin_exit', '> "$evidence/$mode/origin.exit" || failed=1',
              '> "$evidence/$mode/origin.exit" || :'),
             ('census_exit', '> "$evidence/$mode/census.exit" || failed=1',

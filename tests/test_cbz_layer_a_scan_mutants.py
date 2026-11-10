@@ -106,6 +106,13 @@ MUTANTS.extend([
      '                        yield token'),
 ])
 
+MUTANTS.append((
+    'nonfinal kernel-check option component ignored',
+    "    if any(part in ('skipKernelTC', '\\x00skipKernelTC') for part in name.split('.')[:-1]):\n"
+    "        return 'skipKernelTC', 'A2', 'violation'\n",
+    '',
+))
+
 EXPECTED_FAILURE = {'drop sorry': 'test_each_violation_token_detected', 'drop admit': 'test_each_violation_token_detected', 'drop axiom': 'test_each_violation_token_detected', 'drop native_decide': 'test_each_violation_token_detected', 'drop sorryAx': 'test_each_violation_token_detected', 'drop admitGoal': 'test_each_violation_token_detected', 'drop mkSorry': 'test_each_violation_token_detected', 'drop ofReduceBool': 'test_each_violation_token_detected', 'drop ofReduceNat': 'test_each_violation_token_detected', 'drop trustCompiler': 'test_each_violation_token_detected', 'drop skipKernelTC': 'test_each_violation_token_detected', 'drop Float review': 'test_review_tokens', 'violation demoted to review': 'test_each_violation_token_detected', 'no line comments': 'test_line_comment', 'flat block comments': 'test_block_comments_nested_and_doc', 'plain strings not skipped': 'test_strings', 'interpolation regions not lexed': 'test_interpolated_strings', 'char literals not recognised': 'test_char_literals_do_not_open_strings', 'raw strings not recognised': 'test_raw_strings', 'dotted names not split': 'test_each_violation_token_detected', 'stop flagged anywhere': 'test_stop_only_at_line_start', 'evidence treated as production': 'test_context_classification', 'git mode lists no blobs': 'test_git_tree_mode', 'violations never fail': 'test_production_violation_fails', 'undecodable files pass': 'test_undecodable_fails_closed', 'fail on every context by default': 'test_evidence_violation_reported_not_failing_by_default', 'drop addDeclWithoutChecking': 'test_each_violation_token_detected', '+native ignored': 'test_native_decide_options', 'native := true ignored': 'test_native_decide_options', 'escaped constants never match': 'test_escaped_constant_names_are_the_same_constants', 'escaped keywords flagged': 'test_escaped_keyword_names_are_identifiers', 'dots inside escaped names split': 'test_escaped_constant_names_are_the_same_constants', 'unterminated string passes': 'test_unterminated_constructs_are_errors', 'unterminated comment passes': 'test_unterminated_constructs_are_errors', 'unterminated raw string passes': 'test_unterminated_constructs_are_errors', 'unterminated interpolation passes': 'test_unterminated_constructs_are_errors', 'unterminated escaped name passes': 'test_unterminated_constructs_are_errors', 'unterminated dotted escaped name passes': 'test_unterminated_constructs_are_errors', 'lex errors never fail': 'test_lex_error_fails_the_run'}
 
 EXPECTED_FAILURE.update({'native comment layout ignored': 'test_native_configuration_layout_is_not_a_bypass', 'native suffix truncated': 'test_native_configuration_layout_is_not_a_bypass', 'plain macro braces ignored': 'test_plain_macro_braces_are_conservatively_scanned', 'unfinished char ignored': 'test_unterminated_character_literal_is_error', 'missing root ignored': 'test_missing_root_fails_for_both_tools', 'source symlink accepted': 'test_source_symlink_fails_for_both_tools', 'directory symlink skipped': 'test_symlink_directory_is_not_silently_skipped', 'gitlink skipped': 'test_gitlink_is_explicitly_rejected_by_both_tools', 'git source symlink accepted': 'test_git_source_symlink_fails_for_both_tools', 'git batch header unchecked': 'test_malformed_blob_transport_fails_closed', 'git batch body unchecked': 'test_malformed_blob_transport_fails_closed', 'git batch exit unchecked': 'test_malformed_blob_transport_fails_closed'})
@@ -123,6 +130,9 @@ EXPECTED_FAILURE.update({'unknown native field expression admitted': 'test_unkno
 EXPECTED_FAILURE.update({'code-hole brace field context dropped': 'test_native_field_inside_code_holes_keeps_field_context', 'native false token boundary dropped': 'test_native_false_requires_the_false_token'})
 
 EXPECTED_FAILURE.update({'ordinary hole start revisited': 'test_plain_macro_holes_do_not_repeat_overlapping_suffix_work', 'ordinary hole recursion restored': 'test_plain_macro_holes_do_not_recurse_on_nested_string_candidates'})
+
+EXPECTED_FAILURE.update({'nonfinal kernel-check option component ignored':
+                         'test_kernel_bypass_option_members_are_not_lost_in_dotted_names'})
 
 
 # ULW#29 review parity (main#698/6545133621)

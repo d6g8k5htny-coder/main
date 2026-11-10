@@ -1,5 +1,15 @@
 # CBZ proof and quarantine index
 
+## Lean option-member finding — 10 November 2026
+
+The retained `BadPublic.lean` and `BadPrivate.lean` fixtures deliberately
+construct malformed declarations using `debug.skipKernelTC.set`. A prior
+lexical scan missed both because the option was not the last dotted name
+component. The source correction and its [adverse evidence](cbz/evidence/lean-option-member-20261110/README.md)
+change no theorem or proof disposition. These fixtures are negative test
+data, not closed proofs; lexical detection does not prove transitive isolation
+or replace a kernel and axiom audit.
+
 ## Auditor-origin boundary — 9 November 2026
 
 The Main and Workspace engineering changes and the auditor-grader repair do

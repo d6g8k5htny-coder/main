@@ -1,5 +1,15 @@
 # CBZ baseline ledger
 
+## Lean option-member candidate — 10 November 2026
+
+The previous Main scanner missed `debug.skipKernelTC.set` in both retained
+negative kernel fixtures. The candidate reports the option name even when a
+dotted member follows it; red observations and the first failed test-harness
+attempt remain preserved. The resulting bounded source census and its limits
+are in [STATUS](STATUS.md#lean-option-member-scanner-correction--10-november-2026).
+Exact-head hosted qualification remains required. This is not final G0/G1,
+a proof of fixture isolation, or a CBZ result.
+
 ## Auditor-origin candidate — 9 November 2026
 
 The observed published cut has Main `05f2289478a0ee9492adc1eb501466e0f66866df`,

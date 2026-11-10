@@ -1,5 +1,33 @@
 # CBZ-0 execution status
 
+## Lean option-member scanner correction — 10 November 2026
+
+At published Main `c32e6f27d318e25708939105285366a7a0daf971`, the scoped
+Lean scanner returned no findings and exit 0 on the two retained
+`BadPublic.lean` and `BadPrivate.lean` negative fixtures, although each uses
+`debug.skipKernelTC.set`. Its previous Main census therefore missed those two
+fixture-local A2 signals; that observation and the failed regression controls
+remain in [the evidence record](cbz/evidence/lean-option-member-20261110/README.md).
+The fixtures are negative test data, not closed mathematical modules, and no
+transitive isolation or federation-wide axiom clearance is inferred.
+
+This candidate reports `skipKernelTC` in any dotted identifier component,
+including escaped components, so a method suffix cannot hide the option name.
+It conservatively reports uses such as `.get` as well as `.set`; it does not
+resolve aliases or determine whether a use enables the option. Main source at
+`c32e6f27` then yields three violations in the retained negative fixtures and
+one `unsafe` review token across 18 Lean blobs; the 1,974-blob Math source
+`9bdfc54b` yields no listed tokens. These are lexical observations, not Lean
+compilation, kernel/axiom proofs, scientific acceptance, or full Layer A audit.
+The candidate requires exact-head hosted testing and readback before admission.
+
+Workspace #63 merged as `ca321af7df4b63a832b0a13c5929eab99c84a25a`, pinning
+Main `c32e6f27` and Math `9bdfc54b`; its hosted contract ran 254 tests per
+mode without skips and its pin job checked eight current pins and four
+canonical inputs. Those observations were sequential, not a final G7 cut. A
+later Main merge requires another guarded pin refresh. No CBZ-0 or terminal
+Partial is declared.
+
 ## Auditor-origin repair and published pin cut — 9 November 2026
 
 Main #791 merged as `05f2289478a0ee9492adc1eb501466e0f66866df`; its hosted
