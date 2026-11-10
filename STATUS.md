@@ -1,5 +1,33 @@
 # CBZ-0 execution status
 
+## Engineering hard-gate source refresh candidate — 10 November 2026
+
+A draft updates only the `eng.hard-gate` engineering record and its published
+projection to Math `9bdfc54b76173b57912503bfcf901a5f9d43b09c`, separately observed as default at
+`2026-11-10T04:01:01Z`. The old `dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde` stale
+record is preserved under `cbz/evidence/hard-gate-source-refresh-20261110/`.
+Git object comparisons found the same `GRAPH.json`, production gate and
+other directory entries except `SOURCE_FILES.json` and
+`test_transition_contract.py`; the latter adds `maintenance.auto=false`
+to two temporary Git fixtures. This is source identity and an engineering
+freshness observation, not mathematical or scientific acceptance.
+
+Math downstream run `42714668178`, job `129492972799`, completed on the
+current Math source; its actual log and the exact two source variants are
+retained. The new Main candidate has not yet passed its live observation or
+normal required checks. The following report-only commands make live source
+observations and fail unless all records are fresh; they are not final G7:
+
+```sh
+python3 -B -S tools/node_status_refresh.py --check records/node_status
+python3 -B -O -S tools/node_status_refresh.py --check records/node_status
+```
+
+The existing node-status live workflow separately tests declared-fresh
+records in both modes. Its output must be observed on the new tested tree;
+prior runs do not qualify this composition.
+
+
 ## Normal Pages publisher atomic-head candidate — observed 10 November 2026
 
 The normal publisher at Main `31bc4c1f5b66e92bfbf327366956944ea691289c`

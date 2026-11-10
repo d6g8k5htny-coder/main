@@ -860,3 +860,18 @@ README, SHA256SUMS and retained verification history.
 - Recheck the current base, exact tested tree, required checks and live
   federation pins before integration. These custody and diagnostic records
   do not establish mathematical, scientific or final-gate status.
+
+## 2026-11-10 — Refresh the engineering hard-gate source pin
+
+- Preserve the exact prior stale `eng.hard-gate` record and observed Math
+  source variants under `cbz/evidence/hard-gate-source-refresh-20261110/`.
+  Point the candidate record and matching projection to Math `9bdfc54b76173b57912503bfcf901a5f9d43b09c`,
+  separately observed as its default at `2026-11-10T04:01:01Z`.
+- The old and new directory trees differ in the source manifest and two
+  temporary Git-test configuration lines. The graph and production gate
+  objects are unchanged. Retain the current Math downstream job and its
+  historical limits; do not infer mathematical proof, independent review,
+  final pins or scientific acceptance.
+- The freshness label is a time-bound source observation, not a guarantee of
+  future tips. Require actual current-tree live observations and normal
+  protected checks before serial integration; preserve any failures.
