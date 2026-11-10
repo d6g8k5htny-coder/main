@@ -1,5 +1,11 @@
 # CBZ-0 execution status
 
+## Current publisher artifact custody — 10 November 2026
+
+For #802 tested merge `0f088dc3f508f1d2227aa35646509b3c637195e7`, hosted publisher controls ran 40 tests and 11 selected-oracle mutation pairs in each Python mode, rejecting three unauthorized assertion origins and one runtime error per mode. Recovery controls also completed successfully; the PR recovery dispatch was skipped. The exact publisher and recovery ZIPs, their decoded job logs and readback source are retained under `cbz/evidence/current-publication-artifacts-20261110/`.
+
+Hosted job `129627202561` checked the ZIP digests, CRCs, source hashes, unit outcomes and recorded origins. Hosted job `129627947666` then compared the Git-retained ZIP bytes with fresh artifact downloads and rejected changed-byte, truncation and wrong-digest controls. These are scoped component/custody observations; the new Main-based candidate still needs its protected checks and no authenticated recovery, deployment or final G0--G11 is implied.
+
 ## Dated integration and ref observations — 10 November 2026
 
 Recovery #801 merged at Main `984a608584281bca8db88a8a9ae7a837f6e9a6bb`. Its PR recovery-dispatch job was skipped; no live recovery or publication is claimed. Main `97663b478822848db5262b2fffcbacd37d6231b4` site run `42752589388` subsequently failed public-history readback and skipped deploy. The full decoded build log and limits are retained under `cbz/evidence/live-site-failure-20261110-0414/`; the prepared receipt remained at `6e01d1f5f83d320172e29391eea336e3256aeea2` in a separate read. Main `984a6085` started another site run; its outcome was not observed at this entry.

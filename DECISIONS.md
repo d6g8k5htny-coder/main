@@ -911,3 +911,9 @@ README, SHA256SUMS and retained verification history.
 
 - [Layer B / evidence] Retain the public subset of a non-atomic GitHub App ref inventory and separately source-pinned public tree/gitlink observations. All eight Workspace gitlink commits resolved; its Main pin was stale against the separately observed default. Keep transport and tag-namespace read errors, archival scope and missing ancestry/local-Git/final-gate coverage explicit. Evidence is in `cbz/evidence/public-federation-observation-20261110/`; no source or scientific verdict changes.
 - Retain Main `97663b47` site build job `129621637586` as an actual public-readback failure with deploy skipped, plus the earlier #801 integration guard snapshot and native diagnostic ancestry. No receipt was rewritten by this evidence composition. Fresh source, required checks and final ref comparisons remain necessary.
+
+
+## 2026-11-10 — Preserve current publisher artifact bytes
+
+- [Layer B / evidence] Retain both #802 tested-merge `0f088dc3` component ZIPs and decoded hosted logs at their original outcome. The source-bound readback checked ZIP digests/CRCs, source hashes, unit outcomes and mutation-origin records; a later hosted job compared the Git bytes with fresh artifact downloads and refused three deliberately altered inputs per archive. The direct connector's binary blob readback refused non-UTF-8; the hosted check is the actual verification. This is not a live ref write, deployment, independent scientific review or final G0--G11 pass.
+- Preserve diagnostic workflow source and ancestry as text; remove the temporary workflow from the debug branch tip. An earlier attempted #804 ref update named the wrong branch and returned a GraphQL error; a fresh read showed the actual branch unchanged before a guarded non-force update to the correct branch. No default ref was altered by that failed call.
