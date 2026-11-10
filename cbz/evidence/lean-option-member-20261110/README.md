@@ -62,3 +62,10 @@ guard tests passed in each mode (`lean-option-workflow-green-*.log`). Those
 shell-guard tests use synthetic child outcomes; they are not additional real
 scanner mutation executions. Exact clean-commit hosted qualification and
 artifact readback remain required.
+
+The first staged `git diff --check` reported trailing spaces in the captured
+raw unittest failures. The command sequence still created commit `fd8b9e5c`;
+that observed failed check and exit 2 are retained as `diff-check-first.*`.
+The follow-up applies the repository's existing evidence-log whitespace
+attribute narrowly to this directory, preserving the original log bytes rather
+than editing the recorded failures. The complete diff must be checked again.
