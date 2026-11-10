@@ -1692,3 +1692,25 @@ or ref update. Later normal/optimized qualification remains unobserved.
 The change is reversible by ordinary guarded removal of the two new production
 paths; retain this entry and historical R0 originals. No data/dispatcher/V2,
 owner assignment, science, full Main, G5 or CBZ award follows.
+
+## 2026-11-10 — Recover existing formal R1 original trace operands
+
+Stage fixed raw-line recovery in the separate formal evidence reader, source `5ab2377be46e445710a27aaf484e9b2d038dfa0e`. It reads only existing R1 artifact `13758500307` from run `42803771651/1`, preserving that original controller `b1b8267f6774f4f8c536ee8c54a00bcbcd5271b1` and its historical subject `02973f3975a1c4cc91b7c51d372f65717c9b3c5c` and HOLD. Exact trace identities and selected line ordinals, byte offsets, extents and hashes bind the bounded original slices; marker links only select additional context.
+
+This source stage changes no producer parser, original method, runtime profile, control, ceiling or generated-input admission and replays no original tests. It establishes no new execution, complete write review, runtime feasibility, full Main/G5/CBZ or scientific credit. Recovery plan `6fadd30d225cf5bc0c32fd0b1795ef6c2568b993` and source inverse proof `830475dadd8a912f5e392fe53d0dfce0b3a93a3f` retain these limits; prior R1 readback packet `f4890bc110a98b16bd61c8131d76bb076e1caabb` remains bound to its original sources.
+
+## 2026-11-10 — Formal trace parser test-first source stage
+
+Stage only twelve behavioral contracts, the frozen34 genuine whole-line fixture, a separate fixed normal/O target workflow and owned plan for private pure-data _analyze_trace(raw:bytes). Exact source blobs are tests525e4004f4f5578d9c03f25430d411b9fbec406a, fixturee087f661d8494f7fb780e2f32ce04bee1aeb8f3c, workflowd36aa6906607ea8a64505ee230729fbba4fb4687 and plana8cbdc2e50e52098c4549263a29239812e69316c; packet45e5c9c40e012e75a952910e810315454c896499 records the scope and exact source deltas.
+
+No production analyzer is supplied. Prospective honest R0 is fixed-path FileNotFoundError during test-module import; none of twelve bodies has run at this source stage. ROOT full source read and independent final-delta review were clear; this is static evidence, not a native RED/GREEN receipt. Preserve all current Acquisition/V1 peers and the complete reader ancestry. All128MiB trace/4MiB serialized index/4096record/16KiBline bounds and original runtime/profile/admission controls remain unchanged.
+
+The fixture carries historical original R1 line bytes/hashes/ordinals/offsets. Excerpt-local parsing cannot rebind old fulltrace positions or supply HTTP authentication. Native failures, unknown syntax, orphan/pending halves and original R1 HOLD remain explicit; no old Lean method is replayed. New contract execution and actual honest absence must be read before analyzer implementation. No complete write review, runtime feasibility, full Main/G5/CBZ or scientific credit follows.
+
+Phase: test-first contract preparation; Layer B. Rationale: establish actual operand contracts before changing the diagnostic parser. Reversibility: remove the four new source paths or abandon the isolated branch while keeping the old reader, original data and history.
+
+## 2026-11-10 — Formal trace diagnostic regression RED preparation
+
+Phase: regression test preparation; Layer B. Action: stage the immutable initial helper d9f14369e5171a36f608af7ce06a220b22bd3224 with additive existing-Case06/10 regressions e201a20984a4c16c0424f7e374b27a2d4105b008 and append-only plan c73032fa381e0a0b24a179bb276845493601c980. The initial helper intentionally retains four reviewed diagnostic defects solely for an honest native regression RED; corrected cb56b7015afac4b963257a050a5e77b9b03cebbc remains unreferenced and is not included in this candidate. Workflowd36 and genuine fixturee087 remain exact.
+
+Rationale: observe the strengthened assertions against the actual unchanged initial implementation before publishing its corrections; no test failure or twelve-body result is claimed at this source stage. Reversibility: revert the new helper and the two owned test/plan replacements or abandon the isolated branch while retaining prior reader, evidence and history. Evidence: independent additive-source review ce4372fe00f66ac26fdba8487880dec4e538e3cd, closed helper inverse4d48c52541ac852ebcc513fe34938b5ef7673354, and fixed-source review c77ad31fae0ef02246150c3605f54d9dac1dd6bd. All twelve parent IDs, other ten method bodies, original R1 HOLD, runtime/profile/admission controls and capacity ceilings remain unchanged. No old Lean method replay, full write review, runtime/G5/CBZ or scientific credit is added.
