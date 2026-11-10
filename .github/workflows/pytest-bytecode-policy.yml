@@ -1,0 +1,300 @@
+name: Pytest bytecode policy population
+'on':
+  pull_request:
+    paths:
+      - tests/test_pytest_bytecode_policy.py
+      - tests/pytest-bytecode-requirements.txt
+      - tests/pytest-bytecode-dependencies.json
+      - conftest.py
+      - experiments/reactor_v0/validator.py
+      - tools/hypergraph/requirements.txt
+      - .github/workflows/pytest-bytecode-policy.yml
+  push:
+    branches: [main]
+    paths:
+      - tests/test_pytest_bytecode_policy.py
+      - tests/pytest-bytecode-requirements.txt
+      - tests/pytest-bytecode-dependencies.json
+      - conftest.py
+      - experiments/reactor_v0/validator.py
+      - tools/hypergraph/requirements.txt
+      - .github/workflows/pytest-bytecode-policy.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pytest-policy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Bind native sources and prepare genuine hashlocked pytest
+        id: prepare
+        env:
+          POLICY_EVIDENCE: ${{ runner.temp }}/pytest-policy-${{ github.run_id }}-${{ github.run_attempt }}
+          POLICY_VENV: ${{ runner.temp }}/pytest-policy-venv-${{ github.run_id }}-${{ github.run_attempt }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s\n' "POLICY_EVIDENCE=$POLICY_EVIDENCE" "POLICY_VENV=$POLICY_VENV" >> "$GITHUB_ENV"
+          mkdir -m 0700 "$POLICY_EVIDENCE"
+          ruby -rpsych -e 'Psych.safe_load(File.read(ARGV.fetch(0)), aliases: false)' .github/workflows/pytest-bytecode-policy.yml
+          cat > "$POLICY_EVIDENCE/driver.py" <<'PY'
+          import hashlib, importlib.util, json, os, pathlib, re, subprocess, sys, urllib.request
+          ROOT = pathlib.Path(os.environ["GITHUB_WORKSPACE"]).resolve()
+          OUT = pathlib.Path(os.environ["POLICY_EVIDENCE"])
+          VENV = pathlib.Path(os.environ["POLICY_VENV"])
+          EXPECTED = {
+              "tests/test_pytest_bytecode_policy.py": "42252c0a1871189948e0d240151619b04f53e001",
+              "conftest.py": "2163cb9213ee8445935d4342530012357cb21b36",
+              "experiments/reactor_v0/validator.py": "fb4d8419b638b5619f8d8c6f685a036b5a6b8a61",
+              "tools/hypergraph/requirements.txt": "2f5732e68f66aca0c0286e2f0ef2f936dcdd00a2",
+              "tests/pytest-bytecode-requirements.txt": "a92172337814f1d6e0d3d302846a2dad0498464b",
+              "tests/pytest-bytecode-dependencies.json": "004f2ec44cce022457555b2a29e502f4b4a606f2"
+          }
+          IDS = [
+              "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_changed_byte_is_not_hidden",
+              "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_clean_root_run_prevents_package_bytecode",
+              "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_dirty_bytecode_is_preserved_and_rejected",
+              "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_discovery_keeps_neighbours_and_same_basename",
+              "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_empty_cache_directory_is_accepted",
+              "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_exclusion_is_exact",
+              "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_explicit_B_baseline_works",
+              "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_extra_file_is_not_hidden",
+              "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_missing_file_is_not_hidden",
+              "tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_neighbour_failures_are_not_suppressed"
+          ]
+          WORKFLOW = ".github/workflows/pytest-bytecode-policy.yml"
+          
+          def require(condition, reason):
+              if not condition:
+                  raise RuntimeError(reason)
+          
+          def digest(raw):
+              return hashlib.sha256(raw).hexdigest()
+          
+          def emit(name, value):
+              raw = (json.dumps(value, sort_keys=True, indent=2) + "\n").encode()
+              with (OUT / name).open("xb") as stream:
+                  stream.write(raw)
+          
+          def git(*args):
+              return subprocess.check_output(["git", "-C", str(ROOT), *args]).decode().strip()
+          
+          def sources():
+              head, tree = git("rev-parse", "HEAD"), git("rev-parse", "HEAD^{tree}")
+              require(head == os.environ["GITHUB_SHA"], "native checkout differs from GITHUB_SHA")
+              bound = {}
+              for path in [*EXPECTED, WORKFLOW]:
+                  local = ROOT / path
+                  require(local.is_file() and not local.is_symlink(), "non-regular source: " + path)
+                  raw = local.read_bytes()
+                  committed = subprocess.check_output(["git", "-C", str(ROOT), "show", head + ":" + path])
+                  entry = git("ls-tree", head, "--", path).split()
+                  require(len(entry) == 4 and entry[0:2] == ["100644", "blob"] and entry[3] == path,
+                          "source tree entry mismatch: " + path)
+                  blob = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+                  require(raw == committed and blob == entry[2], "working/committed source mismatch: " + path)
+                  require(path not in EXPECTED or blob == EXPECTED[path], "selected source changed: " + path)
+                  bound[path] = dict(git_blob=blob, bytes=len(raw), sha256=digest(raw))
+              return dict(repository=os.environ["GITHUB_REPOSITORY"], run_id=os.environ["GITHUB_RUN_ID"],
+                          run_attempt=os.environ["GITHUB_RUN_ATTEMPT"], checked_commit=head, checked_tree=tree,
+                          parents=git("show", "-s", "--format=%P", head).split(), sources=bound)
+          
+          def download(url, destination, maximum):
+              with urllib.request.urlopen(url, timeout=30) as response:
+                  require(response.geturl() == url, "unexpected acquisition redirect")
+                  raw = response.read(maximum + 1)
+              require(0 < len(raw) <= maximum, "acquisition byte limit")
+              with destination.open("xb") as stream:
+                  stream.write(raw)
+              return raw
+          
+          PROBE = r'''
+          import hashlib, importlib.metadata as md, importlib.util, json, pathlib, sys, sysconfig
+          purelib = pathlib.Path(sysconfig.get_path("purelib")).resolve()
+          names = ["pytest", "iniconfig", "packaging", "pluggy", "pygments"]
+          packages = {}
+          for name in names:
+              dist = md.distribution(name)
+              files = {}
+              for item in dist.files or ():
+                  if "__pycache__" in item.parts or item.suffix == ".pyc":
+                      continue
+                  path = pathlib.Path(dist.locate_file(item)).resolve()
+                  if not path.is_file() or not path.is_relative_to(pathlib.Path(sys.prefix).resolve()):
+                      raise RuntimeError("installed distribution escapes venv: " + str(item))
+                  files[str(item)] = hashlib.sha256(path.read_bytes()).hexdigest()
+              if not files:
+                  raise RuntimeError("empty actual distribution: " + name)
+              packages[name] = {"version": dist.version, "files": files}
+          spec = importlib.util.find_spec("pytest")
+          origin = pathlib.Path(spec.origin).resolve() if spec and spec.origin else None
+          if origin is None or not origin.is_relative_to(purelib):
+              raise RuntimeError("pytest is not visible in genuine venv site-packages")
+          print(json.dumps({"executable": sys.executable, "python": sys.version, "version": list(sys.version_info[:3]),
+              "prefix": sys.prefix, "base_prefix": sys.base_prefix, "purelib": str(purelib),
+              "pytest_origin": str(origin), "python_sha256": hashlib.sha256(pathlib.Path(sys.executable).read_bytes()).hexdigest(),
+              "packages": packages}, sort_keys=True))
+          '''
+          
+          def runtime():
+              raw = subprocess.check_output([str(VENV / "bin/python"), "-I", "-B", "-c", PROBE])
+              value = json.loads(raw)
+              require(value["version"][:2] == [3, 11], "Python 3.11 required")
+              require(pathlib.Path(value["executable"]) == VENV / "bin/python", "wrong child interpreter")
+              require(pathlib.Path(value["prefix"]).resolve() == VENV.resolve(), "child does not use venv")
+              require(value["prefix"] != value["base_prefix"], "base environment substituted for venv")
+              provenance = json.loads((ROOT / "tests/pytest-bytecode-dependencies.json").read_bytes())
+              for package in provenance["packages"]:
+                  require(value["packages"][package["project"]]["version"] == package["version"], "wrong installed version")
+              environment = dict(os.environ)
+              for key in ("PYTHONHOME", "PYTHONPYCACHEPREFIX", "PYTHONSTARTUP", "PYTHONUSERBASE", "PYTHONSAFEPATH"):
+                  environment.pop(key, None)
+              environment["PYTHONPATH"] = value["purelib"]
+              parent_probe = "import importlib.util,json,sys; print(json.dumps(dict(no_site=sys.flags.no_site,optimize=sys.flags.optimize,origin=importlib.util.find_spec('pytest').origin,executable=sys.executable)))"
+              probes = []
+              for optimize in (0, 1):
+                  command = [str(VENV / "bin/python"), "-B"] + (["-O"] if optimize else []) + ["-S", "-c", parent_probe]
+                  parent = json.loads(subprocess.check_output(command, cwd=ROOT, env=environment))
+                  require(parent["no_site"] == 1 and parent["optimize"] == optimize
+                          and parent["origin"] == value["pytest_origin"]
+                          and parent["executable"] == value["executable"], "parent -S cannot see the same real venv pytest")
+                  probes.append(parent)
+              value["parent_no_site_probes"] = probes
+              return value
+          
+          phase = sys.argv[1]
+          if phase == "prepare":
+              initial = sources()
+              emit("source-before-preparation.json", initial)
+              provenance = json.loads((ROOT / "tests/pytest-bytecode-dependencies.json").read_bytes())
+              wheels, metadata = OUT / "wheels", OUT / "metadata"
+              wheels.mkdir()
+              metadata.mkdir()
+              acquisitions = []
+              for package in provenance["packages"]:
+                  name, version, filename = package["project"], package["version"], package["filename"]
+                  require(package["primary_json_url"] == "https://pypi.org/pypi/" + name + "/" + version + "/json",
+                          "unexpected primary metadata URL")
+                  require("/" not in filename and filename.endswith("-py3-none-any.whl"), "unexpected wheel name")
+                  raw = download(package["primary_json_url"], metadata / (name + ".json"), 2097152)
+                  document = json.loads(raw)
+                  candidates = [item for item in document["urls"] if item["filename"] == filename]
+                  require(document["info"]["version"] == version and len(candidates) == 1, "release identity mismatch")
+                  item = candidates[0]
+                  require(not item["yanked"] and item["packagetype"] == "bdist_wheel"
+                          and item["digests"]["sha256"] == package["sha256"]
+                          and item["core-metadata"]["sha256"] == package["core_metadata_sha256"]
+                          and item["requires_python"] == package["requires_python"]
+                          and item["url"] == package["url"], "release metadata differs from acquired pins")
+                  wheel = download(package["url"], wheels / filename, 16777216)
+                  require(digest(wheel) == package["sha256"], "wheel digest mismatch")
+                  acquisitions.append(dict(project=name, metadata_sha256=digest(raw), wheel_sha256=digest(wheel),
+                                           metadata_url=package["primary_json_url"], wheel_url=package["url"]))
+              emit("acquisition.json", acquisitions)
+              subprocess.run([sys.executable, "-I", "-B", "-m", "venv", str(VENV)], check=True)
+              pip = [str(VENV / "bin/python"), "-I", "-B", "-m", "pip"]
+              with (OUT / "install.log").open("xb") as stream:
+                  subprocess.run([*pip, "--isolated", "--disable-pip-version-check", "install", "--no-index",
+                                  "--no-cache-dir", "--no-deps", "--no-compile", "--only-binary=:all:",
+                                  "--require-hashes", "--find-links", str(wheels), "--report", str(OUT / "install-report.json"),
+                                  "-r", str(ROOT / "tests/pytest-bytecode-requirements.txt")],
+                                 check=True, stdout=stream, stderr=subprocess.STDOUT)
+                  subprocess.run([*pip, "--isolated", "check"], check=True, stdout=stream, stderr=subprocess.STDOUT)
+              before = dict(native=sources(), runtime=runtime())
+              require(initial == before["native"], "preparation changed native sources")
+              emit("before.json", before)
+              with pathlib.Path(os.environ["GITHUB_ENV"]).open("a") as stream:
+                  stream.write("POLICY_PURELIB=" + before["runtime"]["purelib"] + "\n")
+              print(json.dumps(dict(prepared=True, identity=before["native"],
+                                   python=before["runtime"]["python"], pytest_origin=before["runtime"]["pytest_origin"]), sort_keys=True))
+          elif phase == "qualify":
+              after = dict(native=sources(), runtime=runtime())
+              emit("after.json", after)
+              before = json.loads((OUT / "before.json").read_bytes())
+              results = []
+              for mode in ("normal", "optimized"):
+                  log = (OUT / (mode + ".log")).read_bytes()
+                  code = int((OUT / (mode + ".exit")).read_text().strip())
+                  text = log.decode("utf-8")
+                  matches = re.findall(r"^test_[A-Za-z0-9_]+ \(([^)]+)\) \.\.\. ok$", text, re.M)
+                  valid = code == 0 and sorted(matches) == IDS and len(matches) == 10
+                  valid = valid and len(re.findall(r"^Ran 10 tests in [0-9.]+s$", text, re.M)) == 1
+                  valid = valid and len(re.findall(r"^OK$", text, re.M)) == 1
+                  valid = valid and not re.search(r"^(?:FAILED|ERROR:|FAIL:|OK \(|.* \.\.\. (?:skipped|expected failure|unexpected success))", text, re.M)
+                  children = OUT / (mode + "-children")
+                  valid = valid and children.is_dir() and sorted(path.name for path in children.iterdir()) == sorted(i.rsplit(".", 1)[1] for i in IDS)
+                  receipts = []
+                  for receipt in sorted(children.glob("test_*/run-*/receipt.json")):
+                      raw = receipt.read_bytes()
+                      child = json.loads(raw)
+                      command = child["command"]
+                      actual_mode = "-O" in command
+                      valid = valid and command[:2] == [str(VENV / "bin/python"), "-I"]
+                      valid = valid and actual_mode == (mode == "optimized") and "-S" not in command
+                      valid = valid and command[command.index("-m") + 1] == "pytest"
+                      observation = child["observation"]
+                      if observation is not None:
+                          valid = valid and observation["optimize"] == int(mode == "optimized")
+                      receipts.append(dict(file=str(receipt.relative_to(OUT)), sha256=digest(raw),
+                                           command=command, returncode=child["returncode"]))
+                  valid = valid and len(receipts) == 10
+                  results.append(dict(mode=mode, exit_code=code, body_ids=matches, log_sha256=digest(log),
+                                      child_receipts=receipts, qualified=bool(valid)))
+              qualified = before == after and all(item["qualified"] for item in results)
+              report = dict(schema="cbz.pytest-policy.hosted.v1", identity=after["native"], results=results,
+                            source_and_runtime_unchanged=before == after, qualified=qualified,
+                            scope="PYTEST_BYTECODE_POLICY_TEN_METHODS_ONLY", scientific_effect="NONE", cbz_green=False)
+              emit("qualification.json", report)
+              print(json.dumps(report, sort_keys=True))
+              require(qualified, "mandatory source/runtime/twenty-body qualification incomplete")
+          else:
+              raise RuntimeError("unknown fixed phase")
+          PY
+          python -I -B -S "$POLICY_EVIDENCE/driver.py" prepare
+      - name: Execute the ten fixed bodies normal
+        shell: bash
+        run: |
+          set +e
+          env -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE -u PYTHONSAFEPATH \
+            PYTHONPATH="$POLICY_PURELIB" ASI_BYTECODE_EVIDENCE_DIR="$POLICY_EVIDENCE/normal-children" \
+            timeout 300 "$POLICY_VENV/bin/python" -B -S -m unittest tests.test_pytest_bytecode_policy -v \
+            > "$POLICY_EVIDENCE/normal.log" 2>&1
+          status=$?
+          printf '%s\n' "$status" > "$POLICY_EVIDENCE/normal.exit"
+          cat "$POLICY_EVIDENCE/normal.log"
+          exit "$status"
+      - name: Execute the ten fixed bodies optimized
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        shell: bash
+        run: |
+          set +e
+          env -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE -u PYTHONSAFEPATH \
+            PYTHONPATH="$POLICY_PURELIB" ASI_BYTECODE_EVIDENCE_DIR="$POLICY_EVIDENCE/optimized-children" \
+            timeout 300 "$POLICY_VENV/bin/python" -B -O -S -m unittest tests.test_pytest_bytecode_policy -v \
+            > "$POLICY_EVIDENCE/optimized.log" 2>&1
+          status=$?
+          printf '%s\n' "$status" > "$POLICY_EVIDENCE/optimized.exit"
+          cat "$POLICY_EVIDENCE/optimized.log"
+          exit "$status"
+      - name: Require exact identities and both complete ten-body populations
+        if: ${{ always() && steps.prepare.outcome == 'success' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B -S "$POLICY_EVIDENCE/driver.py" qualify
+      - name: Retain original setup, runtime, child evidence, logs and exits
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pytest-bytecode-policy-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/pytest-policy-${{ github.run_id }}-${{ github.run_attempt }}/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
