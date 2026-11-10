@@ -11,7 +11,7 @@ python3 -B -S tools/cbz/g11_origin_mutation_selftest.py
 python3 -B -S -O tools/cbz/g11_origin_mutation_selftest.py
 ```
 
-Local Python 3.12.14 passed nine origin methods and five bounded guard mutations in each mode; [red and local evidence](../../cbz/evidence/g11-origin-selftest-local-20261110/) retains actual failures and source-bound results. The original G11 census tests and 328 mutation definitions remain separately required. No common final G11 run is implied.
+Local Python 3.12.14 passed nine origin methods and five bounded guard mutations in each mode; [red and local evidence](../../cbz/evidence/g11-origin-selftest-local-20261110/) retains actual failures and source-bound results. Hosted run 42761158495 subsequently passed the 265 census controls, nine origin methods, five guard mutations and all 328 existing mutation cases in each mode on debug commit `db0d076ea7d5d38a78d6c16955844a7d32816cf4`; [the original log and parsed result](../../cbz/evidence/g11-origin-hosted-20261110/) are retained. The composed candidate and final G11 gate remain separately required. No common final G11 run is implied.
 
 ## Purpose
 
