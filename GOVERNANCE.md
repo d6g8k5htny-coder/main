@@ -1,5 +1,23 @@
 # CBZ-0 governance
 
+## Guarded Pages receipt recovery — 10 November 2026
+
+The recovery path is limited to a canceled prepared Pages candidate with a
+matching prior observed/prepared ancestry, live old public bytes and retained
+snapshot inventory. It checks the actual failed workflow, authenticated
+cancellation, current Main source and exact receipt heads before append-only,
+atomic expected-head, non-force writes. Each new receipt names the previous candidate and the actual
+recovery observer. A platform failure or disagreement stops the operation;
+if a write's readback fails, inspect the actual ref before inferring its state.
+Workflow concurrency coordinates
+the normal publisher and recovery, not external actors or atomic public reads.
+The normal publisher's separate REST ref write does not yet have this atomic
+expected-head guarantee.
+The [status](STATUS.md#guarded-pages-receipt-recovery--observed-10-november-2026)
+and [tool registry](TOOLING.md#guarded-pages-receipt-recovery--10-november-2026)
+give exact commands, observations and limits. This is neither mathematical nor
+scientific acceptance and does not establish the final gates.
+
 ## Public branch custody verifier boundary — 10 November 2026
 
 This candidate preserves selected public Git objects from 58 captured refs in
@@ -1109,4 +1127,4 @@ PYTHONPATH="$POLICY_PURELIB" "$POLICY_VENV/bin/python" -B -S -m unittest tests.t
 PYTHONPATH="$POLICY_PURELIB" "$POLICY_VENV/bin/python" -B -O -S -m unittest tests.test_pytest_bytecode_policy -v
 ```
 
-The workflow requires exact ten-body identities and zero skips/failures/errors per mode, actual same-venv `-I` pytest children, native source/runtime identities before/after, and original acquisition, runtime, child, log and exit evidence. Its immutable run/attempt artifact uploads on every conclusion. Source review has passed; actual hosted qualification remains pending. This registers only one G5 prerequisite population, with scientific effect NONE and no full G5, CBZ or mathematical award. See [the reviewed design and plan](docs/superpowers/plans/2026-11-10-pytest-bytecode-policy-population.md).
+The workflow requires exact ten-body identities and zero skips/failures/errors per mode, actual same-venv `-I` pytest children, native source/runtime identities before/after, and original acquisition, runtime, child, log and exit evidence. Its immutable run/attempt artifact uploads on every conclusion. Source review passed; hosted job `129614618042` ran the ten unchanged methods in both modes without reported skips on tested merge `fd80e41202ed4ee266956d1e1f85598e90ff1904`, whose tree matches merged Main #803. The retained artifact has not been independently unpacked here. This registers only one G5 prerequisite population, with scientific effect NONE and no full G5, CBZ or mathematical award. See [the reviewed design and plan](docs/superpowers/plans/2026-11-10-pytest-bytecode-policy-population.md).

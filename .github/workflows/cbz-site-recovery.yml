@@ -1,0 +1,114 @@
+{
+  "name": "CBZ guarded Pages receipt recovery",
+  "on": {
+    "pull_request": {
+      "paths": [
+        "tools/cbz_site_receipt_recovery.py",
+        "tools/cbz_site_recovery_mutations.py",
+        "tools/cbz/reference_crawler_mutation_check.py",
+        "tools/current_site_publication.py",
+        "tools/current_site_data.py",
+        "tests/test_cbz_site_recovery.py",
+        "tests/test_cbz_site_recovery_workflow.py",
+        "tests/test_current_site_publication.py",
+        ".github/workflows/cbz-site-recovery.yml"
+      ]
+    },
+    "workflow_dispatch": {
+      "inputs": {
+        "expected_failed_head": {
+          "description": "Exact canceled prepared receipt head",
+          "required": true,
+          "type": "string"
+        },
+        "expected_previous_head": {
+          "description": "Exact previous observed receipt head",
+          "required": true,
+          "type": "string"
+        }
+      }
+    }
+  },
+  "permissions": {},
+  "concurrency": {
+    "group": "${{ github.event_name == 'pull_request' && format('cbz-site-recovery-pr-{0}', github.event.pull_request.number) || 'current-research-pages-publish' }}",
+    "cancel-in-progress": false
+  },
+  "jobs": {
+    "controls": {
+      "runs-on": "ubuntu-24.04",
+      "timeout-minutes": 15,
+      "permissions": {
+        "contents": "read"
+      },
+      "steps": [
+        {
+          "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "with": {
+            "ref": "${{ github.sha }}",
+            "persist-credentials": false
+          }
+        },
+        {
+          "name": "Run recovery controls",
+          "shell": "bash",
+          "run": "set -euo pipefail\nmkdir -p \"$RUNNER_TEMP/cbz-site-recovery-controls\"\ntest \"$(git rev-parse HEAD)\" = \"$GITHUB_SHA\"\npython3 --version > \"$RUNNER_TEMP/cbz-site-recovery-controls/python.txt\"\nfor mode in normal optimized; do\n  log=\"$RUNNER_TEMP/cbz-site-recovery-controls/unit-$mode.log\"\n  if [ \"$mode\" = optimized ]; then\n    python3 -B -O -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests > \"$log\" 2>&1\n  else\n    python3 -B -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests > \"$log\" 2>&1\n  fi\n  grep -Eq '^Ran 34 tests in ' \"$log\"\n  tail -n 1 \"$log\" | grep -Fxq 'OK'\n  if grep -Fq ' ... skipped ' \"$log\"; then echo 'skipped recovery control' >&2; exit 1; fi\n  if [ \"$mode\" = optimized ]; then\n    python3 -B -O -S tools/cbz_site_recovery_mutations.py --output \"$RUNNER_TEMP/cbz-site-recovery-controls/mutations-$mode\" > \"$RUNNER_TEMP/cbz-site-recovery-controls/mutations-$mode.log\" 2>&1\n  else\n    python3 -B -S tools/cbz_site_recovery_mutations.py --output \"$RUNNER_TEMP/cbz-site-recovery-controls/mutations-$mode\" > \"$RUNNER_TEMP/cbz-site-recovery-controls/mutations-$mode.log\" 2>&1\n  fi\ndone\n"
+        },
+        {
+          "name": "Retain recovery control evidence",
+          "if": "${{ always() }}",
+          "uses": "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+          "with": {
+            "name": "cbz-site-recovery-controls-${{ github.run_id }}-${{ github.run_attempt }}",
+            "path": "${{ runner.temp }}/cbz-site-recovery-controls",
+            "if-no-files-found": "warn",
+            "include-hidden-files": true,
+            "retention-days": 30
+          }
+        }
+      ]
+    },
+    "recover": {
+      "needs": "controls",
+      "if": "${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.repository == 'd6g8k5htny-coder/main' }}",
+      "runs-on": "ubuntu-24.04",
+      "timeout-minutes": 20,
+      "permissions": {
+        "actions": "read",
+        "contents": "write",
+        "pages": "read"
+      },
+      "steps": [
+        {
+          "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "with": {
+            "ref": "${{ github.sha }}",
+            "persist-credentials": false
+          }
+        },
+        {
+          "name": "Reconcile canceled publication",
+          "shell": "bash",
+          "env": {
+            "GITHUB_TOKEN": "${{ github.token }}",
+            "EXPECTED_FAILED_HEAD": "${{ inputs.expected_failed_head }}",
+            "EXPECTED_PREVIOUS_HEAD": "${{ inputs.expected_previous_head }}"
+          },
+          "run": "set -u\nset -o pipefail\nmkdir -p \"$RUNNER_TEMP/cbz-site-recovery-result\"\ntest \"$(git rev-parse HEAD)\" = \"$GITHUB_SHA\" || exit 1\npython3 -B -S tools/cbz_site_receipt_recovery.py \\\n  --expected-failed-head \"$EXPECTED_FAILED_HEAD\" \\\n  --expected-previous-head \"$EXPECTED_PREVIOUS_HEAD\" \\\n  > \"$RUNNER_TEMP/cbz-site-recovery-result/recovery.stdout\" \\\n  2> \"$RUNNER_TEMP/cbz-site-recovery-result/recovery.stderr\"\nstatus=$?\nprintf '%s\\n' \"$status\" > \"$RUNNER_TEMP/cbz-site-recovery-result/recovery.exit\"\nexit \"$status\"\n"
+        },
+        {
+          "name": "Retain recovery result",
+          "if": "${{ always() }}",
+          "uses": "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+          "with": {
+            "name": "cbz-site-recovery-result-${{ github.run_id }}-${{ github.run_attempt }}",
+            "path": "${{ runner.temp }}/cbz-site-recovery-result",
+            "if-no-files-found": "warn",
+            "include-hidden-files": true,
+            "retention-days": 30
+          }
+        }
+      ]
+    }
+  }
+}

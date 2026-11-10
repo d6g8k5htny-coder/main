@@ -1,5 +1,44 @@
 # CBZ mission-tool registry
 
+## Guarded Pages receipt recovery — 10 November 2026
+
+`tools/cbz_site_receipt_recovery.py` narrowly reconciles a canceled prepared
+receipt to its preceding observed candidate, preserving the failed head in
+ancestry. It requires exact caller-supplied heads, matching prior receipt
+ancestry, no missing failed-candidate snapshots, live public bytes, a matching
+completed failed run, authenticated `deployment_cancelled` status and the
+current Main source. It rereads the guards around two appends and uses GitHub
+`updateRefs` with the exact expected head and `force: false` for each; a
+failed write readback leaves the resulting ref state uncertain until inspected.
+It runs only through an
+explicit Main-branch `workflow_dispatch` in `.github/workflows/cbz-site-recovery.yml`.
+The workflow's PR controls are read-only and the dispatch shares the normal
+publication concurrency group. See [STATUS](STATUS.md#guarded-pages-receipt-recovery--observed-10-november-2026)
+for exact guarded dispatch and its staleable input values.
+
+Run from Main:
+
+```sh
+python3 -B -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
+python3 -B -O -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
+CBZ_SITE_NORMAL=$(mktemp -d)/mutations
+CBZ_SITE_OPTIMIZED=$(mktemp -d)/mutations
+python3 -B -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_NORMAL"
+python3 -B -O -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_OPTIMIZED"
+```
+
+The repaired local control block observed 34 tests without skips per mode, 27 source
+and 10 workflow mutations with clean baselines and designated assertion
+failures per mode, and three subject/helper/lifecycle-origin refusals per mode.
+Its existing traceback recorder is scoped to trusted synchronous unittest.
+The original 28-test/28-mutation campaign missed a rollback race; its adverse
+test and the earlier failed fixture and mutation runs remain in contribution evidence.
+The normal publisher's separate REST ref update still lacks the atomic
+expected-head guarantee and is not qualified by these recovery checks.
+These checks do not prove an authenticated Pages status is available or that a
+real dispatch succeeded; reads and external actor state are not atomic. They
+are not a full tool audit, final G0 or mathematical certification.
+
 ## Public branch custody readbacks — 10 November 2026
 
 **Purpose and scope.** Compare captured public head tree/path identities to a
@@ -1282,4 +1321,4 @@ PYTHONPATH="$POLICY_PURELIB" "$POLICY_VENV/bin/python" -B -S -m unittest tests.t
 PYTHONPATH="$POLICY_PURELIB" "$POLICY_VENV/bin/python" -B -O -S -m unittest tests.test_pytest_bytecode_policy -v
 ```
 
-The workflow requires exact ten-body identities and zero skips/failures/errors per mode, actual same-venv `-I` pytest children, native source/runtime identities before/after, and original acquisition, runtime, child, log and exit evidence. Its immutable run/attempt artifact uploads on every conclusion. Source review has passed; actual hosted qualification remains pending. This registers only one G5 prerequisite population, with scientific effect NONE and no full G5, CBZ or mathematical award. See [the reviewed design and plan](docs/superpowers/plans/2026-11-10-pytest-bytecode-policy-population.md).
+The workflow requires exact ten-body identities and zero skips/failures/errors per mode, actual same-venv `-I` pytest children, native source/runtime identities before/after, and original acquisition, runtime, child, log and exit evidence. Its immutable run/attempt artifact uploads on every conclusion. Source review passed; hosted job `129614618042` ran the ten unchanged methods in both modes without reported skips on tested merge `fd80e41202ed4ee266956d1e1f85598e90ff1904`, whose tree matches merged Main #803. The retained artifact has not been independently unpacked here. This registers only one G5 prerequisite population, with scientific effect NONE and no full G5, CBZ or mathematical award. See [the reviewed design and plan](docs/superpowers/plans/2026-11-10-pytest-bytecode-policy-population.md).

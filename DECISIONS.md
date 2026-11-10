@@ -694,3 +694,64 @@ Use a dedicated CPython3.11 venv with the existing project's pytest9.1.1/iniconf
 Actual run42750759039/attempt1 at63deafff1218e890cfbd0b259a36baba7e766c69/tree1ba943d5a63e074976bc8b9035d0cb4cd3c02c45 failed before scheduling any job. Its native annotation reports lines30/31: Unrecognized named-value runner in job-level env. The jobs API reports zerojobs; no pytest body, dependency acquisition, runtime or assertion executed. Earlier source reviews did not catch this GitHub expression-context defect; their PASS is not execution evidence.
 
 Author-family correction1 moves only the two runner.temp bindings into prepare-step env (where runner context is available), persists them through GITHUB_ENV before setup use, and sets always-upload to a fixed literal step-context runner.temp path rather than an optionally unset env path. Original test/assertions, fixed ten IDs, normal/O commands, dependency hashes and source/runtime qualification guards remain unchanged. Preserve the failed run and full original commit ancestry. Fresh native hosted qualification is still required; no current success or G5/CBZ credit is claimed.
+
+## 2026-11-10 — Preserve canceled Pages candidate and guard recovery
+
+- Retain both failed `42737966287` deployment attempts, skipped public
+  observation, prepared head `6e01d1f5f83d320172e29391eea336e3256aeea2` and
+  previous observed head `81b3998534827e2c2e45188a1a52672aa6666001`. Record
+  the later three matching old public bytes as sequential observations, not a
+  claim that the failed candidate deployed. The unauthenticated status 404 is
+  not an authenticated cancellation result.
+- Add a guarded, append-only recovery for this narrow state. The workflow
+  requires a real authenticated canceled deployment and reruns its controls;
+  it preserves both candidates in ancestry, refuses disagreement and records
+  actual observer identity. Normal and recovery workflows share a concurrency
+  group, while external actors remain outside that lock. A successful dispatch
+  is not presumed. The local source-bound 28-test and 28-mutation campaigns
+  per mode, plus three origin refusals per mode, cover the registered domain
+  only. See STATUS and TOOLING for exact commands and limits.
+- This reversible source addition does not alter mathematical statements,
+  adjudicate proofs, delete historical work, or establish a final gate. The
+  receipt append, if its live guards all pass, is an externally visible action
+  and its actual result and predecessor must be retained.
+
+## 2026-11-10 — Require atomic receipt heads for recovery
+
+- A real adverse test exposed that a non-force REST ref update could accept a
+  descendant after an intervening rollback to an ancestor. Retain that failing
+  test and the initial mutation campaign. For recovery only, replace the ref
+  update with GitHub's atomic `updateRefs` using the exact `beforeOid`, the
+  intended new object, the fixed receipt ref, and `force: false`. Unknown
+  responses remain failures whose actual ref state must be read back. The
+  authenticated endpoint and actual recovery still require hosted execution.
+- The normal publisher's separate REST ref write remains an open follow-up;
+  do not infer its atomic expected-head safety from the recovery controls.
+  The correction changes no mathematical or scientific status.
+
+## 2026-11-10 — Compose Pages recovery with Main #799
+
+- Preserve the complete fresh Main `3f05f8493afac71c6f4aac5c1db5aeb46194d98a`
+  decisions prefix, then append the exact recovery decisions made after their
+  common `31bc4c1f` base. Preserve all #799 source and record paths.
+- Workspace #69 still pins `31bc4c1f` and is stale after #799. The
+  `31bc4c1f` site build failed prepared-receipt readback and skipped deploy.
+  Recheck current refs, required checks, candidate composition and actual
+  receipt before any integration or dispatch. No final gate or scientific
+  acceptance follows from this composition.
+
+## 2026-11-10 — Compose Pages recovery after Main #803
+
+- Preserve the entire merged #803 decision history before the exact prior
+  recovery suffix. Main `97663b478822848db5262b2fffcbacd37d6231b4` retains
+  #803 tested tree `c1435f6d84c557d3fddadcf84bfdecfdf9a5738f`.
+- Update the #803 Governance and Tooling candidate wording to reflect the
+  actual scoped hosted execution: job `129614618042` ran ten unchanged
+  pytest bytecode-policy methods in each mode without reported skips on
+  tested merge `fd80e41202ed4ee266956d1e1f85598e90ff1904`, whose tree
+  equals the merged tree. Its earlier validation failure remains in the
+  preceding history. This is not a full regression or CBZ qualification.
+- Keep #803's workflow, dependency files, plan and all other peer paths, and
+  the recovery tool/test blobs unchanged. Workspace #69 still pins older
+  Main `31bc4c1f`; actual Pages recovery and fresh current checks remain
+  open. No mathematical or scientific claim is changed.
