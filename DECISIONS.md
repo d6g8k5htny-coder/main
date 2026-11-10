@@ -550,3 +550,34 @@ proof, ownership, scientific disposition, gate threshold, fullG5 or CBZ award ch
   conflicted. This composition retains the complete published peer suffix and
   then the complete custody suffix; it requires new source-specific checks and
   an expected-head guard. No proof or scientific status changes.
+
+## Q-9002 historical integration coverage baseline — 10 November 2026
+
+Prepared at 02:30:30 UTC by OpenAI/Codex /root/g5_reconciliation against Main
+`812a799f4cf4cee730efa0177a9101af4cf259ef`. This baseline changes only the
+existing node-status workflow plus this append and the source evidence below.
+Its two additive normal/optimized steps run five unchanged real-record methods,
+record the actual Python, HEAD and tree, retain complete combined output in
+native Actions logs through tee, and require the exact five methods without
+skips. Existing workflow steps, permissions, trigger paths and action pins are
+preserved. No new required check is introduced.
+
+The production records and published projection are deliberately unchanged.
+Source inspection predicts five methods with four passes and the existing
+Q-9002 missing-evidence skip per mode, followed by rejection by the new zero-skip
+guard. This is a proposed coverage-absence baseline, not an observed failure,
+a semantic negative control or evidence that the historical integration was
+invalid. No local or hosted test execution has yet been observed for this
+baseline; the managed local environment failed to start. Preserve its actual
+hosted outcome before applying the separately staged record/projection data.
+
+The record-only proposal and complete native comment snapshots are retained in
+[the candidate design](cbz/evidence/q9002-historical-integration-20261110/candidate-design.md)
+and [the native-copy evidence](cbz/evidence/q9002-historical-integration-20261110/native-source-evidence.json).
+Their prior unreferenced-blob preparation is a historical source stage. The
+proposed resolved item concerns only Math- PR495's four-file operational
+integration, pickup6351471006 and only-own release6351719961. It supplies no
+whole-node owner, source/review-role succession, R81/R83 adoption, execution
+admission or scientific outcome. The data itself is excluded from this
+baseline commit. Q-9003–Q-9005, full G5 and CBZ remain open; scientific effect
+NONE. The decision is reversible through ordinary source history.
