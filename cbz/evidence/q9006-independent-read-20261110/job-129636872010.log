@@ -1,0 +1,1529 @@
+﻿2026-11-10T04:47:10.2686154Z Current runner version: '2.338.2'
+2026-11-10T04:47:10.2713993Z ##[group]Runner Image Provisioner
+2026-11-10T04:47:10.2714999Z Hosted Compute Agent
+2026-11-10T04:47:10.2715791Z Version: 20261028.624
+2026-11-10T04:47:10.2716448Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T04:47:10.2717297Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T04:47:10.2718340Z Worker ID: {5a80b506-5b57-4153-9a7d-b4014574f650}
+2026-11-10T04:47:10.2719167Z Region: northcentralus
+2026-11-10T04:47:10.2719849Z Cloud: Azure
+2026-11-10T04:47:10.2720425Z ##[endgroup]
+2026-11-10T04:47:10.2722107Z ##[group]Operating System
+2026-11-10T04:47:10.2722803Z Ubuntu
+2026-11-10T04:47:10.2723364Z 24.04.5
+2026-11-10T04:47:10.2724107Z LTS
+2026-11-10T04:47:10.2724679Z ##[endgroup]
+2026-11-10T04:47:10.2725330Z ##[group]Runner Image
+2026-11-10T04:47:10.2725988Z Image: ubuntu-24.04
+2026-11-10T04:47:10.2726595Z Version: 20261101.360.1
+2026-11-10T04:47:10.2728336Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T04:47:10.2730059Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T04:47:10.2731100Z ##[endgroup]
+2026-11-10T04:47:10.2732803Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T04:47:10.2735027Z Contents: read
+2026-11-10T04:47:10.2735664Z Issues: read
+2026-11-10T04:47:10.2736392Z Metadata: read
+2026-11-10T04:47:10.2737008Z PullRequests: read
+2026-11-10T04:47:10.2738015Z ##[endgroup]
+2026-11-10T04:47:10.2741165Z Secret source: Actions
+2026-11-10T04:47:10.2742891Z Cache mode: write
+2026-11-10T04:47:10.2744126Z Prepare workflow directory
+2026-11-10T04:47:10.3242200Z Prepare all required actions
+2026-11-10T04:47:10.3315371Z Getting action download info
+2026-11-10T04:47:10.5619372Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-10T04:47:10.6696441Z Download action repository 'actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-10T04:47:10.7656661Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-10T04:47:11.0499616Z Complete job name: live-freshness
+2026-11-10T04:47:11.1457057Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-11-10T04:47:11.1458488Z with:
+2026-11-10T04:47:11.1458963Z   fetch-depth: 0
+2026-11-10T04:47:11.1459463Z   persist-credentials: false
+2026-11-10T04:47:11.1460046Z   repository: d6g8k5htny-coder/main
+2026-11-10T04:47:11.1464143Z   token: ***
+2026-11-10T04:47:11.1464617Z   ssh-strict: true
+2026-11-10T04:47:11.1465098Z   ssh-user: git
+2026-11-10T04:47:11.1465564Z   clean: true
+2026-11-10T04:47:11.1466050Z   sparse-checkout-cone-mode: true
+2026-11-10T04:47:11.1466616Z   fetch-tags: false
+2026-11-10T04:47:11.1467097Z   show-progress: true
+2026-11-10T04:47:11.1467739Z   lfs: false
+2026-11-10T04:47:11.1468197Z   submodules: false
+2026-11-10T04:47:11.1468747Z   set-safe-directory: true
+2026-11-10T04:47:11.1469304Z   allow-unsafe-pr-checkout: false
+2026-11-10T04:47:11.1470129Z ##[endgroup]
+2026-11-10T04:47:11.4418018Z Syncing repository: d6g8k5htny-coder/main
+2026-11-10T04:47:11.4420420Z ##[group]Getting Git version info
+2026-11-10T04:47:11.4421693Z Working directory is '/home/runner/work/main/main'
+2026-11-10T04:47:11.4423459Z [command]/usr/bin/git version
+2026-11-10T04:47:11.4559330Z git version 2.56.0
+2026-11-10T04:47:11.4589186Z ##[endgroup]
+2026-11-10T04:47:11.4610860Z Temporarily overriding HOME='/home/runner/work/_temp/385a19ca-8d16-4e21-9480-1a53767f27be' before making global git config changes
+2026-11-10T04:47:11.4613692Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T04:47:11.4620991Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T04:47:11.4694807Z Deleting the contents of '/home/runner/work/main/main'
+2026-11-10T04:47:11.4700568Z ##[group]Initializing the repository
+2026-11-10T04:47:11.4707798Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-11-10T04:47:11.4865876Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T04:47:11.4867205Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T04:47:11.4869224Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T04:47:11.4870251Z hint: call:
+2026-11-10T04:47:11.4870700Z hint:
+2026-11-10T04:47:11.4871297Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T04:47:11.4871962Z hint:
+2026-11-10T04:47:11.4872689Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T04:47:11.4873706Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T04:47:11.4874473Z hint:
+2026-11-10T04:47:11.4874930Z hint: 	git branch -m <name>
+2026-11-10T04:47:11.4875446Z hint:
+2026-11-10T04:47:11.4876099Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T04:47:11.4888935Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-11-10T04:47:11.4900358Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-11-10T04:47:11.4958826Z ##[endgroup]
+2026-11-10T04:47:11.4960254Z ##[group]Disabling automatic garbage collection
+2026-11-10T04:47:11.4963556Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T04:47:11.5006630Z ##[endgroup]
+2026-11-10T04:47:11.5008270Z ##[group]Setting up auth
+2026-11-10T04:47:11.5015502Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T04:47:11.5065528Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T04:47:11.5499634Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T04:47:11.5544858Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T04:47:11.5798335Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T04:47:11.5847039Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T04:47:11.6101729Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T04:47:11.6155209Z ##[endgroup]
+2026-11-10T04:47:11.6156715Z ##[group]Fetching the repository
+2026-11-10T04:47:11.6170202Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +6d0645bd851973696ff4afdee24ccb17d192687f:refs/remotes/pull/806/merge
+2026-11-10T04:47:22.8657912Z From https://github.com/d6g8k5htny-coder/main
+2026-11-10T04:47:22.8660230Z  * [new branch]        a4/m724-apply-8aa6a582-propose-20261031  -> origin/a4/m724-apply-8aa6a582-propose-20261031
+2026-11-10T04:47:22.8662661Z  * [new branch]        a4/m724-apply-8aa6a582-rebuild-20261031  -> origin/a4/m724-apply-8aa6a582-rebuild-20261031
+2026-11-10T04:47:22.8664772Z  * [new branch]        agent/observer-notes-20261001            -> origin/agent/observer-notes-20261001
+2026-11-10T04:47:22.8666772Z  * [new branch]        agent/paper1-note-current-20261001       -> origin/agent/paper1-note-current-20261001
+2026-11-10T04:47:22.8669210Z  * [new branch]        agent3/jetmod-rnunif-status-open-hold    -> origin/agent3/jetmod-rnunif-status-open-hold
+2026-11-10T04:47:22.8670829Z  * [new branch]        archive/cbz0                             -> origin/archive/cbz0
+2026-11-10T04:47:22.8672077Z  * [new branch]        archive/cbz0-main-pr430-9e393dcb-20261030 -> origin/archive/cbz0-main-pr430-9e393dcb-20261030
+2026-11-10T04:47:22.8674168Z  * [new branch]        archive/cbz0-main-pr603-946f941e-20261030 -> origin/archive/cbz0-main-pr603-946f941e-20261030
+2026-11-10T04:47:22.8675854Z  * [new branch]        carrier/v20-planner-source-delivery-20261025 -> origin/carrier/v20-planner-source-delivery-20261025
+2026-11-10T04:47:22.8677761Z  * [new branch]        cbz/archived-runtime-boundaries-20261029 -> origin/cbz/archived-runtime-boundaries-20261029
+2026-11-10T04:47:22.8679184Z  * [new branch]        cbz/archived-v20-carriers-20261029       -> origin/cbz/archived-v20-carriers-20261029
+2026-11-10T04:47:22.8680092Z  * [new branch]        cbz/auditor-grader-a8-20261029           -> origin/cbz/auditor-grader-a8-20261029
+2026-11-10T04:47:22.8681165Z  * [new branch]        cbz/auditor-mutation-admission-repair-20261030 -> origin/cbz/auditor-mutation-admission-repair-20261030
+2026-11-10T04:47:22.8682233Z  * [new branch]        cbz/canonical-layer-a-auditor-20261029   -> origin/cbz/canonical-layer-a-auditor-20261029
+2026-11-10T04:47:22.8683168Z  * [new branch]        cbz/cold-start-node-20261029             -> origin/cbz/cold-start-node-20261029
+2026-11-10T04:47:22.8684058Z  * [new branch]        cbz/composed-main-regression-20261029    -> origin/cbz/composed-main-regression-20261029
+2026-11-10T04:47:22.8685025Z  * [new branch]        cbz/determinant-kernel-evidence-20261029 -> origin/cbz/determinant-kernel-evidence-20261029
+2026-11-10T04:47:22.8685995Z  * [new branch]        cbz/foundation-catalog-reconciled-20261029 -> origin/cbz/foundation-catalog-reconciled-20261029
+2026-11-10T04:47:22.8687050Z  * [new branch]        cbz/foundation-evidence-reconciliation-20261029 -> origin/cbz/foundation-evidence-reconciliation-20261029
+2026-11-10T04:47:22.8688782Z  * [new branch]        cbz/foundation-handoff-20261029          -> origin/cbz/foundation-handoff-20261029
+2026-11-10T04:47:22.8690573Z  * [new branch]        cbz/historical-replay-observation-20261029 -> origin/cbz/historical-replay-observation-20261029
+2026-11-10T04:47:22.8692401Z  * [new branch]        cbz/main-graph-composition-20261029      -> origin/cbz/main-graph-composition-20261029
+2026-11-10T04:47:22.8693994Z  * [new branch]        cbz/main-pytest-controls-20261029        -> origin/cbz/main-pytest-controls-20261029
+2026-11-10T04:47:22.8695924Z  * [new branch]        cbz/main-regression-skips-20261029       -> origin/cbz/main-regression-skips-20261029
+2026-11-10T04:47:22.8698031Z  * [new branch]        cbz/main-retire-707-20261029             -> origin/cbz/main-retire-707-20261029
+2026-11-10T04:47:22.8699759Z  * [new branch]        cbz/main-retire-superseded-20261029      -> origin/cbz/main-retire-superseded-20261029
+2026-11-10T04:47:22.8701521Z  * [new branch]        cbz/main-sandbox-observation-20261029    -> origin/cbz/main-sandbox-observation-20261029
+2026-11-10T04:47:22.8703650Z  * [new branch]        cbz/main699-external-worktree-submodule-filter-20261030-gpt6 -> origin/cbz/main699-external-worktree-submodule-filter-20261030-gpt6
+2026-11-10T04:47:22.8705845Z  * [new branch]        cbz/node-foundation-registry-20261029    -> origin/cbz/node-foundation-registry-20261029
+2026-11-10T04:47:22.8707883Z  * [new branch]        cbz/node-retire-queued-20261029          -> origin/cbz/node-retire-queued-20261029
+2026-11-10T04:47:22.8709517Z  * [new branch]        cbz/paper-boundary-adoption-522-526-20261029 -> origin/cbz/paper-boundary-adoption-522-526-20261029
+2026-11-10T04:47:22.8710703Z  * [new branch]        cbz/phase1-foundation                    -> origin/cbz/phase1-foundation
+2026-11-10T04:47:22.8711580Z  * [new branch]        cbz/public-intake-enumeration-20261029   -> origin/cbz/public-intake-enumeration-20261029
+2026-11-10T04:47:22.8712584Z  * [new branch]        cbz/quarantine-readme-scope-correction-20261030 -> origin/cbz/quarantine-readme-scope-correction-20261030
+2026-11-10T04:47:22.8713603Z  * [new branch]        cbz/regenerate-367-classifications-20261029 -> origin/cbz/regenerate-367-classifications-20261029
+2026-11-10T04:47:22.8714554Z  * [new branch]        cbz/source-accounting-support-20261030   -> origin/cbz/source-accounting-support-20261030
+2026-11-10T04:47:22.8716855Z  * [new branch]        cbz/source-instrument-20261029           -> origin/cbz/source-instrument-20261029
+2026-11-10T04:47:22.8721344Z  * [new branch]        cbz/source514-recorder-harness-review-20261029 -> origin/cbz/source514-recorder-harness-review-20261029
+2026-11-10T04:47:22.8723148Z  * [new branch]        cbz/strict-replay-source-review-20261029 -> origin/cbz/strict-replay-source-review-20261029
+2026-11-10T04:47:22.8724812Z  * [new branch]        cbz/terminal-obligation-index-20261029   -> origin/cbz/terminal-obligation-index-20261029
+2026-11-10T04:47:22.8726279Z  * [new branch]        cbz/workspace-git-hygiene-20261029       -> origin/cbz/workspace-git-hygiene-20261029
+2026-11-10T04:47:22.8728019Z  * [new branch]        chatgpt/archsys-p2-current-population-20261015 -> origin/chatgpt/archsys-p2-current-population-20261015
+2026-11-10T04:47:22.8729739Z  * [new branch]        chatgpt/c101-source-bound-successor-20260925 -> origin/chatgpt/c101-source-bound-successor-20260925
+2026-11-10T04:47:22.8731546Z  * [new branch]        chatgpt/c245a-replay-admission-contract-20261012 -> origin/chatgpt/c245a-replay-admission-contract-20261012
+2026-11-10T04:47:22.8733274Z  * [new branch]        chatgpt/cover-accounting-audit-20260924  -> origin/chatgpt/cover-accounting-audit-20260924
+2026-11-10T04:47:22.8734839Z  * [new branch]        chatgpt/downstream-crosswalk-20260925    -> origin/chatgpt/downstream-crosswalk-20260925
+2026-11-10T04:47:22.8736372Z  * [new branch]        chatgpt/drive-github-hardening-20260919  -> origin/chatgpt/drive-github-hardening-20260919
+2026-11-10T04:47:22.8738546Z  * [new branch]        chatgpt/fail-closed-claim-audit-repair-20260925 -> origin/chatgpt/fail-closed-claim-audit-repair-20260925
+2026-11-10T04:47:22.8739653Z  * [new branch]        chatgpt/gb7c-side24-proof-implementation-20261023 -> origin/chatgpt/gb7c-side24-proof-implementation-20261023
+2026-11-10T04:47:22.8740597Z  * [new branch]        chatgpt/h3-solver-pilot-20260921         -> origin/chatgpt/h3-solver-pilot-20260921
+2026-11-10T04:47:22.8741481Z  * [new branch]        chatgpt/main-lean-preflight-20261008-r1  -> origin/chatgpt/main-lean-preflight-20261008-r1
+2026-11-10T04:47:22.8742592Z  * [new branch]        chatgpt/main399-route-window-20261025    -> origin/chatgpt/main399-route-window-20261025
+2026-11-10T04:47:22.8743529Z  * [new branch]        chatgpt/math-push-cap-palette-20260924   -> origin/chatgpt/math-push-cap-palette-20260924
+2026-11-10T04:47:22.8744434Z  * [new branch]        chatgpt/nav-manifest-trigger-20261021-c  -> origin/chatgpt/nav-manifest-trigger-20261021-c
+2026-11-10T04:47:22.8745300Z  * [new branch]        chatgpt/navigation-price-20260924        -> origin/chatgpt/navigation-price-20260924
+2026-11-10T04:47:22.8746207Z  * [new branch]        chatgpt/never-merge-formal-negative-20260927 -> origin/chatgpt/never-merge-formal-negative-20260927
+2026-11-10T04:47:22.8747126Z  * [new branch]        chatgpt/pr2-postmerge-handoff-20260923   -> origin/chatgpt/pr2-postmerge-handoff-20260923
+2026-11-10T04:47:22.8748355Z  * [new branch]        chatgpt/probe-test-isolation-20260923    -> origin/chatgpt/probe-test-isolation-20260923
+2026-11-10T04:47:22.8749276Z  * [new branch]        chatgpt/public-source-visibility-20260926 -> origin/chatgpt/public-source-visibility-20260926
+2026-11-10T04:47:22.8750162Z  * [new branch]        chatgpt/q0-c103-source-bound-20260925    -> origin/chatgpt/q0-c103-source-bound-20260925
+2026-11-10T04:47:22.8751681Z  * [new branch]        chatgpt/q0-ledger-external-binding-20260925 -> origin/chatgpt/q0-ledger-external-binding-20260925
+2026-11-10T04:47:22.8753268Z  * [new branch]        chatgpt/register-export-r1-20260923      -> origin/chatgpt/register-export-r1-20260923
+2026-11-10T04:47:22.8754207Z  * [new branch]        chatgpt/register-source-preflight-20260923 -> origin/chatgpt/register-source-preflight-20260923
+2026-11-10T04:47:22.8755152Z  * [new branch]        chatgpt/research-capsule-311-20260924-1504 -> origin/chatgpt/research-capsule-311-20260924-1504
+2026-11-10T04:47:22.8756321Z  * [new branch]        chatgpt/side24-source-recovery-20260925  -> origin/chatgpt/side24-source-recovery-20260925
+2026-11-10T04:47:22.8757252Z  * [new branch]        chatgpt/source-architecture-design-20260925 -> origin/chatgpt/source-architecture-design-20260925
+2026-11-10T04:47:22.8758766Z  * [new branch]        chatgpt/source-recovery-companions-20261016-6215376409 -> origin/chatgpt/source-recovery-companions-20261016-6215376409
+2026-11-10T04:47:22.8759790Z  * [new branch]        chatgpt/standing-authorization-20260923  -> origin/chatgpt/standing-authorization-20260923
+2026-11-10T04:47:22.8760611Z  * [new branch]        chatgpt/storefront-20260926              -> origin/chatgpt/storefront-20260926
+2026-11-10T04:47:22.8761375Z  * [new branch]        chatgpt/vault-census-20260925            -> origin/chatgpt/vault-census-20260925
+2026-11-10T04:47:22.8762169Z  * [new branch]        chatgpt/wedge-accounting-20260924        -> origin/chatgpt/wedge-accounting-20260924
+2026-11-10T04:47:22.8763030Z  * [new branch]        chatgpt/withdrawal-governance-20260921   -> origin/chatgpt/withdrawal-governance-20260921
+2026-11-10T04:47:22.8763955Z  * [new branch]        claude/build-manuscript-contributing-BowxS -> origin/claude/build-manuscript-contributing-BowxS
+2026-11-10T04:47:22.8764905Z  * [new branch]        claude/build-manuscript-script-TiApQ     -> origin/claude/build-manuscript-script-TiApQ
+2026-11-10T04:47:22.8765734Z  * [new branch]        claude/cbz-783-followups-20261109        -> origin/claude/cbz-783-followups-20261109
+2026-11-10T04:47:22.8766671Z  * [new branch]        claude/cbz0-comment-math-body-custody-20261102 -> origin/claude/cbz0-comment-math-body-custody-20261102
+2026-11-10T04:47:22.8767954Z  * [new branch]        claude/cbz0-comment-math-census-20261031 -> origin/claude/cbz0-comment-math-census-20261031
+2026-11-10T04:47:22.8768954Z  * [new branch]        claude/cbz0-comment-math-impl-sourcing-20261102 -> origin/claude/cbz0-comment-math-impl-sourcing-20261102
+2026-11-10T04:47:22.8769855Z  * [new branch]        claude/cbz0-drift-ack-20261105           -> origin/claude/cbz0-drift-ack-20261105
+2026-11-10T04:47:22.8770787Z  * [new branch]        claude/cbz0-g12-defs-from-20261106       -> origin/claude/cbz0-g12-defs-from-20261106
+2026-11-10T04:47:22.8771573Z  * [new branch]        claude/cbz0-g12-finvec-20261104          -> origin/claude/cbz0-g12-finvec-20261104
+2026-11-10T04:47:22.8772380Z  * [new branch]        claude/cbz0-g12-transcendental-20261106  -> origin/claude/cbz0-g12-transcendental-20261106
+2026-11-10T04:47:22.8773177Z  * [new branch]        claude/cbz0-phase1-20261029              -> origin/claude/cbz0-phase1-20261029
+2026-11-10T04:47:22.8773961Z  * [new branch]        claude/cover-outside-residual-guard      -> origin/claude/cover-outside-residual-guard
+2026-11-10T04:47:22.8774758Z  * [new branch]        claude/cover-survivor-tangency           -> origin/claude/cover-survivor-tangency
+2026-11-10T04:47:22.8775775Z  * [new branch]        claude/cover-tangency-on-hardening       -> origin/claude/cover-tangency-on-hardening
+2026-11-10T04:47:22.8776618Z  * [new branch]        claude/cover-uniform-cost-contract       -> origin/claude/cover-uniform-cost-contract
+2026-11-10T04:47:22.8777719Z  * [new branch]        claude/dbx-crosswalk-01cz-20261024       -> origin/claude/dbx-crosswalk-01cz-20261024
+2026-11-10T04:47:22.8778583Z  * [new branch]        claude/dbx-crosswalk-01cz-20261024-r2    -> origin/claude/dbx-crosswalk-01cz-20261024-r2
+2026-11-10T04:47:22.8779575Z  * [new branch]        claude/determined-bardeen-mrqy4y         -> origin/claude/determined-bardeen-mrqy4y
+2026-11-10T04:47:22.8780480Z  * [new branch]        claude/drive-audit-github-migration-rrglpp -> origin/claude/drive-audit-github-migration-rrglpp
+2026-11-10T04:47:22.8781415Z  * [new branch]        claude/g1f2-g3f1-worker-liveness-71049ac9 -> origin/claude/g1f2-g3f1-worker-liveness-71049ac9
+2026-11-10T04:47:22.8782435Z  * [new branch]        claude/g2-02-serialized-size-71049ac9    -> origin/claude/g2-02-serialized-size-71049ac9
+2026-11-10T04:47:22.8784094Z  * [new branch]        claude/github-chatgpt-xxw5kp             -> origin/claude/github-chatgpt-xxw5kp
+2026-11-10T04:47:22.8785815Z  * [new branch]        claude/handoff-lean-register-tools-20261013 -> origin/claude/handoff-lean-register-tools-20261013
+2026-11-10T04:47:22.8787865Z  * [new branch]        claude/help-other-claude-models-829990   -> origin/claude/help-other-claude-models-829990
+2026-11-10T04:47:22.8789576Z  * [new branch]        claude/incoming-side24-chart-v2-20260926 -> origin/claude/incoming-side24-chart-v2-20260926
+2026-11-10T04:47:22.8791159Z  * [new branch]        claude/journal-623-624-combined-d476fc21 -> origin/claude/journal-623-624-combined-d476fc21
+2026-11-10T04:47:22.8792692Z  * [new branch]        claude/ladder-pin-reconcile              -> origin/claude/ladder-pin-reconcile
+2026-11-10T04:47:22.8794463Z  * [new branch]        claude/lean-verification-specification-20261010 -> origin/claude/lean-verification-specification-20261010
+2026-11-10T04:47:22.8796142Z  * [new branch]        claude/main-landing-page                 -> origin/claude/main-landing-page
+2026-11-10T04:47:22.8797761Z  * [new branch]        claude/nice-maxwell-7i7ok0               -> origin/claude/nice-maxwell-7i7ok0
+2026-11-10T04:47:22.8799136Z  * [new branch]        claude/nice-maxwell-7i7ok0-cbz0          -> origin/claude/nice-maxwell-7i7ok0-cbz0
+2026-11-10T04:47:22.8800755Z  * [new branch]        claude/physics-multiscale-reconstruction-a1G1I -> origin/claude/physics-multiscale-reconstruction-a1G1I
+2026-11-10T04:47:22.8802407Z  * [new branch]        claude/pinned-sources-inventory          -> origin/claude/pinned-sources-inventory
+2026-11-10T04:47:22.8803853Z  * [new branch]        claude/quarantine-digest-coverage        -> origin/claude/quarantine-digest-coverage
+2026-11-10T04:47:22.8805257Z  * [new branch]        claude/recovery-01N-20261013             -> origin/claude/recovery-01N-20261013
+2026-11-10T04:47:22.8806580Z  * [new branch]        claude/recovery-01cz-20261013            -> origin/claude/recovery-01cz-20261013
+2026-11-10T04:47:22.8808243Z  * [new branch]        claude/recovery-01cz-delta-20261018      -> origin/claude/recovery-01cz-delta-20261018
+2026-11-10T04:47:22.8809883Z  * [new branch]        claude/recovery-01cz-delta-20261020      -> origin/claude/recovery-01cz-delta-20261020
+2026-11-10T04:47:22.8810723Z  * [new branch]        claude/recovery-S-20261013               -> origin/claude/recovery-S-20261013
+2026-11-10T04:47:22.8811559Z  * [new branch]        claude/review-grok-github-uploads-gsthj3 -> origin/claude/review-grok-github-uploads-gsthj3
+2026-11-10T04:47:22.8812460Z  * [new branch]        claude/setup-complexity-physics-8H96d    -> origin/claude/setup-complexity-physics-8H96d
+2026-11-10T04:47:22.8813323Z  * [new branch]        claude/shared-custody-01cz-20261025      -> origin/claude/shared-custody-01cz-20261025
+2026-11-10T04:47:22.8814196Z  * [new branch]        claude/side24-v3-supplement-draft-20261013 -> origin/claude/side24-v3-supplement-draft-20261013
+2026-11-10T04:47:22.8815135Z  * [new branch]        claude/side24-v3-supplement-draft10-20261019 -> origin/claude/side24-v3-supplement-draft10-20261019
+2026-11-10T04:47:22.8816076Z  * [new branch]        claude/side24-v3-supplement-draft11-20261019 -> origin/claude/side24-v3-supplement-draft11-20261019
+2026-11-10T04:47:22.8817002Z  * [new branch]        claude/side24-v3-supplement-draft12-20261019 -> origin/claude/side24-v3-supplement-draft12-20261019
+2026-11-10T04:47:22.8818255Z  * [new branch]        claude/side24-v3-supplement-draft13-20261020 -> origin/claude/side24-v3-supplement-draft13-20261020
+2026-11-10T04:47:22.8819207Z  * [new branch]        claude/side24-v3-supplement-draft14-20261021 -> origin/claude/side24-v3-supplement-draft14-20261021
+2026-11-10T04:47:22.8820425Z  * [new branch]        claude/side24-v3-supplement-draft15-20261021 -> origin/claude/side24-v3-supplement-draft15-20261021
+2026-11-10T04:47:22.8822208Z  * [new branch]        claude/side24-v3-supplement-draft16-20261021 -> origin/claude/side24-v3-supplement-draft16-20261021
+2026-11-10T04:47:22.8823569Z  * [new branch]        claude/side24-v3-supplement-draft17-20261026 -> origin/claude/side24-v3-supplement-draft17-20261026
+2026-11-10T04:47:22.8824534Z  * [new branch]        claude/side24-v3-supplement-draft18-20261026 -> origin/claude/side24-v3-supplement-draft18-20261026
+2026-11-10T04:47:22.8825472Z  * [new branch]        claude/side24-v3-supplement-draft9-20261015 -> origin/claude/side24-v3-supplement-draft9-20261015
+2026-11-10T04:47:22.8826382Z  * [new branch]        claude/zeta-fold-r2-replay-venue-20261020 -> origin/claude/zeta-fold-r2-replay-venue-20261020
+2026-11-10T04:47:22.8827694Z  * [new branch]        claude/zeta-fold-residual-diag-retention-20261021 -> origin/claude/zeta-fold-residual-diag-retention-20261021
+2026-11-10T04:47:22.8828760Z  * [new branch]        claude/zeta-manifest-check-adoption-20261021 -> origin/claude/zeta-manifest-check-adoption-20261021
+2026-11-10T04:47:22.8829705Z  * [new branch]        codex/605-v22-canonical-dataset-20261025 -> origin/codex/605-v22-canonical-dataset-20261025
+2026-11-10T04:47:22.8830652Z  * [new branch]        codex/architecture-cli-boundary-red-20261016 -> origin/codex/architecture-cli-boundary-red-20261016
+2026-11-10T04:47:22.8831633Z  * [new branch]        codex/architecture-post-upload-probe-20261008 -> origin/codex/architecture-post-upload-probe-20261008
+2026-11-10T04:47:22.8832709Z  * [new branch]        codex/c226-formal-phase-evidence         -> origin/codex/c226-formal-phase-evidence
+2026-11-10T04:47:22.8833674Z  * [new branch]        codex/c287-population-current-main-20261016 -> origin/codex/c287-population-current-main-20261016
+2026-11-10T04:47:22.8835502Z  * [new branch]        codex/canvas-model-controls-20261009     -> origin/codex/canvas-model-controls-20261009
+2026-11-10T04:47:22.8837353Z  * [new branch]        codex/casefold-adapter-checked-probe-20261008 -> origin/codex/casefold-adapter-checked-probe-20261008
+2026-11-10T04:47:22.8839625Z  * [new branch]        codex/casefold-adapter-final-checked-20261008 -> origin/codex/casefold-adapter-final-checked-20261008
+2026-11-10T04:47:22.8841670Z  * [new branch]        codex/cbz-architecture-observation-20261110 -> origin/codex/cbz-architecture-observation-20261110
+2026-11-10T04:47:22.8843569Z  * [new branch]        codex/cbz-g11-browser-entrypoints-20261107 -> origin/codex/cbz-g11-browser-entrypoints-20261107
+2026-11-10T04:47:22.8845050Z  * [new branch]        codex/cbz-guidance-2dcac160-20261029     -> origin/codex/cbz-guidance-2dcac160-20261029
+2026-11-10T04:47:22.8845976Z  * [new branch]        codex/cbz-hard-gate-refresh-20261110     -> origin/codex/cbz-hard-gate-refresh-20261110
+2026-11-10T04:47:22.8846815Z  * [new branch]        codex/cbz-intent-01a103c8-20261029       -> origin/codex/cbz-intent-01a103c8-20261029
+2026-11-10T04:47:22.8848076Z  * [new branch]        codex/cbz-math514-kernel-replay-20261029 -> origin/codex/cbz-math514-kernel-replay-20261029
+2026-11-10T04:47:22.8849812Z  * [new branch]        codex/cbz-q9006-original-live-20261110   -> origin/codex/cbz-q9006-original-live-20261110
+2026-11-10T04:47:22.8851363Z  * [new branch]        codex/cbz-sdga-axiom-task-b-20261110     -> origin/codex/cbz-sdga-axiom-task-b-20261110
+2026-11-10T04:47:22.8852902Z  * [new branch]        codex/cbz-sdga-lean-task-a-20261110      -> origin/codex/cbz-sdga-lean-task-a-20261110
+2026-11-10T04:47:22.8854524Z  * [new branch]        codex/current-observation-recovery-20261022-2234 -> origin/codex/current-observation-recovery-20261022-2234
+2026-11-10T04:47:22.8856393Z  * [new branch]        codex/cusp-analytic-guards-20261009-root01a11cbf -> origin/codex/cusp-analytic-guards-20261009-root01a11cbf
+2026-11-10T04:47:22.8858360Z  * [new branch]        codex/enforcement-control-20260922       -> origin/codex/enforcement-control-20260922
+2026-11-10T04:47:22.8859829Z  * [new branch]        codex/enforcement-probe-20260922         -> origin/codex/enforcement-probe-20260922
+2026-11-10T04:47:22.8861914Z  * [new branch]        codex/exact-population-certificate-20261009-root01a11cbf -> origin/codex/exact-population-certificate-20261009-root01a11cbf
+2026-11-10T04:47:22.8864138Z  * [new branch]        codex/exact-population-certificate-ci-20261009-root01a11cbf -> origin/codex/exact-population-certificate-ci-20261009-root01a11cbf
+2026-11-10T04:47:22.8865272Z  * [new branch]        codex/g11-auditor-soundness-20261030-gpt6 -> origin/codex/g11-auditor-soundness-20261030-gpt6
+2026-11-10T04:47:22.8866190Z  * [new branch]        codex/g11-auditor-soundness-20261030-gpt6-r2 -> origin/codex/g11-auditor-soundness-20261030-gpt6-r2
+2026-11-10T04:47:22.8867230Z  * [new branch]        codex/global-cusp-h0-selector-20261009-root01a11cbf -> origin/codex/global-cusp-h0-selector-20261009-root01a11cbf
+2026-11-10T04:47:22.8868682Z  * [new branch]        codex/global-cusp-h0-validation-20261009-root01a11cbf -> origin/codex/global-cusp-h0-validation-20261009-root01a11cbf
+2026-11-10T04:47:22.8869639Z  * [new branch]        codex/h3-closure-mirror-20261018         -> origin/codex/h3-closure-mirror-20261018
+2026-11-10T04:47:22.8870468Z  * [new branch]        codex/higher-homology-fold-20261008      -> origin/codex/higher-homology-fold-20261008
+2026-11-10T04:47:22.8871418Z  * [new branch]        codex/lease-crypto-runtime-preparation-20261009 -> origin/codex/lease-crypto-runtime-preparation-20261009
+2026-11-10T04:47:22.8872349Z  * [new branch]        codex/lease-protocol-tests-20261009      -> origin/codex/lease-protocol-tests-20261009
+2026-11-10T04:47:22.8873210Z  * [new branch]        codex/main-classic-rule-evidence-20261025 -> origin/codex/main-classic-rule-evidence-20261025
+2026-11-10T04:47:22.8874074Z  * [new branch]        codex/main388-new-successor-20261014     -> origin/codex/main388-new-successor-20261014
+2026-11-10T04:47:22.8875695Z  * [new branch]        codex/main583-setup-python-only-20261024 -> origin/codex/main583-setup-python-only-20261024
+2026-11-10T04:47:22.8877166Z  * [new branch]        codex/mechanism-assimilation-20260922    -> origin/codex/mechanism-assimilation-20260922
+2026-11-10T04:47:22.8878495Z  * [new branch]        codex/milestone-audit-summary-20261002   -> origin/codex/milestone-audit-summary-20261002
+2026-11-10T04:47:22.8879540Z  * [new branch]        codex/navigation-timing-20261016         -> origin/codex/navigation-timing-20261016
+2026-11-10T04:47:22.8880374Z  * [new branch]        codex/parallel-reader-tools-20261003     -> origin/codex/parallel-reader-tools-20261003
+2026-11-10T04:47:22.8881231Z  * [new branch]        codex/population-a1-controls-20261013    -> origin/codex/population-a1-controls-20261013
+2026-11-10T04:47:22.8882338Z  * [new branch]        codex/population-runner-attribution-20261013-root01a11cbf-2035z -> origin/codex/population-runner-attribution-20261013-root01a11cbf-2035z
+2026-11-10T04:47:22.8883455Z  * [new branch]        codex/reader-native-admission-20261017   -> origin/codex/reader-native-admission-20261017
+2026-11-10T04:47:22.8884326Z  * [new branch]        codex/reader-native-cp-20261017          -> origin/codex/reader-native-cp-20261017
+2026-11-10T04:47:22.8885222Z  * [new branch]        codex/reader-runtime-preparation-20261011 -> origin/codex/reader-runtime-preparation-20261011
+2026-11-10T04:47:22.8886265Z  * [new branch]        codex/reader438-review-evidence-20261017-root01a14b9f -> origin/codex/reader438-review-evidence-20261017-root01a14b9f
+2026-11-10T04:47:22.8887260Z  * [new branch]        codex/req8-controls-r01-20261020-1500    -> origin/codex/req8-controls-r01-20261020-1500
+2026-11-10T04:47:22.8888490Z  * [new branch]        codex/reviewed-fold-diagonal-20261016-root01a11cbf -> origin/codex/reviewed-fold-diagonal-20261016-root01a11cbf
+2026-11-10T04:47:22.8889468Z  * [new branch]        codex/routing-broker-tests-20261009      -> origin/codex/routing-broker-tests-20261009
+2026-11-10T04:47:22.8890549Z  * [new branch]        codex/routing-sqlite-runtime-preparation-20261008 -> origin/codex/routing-sqlite-runtime-preparation-20261008
+2026-11-10T04:47:22.8891552Z  * [new branch]        codex/semantic-memory-task1-20261016     -> origin/codex/semantic-memory-task1-20261016
+2026-11-10T04:47:22.8892675Z  * [new branch]        codex/semantic-runtime-preparation-20261008 -> origin/codex/semantic-runtime-preparation-20261008
+2026-11-10T04:47:22.8893799Z  * [new branch]        codex/signed-lease-recovery-evidence-20261018-root01a14b9f -> origin/codex/signed-lease-recovery-evidence-20261018-root01a14b9f
+2026-11-10T04:47:22.8894859Z  * [new branch]        codex/site-at-generated-f614-20261025    -> origin/codex/site-at-generated-f614-20261025
+2026-11-10T04:47:22.8895714Z  * [new branch]        codex/site-first-red-20261022-2207       -> origin/codex/site-first-red-20261022-2207
+2026-11-10T04:47:22.8896794Z  * [new branch]        codex/site-publication-receipts          -> origin/codex/site-publication-receipts
+2026-11-10T04:47:22.8898205Z  * [new branch]        codex/site-route-controls-v3-20261022-2338 -> origin/codex/site-route-controls-v3-20261022-2338
+2026-11-10T04:47:22.8899158Z  * [new branch]        codex/source-workflows-20261029          -> origin/codex/source-workflows-20261029
+2026-11-10T04:47:22.8900077Z  * [new branch]        codex/spectral-amplitude-crossover-20261008 -> origin/codex/spectral-amplitude-crossover-20261008
+2026-11-10T04:47:22.8901060Z  * [new branch]        codex/spectral-gaussian-admission-20261008 -> origin/codex/spectral-gaussian-admission-20261008
+2026-11-10T04:47:22.8901990Z  * [new branch]        codex/stationary-quartic-cusp-20261009   -> origin/codex/stationary-quartic-cusp-20261009
+2026-11-10T04:47:22.8902917Z  * [new branch]        codex/two-control-cusp-population-20261009 -> origin/codex/two-control-cusp-population-20261009
+2026-11-10T04:47:22.8903819Z  * [new branch]        codex/verification-museum-20260926       -> origin/codex/verification-museum-20260926
+2026-11-10T04:47:22.8904813Z  * [new branch]        codex/weighted-cusp-production-20261026-root01a11cbf -> origin/codex/weighted-cusp-production-20261026-root01a11cbf
+2026-11-10T04:47:22.8905941Z  * [new branch]        codex/weighted-cusp-sampling-20261025-root01a11cbf -> origin/codex/weighted-cusp-sampling-20261025-root01a11cbf
+2026-11-10T04:47:22.8906993Z  * [new branch]        copilot/comprehensive-audit-d6g8k5htny-coder -> origin/copilot/comprehensive-audit-d6g8k5htny-coder
+2026-11-10T04:47:22.8908626Z  * [new branch]        copilot/copilotupdate-coordination-references-307 -> origin/copilot/copilotupdate-coordination-references-307
+2026-11-10T04:47:22.8909605Z  * [new branch]        copilot/ec-014-audit-tasks               -> origin/copilot/ec-014-audit-tasks
+2026-11-10T04:47:22.8910625Z  * [new branch]        copilot/update-contributor-routing-agent-message-board-419 -> origin/copilot/update-contributor-routing-agent-message-board-419
+2026-11-10T04:47:22.8911722Z  * [new branch]        cursor/at-remainder-source-repair-8ffc   -> origin/cursor/at-remainder-source-repair-8ffc
+2026-11-10T04:47:22.8912636Z  * [new branch]        cursor/batch249-tip-observe-542e6ec-1c18 -> origin/cursor/batch249-tip-observe-542e6ec-1c18
+2026-11-10T04:47:22.8913533Z  * [new branch]        cursor/compose-719-r4-a11-20261031-3523  -> origin/cursor/compose-719-r4-a11-20261031-3523
+2026-11-10T04:47:22.8914436Z  * [new branch]        cursor/cond-importers-13-audit-20260925  -> origin/cursor/cond-importers-13-audit-20260925
+2026-11-10T04:47:22.8915443Z  * [new branch]        cursor/contribution-plan-crosswalk-lpw-identity -> origin/cursor/contribution-plan-crosswalk-lpw-identity
+2026-11-10T04:47:22.8916513Z  * [new branch]        cursor/downstream-crosswalk-outside-packet-31c5 -> origin/cursor/downstream-crosswalk-outside-packet-31c5
+2026-11-10T04:47:22.8917867Z  * [new branch]        cursor/env-rescov-node-classification-20260925 -> origin/cursor/env-rescov-node-classification-20260925
+2026-11-10T04:47:22.8918869Z  * [new branch]        cursor/f1-repair-618-impl-ref-20261025-9e39 -> origin/cursor/f1-repair-618-impl-ref-20261025-9e39
+2026-11-10T04:47:22.8919777Z  * [new branch]        cursor/g1-f1-journal-lf-framing-0b94     -> origin/cursor/g1-f1-journal-lf-framing-0b94
+2026-11-10T04:47:22.8920907Z  * [new branch]        cursor/integrate-697-a10-p697-20261031-2258-78e0 -> origin/cursor/integrate-697-a10-p697-20261031-2258-78e0
+2026-11-10T04:47:22.8921883Z  * [new branch]        cursor/intermediate-scale-bridge-ab2f    -> origin/cursor/intermediate-scale-bridge-ab2f
+2026-11-10T04:47:22.8922782Z  * [new branch]        cursor/inventable-jetmod-probes-4488     -> origin/cursor/inventable-jetmod-probes-4488
+2026-11-10T04:47:22.8923754Z  * [new branch]        cursor/inventable-jetmod-shortcut-refusals-09c9 -> origin/cursor/inventable-jetmod-shortcut-refusals-09c9
+2026-11-10T04:47:22.8924808Z  * [new branch]        cursor/inventable-jetmod-status-honesty-f8c0 -> origin/cursor/inventable-jetmod-status-honesty-f8c0
+2026-11-10T04:47:22.8925732Z  * [new branch]        cursor/inventable-nav-rescue-334e        -> origin/cursor/inventable-nav-rescue-334e
+2026-11-10T04:47:22.8926678Z  * [new branch]        cursor/inventable-probe-index-provenance-b0e1 -> origin/cursor/inventable-probe-index-provenance-b0e1
+2026-11-10T04:47:22.8928001Z  * [new branch]        cursor/inventable-refused-empty-absent-honesty-a3f9 -> origin/cursor/inventable-refused-empty-absent-honesty-a3f9
+2026-11-10T04:47:22.8929281Z  * [new branch]        cursor/inventable-refused-empty-absent-honesty-f763 -> origin/cursor/inventable-refused-empty-absent-honesty-f763
+2026-11-10T04:47:22.8930458Z  * [new branch]        cursor/inventable-registers-check-known-acceptance-c426 -> origin/cursor/inventable-registers-check-known-acceptance-c426
+2026-11-10T04:47:22.8931582Z  * [new branch]        cursor/inventable-rn-absent-empty-honesty-f2a8 -> origin/cursor/inventable-rn-absent-empty-honesty-f2a8
+2026-11-10T04:47:22.8932612Z  * [new branch]        cursor/inventable-status-jetmod-24jet-row-852a -> origin/cursor/inventable-status-jetmod-24jet-row-852a
+2026-11-10T04:47:22.8933642Z  * [new branch]        cursor/inventable-tip-observation-honesty-79ba -> origin/cursor/inventable-tip-observation-honesty-79ba
+2026-11-10T04:47:22.8934665Z  * [new branch]        cursor/inventable-tip-observe-02cfbfdf-ad5a -> origin/cursor/inventable-tip-observe-02cfbfdf-ad5a
+2026-11-10T04:47:22.8935771Z  * [new branch]        cursor/inventable-tip-observe-388a22ca   -> origin/cursor/inventable-tip-observe-388a22ca
+2026-11-10T04:47:22.8936746Z  * [new branch]        cursor/inventable-tip-observe-3b3860da-cf44 -> origin/cursor/inventable-tip-observe-3b3860da-cf44
+2026-11-10T04:47:22.8938003Z  * [new branch]        cursor/inventable-tip-observe-542e6ec-8fc7 -> origin/cursor/inventable-tip-observe-542e6ec-8fc7
+2026-11-10T04:47:22.8938977Z  * [new branch]        cursor/inventable-tip-observe-8e359e5-d0bd -> origin/cursor/inventable-tip-observe-8e359e5-d0bd
+2026-11-10T04:47:22.8939977Z  * [new branch]        cursor/inventable-vault-path-tooling-docs-360d -> origin/cursor/inventable-vault-path-tooling-docs-360d
+2026-11-10T04:47:22.8941071Z  * [new branch]        cursor/jetmod-partial-refused-not-24jet-status-vocab -> origin/cursor/jetmod-partial-refused-not-24jet-status-vocab
+2026-11-10T04:47:22.8942132Z  * [new branch]        cursor/jetmod-sibling-sweep-empty-7b82   -> origin/cursor/jetmod-sibling-sweep-empty-7b82
+2026-11-10T04:47:22.8942998Z  * [new branch]        cursor/jetmod-status-vocab-1814          -> origin/cursor/jetmod-status-vocab-1814
+2026-11-10T04:47:22.8943803Z  * [new branch]        cursor/main-crosswalk-nav-31c5           -> origin/cursor/main-crosswalk-nav-31c5
+2026-11-10T04:47:22.8944683Z  * [new branch]        cursor/math-status-inventable-honesty-3242 -> origin/cursor/math-status-inventable-honesty-3242
+2026-11-10T04:47:22.8945635Z  * [new branch]        cursor/math-status-open-hold-20260922-b4a3 -> origin/cursor/math-status-open-hold-20260922-b4a3
+2026-11-10T04:47:22.8946563Z  * [new branch]        cursor/math-status-open-hold-20260922-e340 -> origin/cursor/math-status-open-hold-20260922-e340
+2026-11-10T04:47:22.8947785Z  * [new branch]        cursor/math-status-readme-unmix-9b14     -> origin/cursor/math-status-readme-unmix-9b14
+2026-11-10T04:47:22.8948946Z  * [new branch]        cursor/math-status-walls-20260922-da25   -> origin/cursor/math-status-walls-20260922-da25
+2026-11-10T04:47:22.8949882Z  * [new branch]        cursor/path-c-0019-attestations-rw-0c9d  -> origin/cursor/path-c-0019-attestations-rw-0c9d
+2026-11-10T04:47:22.8950765Z  * [new branch]        cursor/path-c-portable-fixes             -> origin/cursor/path-c-portable-fixes
+2026-11-10T04:47:22.8951598Z  * [new branch]        cursor/pickup-live-tip-line-b3c0         -> origin/cursor/pickup-live-tip-line-b3c0
+2026-11-10T04:47:22.8952486Z  * [new branch]        cursor/q0-ledger-reconcile-ebedb78-31c5  -> origin/cursor/q0-ledger-reconcile-ebedb78-31c5
+2026-11-10T04:47:22.8953456Z  * [new branch]        cursor/register-consumers-cold-start-nav-a2df -> origin/cursor/register-consumers-cold-start-nav-a2df
+2026-11-10T04:47:22.8954412Z  * [new branch]        cursor/replace-2025-main-landing-6939    -> origin/cursor/replace-2025-main-landing-6939
+2026-11-10T04:47:22.8955374Z  * [new branch]        cursor/restore-independence-credit-quote-e6a4 -> origin/cursor/restore-independence-credit-quote-e6a4
+2026-11-10T04:47:22.8956421Z  * [new branch]        cursor/retip-38-outside-residual-guard-077464ef -> origin/cursor/retip-38-outside-residual-guard-077464ef
+2026-11-10T04:47:22.8957629Z  * [new branch]        cursor/retip-46-cellcount-pin-077464ef   -> origin/cursor/retip-46-cellcount-pin-077464ef
+2026-11-10T04:47:22.8958553Z  * [new branch]        cursor/rn-unif-walkdown-scope-fixes      -> origin/cursor/rn-unif-walkdown-scope-fixes
+2026-11-10T04:47:22.8959505Z  * [new branch]        cursor/scientific-state-schema-crosswalk-31c5 -> origin/cursor/scientific-state-schema-crosswalk-31c5
+2026-11-10T04:47:22.8960434Z  * [new branch]        cursor/side24-align-fresh-637-4904       -> origin/cursor/side24-align-fresh-637-4904
+2026-11-10T04:47:22.8961350Z  * [new branch]        cursor/side24-alignment-review-20261026-dd62 -> origin/cursor/side24-alignment-review-20261026-dd62
+2026-11-10T04:47:22.8962325Z  * [new branch]        cursor/side24-missing-source-custody-0532 -> origin/cursor/side24-missing-source-custody-0532
+2026-11-10T04:47:22.8963236Z  * [new branch]        cursor/side24-nav-prep-honesty-a050      -> origin/cursor/side24-nav-prep-honesty-a050
+2026-11-10T04:47:22.8964312Z  * [new branch]        cursor/side24-prep-sot-absent-nav-d1b8   -> origin/cursor/side24-prep-sot-absent-nav-d1b8
+2026-11-10T04:47:22.8965336Z  * [new branch]        cursor/status-jetmod-inventable-merge-promote-2820 -> origin/cursor/status-jetmod-inventable-merge-promote-2820
+2026-11-10T04:47:22.8966340Z  * [new branch]        cursor/tip-align-packet-ae7daf7-dc7f     -> origin/cursor/tip-align-packet-ae7daf7-dc7f
+2026-11-10T04:47:22.8967288Z  * [new branch]        cursor/tip-docs-hygiene-banners-4a17     -> origin/cursor/tip-docs-hygiene-banners-4a17
+2026-11-10T04:47:22.8968508Z  * [new branch]        cursor/tip-observe-0adeb651-d320         -> origin/cursor/tip-observe-0adeb651-d320
+2026-11-10T04:47:22.8969348Z  * [new branch]        cursor/tip-observe-3a29f526-8144         -> origin/cursor/tip-observe-3a29f526-8144
+2026-11-10T04:47:22.8970167Z  * [new branch]        cursor/tip-observe-fcad7236-c5d9         -> origin/cursor/tip-observe-fcad7236-c5d9
+2026-11-10T04:47:22.8971050Z  * [new branch]        cursor/vault-quarantine-hygiene-9f01     -> origin/cursor/vault-quarantine-hygiene-9f01
+2026-11-10T04:47:22.8972138Z  * [new branch]        cursor/zeta-fold-slice-c-original-timing-bytes-20261021-458c -> origin/cursor/zeta-fold-slice-c-original-timing-bytes-20261021-458c
+2026-11-10T04:47:22.8973377Z  * [new branch]        cursor/zeta-fold-slice-c-timing-retention-20261020-458c -> origin/cursor/zeta-fold-slice-c-timing-retention-20261020-458c
+2026-11-10T04:47:22.8974478Z  * [new branch]        custody/dot-p15-manifest-correction-20261025 -> origin/custody/dot-p15-manifest-correction-20261025
+2026-11-10T04:47:22.8975482Z  * [new branch]        custody/dot-v19-dependency-supplement-20261025 -> origin/custody/dot-v19-dependency-supplement-20261025
+2026-11-10T04:47:22.8976619Z  * [new branch]        custody/dot-v19-gap2-originals-20261026  -> origin/custody/dot-v19-gap2-originals-20261026
+2026-11-10T04:47:22.8978002Z  * [new branch]        dependabot/github_actions/github-actions-d51a082eac -> origin/dependabot/github_actions/github-actions-d51a082eac
+2026-11-10T04:47:22.8979125Z  * [new branch]        dependabot/github_actions/github-actions-ecce1b6774 -> origin/dependabot/github_actions/github-actions-ecce1b6774
+2026-11-10T04:47:22.8980167Z  * [new branch]        docs/retro-proof-source-join-incorp-20261025 -> origin/docs/retro-proof-source-join-incorp-20261025
+2026-11-10T04:47:22.8981069Z  * [new branch]        docs/workspace-board-307-h04             -> origin/docs/workspace-board-307-h04
+2026-11-10T04:47:22.8981886Z  * [new branch]        docs/workspace-board-pointer-307         -> origin/docs/workspace-board-pointer-307
+2026-11-10T04:47:22.8982756Z  * [new branch]        fix/atlas-hosted-admission-20261029      -> origin/fix/atlas-hosted-admission-20261029
+2026-11-10T04:47:22.8983686Z  * [new branch]        fix/atlas-persistent-ci-discovery-20261026 -> origin/fix/atlas-persistent-ci-discovery-20261026
+2026-11-10T04:47:22.8984608Z  * [new branch]        grok-h01/routing-update-agents-738       -> origin/grok-h01/routing-update-agents-738
+2026-11-10T04:47:22.8985528Z  * [new branch]        grok-h01/routing-update-agents-738-20261101 -> origin/grok-h01/routing-update-agents-738-20261101
+2026-11-10T04:47:22.8986610Z  * [new branch]        grok-h02-formal-routing-amend-20261013   -> origin/grok-h02-formal-routing-amend-20261013
+2026-11-10T04:47:22.8987771Z  * [new branch]        grok-h02/retro-proof-source-join-incorp-20261025 -> origin/grok-h02/retro-proof-source-join-incorp-20261025
+2026-11-10T04:47:22.8988783Z  * [new branch]        grok-h04/c221-doc-01-public-shop-commands -> origin/grok-h04/c221-doc-01-public-shop-commands
+2026-11-10T04:47:22.8989652Z  * [new branch]        grok-h04/c221-doc-01-w8b-commands        -> origin/grok-h04/c221-doc-01-w8b-commands
+2026-11-10T04:47:22.8990472Z  * [new branch]        grok-h04/c221-doc-01-w8b-restore         -> origin/grok-h04/c221-doc-01-w8b-restore
+2026-11-10T04:47:22.8991430Z  * [new branch]        grok/c160-path-01-fixture-alias          -> origin/grok/c160-path-01-fixture-alias
+2026-11-10T04:47:22.8992236Z  * [new branch]        grok/c221-doc-01-w8b-commands            -> origin/grok/c221-doc-01-w8b-commands
+2026-11-10T04:47:22.8993093Z  * [new branch]        grok/h02-workspace-board-pointer-20261009 -> origin/grok/h02-workspace-board-pointer-20261009
+2026-11-10T04:47:22.8994017Z  * [new branch]        grok/workspace-board-pointer-20261009    -> origin/grok/workspace-board-pointer-20261009
+2026-11-10T04:47:22.8994948Z  * [new branch]        grok16/v20-planner-source-carrier-20261025 -> origin/grok16/v20-planner-source-carrier-20261025
+2026-11-10T04:47:22.8995929Z  * [new branch]        grokbot-agent12/pr340-identity-binding-20261024 -> origin/grokbot-agent12/pr340-identity-binding-20261024
+2026-11-10T04:47:22.8996838Z  * [new branch]        grokbot-agent15/ci-cache-01              -> origin/grokbot-agent15/ci-cache-01
+2026-11-10T04:47:22.8997821Z  * [new branch]        gtp/m700-g1-scan-snapshot-20261030       -> origin/gtp/m700-g1-scan-snapshot-20261030
+2026-11-10T04:47:22.8998690Z  * [new branch]        harper/workspace-coord-307-pointer       -> origin/harper/workspace-coord-307-pointer
+2026-11-10T04:47:22.8999577Z  * [new branch]        incoming/grok-cycle2-nd-d5-sard-20260926 -> origin/incoming/grok-cycle2-nd-d5-sard-20260926
+2026-11-10T04:47:22.9000575Z  * [new branch]        inventable/open-problems-frozen-errata-388a22ca -> origin/inventable/open-problems-frozen-errata-388a22ca
+2026-11-10T04:47:22.9001662Z  * [new branch]        inventable/rn-certified-q2-carrier-absent-077464ef -> origin/inventable/rn-certified-q2-carrier-absent-077464ef
+2026-11-10T04:47:22.9002646Z  * [new branch]        inventable/rn-crosswalk-docs-077464ef    -> origin/inventable/rn-crosswalk-docs-077464ef
+2026-11-10T04:47:22.9003775Z  * [new branch]        inventable/side24-cell-errata-pointer-848aea2a -> origin/inventable/side24-cell-errata-pointer-848aea2a
+2026-11-10T04:47:22.9004840Z  * [new branch]        inventable/side24-cell-spatial-crosslink-3a29f526 -> origin/inventable/side24-cell-spatial-crosslink-3a29f526
+2026-11-10T04:47:22.9006170Z  * [new branch]        inventable/side24-cell-square-importers-077464ef -> origin/inventable/side24-cell-square-importers-077464ef
+2026-11-10T04:47:22.9007932Z  * [new branch]        inventable/side24-nav-pages-3b3860da     -> origin/inventable/side24-nav-pages-3b3860da
+2026-11-10T04:47:22.9008719Z  * [new branch]        main                                     -> origin/main
+2026-11-10T04:47:22.9009530Z  * [new branch]        research/v22-second-height-generic-gpt6-20261026 -> origin/research/v22-second-height-generic-gpt6-20261026
+2026-11-10T04:47:22.9010557Z  * [new branch]        rloop/formal-page-triggers-20261014-6178357042 -> origin/rloop/formal-page-triggers-20261014-6178357042
+2026-11-10T04:47:22.9011522Z  * [new branch]        rtw/m722-g1-xdg-ignore-boundary-20261030 -> origin/rtw/m722-g1-xdg-ignore-boundary-20261030
+2026-11-10T04:47:22.9012427Z  * [new branch]        transport/register-integration-20260923  -> origin/transport/register-integration-20260923
+2026-11-10T04:47:22.9013278Z  * [new branch]        transport/register-r1-20260923           -> origin/transport/register-r1-20260923
+2026-11-10T04:47:22.9014104Z  * [new branch]        update-agents-board-pointer-h03          -> origin/update-agents-board-pointer-h03
+2026-11-10T04:47:22.9014902Z  * [new tag]           archive/drive-migration-20261002         -> archive/drive-migration-20261002
+2026-11-10T04:47:22.9015627Z  * [new tag]           cbz-quarantine-q-8336                    -> cbz-quarantine-q-8336
+2026-11-10T04:47:22.9016275Z  * [new tag]           cbz-quarantine-q-8340                    -> cbz-quarantine-q-8340
+2026-11-10T04:47:22.9016919Z  * [new tag]           cbz-quarantine-q-8429                    -> cbz-quarantine-q-8429
+2026-11-10T04:47:22.9017772Z  * [new tag]           integrate-697-after-am-9e8d634a          -> integrate-697-after-am-9e8d634a
+2026-11-10T04:47:22.9018473Z  * [new tag]           pre-cbz-discovery-1                      -> pre-cbz-discovery-1
+2026-11-10T04:47:22.9019300Z  * [new tag]           retain/pr-646-194e229606c6               -> retain/pr-646-194e229606c6
+2026-11-10T04:47:22.9019994Z  * [new tag]           retain/pr-650-a51445b4c2d6               -> retain/pr-650-a51445b4c2d6
+2026-11-10T04:47:22.9020645Z  * [new tag]           retain/pr621-3ef658d7                    -> retain/pr621-3ef658d7
+2026-11-10T04:47:22.9021274Z  * [new tag]           retain/pr634-387b2321                    -> retain/pr634-387b2321
+2026-11-10T04:47:22.9021897Z  * [new ref]           6d0645bd851973696ff4afdee24ccb17d192687f -> pull/806/merge
+2026-11-10T04:47:22.9023342Z ##[endgroup]
+2026-11-10T04:47:22.9023910Z ##[group]Determining the checkout info
+2026-11-10T04:47:22.9024509Z ##[endgroup]
+2026-11-10T04:47:22.9024882Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T04:47:22.9025871Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T04:47:22.9027047Z ##[group]Checking out the ref
+2026-11-10T04:47:22.9027787Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/806/merge
+2026-11-10T04:47:23.4854669Z Note: switching to 'refs/remotes/pull/806/merge'.
+2026-11-10T04:47:23.4856612Z 
+2026-11-10T04:47:23.4857192Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-10T04:47:23.4858885Z changes and commit them, and you can discard any commits you make in this
+2026-11-10T04:47:23.4859988Z state without impacting any branches by switching back to a branch.
+2026-11-10T04:47:23.4860577Z 
+2026-11-10T04:47:23.4860942Z If you want to create a new branch to retain commits you create, you may
+2026-11-10T04:47:23.4861796Z do so (now or later) by using -c with the switch command. Example:
+2026-11-10T04:47:23.4862655Z 
+2026-11-10T04:47:23.4862889Z   git switch -c <new-branch-name>
+2026-11-10T04:47:23.4863236Z 
+2026-11-10T04:47:23.4863486Z Or undo this operation with:
+2026-11-10T04:47:23.4863790Z 
+2026-11-10T04:47:23.4863977Z   git switch -
+2026-11-10T04:47:23.4864235Z 
+2026-11-10T04:47:23.4864709Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-10T04:47:23.4865256Z 
+2026-11-10T04:47:23.4865875Z HEAD is now at 6d0645bd Merge 329376996218ff6576c699a61f931d2cf290fc5d into 2f878f8eb5c621dcf9231e4a1bf582b685321130
+2026-11-10T04:47:23.4917921Z ##[endgroup]
+2026-11-10T04:47:23.4974620Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T04:47:23.5011763Z 6d0645bd851973696ff4afdee24ccb17d192687f
+2026-11-10T04:47:23.5022092Z ##[group]Removing auth
+2026-11-10T04:47:23.5026415Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T04:47:23.5070788Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T04:47:23.5331684Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T04:47:23.5369301Z http.https://github.com/.extraheader
+2026-11-10T04:47:23.5378019Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-10T04:47:23.5420796Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T04:47:23.5677206Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T04:47:23.5719510Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T04:47:23.5971709Z ##[endgroup]
+2026-11-10T04:47:23.6270478Z ##[group]Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+2026-11-10T04:47:23.6271026Z with:
+2026-11-10T04:47:23.6271286Z   python-version: 3.11
+2026-11-10T04:47:23.6271572Z   check-latest: false
+2026-11-10T04:47:23.6274385Z   token: ***
+2026-11-10T04:47:23.6274654Z   update-environment: true
+2026-11-10T04:47:23.6274972Z   allow-prereleases: false
+2026-11-10T04:47:23.6275262Z   freethreaded: false
+2026-11-10T04:47:23.6275534Z ##[endgroup]
+2026-11-10T04:47:23.7735477Z ##[group]Installed versions
+2026-11-10T04:47:23.7840294Z (node:2403) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T04:47:23.7841206Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T04:47:23.7842361Z Successfully set up CPython (3.11.18)
+2026-11-10T04:47:23.7843432Z ##[endgroup]
+2026-11-10T04:47:23.8091642Z ##[group]Run set -uo pipefail
+2026-11-10T04:47:23.8092095Z [36;1mset -uo pipefail[0m
+2026-11-10T04:47:23.8092946Z [36;1mpython3 -B -S tools/node_status_live_check.py --root "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/node-status-live-normal.json" 2>&1 | tee "$RUNNER_TEMP/node-status-live-normal.log"[0m
+2026-11-10T04:47:23.8093839Z [36;1mstatuses=("${PIPESTATUS[@]}")[0m
+2026-11-10T04:47:23.8094454Z [36;1mprintf '{"cli_exit":%s,"log_exit":%s}\n' "${statuses[0]}" "${statuses[1]}" > "$RUNNER_TEMP/node-status-live-normal-exit.json"[0m
+2026-11-10T04:47:23.8095131Z [36;1mif [ "${statuses[0]}" -ne 0 ]; then exit "${statuses[0]}"; fi[0m
+2026-11-10T04:47:23.8095545Z [36;1mexit "${statuses[1]}"[0m
+2026-11-10T04:47:23.8137705Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T04:47:23.8138180Z env:
+2026-11-10T04:47:23.8138523Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:23.8139093Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T04:47:23.8139597Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:23.8140056Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:23.8140773Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:23.8141239Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T04:47:23.8144309Z   GITHUB_TOKEN: ***
+2026-11-10T04:47:23.8144583Z ##[endgroup]
+2026-11-10T04:47:28.6721935Z {
+2026-11-10T04:47:28.6723220Z   "cbz_green": false,
+2026-11-10T04:47:28.6723842Z   "checked_commit_after": "6d0645bd851973696ff4afdee24ccb17d192687f",
+2026-11-10T04:47:28.6724701Z   "checked_commit_before": "6d0645bd851973696ff4afdee24ccb17d192687f",
+2026-11-10T04:47:28.6725486Z   "checked_tree_after": "97d08f92edaeea48a2185f4a09b63e4560b48a6a",
+2026-11-10T04:47:28.6746435Z   "checked_tree_before": "97d08f92edaeea48a2185f4a09b63e4560b48a6a",
+2026-11-10T04:47:28.6747158Z   "elapsed_seconds": 4.732082,
+2026-11-10T04:47:28.6748051Z   "finished_at": "2026-11-10T04:47:28.666964Z",
+2026-11-10T04:47:28.6748374Z   "freshness": {
+2026-11-10T04:47:28.6748598Z     "cbz_green": false,
+2026-11-10T04:47:28.6748835Z     "fresh_candidates": 3,
+2026-11-10T04:47:28.6749082Z     "fresh_checked": 3,
+2026-11-10T04:47:28.6749296Z     "fresh_nodes": [
+2026-11-10T04:47:28.6749532Z       "eng.d0-packet-allowlist-fix",
+2026-11-10T04:47:28.6749818Z       "math.lifetime-remainder",
+2026-11-10T04:47:28.6750088Z       "math.side24-coefficient"
+2026-11-10T04:47:28.6750321Z     ],
+2026-11-10T04:47:28.6750666Z     "graph_sha256": "560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f",
+2026-11-10T04:47:28.6751090Z     "identity": {
+2026-11-10T04:47:28.6751385Z       "checked_commit": "6d0645bd851973696ff4afdee24ccb17d192687f",
+2026-11-10T04:47:28.6751739Z       "python_optimize": 0,
+2026-11-10T04:47:28.6752003Z       "repository": "d6g8k5htny-coder/main",
+2026-11-10T04:47:28.6752284Z       "run_attempt": "1",
+2026-11-10T04:47:28.6752521Z       "run_id": "42757945583"
+2026-11-10T04:47:28.6752744Z     },
+2026-11-10T04:47:28.6752938Z     "input_sha256": {
+2026-11-10T04:47:28.6753404Z       "eng.d0-packet-allowlist-fix.json": "8a5bfbc046147c5bf4a95e8ff912abcdef5f61761583e5654a7327772c72d3b3",
+2026-11-10T04:47:28.6754113Z       "eng.hard-gate.json": "137ee09024ac67883235bad3569c61e94193385545b6caa2c0ca56f8f63a46cf",
+2026-11-10T04:47:28.6754776Z       "math.lifetime-remainder.json": "e672df10ee7f6cd75d86969e899b7d00bad23884b147fddf5bdd93b8db295180",
+2026-11-10T04:47:28.6755486Z       "math.side24-coefficient.json": "0cc919fde0c9f57cdaab45d10c6eec8fc7d8d417bc33bafcd00cc53c7b6b2be7"
+2026-11-10T04:47:28.6755965Z     },
+2026-11-10T04:47:28.6756161Z     "nonfresh_records": [
+2026-11-10T04:47:28.6756380Z       {
+2026-11-10T04:47:28.6756578Z         "declared_status": "stale",
+2026-11-10T04:47:28.6756846Z         "node_id": "eng.hard-gate"
+2026-11-10T04:47:28.6757083Z       }
+2026-11-10T04:47:28.6757253Z     ],
+2026-11-10T04:47:28.6757965Z     "observed_heads": {
+2026-11-10T04:47:28.6758277Z       "Math-": "9bdfc54b76173b57912503bfcf901a5f9d43b09c"
+2026-11-10T04:47:28.6758588Z     },
+2026-11-10T04:47:28.6758778Z     "records_total": 4,
+2026-11-10T04:47:28.6759046Z     "schema": "cbz.node-status-live-check.v1",
+2026-11-10T04:47:28.6759494Z     "schema_sha256": "b82f1aee34097071bc47def5e3d371a3ced2df1332fb29779fe1d56e38676e45",
+2026-11-10T04:47:28.6759931Z     "scientific_effect": "NONE",
+2026-11-10T04:47:28.6760202Z     "scope": "NODE_RECORD_FRESHNESS_ONLY",
+2026-11-10T04:47:28.6760490Z     "source_observation_count": 10,
+2026-11-10T04:47:28.6760750Z     "source_observations": [
+2026-11-10T04:47:28.6760984Z       {
+2026-11-10T04:47:28.6761180Z         "current_object": [
+2026-11-10T04:47:28.6761407Z           "blob",
+2026-11-10T04:47:28.6761599Z           "100644",
+2026-11-10T04:47:28.6761830Z           "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T04:47:28.6762110Z         ],
+2026-11-10T04:47:28.6762463Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:28.6762852Z         "pinned_object": [
+2026-11-10T04:47:28.6763084Z           "blob",
+2026-11-10T04:47:28.6763279Z           "100644",
+2026-11-10T04:47:28.6763873Z           "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T04:47:28.6764163Z         ],
+2026-11-10T04:47:28.6764754Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/frontiers/downstream_gate_20260925/GRAPH.json"
+2026-11-10T04:47:28.6765388Z       },
+2026-11-10T04:47:28.6765738Z       {
+2026-11-10T04:47:28.6765927Z         "current_object": [
+2026-11-10T04:47:28.6766147Z           "blob",
+2026-11-10T04:47:28.6766338Z           "100644",
+2026-11-10T04:47:28.6766571Z           "f09b248b10d6a8f229bd21bb3a53a97ca16525f2"
+2026-11-10T04:47:28.6766853Z         ],
+2026-11-10T04:47:28.6767080Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:28.6767608Z         "pinned_object": [
+2026-11-10T04:47:28.6767969Z           "blob",
+2026-11-10T04:47:28.6768180Z           "100644",
+2026-11-10T04:47:28.6768417Z           "f09b248b10d6a8f229bd21bb3a53a97ca16525f2"
+2026-11-10T04:47:28.6768701Z         ],
+2026-11-10T04:47:28.6769360Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/frontiers/downstream_gate_20260925/patches/d0_packet_allowlist.patch"
+2026-11-10T04:47:28.6770079Z       },
+2026-11-10T04:47:28.6770256Z       {
+2026-11-10T04:47:28.6770442Z         "current_object": [
+2026-11-10T04:47:28.6770663Z           "blob",
+2026-11-10T04:47:28.6770855Z           "100644",
+2026-11-10T04:47:28.6771089Z           "611cda9cbefcc76c7f5930ec7b628fa183262827"
+2026-11-10T04:47:28.6771375Z         ],
+2026-11-10T04:47:28.6771603Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:28.6771913Z         "pinned_object": [
+2026-11-10T04:47:28.6772131Z           "blob",
+2026-11-10T04:47:28.6772319Z           "100644",
+2026-11-10T04:47:28.6772550Z           "611cda9cbefcc76c7f5930ec7b628fa183262827"
+2026-11-10T04:47:28.6772823Z         ],
+2026-11-10T04:47:28.6773421Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/far_sector_lifetime_refinement_20261022/PROOF.md"
+2026-11-10T04:47:28.6774079Z       },
+2026-11-10T04:47:28.6774258Z       {
+2026-11-10T04:47:28.6774442Z         "current_object": [
+2026-11-10T04:47:28.6774659Z           "blob",
+2026-11-10T04:47:28.6774847Z           "100644",
+2026-11-10T04:47:28.6775073Z           "bb4664f9db076b5738c8da5d426c8e8662b20507"
+2026-11-10T04:47:28.6775346Z         ],
+2026-11-10T04:47:28.6775571Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:28.6775875Z         "pinned_object": [
+2026-11-10T04:47:28.6776098Z           "blob",
+2026-11-10T04:47:28.6776286Z           "100644",
+2026-11-10T04:47:28.6776507Z           "bb4664f9db076b5738c8da5d426c8e8662b20507"
+2026-11-10T04:47:28.6776781Z         ],
+2026-11-10T04:47:28.6777770Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/far_sector_lifetime_refinement_20261022/README.md"
+2026-11-10T04:47:28.6778549Z       },
+2026-11-10T04:47:28.6778732Z       {
+2026-11-10T04:47:28.6778925Z         "current_object": [
+2026-11-10T04:47:28.6779146Z           "blob",
+2026-11-10T04:47:28.6779340Z           "100644",
+2026-11-10T04:47:28.6779565Z           "666fa6001d33a5c402a8767e564928e4bbfc4de8"
+2026-11-10T04:47:28.6779840Z         ],
+2026-11-10T04:47:28.6780070Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:28.6780379Z         "pinned_object": [
+2026-11-10T04:47:28.6780601Z           "blob",
+2026-11-10T04:47:28.6780791Z           "100644",
+2026-11-10T04:47:28.6781014Z           "666fa6001d33a5c402a8767e564928e4bbfc4de8"
+2026-11-10T04:47:28.6781280Z         ],
+2026-11-10T04:47:28.6781911Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/far_sector_lifetime_refinement_20261022/SOURCE_MAP.json"
+2026-11-10T04:47:28.6782600Z       },
+2026-11-10T04:47:28.6782775Z       {
+2026-11-10T04:47:28.6782962Z         "current_object": [
+2026-11-10T04:47:28.6783181Z           "blob",
+2026-11-10T04:47:28.6783601Z           "100644",
+2026-11-10T04:47:28.6783829Z           "1ff82e80174852cfb6fb066080af2dcf9f0e1902"
+2026-11-10T04:47:28.6784103Z         ],
+2026-11-10T04:47:28.6784329Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:28.6784638Z         "pinned_object": [
+2026-11-10T04:47:28.6784856Z           "blob",
+2026-11-10T04:47:28.6785053Z           "100644",
+2026-11-10T04:47:28.6785270Z           "1ff82e80174852cfb6fb066080af2dcf9f0e1902"
+2026-11-10T04:47:28.6785538Z         ],
+2026-11-10T04:47:28.6786178Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/far_sector_lifetime_refinement_20261022/REVIEW.md"
+2026-11-10T04:47:28.6786840Z       },
+2026-11-10T04:47:28.6787027Z       {
+2026-11-10T04:47:28.6787227Z         "current_object": [
+2026-11-10T04:47:28.6787794Z           "blob",
+2026-11-10T04:47:28.6788063Z           "100644",
+2026-11-10T04:47:28.6788299Z           "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T04:47:28.6788591Z         ],
+2026-11-10T04:47:28.6788824Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:28.6789136Z         "pinned_object": [
+2026-11-10T04:47:28.6789361Z           "blob",
+2026-11-10T04:47:28.6789550Z           "100644",
+2026-11-10T04:47:28.6789774Z           "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T04:47:28.6790047Z         ],
+2026-11-10T04:47:28.6790614Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/frontiers/downstream_gate_20260925/GRAPH.json"
+2026-11-10T04:47:28.6791235Z       },
+2026-11-10T04:47:28.6791409Z       {
+2026-11-10T04:47:28.6791614Z         "updated_at": "2026-10-22T21:28:51Z",
+2026-11-10T04:47:28.6792047Z         "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6351719961"
+2026-11-10T04:47:28.6792461Z       },
+2026-11-10T04:47:28.6792634Z       {
+2026-11-10T04:47:28.6792820Z         "current_object": [
+2026-11-10T04:47:28.6793046Z           "blob",
+2026-11-10T04:47:28.6793239Z           "100644",
+2026-11-10T04:47:28.6793474Z           "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T04:47:28.6793747Z         ],
+2026-11-10T04:47:28.6793980Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:28.6794285Z         "pinned_object": [
+2026-11-10T04:47:28.6794506Z           "blob",
+2026-11-10T04:47:28.6794695Z           "100644",
+2026-11-10T04:47:28.6794918Z           "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T04:47:28.6795195Z         ],
+2026-11-10T04:47:28.6795744Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/frontiers/downstream_gate_20260925/GRAPH.json"
+2026-11-10T04:47:28.6796364Z       },
+2026-11-10T04:47:28.6796537Z       {
+2026-11-10T04:47:28.6796890Z         "current_object": [
+2026-11-10T04:47:28.6797115Z           "blob",
+2026-11-10T04:47:28.6797305Z           "100644",
+2026-11-10T04:47:28.6797793Z           "44b66f04f89fcd87383b3603fa69f1feb64cdddd"
+2026-11-10T04:47:28.6798078Z         ],
+2026-11-10T04:47:28.6798301Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:28.6798601Z         "pinned_object": [
+2026-11-10T04:47:28.6798819Z           "blob",
+2026-11-10T04:47:28.6799005Z           "100644",
+2026-11-10T04:47:28.6799229Z           "44b66f04f89fcd87383b3603fa69f1feb64cdddd"
+2026-11-10T04:47:28.6799503Z         ],
+2026-11-10T04:47:28.6800007Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/coefficients/side24_v1/PROOF.md"
+2026-11-10T04:47:28.6800579Z       }
+2026-11-10T04:47:28.6800753Z     ]
+2026-11-10T04:47:28.6800926Z   },
+2026-11-10T04:47:28.6801103Z   "identity": {
+2026-11-10T04:47:28.6801385Z     "checked_commit": "6d0645bd851973696ff4afdee24ccb17d192687f",
+2026-11-10T04:47:28.6801731Z     "python_optimize": 0,
+2026-11-10T04:47:28.6801991Z     "repository": "d6g8k5htny-coder/main",
+2026-11-10T04:47:28.6802275Z     "run_attempt": "1",
+2026-11-10T04:47:28.6802638Z     "run_id": "42757945583"
+2026-11-10T04:47:28.6802852Z   },
+2026-11-10T04:47:28.6803090Z   "observation_finished_at": "2026-11-10T04:47:28.619362Z",
+2026-11-10T04:47:28.6803452Z   "observation_started_at": "2026-11-10T04:47:24.044620Z",
+2026-11-10T04:47:28.6803784Z   "schema": "cbz.node-status-live-cli.v1",
+2026-11-10T04:47:28.6804068Z   "scientific_effect": "NONE",
+2026-11-10T04:47:28.6804325Z   "scope": "NODE_RECORD_FRESHNESS_ONLY",
+2026-11-10T04:47:28.6804595Z   "source_bindings": {
+2026-11-10T04:47:28.6804848Z     "architecture/node-status.schema.json": {
+2026-11-10T04:47:28.6805201Z       "git_blob": "2bad95d30bcb89ea686d1ac5a50d52113dd730be",
+2026-11-10T04:47:28.6805526Z       "git_mode": "100644",
+2026-11-10T04:47:28.6805897Z       "sha256": "b82f1aee34097071bc47def5e3d371a3ced2df1332fb29779fe1d56e38676e45"
+2026-11-10T04:47:28.6806287Z     },
+2026-11-10T04:47:28.6806481Z     "docs/site/current.json": {
+2026-11-10T04:47:28.6806776Z       "git_blob": "a64fb6d9768ada12b9884adac854e0ccdd5a910e",
+2026-11-10T04:47:28.6807092Z       "git_mode": "100644",
+2026-11-10T04:47:28.6807562Z       "sha256": "560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f"
+2026-11-10T04:47:28.6808086Z     },
+2026-11-10T04:47:28.6808353Z     "records/node_status/eng.d0-packet-allowlist-fix.json": {
+2026-11-10T04:47:28.6808740Z       "git_blob": "0a7f209b58f4d309f8c8ae36d8dce1696c22ffbd",
+2026-11-10T04:47:28.6809043Z       "git_mode": "100644",
+2026-11-10T04:47:28.6809388Z       "sha256": "8a5bfbc046147c5bf4a95e8ff912abcdef5f61761583e5654a7327772c72d3b3"
+2026-11-10T04:47:28.6809768Z     },
+2026-11-10T04:47:28.6809982Z     "records/node_status/eng.hard-gate.json": {
+2026-11-10T04:47:28.6810316Z       "git_blob": "b28f4339414a6c6370d7b231ed523cc0bd250e3b",
+2026-11-10T04:47:28.6810621Z       "git_mode": "100644",
+2026-11-10T04:47:28.6810960Z       "sha256": "137ee09024ac67883235bad3569c61e94193385545b6caa2c0ca56f8f63a46cf"
+2026-11-10T04:47:28.6811330Z     },
+2026-11-10T04:47:28.6811576Z     "records/node_status/math.lifetime-remainder.json": {
+2026-11-10T04:47:28.6811946Z       "git_blob": "a6f82a36e4f9a31abf656661f7c8ee5201874522",
+2026-11-10T04:47:28.6812293Z       "git_mode": "100644",
+2026-11-10T04:47:28.6812637Z       "sha256": "e672df10ee7f6cd75d86969e899b7d00bad23884b147fddf5bdd93b8db295180"
+2026-11-10T04:47:28.6813014Z     },
+2026-11-10T04:47:28.6813251Z     "records/node_status/math.side24-coefficient.json": {
+2026-11-10T04:47:28.6813636Z       "git_blob": "ecf9c42723ee72b8e7d1a4d5b36470f158d6af0e",
+2026-11-10T04:47:28.6813967Z       "git_mode": "100644",
+2026-11-10T04:47:28.6814326Z       "sha256": "0cc919fde0c9f57cdaab45d10c6eec8fc7d8d417bc33bafcd00cc53c7b6b2be7"
+2026-11-10T04:47:28.6814719Z     },
+2026-11-10T04:47:28.6814919Z     "tools/node_status_live_check.py": {
+2026-11-10T04:47:28.6815376Z       "git_blob": "1e4852188f15060176b4458f58b27815f56845fd",
+2026-11-10T04:47:28.6815679Z       "git_mode": "100644",
+2026-11-10T04:47:28.6816016Z       "sha256": "85bb8ca6821d376655a629447940bdfa057a3567eaa72f734a4d7261ddd9a5b5"
+2026-11-10T04:47:28.6816385Z     },
+2026-11-10T04:47:28.6816584Z     "tools/node_status_refresh.py": {
+2026-11-10T04:47:28.6816898Z       "git_blob": "5fa7c8b6647938a0aca538a7735edede65de9ed5",
+2026-11-10T04:47:28.6817200Z       "git_mode": "100644",
+2026-11-10T04:47:28.6817794Z       "sha256": "ed018809b290046f9155487c41bbe7ba594dc4fba7941256b7ebb5abff09cac0"
+2026-11-10T04:47:28.6818185Z     },
+2026-11-10T04:47:28.6818385Z     "tools/validate_node_status.py": {
+2026-11-10T04:47:28.6818692Z       "git_blob": "e9d44b7620536b389a35ff6fad8aef2b0464b5d2",
+2026-11-10T04:47:28.6818993Z       "git_mode": "100644",
+2026-11-10T04:47:28.6819347Z       "sha256": "9ccadda867e00617b42177e8aee067c64bd6e52fbc79ec8fddc82653dfbc6375"
+2026-11-10T04:47:28.6819724Z     }
+2026-11-10T04:47:28.6819896Z   },
+2026-11-10T04:47:28.6820094Z   "source_bindings_after": {
+2026-11-10T04:47:28.6820363Z     "architecture/node-status.schema.json": {
+2026-11-10T04:47:28.6820701Z       "git_blob": "2bad95d30bcb89ea686d1ac5a50d52113dd730be",
+2026-11-10T04:47:28.6821155Z       "git_mode": "100644",
+2026-11-10T04:47:28.6821503Z       "sha256": "b82f1aee34097071bc47def5e3d371a3ced2df1332fb29779fe1d56e38676e45"
+2026-11-10T04:47:28.6821883Z     },
+2026-11-10T04:47:28.6822075Z     "docs/site/current.json": {
+2026-11-10T04:47:28.6822368Z       "git_blob": "a64fb6d9768ada12b9884adac854e0ccdd5a910e",
+2026-11-10T04:47:28.6822673Z       "git_mode": "100644",
+2026-11-10T04:47:28.6823015Z       "sha256": "560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f"
+2026-11-10T04:47:28.6823390Z     },
+2026-11-10T04:47:28.6823649Z     "records/node_status/eng.d0-packet-allowlist-fix.json": {
+2026-11-10T04:47:28.6824028Z       "git_blob": "0a7f209b58f4d309f8c8ae36d8dce1696c22ffbd",
+2026-11-10T04:47:28.6824337Z       "git_mode": "100644",
+2026-11-10T04:47:28.6824684Z       "sha256": "8a5bfbc046147c5bf4a95e8ff912abcdef5f61761583e5654a7327772c72d3b3"
+2026-11-10T04:47:28.6825059Z     },
+2026-11-10T04:47:28.6825273Z     "records/node_status/eng.hard-gate.json": {
+2026-11-10T04:47:28.6825607Z       "git_blob": "b28f4339414a6c6370d7b231ed523cc0bd250e3b",
+2026-11-10T04:47:28.6825911Z       "git_mode": "100644",
+2026-11-10T04:47:28.6826279Z       "sha256": "137ee09024ac67883235bad3569c61e94193385545b6caa2c0ca56f8f63a46cf"
+2026-11-10T04:47:28.6826693Z     },
+2026-11-10T04:47:28.6826931Z     "records/node_status/math.lifetime-remainder.json": {
+2026-11-10T04:47:28.6827296Z       "git_blob": "a6f82a36e4f9a31abf656661f7c8ee5201874522",
+2026-11-10T04:47:28.6827792Z       "git_mode": "100644",
+2026-11-10T04:47:28.6828149Z       "sha256": "e672df10ee7f6cd75d86969e899b7d00bad23884b147fddf5bdd93b8db295180"
+2026-11-10T04:47:28.6828528Z     },
+2026-11-10T04:47:28.6828801Z     "records/node_status/math.side24-coefficient.json": {
+2026-11-10T04:47:28.6829166Z       "git_blob": "ecf9c42723ee72b8e7d1a4d5b36470f158d6af0e",
+2026-11-10T04:47:28.6829469Z       "git_mode": "100644",
+2026-11-10T04:47:28.6829822Z       "sha256": "0cc919fde0c9f57cdaab45d10c6eec8fc7d8d417bc33bafcd00cc53c7b6b2be7"
+2026-11-10T04:47:28.6830211Z     },
+2026-11-10T04:47:28.6830417Z     "tools/node_status_live_check.py": {
+2026-11-10T04:47:28.6830721Z       "git_blob": "1e4852188f15060176b4458f58b27815f56845fd",
+2026-11-10T04:47:28.6831016Z       "git_mode": "100644",
+2026-11-10T04:47:28.6831436Z       "sha256": "85bb8ca6821d376655a629447940bdfa057a3567eaa72f734a4d7261ddd9a5b5"
+2026-11-10T04:47:28.6831807Z     },
+2026-11-10T04:47:28.6832005Z     "tools/node_status_refresh.py": {
+2026-11-10T04:47:28.6832310Z       "git_blob": "5fa7c8b6647938a0aca538a7735edede65de9ed5",
+2026-11-10T04:47:28.6832613Z       "git_mode": "100644",
+2026-11-10T04:47:28.6832953Z       "sha256": "ed018809b290046f9155487c41bbe7ba594dc4fba7941256b7ebb5abff09cac0"
+2026-11-10T04:47:28.6833330Z     },
+2026-11-10T04:47:28.6833654Z     "tools/validate_node_status.py": {
+2026-11-10T04:47:28.6833970Z       "git_blob": "e9d44b7620536b389a35ff6fad8aef2b0464b5d2",
+2026-11-10T04:47:28.6834273Z       "git_mode": "100644",
+2026-11-10T04:47:28.6834621Z       "sha256": "9ccadda867e00617b42177e8aee067c64bd6e52fbc79ec8fddc82653dfbc6375"
+2026-11-10T04:47:28.6835004Z     }
+2026-11-10T04:47:28.6835175Z   },
+2026-11-10T04:47:28.6835386Z   "source_bound_at": "2026-11-10T04:47:23.987950Z",
+2026-11-10T04:47:28.6835712Z   "source_rechecked_at": "2026-11-10T04:47:28.666939Z",
+2026-11-10T04:47:28.6836023Z   "started_at": "2026-11-10T04:47:23.934869Z",
+2026-11-10T04:47:28.6836293Z   "status": "FRESH"
+2026-11-10T04:47:28.6836491Z }
+2026-11-10T04:47:28.6895605Z ##[group]Run set -uo pipefail
+2026-11-10T04:47:28.6895949Z [36;1mset -uo pipefail[0m
+2026-11-10T04:47:28.6896733Z [36;1mpython3 -B -O -S tools/node_status_live_check.py --root "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/node-status-live-optimized.json" 2>&1 | tee "$RUNNER_TEMP/node-status-live-optimized.log"[0m
+2026-11-10T04:47:28.6897913Z [36;1mstatuses=("${PIPESTATUS[@]}")[0m
+2026-11-10T04:47:28.6898485Z [36;1mprintf '{"cli_exit":%s,"log_exit":%s}\n' "${statuses[0]}" "${statuses[1]}" > "$RUNNER_TEMP/node-status-live-optimized-exit.json"[0m
+2026-11-10T04:47:28.6899308Z [36;1mif [ "${statuses[0]}" -ne 0 ]; then exit "${statuses[0]}"; fi[0m
+2026-11-10T04:47:28.6899709Z [36;1mexit "${statuses[1]}"[0m
+2026-11-10T04:47:28.6921106Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T04:47:28.6921462Z env:
+2026-11-10T04:47:28.6921745Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:28.6922241Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T04:47:28.6922684Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:28.6923069Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:28.6923463Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:28.6923857Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T04:47:28.6926803Z   GITHUB_TOKEN: ***
+2026-11-10T04:47:28.6927029Z ##[endgroup]
+2026-11-10T04:47:35.6121354Z {
+2026-11-10T04:47:35.6121974Z   "cbz_green": false,
+2026-11-10T04:47:35.6122702Z   "checked_commit_after": "6d0645bd851973696ff4afdee24ccb17d192687f",
+2026-11-10T04:47:35.6123480Z   "checked_commit_before": "6d0645bd851973696ff4afdee24ccb17d192687f",
+2026-11-10T04:47:35.6124232Z   "checked_tree_after": "97d08f92edaeea48a2185f4a09b63e4560b48a6a",
+2026-11-10T04:47:35.6124967Z   "checked_tree_before": "97d08f92edaeea48a2185f4a09b63e4560b48a6a",
+2026-11-10T04:47:35.6125572Z   "elapsed_seconds": 5.063077,
+2026-11-10T04:47:35.6126028Z   "finished_at": "2026-11-10T04:47:35.610063Z",
+2026-11-10T04:47:35.6126323Z   "freshness": {
+2026-11-10T04:47:35.6126540Z     "cbz_green": false,
+2026-11-10T04:47:35.6126776Z     "fresh_candidates": 3,
+2026-11-10T04:47:35.6127008Z     "fresh_checked": 3,
+2026-11-10T04:47:35.6127230Z     "fresh_nodes": [
+2026-11-10T04:47:35.6128127Z       "eng.d0-packet-allowlist-fix",
+2026-11-10T04:47:35.6128439Z       "math.lifetime-remainder",
+2026-11-10T04:47:35.6128704Z       "math.side24-coefficient"
+2026-11-10T04:47:35.6128950Z     ],
+2026-11-10T04:47:35.6129554Z     "graph_sha256": "560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f",
+2026-11-10T04:47:35.6130023Z     "identity": {
+2026-11-10T04:47:35.6130397Z       "checked_commit": "6d0645bd851973696ff4afdee24ccb17d192687f",
+2026-11-10T04:47:35.6130831Z       "python_optimize": 1,
+2026-11-10T04:47:35.6131100Z       "repository": "d6g8k5htny-coder/main",
+2026-11-10T04:47:35.6131396Z       "run_attempt": "1",
+2026-11-10T04:47:35.6131777Z       "run_id": "42757945583"
+2026-11-10T04:47:35.6132012Z     },
+2026-11-10T04:47:35.6132199Z     "input_sha256": {
+2026-11-10T04:47:35.6132742Z       "eng.d0-packet-allowlist-fix.json": "8a5bfbc046147c5bf4a95e8ff912abcdef5f61761583e5654a7327772c72d3b3",
+2026-11-10T04:47:35.6133543Z       "eng.hard-gate.json": "137ee09024ac67883235bad3569c61e94193385545b6caa2c0ca56f8f63a46cf",
+2026-11-10T04:47:35.6134368Z       "math.lifetime-remainder.json": "e672df10ee7f6cd75d86969e899b7d00bad23884b147fddf5bdd93b8db295180",
+2026-11-10T04:47:35.6135223Z       "math.side24-coefficient.json": "0cc919fde0c9f57cdaab45d10c6eec8fc7d8d417bc33bafcd00cc53c7b6b2be7"
+2026-11-10T04:47:35.6135763Z     },
+2026-11-10T04:47:35.6135961Z     "nonfresh_records": [
+2026-11-10T04:47:35.6136183Z       {
+2026-11-10T04:47:35.6136524Z         "declared_status": "stale",
+2026-11-10T04:47:35.6136794Z         "node_id": "eng.hard-gate"
+2026-11-10T04:47:35.6137031Z       }
+2026-11-10T04:47:35.6137201Z     ],
+2026-11-10T04:47:35.6137873Z     "observed_heads": {
+2026-11-10T04:47:35.6138201Z       "Math-": "9bdfc54b76173b57912503bfcf901a5f9d43b09c"
+2026-11-10T04:47:35.6138502Z     },
+2026-11-10T04:47:35.6138747Z     "records_total": 4,
+2026-11-10T04:47:35.6139121Z     "schema": "cbz.node-status-live-check.v1",
+2026-11-10T04:47:35.6139577Z     "schema_sha256": "b82f1aee34097071bc47def5e3d371a3ced2df1332fb29779fe1d56e38676e45",
+2026-11-10T04:47:35.6140153Z     "scientific_effect": "NONE",
+2026-11-10T04:47:35.6140436Z     "scope": "NODE_RECORD_FRESHNESS_ONLY",
+2026-11-10T04:47:35.6140999Z     "source_observation_count": 10,
+2026-11-10T04:47:35.6141438Z     "source_observations": [
+2026-11-10T04:47:35.6141675Z       {
+2026-11-10T04:47:35.6141867Z         "current_object": [
+2026-11-10T04:47:35.6142090Z           "blob",
+2026-11-10T04:47:35.6142281Z           "100644",
+2026-11-10T04:47:35.6142673Z           "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T04:47:35.6142973Z         ],
+2026-11-10T04:47:35.6143217Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:35.6143592Z         "pinned_object": [
+2026-11-10T04:47:35.6143907Z           "blob",
+2026-11-10T04:47:35.6144104Z           "100644",
+2026-11-10T04:47:35.6144332Z           "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T04:47:35.6144607Z         ],
+2026-11-10T04:47:35.6145329Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/frontiers/downstream_gate_20260925/GRAPH.json"
+2026-11-10T04:47:35.6145980Z       },
+2026-11-10T04:47:35.6146202Z       {
+2026-11-10T04:47:35.6146492Z         "current_object": [
+2026-11-10T04:47:35.6146715Z           "blob",
+2026-11-10T04:47:35.6146902Z           "100644",
+2026-11-10T04:47:35.6147130Z           "f09b248b10d6a8f229bd21bb3a53a97ca16525f2"
+2026-11-10T04:47:35.6147619Z         ],
+2026-11-10T04:47:35.6147859Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:35.6148169Z         "pinned_object": [
+2026-11-10T04:47:35.6148392Z           "blob",
+2026-11-10T04:47:35.6148670Z           "100644",
+2026-11-10T04:47:35.6148975Z           "f09b248b10d6a8f229bd21bb3a53a97ca16525f2"
+2026-11-10T04:47:35.6149262Z         ],
+2026-11-10T04:47:35.6149916Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/frontiers/downstream_gate_20260925/patches/d0_packet_allowlist.patch"
+2026-11-10T04:47:35.6150627Z       },
+2026-11-10T04:47:35.6150801Z       {
+2026-11-10T04:47:35.6151007Z         "current_object": [
+2026-11-10T04:47:35.6151230Z           "blob",
+2026-11-10T04:47:35.6151422Z           "100644",
+2026-11-10T04:47:35.6151654Z           "611cda9cbefcc76c7f5930ec7b628fa183262827"
+2026-11-10T04:47:35.6151933Z         ],
+2026-11-10T04:47:35.6152158Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:35.6152541Z         "pinned_object": [
+2026-11-10T04:47:35.6152833Z           "blob",
+2026-11-10T04:47:35.6153022Z           "100644",
+2026-11-10T04:47:35.6153253Z           "611cda9cbefcc76c7f5930ec7b628fa183262827"
+2026-11-10T04:47:35.6153536Z         ],
+2026-11-10T04:47:35.6154130Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/far_sector_lifetime_refinement_20261022/PROOF.md"
+2026-11-10T04:47:35.6154788Z       },
+2026-11-10T04:47:35.6154962Z       {
+2026-11-10T04:47:35.6155144Z         "current_object": [
+2026-11-10T04:47:35.6155357Z           "blob",
+2026-11-10T04:47:35.6155544Z           "100644",
+2026-11-10T04:47:35.6155772Z           "bb4664f9db076b5738c8da5d426c8e8662b20507"
+2026-11-10T04:47:35.6156048Z         ],
+2026-11-10T04:47:35.6156268Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:35.6156570Z         "pinned_object": [
+2026-11-10T04:47:35.6156785Z           "blob",
+2026-11-10T04:47:35.6156967Z           "100644",
+2026-11-10T04:47:35.6157184Z           "bb4664f9db076b5738c8da5d426c8e8662b20507"
+2026-11-10T04:47:35.6157670Z         ],
+2026-11-10T04:47:35.6158434Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/far_sector_lifetime_refinement_20261022/README.md"
+2026-11-10T04:47:35.6159121Z       },
+2026-11-10T04:47:35.6159299Z       {
+2026-11-10T04:47:35.6159484Z         "current_object": [
+2026-11-10T04:47:35.6159860Z           "blob",
+2026-11-10T04:47:35.6160061Z           "100644",
+2026-11-10T04:47:35.6160283Z           "666fa6001d33a5c402a8767e564928e4bbfc4de8"
+2026-11-10T04:47:35.6160553Z         ],
+2026-11-10T04:47:35.6160776Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:35.6161215Z         "pinned_object": [
+2026-11-10T04:47:35.6161432Z           "blob",
+2026-11-10T04:47:35.6161619Z           "100644",
+2026-11-10T04:47:35.6161835Z           "666fa6001d33a5c402a8767e564928e4bbfc4de8"
+2026-11-10T04:47:35.6162099Z         ],
+2026-11-10T04:47:35.6162721Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/far_sector_lifetime_refinement_20261022/SOURCE_MAP.json"
+2026-11-10T04:47:35.6163406Z       },
+2026-11-10T04:47:35.6163578Z       {
+2026-11-10T04:47:35.6163767Z         "current_object": [
+2026-11-10T04:47:35.6163987Z           "blob",
+2026-11-10T04:47:35.6164181Z           "100644",
+2026-11-10T04:47:35.6164415Z           "1ff82e80174852cfb6fb066080af2dcf9f0e1902"
+2026-11-10T04:47:35.6164697Z         ],
+2026-11-10T04:47:35.6164929Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:35.6165236Z         "pinned_object": [
+2026-11-10T04:47:35.6165459Z           "blob",
+2026-11-10T04:47:35.6165651Z           "100644",
+2026-11-10T04:47:35.6165898Z           "1ff82e80174852cfb6fb066080af2dcf9f0e1902"
+2026-11-10T04:47:35.6166180Z         ],
+2026-11-10T04:47:35.6166775Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/far_sector_lifetime_refinement_20261022/REVIEW.md"
+2026-11-10T04:47:35.6167986Z       },
+2026-11-10T04:47:35.6168174Z       {
+2026-11-10T04:47:35.6168372Z         "current_object": [
+2026-11-10T04:47:35.6168599Z           "blob",
+2026-11-10T04:47:35.6168788Z           "100644",
+2026-11-10T04:47:35.6169015Z           "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T04:47:35.6169292Z         ],
+2026-11-10T04:47:35.6169526Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:35.6169832Z         "pinned_object": [
+2026-11-10T04:47:35.6170048Z           "blob",
+2026-11-10T04:47:35.6170238Z           "100644",
+2026-11-10T04:47:35.6170460Z           "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T04:47:35.6170736Z         ],
+2026-11-10T04:47:35.6171294Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/frontiers/downstream_gate_20260925/GRAPH.json"
+2026-11-10T04:47:35.6171914Z       },
+2026-11-10T04:47:35.6172087Z       {
+2026-11-10T04:47:35.6172287Z         "updated_at": "2026-10-22T21:28:51Z",
+2026-11-10T04:47:35.6172721Z         "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6351719961"
+2026-11-10T04:47:35.6173233Z       },
+2026-11-10T04:47:35.6173471Z       {
+2026-11-10T04:47:35.6173658Z         "current_object": [
+2026-11-10T04:47:35.6173876Z           "blob",
+2026-11-10T04:47:35.6174063Z           "100644",
+2026-11-10T04:47:35.6174283Z           "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T04:47:35.6174554Z         ],
+2026-11-10T04:47:35.6174774Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:35.6175076Z         "pinned_object": [
+2026-11-10T04:47:35.6175299Z           "blob",
+2026-11-10T04:47:35.6175483Z           "100644",
+2026-11-10T04:47:35.6175701Z           "220b56867f24c5ef6f55a3cce70490e9777cf3af"
+2026-11-10T04:47:35.6175965Z         ],
+2026-11-10T04:47:35.6176510Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/frontiers/downstream_gate_20260925/GRAPH.json"
+2026-11-10T04:47:35.6177128Z       },
+2026-11-10T04:47:35.6177300Z       {
+2026-11-10T04:47:35.6178141Z         "current_object": [
+2026-11-10T04:47:35.6178394Z           "blob",
+2026-11-10T04:47:35.6178590Z           "100644",
+2026-11-10T04:47:35.6178829Z           "44b66f04f89fcd87383b3603fa69f1feb64cdddd"
+2026-11-10T04:47:35.6179113Z         ],
+2026-11-10T04:47:35.6179345Z         "head": "9bdfc54b76173b57912503bfcf901a5f9d43b09c",
+2026-11-10T04:47:35.6179655Z         "pinned_object": [
+2026-11-10T04:47:35.6179872Z           "blob",
+2026-11-10T04:47:35.6180060Z           "100644",
+2026-11-10T04:47:35.6180282Z           "44b66f04f89fcd87383b3603fa69f1feb64cdddd"
+2026-11-10T04:47:35.6180839Z         ],
+2026-11-10T04:47:35.6181348Z         "url": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/coefficients/side24_v1/PROOF.md"
+2026-11-10T04:47:35.6181921Z       }
+2026-11-10T04:47:35.6182099Z     ]
+2026-11-10T04:47:35.6182273Z   },
+2026-11-10T04:47:35.6182447Z   "identity": {
+2026-11-10T04:47:35.6182730Z     "checked_commit": "6d0645bd851973696ff4afdee24ccb17d192687f",
+2026-11-10T04:47:35.6183072Z     "python_optimize": 1,
+2026-11-10T04:47:35.6183321Z     "repository": "d6g8k5htny-coder/main",
+2026-11-10T04:47:35.6183593Z     "run_attempt": "1",
+2026-11-10T04:47:35.6183809Z     "run_id": "42757945583"
+2026-11-10T04:47:35.6184021Z   },
+2026-11-10T04:47:35.6184251Z   "observation_finished_at": "2026-11-10T04:47:35.561987Z",
+2026-11-10T04:47:35.6184616Z   "observation_started_at": "2026-11-10T04:47:31.307252Z",
+2026-11-10T04:47:35.6184951Z   "schema": "cbz.node-status-live-cli.v1",
+2026-11-10T04:47:35.6185244Z   "scientific_effect": "NONE",
+2026-11-10T04:47:35.6185498Z   "scope": "NODE_RECORD_FRESHNESS_ONLY",
+2026-11-10T04:47:35.6185764Z   "source_bindings": {
+2026-11-10T04:47:35.6186011Z     "architecture/node-status.schema.json": {
+2026-11-10T04:47:35.6186358Z       "git_blob": "2bad95d30bcb89ea686d1ac5a50d52113dd730be",
+2026-11-10T04:47:35.6186672Z       "git_mode": "100644",
+2026-11-10T04:47:35.6187037Z       "sha256": "b82f1aee34097071bc47def5e3d371a3ced2df1332fb29779fe1d56e38676e45"
+2026-11-10T04:47:35.6187700Z     },
+2026-11-10T04:47:35.6187940Z     "docs/site/current.json": {
+2026-11-10T04:47:35.6188250Z       "git_blob": "a64fb6d9768ada12b9884adac854e0ccdd5a910e",
+2026-11-10T04:47:35.6188559Z       "git_mode": "100644",
+2026-11-10T04:47:35.6188906Z       "sha256": "560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f"
+2026-11-10T04:47:35.6189286Z     },
+2026-11-10T04:47:35.6189543Z     "records/node_status/eng.d0-packet-allowlist-fix.json": {
+2026-11-10T04:47:35.6189928Z       "git_blob": "0a7f209b58f4d309f8c8ae36d8dce1696c22ffbd",
+2026-11-10T04:47:35.6190233Z       "git_mode": "100644",
+2026-11-10T04:47:35.6190580Z       "sha256": "8a5bfbc046147c5bf4a95e8ff912abcdef5f61761583e5654a7327772c72d3b3"
+2026-11-10T04:47:35.6190965Z     },
+2026-11-10T04:47:35.6191190Z     "records/node_status/eng.hard-gate.json": {
+2026-11-10T04:47:35.6191522Z       "git_blob": "b28f4339414a6c6370d7b231ed523cc0bd250e3b",
+2026-11-10T04:47:35.6191831Z       "git_mode": "100644",
+2026-11-10T04:47:35.6192168Z       "sha256": "137ee09024ac67883235bad3569c61e94193385545b6caa2c0ca56f8f63a46cf"
+2026-11-10T04:47:35.6192535Z     },
+2026-11-10T04:47:35.6192777Z     "records/node_status/math.lifetime-remainder.json": {
+2026-11-10T04:47:35.6193140Z       "git_blob": "a6f82a36e4f9a31abf656661f7c8ee5201874522",
+2026-11-10T04:47:35.6193441Z       "git_mode": "100644",
+2026-11-10T04:47:35.6193783Z       "sha256": "e672df10ee7f6cd75d86969e899b7d00bad23884b147fddf5bdd93b8db295180"
+2026-11-10T04:47:35.6194169Z     },
+2026-11-10T04:47:35.6194408Z     "records/node_status/math.side24-coefficient.json": {
+2026-11-10T04:47:35.6194768Z       "git_blob": "ecf9c42723ee72b8e7d1a4d5b36470f158d6af0e",
+2026-11-10T04:47:35.6195070Z       "git_mode": "100644",
+2026-11-10T04:47:35.6195428Z       "sha256": "0cc919fde0c9f57cdaab45d10c6eec8fc7d8d417bc33bafcd00cc53c7b6b2be7"
+2026-11-10T04:47:35.6195814Z     },
+2026-11-10T04:47:35.6196011Z     "tools/node_status_live_check.py": {
+2026-11-10T04:47:35.6196447Z       "git_blob": "1e4852188f15060176b4458f58b27815f56845fd",
+2026-11-10T04:47:35.6196748Z       "git_mode": "100644",
+2026-11-10T04:47:35.6197086Z       "sha256": "85bb8ca6821d376655a629447940bdfa057a3567eaa72f734a4d7261ddd9a5b5"
+2026-11-10T04:47:35.6197733Z     },
+2026-11-10T04:47:35.6197945Z     "tools/node_status_refresh.py": {
+2026-11-10T04:47:35.6198262Z       "git_blob": "5fa7c8b6647938a0aca538a7735edede65de9ed5",
+2026-11-10T04:47:35.6198576Z       "git_mode": "100644",
+2026-11-10T04:47:35.6198919Z       "sha256": "ed018809b290046f9155487c41bbe7ba594dc4fba7941256b7ebb5abff09cac0"
+2026-11-10T04:47:35.6199518Z     },
+2026-11-10T04:47:35.6199851Z     "tools/validate_node_status.py": {
+2026-11-10T04:47:35.6200176Z       "git_blob": "e9d44b7620536b389a35ff6fad8aef2b0464b5d2",
+2026-11-10T04:47:35.6200482Z       "git_mode": "100644",
+2026-11-10T04:47:35.6201016Z       "sha256": "9ccadda867e00617b42177e8aee067c64bd6e52fbc79ec8fddc82653dfbc6375"
+2026-11-10T04:47:35.6201454Z     }
+2026-11-10T04:47:35.6201632Z   },
+2026-11-10T04:47:35.6201825Z   "source_bindings_after": {
+2026-11-10T04:47:35.6202091Z     "architecture/node-status.schema.json": {
+2026-11-10T04:47:35.6202426Z       "git_blob": "2bad95d30bcb89ea686d1ac5a50d52113dd730be",
+2026-11-10T04:47:35.6202822Z       "git_mode": "100644",
+2026-11-10T04:47:35.6203271Z       "sha256": "b82f1aee34097071bc47def5e3d371a3ced2df1332fb29779fe1d56e38676e45"
+2026-11-10T04:47:35.6203752Z     },
+2026-11-10T04:47:35.6204218Z     "docs/site/current.json": {
+2026-11-10T04:47:35.6204613Z       "git_blob": "a64fb6d9768ada12b9884adac854e0ccdd5a910e",
+2026-11-10T04:47:35.6205062Z       "git_mode": "100644",
+2026-11-10T04:47:35.6205533Z       "sha256": "560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f"
+2026-11-10T04:47:35.6206008Z     },
+2026-11-10T04:47:35.6206486Z     "records/node_status/eng.d0-packet-allowlist-fix.json": {
+2026-11-10T04:47:35.6206963Z       "git_blob": "0a7f209b58f4d309f8c8ae36d8dce1696c22ffbd",
+2026-11-10T04:47:35.6207617Z       "git_mode": "100644",
+2026-11-10T04:47:35.6208196Z       "sha256": "8a5bfbc046147c5bf4a95e8ff912abcdef5f61761583e5654a7327772c72d3b3"
+2026-11-10T04:47:35.6208689Z     },
+2026-11-10T04:47:35.6267341Z     "records/node_status/eng.hard-gate.json": {
+2026-11-10T04:47:35.6268224Z       "git_blob": "b28f4339414a6c6370d7b231ed523cc0bd250e3b",
+2026-11-10T04:47:35.6268736Z       "git_mode": "100644",
+2026-11-10T04:47:35.6269353Z       "sha256": "137ee09024ac67883235bad3569c61e94193385545b6caa2c0ca56f8f63a46cf"
+2026-11-10T04:47:35.6269765Z     },
+2026-11-10T04:47:35.6270042Z     "records/node_status/math.lifetime-remainder.json": {
+2026-11-10T04:47:35.6270429Z       "git_blob": "a6f82a36e4f9a31abf656661f7c8ee5201874522",
+2026-11-10T04:47:35.6270745Z       "git_mode": "100644",
+2026-11-10T04:47:35.6271104Z       "sha256": "e672df10ee7f6cd75d86969e899b7d00bad23884b147fddf5bdd93b8db295180"
+2026-11-10T04:47:35.6271499Z     },
+2026-11-10T04:47:35.6271748Z     "records/node_status/math.side24-coefficient.json": {
+2026-11-10T04:47:35.6272122Z       "git_blob": "ecf9c42723ee72b8e7d1a4d5b36470f158d6af0e",
+2026-11-10T04:47:35.6272436Z       "git_mode": "100644",
+2026-11-10T04:47:35.6272802Z       "sha256": "0cc919fde0c9f57cdaab45d10c6eec8fc7d8d417bc33bafcd00cc53c7b6b2be7"
+2026-11-10T04:47:35.6273191Z     },
+2026-11-10T04:47:35.6273391Z     "tools/node_status_live_check.py": {
+2026-11-10T04:47:35.6273705Z       "git_blob": "1e4852188f15060176b4458f58b27815f56845fd",
+2026-11-10T04:47:35.6274002Z       "git_mode": "100644",
+2026-11-10T04:47:35.6274348Z       "sha256": "85bb8ca6821d376655a629447940bdfa057a3567eaa72f734a4d7261ddd9a5b5"
+2026-11-10T04:47:35.6274731Z     },
+2026-11-10T04:47:35.6274940Z     "tools/node_status_refresh.py": {
+2026-11-10T04:47:35.6275259Z       "git_blob": "5fa7c8b6647938a0aca538a7735edede65de9ed5",
+2026-11-10T04:47:35.6275578Z       "git_mode": "100644",
+2026-11-10T04:47:35.6275933Z       "sha256": "ed018809b290046f9155487c41bbe7ba594dc4fba7941256b7ebb5abff09cac0"
+2026-11-10T04:47:35.6276317Z     },
+2026-11-10T04:47:35.6276732Z     "tools/validate_node_status.py": {
+2026-11-10T04:47:35.6277067Z       "git_blob": "e9d44b7620536b389a35ff6fad8aef2b0464b5d2",
+2026-11-10T04:47:35.6277375Z       "git_mode": "100644",
+2026-11-10T04:47:35.6278055Z       "sha256": "9ccadda867e00617b42177e8aee067c64bd6e52fbc79ec8fddc82653dfbc6375"
+2026-11-10T04:47:35.6278443Z     }
+2026-11-10T04:47:35.6278612Z   },
+2026-11-10T04:47:35.6278829Z   "source_bound_at": "2026-11-10T04:47:30.599248Z",
+2026-11-10T04:47:35.6279166Z   "source_rechecked_at": "2026-11-10T04:47:35.610038Z",
+2026-11-10T04:47:35.6279651Z   "started_at": "2026-11-10T04:47:30.546973Z",
+2026-11-10T04:47:35.6279930Z   "status": "FRESH"
+2026-11-10T04:47:35.6280131Z }
+2026-11-10T04:47:35.6342081Z ##[group]Run set -euo pipefail
+2026-11-10T04:47:35.6342816Z [36;1mset -euo pipefail[0m
+2026-11-10T04:47:35.6343071Z [36;1mpython3 -B -S - <<'PY'[0m
+2026-11-10T04:47:35.6343429Z [36;1mimport hashlib, json, os, pathlib, re, stat, subprocess, sys[0m
+2026-11-10T04:47:35.6343786Z [36;1m[0m
+2026-11-10T04:47:35.6343977Z [36;1mMODE = "normal"[0m
+2026-11-10T04:47:35.6344202Z [36;1mOPTIMIZE = 0[0m
+2026-11-10T04:47:35.6344706Z [36;1mTEST_ID = "tests.test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head"[0m
+2026-11-10T04:47:35.6345253Z [36;1mSOURCES = ([0m
+2026-11-10T04:47:35.6345495Z [36;1m    "tools/node_status_live_check.py",[0m
+2026-11-10T04:47:35.6345808Z [36;1m    "tools/node_status_refresh.py",[0m
+2026-11-10T04:47:35.6346110Z [36;1m    "tools/validate_node_status.py",[0m
+2026-11-10T04:47:35.6346445Z [36;1m    "architecture/node-status.schema.json",[0m
+2026-11-10T04:47:35.6346754Z [36;1m    "docs/site/current.json",[0m
+2026-11-10T04:47:35.6347136Z [36;1m    "records/node_status/eng.d0-packet-allowlist-fix.json",[0m
+2026-11-10T04:47:35.6347839Z [36;1m    "records/node_status/eng.hard-gate.json",[0m
+2026-11-10T04:47:35.6348211Z [36;1m    "records/node_status/math.lifetime-remainder.json",[0m
+2026-11-10T04:47:35.6348608Z [36;1m    "records/node_status/math.side24-coefficient.json",[0m
+2026-11-10T04:47:35.6348981Z [36;1m    "tests/test_living_project_validation.py",[0m
+2026-11-10T04:47:35.6349278Z [36;1m)[0m
+2026-11-10T04:47:35.6349542Z [36;1mroot = pathlib.Path(os.environ["GITHUB_WORKSPACE"])[0m
+2026-11-10T04:47:35.6349928Z [36;1mtemporary = pathlib.Path(os.environ["RUNNER_TEMP"])[0m
+2026-11-10T04:47:35.6350280Z [36;1mprefix = "q9006-original-" + MODE[0m
+2026-11-10T04:47:35.6350659Z [36;1mcommand = [sys.executable, "-B", *(["-O"] if OPTIMIZE else []), "-S",[0m
+2026-11-10T04:47:35.6351084Z [36;1m           "-m", "unittest", TEST_ID, "-v"][0m
+2026-11-10T04:47:35.6351361Z [36;1m[0m
+2026-11-10T04:47:35.6351561Z [36;1mdef require(value, message):[0m
+2026-11-10T04:47:35.6351826Z [36;1m    if not value:[0m
+2026-11-10T04:47:35.6352074Z [36;1m        raise ValueError(message)[0m
+2026-11-10T04:47:35.6352331Z [36;1m[0m
+2026-11-10T04:47:35.6352634Z [36;1mrequire(temporary.is_absolute() and temporary.resolve() == temporary[0m
+2026-11-10T04:47:35.6353126Z [36;1m        and temporary.is_dir() and not temporary.is_relative_to(root),[0m
+2026-11-10T04:47:35.6353562Z [36;1m        "external canonical evidence directory required")[0m
+2026-11-10T04:47:35.6353889Z [36;1m[0m
+2026-11-10T04:47:35.6354083Z [36;1mdef write(name, value):[0m
+2026-11-10T04:47:35.6354370Z [36;1m    descriptor = os.open(temporary / name,[0m
+2026-11-10T04:47:35.6354762Z [36;1m                         os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)[0m
+2026-11-10T04:47:35.6355271Z [36;1m    with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as stream:[0m
+2026-11-10T04:47:35.6355786Z [36;1m        stream.write(json.dumps(value, sort_keys=True, indent=2) + "\n")[0m
+2026-11-10T04:47:35.6356150Z [36;1m[0m
+2026-11-10T04:47:35.6356345Z [36;1mdef git(*arguments):[0m
+2026-11-10T04:47:35.6356687Z [36;1m    environment = {key: value for key, value in os.environ.items()[0m
+2026-11-10T04:47:35.6357087Z [36;1m                   if not key.startswith("GIT_")}[0m
+2026-11-10T04:47:35.6357805Z [36;1m    environment.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,[0m
+2026-11-10T04:47:35.6358323Z [36;1m                       GIT_NO_REPLACE_OBJECTS="1", GIT_OPTIONAL_LOCKS="0",[0m
+2026-11-10T04:47:35.6358736Z [36;1m                       GIT_NO_LAZY_FETCH="1", GIT_TERMINAL_PROMPT="0")[0m
+2026-11-10T04:47:35.6359084Z [36;1m    result = subprocess.run([0m
+2026-11-10T04:47:35.6359427Z [36;1m        ["git", "--no-replace-objects", "--literal-pathspecs",[0m
+2026-11-10T04:47:35.6360039Z [36;1m         "-c", "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null",[0m
+2026-11-10T04:47:35.6360570Z [36;1m         "-C", str(root), *arguments],[0m
+2026-11-10T04:47:35.6360972Z [36;1m        env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE,[0m
+2026-11-10T04:47:35.6361362Z [36;1m        timeout=30, check=False)[0m
+2026-11-10T04:47:35.6361738Z [36;1m    require(result.returncode == 0, "native source Git read failed")[0m
+2026-11-10T04:47:35.6362117Z [36;1m    return result.stdout[0m
+2026-11-10T04:47:35.6362366Z [36;1m[0m
+2026-11-10T04:47:35.6362553Z [36;1mdef capture():[0m
+2026-11-10T04:47:35.6362908Z [36;1m    require(root.is_absolute() and root.resolve() == root and root.is_dir(),[0m
+2026-11-10T04:47:35.6363373Z [36;1m            "canonical checked source root required")[0m
+2026-11-10T04:47:35.6363751Z [36;1m    require(os.environ.get("GITHUB_ACTIONS") == "true"[0m
+2026-11-10T04:47:35.6364194Z [36;1m            and os.environ.get("GITHUB_REPOSITORY") == "d6g8k5htny-coder/main",[0m
+2026-11-10T04:47:35.6364631Z [36;1m            "native executing repository required")[0m
+2026-11-10T04:47:35.6365019Z [36;1m    native = {"repository": os.environ["GITHUB_REPOSITORY"],[0m
+2026-11-10T04:47:35.6365426Z [36;1m              "checked_commit": os.environ.get("GITHUB_SHA"),[0m
+2026-11-10T04:47:35.6365801Z [36;1m              "run_id": os.environ.get("GITHUB_RUN_ID"),[0m
+2026-11-10T04:47:35.6366181Z [36;1m              "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),[0m
+2026-11-10T04:47:35.6366567Z [36;1m              "python_optimize": sys.flags.optimize}[0m
+2026-11-10T04:47:35.6366929Z [36;1m    require(isinstance(native["checked_commit"], str)[0m
+2026-11-10T04:47:35.6367342Z [36;1m            and re.fullmatch(r"[0-9a-f]{40}", native["checked_commit"])[0m
+2026-11-10T04:47:35.6368010Z [36;1m            and all(isinstance(native[name], str)[0m
+2026-11-10T04:47:35.6368372Z [36;1m                    and re.fullmatch(r"[1-9][0-9]*", native[name])[0m
+2026-11-10T04:47:35.6368741Z [36;1m                    for name in ("run_id", "run_attempt")),[0m
+2026-11-10T04:47:35.6369157Z [36;1m            "native immutable commit and positive run identities required")[0m
+2026-11-10T04:47:35.6369618Z [36;1m    require(sys.flags.no_site == 1 and sys.dont_write_bytecode[0m
+2026-11-10T04:47:35.6370006Z [36;1m            and sys.flags.optimize == OPTIMIZE,[0m
+2026-11-10T04:47:35.6370345Z [36;1m            "actual driver interpreter mode differs")[0m
+2026-11-10T04:47:35.6370777Z [36;1m    require(git("rev-parse", "--show-toplevel").decode().strip() == str(root),[0m
+2026-11-10T04:47:35.6371215Z [36;1m            "source is not exact Git top-level")[0m
+2026-11-10T04:47:35.6371620Z [36;1m    commit = git("rev-parse", "--verify", "HEAD^{commit}").decode().strip()[0m
+2026-11-10T04:47:35.6372092Z [36;1m    tree = git("rev-parse", "--verify", "HEAD^{tree}").decode().strip()[0m
+2026-11-10T04:47:35.6372498Z [36;1m    require(commit == native["checked_commit"][0m
+2026-11-10T04:47:35.6372924Z [36;1m            and re.fullmatch(r"[0-9a-f]{40}", tree), "checked native HEAD/tree differ")[0m
+2026-11-10T04:47:35.6373329Z [36;1m    bindings = {}[0m
+2026-11-10T04:47:35.6373569Z [36;1m    for relative in SOURCES:[0m
+2026-11-10T04:47:35.6373830Z [36;1m        path = root[0m
+2026-11-10T04:47:35.6374140Z [36;1m        for part in pathlib.PurePosixPath(relative).parts:[0m
+2026-11-10T04:47:35.6374489Z [36;1m            path = path / part[0m
+2026-11-10T04:47:35.6374852Z [36;1m            require(not path.is_symlink(), "selected source symlink refused")[0m
+2026-11-10T04:47:35.6375237Z [36;1m        before = path.stat()[0m
+2026-11-10T04:47:35.6375609Z [36;1m        require(stat.S_ISREG(before.st_mode) and before.st_size <= 2_000_000,[0m
+2026-11-10T04:47:35.6376058Z [36;1m                "selected source is not a bounded regular file")[0m
+2026-11-10T04:47:35.6376405Z [36;1m        raw = path.read_bytes()[0m
+2026-11-10T04:47:35.6376674Z [36;1m        after = path.stat()[0m
+2026-11-10T04:47:35.6377167Z [36;1m        fields = ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_ctime_ns")[0m
+2026-11-10T04:47:35.6378018Z [36;1m        require(tuple(getattr(before, field) for field in fields)[0m
+2026-11-10T04:47:35.6378452Z [36;1m                == tuple(getattr(after, field) for field in fields)[0m
+2026-11-10T04:47:35.6378908Z [36;1m                and len(raw) == before.st_size, "selected source changed during read")[0m
+2026-11-10T04:47:35.6379358Z [36;1m        entry = git("ls-tree", "-z", commit, "--", relative)[0m
+2026-11-10T04:47:35.6379776Z [36;1m        require(entry.endswith(b"\0") and entry.count(b"\0") == 1,[0m
+2026-11-10T04:47:35.6380192Z [36;1m                "selected committed source inventory differs")[0m
+2026-11-10T04:47:35.6380570Z [36;1m        metadata, name = entry[:-1].split(b"\t", 1)[0m
+2026-11-10T04:47:35.6380956Z [36;1m        mode, kind, identity = metadata.decode("ascii").split(" ")[0m
+2026-11-10T04:47:35.6381372Z [36;1m        require(name == relative.encode() and kind == "blob"[0m
+2026-11-10T04:47:35.6381734Z [36;1m                and mode in ("100644", "100755")[0m
+2026-11-10T04:47:35.6382065Z [36;1m                and re.fullmatch(r"[0-9a-f]{40}", identity),[0m
+2026-11-10T04:47:35.6382437Z [36;1m                "selected committed source identity differs")[0m
+2026-11-10T04:47:35.6382869Z [36;1m        working_mode = "100755" if before.st_mode & stat.S_IXUSR else "100644"[0m
+2026-11-10T04:47:35.6383386Z [36;1m        require(working_mode == mode and raw == git("cat-file", "blob", identity),[0m
+2026-11-10T04:47:35.6383884Z [36;1m                "working source bytes or mode differ from committed source")[0m
+2026-11-10T04:47:35.6384396Z [36;1m        require(hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()[0m
+2026-11-10T04:47:35.6384888Z [36;1m                == identity, "working source blob identity differs")[0m
+2026-11-10T04:47:35.6385319Z [36;1m        bindings[relative] = {"git_blob": identity, "git_mode": mode,[0m
+2026-11-10T04:47:35.6385754Z [36;1m                              "working_mode": working_mode, "bytes": len(raw),[0m
+2026-11-10T04:47:35.6386163Z [36;1m                              "sha256": hashlib.sha256(raw).hexdigest()}[0m
+2026-11-10T04:47:35.6386634Z [36;1m    require(git("rev-parse", "--verify", "HEAD^{commit}").decode().strip() == commit,[0m
+2026-11-10T04:47:35.6387088Z [36;1m            "checked HEAD changed during capture")[0m
+2026-11-10T04:47:35.6387731Z [36;1m    return {"identity": native, "checked_commit": commit, "checked_tree": tree,[0m
+2026-11-10T04:47:35.6388227Z [36;1m            "source_count": len(bindings), "source_bindings": bindings}[0m
+2026-11-10T04:47:35.6388576Z [36;1m[0m
+2026-11-10T04:47:35.6388769Z [36;1mbefore = after = None[0m
+2026-11-10T04:47:35.6389011Z [36;1mfailures = [][0m
+2026-11-10T04:47:35.6389324Z [36;1mparent = {"mode": MODE, "command": command, "executed": False,[0m
+2026-11-10T04:47:35.6389711Z [36;1m          "returncode": None, "timed_out": False}[0m
+2026-11-10T04:47:35.6390069Z [36;1mlog_path = temporary / (prefix + "-unittest.log")[0m
+2026-11-10T04:47:35.6390370Z [36;1mtry:[0m
+2026-11-10T04:47:35.6390579Z [36;1m    before = capture()[0m
+2026-11-10T04:47:35.6390871Z [36;1m    write(prefix + "-source-before.json", before)[0m
+2026-11-10T04:47:35.6391312Z [36;1m    print("Q9006_SOURCE_BEFORE " + json.dumps(before, sort_keys=True), flush=True)[0m
+2026-11-10T04:47:35.6391834Z [36;1m    expected_output = temporary / ("q9006-real-record-" + MODE + ".json")[0m
+2026-11-10T04:47:35.6392305Z [36;1m    require(os.environ.get("NODE_STATUS_LIVE_REQUIRED") == "1"[0m
+2026-11-10T04:47:35.6392775Z [36;1m            and os.environ.get("NODE_STATUS_LIVE_OUTPUT") == str(expected_output),[0m
+2026-11-10T04:47:35.6393247Z [36;1m            "mandatory fixed shard activation/output required")[0m
+2026-11-10T04:47:35.6393669Z [36;1m    require(bool(os.environ.get("GITHUB_TOKEN", "").strip()),[0m
+2026-11-10T04:47:35.6394245Z [36;1m            "actual inherited authentication prerequisite missing")[0m
+2026-11-10T04:47:35.6394880Z [36;1m    require(not os.path.lexists(expected_output), "new original-method CLI output required")[0m
+2026-11-10T04:47:35.6395360Z [36;1m    descriptor = os.open(log_path,[0m
+2026-11-10T04:47:35.6395750Z [36;1m                         os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)[0m
+2026-11-10T04:47:35.6396172Z [36;1m    with os.fdopen(descriptor, "wb") as stream:[0m
+2026-11-10T04:47:35.6396494Z [36;1m        parent["executed"] = True[0m
+2026-11-10T04:47:35.6396759Z [36;1m        try:[0m
+2026-11-10T04:47:35.6397079Z [36;1m            completed = subprocess.run(command, cwd=root, stdout=stream,[0m
+2026-11-10T04:47:35.6397861Z [36;1m                                       stderr=subprocess.STDOUT, timeout=450, check=False)[0m
+2026-11-10T04:47:35.6398318Z [36;1m            parent["returncode"] = completed.returncode[0m
+2026-11-10T04:47:35.6398686Z [36;1m        except subprocess.TimeoutExpired:[0m
+2026-11-10T04:47:35.6399003Z [36;1m            parent["timed_out"] = True[0m
+2026-11-10T04:47:35.6399323Z [36;1m            failures.append("PARENT_TIMEOUT")[0m
+2026-11-10T04:47:35.6399628Z [36;1mexcept Exception as error:[0m
+2026-11-10T04:47:35.6399987Z [36;1m    failures.append("PREPARED_EXECUTION_" + type(error).__name__)[0m
+2026-11-10T04:47:35.6400362Z [36;1mfinally:[0m
+2026-11-10T04:47:35.6400563Z [36;1m    try:[0m
+2026-11-10T04:47:35.6400766Z [36;1m        after = capture()[0m
+2026-11-10T04:47:35.6401086Z [36;1m        write(prefix + "-source-after.json", after)[0m
+2026-11-10T04:47:35.6401557Z [36;1m        print("Q9006_SOURCE_AFTER " + json.dumps(after, sort_keys=True), flush=True)[0m
+2026-11-10T04:47:35.6401995Z [36;1m    except Exception as error:[0m
+2026-11-10T04:47:35.6402356Z [36;1m        failures.append("SOURCE_RECHECK_" + type(error).__name__)[0m
+2026-11-10T04:47:35.6402764Z [36;1m    write(prefix + "-parent-exit.json", parent)[0m
+2026-11-10T04:47:35.6403226Z [36;1m    print("Q9006_PARENT_OUTCOME " + json.dumps(parent, sort_keys=True), flush=True)[0m
+2026-11-10T04:47:35.6403635Z [36;1m[0m
+2026-11-10T04:47:35.6403838Z [36;1mif parent["returncode"] != 0:[0m
+2026-11-10T04:47:35.6404136Z [36;1m    failures.append("PARENT_EXIT_NOT_ZERO")[0m
+2026-11-10T04:47:35.6404500Z [36;1mif before is None or after is None or before != after:[0m
+2026-11-10T04:47:35.6404873Z [36;1m    failures.append("SOURCE_ENDPOINTS_DIFFER")[0m
+2026-11-10T04:47:35.6405166Z [36;1mtry:[0m
+2026-11-10T04:47:35.6405536Z [36;1m    require(log_path.stat().st_size <= 4 * 1024 * 1024, "bounded original unittest log required")[0m
+2026-11-10T04:47:35.6406000Z [36;1m    raw = log_path.read_bytes()[0m
+2026-11-10T04:47:35.6406287Z [36;1m    text = raw.decode("utf-8")[0m
+2026-11-10T04:47:35.6406667Z [36;1m    print("Q9006_ORIGINAL_UNITTEST_LOG " + json.dumps(text), flush=True)[0m
+2026-11-10T04:47:35.6407154Z [36;1m    nonempty = [line for line in text.splitlines() if line.strip()][0m
+2026-11-10T04:47:35.6407846Z [36;1m    expected = TEST_ID.rsplit(".", 1)[1] + " (" + TEST_ID + ") ... ok"[0m
+2026-11-10T04:47:35.6408267Z [36;1m    if (len(nonempty) != 4 or nonempty[0] != expected[0m
+2026-11-10T04:47:35.6408601Z [36;1m            or nonempty[1] != "-" * 70[0m
+2026-11-10T04:47:35.6409002Z [36;1m            or re.fullmatch(r"Ran 1 test in [0-9]+(?:\.[0-9]+)?s", nonempty[2]) is None[0m
+2026-11-10T04:47:35.6409417Z [36;1m            or nonempty[3] != "OK"):[0m
+2026-11-10T04:47:35.6409788Z [36;1m        failures.append("EXACT_ONE_ID_PLAIN_OK_CONTRACT_REFUSED")[0m
+2026-11-10T04:47:35.6410159Z [36;1mexcept Exception as error:[0m
+2026-11-10T04:47:35.6410497Z [36;1m    failures.append("ORIGINAL_LOG_" + type(error).__name__)[0m
+2026-11-10T04:47:35.6410951Z [36;1mguard = {"schema": "cbz.q9006.original-method-shard.v1", "mode": MODE,[0m
+2026-11-10T04:47:35.6411410Z [36;1m         "expected_test_id": TEST_ID, "expected_test_count": 1,[0m
+2026-11-10T04:47:35.6411942Z [36;1m         "parent_exit": parent["returncode"],[0m
+2026-11-10T04:47:35.6412445Z [36;1m         "source_bindings_equal": before is not None and before == after,[0m
+2026-11-10T04:47:35.6412941Z [36;1m         "status": "PASS" if not failures else "FAIL", "failures": failures}[0m
+2026-11-10T04:47:35.6413366Z [36;1mwrite(prefix + "-strict-guard.json", guard)[0m
+2026-11-10T04:47:35.6413792Z [36;1mprint("Q9006_STRICT_GUARD " + json.dumps(guard, sort_keys=True), flush=True)[0m
+2026-11-10T04:47:35.6414229Z [36;1mraise SystemExit(0 if not failures else 1)[0m
+2026-11-10T04:47:35.6414515Z [36;1mPY[0m
+2026-11-10T04:47:35.6435139Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T04:47:35.6435475Z env:
+2026-11-10T04:47:35.6435738Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:35.6436180Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T04:47:35.6436623Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:35.6437014Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:35.6437678Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:35.6438091Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T04:47:35.6440988Z   GITHUB_TOKEN: ***
+2026-11-10T04:47:35.6441215Z   NODE_STATUS_LIVE_REQUIRED: 1
+2026-11-10T04:47:35.6441593Z   NODE_STATUS_LIVE_OUTPUT: /home/runner/work/_temp/q9006-real-record-normal.json
+2026-11-10T04:47:35.6441988Z ##[endgroup]
+2026-11-10T04:47:35.7347399Z Q9006_SOURCE_BEFORE {"checked_commit": "6d0645bd851973696ff4afdee24ccb17d192687f", "checked_tree": "97d08f92edaeea48a2185f4a09b63e4560b48a6a", "identity": {"checked_commit": "6d0645bd851973696ff4afdee24ccb17d192687f", "python_optimize": 0, "repository": "d6g8k5htny-coder/main", "run_attempt": "1", "run_id": "42757945583"}, "source_bindings": {"architecture/node-status.schema.json": {"bytes": 5018, "git_blob": "2bad95d30bcb89ea686d1ac5a50d52113dd730be", "git_mode": "100644", "sha256": "b82f1aee34097071bc47def5e3d371a3ced2df1332fb29779fe1d56e38676e45", "working_mode": "100644"}, "docs/site/current.json": {"bytes": 962639, "git_blob": "a64fb6d9768ada12b9884adac854e0ccdd5a910e", "git_mode": "100644", "sha256": "560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f", "working_mode": "100644"}, "records/node_status/eng.d0-packet-allowlist-fix.json": {"bytes": 988, "git_blob": "0a7f209b58f4d309f8c8ae36d8dce1696c22ffbd", "git_mode": "100644", "sha256": "8a5bfbc046147c5bf4a95e8ff912abcdef5f61761583e5654a7327772c72d3b3", "working_mode": "100644"}, "records/node_status/eng.hard-gate.json": {"bytes": 1281, "git_blob": "b28f4339414a6c6370d7b231ed523cc0bd250e3b", "git_mode": "100644", "sha256": "137ee09024ac67883235bad3569c61e94193385545b6caa2c0ca56f8f63a46cf", "working_mode": "100644"}, "records/node_status/math.lifetime-remainder.json": {"bytes": 4235, "git_blob": "a6f82a36e4f9a31abf656661f7c8ee5201874522", "git_mode": "100644", "sha256": "e672df10ee7f6cd75d86969e899b7d00bad23884b147fddf5bdd93b8db295180", "working_mode": "100644"}, "records/node_status/math.side24-coefficient.json": {"bytes": 938, "git_blob": "ecf9c42723ee72b8e7d1a4d5b36470f158d6af0e", "git_mode": "100644", "sha256": "0cc919fde0c9f57cdaab45d10c6eec8fc7d8d417bc33bafcd00cc53c7b6b2be7", "working_mode": "100644"}, "tests/test_living_project_validation.py": {"bytes": 24970, "git_blob": "87d63d104ab29387ddb3f7236d76b2e835e205d8", "git_mode": "100644", "sha256": "71a1fcba1dd118d91326289cd788bca1c8a1fe673ffd267eab0790974ea73190", "working_mode": "100644"}, "tools/node_status_live_check.py": {"bytes": 21374, "git_blob": "1e4852188f15060176b4458f58b27815f56845fd", "git_mode": "100644", "sha256": "85bb8ca6821d376655a629447940bdfa057a3567eaa72f734a4d7261ddd9a5b5", "working_mode": "100644"}, "tools/node_status_refresh.py": {"bytes": 23238, "git_blob": "5fa7c8b6647938a0aca538a7735edede65de9ed5", "git_mode": "100644", "sha256": "ed018809b290046f9155487c41bbe7ba594dc4fba7941256b7ebb5abff09cac0", "working_mode": "100644"}, "tools/validate_node_status.py": {"bytes": 16375, "git_blob": "e9d44b7620536b389a35ff6fad8aef2b0464b5d2", "git_mode": "100644", "sha256": "9ccadda867e00617b42177e8aee067c64bd6e52fbc79ec8fddc82653dfbc6375", "working_mode": "100644"}}, "source_count": 10}
+2026-11-10T04:47:35.9053564Z Q9006_SOURCE_AFTER {"checked_commit": "6d0645bd851973696ff4afdee24ccb17d192687f", "checked_tree": "97d08f92edaeea48a2185f4a09b63e4560b48a6a", "identity": {"checked_commit": "6d0645bd851973696ff4afdee24ccb17d192687f", "python_optimize": 0, "repository": "d6g8k5htny-coder/main", "run_attempt": "1", "run_id": "42757945583"}, "source_bindings": {"architecture/node-status.schema.json": {"bytes": 5018, "git_blob": "2bad95d30bcb89ea686d1ac5a50d52113dd730be", "git_mode": "100644", "sha256": "b82f1aee34097071bc47def5e3d371a3ced2df1332fb29779fe1d56e38676e45", "working_mode": "100644"}, "docs/site/current.json": {"bytes": 962639, "git_blob": "a64fb6d9768ada12b9884adac854e0ccdd5a910e", "git_mode": "100644", "sha256": "560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f", "working_mode": "100644"}, "records/node_status/eng.d0-packet-allowlist-fix.json": {"bytes": 988, "git_blob": "0a7f209b58f4d309f8c8ae36d8dce1696c22ffbd", "git_mode": "100644", "sha256": "8a5bfbc046147c5bf4a95e8ff912abcdef5f61761583e5654a7327772c72d3b3", "working_mode": "100644"}, "records/node_status/eng.hard-gate.json": {"bytes": 1281, "git_blob": "b28f4339414a6c6370d7b231ed523cc0bd250e3b", "git_mode": "100644", "sha256": "137ee09024ac67883235bad3569c61e94193385545b6caa2c0ca56f8f63a46cf", "working_mode": "100644"}, "records/node_status/math.lifetime-remainder.json": {"bytes": 4235, "git_blob": "a6f82a36e4f9a31abf656661f7c8ee5201874522", "git_mode": "100644", "sha256": "e672df10ee7f6cd75d86969e899b7d00bad23884b147fddf5bdd93b8db295180", "working_mode": "100644"}, "records/node_status/math.side24-coefficient.json": {"bytes": 938, "git_blob": "ecf9c42723ee72b8e7d1a4d5b36470f158d6af0e", "git_mode": "100644", "sha256": "0cc919fde0c9f57cdaab45d10c6eec8fc7d8d417bc33bafcd00cc53c7b6b2be7", "working_mode": "100644"}, "tests/test_living_project_validation.py": {"bytes": 24970, "git_blob": "87d63d104ab29387ddb3f7236d76b2e835e205d8", "git_mode": "100644", "sha256": "71a1fcba1dd118d91326289cd788bca1c8a1fe673ffd267eab0790974ea73190", "working_mode": "100644"}, "tools/node_status_live_check.py": {"bytes": 21374, "git_blob": "1e4852188f15060176b4458f58b27815f56845fd", "git_mode": "100644", "sha256": "85bb8ca6821d376655a629447940bdfa057a3567eaa72f734a4d7261ddd9a5b5", "working_mode": "100644"}, "tools/node_status_refresh.py": {"bytes": 23238, "git_blob": "5fa7c8b6647938a0aca538a7735edede65de9ed5", "git_mode": "100644", "sha256": "ed018809b290046f9155487c41bbe7ba594dc4fba7941256b7ebb5abff09cac0", "working_mode": "100644"}, "tools/validate_node_status.py": {"bytes": 16375, "git_blob": "e9d44b7620536b389a35ff6fad8aef2b0464b5d2", "git_mode": "100644", "sha256": "9ccadda867e00617b42177e8aee067c64bd6e52fbc79ec8fddc82653dfbc6375", "working_mode": "100644"}}, "source_count": 10}
+2026-11-10T04:47:35.9070487Z Q9006_PARENT_OUTCOME {"command": ["/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3", "-B", "-S", "-m", "unittest", "tests.test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head", "-v"], "executed": true, "mode": "normal", "returncode": 0, "timed_out": false}
+2026-11-10T04:47:35.9075126Z Q9006_ORIGINAL_UNITTEST_LOG "test_real_records_fresh_against_live_source_head (tests.test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head) ... skipped 'fresh records eng.d0-packet-allowlist-fix, math.lifetime-remainder, math.side24-coefficient are not compared to a live source head; tools/validate_node_status.py performs no network fetch, so this check is skipped instead of passed'\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nOK (skipped=1)\n"
+2026-11-10T04:47:35.9080524Z Q9006_STRICT_GUARD {"expected_test_count": 1, "expected_test_id": "tests.test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head", "failures": ["EXACT_ONE_ID_PLAIN_OK_CONTRACT_REFUSED"], "mode": "normal", "parent_exit": 0, "schema": "cbz.q9006.original-method-shard.v1", "source_bindings_equal": true, "status": "FAIL"}
+2026-11-10T04:47:35.9129230Z ##[error]Process completed with exit code 1.
+2026-11-10T04:47:35.9186331Z ##[group]Run set -euo pipefail
+2026-11-10T04:47:35.9186953Z [36;1mset -euo pipefail[0m
+2026-11-10T04:47:35.9187217Z [36;1mpython3 -B -O -S - <<'PY'[0m
+2026-11-10T04:47:35.9188037Z [36;1mimport hashlib, json, os, pathlib, re, stat, subprocess, sys[0m
+2026-11-10T04:47:35.9188423Z [36;1m[0m
+2026-11-10T04:47:35.9188623Z [36;1mMODE = "optimized"[0m
+2026-11-10T04:47:35.9188863Z [36;1mOPTIMIZE = 1[0m
+2026-11-10T04:47:35.9189376Z [36;1mTEST_ID = "tests.test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head"[0m
+2026-11-10T04:47:35.9189924Z [36;1mSOURCES = ([0m
+2026-11-10T04:47:35.9190173Z [36;1m    "tools/node_status_live_check.py",[0m
+2026-11-10T04:47:35.9190496Z [36;1m    "tools/node_status_refresh.py",[0m
+2026-11-10T04:47:35.9190799Z [36;1m    "tools/validate_node_status.py",[0m
+2026-11-10T04:47:35.9191119Z [36;1m    "architecture/node-status.schema.json",[0m
+2026-11-10T04:47:35.9191463Z [36;1m    "docs/site/current.json",[0m
+2026-11-10T04:47:35.9191807Z [36;1m    "records/node_status/eng.d0-packet-allowlist-fix.json",[0m
+2026-11-10T04:47:35.9192202Z [36;1m    "records/node_status/eng.hard-gate.json",[0m
+2026-11-10T04:47:35.9192571Z [36;1m    "records/node_status/math.lifetime-remainder.json",[0m
+2026-11-10T04:47:35.9192965Z [36;1m    "records/node_status/math.side24-coefficient.json",[0m
+2026-11-10T04:47:35.9193345Z [36;1m    "tests/test_living_project_validation.py",[0m
+2026-11-10T04:47:35.9193635Z [36;1m)[0m
+2026-11-10T04:47:35.9193892Z [36;1mroot = pathlib.Path(os.environ["GITHUB_WORKSPACE"])[0m
+2026-11-10T04:47:35.9194283Z [36;1mtemporary = pathlib.Path(os.environ["RUNNER_TEMP"])[0m
+2026-11-10T04:47:35.9194632Z [36;1mprefix = "q9006-original-" + MODE[0m
+2026-11-10T04:47:35.9195017Z [36;1mcommand = [sys.executable, "-B", *(["-O"] if OPTIMIZE else []), "-S",[0m
+2026-11-10T04:47:35.9195417Z [36;1m           "-m", "unittest", TEST_ID, "-v"][0m
+2026-11-10T04:47:35.9195688Z [36;1m[0m
+2026-11-10T04:47:35.9195893Z [36;1mdef require(value, message):[0m
+2026-11-10T04:47:35.9196163Z [36;1m    if not value:[0m
+2026-11-10T04:47:35.9196408Z [36;1m        raise ValueError(message)[0m
+2026-11-10T04:47:35.9196664Z [36;1m[0m
+2026-11-10T04:47:35.9196975Z [36;1mrequire(temporary.is_absolute() and temporary.resolve() == temporary[0m
+2026-11-10T04:47:35.9197821Z [36;1m        and temporary.is_dir() and not temporary.is_relative_to(root),[0m
+2026-11-10T04:47:35.9198281Z [36;1m        "external canonical evidence directory required")[0m
+2026-11-10T04:47:35.9198601Z [36;1m[0m
+2026-11-10T04:47:35.9198798Z [36;1mdef write(name, value):[0m
+2026-11-10T04:47:35.9199088Z [36;1m    descriptor = os.open(temporary / name,[0m
+2026-11-10T04:47:35.9199502Z [36;1m                         os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)[0m
+2026-11-10T04:47:35.9200005Z [36;1m    with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as stream:[0m
+2026-11-10T04:47:35.9200515Z [36;1m        stream.write(json.dumps(value, sort_keys=True, indent=2) + "\n")[0m
+2026-11-10T04:47:35.9200880Z [36;1m[0m
+2026-11-10T04:47:35.9201071Z [36;1mdef git(*arguments):[0m
+2026-11-10T04:47:35.9201411Z [36;1m    environment = {key: value for key, value in os.environ.items()[0m
+2026-11-10T04:47:35.9201813Z [36;1m                   if not key.startswith("GIT_")}[0m
+2026-11-10T04:47:35.9202246Z [36;1m    environment.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,[0m
+2026-11-10T04:47:35.9202719Z [36;1m                       GIT_NO_REPLACE_OBJECTS="1", GIT_OPTIONAL_LOCKS="0",[0m
+2026-11-10T04:47:35.9203128Z [36;1m                       GIT_NO_LAZY_FETCH="1", GIT_TERMINAL_PROMPT="0")[0m
+2026-11-10T04:47:35.9203678Z [36;1m    result = subprocess.run([0m
+2026-11-10T04:47:35.9204013Z [36;1m        ["git", "--no-replace-objects", "--literal-pathspecs",[0m
+2026-11-10T04:47:35.9204440Z [36;1m         "-c", "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null",[0m
+2026-11-10T04:47:35.9204976Z [36;1m         "-C", str(root), *arguments],[0m
+2026-11-10T04:47:35.9205380Z [36;1m        env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE,[0m
+2026-11-10T04:47:35.9205786Z [36;1m        timeout=30, check=False)[0m
+2026-11-10T04:47:35.9206171Z [36;1m    require(result.returncode == 0, "native source Git read failed")[0m
+2026-11-10T04:47:35.9206553Z [36;1m    return result.stdout[0m
+2026-11-10T04:47:35.9206793Z [36;1m[0m
+2026-11-10T04:47:35.9206981Z [36;1mdef capture():[0m
+2026-11-10T04:47:35.9207333Z [36;1m    require(root.is_absolute() and root.resolve() == root and root.is_dir(),[0m
+2026-11-10T04:47:35.9208095Z [36;1m            "canonical checked source root required")[0m
+2026-11-10T04:47:35.9208481Z [36;1m    require(os.environ.get("GITHUB_ACTIONS") == "true"[0m
+2026-11-10T04:47:35.9208928Z [36;1m            and os.environ.get("GITHUB_REPOSITORY") == "d6g8k5htny-coder/main",[0m
+2026-11-10T04:47:35.9209383Z [36;1m            "native executing repository required")[0m
+2026-11-10T04:47:35.9209780Z [36;1m    native = {"repository": os.environ["GITHUB_REPOSITORY"],[0m
+2026-11-10T04:47:35.9210191Z [36;1m              "checked_commit": os.environ.get("GITHUB_SHA"),[0m
+2026-11-10T04:47:35.9210573Z [36;1m              "run_id": os.environ.get("GITHUB_RUN_ID"),[0m
+2026-11-10T04:47:35.9210965Z [36;1m              "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),[0m
+2026-11-10T04:47:35.9211356Z [36;1m              "python_optimize": sys.flags.optimize}[0m
+2026-11-10T04:47:35.9211747Z [36;1m    require(isinstance(native["checked_commit"], str)[0m
+2026-11-10T04:47:35.9212171Z [36;1m            and re.fullmatch(r"[0-9a-f]{40}", native["checked_commit"])[0m
+2026-11-10T04:47:35.9212581Z [36;1m            and all(isinstance(native[name], str)[0m
+2026-11-10T04:47:35.9212939Z [36;1m                    and re.fullmatch(r"[1-9][0-9]*", native[name])[0m
+2026-11-10T04:47:35.9213310Z [36;1m                    for name in ("run_id", "run_attempt")),[0m
+2026-11-10T04:47:35.9213734Z [36;1m            "native immutable commit and positive run identities required")[0m
+2026-11-10T04:47:35.9214201Z [36;1m    require(sys.flags.no_site == 1 and sys.dont_write_bytecode[0m
+2026-11-10T04:47:35.9214599Z [36;1m            and sys.flags.optimize == OPTIMIZE,[0m
+2026-11-10T04:47:35.9214945Z [36;1m            "actual driver interpreter mode differs")[0m
+2026-11-10T04:47:35.9215392Z [36;1m    require(git("rev-parse", "--show-toplevel").decode().strip() == str(root),[0m
+2026-11-10T04:47:35.9215831Z [36;1m            "source is not exact Git top-level")[0m
+2026-11-10T04:47:35.9216242Z [36;1m    commit = git("rev-parse", "--verify", "HEAD^{commit}").decode().strip()[0m
+2026-11-10T04:47:35.9216728Z [36;1m    tree = git("rev-parse", "--verify", "HEAD^{tree}").decode().strip()[0m
+2026-11-10T04:47:35.9217141Z [36;1m    require(commit == native["checked_commit"][0m
+2026-11-10T04:47:35.9217904Z [36;1m            and re.fullmatch(r"[0-9a-f]{40}", tree), "checked native HEAD/tree differ")[0m
+2026-11-10T04:47:35.9218328Z [36;1m    bindings = {}[0m
+2026-11-10T04:47:35.9218569Z [36;1m    for relative in SOURCES:[0m
+2026-11-10T04:47:35.9218829Z [36;1m        path = root[0m
+2026-11-10T04:47:35.9219136Z [36;1m        for part in pathlib.PurePosixPath(relative).parts:[0m
+2026-11-10T04:47:35.9219484Z [36;1m            path = path / part[0m
+2026-11-10T04:47:35.9219851Z [36;1m            require(not path.is_symlink(), "selected source symlink refused")[0m
+2026-11-10T04:47:35.9220237Z [36;1m        before = path.stat()[0m
+2026-11-10T04:47:35.9220612Z [36;1m        require(stat.S_ISREG(before.st_mode) and before.st_size <= 2_000_000,[0m
+2026-11-10T04:47:35.9221243Z [36;1m                "selected source is not a bounded regular file")[0m
+2026-11-10T04:47:35.9221586Z [36;1m        raw = path.read_bytes()[0m
+2026-11-10T04:47:35.9221855Z [36;1m        after = path.stat()[0m
+2026-11-10T04:47:35.9222329Z [36;1m        fields = ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_ctime_ns")[0m
+2026-11-10T04:47:35.9222790Z [36;1m        require(tuple(getattr(before, field) for field in fields)[0m
+2026-11-10T04:47:35.9223214Z [36;1m                == tuple(getattr(after, field) for field in fields)[0m
+2026-11-10T04:47:35.9223675Z [36;1m                and len(raw) == before.st_size, "selected source changed during read")[0m
+2026-11-10T04:47:35.9224146Z [36;1m        entry = git("ls-tree", "-z", commit, "--", relative)[0m
+2026-11-10T04:47:35.9224569Z [36;1m        require(entry.endswith(b"\0") and entry.count(b"\0") == 1,[0m
+2026-11-10T04:47:35.9224985Z [36;1m                "selected committed source inventory differs")[0m
+2026-11-10T04:47:35.9225367Z [36;1m        metadata, name = entry[:-1].split(b"\t", 1)[0m
+2026-11-10T04:47:35.9225762Z [36;1m        mode, kind, identity = metadata.decode("ascii").split(" ")[0m
+2026-11-10T04:47:35.9226182Z [36;1m        require(name == relative.encode() and kind == "blob"[0m
+2026-11-10T04:47:35.9226564Z [36;1m                and mode in ("100644", "100755")[0m
+2026-11-10T04:47:35.9226905Z [36;1m                and re.fullmatch(r"[0-9a-f]{40}", identity),[0m
+2026-11-10T04:47:35.9227288Z [36;1m                "selected committed source identity differs")[0m
+2026-11-10T04:47:35.9228085Z [36;1m        working_mode = "100755" if before.st_mode & stat.S_IXUSR else "100644"[0m
+2026-11-10T04:47:35.9228614Z [36;1m        require(working_mode == mode and raw == git("cat-file", "blob", identity),[0m
+2026-11-10T04:47:35.9229116Z [36;1m                "working source bytes or mode differ from committed source")[0m
+2026-11-10T04:47:35.9229643Z [36;1m        require(hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()[0m
+2026-11-10T04:47:35.9230148Z [36;1m                == identity, "working source blob identity differs")[0m
+2026-11-10T04:47:35.9230596Z [36;1m        bindings[relative] = {"git_blob": identity, "git_mode": mode,[0m
+2026-11-10T04:47:35.9231041Z [36;1m                              "working_mode": working_mode, "bytes": len(raw),[0m
+2026-11-10T04:47:35.9231454Z [36;1m                              "sha256": hashlib.sha256(raw).hexdigest()}[0m
+2026-11-10T04:47:35.9231939Z [36;1m    require(git("rev-parse", "--verify", "HEAD^{commit}").decode().strip() == commit,[0m
+2026-11-10T04:47:35.9232399Z [36;1m            "checked HEAD changed during capture")[0m
+2026-11-10T04:47:35.9232822Z [36;1m    return {"identity": native, "checked_commit": commit, "checked_tree": tree,[0m
+2026-11-10T04:47:35.9233314Z [36;1m            "source_count": len(bindings), "source_bindings": bindings}[0m
+2026-11-10T04:47:35.9233670Z [36;1m[0m
+2026-11-10T04:47:35.9233863Z [36;1mbefore = after = None[0m
+2026-11-10T04:47:35.9234106Z [36;1mfailures = [][0m
+2026-11-10T04:47:35.9234411Z [36;1mparent = {"mode": MODE, "command": command, "executed": False,[0m
+2026-11-10T04:47:35.9234800Z [36;1m          "returncode": None, "timed_out": False}[0m
+2026-11-10T04:47:35.9235159Z [36;1mlog_path = temporary / (prefix + "-unittest.log")[0m
+2026-11-10T04:47:35.9235469Z [36;1mtry:[0m
+2026-11-10T04:47:35.9235672Z [36;1m    before = capture()[0m
+2026-11-10T04:47:35.9235973Z [36;1m    write(prefix + "-source-before.json", before)[0m
+2026-11-10T04:47:35.9236427Z [36;1m    print("Q9006_SOURCE_BEFORE " + json.dumps(before, sort_keys=True), flush=True)[0m
+2026-11-10T04:47:35.9236962Z [36;1m    expected_output = temporary / ("q9006-real-record-" + MODE + ".json")[0m
+2026-11-10T04:47:35.9237683Z [36;1m    require(os.environ.get("NODE_STATUS_LIVE_REQUIRED") == "1"[0m
+2026-11-10T04:47:35.9238181Z [36;1m            and os.environ.get("NODE_STATUS_LIVE_OUTPUT") == str(expected_output),[0m
+2026-11-10T04:47:35.9238818Z [36;1m            "mandatory fixed shard activation/output required")[0m
+2026-11-10T04:47:35.9239238Z [36;1m    require(bool(os.environ.get("GITHUB_TOKEN", "").strip()),[0m
+2026-11-10T04:47:35.9239678Z [36;1m            "actual inherited authentication prerequisite missing")[0m
+2026-11-10T04:47:35.9240339Z [36;1m    require(not os.path.lexists(expected_output), "new original-method CLI output required")[0m
+2026-11-10T04:47:35.9240823Z [36;1m    descriptor = os.open(log_path,[0m
+2026-11-10T04:47:35.9241210Z [36;1m                         os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)[0m
+2026-11-10T04:47:35.9241630Z [36;1m    with os.fdopen(descriptor, "wb") as stream:[0m
+2026-11-10T04:47:35.9241956Z [36;1m        parent["executed"] = True[0m
+2026-11-10T04:47:35.9242224Z [36;1m        try:[0m
+2026-11-10T04:47:35.9242544Z [36;1m            completed = subprocess.run(command, cwd=root, stdout=stream,[0m
+2026-11-10T04:47:35.9243030Z [36;1m                                       stderr=subprocess.STDOUT, timeout=450, check=False)[0m
+2026-11-10T04:47:35.9243464Z [36;1m            parent["returncode"] = completed.returncode[0m
+2026-11-10T04:47:35.9243819Z [36;1m        except subprocess.TimeoutExpired:[0m
+2026-11-10T04:47:35.9244140Z [36;1m            parent["timed_out"] = True[0m
+2026-11-10T04:47:35.9244461Z [36;1m            failures.append("PARENT_TIMEOUT")[0m
+2026-11-10T04:47:35.9244767Z [36;1mexcept Exception as error:[0m
+2026-11-10T04:47:35.9245122Z [36;1m    failures.append("PREPARED_EXECUTION_" + type(error).__name__)[0m
+2026-11-10T04:47:35.9245489Z [36;1mfinally:[0m
+2026-11-10T04:47:35.9245683Z [36;1m    try:[0m
+2026-11-10T04:47:35.9245892Z [36;1m        after = capture()[0m
+2026-11-10T04:47:35.9246194Z [36;1m        write(prefix + "-source-after.json", after)[0m
+2026-11-10T04:47:35.9246638Z [36;1m        print("Q9006_SOURCE_AFTER " + json.dumps(after, sort_keys=True), flush=True)[0m
+2026-11-10T04:47:35.9247058Z [36;1m    except Exception as error:[0m
+2026-11-10T04:47:35.9247736Z [36;1m        failures.append("SOURCE_RECHECK_" + type(error).__name__)[0m
+2026-11-10T04:47:35.9248190Z [36;1m    write(prefix + "-parent-exit.json", parent)[0m
+2026-11-10T04:47:35.9248647Z [36;1m    print("Q9006_PARENT_OUTCOME " + json.dumps(parent, sort_keys=True), flush=True)[0m
+2026-11-10T04:47:35.9249062Z [36;1m[0m
+2026-11-10T04:47:35.9249265Z [36;1mif parent["returncode"] != 0:[0m
+2026-11-10T04:47:35.9249567Z [36;1m    failures.append("PARENT_EXIT_NOT_ZERO")[0m
+2026-11-10T04:47:35.9249932Z [36;1mif before is None or after is None or before != after:[0m
+2026-11-10T04:47:35.9250312Z [36;1m    failures.append("SOURCE_ENDPOINTS_DIFFER")[0m
+2026-11-10T04:47:35.9250608Z [36;1mtry:[0m
+2026-11-10T04:47:35.9250981Z [36;1m    require(log_path.stat().st_size <= 4 * 1024 * 1024, "bounded original unittest log required")[0m
+2026-11-10T04:47:35.9251437Z [36;1m    raw = log_path.read_bytes()[0m
+2026-11-10T04:47:35.9251716Z [36;1m    text = raw.decode("utf-8")[0m
+2026-11-10T04:47:35.9252104Z [36;1m    print("Q9006_ORIGINAL_UNITTEST_LOG " + json.dumps(text), flush=True)[0m
+2026-11-10T04:47:35.9252588Z [36;1m    nonempty = [line for line in text.splitlines() if line.strip()][0m
+2026-11-10T04:47:35.9253043Z [36;1m    expected = TEST_ID.rsplit(".", 1)[1] + " (" + TEST_ID + ") ... ok"[0m
+2026-11-10T04:47:35.9253458Z [36;1m    if (len(nonempty) != 4 or nonempty[0] != expected[0m
+2026-11-10T04:47:35.9253793Z [36;1m            or nonempty[1] != "-" * 70[0m
+2026-11-10T04:47:35.9254190Z [36;1m            or re.fullmatch(r"Ran 1 test in [0-9]+(?:\.[0-9]+)?s", nonempty[2]) is None[0m
+2026-11-10T04:47:35.9254600Z [36;1m            or nonempty[3] != "OK"):[0m
+2026-11-10T04:47:35.9254971Z [36;1m        failures.append("EXACT_ONE_ID_PLAIN_OK_CONTRACT_REFUSED")[0m
+2026-11-10T04:47:35.9255343Z [36;1mexcept Exception as error:[0m
+2026-11-10T04:47:35.9255674Z [36;1m    failures.append("ORIGINAL_LOG_" + type(error).__name__)[0m
+2026-11-10T04:47:35.9256131Z [36;1mguard = {"schema": "cbz.q9006.original-method-shard.v1", "mode": MODE,[0m
+2026-11-10T04:47:35.9256729Z [36;1m         "expected_test_id": TEST_ID, "expected_test_count": 1,[0m
+2026-11-10T04:47:35.9257111Z [36;1m         "parent_exit": parent["returncode"],[0m
+2026-11-10T04:47:35.9257776Z [36;1m         "source_bindings_equal": before is not None and before == after,[0m
+2026-11-10T04:47:35.9258268Z [36;1m         "status": "PASS" if not failures else "FAIL", "failures": failures}[0m
+2026-11-10T04:47:35.9258679Z [36;1mwrite(prefix + "-strict-guard.json", guard)[0m
+2026-11-10T04:47:35.9259102Z [36;1mprint("Q9006_STRICT_GUARD " + json.dumps(guard, sort_keys=True), flush=True)[0m
+2026-11-10T04:47:35.9259532Z [36;1mraise SystemExit(0 if not failures else 1)[0m
+2026-11-10T04:47:35.9259853Z [36;1mPY[0m
+2026-11-10T04:47:35.9280662Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T04:47:35.9281011Z env:
+2026-11-10T04:47:35.9281282Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:35.9281735Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T04:47:35.9282176Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:35.9282555Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:35.9282953Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:35.9283342Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T04:47:35.9286251Z   GITHUB_TOKEN: ***
+2026-11-10T04:47:35.9286492Z   NODE_STATUS_LIVE_REQUIRED: 1
+2026-11-10T04:47:35.9286884Z   NODE_STATUS_LIVE_OUTPUT: /home/runner/work/_temp/q9006-real-record-optimized.json
+2026-11-10T04:47:35.9287294Z ##[endgroup]
+2026-11-10T04:47:36.1292488Z Q9006_SOURCE_BEFORE {"checked_commit": "6d0645bd851973696ff4afdee24ccb17d192687f", "checked_tree": "97d08f92edaeea48a2185f4a09b63e4560b48a6a", "identity": {"checked_commit": "6d0645bd851973696ff4afdee24ccb17d192687f", "python_optimize": 1, "repository": "d6g8k5htny-coder/main", "run_attempt": "1", "run_id": "42757945583"}, "source_bindings": {"architecture/node-status.schema.json": {"bytes": 5018, "git_blob": "2bad95d30bcb89ea686d1ac5a50d52113dd730be", "git_mode": "100644", "sha256": "b82f1aee34097071bc47def5e3d371a3ced2df1332fb29779fe1d56e38676e45", "working_mode": "100644"}, "docs/site/current.json": {"bytes": 962639, "git_blob": "a64fb6d9768ada12b9884adac854e0ccdd5a910e", "git_mode": "100644", "sha256": "560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f", "working_mode": "100644"}, "records/node_status/eng.d0-packet-allowlist-fix.json": {"bytes": 988, "git_blob": "0a7f209b58f4d309f8c8ae36d8dce1696c22ffbd", "git_mode": "100644", "sha256": "8a5bfbc046147c5bf4a95e8ff912abcdef5f61761583e5654a7327772c72d3b3", "working_mode": "100644"}, "records/node_status/eng.hard-gate.json": {"bytes": 1281, "git_blob": "b28f4339414a6c6370d7b231ed523cc0bd250e3b", "git_mode": "100644", "sha256": "137ee09024ac67883235bad3569c61e94193385545b6caa2c0ca56f8f63a46cf", "working_mode": "100644"}, "records/node_status/math.lifetime-remainder.json": {"bytes": 4235, "git_blob": "a6f82a36e4f9a31abf656661f7c8ee5201874522", "git_mode": "100644", "sha256": "e672df10ee7f6cd75d86969e899b7d00bad23884b147fddf5bdd93b8db295180", "working_mode": "100644"}, "records/node_status/math.side24-coefficient.json": {"bytes": 938, "git_blob": "ecf9c42723ee72b8e7d1a4d5b36470f158d6af0e", "git_mode": "100644", "sha256": "0cc919fde0c9f57cdaab45d10c6eec8fc7d8d417bc33bafcd00cc53c7b6b2be7", "working_mode": "100644"}, "tests/test_living_project_validation.py": {"bytes": 24970, "git_blob": "87d63d104ab29387ddb3f7236d76b2e835e205d8", "git_mode": "100644", "sha256": "71a1fcba1dd118d91326289cd788bca1c8a1fe673ffd267eab0790974ea73190", "working_mode": "100644"}, "tools/node_status_live_check.py": {"bytes": 21374, "git_blob": "1e4852188f15060176b4458f58b27815f56845fd", "git_mode": "100644", "sha256": "85bb8ca6821d376655a629447940bdfa057a3567eaa72f734a4d7261ddd9a5b5", "working_mode": "100644"}, "tools/node_status_refresh.py": {"bytes": 23238, "git_blob": "5fa7c8b6647938a0aca538a7735edede65de9ed5", "git_mode": "100644", "sha256": "ed018809b290046f9155487c41bbe7ba594dc4fba7941256b7ebb5abff09cac0", "working_mode": "100644"}, "tools/validate_node_status.py": {"bytes": 16375, "git_blob": "e9d44b7620536b389a35ff6fad8aef2b0464b5d2", "git_mode": "100644", "sha256": "9ccadda867e00617b42177e8aee067c64bd6e52fbc79ec8fddc82653dfbc6375", "working_mode": "100644"}}, "source_count": 10}
+2026-11-10T04:47:36.9986203Z Q9006_SOURCE_AFTER {"checked_commit": "6d0645bd851973696ff4afdee24ccb17d192687f", "checked_tree": "97d08f92edaeea48a2185f4a09b63e4560b48a6a", "identity": {"checked_commit": "6d0645bd851973696ff4afdee24ccb17d192687f", "python_optimize": 1, "repository": "d6g8k5htny-coder/main", "run_attempt": "1", "run_id": "42757945583"}, "source_bindings": {"architecture/node-status.schema.json": {"bytes": 5018, "git_blob": "2bad95d30bcb89ea686d1ac5a50d52113dd730be", "git_mode": "100644", "sha256": "b82f1aee34097071bc47def5e3d371a3ced2df1332fb29779fe1d56e38676e45", "working_mode": "100644"}, "docs/site/current.json": {"bytes": 962639, "git_blob": "a64fb6d9768ada12b9884adac854e0ccdd5a910e", "git_mode": "100644", "sha256": "560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f", "working_mode": "100644"}, "records/node_status/eng.d0-packet-allowlist-fix.json": {"bytes": 988, "git_blob": "0a7f209b58f4d309f8c8ae36d8dce1696c22ffbd", "git_mode": "100644", "sha256": "8a5bfbc046147c5bf4a95e8ff912abcdef5f61761583e5654a7327772c72d3b3", "working_mode": "100644"}, "records/node_status/eng.hard-gate.json": {"bytes": 1281, "git_blob": "b28f4339414a6c6370d7b231ed523cc0bd250e3b", "git_mode": "100644", "sha256": "137ee09024ac67883235bad3569c61e94193385545b6caa2c0ca56f8f63a46cf", "working_mode": "100644"}, "records/node_status/math.lifetime-remainder.json": {"bytes": 4235, "git_blob": "a6f82a36e4f9a31abf656661f7c8ee5201874522", "git_mode": "100644", "sha256": "e672df10ee7f6cd75d86969e899b7d00bad23884b147fddf5bdd93b8db295180", "working_mode": "100644"}, "records/node_status/math.side24-coefficient.json": {"bytes": 938, "git_blob": "ecf9c42723ee72b8e7d1a4d5b36470f158d6af0e", "git_mode": "100644", "sha256": "0cc919fde0c9f57cdaab45d10c6eec8fc7d8d417bc33bafcd00cc53c7b6b2be7", "working_mode": "100644"}, "tests/test_living_project_validation.py": {"bytes": 24970, "git_blob": "87d63d104ab29387ddb3f7236d76b2e835e205d8", "git_mode": "100644", "sha256": "71a1fcba1dd118d91326289cd788bca1c8a1fe673ffd267eab0790974ea73190", "working_mode": "100644"}, "tools/node_status_live_check.py": {"bytes": 21374, "git_blob": "1e4852188f15060176b4458f58b27815f56845fd", "git_mode": "100644", "sha256": "85bb8ca6821d376655a629447940bdfa057a3567eaa72f734a4d7261ddd9a5b5", "working_mode": "100644"}, "tools/node_status_refresh.py": {"bytes": 23238, "git_blob": "5fa7c8b6647938a0aca538a7735edede65de9ed5", "git_mode": "100644", "sha256": "ed018809b290046f9155487c41bbe7ba594dc4fba7941256b7ebb5abff09cac0", "working_mode": "100644"}, "tools/validate_node_status.py": {"bytes": 16375, "git_blob": "e9d44b7620536b389a35ff6fad8aef2b0464b5d2", "git_mode": "100644", "sha256": "9ccadda867e00617b42177e8aee067c64bd6e52fbc79ec8fddc82653dfbc6375", "working_mode": "100644"}}, "source_count": 10}
+2026-11-10T04:47:37.0005292Z Q9006_PARENT_OUTCOME {"command": ["/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3", "-B", "-O", "-S", "-m", "unittest", "tests.test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head", "-v"], "executed": true, "mode": "optimized", "returncode": 0, "timed_out": false}
+2026-11-10T04:47:37.0009356Z Q9006_ORIGINAL_UNITTEST_LOG "test_real_records_fresh_against_live_source_head (tests.test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head) ... skipped 'fresh records eng.d0-packet-allowlist-fix, math.lifetime-remainder, math.side24-coefficient are not compared to a live source head; tools/validate_node_status.py performs no network fetch, so this check is skipped instead of passed'\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nOK (skipped=1)\n"
+2026-11-10T04:47:37.0012726Z Q9006_STRICT_GUARD {"expected_test_count": 1, "expected_test_id": "tests.test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head", "failures": ["EXACT_ONE_ID_PLAIN_OK_CONTRACT_REFUSED"], "mode": "optimized", "parent_exit": 0, "schema": "cbz.q9006.original-method-shard.v1", "source_bindings_equal": true, "status": "FAIL"}
+2026-11-10T04:47:37.0043965Z ##[error]Process completed with exit code 1.
+2026-11-10T04:47:37.0151799Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-10T04:47:37.0152227Z with:
+2026-11-10T04:47:37.0152480Z   name: node-status-live-observations-42757945583-1
+2026-11-10T04:47:37.0154559Z   path: /home/runner/work/_temp/node-status-live-normal.json
+/home/runner/work/_temp/node-status-live-normal.log
+/home/runner/work/_temp/node-status-live-normal-exit.json
+/home/runner/work/_temp/node-status-live-optimized.json
+/home/runner/work/_temp/node-status-live-optimized.log
+/home/runner/work/_temp/node-status-live-optimized-exit.json
+/home/runner/work/_temp/q9006-original-normal-*
+/home/runner/work/_temp/q9006-original-optimized-*
+/home/runner/work/_temp/q9006-real-record-normal*
+/home/runner/work/_temp/q9006-real-record-optimized*
+
+2026-11-10T04:47:37.0156598Z   if-no-files-found: warn
+2026-11-10T04:47:37.0156836Z   compression-level: 6
+2026-11-10T04:47:37.0157052Z   overwrite: false
+2026-11-10T04:47:37.0157264Z   include-hidden-files: false
+2026-11-10T04:47:37.0157700Z env:
+2026-11-10T04:47:37.0157952Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:37.0158372Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T04:47:37.0158791Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:37.0159169Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:37.0159546Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T04:47:37.0159927Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T04:47:37.0160244Z ##[endgroup]
+2026-11-10T04:47:37.1921005Z (node:2615) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T04:47:37.1922191Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T04:47:37.2055571Z With the provided path, there will be 16 files uploaded
+2026-11-10T04:47:37.2062500Z Artifact name is valid!
+2026-11-10T04:47:37.2064807Z Root directory input is valid!
+2026-11-10T04:47:37.4971390Z Beginning upload of artifact content to blob storage
+2026-11-10T04:47:37.5433261Z (node:2615) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-10T04:47:37.6759075Z Uploaded bytes 17135
+2026-11-10T04:47:37.7115952Z Finished uploading artifact content to blob storage!
+2026-11-10T04:47:37.7117302Z SHA256 digest of uploaded artifact zip is 66e762a08b0357cbc79d07084c26d57167e0ad04098f4eea4b6e276c533885d0
+2026-11-10T04:47:37.7119966Z Finalizing artifact upload
+2026-11-10T04:47:38.0547053Z Artifact node-status-live-observations-42757945583-1.zip successfully finalized. Artifact ID 13736072618
+2026-11-10T04:47:38.0549418Z Artifact node-status-live-observations-42757945583-1 has been successfully uploaded! Final size is 17135 bytes. Artifact ID is 13736072618
+2026-11-10T04:47:38.0556257Z Artifact download URL: https://github.com/d6g8k5htny-coder/main/actions/runs/42757945583/artifacts/13736072618
+2026-11-10T04:47:38.0785810Z Post job cleanup.
+2026-11-10T04:47:38.1716957Z [command]/usr/bin/git version
+2026-11-10T04:47:38.1765912Z git version 2.56.0
+2026-11-10T04:47:38.1813100Z Temporarily overriding HOME='/home/runner/work/_temp/c9d0dcdf-557d-413a-8e79-769c1d06fda4' before making global git config changes
+2026-11-10T04:47:38.1814635Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T04:47:38.1819929Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T04:47:38.1866987Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T04:47:38.1906310Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T04:47:38.2191552Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T04:47:38.2234706Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T04:47:38.2540550Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T04:47:38.2599645Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T04:47:38.3083139Z Cleaning up orphan processes
+2026-11-10T04:47:38.3490967Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
