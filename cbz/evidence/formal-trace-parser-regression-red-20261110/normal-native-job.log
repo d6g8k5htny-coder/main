@@ -1,0 +1,896 @@
+﻿2026-11-10T13:57:57.8023695Z Current runner version: '2.338.2'
+2026-11-10T13:57:57.8040619Z ##[group]Runner Image Provisioner
+2026-11-10T13:57:57.8041361Z Hosted Compute Agent
+2026-11-10T13:57:57.8041788Z Version: 20261028.624
+2026-11-10T13:57:57.8042158Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T13:57:57.8042622Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T13:57:57.8043032Z Worker ID: {3ef0433e-047c-4163-b0ed-e88221b12317}
+2026-11-10T13:57:57.8043437Z Region: westus3
+2026-11-10T13:57:57.8043792Z Cloud: Azure
+2026-11-10T13:57:57.8044110Z ##[endgroup]
+2026-11-10T13:57:57.8044876Z ##[group]Operating System
+2026-11-10T13:57:57.8045274Z Ubuntu
+2026-11-10T13:57:57.8045613Z 24.04.5
+2026-11-10T13:57:57.8045946Z LTS
+2026-11-10T13:57:57.8046248Z ##[endgroup]
+2026-11-10T13:57:57.8046588Z ##[group]Runner Image
+2026-11-10T13:57:57.8046974Z Image: ubuntu-24.04
+2026-11-10T13:57:57.8047307Z Version: 20261101.360.1
+2026-11-10T13:57:57.8048314Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T13:57:57.8049578Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T13:57:57.8050168Z ##[endgroup]
+2026-11-10T13:57:57.8050963Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T13:57:57.8052421Z Contents: read
+2026-11-10T13:57:57.8052800Z Metadata: read
+2026-11-10T13:57:57.8053156Z ##[endgroup]
+2026-11-10T13:57:57.8054436Z Secret source: Actions
+2026-11-10T13:57:57.8055013Z Cache mode: write
+2026-11-10T13:57:57.8055586Z Prepare workflow directory
+2026-11-10T13:57:57.8250677Z Prepare all required actions
+2026-11-10T13:57:57.8280193Z Getting action download info
+2026-11-10T13:57:58.1217984Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-10T13:57:58.2329867Z Download action repository 'actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-10T13:57:58.3454952Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-10T13:57:58.5455231Z Complete job name: Formal trace parser contracts (normal)
+2026-11-10T13:57:58.5948716Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-11-10T13:57:58.5949300Z with:
+2026-11-10T13:57:58.5949527Z   fetch-depth: 0
+2026-11-10T13:57:58.5949773Z   persist-credentials: false
+2026-11-10T13:57:58.5950051Z   repository: d6g8k5htny-coder/main
+2026-11-10T13:57:58.5952035Z   token: ***
+2026-11-10T13:57:58.5952256Z   ssh-strict: true
+2026-11-10T13:57:58.5952482Z   ssh-user: git
+2026-11-10T13:57:58.5952701Z   clean: true
+2026-11-10T13:57:58.5952934Z   sparse-checkout-cone-mode: true
+2026-11-10T13:57:58.5953240Z   fetch-tags: false
+2026-11-10T13:57:58.5953471Z   show-progress: true
+2026-11-10T13:57:58.5953705Z   lfs: false
+2026-11-10T13:57:58.5953921Z   submodules: false
+2026-11-10T13:57:58.5954165Z   set-safe-directory: true
+2026-11-10T13:57:58.5954448Z   allow-unsafe-pr-checkout: false
+2026-11-10T13:57:58.5954799Z ##[endgroup]
+2026-11-10T13:57:58.7675894Z Syncing repository: d6g8k5htny-coder/main
+2026-11-10T13:57:58.7677400Z ##[group]Getting Git version info
+2026-11-10T13:57:58.7677777Z Working directory is '/home/runner/work/main/main'
+2026-11-10T13:57:58.7678304Z [command]/usr/bin/git version
+2026-11-10T13:57:58.7730111Z git version 2.56.0
+2026-11-10T13:57:58.7743178Z ##[endgroup]
+2026-11-10T13:57:58.7752926Z Temporarily overriding HOME='/home/runner/work/_temp/cf639b38-8475-4e57-bbad-d730baf3e642' before making global git config changes
+2026-11-10T13:57:58.7754179Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T13:57:58.7756129Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T13:57:58.7800243Z Deleting the contents of '/home/runner/work/main/main'
+2026-11-10T13:57:58.7804309Z ##[group]Initializing the repository
+2026-11-10T13:57:58.7807139Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-11-10T13:57:58.7896876Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T13:57:58.7898140Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T13:57:58.7899159Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T13:57:58.7899970Z hint: call:
+2026-11-10T13:57:58.7900428Z hint:
+2026-11-10T13:57:58.7901123Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T13:57:58.7901811Z hint:
+2026-11-10T13:57:58.7902445Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T13:57:58.7903395Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T13:57:58.7904234Z hint:
+2026-11-10T13:57:58.7904689Z hint: 	git branch -m <name>
+2026-11-10T13:57:58.7905216Z hint:
+2026-11-10T13:57:58.7905925Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T13:57:58.7907025Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-11-10T13:57:58.7917911Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-11-10T13:57:58.7959077Z ##[endgroup]
+2026-11-10T13:57:58.7959516Z ##[group]Disabling automatic garbage collection
+2026-11-10T13:57:58.7959912Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T13:57:58.7984777Z ##[endgroup]
+2026-11-10T13:57:58.7985442Z ##[group]Setting up auth
+2026-11-10T13:57:58.7990046Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T13:57:58.8019731Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T13:57:58.8311346Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T13:57:58.8347586Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T13:57:58.8532942Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T13:57:58.8568385Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T13:57:58.8764900Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T13:57:58.8806889Z ##[endgroup]
+2026-11-10T13:57:58.8807612Z ##[group]Fetching the repository
+2026-11-10T13:57:58.8815337Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-11-10T13:58:11.8557783Z From https://github.com/d6g8k5htny-coder/main
+2026-11-10T13:58:11.8558643Z  * [new branch]        a4/m724-apply-8aa6a582-propose-20261031 -> origin/a4/m724-apply-8aa6a582-propose-20261031
+2026-11-10T13:58:11.8559537Z  * [new branch]        a4/m724-apply-8aa6a582-rebuild-20261031 -> origin/a4/m724-apply-8aa6a582-rebuild-20261031
+2026-11-10T13:58:11.8560158Z  * [new branch]        agent/observer-notes-20261001 -> origin/agent/observer-notes-20261001
+2026-11-10T13:58:11.8560910Z  * [new branch]        agent/paper1-note-current-20261001 -> origin/agent/paper1-note-current-20261001
+2026-11-10T13:58:11.8561585Z  * [new branch]        agent3/jetmod-rnunif-status-open-hold -> origin/agent3/jetmod-rnunif-status-open-hold
+2026-11-10T13:58:11.8562159Z  * [new branch]        archive/cbz0               -> origin/archive/cbz0
+2026-11-10T13:58:11.8562750Z  * [new branch]        archive/cbz0-main-pr430-9e393dcb-20261030 -> origin/archive/cbz0-main-pr430-9e393dcb-20261030
+2026-11-10T13:58:11.8563480Z  * [new branch]        archive/cbz0-main-pr603-946f941e-20261030 -> origin/archive/cbz0-main-pr603-946f941e-20261030
+2026-11-10T13:58:11.8564235Z  * [new branch]        carrier/v20-planner-source-delivery-20261025 -> origin/carrier/v20-planner-source-delivery-20261025
+2026-11-10T13:58:11.8565428Z  * [new branch]        cbz/archived-runtime-boundaries-20261029 -> origin/cbz/archived-runtime-boundaries-20261029
+2026-11-10T13:58:11.8566099Z  * [new branch]        cbz/archived-v20-carriers-20261029 -> origin/cbz/archived-v20-carriers-20261029
+2026-11-10T13:58:11.8566573Z  * [new branch]        cbz/auditor-grader-a8-20261029 -> origin/cbz/auditor-grader-a8-20261029
+2026-11-10T13:58:11.8567096Z  * [new branch]        cbz/auditor-mutation-admission-repair-20261030 -> origin/cbz/auditor-mutation-admission-repair-20261030
+2026-11-10T13:58:11.8567657Z  * [new branch]        cbz/canonical-layer-a-auditor-20261029 -> origin/cbz/canonical-layer-a-auditor-20261029
+2026-11-10T13:58:11.8568108Z  * [new branch]        cbz/cold-start-node-20261029 -> origin/cbz/cold-start-node-20261029
+2026-11-10T13:58:11.8568517Z  * [new branch]        cbz/composed-main-regression-20261029 -> origin/cbz/composed-main-regression-20261029
+2026-11-10T13:58:11.8568975Z  * [new branch]        cbz/determinant-kernel-evidence-20261029 -> origin/cbz/determinant-kernel-evidence-20261029
+2026-11-10T13:58:11.8569452Z  * [new branch]        cbz/foundation-catalog-reconciled-20261029 -> origin/cbz/foundation-catalog-reconciled-20261029
+2026-11-10T13:58:11.8569956Z  * [new branch]        cbz/foundation-evidence-reconciliation-20261029 -> origin/cbz/foundation-evidence-reconciliation-20261029
+2026-11-10T13:58:11.8570412Z  * [new branch]        cbz/foundation-handoff-20261029 -> origin/cbz/foundation-handoff-20261029
+2026-11-10T13:58:11.8571026Z  * [new branch]        cbz/historical-replay-observation-20261029 -> origin/cbz/historical-replay-observation-20261029
+2026-11-10T13:58:11.8571753Z  * [new branch]        cbz/main-graph-composition-20261029 -> origin/cbz/main-graph-composition-20261029
+2026-11-10T13:58:11.8572413Z  * [new branch]        cbz/main-pytest-controls-20261029 -> origin/cbz/main-pytest-controls-20261029
+2026-11-10T13:58:11.8572913Z  * [new branch]        cbz/main-regression-skips-20261029 -> origin/cbz/main-regression-skips-20261029
+2026-11-10T13:58:11.8573719Z  * [new branch]        cbz/main-retire-707-20261029 -> origin/cbz/main-retire-707-20261029
+2026-11-10T13:58:11.8574349Z  * [new branch]        cbz/main-retire-superseded-20261029 -> origin/cbz/main-retire-superseded-20261029
+2026-11-10T13:58:11.8574851Z  * [new branch]        cbz/main-sandbox-observation-20261029 -> origin/cbz/main-sandbox-observation-20261029
+2026-11-10T13:58:11.8575430Z  * [new branch]        cbz/main699-external-worktree-submodule-filter-20261030-gpt6 -> origin/cbz/main699-external-worktree-submodule-filter-20261030-gpt6
+2026-11-10T13:58:11.8576198Z  * [new branch]        cbz/node-foundation-registry-20261029 -> origin/cbz/node-foundation-registry-20261029
+2026-11-10T13:58:11.8576837Z  * [new branch]        cbz/node-retire-queued-20261029 -> origin/cbz/node-retire-queued-20261029
+2026-11-10T13:58:11.8577490Z  * [new branch]        cbz/paper-boundary-adoption-522-526-20261029 -> origin/cbz/paper-boundary-adoption-522-526-20261029
+2026-11-10T13:58:11.8578233Z  * [new branch]        cbz/phase1-foundation      -> origin/cbz/phase1-foundation
+2026-11-10T13:58:11.8578929Z  * [new branch]        cbz/public-intake-enumeration-20261029 -> origin/cbz/public-intake-enumeration-20261029
+2026-11-10T13:58:11.8579736Z  * [new branch]        cbz/quarantine-readme-scope-correction-20261030 -> origin/cbz/quarantine-readme-scope-correction-20261030
+2026-11-10T13:58:11.8580496Z  * [new branch]        cbz/regenerate-367-classifications-20261029 -> origin/cbz/regenerate-367-classifications-20261029
+2026-11-10T13:58:11.8581146Z  * [new branch]        cbz/source-accounting-support-20261030 -> origin/cbz/source-accounting-support-20261030
+2026-11-10T13:58:11.8581552Z  * [new branch]        cbz/source-instrument-20261029 -> origin/cbz/source-instrument-20261029
+2026-11-10T13:58:11.8581994Z  * [new branch]        cbz/source514-recorder-harness-review-20261029 -> origin/cbz/source514-recorder-harness-review-20261029
+2026-11-10T13:58:11.8582592Z  * [new branch]        cbz/strict-replay-source-review-20261029 -> origin/cbz/strict-replay-source-review-20261029
+2026-11-10T13:58:11.8583118Z  * [new branch]        cbz/terminal-obligation-index-20261029 -> origin/cbz/terminal-obligation-index-20261029
+2026-11-10T13:58:11.8583548Z  * [new branch]        cbz/workspace-git-hygiene-20261029 -> origin/cbz/workspace-git-hygiene-20261029
+2026-11-10T13:58:11.8584019Z  * [new branch]        chatgpt/archsys-p2-current-population-20261015 -> origin/chatgpt/archsys-p2-current-population-20261015
+2026-11-10T13:58:11.8584524Z  * [new branch]        chatgpt/c101-source-bound-successor-20260925 -> origin/chatgpt/c101-source-bound-successor-20260925
+2026-11-10T13:58:11.8585038Z  * [new branch]        chatgpt/c245a-replay-admission-contract-20261012 -> origin/chatgpt/c245a-replay-admission-contract-20261012
+2026-11-10T13:58:11.8585530Z  * [new branch]        chatgpt/cover-accounting-audit-20260924 -> origin/chatgpt/cover-accounting-audit-20260924
+2026-11-10T13:58:11.8585980Z  * [new branch]        chatgpt/downstream-crosswalk-20260925 -> origin/chatgpt/downstream-crosswalk-20260925
+2026-11-10T13:58:11.8586428Z  * [new branch]        chatgpt/drive-github-hardening-20260919 -> origin/chatgpt/drive-github-hardening-20260919
+2026-11-10T13:58:11.8586918Z  * [new branch]        chatgpt/fail-closed-claim-audit-repair-20260925 -> origin/chatgpt/fail-closed-claim-audit-repair-20260925
+2026-11-10T13:58:11.8587450Z  * [new branch]        chatgpt/gb7c-side24-proof-implementation-20261023 -> origin/chatgpt/gb7c-side24-proof-implementation-20261023
+2026-11-10T13:58:11.8587911Z  * [new branch]        chatgpt/h3-solver-pilot-20260921 -> origin/chatgpt/h3-solver-pilot-20260921
+2026-11-10T13:58:11.8588473Z  * [new branch]        chatgpt/main-lean-preflight-20261008-r1 -> origin/chatgpt/main-lean-preflight-20261008-r1
+2026-11-10T13:58:11.8589272Z  * [new branch]        chatgpt/main399-route-window-20261025 -> origin/chatgpt/main399-route-window-20261025
+2026-11-10T13:58:11.8589972Z  * [new branch]        chatgpt/math-push-cap-palette-20260924 -> origin/chatgpt/math-push-cap-palette-20260924
+2026-11-10T13:58:11.8590889Z  * [new branch]        chatgpt/nav-manifest-trigger-20261021-c -> origin/chatgpt/nav-manifest-trigger-20261021-c
+2026-11-10T13:58:11.8591329Z  * [new branch]        chatgpt/navigation-price-20260924 -> origin/chatgpt/navigation-price-20260924
+2026-11-10T13:58:11.8591784Z  * [new branch]        chatgpt/never-merge-formal-negative-20260927 -> origin/chatgpt/never-merge-formal-negative-20260927
+2026-11-10T13:58:11.8592258Z  * [new branch]        chatgpt/pr2-postmerge-handoff-20260923 -> origin/chatgpt/pr2-postmerge-handoff-20260923
+2026-11-10T13:58:11.8592697Z  * [new branch]        chatgpt/probe-test-isolation-20260923 -> origin/chatgpt/probe-test-isolation-20260923
+2026-11-10T13:58:11.8593162Z  * [new branch]        chatgpt/public-source-visibility-20260926 -> origin/chatgpt/public-source-visibility-20260926
+2026-11-10T13:58:11.8593615Z  * [new branch]        chatgpt/q0-c103-source-bound-20260925 -> origin/chatgpt/q0-c103-source-bound-20260925
+2026-11-10T13:58:11.8594085Z  * [new branch]        chatgpt/q0-ledger-external-binding-20260925 -> origin/chatgpt/q0-ledger-external-binding-20260925
+2026-11-10T13:58:11.8594535Z  * [new branch]        chatgpt/register-export-r1-20260923 -> origin/chatgpt/register-export-r1-20260923
+2026-11-10T13:58:11.8594989Z  * [new branch]        chatgpt/register-source-preflight-20260923 -> origin/chatgpt/register-source-preflight-20260923
+2026-11-10T13:58:11.8595466Z  * [new branch]        chatgpt/research-capsule-311-20260924-1504 -> origin/chatgpt/research-capsule-311-20260924-1504
+2026-11-10T13:58:11.8595939Z  * [new branch]        chatgpt/side24-source-recovery-20260925 -> origin/chatgpt/side24-source-recovery-20260925
+2026-11-10T13:58:11.8596448Z  * [new branch]        chatgpt/source-architecture-design-20260925 -> origin/chatgpt/source-architecture-design-20260925
+2026-11-10T13:58:11.8597074Z  * [new branch]        chatgpt/source-recovery-companions-20261016-6215376409 -> origin/chatgpt/source-recovery-companions-20261016-6215376409
+2026-11-10T13:58:11.8597601Z  * [new branch]        chatgpt/standing-authorization-20260923 -> origin/chatgpt/standing-authorization-20260923
+2026-11-10T13:58:11.8598009Z  * [new branch]        chatgpt/storefront-20260926 -> origin/chatgpt/storefront-20260926
+2026-11-10T13:58:11.8598367Z  * [new branch]        chatgpt/vault-census-20260925 -> origin/chatgpt/vault-census-20260925
+2026-11-10T13:58:11.8598752Z  * [new branch]        chatgpt/wedge-accounting-20260924 -> origin/chatgpt/wedge-accounting-20260924
+2026-11-10T13:58:11.8599199Z  * [new branch]        chatgpt/withdrawal-governance-20260921 -> origin/chatgpt/withdrawal-governance-20260921
+2026-11-10T13:58:11.8599671Z  * [new branch]        claude/build-manuscript-contributing-BowxS -> origin/claude/build-manuscript-contributing-BowxS
+2026-11-10T13:58:11.8600300Z  * [new branch]        claude/build-manuscript-script-TiApQ -> origin/claude/build-manuscript-script-TiApQ
+2026-11-10T13:58:11.8601054Z  * [new branch]        claude/cbz-783-followups-20261109 -> origin/claude/cbz-783-followups-20261109
+2026-11-10T13:58:11.8601807Z  * [new branch]        claude/cbz0-comment-math-body-custody-20261102 -> origin/claude/cbz0-comment-math-body-custody-20261102
+2026-11-10T13:58:11.8602481Z  * [new branch]        claude/cbz0-comment-math-census-20261031 -> origin/claude/cbz0-comment-math-census-20261031
+2026-11-10T13:58:11.8602968Z  * [new branch]        claude/cbz0-comment-math-impl-sourcing-20261102 -> origin/claude/cbz0-comment-math-impl-sourcing-20261102
+2026-11-10T13:58:11.8603399Z  * [new branch]        claude/cbz0-drift-ack-20261105 -> origin/claude/cbz0-drift-ack-20261105
+2026-11-10T13:58:11.8603796Z  * [new branch]        claude/cbz0-g12-defs-from-20261106 -> origin/claude/cbz0-g12-defs-from-20261106
+2026-11-10T13:58:11.8604175Z  * [new branch]        claude/cbz0-g12-finvec-20261104 -> origin/claude/cbz0-g12-finvec-20261104
+2026-11-10T13:58:11.8604582Z  * [new branch]        claude/cbz0-g12-transcendental-20261106 -> origin/claude/cbz0-g12-transcendental-20261106
+2026-11-10T13:58:11.8605087Z  * [new branch]        claude/cbz0-phase1-20261029 -> origin/claude/cbz0-phase1-20261029
+2026-11-10T13:58:11.8605464Z  * [new branch]        claude/cover-outside-residual-guard -> origin/claude/cover-outside-residual-guard
+2026-11-10T13:58:11.8605851Z  * [new branch]        claude/cover-survivor-tangency -> origin/claude/cover-survivor-tangency
+2026-11-10T13:58:11.8606237Z  * [new branch]        claude/cover-tangency-on-hardening -> origin/claude/cover-tangency-on-hardening
+2026-11-10T13:58:11.8606637Z  * [new branch]        claude/cover-uniform-cost-contract -> origin/claude/cover-uniform-cost-contract
+2026-11-10T13:58:11.8607035Z  * [new branch]        claude/dbx-crosswalk-01cz-20261024 -> origin/claude/dbx-crosswalk-01cz-20261024
+2026-11-10T13:58:11.8607441Z  * [new branch]        claude/dbx-crosswalk-01cz-20261024-r2 -> origin/claude/dbx-crosswalk-01cz-20261024-r2
+2026-11-10T13:58:11.8607849Z  * [new branch]        claude/determined-bardeen-mrqy4y -> origin/claude/determined-bardeen-mrqy4y
+2026-11-10T13:58:11.8608288Z  * [new branch]        claude/drive-audit-github-migration-rrglpp -> origin/claude/drive-audit-github-migration-rrglpp
+2026-11-10T13:58:11.8608754Z  * [new branch]        claude/g1f2-g3f1-worker-liveness-71049ac9 -> origin/claude/g1f2-g3f1-worker-liveness-71049ac9
+2026-11-10T13:58:11.8609189Z  * [new branch]        claude/g2-02-serialized-size-71049ac9 -> origin/claude/g2-02-serialized-size-71049ac9
+2026-11-10T13:58:11.8609578Z  * [new branch]        claude/github-chatgpt-xxw5kp -> origin/claude/github-chatgpt-xxw5kp
+2026-11-10T13:58:11.8609997Z  * [new branch]        claude/handoff-lean-register-tools-20261013 -> origin/claude/handoff-lean-register-tools-20261013
+2026-11-10T13:58:11.8610452Z  * [new branch]        claude/help-other-claude-models-829990 -> origin/claude/help-other-claude-models-829990
+2026-11-10T13:58:11.8611117Z  * [new branch]        claude/incoming-side24-chart-v2-20260926 -> origin/claude/incoming-side24-chart-v2-20260926
+2026-11-10T13:58:11.8611566Z  * [new branch]        claude/journal-623-624-combined-d476fc21 -> origin/claude/journal-623-624-combined-d476fc21
+2026-11-10T13:58:11.8611956Z  * [new branch]        claude/ladder-pin-reconcile -> origin/claude/ladder-pin-reconcile
+2026-11-10T13:58:11.8612393Z  * [new branch]        claude/lean-verification-specification-20261010 -> origin/claude/lean-verification-specification-20261010
+2026-11-10T13:58:11.8612811Z  * [new branch]        claude/main-landing-page   -> origin/claude/main-landing-page
+2026-11-10T13:58:11.8613141Z  * [new branch]        claude/nice-maxwell-7i7ok0 -> origin/claude/nice-maxwell-7i7ok0
+2026-11-10T13:58:11.8613493Z  * [new branch]        claude/nice-maxwell-7i7ok0-cbz0 -> origin/claude/nice-maxwell-7i7ok0-cbz0
+2026-11-10T13:58:11.8613944Z  * [new branch]        claude/physics-multiscale-reconstruction-a1G1I -> origin/claude/physics-multiscale-reconstruction-a1G1I
+2026-11-10T13:58:11.8614392Z  * [new branch]        claude/pinned-sources-inventory -> origin/claude/pinned-sources-inventory
+2026-11-10T13:58:11.8614782Z  * [new branch]        claude/quarantine-digest-coverage -> origin/claude/quarantine-digest-coverage
+2026-11-10T13:58:11.8615151Z  * [new branch]        claude/recovery-01N-20261013 -> origin/claude/recovery-01N-20261013
+2026-11-10T13:58:11.8615501Z  * [new branch]        claude/recovery-01cz-20261013 -> origin/claude/recovery-01cz-20261013
+2026-11-10T13:58:11.8615877Z  * [new branch]        claude/recovery-01cz-delta-20261018 -> origin/claude/recovery-01cz-delta-20261018
+2026-11-10T13:58:11.8616273Z  * [new branch]        claude/recovery-01cz-delta-20261020 -> origin/claude/recovery-01cz-delta-20261020
+2026-11-10T13:58:11.8616628Z  * [new branch]        claude/recovery-S-20261013 -> origin/claude/recovery-S-20261013
+2026-11-10T13:58:11.8617025Z  * [new branch]        claude/review-grok-github-uploads-gsthj3 -> origin/claude/review-grok-github-uploads-gsthj3
+2026-11-10T13:58:11.8617480Z  * [new branch]        claude/setup-complexity-physics-8H96d -> origin/claude/setup-complexity-physics-8H96d
+2026-11-10T13:58:11.8617995Z  * [new branch]        claude/shared-custody-01cz-20261025 -> origin/claude/shared-custody-01cz-20261025
+2026-11-10T13:58:11.8618426Z  * [new branch]        claude/side24-v3-supplement-draft-20261013 -> origin/claude/side24-v3-supplement-draft-20261013
+2026-11-10T13:58:11.8618896Z  * [new branch]        claude/side24-v3-supplement-draft10-20261019 -> origin/claude/side24-v3-supplement-draft10-20261019
+2026-11-10T13:58:11.8619370Z  * [new branch]        claude/side24-v3-supplement-draft11-20261019 -> origin/claude/side24-v3-supplement-draft11-20261019
+2026-11-10T13:58:11.8689370Z  * [new branch]        claude/side24-v3-supplement-draft12-20261019 -> origin/claude/side24-v3-supplement-draft12-20261019
+2026-11-10T13:58:11.8690416Z  * [new branch]        claude/side24-v3-supplement-draft13-20261020 -> origin/claude/side24-v3-supplement-draft13-20261020
+2026-11-10T13:58:11.8691471Z  * [new branch]        claude/side24-v3-supplement-draft14-20261021 -> origin/claude/side24-v3-supplement-draft14-20261021
+2026-11-10T13:58:11.8692261Z  * [new branch]        claude/side24-v3-supplement-draft15-20261021 -> origin/claude/side24-v3-supplement-draft15-20261021
+2026-11-10T13:58:11.8693026Z  * [new branch]        claude/side24-v3-supplement-draft16-20261021 -> origin/claude/side24-v3-supplement-draft16-20261021
+2026-11-10T13:58:11.8693797Z  * [new branch]        claude/side24-v3-supplement-draft17-20261026 -> origin/claude/side24-v3-supplement-draft17-20261026
+2026-11-10T13:58:11.8694601Z  * [new branch]        claude/side24-v3-supplement-draft18-20261026 -> origin/claude/side24-v3-supplement-draft18-20261026
+2026-11-10T13:58:11.8695572Z  * [new branch]        claude/side24-v3-supplement-draft9-20261015 -> origin/claude/side24-v3-supplement-draft9-20261015
+2026-11-10T13:58:11.8696321Z  * [new branch]        claude/zeta-fold-r2-replay-venue-20261020 -> origin/claude/zeta-fold-r2-replay-venue-20261020
+2026-11-10T13:58:11.8697338Z  * [new branch]        claude/zeta-fold-residual-diag-retention-20261021 -> origin/claude/zeta-fold-residual-diag-retention-20261021
+2026-11-10T13:58:11.8698146Z  * [new branch]        claude/zeta-manifest-check-adoption-20261021 -> origin/claude/zeta-manifest-check-adoption-20261021
+2026-11-10T13:58:11.8698894Z  * [new branch]        codex/605-v22-canonical-dataset-20261025 -> origin/codex/605-v22-canonical-dataset-20261025
+2026-11-10T13:58:11.8699729Z  * [new branch]        codex/architecture-cli-boundary-red-20261016 -> origin/codex/architecture-cli-boundary-red-20261016
+2026-11-10T13:58:11.8700651Z  * [new branch]        codex/architecture-post-upload-probe-20261008 -> origin/codex/architecture-post-upload-probe-20261008
+2026-11-10T13:58:11.8701482Z  * [new branch]        codex/c226-formal-phase-evidence -> origin/codex/c226-formal-phase-evidence
+2026-11-10T13:58:11.8702175Z  * [new branch]        codex/c287-population-current-main-20261016 -> origin/codex/c287-population-current-main-20261016
+2026-11-10T13:58:11.8702908Z  * [new branch]        codex/canvas-model-controls-20261009 -> origin/codex/canvas-model-controls-20261009
+2026-11-10T13:58:11.8703666Z  * [new branch]        codex/casefold-adapter-checked-probe-20261008 -> origin/codex/casefold-adapter-checked-probe-20261008
+2026-11-10T13:58:11.8704507Z  * [new branch]        codex/casefold-adapter-final-checked-20261008 -> origin/codex/casefold-adapter-final-checked-20261008
+2026-11-10T13:58:11.8705301Z  * [new branch]        codex/cbz-architecture-observation-20261110 -> origin/codex/cbz-architecture-observation-20261110
+2026-11-10T13:58:11.8706071Z  * [new branch]        codex/cbz-g11-browser-entrypoints-20261107 -> origin/codex/cbz-g11-browser-entrypoints-20261107
+2026-11-10T13:58:11.8706789Z  * [new branch]        codex/cbz-guidance-2dcac160-20261029 -> origin/codex/cbz-guidance-2dcac160-20261029
+2026-11-10T13:58:11.8707424Z  * [new branch]        codex/cbz-intent-01a103c8-20261029 -> origin/codex/cbz-intent-01a103c8-20261029
+2026-11-10T13:58:11.8708450Z  * [new branch]        codex/cbz-main809-custody-bytecode-20261110-8c3d8a -> origin/codex/cbz-main809-custody-bytecode-20261110-8c3d8a
+2026-11-10T13:58:11.8709251Z  * [new branch]        codex/cbz-main812-prefix-staged-20261110 -> origin/codex/cbz-main812-prefix-staged-20261110
+2026-11-10T13:58:11.8709976Z  * [new branch]        codex/cbz-math514-kernel-replay-20261029 -> origin/codex/cbz-math514-kernel-replay-20261029
+2026-11-10T13:58:11.8710716Z  * [new branch]        codex/cbz-sdga-controller-task-e-20261110 -> origin/codex/cbz-sdga-controller-task-e-20261110
+2026-11-10T13:58:11.8711633Z  * [new branch]        codex/cbz-sdga-e-original-inventory-20261110 -> origin/codex/cbz-sdga-e-original-inventory-20261110
+2026-11-10T13:58:11.8712414Z  * [new branch]        codex/cbz-sdga-e-original-readback-20261110 -> origin/codex/cbz-sdga-e-original-readback-20261110
+2026-11-10T13:58:11.8713196Z  * [new branch]        codex/cbz-sdga-m2-reachability-probe-20261110 -> origin/codex/cbz-sdga-m2-reachability-probe-20261110
+2026-11-10T13:58:11.8714038Z  * [new branch]        codex/current-observation-recovery-20261022-2234 -> origin/codex/current-observation-recovery-20261022-2234
+2026-11-10T13:58:11.8714885Z  * [new branch]        codex/cusp-analytic-guards-20261009-root01a11cbf -> origin/codex/cusp-analytic-guards-20261009-root01a11cbf
+2026-11-10T13:58:11.8715621Z  * [new branch]        codex/enforcement-control-20260922 -> origin/codex/enforcement-control-20260922
+2026-11-10T13:58:11.8716258Z  * [new branch]        codex/enforcement-probe-20260922 -> origin/codex/enforcement-probe-20260922
+2026-11-10T13:58:11.8717079Z  * [new branch]        codex/exact-population-certificate-20261009-root01a11cbf -> origin/codex/exact-population-certificate-20261009-root01a11cbf
+2026-11-10T13:58:11.8717823Z  * [new branch]        codex/exact-population-certificate-ci-20261009-root01a11cbf -> origin/codex/exact-population-certificate-ci-20261009-root01a11cbf
+2026-11-10T13:58:11.8718484Z  * [new branch]        codex/g11-auditor-soundness-20261030-gpt6 -> origin/codex/g11-auditor-soundness-20261030-gpt6
+2026-11-10T13:58:11.8718950Z  * [new branch]        codex/g11-auditor-soundness-20261030-gpt6-r2 -> origin/codex/g11-auditor-soundness-20261030-gpt6-r2
+2026-11-10T13:58:11.8719478Z  * [new branch]        codex/g5-formal-r1-evidence-readback-20261110 -> origin/codex/g5-formal-r1-evidence-readback-20261110
+2026-11-10T13:58:11.8720175Z  * [new branch]        codex/g5-formal-runtime-feasibility-20261110 -> origin/codex/g5-formal-runtime-feasibility-20261110
+2026-11-10T13:58:11.8720669Z  * [new branch]        codex/g5-navigation-source-state-probe-20261110 -> origin/codex/g5-navigation-source-state-probe-20261110
+2026-11-10T13:58:11.8721348Z  * [new branch]        codex/global-cusp-h0-selector-20261009-root01a11cbf -> origin/codex/global-cusp-h0-selector-20261009-root01a11cbf
+2026-11-10T13:58:11.8722021Z  * [new branch]        codex/global-cusp-h0-validation-20261009-root01a11cbf -> origin/codex/global-cusp-h0-validation-20261009-root01a11cbf
+2026-11-10T13:58:11.8722496Z  * [new branch]        codex/h3-closure-mirror-20261018 -> origin/codex/h3-closure-mirror-20261018
+2026-11-10T13:58:11.8722889Z  * [new branch]        codex/higher-homology-fold-20261008 -> origin/codex/higher-homology-fold-20261008
+2026-11-10T13:58:11.8723544Z  * [new branch]        codex/lease-crypto-runtime-preparation-20261009 -> origin/codex/lease-crypto-runtime-preparation-20261009
+2026-11-10T13:58:11.8724283Z  * [new branch]        codex/lease-protocol-tests-20261009 -> origin/codex/lease-protocol-tests-20261009
+2026-11-10T13:58:11.8724953Z  * [new branch]        codex/main-classic-rule-evidence-20261025 -> origin/codex/main-classic-rule-evidence-20261025
+2026-11-10T13:58:11.8725535Z  * [new branch]        codex/main388-new-successor-20261014 -> origin/codex/main388-new-successor-20261014
+2026-11-10T13:58:11.8726051Z  * [new branch]        codex/main583-setup-python-only-20261024 -> origin/codex/main583-setup-python-only-20261024
+2026-11-10T13:58:11.8726704Z  * [new branch]        codex/mechanism-assimilation-20260922 -> origin/codex/mechanism-assimilation-20260922
+2026-11-10T13:58:11.8727523Z  * [new branch]        codex/milestone-audit-summary-20261002 -> origin/codex/milestone-audit-summary-20261002
+2026-11-10T13:58:11.8728197Z  * [new branch]        codex/navigation-timing-20261016 -> origin/codex/navigation-timing-20261016
+2026-11-10T13:58:11.8728842Z  * [new branch]        codex/parallel-reader-tools-20261003 -> origin/codex/parallel-reader-tools-20261003
+2026-11-10T13:58:11.8729535Z  * [new branch]        codex/population-a1-controls-20261013 -> origin/codex/population-a1-controls-20261013
+2026-11-10T13:58:11.8730385Z  * [new branch]        codex/population-runner-attribution-20261013-root01a11cbf-2035z -> origin/codex/population-runner-attribution-20261013-root01a11cbf-2035z
+2026-11-10T13:58:11.8731066Z  * [new branch]        codex/reader-native-admission-20261017 -> origin/codex/reader-native-admission-20261017
+2026-11-10T13:58:11.8731676Z  * [new branch]        codex/reader-native-cp-20261017 -> origin/codex/reader-native-cp-20261017
+2026-11-10T13:58:11.8732366Z  * [new branch]        codex/reader-runtime-preparation-20261011 -> origin/codex/reader-runtime-preparation-20261011
+2026-11-10T13:58:11.8733203Z  * [new branch]        codex/reader438-review-evidence-20261017-root01a14b9f -> origin/codex/reader438-review-evidence-20261017-root01a14b9f
+2026-11-10T13:58:11.8733990Z  * [new branch]        codex/req8-controls-r01-20261020-1500 -> origin/codex/req8-controls-r01-20261020-1500
+2026-11-10T13:58:11.8734751Z  * [new branch]        codex/reviewed-fold-diagonal-20261016-root01a11cbf -> origin/codex/reviewed-fold-diagonal-20261016-root01a11cbf
+2026-11-10T13:58:11.8735334Z  * [new branch]        codex/routing-broker-tests-20261009 -> origin/codex/routing-broker-tests-20261009
+2026-11-10T13:58:11.8735802Z  * [new branch]        codex/routing-sqlite-runtime-preparation-20261008 -> origin/codex/routing-sqlite-runtime-preparation-20261008
+2026-11-10T13:58:11.8736692Z  * [new branch]        codex/semantic-memory-task1-20261016 -> origin/codex/semantic-memory-task1-20261016
+2026-11-10T13:58:11.8737244Z  * [new branch]        codex/semantic-runtime-preparation-20261008 -> origin/codex/semantic-runtime-preparation-20261008
+2026-11-10T13:58:11.8737791Z  * [new branch]        codex/signed-lease-recovery-evidence-20261018-root01a14b9f -> origin/codex/signed-lease-recovery-evidence-20261018-root01a14b9f
+2026-11-10T13:58:11.8738304Z  * [new branch]        codex/site-at-generated-f614-20261025 -> origin/codex/site-at-generated-f614-20261025
+2026-11-10T13:58:11.8738711Z  * [new branch]        codex/site-first-red-20261022-2207 -> origin/codex/site-first-red-20261022-2207
+2026-11-10T13:58:11.8739117Z  * [new branch]        codex/site-publication-receipts -> origin/codex/site-publication-receipts
+2026-11-10T13:58:11.8739788Z  * [new branch]        codex/site-route-controls-v3-20261022-2338 -> origin/codex/site-route-controls-v3-20261022-2338
+2026-11-10T13:58:11.8740281Z  * [new branch]        codex/source-workflows-20261029 -> origin/codex/source-workflows-20261029
+2026-11-10T13:58:11.8740717Z  * [new branch]        codex/spectral-amplitude-crossover-20261008 -> origin/codex/spectral-amplitude-crossover-20261008
+2026-11-10T13:58:11.8741315Z  * [new branch]        codex/spectral-gaussian-admission-20261008 -> origin/codex/spectral-gaussian-admission-20261008
+2026-11-10T13:58:11.8741760Z  * [new branch]        codex/stationary-quartic-cusp-20261009 -> origin/codex/stationary-quartic-cusp-20261009
+2026-11-10T13:58:11.8742212Z  * [new branch]        codex/two-control-cusp-population-20261009 -> origin/codex/two-control-cusp-population-20261009
+2026-11-10T13:58:11.8742641Z  * [new branch]        codex/verification-museum-20260926 -> origin/codex/verification-museum-20260926
+2026-11-10T13:58:11.8743116Z  * [new branch]        codex/weighted-cusp-production-20261026-root01a11cbf -> origin/codex/weighted-cusp-production-20261026-root01a11cbf
+2026-11-10T13:58:11.8743657Z  * [new branch]        codex/weighted-cusp-sampling-20261025-root01a11cbf -> origin/codex/weighted-cusp-sampling-20261025-root01a11cbf
+2026-11-10T13:58:11.8744272Z  * [new branch]        copilot/comprehensive-audit-d6g8k5htny-coder -> origin/copilot/comprehensive-audit-d6g8k5htny-coder
+2026-11-10T13:58:11.8744783Z  * [new branch]        copilot/copilotupdate-coordination-references-307 -> origin/copilot/copilotupdate-coordination-references-307
+2026-11-10T13:58:11.8745208Z  * [new branch]        copilot/ec-014-audit-tasks -> origin/copilot/ec-014-audit-tasks
+2026-11-10T13:58:11.8745680Z  * [new branch]        copilot/update-contributor-routing-agent-message-board-419 -> origin/copilot/update-contributor-routing-agent-message-board-419
+2026-11-10T13:58:11.8746203Z  * [new branch]        cursor/at-remainder-source-repair-8ffc -> origin/cursor/at-remainder-source-repair-8ffc
+2026-11-10T13:58:11.8746643Z  * [new branch]        cursor/batch249-tip-observe-542e6ec-1c18 -> origin/cursor/batch249-tip-observe-542e6ec-1c18
+2026-11-10T13:58:11.8747071Z  * [new branch]        cursor/compose-719-r4-a11-20261031-3523 -> origin/cursor/compose-719-r4-a11-20261031-3523
+2026-11-10T13:58:11.8747505Z  * [new branch]        cursor/cond-importers-13-audit-20260925 -> origin/cursor/cond-importers-13-audit-20260925
+2026-11-10T13:58:11.8747984Z  * [new branch]        cursor/contribution-plan-crosswalk-lpw-identity -> origin/cursor/contribution-plan-crosswalk-lpw-identity
+2026-11-10T13:58:11.8748521Z  * [new branch]        cursor/downstream-crosswalk-outside-packet-31c5 -> origin/cursor/downstream-crosswalk-outside-packet-31c5
+2026-11-10T13:58:11.8749145Z  * [new branch]        cursor/env-rescov-node-classification-20260925 -> origin/cursor/env-rescov-node-classification-20260925
+2026-11-10T13:58:11.8749621Z  * [new branch]        cursor/f1-repair-618-impl-ref-20261025-9e39 -> origin/cursor/f1-repair-618-impl-ref-20261025-9e39
+2026-11-10T13:58:11.8750052Z  * [new branch]        cursor/g1-f1-journal-lf-framing-0b94 -> origin/cursor/g1-f1-journal-lf-framing-0b94
+2026-11-10T13:58:11.8750601Z  * [new branch]        cursor/integrate-697-a10-p697-20261031-2258-78e0 -> origin/cursor/integrate-697-a10-p697-20261031-2258-78e0
+2026-11-10T13:58:11.8751203Z  * [new branch]        cursor/intermediate-scale-bridge-ab2f -> origin/cursor/intermediate-scale-bridge-ab2f
+2026-11-10T13:58:11.8751624Z  * [new branch]        cursor/inventable-jetmod-probes-4488 -> origin/cursor/inventable-jetmod-probes-4488
+2026-11-10T13:58:11.8752083Z  * [new branch]        cursor/inventable-jetmod-shortcut-refusals-09c9 -> origin/cursor/inventable-jetmod-shortcut-refusals-09c9
+2026-11-10T13:58:11.8752580Z  * [new branch]        cursor/inventable-jetmod-status-honesty-f8c0 -> origin/cursor/inventable-jetmod-status-honesty-f8c0
+2026-11-10T13:58:11.8753014Z  * [new branch]        cursor/inventable-nav-rescue-334e -> origin/cursor/inventable-nav-rescue-334e
+2026-11-10T13:58:11.8753461Z  * [new branch]        cursor/inventable-probe-index-provenance-b0e1 -> origin/cursor/inventable-probe-index-provenance-b0e1
+2026-11-10T13:58:11.8753996Z  * [new branch]        cursor/inventable-refused-empty-absent-honesty-a3f9 -> origin/cursor/inventable-refused-empty-absent-honesty-a3f9
+2026-11-10T13:58:11.8754539Z  * [new branch]        cursor/inventable-refused-empty-absent-honesty-f763 -> origin/cursor/inventable-refused-empty-absent-honesty-f763
+2026-11-10T13:58:11.8755105Z  * [new branch]        cursor/inventable-registers-check-known-acceptance-c426 -> origin/cursor/inventable-registers-check-known-acceptance-c426
+2026-11-10T13:58:11.8755647Z  * [new branch]        cursor/inventable-rn-absent-empty-honesty-f2a8 -> origin/cursor/inventable-rn-absent-empty-honesty-f2a8
+2026-11-10T13:58:11.8756150Z  * [new branch]        cursor/inventable-status-jetmod-24jet-row-852a -> origin/cursor/inventable-status-jetmod-24jet-row-852a
+2026-11-10T13:58:11.8756656Z  * [new branch]        cursor/inventable-tip-observation-honesty-79ba -> origin/cursor/inventable-tip-observation-honesty-79ba
+2026-11-10T13:58:11.8757153Z  * [new branch]        cursor/inventable-tip-observe-02cfbfdf-ad5a -> origin/cursor/inventable-tip-observe-02cfbfdf-ad5a
+2026-11-10T13:58:11.8757699Z  * [new branch]        cursor/inventable-tip-observe-388a22ca -> origin/cursor/inventable-tip-observe-388a22ca
+2026-11-10T13:58:11.8758148Z  * [new branch]        cursor/inventable-tip-observe-3b3860da-cf44 -> origin/cursor/inventable-tip-observe-3b3860da-cf44
+2026-11-10T13:58:11.8758667Z  * [new branch]        cursor/inventable-tip-observe-542e6ec-8fc7 -> origin/cursor/inventable-tip-observe-542e6ec-8fc7
+2026-11-10T13:58:11.8759130Z  * [new branch]        cursor/inventable-tip-observe-8e359e5-d0bd -> origin/cursor/inventable-tip-observe-8e359e5-d0bd
+2026-11-10T13:58:11.8759618Z  * [new branch]        cursor/inventable-vault-path-tooling-docs-360d -> origin/cursor/inventable-vault-path-tooling-docs-360d
+2026-11-10T13:58:11.8760292Z  * [new branch]        cursor/jetmod-partial-refused-not-24jet-status-vocab -> origin/cursor/jetmod-partial-refused-not-24jet-status-vocab
+2026-11-10T13:58:11.8761189Z  * [new branch]        cursor/jetmod-sibling-sweep-empty-7b82 -> origin/cursor/jetmod-sibling-sweep-empty-7b82
+2026-11-10T13:58:11.8761807Z  * [new branch]        cursor/jetmod-status-vocab-1814 -> origin/cursor/jetmod-status-vocab-1814
+2026-11-10T13:58:11.8762403Z  * [new branch]        cursor/main-crosswalk-nav-31c5 -> origin/cursor/main-crosswalk-nav-31c5
+2026-11-10T13:58:11.8763030Z  * [new branch]        cursor/math-status-inventable-honesty-3242 -> origin/cursor/math-status-inventable-honesty-3242
+2026-11-10T13:58:11.8763491Z  * [new branch]        cursor/math-status-open-hold-20260922-b4a3 -> origin/cursor/math-status-open-hold-20260922-b4a3
+2026-11-10T13:58:11.8763942Z  * [new branch]        cursor/math-status-open-hold-20260922-e340 -> origin/cursor/math-status-open-hold-20260922-e340
+2026-11-10T13:58:11.8764373Z  * [new branch]        cursor/math-status-readme-unmix-9b14 -> origin/cursor/math-status-readme-unmix-9b14
+2026-11-10T13:58:11.8764918Z  * [new branch]        cursor/math-status-walls-20260922-da25 -> origin/cursor/math-status-walls-20260922-da25
+2026-11-10T13:58:11.8765352Z  * [new branch]        cursor/path-c-0019-attestations-rw-0c9d -> origin/cursor/path-c-0019-attestations-rw-0c9d
+2026-11-10T13:58:11.8765744Z  * [new branch]        cursor/path-c-portable-fixes -> origin/cursor/path-c-portable-fixes
+2026-11-10T13:58:11.8766109Z  * [new branch]        cursor/pickup-live-tip-line-b3c0 -> origin/cursor/pickup-live-tip-line-b3c0
+2026-11-10T13:58:11.8766522Z  * [new branch]        cursor/q0-ledger-reconcile-ebedb78-31c5 -> origin/cursor/q0-ledger-reconcile-ebedb78-31c5
+2026-11-10T13:58:11.8766988Z  * [new branch]        cursor/register-consumers-cold-start-nav-a2df -> origin/cursor/register-consumers-cold-start-nav-a2df
+2026-11-10T13:58:11.8767443Z  * [new branch]        cursor/replace-2025-main-landing-6939 -> origin/cursor/replace-2025-main-landing-6939
+2026-11-10T13:58:11.8767895Z  * [new branch]        cursor/restore-independence-credit-quote-e6a4 -> origin/cursor/restore-independence-credit-quote-e6a4
+2026-11-10T13:58:11.8768406Z  * [new branch]        cursor/retip-38-outside-residual-guard-077464ef -> origin/cursor/retip-38-outside-residual-guard-077464ef
+2026-11-10T13:58:11.8768869Z  * [new branch]        cursor/retip-46-cellcount-pin-077464ef -> origin/cursor/retip-46-cellcount-pin-077464ef
+2026-11-10T13:58:11.8769283Z  * [new branch]        cursor/rn-unif-walkdown-scope-fixes -> origin/cursor/rn-unif-walkdown-scope-fixes
+2026-11-10T13:58:11.8769764Z  * [new branch]        cursor/scientific-state-schema-crosswalk-31c5 -> origin/cursor/scientific-state-schema-crosswalk-31c5
+2026-11-10T13:58:11.8770204Z  * [new branch]        cursor/side24-align-fresh-637-4904 -> origin/cursor/side24-align-fresh-637-4904
+2026-11-10T13:58:11.8770635Z  * [new branch]        cursor/side24-alignment-review-20261026-dd62 -> origin/cursor/side24-alignment-review-20261026-dd62
+2026-11-10T13:58:11.8771287Z  * [new branch]        cursor/side24-missing-source-custody-0532 -> origin/cursor/side24-missing-source-custody-0532
+2026-11-10T13:58:11.8771813Z  * [new branch]        cursor/side24-nav-prep-honesty-a050 -> origin/cursor/side24-nav-prep-honesty-a050
+2026-11-10T13:58:11.8772308Z  * [new branch]        cursor/side24-prep-sot-absent-nav-d1b8 -> origin/cursor/side24-prep-sot-absent-nav-d1b8
+2026-11-10T13:58:11.8773108Z  * [new branch]        cursor/status-jetmod-inventable-merge-promote-2820 -> origin/cursor/status-jetmod-inventable-merge-promote-2820
+2026-11-10T13:58:11.8773586Z  * [new branch]        cursor/tip-align-packet-ae7daf7-dc7f -> origin/cursor/tip-align-packet-ae7daf7-dc7f
+2026-11-10T13:58:11.8773998Z  * [new branch]        cursor/tip-docs-hygiene-banners-4a17 -> origin/cursor/tip-docs-hygiene-banners-4a17
+2026-11-10T13:58:11.8774394Z  * [new branch]        cursor/tip-observe-0adeb651-d320 -> origin/cursor/tip-observe-0adeb651-d320
+2026-11-10T13:58:11.8774772Z  * [new branch]        cursor/tip-observe-3a29f526-8144 -> origin/cursor/tip-observe-3a29f526-8144
+2026-11-10T13:58:11.8775151Z  * [new branch]        cursor/tip-observe-fcad7236-c5d9 -> origin/cursor/tip-observe-fcad7236-c5d9
+2026-11-10T13:58:11.8775772Z  * [new branch]        cursor/vault-quarantine-hygiene-9f01 -> origin/cursor/vault-quarantine-hygiene-9f01
+2026-11-10T13:58:11.8776427Z  * [new branch]        cursor/zeta-fold-slice-c-original-timing-bytes-20261021-458c -> origin/cursor/zeta-fold-slice-c-original-timing-bytes-20261021-458c
+2026-11-10T13:58:11.8777035Z  * [new branch]        cursor/zeta-fold-slice-c-timing-retention-20261020-458c -> origin/cursor/zeta-fold-slice-c-timing-retention-20261020-458c
+2026-11-10T13:58:11.8777565Z  * [new branch]        custody/dot-p15-manifest-correction-20261025 -> origin/custody/dot-p15-manifest-correction-20261025
+2026-11-10T13:58:11.8778055Z  * [new branch]        custody/dot-v19-dependency-supplement-20261025 -> origin/custody/dot-v19-dependency-supplement-20261025
+2026-11-10T13:58:11.8778512Z  * [new branch]        custody/dot-v19-gap2-originals-20261026 -> origin/custody/dot-v19-gap2-originals-20261026
+2026-11-10T13:58:11.8779121Z  * [new branch]        dependabot/github_actions/github-actions-d51a082eac -> origin/dependabot/github_actions/github-actions-d51a082eac
+2026-11-10T13:58:11.8779639Z  * [new branch]        dependabot/github_actions/github-actions-ecce1b6774 -> origin/dependabot/github_actions/github-actions-ecce1b6774
+2026-11-10T13:58:11.8780139Z  * [new branch]        docs/retro-proof-source-join-incorp-20261025 -> origin/docs/retro-proof-source-join-incorp-20261025
+2026-11-10T13:58:11.8780555Z  * [new branch]        docs/workspace-board-307-h04 -> origin/docs/workspace-board-307-h04
+2026-11-10T13:58:11.8781060Z  * [new branch]        docs/workspace-board-pointer-307 -> origin/docs/workspace-board-pointer-307
+2026-11-10T13:58:11.8781457Z  * [new branch]        fix/atlas-hosted-admission-20261029 -> origin/fix/atlas-hosted-admission-20261029
+2026-11-10T13:58:11.8781896Z  * [new branch]        fix/atlas-persistent-ci-discovery-20261026 -> origin/fix/atlas-persistent-ci-discovery-20261026
+2026-11-10T13:58:11.8782337Z  * [new branch]        grok-h01/routing-update-agents-738 -> origin/grok-h01/routing-update-agents-738
+2026-11-10T13:58:11.8782769Z  * [new branch]        grok-h01/routing-update-agents-738-20261101 -> origin/grok-h01/routing-update-agents-738-20261101
+2026-11-10T13:58:11.8783218Z  * [new branch]        grok-h02-formal-routing-amend-20261013 -> origin/grok-h02-formal-routing-amend-20261013
+2026-11-10T13:58:11.8783694Z  * [new branch]        grok-h02/retro-proof-source-join-incorp-20261025 -> origin/grok-h02/retro-proof-source-join-incorp-20261025
+2026-11-10T13:58:11.8784175Z  * [new branch]        grok-h04/c221-doc-01-public-shop-commands -> origin/grok-h04/c221-doc-01-public-shop-commands
+2026-11-10T13:58:11.8784657Z  * [new branch]        grok-h04/c221-doc-01-w8b-commands -> origin/grok-h04/c221-doc-01-w8b-commands
+2026-11-10T13:58:11.8785091Z  * [new branch]        grok-h04/c221-doc-01-w8b-restore -> origin/grok-h04/c221-doc-01-w8b-restore
+2026-11-10T13:58:11.8785461Z  * [new branch]        grok/c160-path-01-fixture-alias -> origin/grok/c160-path-01-fixture-alias
+2026-11-10T13:58:11.8785907Z  * [new branch]        grok/c221-doc-01-w8b-commands -> origin/grok/c221-doc-01-w8b-commands
+2026-11-10T13:58:11.8786313Z  * [new branch]        grok/h02-workspace-board-pointer-20261009 -> origin/grok/h02-workspace-board-pointer-20261009
+2026-11-10T13:58:11.8786750Z  * [new branch]        grok/workspace-board-pointer-20261009 -> origin/grok/workspace-board-pointer-20261009
+2026-11-10T13:58:11.8787195Z  * [new branch]        grok16/v20-planner-source-carrier-20261025 -> origin/grok16/v20-planner-source-carrier-20261025
+2026-11-10T13:58:11.8787669Z  * [new branch]        grokbot-agent12/pr340-identity-binding-20261024 -> origin/grokbot-agent12/pr340-identity-binding-20261024
+2026-11-10T13:58:11.8788079Z  * [new branch]        grokbot-agent15/ci-cache-01 -> origin/grokbot-agent15/ci-cache-01
+2026-11-10T13:58:11.8788444Z  * [new branch]        gtp/m700-g1-scan-snapshot-20261030 -> origin/gtp/m700-g1-scan-snapshot-20261030
+2026-11-10T13:58:11.8788840Z  * [new branch]        harper/workspace-coord-307-pointer -> origin/harper/workspace-coord-307-pointer
+2026-11-10T13:58:11.8789262Z  * [new branch]        incoming/grok-cycle2-nd-d5-sard-20260926 -> origin/incoming/grok-cycle2-nd-d5-sard-20260926
+2026-11-10T13:58:11.8789738Z  * [new branch]        inventable/open-problems-frozen-errata-388a22ca -> origin/inventable/open-problems-frozen-errata-388a22ca
+2026-11-10T13:58:11.8790253Z  * [new branch]        inventable/rn-certified-q2-carrier-absent-077464ef -> origin/inventable/rn-certified-q2-carrier-absent-077464ef
+2026-11-10T13:58:11.8790718Z  * [new branch]        inventable/rn-crosswalk-docs-077464ef -> origin/inventable/rn-crosswalk-docs-077464ef
+2026-11-10T13:58:11.8791298Z  * [new branch]        inventable/side24-cell-errata-pointer-848aea2a -> origin/inventable/side24-cell-errata-pointer-848aea2a
+2026-11-10T13:58:11.8791886Z  * [new branch]        inventable/side24-cell-spatial-crosslink-3a29f526 -> origin/inventable/side24-cell-spatial-crosslink-3a29f526
+2026-11-10T13:58:11.8792396Z  * [new branch]        inventable/side24-cell-square-importers-077464ef -> origin/inventable/side24-cell-square-importers-077464ef
+2026-11-10T13:58:11.8792854Z  * [new branch]        inventable/side24-nav-pages-3b3860da -> origin/inventable/side24-nav-pages-3b3860da
+2026-11-10T13:58:11.8793177Z  * [new branch]        main                       -> origin/main
+2026-11-10T13:58:11.8793557Z  * [new branch]        research/v22-second-height-generic-gpt6-20261026 -> origin/research/v22-second-height-generic-gpt6-20261026
+2026-11-10T13:58:11.8794058Z  * [new branch]        rloop/formal-page-triggers-20261014-6178357042 -> origin/rloop/formal-page-triggers-20261014-6178357042
+2026-11-10T13:58:11.8794518Z  * [new branch]        rtw/m722-g1-xdg-ignore-boundary-20261030 -> origin/rtw/m722-g1-xdg-ignore-boundary-20261030
+2026-11-10T13:58:11.8794957Z  * [new branch]        transport/register-integration-20260923 -> origin/transport/register-integration-20260923
+2026-11-10T13:58:11.8795353Z  * [new branch]        transport/register-r1-20260923 -> origin/transport/register-r1-20260923
+2026-11-10T13:58:11.8795723Z  * [new branch]        update-agents-board-pointer-h03 -> origin/update-agents-board-pointer-h03
+2026-11-10T13:58:11.8796086Z  * [new tag]           archive/drive-migration-20261002 -> archive/drive-migration-20261002
+2026-11-10T13:58:11.8796414Z  * [new tag]           cbz-quarantine-q-8336      -> cbz-quarantine-q-8336
+2026-11-10T13:58:11.8796686Z  * [new tag]           cbz-quarantine-q-8340      -> cbz-quarantine-q-8340
+2026-11-10T13:58:11.8796949Z  * [new tag]           cbz-quarantine-q-8429      -> cbz-quarantine-q-8429
+2026-11-10T13:58:11.8797254Z  * [new tag]           integrate-697-after-am-9e8d634a -> integrate-697-after-am-9e8d634a
+2026-11-10T13:58:11.8797558Z  * [new tag]           pre-cbz-discovery-1        -> pre-cbz-discovery-1
+2026-11-10T13:58:11.8797840Z  * [new tag]           retain/pr-646-194e229606c6 -> retain/pr-646-194e229606c6
+2026-11-10T13:58:11.8798120Z  * [new tag]           retain/pr-650-a51445b4c2d6 -> retain/pr-650-a51445b4c2d6
+2026-11-10T13:58:11.8798475Z  * [new tag]           retain/pr621-3ef658d7      -> retain/pr621-3ef658d7
+2026-11-10T13:58:11.8798732Z  * [new tag]           retain/pr634-387b2321      -> retain/pr634-387b2321
+2026-11-10T13:58:11.8799711Z [command]/usr/bin/git branch --list --remote origin/codex/g5-formal-r1-evidence-readback-20261110
+2026-11-10T13:58:11.8800036Z   origin/codex/g5-formal-r1-evidence-readback-20261110
+2026-11-10T13:58:11.8800563Z [command]/usr/bin/git rev-parse refs/remotes/origin/codex/g5-formal-r1-evidence-readback-20261110
+2026-11-10T13:58:11.8800976Z 8cc8991afceecfae305a010b5fd86251e8de435f
+2026-11-10T13:58:11.8801476Z ##[endgroup]
+2026-11-10T13:58:11.8801730Z ##[group]Determining the checkout info
+2026-11-10T13:58:11.8801994Z ##[endgroup]
+2026-11-10T13:58:11.8802158Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T13:58:11.8802646Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T13:58:11.8803203Z ##[group]Checking out the ref
+2026-11-10T13:58:11.8803633Z [command]/usr/bin/git checkout --progress --force -B codex/g5-formal-r1-evidence-readback-20261110 refs/remotes/origin/codex/g5-formal-r1-evidence-readback-20261110
+2026-11-10T13:58:12.4433077Z Switched to a new branch 'codex/g5-formal-r1-evidence-readback-20261110'
+2026-11-10T13:58:12.4458884Z branch 'codex/g5-formal-r1-evidence-readback-20261110' set up to track 'origin/codex/g5-formal-r1-evidence-readback-20261110'.
+2026-11-10T13:58:12.4509669Z ##[endgroup]
+2026-11-10T13:58:12.4557956Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T13:58:12.4588269Z 8cc8991afceecfae305a010b5fd86251e8de435f
+2026-11-10T13:58:12.4596609Z ##[group]Removing auth
+2026-11-10T13:58:12.4598675Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T13:58:12.4632269Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T13:58:12.4828323Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T13:58:12.4860326Z http.https://github.com/.extraheader
+2026-11-10T13:58:12.4866466Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-10T13:58:12.4912044Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T13:58:12.5104351Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T13:58:12.5136925Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T13:58:12.5330484Z ##[endgroup]
+2026-11-10T13:58:12.5547049Z ##[group]Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+2026-11-10T13:58:12.5547267Z with:
+2026-11-10T13:58:12.5547387Z   python-version: 3.11
+2026-11-10T13:58:12.5547512Z   check-latest: false
+2026-11-10T13:58:12.5548755Z   token: ***
+2026-11-10T13:58:12.5548871Z   update-environment: true
+2026-11-10T13:58:12.5549009Z   allow-prereleases: false
+2026-11-10T13:58:12.5549137Z   freethreaded: false
+2026-11-10T13:58:12.5549261Z ##[endgroup]
+2026-11-10T13:58:12.6404221Z ##[group]Installed versions
+2026-11-10T13:58:12.6474512Z (node:2209) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T13:58:12.6475067Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T13:58:12.6475430Z Successfully set up CPython (3.11.18)
+2026-11-10T13:58:12.6475719Z ##[endgroup]
+2026-11-10T13:58:12.6628288Z ##[group]Run set -euo pipefail
+2026-11-10T13:58:12.6629011Z [36;1mset -euo pipefail[0m
+2026-11-10T13:58:12.6629216Z [36;1mpython3 -I -B -S - "$RUNNER_TEMP" "$GITHUB_WORKSPACE" <<'PY'[0m
+2026-11-10T13:58:12.6629494Z [36;1mimport hashlib, json, os, pathlib, re, signal, stat, subprocess, sys[0m
+2026-11-10T13:58:12.6629731Z [36;1mroot = pathlib.Path(sys.argv[2]).resolve()[0m
+2026-11-10T13:58:12.6629916Z [36;1mmode = os.environ["FORMAL_TRACE_MODE"][0m
+2026-11-10T13:58:12.6630147Z [36;1mif mode not in ("normal", "optimized"):[0m
+2026-11-10T13:58:12.6630404Z [36;1m    raise ValueError("unknown formal trace mode")[0m
+2026-11-10T13:58:12.6630926Z [36;1mrun_id, attempt = os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"][0m
+2026-11-10T13:58:12.6631298Z [36;1mif not all(re.fullmatch(r"[1-9][0-9]*", value) for value in (run_id, attempt)):[0m
+2026-11-10T13:58:12.6631604Z [36;1m    raise ValueError("invalid native run identity")[0m
+2026-11-10T13:58:12.6631943Z [36;1mtemporary = pathlib.Path(sys.argv[1])[0m
+2026-11-10T13:58:12.6632332Z [36;1mif (not temporary.is_absolute() or temporary != temporary.resolve(strict=True)[0m
+2026-11-10T13:58:12.6632795Z [36;1m        or temporary.is_symlink() or temporary.is_relative_to(root)):[0m
+2026-11-10T13:58:12.6633217Z [36;1m    raise ValueError("output is not genuine external RUNNER_TEMP")[0m
+2026-11-10T13:58:12.6633756Z [36;1mout = pathlib.Path(sys.argv[1]) / ("formal-trace-parser-contract-" + mode + "-" + run_id + "-" + attempt)[0m
+2026-11-10T13:58:12.6634234Z [36;1mout.mkdir(mode=0o700, exist_ok=False)[0m
+2026-11-10T13:58:12.6634487Z [36;1mprotected = {[0m
+2026-11-10T13:58:12.6634881Z [36;1m    ".github/workflows/research-architecture.yml": "69ad3b47537ab8e4f8936affa3e09fccbdcfd1e5",[0m
+2026-11-10T13:58:12.6635430Z [36;1m    "tools/unittest_timing_probe.py": "05fb481b5538c3f517174b00948de45d2849387a",[0m
+2026-11-10T13:58:12.6635933Z [36;1m    "tools/architecture_run_receipt.py": "a6062afa9261958b8d8b85853a9c43031385b2c1",[0m
+2026-11-10T13:58:12.6636460Z [36;1m    "architecture/graph_artifact_readback.py": "c39ffd0fdcde1fd5f895c57df5f770a582918a8a",[0m
+2026-11-10T13:58:12.6637192Z [36;1m    "tools/architecture_check_binding.py": "53ea34e4fffc1087770584744939904844a41cff",[0m
+2026-11-10T13:58:12.6637569Z [36;1m    "tools/unittest_full_qualification.py": "02dc2f3222aaf3e3d4d024659fffff22d6fb5e66",[0m
+2026-11-10T13:58:12.6638041Z [36;1m    "tests/test_unittest_full_qualification.py": "2fe09abce9a8ef9356fd0af85780dcde75179386",[0m
+2026-11-10T13:58:12.6638480Z [36;1m    ".github/workflows/full-unittest-qualification.yml": "ff8226cdeea57ee2ddb41c58c8c93e644343557d",[0m
+2026-11-10T13:58:12.6638867Z [36;1m}[0m
+2026-11-10T13:58:12.6639016Z [36;1mdef write(name, value):[0m
+2026-11-10T13:58:12.6639305Z [36;1m    with (out / name).open("x", encoding="ascii", newline="\n") as stream:[0m
+2026-11-10T13:58:12.6639638Z [36;1m        json.dump(value, stream, sort_keys=True, ensure_ascii=True, allow_nan=False)[0m
+2026-11-10T13:58:12.6639955Z [36;1m        stream.write("\n")[0m
+2026-11-10T13:58:12.6640171Z [36;1mdef git(*args):[0m
+2026-11-10T13:58:12.6640521Z [36;1m    environment = {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}[0m
+2026-11-10T13:58:12.6641142Z [36;1m    environment.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,[0m
+2026-11-10T13:58:12.6641575Z [36;1m                       GIT_OPTIONAL_LOCKS="0")[0m
+2026-11-10T13:58:12.6641890Z [36;1m    return subprocess.check_output([0m
+2026-11-10T13:58:12.6642251Z [36;1m        ["git", "--no-replace-objects", "-c", "core.fsmonitor=false",[0m
+2026-11-10T13:58:12.6642725Z [36;1m         "-c", "core.hooksPath=/dev/null", "-C", str(root), *args], env=environment)[0m
+2026-11-10T13:58:12.6643124Z [36;1mdef source():[0m
+2026-11-10T13:58:12.6643444Z [36;1m    head = git("rev-parse", "--verify", "HEAD").decode("ascii").strip()[0m
+2026-11-10T13:58:12.6644128Z [36;1m    tree = git("rev-parse", "--verify", "HEAD^{tree}").decode("ascii").strip()[0m
+2026-11-10T13:58:12.6644585Z [36;1m    if head != os.environ["GITHUB_SHA"]:[0m
+2026-11-10T13:58:12.6645058Z [36;1m        raise ValueError("checked HEAD differs from native GITHUB_SHA")[0m
+2026-11-10T13:58:12.6645654Z [36;1m    if pathlib.Path(git("rev-parse", "--show-toplevel").decode().strip()).resolve() != root:[0m
+2026-11-10T13:58:12.6646135Z [36;1m        raise ValueError("source is not the actual Git top-level")[0m
+2026-11-10T13:58:12.6646470Z [36;1m    rows = [][0m
+2026-11-10T13:58:12.6646752Z [36;1m    for item in git("ls-tree", "-r", "--full-tree", "-z", head).split(b"\0"):[0m
+2026-11-10T13:58:12.6647105Z [36;1m        if not item:[0m
+2026-11-10T13:58:12.6647307Z [36;1m            continue[0m
+2026-11-10T13:58:12.6647547Z [36;1m        metadata, raw_path = item.split(b"\t", 1)[0m
+2026-11-10T13:58:12.6647896Z [36;1m        mode_bits, kind, blob = metadata.decode("ascii").split()[0m
+2026-11-10T13:58:12.6648352Z [36;1m        relative = raw_path.decode("utf-8")[0m
+2026-11-10T13:58:12.6648689Z [36;1m        path = root / relative[0m
+2026-11-10T13:58:12.6648972Z [36;1m        info = path.lstat()[0m
+2026-11-10T13:58:12.6649457Z [36;1m        if kind != "blob" or mode_bits not in ("100644", "100755") or not stat.S_ISREG(info.st_mode):[0m
+2026-11-10T13:58:12.6650032Z [36;1m            raise ValueError("non-regular tracked source: " + relative)[0m
+2026-11-10T13:58:12.6650558Z [36;1m        if bool(info.st_mode & stat.S_IXUSR) != (mode_bits == "100755"):[0m
+2026-11-10T13:58:12.6651232Z [36;1m            raise ValueError("changed source executable mode: " + relative)[0m
+2026-11-10T13:58:12.6651673Z [36;1m        raw = path.read_bytes()[0m
+2026-11-10T13:58:12.6652104Z [36;1m        actual_blob = hashlib.sha1(b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest()[0m
+2026-11-10T13:58:12.6652625Z [36;1m        if actual_blob != blob or (relative in protected and blob != protected[relative]):[0m
+2026-11-10T13:58:12.6653090Z [36;1m            raise ValueError("changed tracked/protected source: " + relative)[0m
+2026-11-10T13:58:12.6653770Z [36;1m        rows.append(dict(path=relative, mode=mode_bits, git_blob=blob,[0m
+2026-11-10T13:58:12.6654293Z [36;1m                         bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest()))[0m
+2026-11-10T13:58:12.6654800Z [36;1m    if set(protected) - {row["path"] for row in rows}:[0m
+2026-11-10T13:58:12.6655222Z [36;1m        raise ValueError("missing protected source")[0m
+2026-11-10T13:58:12.6655613Z [36;1m    untracked = git("ls-files", "--others", "--exclude-standard", "-z")[0m
+2026-11-10T13:58:12.6656045Z [36;1m    ignored = git("ls-files", "--others", "--ignored", "--exclude-standard", "-z")[0m
+2026-11-10T13:58:12.6656395Z [36;1m    if untracked or ignored:[0m
+2026-11-10T13:58:12.6656725Z [36;1m        raise ValueError("unexpected untracked or ignored checkout input")[0m
+2026-11-10T13:58:12.6657193Z [36;1m    return dict(repository=os.environ["GITHUB_REPOSITORY"], checked_commit=head,[0m
+2026-11-10T13:58:12.6657656Z [36;1m                checked_tree=tree, run_id=run_id, run_attempt=attempt, files=rows)[0m
+2026-11-10T13:58:12.6658104Z [36;1mrecord = dict(scope="FORMAL_TRACE_PARSER_CONTRACTS_ONLY", mode=mode,[0m
+2026-11-10T13:58:12.6658596Z [36;1m              full_discovery_run=False, architecture_run=False, g5_claim=False, cbz_claim=False)[0m
+2026-11-10T13:58:12.6658981Z [36;1mbefore = None[0m
+2026-11-10T13:58:12.6659178Z [36;1mprocess = None[0m
+2026-11-10T13:58:12.6659369Z [36;1mtry:[0m
+2026-11-10T13:58:12.6659547Z [36;1m    before = source()[0m
+2026-11-10T13:58:12.6659785Z [36;1m    write("source-before.json", before)[0m
+2026-11-10T13:58:12.6660139Z [36;1m    command = [sys.executable, "-B"] + (["-O"] if mode == "optimized" else [])[0m
+2026-11-10T13:58:12.6660542Z [36;1m    command += ["-S", "-m", "unittest", "discover", "-s", "tests",[0m
+2026-11-10T13:58:12.6661000Z [36;1m                "-p", "test_formal_trace_reanalysis.py", "-v"][0m
+2026-11-10T13:58:12.6661438Z [36;1m    environment = dict(os.environ)[0m
+2026-11-10T13:58:12.6661724Z [36;1m    for name in ("PYTHONHOME", "PYTHONOPTIMIZE"):[0m
+2026-11-10T13:58:12.6662019Z [36;1m        environment.pop(name, None)[0m
+2026-11-10T13:58:12.6662380Z [36;1m    environment.update(PYTHONDONTWRITEBYTECODE="1", PYTHONNOUSERSITE="1")[0m
+2026-11-10T13:58:12.6662744Z [36;1m    record["command"] = command[0m
+2026-11-10T13:58:12.6662979Z [36;1m    record["cwd"] = str(root)[0m
+2026-11-10T13:58:12.6663367Z [36;1m    with (out / "stdout.bin").open("xb") as stdout, (out / "stderr.bin").open("xb") as stderr:[0m
+2026-11-10T13:58:12.6663872Z [36;1m        process = subprocess.Popen(command, cwd=root, env=environment, stdout=stdout,[0m
+2026-11-10T13:58:12.6664294Z [36;1m                                   stderr=stderr, start_new_session=True)[0m
+2026-11-10T13:58:12.6664558Z [36;1m        try:[0m
+2026-11-10T13:58:12.6664758Z [36;1m            code = process.wait(timeout=480)[0m
+2026-11-10T13:58:12.6665047Z [36;1m            record["timed_out"] = False[0m
+2026-11-10T13:58:12.6665232Z [36;1m        except subprocess.TimeoutExpired:[0m
+2026-11-10T13:58:12.6665404Z [36;1m            record["timed_out"] = True[0m
+2026-11-10T13:58:12.6665583Z [36;1m            os.killpg(process.pid, signal.SIGTERM)[0m
+2026-11-10T13:58:12.6665751Z [36;1m            try:[0m
+2026-11-10T13:58:12.6665889Z [36;1m                process.wait(timeout=10)[0m
+2026-11-10T13:58:12.6666063Z [36;1m            except subprocess.TimeoutExpired:[0m
+2026-11-10T13:58:12.6666251Z [36;1m                os.killpg(process.pid, signal.SIGKILL)[0m
+2026-11-10T13:58:12.6666433Z [36;1m                process.wait(timeout=10)[0m
+2026-11-10T13:58:12.6666599Z [36;1m            code = process.returncode[0m
+2026-11-10T13:58:12.6666763Z [36;1m    record["native_exit_code"] = code[0m
+2026-11-10T13:58:12.6666918Z [36;1m    after = source()[0m
+2026-11-10T13:58:12.6667066Z [36;1m    write("source-after.json", after)[0m
+2026-11-10T13:58:12.6667245Z [36;1m    record["source_unchanged"] = before == after[0m
+2026-11-10T13:58:12.6667579Z [36;1m    text = (out / "stderr.bin").read_bytes().decode("utf-8", errors="replace")[0m
+2026-11-10T13:58:12.6667786Z [36;1m    methods = ([0m
+2026-11-10T13:58:12.6667939Z [36;1m        "test_01_frozen_genuine_whole_line_identity",[0m
+2026-11-10T13:58:12.6668153Z [36;1m        "test_02_all_six_genuine_open_roles_and_read_neighbors",[0m
+2026-11-10T13:58:12.6668398Z [36;1m        "test_03_genuine_interleaving_pair_provenance_and_excerpt_gaps",[0m
+2026-11-10T13:58:12.6668651Z [36;1m        "test_04_synthetic_flags_are_read_only_from_the_flags_operand",[0m
+2026-11-10T13:58:12.6668890Z [36;1m        "test_05_synthetic_dual_path_and_symlink_content_roles",[0m
+2026-11-10T13:58:12.6669126Z [36;1m        "test_06_synthetic_relative_fd_and_cwd_context_is_explicit",[0m
+2026-11-10T13:58:12.6669357Z [36;1m        "test_07_synthetic_pairs_never_borrow_or_reuse_a_half",[0m
+2026-11-10T13:58:12.6669590Z [36;1m        "test_08_synthetic_escaping_brackets_and_malformed_syntax",[0m
+2026-11-10T13:58:12.6669833Z [36;1m        "test_09_synthetic_native_failed_mutations_never_disappear",[0m
+2026-11-10T13:58:12.6670066Z [36;1m        "test_10_synthetic_local_provenance_and_input_refusals",[0m
+2026-11-10T13:58:12.6670298Z [36;1m        "test_11_synthetic_source_and_record_ceilings_are_honest",[0m
+2026-11-10T13:58:12.6670531Z [36;1m        "test_12_synthetic_serialized_and_pending_growth_ceiling",[0m
+2026-11-10T13:58:12.6670712Z [36;1m    )[0m
+2026-11-10T13:58:12.6671067Z [36;1m    owner = "test_formal_trace_reanalysis.FormalTraceReanalysisContract."[0m
+2026-11-10T13:58:12.6671333Z [36;1m    expected_ids = [owner + method for method in sorted(methods)][0m
+2026-11-10T13:58:12.6671567Z [36;1m    observed_ids, bad_results, malformed_results = [], [], [][0m
+2026-11-10T13:58:12.6671766Z [36;1m    for line in text.splitlines():[0m
+2026-11-10T13:58:12.6672049Z [36;1m        if " ... " not in line and not line.startswith("test"):[0m
+2026-11-10T13:58:12.6672241Z [36;1m            continue[0m
+2026-11-10T13:58:12.6672427Z [36;1m        result = re.fullmatch(r"(\S+) \(([^()]*)\) \.\.\. (.+)", line)[0m
+2026-11-10T13:58:12.6672625Z [36;1m        if result is None:[0m
+2026-11-10T13:58:12.6672787Z [36;1m            malformed_results.append(line)[0m
+2026-11-10T13:58:12.6672950Z [36;1m            continue[0m
+2026-11-10T13:58:12.6673113Z [36;1m        short, identity, disposition = result.groups()[0m
+2026-11-10T13:58:12.6673304Z [36;1m        observed_ids.append(identity)[0m
+2026-11-10T13:58:12.6673509Z [36;1m        if short != identity.rsplit(".", 1)[-1] or disposition != "ok":[0m
+2026-11-10T13:58:12.6673724Z [36;1m            bad_results.append(line)[0m
+2026-11-10T13:58:12.6673882Z [36;1m    summaries = re.findall([0m
+2026-11-10T13:58:12.6674067Z [36;1m        r"^Ran ([1-9][0-9]*) tests? in [0-9]+(?:\.[0-9]+)?s$", text, re.M)[0m
+2026-11-10T13:58:12.6674310Z [36;1m    nonempty = [line for line in text.splitlines() if line.strip()][0m
+2026-11-10T13:58:12.6674538Z [36;1m    record["expected_parent_ids"] = expected_ids[0m
+2026-11-10T13:58:12.6674735Z [36;1m    record["observed_parent_ids"] = observed_ids[0m
+2026-11-10T13:58:12.6674924Z [36;1m    record["bad_result_lines"] = bad_results[0m
+2026-11-10T13:58:12.6675121Z [36;1m    record["malformed_result_lines"] = malformed_results[0m
+2026-11-10T13:58:12.6675383Z [36;1m    record["reported_test_count"] = int(summaries[0]) if len(summaries) == 1 else None[0m
+2026-11-10T13:58:12.6675624Z [36;1m    record["exact_parent_results"] = ([0m
+2026-11-10T13:58:12.6675851Z [36;1m        observed_ids == expected_ids and not bad_results and not malformed_results[0m
+2026-11-10T13:58:12.6676126Z [36;1m        and len(summaries) == 1 and int(summaries[0]) == len(expected_ids))[0m
+2026-11-10T13:58:12.6676382Z [36;1m    record["terminal_ok"] = bool(nonempty and nonempty[-1] == "OK")[0m
+2026-11-10T13:58:12.6676636Z [36;1m    accepted = (code == 0 and before == after and not record["timed_out"][0m
+2026-11-10T13:58:12.6676895Z [36;1m                and record["exact_parent_results"] and record["terminal_ok"])[0m
+2026-11-10T13:58:12.6677228Z [36;1m    record["outcome"] = "PASS" if accepted else "FAIL"[0m
+2026-11-10T13:58:12.6677411Z [36;1mexcept Exception as error:[0m
+2026-11-10T13:58:12.6677558Z [36;1m    record["outcome"] = "FAIL"[0m
+2026-11-10T13:58:12.6677760Z [36;1m    record["controller_error"] = type(error).__name__ + ": " + str(error)[0m
+2026-11-10T13:58:12.6677961Z [36;1mfinally:[0m
+2026-11-10T13:58:12.6678107Z [36;1m    if process is not None and process.poll() is None:[0m
+2026-11-10T13:58:12.6678308Z [36;1m        os.killpg(process.pid, signal.SIGKILL)[0m
+2026-11-10T13:58:12.6678486Z [36;1m        process.wait(timeout=10)[0m
+2026-11-10T13:58:12.6678661Z [36;1m    for name in ("stdout.bin", "stderr.bin"):[0m
+2026-11-10T13:58:12.6678828Z [36;1m        path = out / name[0m
+2026-11-10T13:58:12.6678969Z [36;1m        if path.is_file():[0m
+2026-11-10T13:58:12.6679120Z [36;1m            raw = path.read_bytes()[0m
+2026-11-10T13:58:12.6679348Z [36;1m            record[name] = dict(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest())[0m
+2026-11-10T13:58:12.6679654Z [36;1m    streams = [(name, (out / name).read_bytes()) for name in ("stdout.bin", "stderr.bin")[0m
+2026-11-10T13:58:12.6679893Z [36;1m               if (out / name).is_file()][0m
+2026-11-10T13:58:12.6680055Z [36;1m    marker = os.urandom(32).hex()[0m
+2026-11-10T13:58:12.6680258Z [36;1m    while any(marker.encode("ascii") in raw for _, raw in streams):[0m
+2026-11-10T13:58:12.6680469Z [36;1m        marker = os.urandom(32).hex()[0m
+2026-11-10T13:58:12.6680625Z [36;1m    visible, frames = 0, [][0m
+2026-11-10T13:58:12.6680910Z [36;1m    for name in ("stdout.bin", "stderr.bin"):[0m
+2026-11-10T13:58:12.6681077Z [36;1m        path = out / name[0m
+2026-11-10T13:58:12.6681221Z [36;1m        if not path.is_file():[0m
+2026-11-10T13:58:12.6681626Z [36;1m            frames.append(("TRACE_CONTRACT_STREAM_NOT_PRODUCED " + name + "\n").encode("ascii"))[0m
+2026-11-10T13:58:12.6681871Z [36;1m            continue[0m
+2026-11-10T13:58:12.6682012Z [36;1m        raw = path.read_bytes()[0m
+2026-11-10T13:58:12.6682186Z [36;1m        full = visible + len(raw) <= 3 * 1024 * 1024 // 2[0m
+2026-11-10T13:58:12.6682360Z [36;1m        try:[0m
+2026-11-10T13:58:12.6682501Z [36;1m            raw.decode("utf-8", errors="strict")[0m
+2026-11-10T13:58:12.6682672Z [36;1m        except UnicodeError:[0m
+2026-11-10T13:58:12.6682816Z [36;1m            full = False[0m
+2026-11-10T13:58:12.6682998Z [36;1m        frame = dict(mode=mode, name=name, original_bytes=len(raw),[0m
+2026-11-10T13:58:12.6683216Z [36;1m                     sha256=hashlib.sha256(raw).hexdigest(),[0m
+2026-11-10T13:58:12.6683480Z [36;1m                     full_original_printed=full, printed_original_bytes=len(raw) if full else 0,[0m
+2026-11-10T13:58:12.6683788Z [36;1m                     framing_newline_after=bool(full and raw and not raw.endswith(b"\n")))[0m
+2026-11-10T13:58:12.6684039Z [36;1m        frames.append(b"TRACE_CONTRACT_ORIGINAL_STREAM "[0m
+2026-11-10T13:58:12.6684276Z [36;1m                      + (json.dumps(frame, sort_keys=True) + "\n").encode("ascii"))[0m
+2026-11-10T13:58:12.6684483Z [36;1m        if full:[0m
+2026-11-10T13:58:12.6684619Z [36;1m            frames.append(raw)[0m
+2026-11-10T13:58:12.6684787Z [36;1m            if raw and not raw.endswith(b"\n"):[0m
+2026-11-10T13:58:12.6684965Z [36;1m                frames.append(b"\n")[0m
+2026-11-10T13:58:12.6685130Z [36;1m            visible += len(raw)[0m
+2026-11-10T13:58:12.6685275Z [36;1m        else:[0m
+2026-11-10T13:58:12.6685409Z [36;1m            record["outcome"] = "FAIL"[0m
+2026-11-10T13:58:12.6685653Z [36;1m            record["visibility_hold"] = "NOT_FULL_ORIGINAL_CEILING_OR_UTF8"[0m
+2026-11-10T13:58:12.6686112Z [36;1m            frames.append(b"TRACE_CONTRACT_NOT_FULL; original retained in artifact\n")[0m
+2026-11-10T13:58:12.6686557Z [36;1m    observation = (json.dumps(record, sort_keys=True, ensure_ascii=True,[0m
+2026-11-10T13:58:12.6687034Z [36;1m                              allow_nan=False) + "\n").encode("ascii")[0m
+2026-11-10T13:58:12.6687350Z [36;1m    summary = observation[0m
+2026-11-10T13:58:12.6687579Z [36;1m    if len(summary) > 128 * 1024:[0m
+2026-11-10T13:58:12.6687818Z [36;1m        record["outcome"] = "FAIL"[0m
+2026-11-10T13:58:12.6688126Z [36;1m        record["visibility_hold"] = "OBSERVATION_NOT_FULL_CEILING"[0m
+2026-11-10T13:58:12.6688634Z [36;1m        observation = (json.dumps(record, sort_keys=True, ensure_ascii=True,[0m
+2026-11-10T13:58:12.6689093Z [36;1m                                  allow_nan=False) + "\n").encode("ascii")[0m
+2026-11-10T13:58:12.6689461Z [36;1m        summary = (json.dumps({[0m
+2026-11-10T13:58:12.6689837Z [36;1m            "scope": "OBSERVATION_PROJECTION_ONLY", "outcome": "FAIL",[0m
+2026-11-10T13:58:12.6690301Z [36;1m            "visibility_hold": "OBSERVATION_NOT_FULL_CEILING",[0m
+2026-11-10T13:58:12.6690729Z [36;1m            "original_observation_bytes": len(observation),[0m
+2026-11-10T13:58:12.6691346Z [36;1m            "original_observation_sha256": hashlib.sha256(observation).hexdigest(),[0m
+2026-11-10T13:58:12.6714274Z [36;1m            "native_exit_code": record.get("native_exit_code"),[0m
+2026-11-10T13:58:12.6714675Z [36;1m        }, sort_keys=True) + "\n").encode("ascii")[0m
+2026-11-10T13:58:12.6714974Z [36;1m    write("observation.json", record)[0m
+2026-11-10T13:58:12.6715393Z [36;1m    output = (("::stop-commands::" + marker + "\n").encode("ascii")[0m
+2026-11-10T13:58:12.6715797Z [36;1m              + b"TRACE_CONTRACT_OBSERVATION " + summary + b"".join(frames)[0m
+2026-11-10T13:58:12.6716164Z [36;1m              + ("::" + marker + "::\n").encode("ascii"))[0m
+2026-11-10T13:58:12.6716448Z [36;1m    if len(output) > 2 * 1024 * 1024:[0m
+2026-11-10T13:58:12.6716962Z [36;1m        raise ValueError("fixed complete controller output exceeds 2MiB")[0m
+2026-11-10T13:58:12.6717367Z [36;1m    if sys.stdout.buffer.write(output) != len(output):[0m
+2026-11-10T13:58:12.6717737Z [36;1m        raise ValueError("short native controller stdout write")[0m
+2026-11-10T13:58:12.6718070Z [36;1m    sys.stdout.buffer.flush()[0m
+2026-11-10T13:58:12.6718407Z [36;1mraise SystemExit(0 if record["outcome"] == "PASS" else 1)[0m
+2026-11-10T13:58:12.6718689Z [36;1mPY[0m
+2026-11-10T13:58:12.6749907Z shell: /usr/bin/bash -e {0}
+2026-11-10T13:58:12.6750069Z env:
+2026-11-10T13:58:12.6750238Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T13:58:12.6750498Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T13:58:12.6750885Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T13:58:12.6751144Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T13:58:12.6751356Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T13:58:12.6751573Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T13:58:12.6751764Z   FORMAL_TRACE_MODE: normal
+2026-11-10T13:58:12.6751896Z ##[endgroup]
+2026-11-10T13:58:14.2766814Z ::stop-commands::***
+2026-11-10T13:58:14.2779261Z TRACE_CONTRACT_OBSERVATION {"architecture_run": false, "bad_result_lines": [], "cbz_claim": false, "command": ["/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3", "-B", "-S", "-m", "unittest", "discover", "-s", "tests", "-p", "test_formal_trace_reanalysis.py", "-v"], "cwd": "/home/runner/work/main/main", "exact_parent_results": false, "expected_parent_ids": ["test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_01_frozen_genuine_whole_line_identity", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_02_all_six_genuine_open_roles_and_read_neighbors", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_03_genuine_interleaving_pair_provenance_and_excerpt_gaps", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_04_synthetic_flags_are_read_only_from_the_flags_operand", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_05_synthetic_dual_path_and_symlink_content_roles", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_07_synthetic_pairs_never_borrow_or_reuse_a_half", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_08_synthetic_escaping_brackets_and_malformed_syntax", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_09_synthetic_native_failed_mutations_never_disappear", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_10_synthetic_local_provenance_and_input_refusals", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_11_synthetic_source_and_record_ceilings_are_honest", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_12_synthetic_serialized_and_pending_growth_ceiling"], "full_discovery_run": false, "g5_claim": false, "malformed_result_lines": ["test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) ... ", "  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_context_case='openat(4, \"child\", O_WRONLY) = -1 EBADF (Bad file descriptor) <0.000001>') ... FAIL", "  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_context_case='ftruncate(4, 0) = -1 EBADF (Bad file descriptor) <0.000001>') ... FAIL", "  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_context_case='ftruncate(4</base/file (deleted)>, 0) = 0 <0.000001>') ... FAIL", "  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (successful_unknown_cwd='chdir(\"child\") = 0 <0.000001>') ... FAIL", "  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (successful_unknown_cwd='fchdir(4) = 0 <0.000001>') ... FAIL", "  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (successful_unknown_cwd='fchdir(4</base/a\\\\q>) = 0 <0.000001>') ... FAIL", "  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (ambiguous_fd_encoding='ftruncate(4</base/a\\\\q>, 0) = 0 <0.000001>') ... FAIL", "  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (ambiguous_fd_encoding='ftruncate(4</base/a\\tb>, 0) = 0 <0.000001>') ... FAIL", "  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (ambiguous_fd_encoding='ftruncate(4</base/a\\x00b>, 0) = 0 <0.000001>') ... FAIL", "  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_unknown_cwd=True) ... FAIL", "test_10_synthetic_local_provenance_and_input_refusals (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_10_synthetic_local_provenance_and_input_refusals) ... ", "  test_10_synthetic_local_provenance_and_input_refusals (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_10_synthetic_local_provenance_and_input_refusals) (metadata='+++ exited with 0 +++') ... FAIL", "  test_10_synthetic_local_provenance_and_input_refusals (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_10_synthetic_local_provenance_and_input_refusals) (metadata='--- SIGCHLD {si_signo=SIGCHLD} ---') ... FAIL"], "mode": "normal", "native_exit_code": 1, "observed_parent_ids": ["test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_01_frozen_genuine_whole_line_identity", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_02_all_six_genuine_open_roles_and_read_neighbors", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_03_genuine_interleaving_pair_provenance_and_excerpt_gaps", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_04_synthetic_flags_are_read_only_from_the_flags_operand", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_05_synthetic_dual_path_and_symlink_content_roles", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_07_synthetic_pairs_never_borrow_or_reuse_a_half", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_08_synthetic_escaping_brackets_and_malformed_syntax", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_09_synthetic_native_failed_mutations_never_disappear", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_11_synthetic_source_and_record_ceilings_are_honest", "test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_12_synthetic_serialized_and_pending_growth_ceiling"], "outcome": "FAIL", "reported_test_count": 12, "scope": "FORMAL_TRACE_PARSER_CONTRACTS_ONLY", "source_unchanged": true, "stderr.bin": {"bytes": 14840, "sha256": "be6aa0ecf0edf36b65b46328fd9238a02e52c3ca1e94a7e4ec3ba9a113c91cae"}, "stdout.bin": {"bytes": 0, "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"}, "terminal_ok": false, "timed_out": false}
+2026-11-10T13:58:14.2791842Z TRACE_CONTRACT_ORIGINAL_STREAM {"framing_newline_after": false, "full_original_printed": true, "mode": "normal", "name": "stdout.bin", "original_bytes": 0, "printed_original_bytes": 0, "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"}
+2026-11-10T13:58:14.2792724Z TRACE_CONTRACT_ORIGINAL_STREAM {"framing_newline_after": false, "full_original_printed": true, "mode": "normal", "name": "stderr.bin", "original_bytes": 14840, "printed_original_bytes": 14840, "sha256": "be6aa0ecf0edf36b65b46328fd9238a02e52c3ca1e94a7e4ec3ba9a113c91cae"}
+2026-11-10T13:58:14.2793470Z test_01_frozen_genuine_whole_line_identity (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_01_frozen_genuine_whole_line_identity) ... ok
+2026-11-10T13:58:14.2794066Z test_02_all_six_genuine_open_roles_and_read_neighbors (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_02_all_six_genuine_open_roles_and_read_neighbors) ... ok
+2026-11-10T13:58:14.2794724Z test_03_genuine_interleaving_pair_provenance_and_excerpt_gaps (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_03_genuine_interleaving_pair_provenance_and_excerpt_gaps) ... ok
+2026-11-10T13:58:14.2795406Z test_04_synthetic_flags_are_read_only_from_the_flags_operand (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_04_synthetic_flags_are_read_only_from_the_flags_operand) ... ok
+2026-11-10T13:58:14.2796060Z test_05_synthetic_dual_path_and_symlink_content_roles (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_05_synthetic_dual_path_and_symlink_content_roles) ... ok
+2026-11-10T13:58:14.2796698Z test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) ... 
+2026-11-10T13:58:14.2797513Z   test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_context_case='openat(4, "child", O_WRONLY) = -1 EBADF (Bad file descriptor) <0.000001>') ... FAIL
+2026-11-10T13:58:14.2798481Z   test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_context_case='ftruncate(4, 0) = -1 EBADF (Bad file descriptor) <0.000001>') ... FAIL
+2026-11-10T13:58:14.2799550Z   test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_context_case='ftruncate(4</base/file (deleted)>, 0) = 0 <0.000001>') ... FAIL
+2026-11-10T13:58:14.2800464Z   test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (successful_unknown_cwd='chdir("child") = 0 <0.000001>') ... FAIL
+2026-11-10T13:58:14.2801356Z   test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (successful_unknown_cwd='fchdir(4) = 0 <0.000001>') ... FAIL
+2026-11-10T13:58:14.2802201Z   test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (successful_unknown_cwd='fchdir(4</base/a\\q>) = 0 <0.000001>') ... FAIL
+2026-11-10T13:58:14.2803068Z   test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (ambiguous_fd_encoding='ftruncate(4</base/a\\q>, 0) = 0 <0.000001>') ... FAIL
+2026-11-10T13:58:14.2803937Z   test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (ambiguous_fd_encoding='ftruncate(4</base/a\tb>, 0) = 0 <0.000001>') ... FAIL
+2026-11-10T13:58:14.2804914Z   test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (ambiguous_fd_encoding='ftruncate(4</base/a\x00b>, 0) = 0 <0.000001>') ... FAIL
+2026-11-10T13:58:14.2805728Z   test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_unknown_cwd=True) ... FAIL
+2026-11-10T13:58:14.2806412Z test_07_synthetic_pairs_never_borrow_or_reuse_a_half (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_07_synthetic_pairs_never_borrow_or_reuse_a_half) ... ok
+2026-11-10T13:58:14.2807041Z test_08_synthetic_escaping_brackets_and_malformed_syntax (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_08_synthetic_escaping_brackets_and_malformed_syntax) ... ok
+2026-11-10T13:58:14.2807699Z test_09_synthetic_native_failed_mutations_never_disappear (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_09_synthetic_native_failed_mutations_never_disappear) ... ok
+2026-11-10T13:58:14.2808333Z test_10_synthetic_local_provenance_and_input_refusals (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_10_synthetic_local_provenance_and_input_refusals) ... 
+2026-11-10T13:58:14.2809010Z   test_10_synthetic_local_provenance_and_input_refusals (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_10_synthetic_local_provenance_and_input_refusals) (metadata='+++ exited with 0 +++') ... FAIL
+2026-11-10T13:58:14.2809780Z   test_10_synthetic_local_provenance_and_input_refusals (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_10_synthetic_local_provenance_and_input_refusals) (metadata='--- SIGCHLD {si_signo=SIGCHLD} ---') ... FAIL
+2026-11-10T13:58:14.2810504Z test_11_synthetic_source_and_record_ceilings_are_honest (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_11_synthetic_source_and_record_ceilings_are_honest) ... ok
+2026-11-10T13:58:14.2811218Z test_12_synthetic_serialized_and_pending_growth_ceiling (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_12_synthetic_serialized_and_pending_growth_ceiling) ... ok
+2026-11-10T13:58:14.2811640Z 
+2026-11-10T13:58:14.2811713Z ======================================================================
+2026-11-10T13:58:14.2812315Z FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_context_case='openat(4, "child", O_WRONLY) = -1 EBADF (Bad file descriptor) <0.000001>')
+2026-11-10T13:58:14.2812906Z ----------------------------------------------------------------------
+2026-11-10T13:58:14.2813099Z Traceback (most recent call last):
+2026-11-10T13:58:14.2816660Z   File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 340, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+2026-11-10T13:58:14.2817048Z     self.assertEqual(report["counts"], {
+2026-11-10T13:58:14.2817405Z AssertionError: {'complete_calls': 0, 'read_only_calls': 0, 'write_intent_ca[23 chars]': 0} != {'complete_calls': 1, 'read_only_calls': 0, 'write_intent_ca[23 chars]': 0}
+2026-11-10T13:58:14.2817749Z - {'complete_calls': 0,
+2026-11-10T13:58:14.2817874Z ?                    ^
+2026-11-10T13:58:14.2817949Z 
+2026-11-10T13:58:14.2818001Z + {'complete_calls': 1,
+2026-11-10T13:58:14.2818118Z ?                    ^
+2026-11-10T13:58:14.2818186Z 
+2026-11-10T13:58:14.2818235Z    'context_calls': 0,
+2026-11-10T13:58:14.2818353Z    'read_only_calls': 0,
+2026-11-10T13:58:14.2818481Z    'write_intent_calls': 1}
+2026-11-10T13:58:14.2818565Z 
+2026-11-10T13:58:14.2818631Z ======================================================================
+2026-11-10T13:58:14.2819317Z FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_context_case='ftruncate(4, 0) = -1 EBADF (Bad file descriptor) <0.000001>')
+2026-11-10T13:58:14.2819893Z ----------------------------------------------------------------------
+2026-11-10T13:58:14.2820078Z Traceback (most recent call last):
+2026-11-10T13:58:14.2820422Z   File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 340, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+2026-11-10T13:58:14.2820921Z     self.assertEqual(report["counts"], {
+2026-11-10T13:58:14.2821306Z AssertionError: {'complete_calls': 0, 'read_only_calls': 0, 'write_intent_ca[23 chars]': 0} != {'complete_calls': 1, 'read_only_calls': 0, 'write_intent_ca[23 chars]': 0}
+2026-11-10T13:58:14.2821635Z - {'complete_calls': 0,
+2026-11-10T13:58:14.2821757Z ?                    ^
+2026-11-10T13:58:14.2821830Z 
+2026-11-10T13:58:14.2821879Z + {'complete_calls': 1,
+2026-11-10T13:58:14.2821998Z ?                    ^
+2026-11-10T13:58:14.2822065Z 
+2026-11-10T13:58:14.2822113Z    'context_calls': 0,
+2026-11-10T13:58:14.2822234Z    'read_only_calls': 0,
+2026-11-10T13:58:14.2822361Z    'write_intent_calls': 1}
+2026-11-10T13:58:14.2822447Z 
+2026-11-10T13:58:14.2822509Z ======================================================================
+2026-11-10T13:58:14.2823053Z FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_context_case='ftruncate(4</base/file (deleted)>, 0) = 0 <0.000001>')
+2026-11-10T13:58:14.2823612Z ----------------------------------------------------------------------
+2026-11-10T13:58:14.2823796Z Traceback (most recent call last):
+2026-11-10T13:58:14.2824147Z   File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 340, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+2026-11-10T13:58:14.2824471Z     self.assertEqual(report["counts"], {
+2026-11-10T13:58:14.2824813Z AssertionError: {'complete_calls': 0, 'read_only_calls': 0, 'write_intent_ca[23 chars]': 0} != {'complete_calls': 1, 'read_only_calls': 0, 'write_intent_ca[23 chars]': 0}
+2026-11-10T13:58:14.2825232Z - {'complete_calls': 0,
+2026-11-10T13:58:14.2825353Z ?                    ^
+2026-11-10T13:58:14.2825423Z 
+2026-11-10T13:58:14.2825469Z + {'complete_calls': 1,
+2026-11-10T13:58:14.2825584Z ?                    ^
+2026-11-10T13:58:14.2825653Z 
+2026-11-10T13:58:14.2825725Z    'context_calls': 0,
+2026-11-10T13:58:14.2825841Z    'read_only_calls': 0,
+2026-11-10T13:58:14.2825965Z    'write_intent_calls': 1}
+2026-11-10T13:58:14.2826047Z 
+2026-11-10T13:58:14.2826108Z ======================================================================
+2026-11-10T13:58:14.2826615Z FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (successful_unknown_cwd='chdir("child") = 0 <0.000001>')
+2026-11-10T13:58:14.2827131Z ----------------------------------------------------------------------
+2026-11-10T13:58:14.2827313Z Traceback (most recent call last):
+2026-11-10T13:58:14.2827647Z   File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 373, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+2026-11-10T13:58:14.2827998Z     self.assertIsNone(opened_unknown[0]["targets"][0]["anchor"])
+2026-11-10T13:58:14.2828194Z AssertionError: '/first' is not None
+2026-11-10T13:58:14.2828289Z 
+2026-11-10T13:58:14.2828353Z ======================================================================
+2026-11-10T13:58:14.2828856Z FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (successful_unknown_cwd='fchdir(4) = 0 <0.000001>')
+2026-11-10T13:58:14.2829369Z ----------------------------------------------------------------------
+2026-11-10T13:58:14.2829552Z Traceback (most recent call last):
+2026-11-10T13:58:14.2829956Z   File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 373, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+2026-11-10T13:58:14.2830308Z     self.assertIsNone(opened_unknown[0]["targets"][0]["anchor"])
+2026-11-10T13:58:14.2830495Z AssertionError: '/first' is not None
+2026-11-10T13:58:14.2830661Z 
+2026-11-10T13:58:14.2830847Z ======================================================================
+2026-11-10T13:58:14.2831649Z FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (successful_unknown_cwd='fchdir(4</base/a\\q>) = 0 <0.000001>')
+2026-11-10T13:58:14.2832503Z ----------------------------------------------------------------------
+2026-11-10T13:58:14.2832786Z Traceback (most recent call last):
+2026-11-10T13:58:14.2833340Z   File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 373, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+2026-11-10T13:58:14.2833914Z     self.assertIsNone(opened_unknown[0]["targets"][0]["anchor"])
+2026-11-10T13:58:14.2834363Z AssertionError: '/base/a\\q' is not None
+2026-11-10T13:58:14.2834517Z 
+2026-11-10T13:58:14.2834611Z ======================================================================
+2026-11-10T13:58:14.2835325Z FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (ambiguous_fd_encoding='ftruncate(4</base/a\\q>, 0) = 0 <0.000001>')
+2026-11-10T13:58:14.2835862Z ----------------------------------------------------------------------
+2026-11-10T13:58:14.2836044Z Traceback (most recent call last):
+2026-11-10T13:58:14.2836376Z   File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 388, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+2026-11-10T13:58:14.2836740Z     self.assertIn("AMBIGUOUS_FD_CONTEXT", self.reasons(ambiguous, event))
+2026-11-10T13:58:14.2836975Z AssertionError: 'AMBIGUOUS_FD_CONTEXT' not found in set()
+2026-11-10T13:58:14.2837220Z 
+2026-11-10T13:58:14.2837285Z ======================================================================
+2026-11-10T13:58:14.2837803Z FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (ambiguous_fd_encoding='ftruncate(4</base/a\tb>, 0) = 0 <0.000001>')
+2026-11-10T13:58:14.2838333Z ----------------------------------------------------------------------
+2026-11-10T13:58:14.2838514Z Traceback (most recent call last):
+2026-11-10T13:58:14.2838841Z   File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 388, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+2026-11-10T13:58:14.2839204Z     self.assertIn("AMBIGUOUS_FD_CONTEXT", self.reasons(ambiguous, event))
+2026-11-10T13:58:14.2839435Z AssertionError: 'AMBIGUOUS_FD_CONTEXT' not found in set()
+2026-11-10T13:58:14.2839570Z 
+2026-11-10T13:58:14.2839630Z ======================================================================
+2026-11-10T13:58:14.2840162Z FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (ambiguous_fd_encoding='ftruncate(4</base/a\x00b>, 0) = 0 <0.000001>')
+2026-11-10T13:58:14.2840695Z ----------------------------------------------------------------------
+2026-11-10T13:58:14.2841024Z Traceback (most recent call last):
+2026-11-10T13:58:14.2841362Z   File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 388, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+2026-11-10T13:58:14.2841720Z     self.assertIn("AMBIGUOUS_FD_CONTEXT", self.reasons(ambiguous, event))
+2026-11-10T13:58:14.2841950Z AssertionError: 'AMBIGUOUS_FD_CONTEXT' not found in set()
+2026-11-10T13:58:14.2842076Z 
+2026-11-10T13:58:14.2842222Z ======================================================================
+2026-11-10T13:58:14.2842679Z FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_unknown_cwd=True)
+2026-11-10T13:58:14.2843150Z ----------------------------------------------------------------------
+2026-11-10T13:58:14.2843334Z Traceback (most recent call last):
+2026-11-10T13:58:14.2843676Z   File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 397, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+2026-11-10T13:58:14.2844003Z     self.assertEqual(unknown["counts"], {
+2026-11-10T13:58:14.2844341Z AssertionError: {'complete_calls': 0, 'read_only_calls': 0, 'write_intent_ca[23 chars]': 0} != {'complete_calls': 1, 'read_only_calls': 0, 'write_intent_ca[23 chars]': 0}
+2026-11-10T13:58:14.2844674Z - {'complete_calls': 0,
+2026-11-10T13:58:14.2844796Z ?                    ^
+2026-11-10T13:58:14.2844871Z 
+2026-11-10T13:58:14.2844920Z + {'complete_calls': 1,
+2026-11-10T13:58:14.2845037Z ?                    ^
+2026-11-10T13:58:14.2845109Z 
+2026-11-10T13:58:14.2845154Z    'context_calls': 0,
+2026-11-10T13:58:14.2845273Z    'read_only_calls': 0,
+2026-11-10T13:58:14.2845397Z    'write_intent_calls': 1}
+2026-11-10T13:58:14.2845480Z 
+2026-11-10T13:58:14.2845543Z ======================================================================
+2026-11-10T13:58:14.2846003Z FAIL: test_10_synthetic_local_provenance_and_input_refusals (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_10_synthetic_local_provenance_and_input_refusals) (metadata='+++ exited with 0 +++')
+2026-11-10T13:58:14.2846471Z ----------------------------------------------------------------------
+2026-11-10T13:58:14.2846652Z Traceback (most recent call last):
+2026-11-10T13:58:14.2846982Z   File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 486, in test_10_synthetic_local_provenance_and_input_refusals
+2026-11-10T13:58:14.2847302Z     held, metadata = self.one_event(cut)
+2026-11-10T13:58:14.2847531Z                      ^^^^^^^^^^^^^^^^^^^
+2026-11-10T13:58:14.2847776Z   File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 153, in one_event
+2026-11-10T13:58:14.2848033Z     self.assertEqual(len(report["events"]), 1)
+2026-11-10T13:58:14.2848189Z AssertionError: 0 != 1
+2026-11-10T13:58:14.2848261Z 
+2026-11-10T13:58:14.2848324Z ======================================================================
+2026-11-10T13:58:14.2848811Z FAIL: test_10_synthetic_local_provenance_and_input_refusals (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_10_synthetic_local_provenance_and_input_refusals) (metadata='--- SIGCHLD {si_signo=SIGCHLD} ---')
+2026-11-10T13:58:14.2849306Z ----------------------------------------------------------------------
+2026-11-10T13:58:14.2849490Z Traceback (most recent call last):
+2026-11-10T13:58:14.2849811Z   File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 486, in test_10_synthetic_local_provenance_and_input_refusals
+2026-11-10T13:58:14.2850124Z     held, metadata = self.one_event(cut)
+2026-11-10T13:58:14.2850265Z                      ^^^^^^^^^^^^^^^^^^^
+2026-11-10T13:58:14.2850516Z   File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 153, in one_event
+2026-11-10T13:58:14.2850920Z     self.assertEqual(len(report["events"]), 1)
+2026-11-10T13:58:14.2851165Z AssertionError: 0 != 1
+2026-11-10T13:58:14.2851276Z 
+2026-11-10T13:58:14.2851393Z ----------------------------------------------------------------------
+2026-11-10T13:58:14.2851668Z Ran 12 tests in 0.546s
+2026-11-10T13:58:14.2851784Z 
+2026-11-10T13:58:14.2851858Z FAILED (failures=12)
+2026-11-10T13:58:14.2852417Z ::***::
+2026-11-10T13:58:14.2859992Z ##[error]Process completed with exit code 1.
+2026-11-10T13:58:14.2928690Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-10T13:58:14.2928904Z with:
+2026-11-10T13:58:14.2929059Z   name: formal-trace-parser-contract-normal-42829376500-1
+2026-11-10T13:58:14.2929325Z   path: /home/runner/work/_temp/formal-trace-parser-contract-normal-42829376500-1/
+2026-11-10T13:58:14.2929560Z   if-no-files-found: error
+2026-11-10T13:58:14.2929687Z   retention-days: 30
+2026-11-10T13:58:14.2929812Z   compression-level: 6
+2026-11-10T13:58:14.2929942Z   overwrite: false
+2026-11-10T13:58:14.2930060Z   include-hidden-files: false
+2026-11-10T13:58:14.2930192Z env:
+2026-11-10T13:58:14.2930335Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T13:58:14.2930564Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T13:58:14.2930990Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T13:58:14.2931196Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T13:58:14.2931430Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T13:58:14.2931638Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T13:58:14.2931812Z ##[endgroup]
+2026-11-10T13:58:14.3979644Z (node:2233) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T13:58:14.3980169Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T13:58:14.4025035Z With the provided path, there will be 5 files uploaded
+2026-11-10T13:58:14.4025758Z Artifact name is valid!
+2026-11-10T13:58:14.4026098Z Root directory input is valid!
+2026-11-10T13:58:14.7747686Z Beginning upload of artifact content to blob storage
+2026-11-10T13:58:14.8352223Z (node:2233) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-10T13:58:15.3356920Z Uploaded bytes 881463
+2026-11-10T13:58:15.3977519Z Finished uploading artifact content to blob storage!
+2026-11-10T13:58:15.3977972Z SHA256 digest of uploaded artifact zip is fc07b77566141a26d03ee3fe3bdbc7acbcd582164c94df85b88ec16e194f3a02
+2026-11-10T13:58:15.3979603Z Finalizing artifact upload
+2026-11-10T13:58:15.7896479Z Artifact formal-trace-parser-contract-normal-42829376500-1.zip successfully finalized. Artifact ID 13770816326
+2026-11-10T13:58:15.7897100Z Artifact formal-trace-parser-contract-normal-42829376500-1 has been successfully uploaded! Final size is 881463 bytes. Artifact ID is 13770816326
+2026-11-10T13:58:15.7901878Z Artifact download URL: https://github.com/d6g8k5htny-coder/main/actions/runs/42829376500/artifacts/13770816326
+2026-11-10T13:58:15.8079975Z Post job cleanup.
+2026-11-10T13:58:15.8651727Z [command]/usr/bin/git version
+2026-11-10T13:58:15.8674669Z git version 2.56.0
+2026-11-10T13:58:15.8697992Z Temporarily overriding HOME='/home/runner/work/_temp/480713ca-b570-45d7-afec-f12fef433ec5' before making global git config changes
+2026-11-10T13:58:15.8698913Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T13:58:15.8702549Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T13:58:15.8737193Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T13:58:15.8766252Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T13:58:15.8985474Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T13:58:15.9015454Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T13:58:15.9236528Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T13:58:15.9273431Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T13:58:15.9597113Z Cleaning up orphan processes
+2026-11-10T13:58:15.9904847Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

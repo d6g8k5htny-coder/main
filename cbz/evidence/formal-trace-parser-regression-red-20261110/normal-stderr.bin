@@ -1,0 +1,167 @@
+test_01_frozen_genuine_whole_line_identity (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_01_frozen_genuine_whole_line_identity) ... ok
+test_02_all_six_genuine_open_roles_and_read_neighbors (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_02_all_six_genuine_open_roles_and_read_neighbors) ... ok
+test_03_genuine_interleaving_pair_provenance_and_excerpt_gaps (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_03_genuine_interleaving_pair_provenance_and_excerpt_gaps) ... ok
+test_04_synthetic_flags_are_read_only_from_the_flags_operand (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_04_synthetic_flags_are_read_only_from_the_flags_operand) ... ok
+test_05_synthetic_dual_path_and_symlink_content_roles (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_05_synthetic_dual_path_and_symlink_content_roles) ... ok
+test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) ... 
+  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_context_case='openat(4, "child", O_WRONLY) = -1 EBADF (Bad file descriptor) <0.000001>') ... FAIL
+  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_context_case='ftruncate(4, 0) = -1 EBADF (Bad file descriptor) <0.000001>') ... FAIL
+  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_context_case='ftruncate(4</base/file (deleted)>, 0) = 0 <0.000001>') ... FAIL
+  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (successful_unknown_cwd='chdir("child") = 0 <0.000001>') ... FAIL
+  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (successful_unknown_cwd='fchdir(4) = 0 <0.000001>') ... FAIL
+  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (successful_unknown_cwd='fchdir(4</base/a\\q>) = 0 <0.000001>') ... FAIL
+  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (ambiguous_fd_encoding='ftruncate(4</base/a\\q>, 0) = 0 <0.000001>') ... FAIL
+  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (ambiguous_fd_encoding='ftruncate(4</base/a\tb>, 0) = 0 <0.000001>') ... FAIL
+  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (ambiguous_fd_encoding='ftruncate(4</base/a\x00b>, 0) = 0 <0.000001>') ... FAIL
+  test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_unknown_cwd=True) ... FAIL
+test_07_synthetic_pairs_never_borrow_or_reuse_a_half (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_07_synthetic_pairs_never_borrow_or_reuse_a_half) ... ok
+test_08_synthetic_escaping_brackets_and_malformed_syntax (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_08_synthetic_escaping_brackets_and_malformed_syntax) ... ok
+test_09_synthetic_native_failed_mutations_never_disappear (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_09_synthetic_native_failed_mutations_never_disappear) ... ok
+test_10_synthetic_local_provenance_and_input_refusals (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_10_synthetic_local_provenance_and_input_refusals) ... 
+  test_10_synthetic_local_provenance_and_input_refusals (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_10_synthetic_local_provenance_and_input_refusals) (metadata='+++ exited with 0 +++') ... FAIL
+  test_10_synthetic_local_provenance_and_input_refusals (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_10_synthetic_local_provenance_and_input_refusals) (metadata='--- SIGCHLD {si_signo=SIGCHLD} ---') ... FAIL
+test_11_synthetic_source_and_record_ceilings_are_honest (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_11_synthetic_source_and_record_ceilings_are_honest) ... ok
+test_12_synthetic_serialized_and_pending_growth_ceiling (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_12_synthetic_serialized_and_pending_growth_ceiling) ... ok
+
+======================================================================
+FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_context_case='openat(4, "child", O_WRONLY) = -1 EBADF (Bad file descriptor) <0.000001>')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 340, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+    self.assertEqual(report["counts"], {
+AssertionError: {'complete_calls': 0, 'read_only_calls': 0, 'write_intent_ca[23 chars]': 0} != {'complete_calls': 1, 'read_only_calls': 0, 'write_intent_ca[23 chars]': 0}
+- {'complete_calls': 0,
+?                    ^
+
++ {'complete_calls': 1,
+?                    ^
+
+   'context_calls': 0,
+   'read_only_calls': 0,
+   'write_intent_calls': 1}
+
+======================================================================
+FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_context_case='ftruncate(4, 0) = -1 EBADF (Bad file descriptor) <0.000001>')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 340, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+    self.assertEqual(report["counts"], {
+AssertionError: {'complete_calls': 0, 'read_only_calls': 0, 'write_intent_ca[23 chars]': 0} != {'complete_calls': 1, 'read_only_calls': 0, 'write_intent_ca[23 chars]': 0}
+- {'complete_calls': 0,
+?                    ^
+
++ {'complete_calls': 1,
+?                    ^
+
+   'context_calls': 0,
+   'read_only_calls': 0,
+   'write_intent_calls': 1}
+
+======================================================================
+FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_context_case='ftruncate(4</base/file (deleted)>, 0) = 0 <0.000001>')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 340, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+    self.assertEqual(report["counts"], {
+AssertionError: {'complete_calls': 0, 'read_only_calls': 0, 'write_intent_ca[23 chars]': 0} != {'complete_calls': 1, 'read_only_calls': 0, 'write_intent_ca[23 chars]': 0}
+- {'complete_calls': 0,
+?                    ^
+
++ {'complete_calls': 1,
+?                    ^
+
+   'context_calls': 0,
+   'read_only_calls': 0,
+   'write_intent_calls': 1}
+
+======================================================================
+FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (successful_unknown_cwd='chdir("child") = 0 <0.000001>')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 373, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+    self.assertIsNone(opened_unknown[0]["targets"][0]["anchor"])
+AssertionError: '/first' is not None
+
+======================================================================
+FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (successful_unknown_cwd='fchdir(4) = 0 <0.000001>')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 373, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+    self.assertIsNone(opened_unknown[0]["targets"][0]["anchor"])
+AssertionError: '/first' is not None
+
+======================================================================
+FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (successful_unknown_cwd='fchdir(4</base/a\\q>) = 0 <0.000001>')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 373, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+    self.assertIsNone(opened_unknown[0]["targets"][0]["anchor"])
+AssertionError: '/base/a\\q' is not None
+
+======================================================================
+FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (ambiguous_fd_encoding='ftruncate(4</base/a\\q>, 0) = 0 <0.000001>')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 388, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+    self.assertIn("AMBIGUOUS_FD_CONTEXT", self.reasons(ambiguous, event))
+AssertionError: 'AMBIGUOUS_FD_CONTEXT' not found in set()
+
+======================================================================
+FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (ambiguous_fd_encoding='ftruncate(4</base/a\tb>, 0) = 0 <0.000001>')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 388, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+    self.assertIn("AMBIGUOUS_FD_CONTEXT", self.reasons(ambiguous, event))
+AssertionError: 'AMBIGUOUS_FD_CONTEXT' not found in set()
+
+======================================================================
+FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (ambiguous_fd_encoding='ftruncate(4</base/a\x00b>, 0) = 0 <0.000001>')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 388, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+    self.assertIn("AMBIGUOUS_FD_CONTEXT", self.reasons(ambiguous, event))
+AssertionError: 'AMBIGUOUS_FD_CONTEXT' not found in set()
+
+======================================================================
+FAIL: test_06_synthetic_relative_fd_and_cwd_context_is_explicit (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_06_synthetic_relative_fd_and_cwd_context_is_explicit) (completed_unknown_cwd=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 397, in test_06_synthetic_relative_fd_and_cwd_context_is_explicit
+    self.assertEqual(unknown["counts"], {
+AssertionError: {'complete_calls': 0, 'read_only_calls': 0, 'write_intent_ca[23 chars]': 0} != {'complete_calls': 1, 'read_only_calls': 0, 'write_intent_ca[23 chars]': 0}
+- {'complete_calls': 0,
+?                    ^
+
++ {'complete_calls': 1,
+?                    ^
+
+   'context_calls': 0,
+   'read_only_calls': 0,
+   'write_intent_calls': 1}
+
+======================================================================
+FAIL: test_10_synthetic_local_provenance_and_input_refusals (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_10_synthetic_local_provenance_and_input_refusals) (metadata='+++ exited with 0 +++')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 486, in test_10_synthetic_local_provenance_and_input_refusals
+    held, metadata = self.one_event(cut)
+                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 153, in one_event
+    self.assertEqual(len(report["events"]), 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_10_synthetic_local_provenance_and_input_refusals (test_formal_trace_reanalysis.FormalTraceReanalysisContract.test_10_synthetic_local_provenance_and_input_refusals) (metadata='--- SIGCHLD {si_signo=SIGCHLD} ---')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 486, in test_10_synthetic_local_provenance_and_input_refusals
+    held, metadata = self.one_event(cut)
+                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/main/main/tests/test_formal_trace_reanalysis.py", line 153, in one_event
+    self.assertEqual(len(report["events"]), 1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.546s
+
+FAILED (failures=12)
