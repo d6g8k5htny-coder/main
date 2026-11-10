@@ -105,3 +105,23 @@ Binary owned files are printed only as size/hash retention identities and fully 
 This preparation fetched and statically inspected exact sources, counted the selected acquisition/path roster, verified literal edit uniqueness/inverse and read back the staged blobs. It did NOT execute Python, Lean, YAML parsing, workflow, worktree creation or a mutant. Source syntax/runtime feasibility remain for root+independent source review and eventual actual probe. No claim of observed warning or resolved M2 reachability.
 
 Before refs: root reads full worker/workflow/plan and corrected recipe; independent scoped source review; then root issues explicit publication/run GO. After actual both-mode original reads, root decides whether M2 reachability HOLD is resolved. No full E three-API test publication, production controller work or other mutants follow automatically.
+
+## R1 source amendment — actual R0 root cause; supersedes worker/recipe references only
+
+This original plan above is retained verbatim as R0 history. R0 was published on the fixed ephemeral branch at ce8963999a324d283e35de3f73a0b51f15ba2c1f/tree c4436e7183661fdeb5f885d2c052ffe8fa492261. Actual run42786700440/1/job129729614710 failed: both original healthy C02 baselines PASS, both mutants INVALID before C02 with UNEXPECTED_FIXTURE_FINDINGS. No mutant unittest was invoked; no reachability/kill credit. Original log a0f9d09e45232bf63a7923a1f5c884db55002327 and parsed receipt f6f174e7fbeaf8c72c59dc423b94401397fa5ba3 retain all195 hash-verified originals unchanged; no ZIP-member read is claimed.
+
+The exported.constants selection emitted six axiom placeholders. Actual same-name private baseline rows are four definitions/two theorems; unchanged Task1 correctly reported six OWNED_AXIOM findings. Counts3/1/2 and complete genuine15 manifest did not imply clean classification. Do not admit findings or weaken original bootstrap/C02.
+
+R1 replacement: retain actual exported Name order/population, resolve every selected CI from loaded.owned using existing typed missingConstant refusal, then emit the same coherent projected Name arrays and original actual part SHAs/private declaration digest. Native CI kinds/type/value come from genuine final private CIs; no kind rewrite, fake CI, fixture change or helper replacement. The original full inventory preimage remains unique and unchanged.
+
+R1 source bindings:
+- Worker 366501b7abd9758a008b6db25f15cc1cff5c5d5e replaces R0 e9e8d12d35fe96c5a63b591cdcc15729631d6e3f.
+- Recipe appendix 792e27b601997d28c9f4385667dae2aa28b0b083 retains entire95d prefix and supersedes only M2 replacement.
+- Unchanged old inventory preimage SHA256 c930d35ec522f29a98cc297317d5e16992a70861d84a41885b1a86305b665f3e.
+- R1 replacement SHA256 33716209c37cfdbbc3fcfe63abe6ea1b1ebf1e9b1f01d03b1747351b4fba04d3.
+- R1 whole Component SHA256 49dba7ad8bc96adadb53daba08db72b74bb50d4b66f7d9edd8c47ef997d59162.
+- Workflow remains exact a4c1f36bf27773f921f7a143621ce7379bc8adc2.
+
+Worker delta is ONLY NEW literal, NEW_SHA256, MUTANT_SHA256 and RECIPE_DESIGN_BLOB. Reverse substitution recovers the entire approved R0 worker exactly. No assertions, class/Controls/Task1/helper bytes, original bootstrap/classifier, exact failure-code-object/line1166, fixed command/input paths, states/modes, expected counts or closed record fields change. No new helper/API/product functionality is introduced. Expected per state stays1case/7native rows/14commands/2guarded observations/2requests/12paths/1IRcontext/2outputs; genuine15/projected12. Original full finalizers remain uncalled.
+
+R1 is SOURCE ONLY and unexecuted. Root and independent scoped source review are required before a new automatic attempt; no ref update/manual dispatch/rerun is authorized by this amendment. Original R0 evidence/source stays immutable. Actual R1 reachability remains HOLD; all earlier warning/compile/import/schema/setup/IO/timeout/custody failures remain INVALID. All full D/E/mutation-kill/scientific claims remain false/NONE/BLOCKED.
