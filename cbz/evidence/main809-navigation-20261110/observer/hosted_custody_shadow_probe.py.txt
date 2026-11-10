@@ -1,0 +1,94 @@
+"""Observe the exact custody test and flag mutation under four environments."""
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+
+if len(sys.argv) != 3:
+    raise SystemExit('usage: hosted_custody_shadow_probe.py SOURCE OUTPUT')
+source, output = (Path(value).resolve() for value in sys.argv[1:])
+output.mkdir(parents=True, exist_ok=True)
+EXPECTED = {
+    'tests/test_periodic_pilot_custody.py': 'c4b449311b922f75c7977918cc92f604e8779ba8',
+    'tests/test_periodic_pilot_custody_oserror.py': '868772303875e148f61d2981cbf840b2eff1ad78',
+    'tools/periodic_pilot_custody.py': '024f860f6cec1e603a083bb2f09f32d7e32a2399',
+}
+for name, expected in EXPECTED.items():
+    raw = (source / name).read_bytes()
+    got = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+    if got != expected:
+        raise ValueError('source blob mismatch: ' + name)
+test_path = 'tests/test_periodic_pilot_custody_oserror.py'
+original = (source / test_path).read_bytes()
+anchor = b"subprocess.run([sys.executable, '-B', '-c', FAULT, mode, str(REPO)]"
+replacement = b"subprocess.run([sys.executable, '-c', FAULT, mode, str(REPO)]"
+if original.count(anchor) != 1:
+    raise ValueError('mutation anchor mismatch')
+mutant = original.replace(anchor, replacement, 1)
+if hashlib.sha256(mutant).hexdigest() != '77674c70b6523bf2aa537b148d3e4290aaff3253cba268261b0c13ec2c3b7f12':
+    raise ValueError('mutated test source mismatch')
+ids = ['test_fault_child_does_not_write_bytecode_to_source_tree',
+       'test_output_scandir_oserror_exits_74', 'test_upload_stage_mkdir_oserror_exits_74']
+records = []
+for optimized in (False, True):
+    for shadow in (False, True):
+        for prefix in (False, True):
+            for mutated in (False, True):
+                case = ('optimized' if optimized else 'normal') + ('-shadow' if shadow else '-plain') + ('-prefix' if prefix else '-no-prefix') + ('-mutant' if mutated else '-candidate')
+                with tempfile.TemporaryDirectory(prefix='cbz-custody-shadow-') as temporary:
+                    base = Path(temporary)
+                    checkout = base / 'source'
+                    for name in EXPECTED:
+                        dst = checkout / name
+                        dst.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copyfile(source / name, dst)
+                    if mutated:
+                        (checkout / test_path).write_bytes(mutant)
+                    env = dict(os.environ)
+                    for key in ('PYTHONDONTWRITEBYTECODE', 'PYTHONPYCACHEPREFIX', 'PYTHONPATH'):
+                        env.pop(key, None)
+                    if shadow:
+                        external = base / 'external' / 'tools'
+                        external.mkdir(parents=True)
+                        (external / '__init__.py').write_text('')
+                        shutil.copyfile(source / 'tools/periodic_pilot_custody.py', external / 'periodic_pilot_custody.py')
+                        env['PYTHONPATH'] = str(external.parent)
+                    if prefix:
+                        env['PYTHONPYCACHEPREFIX'] = str(base / 'external-cache')
+                    command = [sys.executable, '-B', '-S'] + (['-O'] if optimized else []) + [
+                        '-m', 'unittest', 'discover', '-s', 'tests', '-p',
+                        'test_periodic_pilot_custody_oserror.py', '-v']
+                    run = subprocess.run(command, cwd=checkout, env=env, capture_output=True, timeout=120)
+                    (output / (case + '.stdout')).write_bytes(run.stdout)
+                    (output / (case + '.stderr')).write_bytes(run.stderr)
+                    text = run.stderr.decode('utf-8')
+                    observed = []
+                    for line in text.splitlines():
+                        match = re.fullmatch(r'(\w+) \(test_periodic_pilot_custody_oserror\.RawOSErrorExitTests\.\w+\) \.\.\. (ok|FAIL)', line)
+                        if match:
+                            observed.append(match.groups())
+                    wanted = [(name, 'FAIL' if mutated and i == 0 else 'ok') for i, name in enumerate(ids)]
+                    good = (observed == wanted and run.returncode == (1 if mutated else 0)
+                            and 'Ran 3 tests' in text and 'skipped' not in text
+                            and text.rstrip().endswith('FAILED (failures=1)' if mutated else 'OK'))
+                    if mutated:
+                        good = good and ('in test_fault_child_does_not_write_bytecode_to_source_tree' in text
+                                         and "self.assertEqual(list(tools.rglob('*.pyc')), [])" in text
+                                         and 'periodic_pilot_custody.' + sys.implementation.cache_tag + '.pyc' in text)
+                    records.append({'case': case, 'returncode': run.returncode, 'results': observed,
+                                    'qualified': bool(good),
+                                    'stdout_sha256': hashlib.sha256(run.stdout).hexdigest(),
+                                    'stderr_sha256': hashlib.sha256(run.stderr).hexdigest()})
+                    (output / 'observation.json').write_text(json.dumps({
+                        'python': sys.version, 'source_git_blobs': EXPECTED,
+                        'mutation': 'remove only the child -B flag', 'cases': records,
+                        'scope': 'three focused tests in temporary copies across inherited prefix and ordinary tools-package shadowing; not full discovery or G5',
+                    }, indent=2) + '\n')
+if len(records) != 16 or not all(x['qualified'] for x in records):
+    raise SystemExit('one or more focused cases did not qualify; original streams retained')
+print(json.dumps({'python': sys.version, 'cases': len(records), 'qualified': len(records)}, indent=2))
