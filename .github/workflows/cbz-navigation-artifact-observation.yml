@@ -19,7 +19,7 @@ jobs:
           ulimit -f 8192
           curl --fail --silent --show-error --location --max-time 60 -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' 'https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13733993008/zip' --output "$archive"
           python3 -I -B -S - "$archive" <<'PY'
-          import hashlib, json, pathlib, re, sys, zipfile
+          import base64, hashlib, json, pathlib, re, sys, zipfile
           path = pathlib.Path(sys.argv[1])
           if path.stat().st_size > 2 * 1024 * 1024: raise ValueError('archive bound')
           raw = path.read_bytes(); digest = hashlib.sha256(raw).hexdigest()
@@ -41,4 +41,9 @@ jobs:
               skipped = [line for line in log.splitlines() if ' ... skipped ' in line]
               if len(summaries) != 1 or len(footers) != 1: raise ValueError('ambiguous test summary')
               print(json.dumps({'run_id': 42751061652, 'artifact_id': 13733993008, 'sha256': digest, 'members': len(entries), 'crc': 'PASS', 'tested_merge': commit, 'summary': summaries[0], 'footer': footers[0], 'explicit_skip_lines': skipped}, sort_keys=True))
+              if re.search(r'gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY-----|Bearer [A-Za-z0-9._-]{20,}', log): raise ValueError('potential credential in test log')
+              raw_log = log.encode('utf-8'); encoded = base64.b64encode(raw_log).decode('ascii')
+              pieces = [encoded[i:i + 1024] for i in range(0, len(encoded), 1024)]
+              print(json.dumps({'kind': 'NAVIGATION_LOG_BYTES', 'bytes': len(raw_log), 'sha256': hashlib.sha256(raw_log).hexdigest(), 'parts': len(pieces)}, sort_keys=True))
+              for number, part in enumerate(pieces): print('CBZ_NAV_PART:' + str(number).zfill(6) + ':' + part)
           PY
