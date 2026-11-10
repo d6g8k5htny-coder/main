@@ -662,3 +662,27 @@ uses actual ownership/type judgments and honest missing-fatal axiom closure;
 TaskB policy controls and TaskC kernel replay remain unqualified, with replay
 explicitlyNOT_IMPLEMENTED. Register candidate scope without awarding any gate.
 Preserve full currentMain812 content/canonical prefixes and feature ancestry.
+
+## 2026-11-10 — retain genuine compiler extras and repair the positive fixture
+
+Actual run42743801064/attempt1/job129590978474 compiled Safe and Component
+successfully in both modes and emitted26CIs (rawparts23/23/26). Its original
+Type-valued Switch/flip produced11genuine unsupported compiler extras. The
+ordinary unexported def was private-mangled, with no plain hidden CI. Task1
+correctly blocked UNSUPPORTED_EXTRAS; all6native methods failed their fixture
+prerequisite and39subcases stayed not_run. Pure12methods passed both modes.
+Native97132b3b32d0d291ac101620bb7f57ea6a7d3c65 has exacttreea9bd64d7 and
+parents[812a799f,b88b87fc]. Preserve complete original printed inventory and
+classification with independently matched runner SHA256/UTF8 byte counts;
+no artifactZIP extraction or semantic-negative/mutation credit is inferred.
+
+Keep every production source and original assertion/control unchanged. Repair
+only the positive fixture: Prop-valued two-constructor Switch retains actual
+inductive/constructor/recursor coverage, while source-level checked declaration
+APIs provide one explicitly unexported ordinary raw Name. Synchronous kernel
+checking is enabled; errors propagate before normal object serialization.
+Root read the complete candidate and source rationale; fresh scoped review
+found no concrete source blocker. Fresh native compilation, zero extras,
+private-only plain Name, full6methods/39subcases and12pure methods per mode
+remain actual obligations. No old11extra names are erased or admitted, and
+no mathematical/scientific/global gate is awarded.
