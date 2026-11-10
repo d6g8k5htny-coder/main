@@ -755,3 +755,255 @@ Author-family correction1 moves only the two runner.temp bindings into prepare-s
   the recovery tool/test blobs unchanged. Workspace #69 still pins older
   Main `31bc4c1f`; actual Pages recovery and fresh current checks remain
   open. No mathematical or scientific claim is changed.
+
+## 2026-11-10 — SDGA Task 2 Task A approved test-first draft
+
+Root reviewed the immutable design3487f544 and plan9eefcb14 before authorizing
+this Phase A publication. Add only those documents, the core-only Safe fixture,
+Controls, explicit launcher, read-only hosted workflow and source-review repair
+report. Six Python methods declare exactly39 fixed subcases; the launcher is
+outside ordinary offline discovery and missing prerequisites fail without skips.
+No production Component.lean/controller, Task1 assertion, profile/config, proof,
+canonical disposition or existing workflow is changed. Preserve entire current
+Main ad64930c and its merged14-path SDGA/11-path freshness contributions.
+
+Initial hosted execution is pending. Actual bridge absence must remain only
+implementation-absence RED with unexecuted subcases, never a semantic-adverse,
+mutation-kill or native-control pass. The separately labelled Python owned-group
+cleanup preflight, if actually observed, establishes resource cleanup only.
+Retain actual native source/tree/run/attempt, original streams, exits and census;
+toolchain, fixture or setup errors receive no expected-absence credit. Scientific
+effect NONE; classification/qualification BLOCKED; execution_authenticatedfalse.
+No production implementation, production99-module run, merge or ready transition
+is authorized by this draft checkpoint.
+
+## 2026-11-10 — retain Task A setup failure and add fixture lock
+
+Draft797 initial head af74f79c/tree6fe1afa5 ran42740707236/attempt1,
+job129580745960, on native6da7a14c/tree6fe1afa5. Lean-action installed
+release5045d005, then config failed: No lake-manifest.json found. Normal
+launcher was skipped; all normal critical records were NOT_PRODUCED.
+Optimized launcher actually checked5045d005 and compiled Safe with exit0,
+then bridge compilation exited1 for absent Component.lean; controller import
+also reported its missing file. Six methods failed only for implementation
+absence, zero errors/skips; all39 semantic subcases stayed not_run. The separate
+Python cleanup preflight observed timeout, TERM/KILL, leader/descendant reap
+and owned-group absence. It provides resource cleanup evidence only.
+
+Original optimized printed records were read: result2135bytes SHA256
+063220adf3fe1680e1dcd4812fd81ceac493fcb631d85e23d0feb792ff9d4327;
+census251bytes eaed403ed38dd30d890f179a19febd09c6090aa10ebf571cede3d057af2cad68.
+Artifact13728997006 metadata reports30173bytes and ZIP digest
+c9825c3a12adfe834f693fd5440268183e5986a9e694872143968f32f7dc4c6a;
+no ZIP-member read is claimed. Normal/O absence checkpoint remains incomplete.
+
+Root authorizes only fixture/setup repair: add an authored dependency-free
+lake-manifest.json, not fabricated generated or execution evidence. Pinned
+lean-action config.sh e37e9131 requires its existence; pinned Lean5045d005
+Manifest.lean5649993d and Resolve.lean8ec94502 define schema1.2.0, root
+sdga_component_fixture, default Lake/packages directories and empty packages;
+PackageConfig d930f925 defaults fixedToolchainfalse. Native Lake validation,
+githash guard and Safe compilation must actually run in both modes before
+both absence observations receive credit. No test or setup failure is masked.
+Controlsb8ec51fb, launcherd7f72edb, workflow613a7840, Safe814c0f31 and
+all production/Task1/frozen profile bytes stay unchanged. Scientific effect
+NONE; classification/qualification BLOCKED; execution_authenticatedfalse.
+
+## 2026-11-10 — observed Task A absence and pure dependency contract slice
+
+Run42741140198/attempt1/job129582185989 verified pinnedLean5045d005 and the
+unchanged authored lock, compiled Safe in both Python modes, then observed six
+Component-absence method failures per mode, zero errors/skips and39not_run
+semantic subcases. Native587e23fe782a51fd251996a88c485ead9a7319a6 has exact
+headtree92ffce75964538a73ca97d48d092c7f8734869f5. Both separate Python cleanup
+preflights actually proved owned-group TERM/KILL/reap/absence. No inventory,
+classification, adverse rejection or mutation credit follows from absence.
+
+Add12ordinary offline pure dependency methods before the Python component:
+31header+14topology call vectors when bodies execute. Pinned deps-json rows
+contain no filename; payload binding is positional, requiring exact native argv
+and source custody later. Duplicate Init import occurrences remain legitimate.
+The two pure APIs may accept empty inputs; the fixed99-module observation may
+never infer empty success. Actual missing-component failure must be observed
+before their minimal implementation. Existing six/39native contracts stay exact.
+
+## 2026-11-10 — retain malformed pure-test workflow and correct serialization
+
+The first pure-test addition atfb7dbd7652466acecb499d6d7afe179d632acfd4
+produced workflow00a7b4cf with duplicated suffixes: JavaScript replacement-string
+handling interpreted the literal dollar-apostrophe in the OK regex as a suffix
+substitution. Run42742367716/attempt1 failed before creating any jobs. No native
+or pure method ran; no setup or assertion result is inferred from this attempt.
+Rebuild from unchanged original613a7840 using callback replacements, verify the
+original workflow reconstructs byte-exact after removing only the two new steps
+and two log paths, and require actual12-method results in both modes before
+Python implementation. Prior c8 native absence evidence remains source-bound.
+
+## 2026-11-10 — preserve current tag custody in the Task A contract branch
+
+Compose currentMain812a799f4cf4cee730efa0177a9101af4cf259ef and the complete
+feature ancestry. Preserve all peerPR796 tag-custody code/evidence and current
+canonical bytes before appending the exact owned ledger suffix. The corrected
+workflow and every native/pure test/config remain unchanged; production is
+still absent. Conflicted PR metadata at e4 generated no dedicated native/pure
+run. Require actual composed-source12-method pure absence in both modes before
+Python implementation; no historical outcome is rebound.
+
+## 2026-11-10 — observed pure absence and initial Task A implementations
+
+Root independently read run42742966104/attempt1/job129588267695 ataa9d8877:
+12pure methods per mode failed only the absent-Python-file body assertion,
+zero errors/skips; all45authored API calls stayed unexecuted. Native6methods
+per mode remained bridge-absence failures/39not_run, with pinnedLean5045d005,
+Safe compile and separate cleanup controls successful. Testedac0ef848 has
+parents[812a799f,aa9d8877], exacttree880a656e3d7dfd5b64a5df168afc0635a669f943.
+
+After those actual absences, authorize the minimal actual Lean inventory bridge
+and two pure Python dependency functions against every unchanged test/config.
+Root read complete source/contract code; fresh scoped source reviews found no
+remaining concrete blockers. This is source review only: actual compile and
+6native/39subcase plus12pure results per mode are still required. The bridge
+uses actual ownership/type judgments and honest missing-fatal axiom closure;
+TaskB policy controls and TaskC kernel replay remain unqualified, with replay
+explicitlyNOT_IMPLEMENTED. Register candidate scope without awarding any gate.
+Preserve full currentMain812 content/canonical prefixes and feature ancestry.
+
+## 2026-11-10 — retain genuine compiler extras and repair the positive fixture
+
+Actual run42743801064/attempt1/job129590978474 compiled Safe and Component
+successfully in both modes and emitted26CIs (rawparts23/23/26). Its original
+Type-valued Switch/flip produced11genuine unsupported compiler extras. The
+ordinary unexported def was private-mangled, with no plain hidden CI. Task1
+correctly blocked UNSUPPORTED_EXTRAS; all6native methods failed their fixture
+prerequisite and39subcases stayed not_run. Pure12methods passed both modes.
+Native97132b3b32d0d291ac101620bb7f57ea6a7d3c65 has exacttreea9bd64d7 and
+parents[812a799f,b88b87fc]. Preserve complete original printed inventory and
+classification with independently matched runner SHA256/UTF8 byte counts;
+no artifactZIP extraction or semantic-negative/mutation credit is inferred.
+
+Keep every production source and original assertion/control unchanged. Repair
+only the positive fixture: Prop-valued two-constructor Switch retains actual
+inductive/constructor/recursor coverage, while source-level checked declaration
+APIs provide one explicitly unexported ordinary raw Name. Synchronous kernel
+checking is enabled; errors propagate before normal object serialization.
+Root read the complete candidate and source rationale; fresh scoped review
+found no concrete source blocker. Fresh native compilation, zero extras,
+private-only plain Name, full6methods/39subcases and12pure methods per mode
+remain actual obligations. No old11extra names are erased or admitted, and
+no mathematical/scientific/global gate is awarded.
+
+## 2026-11-10 — preserve positive inventory and repair Name-result control syntax
+
+Actual run42745346135/attempt1/job129595991277 compiled the revised fixture
+and unchanged bridge, emitted15CIs/zeroextras, actualplainNameunexported only
+inprivatepart, and exact3/1/2targetcounts/findings[]. Classification remains
+BLOCKED/NONE. Then every Controls invocation failed compilation: pinnedLean
+has no BEq(Except String Name) for the round-trip check. #eval correctly refused
+the invalid elaboration; its risk-taking diagnostic hint was not applied.
+Six methods produced8failure entries per mode, zero errors/skips, and every
+39subcase remained not_run. Pure12methods passed both modes; cleanup passed
+and no source drift was observed. Retain the complete602-byte first control
+compiler stdout (reportedSHA256230cb8b2e8ce7371dd7c6f61c788b070581f1eddd67c56841e0ef83746218bc5).
+
+Re-express only that intended equality check by explicitly matching decodeName:
+.ok must yield the identical Name, while .error fails. Every other assertion,
+fixture, production source, test ID/count and normal #eval remains unchanged.
+This is a harness syntax repair, not a relaxed expected verdict. Require actual
+full6methods/39case execution in both modes before any native-control credit.
+
+## 2026-11-10 — retain 38-control observation and guard native object root framing
+
+Run42745988350/attempt1/job129598081546 at801697f1 observed both modes:
+5of6methods and38of39subcases passed (33Lean+5Python); C13/truncated-private
+remained not_run because the genuine truncated-object command exited139 with
+empty streams, no timeout and confirmed cleanup. No refusal/mutation credit
+follows from that crash. Valid15CI inventory/oracle/canonicalparts/counts all
+matched; pure12methods passed. Native1babb556547a784c9fd2f14fdb1097c868778e86
+has exacttree2df52ceb andparents[812a799f,801697f1], with unchanged source.
+
+Pinned native source shows ordinaryv2 has88-byte header and saved root word,
+no recorded total-length field, and an unchecked-root mmap fast path. Add only
+safe physical/root-constructor extent checks before the same FFI reader,
+including genuine sharing into earlier selected parts. Root read complete
+source delta and pinned writer/reader; independent scoped review found no
+blocking source issue. Current39-case typed-refusal qualification is pending;
+this is not arbitrary binary-corruption or hostile-host certification.
+
+Preserve freshMain31bc4c1f/PR798, all69peerpaths and entire current canonical
+prefixes plus full feature ancestry. Also retain the original Q9002 node jobs
+and live reports as source-bound evidence snapshots at their declared heads;
+these copies do not rebind that separate data feature to this integration tree.
+
+## 2026-11-10 — retain native framing compiler failure and repair one identifier
+
+Run42749115104/attempt1/job129608245848 atb18a3590 rejected Component
+a46ec372 before native controls in both modes. The reserved local token
+prefix at400:7 caused dependent parser errors at400:14/409:32/410:32.
+Each mode had6bootstrap method failures and all39subcases not_run; no new
+inventory, typed OBJECT_READ refusal, runtime-guard or mutation credit.
+Pure12methods per mode and Safe compilation succeeded independently.
+
+Retain exact original477-byte compiler stdout SHA256
+7753377c06b853292d82387f5a220fa9ad79ce4c4c75cf513ab23d0c7cb0037c
+under cbz/evidence/sdga-task-a-20261110/framing-round1-compiler.stdout.
+Rename only five local identifier tokens prefix to headerBytes; inverse
+replacement reconstructs a46ec372 byte-exact. New Component336a35a3 and
+the identifier-repair report change no guard behavior, test, fixture,
+assertion, profile, workflow or loading model. Reword only this feature's
+GOVERNANCE/TOOLING qualification condition as evergreen; preserve peer bytes.
+
+Publish as one child ofb18a3590 without rebasing or composing new Main.
+Fresh native compile and complete6methods/39subcases plus12pure methods
+per mode remain required; original C13 must actually emit OBJECT_READ.
+Prior failed observations remain source-bound. Scientific effect NONE;
+classification/qualification BLOCKED and execution_authenticatedfalse.
+
+## 2026-11-10 — test first for the Task A object-custody review finding
+
+Final branch review found that requested OLean/IR hashes were captured during
+request creation but not remeasured after native observations or final acceptance.
+The earlier ae654/a9bb six-method/39-subcase and pure12 observations remain
+source-bound with that current-scope custody gap unresolved. Retain the compact
+old-source observation explicitly labelled pre-custody; do not rebind its credit.
+
+Add only a separate Python byte-I/O custody contract: three methods, six routes,
+actual fixed child-read handshakes and original outcomes, outside the Lean6/39.
+Intact, pre-entry changed request, post-read changed IR, post-read missing OLean,
+intentional absence and unexpected appearance are required; the intact method
+also checks finally measurement and original body-error propagation. These are
+labelled byte fixtures, not genuine Lean object or semantic-adverse evidence.
+
+The two required launcher helpers remain absent at this test-first checkpoint.
+Expected actual RED is3method failures, zero errors/skips,6routes not_run and
+zero child observations in each mode; no semantic-negative/mutation-kill credit.
+Root must independently read that actual failure and the unchanged native6/39
+plus pure12 outcomes before helper implementation. Preserve full fresh Main97663,
+all seven PR803 pytest paths/current canonical prefixes and prior feature ancestry.
+Scientific effect NONE; classification/qualification BLOCKED; authfalse.
+
+## 2026-11-10 — observed custody-helper absence and close requested-object drift gap
+
+Root independently read42752944470/1/job129620599585 atd3295713:
+normal/optimized each ran3custody methods,3implementation-absence failures,
+zero errors/skips,6routes not_run and zero child observations. Required helpers
+measure_objects/object_custody were absent. Native6/39 and pure12 passed in
+both modes with source drift empty. Native2a1639c4 has exacttreefbfc43fb and
+parents[97663b47,d3295713]. Retain12exact printed original records in the
+custody-implementation-absence packet; this RED gives no mutation-kill credit.
+
+After that actual RED, implement the two shared byte-measurement helpers around
+the same fixed native observations. Bind request/OLean/IR expected states once,
+cross-check declared digests, and capture each deliberate adverse copy only
+after mutation/request write. Before mismatch blocks launch; every exit retains
+after measurements, drift and original native outcome/error. Secondary evidence
+write failures remain causes of the original pending exception and fail closed.
+Final immutable-registry mismatch or incomplete custody census blocks acceptance.
+
+Keep test a9e/workflowf229, native6/39 assertions, pure12, Component336a35a3,
+Controlsae25 and Safe35c exact. Correct only Parser to Elab in the pinned
+ParseImportsFast citation. Current-source3/6 actual-I/O plus native6/39 and
+pure12 results in both modes remain required. Final-registry post-last-observation
+negative and simultaneous body-error-plus-drift branches have source review
+only, not runtime-negative/mutation credit. Preserve fresh Main984/site801,
+all earlier pytest803/Node799 bytes and full fresh canonical prefixes.
+Scientific effect NONE; qualification/classification BLOCKED; authfalse.
