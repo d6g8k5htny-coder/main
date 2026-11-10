@@ -5,6 +5,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 from tools import periodic_pilot_custody as custody
 from tests.test_periodic_pilot_custody import SUCCESS
 
@@ -53,7 +54,7 @@ class RawOSErrorExitTests(unittest.TestCase):
 
     def seal_with_fault(self, mode):
         env = dict(os.environ); env.update(self.env)
-        return subprocess.run([sys.executable, '-c', FAULT, mode, str(REPO)], env=env,
+        return subprocess.run([sys.executable, '-B', '-c', FAULT, mode, str(REPO)], env=env,
                               capture_output=True, text=True, timeout=60)
 
     def test_output_scandir_oserror_exits_74(self):
@@ -67,6 +68,20 @@ class RawOSErrorExitTests(unittest.TestCase):
         self.assertEqual(p.returncode, custody.CUSTODY_FAILURE, p.stderr)
         self.assertIn('periodic pilot custody refused', p.stderr)
         self.assertNotIn('Traceback', p.stderr)
+
+    def test_fault_child_does_not_write_bytecode_to_source_tree(self):
+        with tempfile.TemporaryDirectory() as directory:
+            isolated = Path(directory)
+            tools = isolated / 'tools'
+            tools.mkdir()
+            (tools / 'periodic_pilot_custody.py').write_bytes(
+                (REPO / 'tools/periodic_pilot_custody.py').read_bytes())
+            with mock.patch.dict(os.environ, clear=False), mock.patch(__name__ + '.REPO', isolated):
+                os.environ.pop('PYTHONDONTWRITEBYTECODE', None)
+                p = self.seal_with_fault('scandir')
+            self.assertEqual(p.returncode, custody.CUSTODY_FAILURE, p.stderr)
+            self.assertIn('periodic pilot custody refused', p.stderr)
+            self.assertEqual(list(tools.rglob('*.pyc')), [])
 
 
 if __name__ == '__main__':
