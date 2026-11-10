@@ -1,0 +1,532 @@
+{
+  "record": "sdga-task-e-original-successful-run-causal-read-receipt",
+  "schema": 1,
+  "reader_run": 42823904522,
+  "reader_attempt": 1,
+  "reader_commit": "c8363b3df301fb7d315bb280b4c903e1ff85954d",
+  "reader_tree": "24ebdd3c608e62916dc5beb462f77744adfd1fd7",
+  "original_target": {
+    "run": 42812650934,
+    "attempt": 1,
+    "job": 129817709245,
+    "head": "21f5f75b2f96ffca01368b3597a977e0ee0364d1",
+    "checked": "3888fd73af76b515dc74f8381121ef1ce060117a",
+    "tree": "23b78cfe06577d34ae8b0ce9b944f1859d2c9f83",
+    "artifact": 13764261877,
+    "ZIP_bytes": 27670946,
+    "ZIP_SHA256": "d8e875884c165480131c4db6f022318655a1048a582c06c042dbb3985e0656c9"
+  },
+  "retention_index": "54608ee33070719c859bb7752e0b014a0e1ed954",
+  "source_exposure": "Author of E production/reader source; independently fetched/reconstructed actual native originals and checked joins, separately from Root's actual read. This is not independent source-review credit.",
+  "raw_original_large_job_log_not_retried": true,
+  "all21_readback_jobs_success": true,
+  "whole_original_verification": {
+    "files": 954,
+    "bytes": 13186769,
+    "fragments": 981,
+    "UTF8_extents_SHA256_CRC32_and_strict_roundtrip_all_exact": true,
+    "max_actual_whole_decoded_job_bytes": 1294942,
+    "all21logs_and11whole_packets_exact_readback": true
+  },
+  "schema_notes": {
+    "D": {
+      "record": "task-a-b-c-d-result",
+      "schema_field_absent": true,
+      "keys": [
+        "classification_status",
+        "cleanup_only_preflight",
+        "cli_replay",
+        "declared_subcases",
+        "errors",
+        "execution_authenticated",
+        "failures",
+        "implementation_absence",
+        "ir_evidence",
+        "ir_evidence_failures",
+        "method_results",
+        "methods_run",
+        "object_custody",
+        "object_custody_failures",
+        "observed_subcases",
+        "original_task_a_methods",
+        "original_task_a_subcases",
+        "process_scheduling_blocked",
+        "qualification",
+        "record",
+        "scientific_effect",
+        "skipped",
+        "source_drift",
+        "subcase_fail",
+        "subcase_not_run",
+        "subcase_pass"
+      ],
+      "sources": 19,
+      "source_before_values": "{exists,bytes,sha256,git_blob}",
+      "source_after_values": "{exists,sha256}"
+    },
+    "E": {
+      "record": "sdga-e-controller-result",
+      "schema": 1,
+      "keys": [
+        "candidate_commit",
+        "classification_status",
+        "cohort_actual",
+        "cohort_expected",
+        "compile_outputs",
+        "d_files_after",
+        "d_files_before",
+        "d_original",
+        "declared_subcases",
+        "dependency_after",
+        "dependency_before",
+        "errors",
+        "execution_authenticated",
+        "failures",
+        "final_generated_measurements",
+        "final_input_measurements",
+        "frozen_compile_expected",
+        "frozen_generated_expected",
+        "frozen_input_expected",
+        "ir_outputs",
+        "methods_run",
+        "mode",
+        "observed_subcases",
+        "qualification",
+        "record",
+        "run_attempt",
+        "run_id",
+        "schema",
+        "scientific_effect",
+        "skipped",
+        "source_after",
+        "source_before",
+        "status",
+        "subcase_pass",
+        "subcases",
+        "union_actual",
+        "union_expected",
+        "validation_errors"
+      ],
+      "sources": 22,
+      "frozen_inputs": 30,
+      "frozen_generated_values": "{kind,measurement:{exists,bytes,sha256},producer_label}",
+      "final_generated_values": "{exists,bytes,sha256}",
+      "union_derived_separately": {
+        "observations": 33,
+        "requests": 15,
+        "paths": 60
+      }
+    },
+    "mutation": {
+      "record": "sdga-e-mutation-batch",
+      "schema": 1,
+      "keys": [
+        "actual_commands",
+        "candidate_commit",
+        "classification_status",
+        "commands",
+        "dependency_absent_after",
+        "dependency_absent_before",
+        "dependency_after",
+        "dependency_before",
+        "execution_authenticated",
+        "expected_commands",
+        "expected_families",
+        "families",
+        "full_E_qualification_claim",
+        "input_custody",
+        "mode",
+        "prerequisite_error",
+        "qualification",
+        "record",
+        "run_attempt",
+        "run_id",
+        "schema",
+        "scientific_effect",
+        "scientific_promotion",
+        "source_after",
+        "source_before",
+        "status"
+      ],
+      "family_keys": [
+        "baseline",
+        "batch_final_dependencies",
+        "dependency_absent_after",
+        "dependency_absent_before",
+        "dependency_after",
+        "dependency_before",
+        "error",
+        "frozen_artifacts",
+        "global_final_custody_error",
+        "mutant",
+        "source_edit",
+        "source_mutant_sha256",
+        "source_original_sha256",
+        "status"
+      ],
+      "M2_final_measurements_keys": [
+        "commands",
+        "generated_after",
+        "generated_expected",
+        "input_after",
+        "input_expected",
+        "observations",
+        "old_full_finalizers_called",
+        "owned_absent_after",
+        "owned_absent_before",
+        "owned_after",
+        "owned_before",
+        "owned_root",
+        "requests",
+        "source_after",
+        "source_before"
+      ]
+    }
+  },
+  "causal_results_each_mode": [
+    {
+      "mode": "normal",
+      "D": {
+        "methods": 15,
+        "subcases": 67,
+        "commands": 39,
+        "source_count": 19,
+        "observations": 28,
+        "requests": 10,
+        "paths": 55,
+        "IRcontexts": 7,
+        "IRoutputs": 12
+      },
+      "E": {
+        "methods": 3,
+        "subcases": 19,
+        "commands": 13,
+        "source_count": 22,
+        "union": {
+          "observations": 33,
+          "paths": 60,
+          "requests": 15
+        },
+        "compileOutputs": 6,
+        "inputs": 30,
+        "IRoutputs": 10
+      },
+      "mutations": {
+        "families": [
+          {
+            "id": "M1",
+            "healthy": 1,
+            "selected": [
+              {
+                "case": "C01",
+                "target": "numeric-vs-string",
+                "exit": 1,
+                "detail": "CONTROL_ASSERT: wire bytes differ: expected n12"
+              }
+            ]
+          },
+          {
+            "id": "M2",
+            "healthy": 1,
+            "mutant": "original C02 AssertionError at actual reviewed line526",
+            "native_rows": 7,
+            "manifest": 15,
+            "protocol": 12
+          },
+          {
+            "id": "M3",
+            "healthy": 1,
+            "selected": [
+              {
+                "case": "C05",
+                "target": "missing-type",
+                "exit": 1,
+                "detail": "CONTROL_ASSERT: strictAxioms accepted an actual-CI alteration with absent dependency"
+              }
+            ]
+          },
+          {
+            "id": "M4",
+            "healthy": 1,
+            "selected": [
+              {
+                "case": "C04",
+                "target": "type-route",
+                "exit": 1,
+                "detail": "CONTROL_ASSERT: strict closure omitted exact BadProof through declaration type"
+              }
+            ]
+          },
+          {
+            "id": "M5",
+            "healthy": 1,
+            "selected": [
+              {
+                "case": "C09",
+                "target": "kernel-type-rejection",
+                "exit": 1,
+                "detail": "CONTROL_ASSERT: shared replay accepted singleton malformed actual theorem"
+              }
+            ]
+          },
+          {
+            "id": "M6",
+            "healthy": 2,
+            "selected": [
+              {
+                "case": "C07",
+                "target": "unsafe-replay-skip",
+                "exit": 1,
+                "detail": "CONTROL_ASSERT: shared production guard accepted actual unsafe CI"
+              },
+              {
+                "case": "C07",
+                "target": "partial-replay-skip",
+                "exit": 1,
+                "detail": "CONTROL_ASSERT: shared production guard accepted actual partial CI"
+              }
+            ]
+          },
+          {
+            "id": "M7",
+            "healthy": 1,
+            "selected": [
+              {
+                "case": "C14",
+                "target": "residue-retained-blocked",
+                "exit": 1,
+                "detail": "CONTROL_ASSERT: shared IR evidence differs from independent raw/owned oracle"
+              }
+            ]
+          },
+          {
+            "id": "M8",
+            "healthy": 1,
+            "selected": [
+              {
+                "case": "C10",
+                "target": "duplicate-base-guard",
+                "exit": 1,
+                "detail": "CONTROL_ASSERT: expected exact pre-upstream duplicateBase for bad singleton; observed SDGA_ERROR MALFORMED_CONSTANT: s46697874757265/s53616665/s676f6f64: replayed ConstantInfo differs from complete input"
+              }
+            ]
+          }
+        ],
+        "commands": 57
+      }
+    },
+    {
+      "mode": "optimized",
+      "D": {
+        "methods": 15,
+        "subcases": 67,
+        "commands": 39,
+        "source_count": 19,
+        "observations": 28,
+        "requests": 10,
+        "paths": 55,
+        "IRcontexts": 7,
+        "IRoutputs": 12
+      },
+      "E": {
+        "methods": 3,
+        "subcases": 19,
+        "commands": 13,
+        "source_count": 22,
+        "union": {
+          "observations": 33,
+          "paths": 60,
+          "requests": 15
+        },
+        "compileOutputs": 6,
+        "inputs": 30,
+        "IRoutputs": 10
+      },
+      "mutations": {
+        "families": [
+          {
+            "id": "M1",
+            "healthy": 1,
+            "selected": [
+              {
+                "case": "C01",
+                "target": "numeric-vs-string",
+                "exit": 1,
+                "detail": "CONTROL_ASSERT: wire bytes differ: expected n12"
+              }
+            ]
+          },
+          {
+            "id": "M2",
+            "healthy": 1,
+            "mutant": "original C02 AssertionError at actual reviewed line526",
+            "native_rows": 7,
+            "manifest": 15,
+            "protocol": 12
+          },
+          {
+            "id": "M3",
+            "healthy": 1,
+            "selected": [
+              {
+                "case": "C05",
+                "target": "missing-type",
+                "exit": 1,
+                "detail": "CONTROL_ASSERT: strictAxioms accepted an actual-CI alteration with absent dependency"
+              }
+            ]
+          },
+          {
+            "id": "M4",
+            "healthy": 1,
+            "selected": [
+              {
+                "case": "C04",
+                "target": "type-route",
+                "exit": 1,
+                "detail": "CONTROL_ASSERT: strict closure omitted exact BadProof through declaration type"
+              }
+            ]
+          },
+          {
+            "id": "M5",
+            "healthy": 1,
+            "selected": [
+              {
+                "case": "C09",
+                "target": "kernel-type-rejection",
+                "exit": 1,
+                "detail": "CONTROL_ASSERT: shared replay accepted singleton malformed actual theorem"
+              }
+            ]
+          },
+          {
+            "id": "M6",
+            "healthy": 2,
+            "selected": [
+              {
+                "case": "C07",
+                "target": "unsafe-replay-skip",
+                "exit": 1,
+                "detail": "CONTROL_ASSERT: shared production guard accepted actual unsafe CI"
+              },
+              {
+                "case": "C07",
+                "target": "partial-replay-skip",
+                "exit": 1,
+                "detail": "CONTROL_ASSERT: shared production guard accepted actual partial CI"
+              }
+            ]
+          },
+          {
+            "id": "M7",
+            "healthy": 1,
+            "selected": [
+              {
+                "case": "C14",
+                "target": "residue-retained-blocked",
+                "exit": 1,
+                "detail": "CONTROL_ASSERT: shared IR evidence differs from independent raw/owned oracle"
+              }
+            ]
+          },
+          {
+            "id": "M8",
+            "healthy": 1,
+            "selected": [
+              {
+                "case": "C10",
+                "target": "duplicate-base-guard",
+                "exit": 1,
+                "detail": "CONTROL_ASSERT: expected exact pre-upstream duplicateBase for bad singleton; observed SDGA_ERROR MALFORMED_CONSTANT: s46697874757265/s53616665/s676f6f64: replayed ConstantInfo differs from complete input"
+              }
+            ]
+          }
+        ],
+        "commands": 57
+      }
+    }
+  ],
+  "native_ledger_scope": {
+    "commands": 218,
+    "direct_streams": 436,
+    "additional_24_custody_unit_fixture_stream_files_no_Lean_credit": true,
+    "all_actual_extents_SHA_cleanup_joins_exact": true
+  },
+  "compiled_origin_final_closure": {
+    "issues": [],
+    "summary": [
+      {
+        "mode": "normal",
+        "healthy_Dcompile_producers": 6,
+        "ordinary_bridge_true": 2,
+        "ordinary_bridge_explicit_absent": 4,
+        "fixed_fixture_outputs": 30,
+        "E_fresh_compile_outputs": 6,
+        "readonly_dependency_producer_joins": 32,
+        "request_part_producer_joins": 25,
+        "source_compile_capture_and_cleanup_complete": true,
+        "D_finalized_files_unchanged": 325,
+        "production_sources_D": 19,
+        "production_sources_E": 22
+      },
+      {
+        "mode": "optimized",
+        "healthy_Dcompile_producers": 6,
+        "ordinary_bridge_true": 2,
+        "ordinary_bridge_explicit_absent": 4,
+        "fixed_fixture_outputs": 30,
+        "E_fresh_compile_outputs": 6,
+        "readonly_dependency_producer_joins": 32,
+        "request_part_producer_joins": 25,
+        "source_compile_capture_and_cleanup_complete": true,
+        "D_finalized_files_unchanged": 325,
+        "production_sources_D": 19,
+        "production_sources_E": 22
+      }
+    ],
+    "producers": 114,
+    "compileCommands": 14
+  },
+  "IR_context_producer_closure": {
+    "contexts": 28,
+    "manifest_references": 26,
+    "source_bindings": 482,
+    "issues": []
+  },
+  "original_map_and_source_joins": {
+    "measurement_references_checked": 2754,
+    "source_bindings_checked_before_IR": 202,
+    "concrete_issues": [],
+    "notes": [
+      "IR expected maps wrap {kind,measurement,producer_label}; compare their measurement to final after",
+      "D source_after is existing exact {exists,sha256} shape, before additionally carries bytes/git_blob",
+      "JSON object key order is not semantic; compare frozen PATCHES structurally",
+      "M2 worktree source snapshots are archived at exact baseline/mutant/probe-sources aliases",
+      "M2 generated_expected wraps measurements, with after flat; all other narrow fixed counts/finalizer fields separately exact"
+    ]
+  },
+  "M8_scope": "The actual selected C10 guard-cause failure is CONTROL_ASSERT against expected pre-upstream duplicateBase; downstream complete-CI postcheck actually refuses MALFORMED_CONSTANT. No accepted bad proof is claimed.",
+  "M2_scope": "Final E batch actual current original TaskAContracts.test_C02_owned_population code at line526; both healthy baselines pass one case, each mutant has sole builtins.AssertionError with three exact omitted private names, errors/skips0, seven genuine native C02 rows pass, manifest15/protocol12. Historical R1 line1166 is not relabelled.",
+  "separate_suites_each_mode": {
+    "pure_dependency_methods": 12,
+    "object_custody_methods": 3,
+    "object_custody_routes": 6,
+    "IR_admission_methods": 2,
+    "IR_admission_routes": 6,
+    "all_pass_no_errors_failures_skips_or_drift": true
+  },
+  "findings": {
+    "critical": 0,
+    "important": 0,
+    "minor": 0
+  },
+  "old_source_bound_component_qualification_observed": true,
+  "Root_fresh_Main_composition_and_requalification_gate_remains": true,
+  "no_E_rebase_or_publication_after_readback_branch": true,
+  "no_full99_or_catalog_invocation": true,
+  "scientific_effect": "NONE",
+  "qualification": "BLOCKED",
+  "classification_status": "BLOCKED",
+  "execution_authenticated": false
+}
