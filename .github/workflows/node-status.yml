@@ -53,12 +53,22 @@ jobs:
             git rev-parse HEAD
             printf 'checked_tree='
             git rev-parse 'HEAD^{tree}'
-            python3 -B -S -m unittest -v \
-              tests.test_living_project_validation.RealRecordTests.test_adoption_on_merged_records \
-              tests.test_living_project_validation.RealRecordTests.test_real_records_required_fields \
-              tests.test_living_project_validation.RealRecordTests.test_real_records_source_rev_equals_first_source \
-              tests.test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern \
-              tests.test_living_project_validation.RealRecordTests.test_real_records_match_published_projection
+            python3 -B -S -u - <<'Q9002_METHODS_PY'
+          import unittest
+
+          identifiers = (
+              "tests.test_living_project_validation.RealRecordTests.test_adoption_on_merged_records",
+              "tests.test_living_project_validation.RealRecordTests.test_real_records_required_fields",
+              "tests.test_living_project_validation.RealRecordTests.test_real_records_source_rev_equals_first_source",
+              "tests.test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern",
+              "tests.test_living_project_validation.RealRecordTests.test_real_records_match_published_projection",
+          )
+          suite = unittest.TestSuite(
+              unittest.defaultTestLoader.loadTestsFromName(name) for name in identifiers
+          )
+          result = unittest.TextTestRunner(verbosity=2, descriptions=False).run(suite)
+          raise SystemExit(0 if result.wasSuccessful() else 1)
+          Q9002_METHODS_PY
           } 2>&1 | tee "$log"
           grep -Ec '^Ran 5 tests in [0-9.]+s$' "$log" | grep -Fxq '1' || { echo '::error::Expected exactly one five-method unittest summary'; exit 1; }
           tail -n 1 "$log" | grep -Fxq 'OK' || { echo '::error::Required real-record methods did not finish without failures, errors or skips'; exit 1; }
@@ -87,12 +97,22 @@ jobs:
             git rev-parse HEAD
             printf 'checked_tree='
             git rev-parse 'HEAD^{tree}'
-            python3 -B -O -S -m unittest -v \
-              tests.test_living_project_validation.RealRecordTests.test_adoption_on_merged_records \
-              tests.test_living_project_validation.RealRecordTests.test_real_records_required_fields \
-              tests.test_living_project_validation.RealRecordTests.test_real_records_source_rev_equals_first_source \
-              tests.test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern \
-              tests.test_living_project_validation.RealRecordTests.test_real_records_match_published_projection
+            python3 -B -O -S -u - <<'Q9002_METHODS_PY'
+          import unittest
+
+          identifiers = (
+              "tests.test_living_project_validation.RealRecordTests.test_adoption_on_merged_records",
+              "tests.test_living_project_validation.RealRecordTests.test_real_records_required_fields",
+              "tests.test_living_project_validation.RealRecordTests.test_real_records_source_rev_equals_first_source",
+              "tests.test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern",
+              "tests.test_living_project_validation.RealRecordTests.test_real_records_match_published_projection",
+          )
+          suite = unittest.TestSuite(
+              unittest.defaultTestLoader.loadTestsFromName(name) for name in identifiers
+          )
+          result = unittest.TextTestRunner(verbosity=2, descriptions=False).run(suite)
+          raise SystemExit(0 if result.wasSuccessful() else 1)
+          Q9002_METHODS_PY
           } 2>&1 | tee "$log"
           grep -Ec '^Ran 5 tests in [0-9.]+s$' "$log" | grep -Fxq '1' || { echo '::error::Expected exactly one five-method unittest summary'; exit 1; }
           tail -n 1 "$log" | grep -Fxq 'OK' || { echo '::error::Required real-record methods did not finish without failures, errors or skips'; exit 1; }

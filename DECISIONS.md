@@ -581,3 +581,29 @@ whole-node owner, source/review-role succession, R81/R83 adoption, execution
 admission or scientific outcome. The data itself is excluded from this
 baseline commit. Q-9003–Q-9005, full G5 and CBZ remain open; scientific effect
 NONE. The decision is reversible through ordinary source history.
+
+### Q-9002 initial hosted baseline and runner-description correction
+
+Initial Draft #799 head `52d719d547832a24de546cb8953d45e1a5c6d70d` was
+published before the root source-review HOLD arrived. Native Node status run
+`42743541425`, attempt 1, job `129590144984`, checked merge
+`ceb9ee2ee7f5183a9c4647efbc718c3877a4ddcf`, tree
+`3263fc8ee30fa56dadbebae43c12a8defb85c13a`. Its original decoded logs show
+Python 3.12.3 at /usr/bin/python3, optimization 0 and 1, and five methods per
+mode: four passes and the existing Q-9002 missing evidence/release/resolution
+URL skip. Summaries were OK (skipped=1), 0.015s normal and 0.021s optimized;
+the terminal-OK guard rejected both with exit 1. The original atlas/validator
+step succeeded. These are observed coverage-absence outcomes, not semantic
+negative controls or a scientific judgment.
+
+Root review found a separate P2 in the first workflow source: unittest's
+default descriptions=True prints the adoption method's docstring on a second
+line, so later exact one-line method guards would reject a valid final run.
+The original native logs reproduce that two-line shape. The initial source
+review missed it and is invalidated for that point; preserve both the source
+and review history. The correction uses an explicit suite of the same five
+unchanged methods with TextTestRunner(verbosity=2, descriptions=False) and
+returns the actual wasSuccessful outcome in each Python mode. It does not
+change a test body or weaken any inventory/no-skip guard. Its own hosted
+baseline remains required; the initial outcome is not rebound to corrected
+source. Production record and projection data remain excluded.
