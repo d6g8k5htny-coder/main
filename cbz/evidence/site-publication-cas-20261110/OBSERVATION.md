@@ -1,0 +1,71 @@
+# Pages publication and atomic-head observations
+
+Observed 10 November 2026. These are separately timed observations and do not
+establish CBZ-0, any mathematical result, scientific review or a successful
+recovery. No receipt branch write is made by this record.
+
+## Failed publication and current site
+
+Main run 42747646763, source commit
+`31bc4c1f5b66e92bfbf327366956944ea691289c`, completed with failure.
+The full hosted build log `site-build-129605863089.log` is the original
+GitHub job 129605863089 output, captured through the job-log API. Its restore
+step exited 1 after public readback could not verify the prepared receipt;
+the deploy job 129609918709 was skipped. The job also reported that no browser
+artifact was present. Its controls and node-status refresh jobs succeeded.
+The prior failed deploy attempts of run 42737966287 and their evidence remain
+in the separately owned contribution archive; they are not replaced.
+
+## Recovery candidate and custody
+
+Main #801 corrected head `84f53afa766853b749e0ed127043d1954e70f7c3`,
+tree `98a4032b79ada6a74cfe58c60717eaa819ae8817`, matches the locally tested
+tree of `bac3d4a3e161f49ed31a24ac6e10ae766236e151`. Its hosted controls job
+129609355495 succeeded on tested merge
+`82a62e8629314511ce4076186325911436ba50f4`; its original full log is
+`recovery-controls-129609355495.log`. The job uploaded artifact 13731748998,
+reported SHA-256
+`f1f54d21ac4a1eb97b9c167deb7f5b980553b415bea77f2ed20cfa206ca97f81`.
+The artifact has not been independently unpacked in this observation. The
+recovery job was skipped on the pull request; no receipt was modified.
+
+Before that hosted run, the exact local workflow block ran 34 tests without
+skips in each Python mode, plus 27 source and 10 workflow selected-oracle
+mutations and three rejected subject/helper/lifecycle assertion origins per
+mode. The initial recovery head missed the ancestor-rollback race; that actual
+failing test and two unsuccessful intermediate mutation campaigns remain
+historical observations in the contribution record. The corrected source uses
+the fixed receipt ref, GitHub GraphQL `updateRefs`, exact `beforeOid` and
+`force: false`. Authenticated GraphQL and Pages cancellation availability
+and actual dispatch have not been established.
+
+## Normal publisher defect
+
+The separate normal publisher's non-force REST update has the same
+ancestor-rollback race. The added test
+`tests/test_current_site_publication.py::PublicationTests.test_rollback_between_read_and_ref_update_requires_exact_head`
+actually failed locally in normal and optimized Python modes: the expected
+`ValueError` was not raised. It models a verified single-parent ancestor
+chain, a rollback between the guard and the write, and acceptance of the
+descendant by a non-force update. The native local red commit was
+`5843d89c53f9da7de7dae5df424f3e4a8218391f`; its exact tree
+`68f3492aea322195c860fe73a3c8830367215842` was reconstructed from the
+published Main base and is the tree of this draft's initial hosted head.
+The red test remains an active defect, not a passing certification.
+
+## Workspace and durable checkpoint
+
+Workspace #69 merged as `d8d8b16af35b3f6d3d4b454ce98e26d7c3b81ab0`,
+tree `0bb00bcefff98806513b2340faa07b0912a7ca3d`, matching its tested tree.
+Its post-merge pins run 42749081900 and federation-contract run 42749081931
+both completed successfully. The earlier source-specific hosted artifact and
+its limited mutation controls are recorded in the contribution checkpoint;
+these observations do not constitute a final same-pass federation gate.
+
+The separately owned contribution supplement is version 26. The independently
+read-back evidence archive is version 38, 9,725 ZIP members, SHA-256
+`22cda645329c1c59e54fcd8619dc5e10ec0425ff12b4ded217f9092ac7840643`;
+its 9,724 member hashes and CRCs and prior data retention were checked. The
+shared original checkpoint and archive were not replaced. The local execution
+environment became unavailable after the red test; this native Git evidence
+keeps the source and hosted logs recoverable without relying on that path.
