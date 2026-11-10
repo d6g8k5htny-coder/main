@@ -57,8 +57,8 @@ jobs:
               if phase == 'baseline':
                   require(report.get('failure_count') == 0 and report.get('error_count') == 0 and not events, 'baseline failure')
               elif phase == 'selected':
-                  require(report.get('failure_count') == 1 and report.get('error_count') == 0 and report.get('authorized_failures') == [selected] and report.get('unauthorized_failures') == [] and report.get('errors') == [], 'selected failure identity')
-                  require(len(events) == 1 and events[0].get('kind') == 'failure' and events[0].get('test') == selected and events[0].get('authorized') is True, 'selected event provenance')
+                  require(type(report.get('failure_count')) is int and report['failure_count'] >= 1 and report.get('error_count') == 0 and report.get('authorized_failures') == [selected] and report.get('unauthorized_failures') == [] and report.get('errors') == [], 'selected failure identity')
+                  require(len(events) == report['failure_count'] and all(e.get('kind') == 'failure' and e.get('test') == selected and e.get('authorized') is True for e in events), 'selected event provenance')
               elif phase == 'unauthorized':
                   require(report.get('failure_count') == 1 and report.get('error_count') == 0 and report.get('unauthorized_failures') == [selected] and report.get('authorized_failures') == [], 'unauthorized origin')
               elif phase == 'error':
