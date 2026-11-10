@@ -1,5 +1,15 @@
 # CBZ-0 governance
 
+## Historical tag custody verifier boundary — 10 November 2026
+
+The source-custody verifiers check fixed observed tag objects, supplied archive
+members and Git path bindings. Their commands, observed adverse controls and
+limits are registered in [TOOLING](TOOLING.md#historical-tag-custody-verifiers--10-november-2026)
+and [STATUS](STATUS.md#historical-tag-custody-and-pages-retry--observed-10-november-2026-0125-utc).
+The original optimized-mode false greens and binding failures remain evidence.
+Source integrity is not an admitted proof, quarantine, independent review or
+complete G0 qualification.
+
 ## Historical archive custody — 10 November 2026
 
 Compressed historical catalog and archived PR source bytes are retained with

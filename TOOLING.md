@@ -1,5 +1,39 @@
 # CBZ mission-tool registry
 
+## Historical tag custody verifiers — 10 November 2026
+
+**Purpose and scope.** The two readback scripts under
+`cbz/evidence/tag-custody-20261110/` check two supplied historical archives
+against seven fixed observed tag objects/commits, Git tree paths, source bytes
+and modes. Their common helper handles explicit failures in normal and
+optimized Python. They are bounded source-custody verifiers, not a complete
+diff enumerator, theorem or quarantine classifier, or federation auditor.
+
+**Commands.** From Main, retain each output and exit:
+
+```sh
+(cd cbz/evidence/tag-custody-20261110 && sha256sum -c SHA256SUMS)
+python3 -B -S cbz/evidence/tag-custody-20261110/verify_math_tag_native_custody.py cbz/evidence/tag-custody-20261110/math-tag-native-custody-20261110.tar.gz
+python3 -B -O -S cbz/evidence/tag-custody-20261110/verify_math_tag_native_custody.py cbz/evidence/tag-custody-20261110/math-tag-native-custody-20261110.tar.gz
+python3 -B -S cbz/evidence/tag-custody-20261110/verify_main_tag_native_custody.py cbz/evidence/tag-custody-20261110/main-tag-native-custody-20261110.tar.gz
+python3 -B -O -S cbz/evidence/tag-custody-20261110/verify_main_tag_native_custody.py cbz/evidence/tag-custody-20261110/main-tag-native-custody-20261110.tar.gz
+CBZ_TAG_TEST_DIR=$(mktemp -d) || exit 1
+cp cbz/evidence/tag-custody-20261110/* "$CBZ_TAG_TEST_DIR/" || exit 1
+python3 -B -S "$CBZ_TAG_TEST_DIR/test_tag_custody_adverse.py" after-repair || exit 1
+python3 -B -S "$CBZ_TAG_TEST_DIR/test_tag_custody_code_mutations.py" || exit 1
+```
+
+**Verification and limits.** The first verifier versions accepted corrupted
+source under `-O` and some duplicate or relabeled binding records. The record
+retains those scripts, corrupted inputs and actual outputs. The repaired input
+campaign observed four clean controls and 28 rejected altered inputs across
+both modes. Two designated helper-code mutations were caught for both archives
+in both modes (eight executions). The exact documented commands were rerun
+from a fresh temporary copy. These specified tests do not prove exhaustive
+verifier soundness, mathematical claims, logical isolation or final G0.
+The [custody record](cbz/evidence/tag-custody-20261110/README.md) states the
+observed source identities and original authorship boundaries.
+
 ## Foundation archive custody
 
 **Purpose and scope.** Preserve the exact unmerged #695 catalog and the three

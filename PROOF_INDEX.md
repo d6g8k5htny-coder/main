@@ -1,5 +1,16 @@
 # CBZ proof and quarantine index
 
+## Historical non-ancestor tag manuscripts — 10 November 2026
+
+The [custody inventory](cbz/evidence/tag-custody-20261110/historical-math-document-inventory.json)
+identifies nine historical Math manuscripts by exact Git blob, source path,
+26 tag/commit bindings and 76 literal heading locations. It points to the
+original authorship and outcome records. This is a bounded document inventory,
+not a theorem census; no current CLOSED proof or quarantine is admitted.
+Their mathematical content, scientific-review history and failures remain in
+the source archives. Current exact blockers and logical isolation require
+separate assessment; a historical tag name is not a proof disposition.
+
 ## Historical cusp archive custody — 10 November 2026
 
 These three named source archives were unmerged at the observed Main cut.

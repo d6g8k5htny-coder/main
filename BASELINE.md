@@ -1,5 +1,16 @@
 # CBZ baseline ledger
 
+## Historical tag custody candidate — 10 November 2026
+
+The candidate preserves exact selected objects and source bytes from seven
+additional non-ancestor tags and supplies a nine-document navigation inventory.
+Its bounded readbacks and adverse checks do not admit proof or quarantine
+status, logical isolation or a final gate. The first Pages deployment at Main
+`da92c829` timed out; the retry subsequently observed that exact candidate and
+appended a receipt. Both outcomes remain in [STATUS](STATUS.md#historical-tag-custody-and-pages-retry--observed-10-november-2026-0125-utc).
+A later Main integration still requires a fresh guarded Workspace pin and a
+same-pass federation vector; no CBZ criterion is awarded here.
+
 ## Historical foundation custody candidate — 10 November 2026
 
 At the observed published cut Workspace `a3ac03329c6c54f0e3df4f159d894b2a8e70de44`
