@@ -1,0 +1,294 @@
+{
+  "optimize": 1,
+  "subject_sha256": "88445ce5581ff72b631a26fad4a9f7f7301a9f1accb04cb3fad34094f2496289",
+  "test_sha256": "1f0fc347167229f9ab0bcaefd4ebdf81fa0c13d25f5381bb8f4af5d7df9109c5",
+  "workflow_sha256": "01c8f518f65c23f573138772e26b8b8210abcd8983d06045a4f1f99e4129ec1b",
+  "workflow_test_sha256": "25a547774e8b8b84944b0a8dd1d49f56a4aa64047fdda7d0e40f7d64be540e89",
+  "recorder_sha256": "14b770828aa566b529be64214a0d99e5cfa4b762be792f07af04b39985ce0481",
+  "results": [
+    {
+      "mutation": "cas-before-oid",
+      "selected": "test_atomic_ref_request_binds_expected_head_and_nonforce",
+      "mutant_sha256": "a10484064b5754ae5d7c33ac08d5ba672c9cb4910b953ca48d4d9722f4142295",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "cas-force",
+      "selected": "test_atomic_ref_request_binds_expected_head_and_nonforce",
+      "mutant_sha256": "18b81eeb1173e51421d1e3882cd5fbc3d3af1c818d2e179a26af30a17852a1c0",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "cas-repository",
+      "selected": "test_atomic_ref_request_binds_expected_head_and_nonforce",
+      "mutant_sha256": "301db3934a43cf9ac9b950f4fedd582bfafa7e9ffa12104b87b0fd499d4fb219",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "cas-response-error",
+      "selected": "test_atomic_ref_request_rejects_errors_and_identity_mismatch",
+      "mutant_sha256": "065df232511204fd9b76abbea1b9a6d687933c890811d2104c850e2bbfe21740",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "cas-response-origin",
+      "selected": "test_atomic_ref_request_rejects_errors_and_identity_mismatch",
+      "mutant_sha256": "e212e9fb9da911f8cb999c851edc7a831828eb850a78d404914ede854b1bb8d9",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "cas-response-status",
+      "selected": "test_atomic_ref_request_rejects_errors_and_identity_mismatch",
+      "mutant_sha256": "b457cc41e6d27ab1180c2386b93ce4d2b9861270b9d5c8487c32a73fa077c5d0",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "cas-invalid-head",
+      "selected": "test_atomic_ref_request_rejects_invalid_heads_before_network",
+      "mutant_sha256": "a05776260f5c0cc78b13b0cbc01d65d3753a718b91c1c0d576385321ce65367d",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "cas-adapter-bypass",
+      "selected": "test_ref_rollback_after_guard_does_not_accept_fast_forward",
+      "mutant_sha256": "2d98832f3b589e1af7a4b33ad7af7f4a23acb8a04a367086c79951eeec667289",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "cas-second-parent",
+      "selected": "test_success_uses_new_expected_head_for_each_append",
+      "mutant_sha256": "465d985ec8f72925c477dee02cfa4f4321aafa29258c16a2345fd9790372befa",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "expected-head",
+      "selected": "test_wrong_expected_heads_refuse_before_any_write",
+      "mutant_sha256": "cefa404f556001d02aff97fd6dbf0187d1b2063767a2a2c97812c020ff77fc87",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "workflow-status",
+      "selected": "test_running_or_successful_workflow_refuses",
+      "mutant_sha256": "17b39cd5477920c6f9197a4c7675ec84cedf6903dcf3041f787017e0ca6f0dfc",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "workflow-outcome",
+      "selected": "test_running_or_successful_workflow_refuses",
+      "mutant_sha256": "7f926fdb744ad1d84e8043a2cf23c311c3e7d4cee0b7dbefd6f3131945f04f59",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "workflow-source",
+      "selected": "test_wrong_workflow_source_or_boolean_attempt_refuses",
+      "mutant_sha256": "793c20e0727aec6c8ed906ad68dba79c4beb4b41d27cd61d40c8cdfc8fe24f76",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "attempt-type",
+      "selected": "test_wrong_workflow_source_or_boolean_attempt_refuses",
+      "mutant_sha256": "aed5fb9224ae609f4e5f410f9639509ccfe648bac67994c936f3d1bc777f4074",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "deployment-status",
+      "selected": "test_nonterminal_or_unknown_deployment_refuses",
+      "mutant_sha256": "31f7346fbef385d005fc2836c846294c8e56f351a827889b15aba398dbf38008",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "deployment-empty-status",
+      "selected": "test_nonterminal_or_unknown_deployment_refuses",
+      "mutant_sha256": "6464eddd01cdd8f68b20fac81866b4653365e9904193e7ec3590975ed30804d4",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "main-head",
+      "selected": "test_current_main_mismatch_refuses",
+      "mutant_sha256": "7f2d63f60608e3fd9875b75aca56375ec45a8850d9dd80a66b0c60048c918b87",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "snapshot-retention",
+      "selected": "test_lost_prepared_snapshot_refuses",
+      "mutant_sha256": "5b921a9abf5188c96cc9d861e49a2e5cf34274a87f3f9d7e25801993fef3aaa7",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "prior-prepared-binding",
+      "selected": "test_prior_observed_candidate_must_match_its_prepared_parent",
+      "mutant_sha256": "1f7da2ba199c3e9d0de6d1d090f4e009c6427e2ce170efb5896f35e2c61f0320",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "first-public-readback",
+      "selected": "test_public_mismatch_refuses_without_writing",
+      "mutant_sha256": "04f5f82df5c8e38e63888e17ff4538c6dccc908dcd221ccc8f3c20fd0a8b30fd",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "second-public-readback",
+      "selected": "test_second_public_mismatch_leaves_only_prepared_prior_candidate",
+      "mutant_sha256": "dd71f98f5dd1a2fde06d43f97fe07a89eb52ee11fa4cf25b1639f2b32cfd3324",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "second-platform-check",
+      "selected": "test_change_to_deployment_before_write_refuses",
+      "mutant_sha256": "192ecf30b5e721f62a7ff29319e581ea2adcc7b81824f119eeea27cbdc48cfb0",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "route-allowlist",
+      "selected": "test_read_only_platform_routes_reject_unrelated_paths",
+      "mutant_sha256": "23b03632a3268a30c5e4106b155e02daeeacd3f600647c4b3c757a6c3c047054",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "response-url",
+      "selected": "test_platform_read_rejects_redirect_status_and_malformed_response",
+      "mutant_sha256": "08676685794da200e2d727c3bab3e62df3e885714a3df28743de14bb07352b2d",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "response-status",
+      "selected": "test_platform_read_rejects_redirect_status_and_malformed_response",
+      "mutant_sha256": "fde7545ac4eefe65801656eef5ca4d7bf3b5e7c58fb23340bd777f7787ad5127",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "prepared-event",
+      "selected": "test_success_records_actual_recovery_evidence_in_order",
+      "mutant_sha256": "e91422c6bbad31abc58e990dd48124241d49a3b1c9442f911889344d1ad64b33",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "public-digest",
+      "selected": "test_success_records_actual_recovery_evidence_in_order",
+      "mutant_sha256": "3fb95f68601a296c2902eb019146f91541ca16f4747de5012c089f72888d6a6d",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "dispatch-guard",
+      "selected": "test_cli_refuses_wrong_event_before_runtime_access",
+      "mutant_sha256": "8808d5e870eb055b233b700e6b297603605ac759dbb4d70c3131be01d2af5668",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "workflow-extra-trigger",
+      "selected": "test_only_pr_controls_and_explicit_dispatch_are_triggered",
+      "mutant_sha256": "85e485f3ca3e410df8c11ba368199d9e9da14476eaad46be5be2c923e6093073",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "workflow-missing-trigger-path",
+      "selected": "test_only_pr_controls_and_explicit_dispatch_are_triggered",
+      "mutant_sha256": "4db8343e7c0cd182285138b25305db05f6d8f1cdd9bdca658011b6597ebeb699",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "workflow-cancel-publish",
+      "selected": "test_dispatch_serializes_with_the_normal_pages_publication_group",
+      "mutant_sha256": "9313557055bbc86c7acc6bf49cd9c3a7e3bb9dfc4b91a7be826a56035eabed3c",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "workflow-write-permissions",
+      "selected": "test_write_job_requires_successful_controls_and_exact_dispatch_branch",
+      "mutant_sha256": "51736b8adb411bb7740a0a62a040a55ca3fdca1d974904c98178fac07ffca746",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "workflow-missing-main-guard",
+      "selected": "test_write_job_requires_successful_controls_and_exact_dispatch_branch",
+      "mutant_sha256": "b4d62c896bb89006a563c7c6dfacbcdee98aa6fb9f95d06a14f59b3215f27081",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "workflow-missing-controls",
+      "selected": "test_write_job_requires_successful_controls_and_exact_dispatch_branch",
+      "mutant_sha256": "0462ff8476fea20147f4dec14adb8ff31d295606226b41f3a471909c2e562f01",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "workflow-unpinned-action",
+      "selected": "test_actions_are_pinned_and_cannot_continue_on_error",
+      "mutant_sha256": "c9a88ee614d96a1eccbc68d57406f9ede8e259a16035fd6f3e629f46ad8e45a1",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "workflow-ignored-failure",
+      "selected": "test_actions_are_pinned_and_cannot_continue_on_error",
+      "mutant_sha256": "7317281d48b8d61613b06b322448d8df23d7942af42e2dc3c4e535936ed5fae8",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "workflow-shell-input",
+      "selected": "test_dispatch_inputs_are_environment_values_not_shell_expressions",
+      "mutant_sha256": "d62809140be69cc188ee231b179a9ca58b14b111767d52fb9f1c122ea446fa3c",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "workflow-hidden-evidence",
+      "selected": "test_recovery_logs_are_retained_even_on_failure",
+      "mutant_sha256": "025fb881ca6900d5b8b890a6f0859401aaa79ad0f7b020d6380d6368862c5911",
+      "baseline": "pass",
+      "mutant": "authorized-selected-failure"
+    },
+    {
+      "mutation": "subject-assertion",
+      "selected": "test_current_main_mismatch_refuses",
+      "mutant_sha256": "26fb9200fda313aa1d95a185a7ee905793da103c1e600bad0a7ca02f5a6df56f",
+      "mutant": "rejected-unauthorized-origin"
+    },
+    {
+      "mutation": "helper-assertion",
+      "selected": "test_current_main_mismatch_refuses",
+      "mutant_sha256": "6873122bfb254c1966191c9f4779383883e46326b7035491c7950669d18e3aa6",
+      "mutant": "rejected-unauthorized-origin"
+    },
+    {
+      "mutation": "workflow-setup-assertion",
+      "selected": "test_only_pr_controls_and_explicit_dispatch_are_triggered",
+      "mutant_sha256": "55474a35dd84e67b1311d05ca3671a5aa7feab4f3703f8fecdaaa51f4ca1c876",
+      "mutant": "rejected-unauthorized-origin"
+    }
+  ]
+}

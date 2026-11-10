@@ -1,9 +1,23 @@
 # CBZ mission-tool registry
 
+## Empty Pages status adverse control — 10 November 2026
+
+Purpose: refuse the observed empty deployment status without changing the receipt, and detect a mutant that would treat it as canceled. The recovery tool remains limited to its explicit authenticated cancellation contract. Source, local controls, origin records, actual outputs and their boundaries are in `cbz/evidence/empty-pages-status-adverse-20261110/`. Python 3.12.14 ran 34 controls and 38 clean-baseline/selected-oracle mutation pairs per mode, with three unauthorized origins rejected per mode. Fresh hosted checks are required; this is not a live recovery or final G0. Run:
+
+```sh
+python3 -B -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
+python3 -B -O -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
+CBZ_SITE_NORMAL=$(mktemp -d)/mutations
+CBZ_SITE_OPTIMIZED=$(mktemp -d)/mutations
+python3 -B -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_NORMAL"
+python3 -B -O -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_OPTIMIZED"
+```
+
+
 ## Normal Pages publisher atomic-head controls — 10 November 2026
 
 `tools/current_site_publication.py` verifies immutable receipt objects and,
-in this candidate, advances the fixed receipt ref through GitHub GraphQL
+after Main #802, advances the fixed receipt ref through GitHub GraphQL
 `updateRefs` with the exact expected old commit and `force: false`. It
 rejects direct REST ref patches and retains bounded readback and unknown-outcome
 handling. The recovery wrapper uses the same publication interface while

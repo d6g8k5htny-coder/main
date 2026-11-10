@@ -1,0 +1,56 @@
+{
+  "source": "b5019e3fe65fef7657cf69326e8ca496e34a94d4",
+  "runs": [
+    {
+      "label": "sha256",
+      "argv": [
+        "sha256sum",
+        "-c",
+        "SHA256SUMS"
+      ],
+      "exit": 0,
+      "timed_out": false,
+      "seconds": 0.016
+    },
+    {
+      "label": "main-normal",
+      "argv": [
+        "python3",
+        "-B",
+        "-S",
+        "cold_restore_captured_text_blobs.py",
+        "main"
+      ],
+      "exit": 0,
+      "timed_out": false,
+      "seconds": 10.2
+    },
+    {
+      "label": "math-normal",
+      "argv": [
+        "python3",
+        "-B",
+        "-S",
+        "cold_restore_captured_text_blobs.py",
+        "Math-"
+      ],
+      "exit": 0,
+      "timed_out": false,
+      "seconds": 10.537
+    },
+    {
+      "label": "main-optimized",
+      "argv": [
+        "python3",
+        "-B",
+        "-O",
+        "-S",
+        "cold_restore_captured_text_blobs.py",
+        "main"
+      ],
+      "exit": 1,
+      "timed_out": false,
+      "seconds": 0.114
+    }
+  ]
+}

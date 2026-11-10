@@ -1,0 +1,25 @@
+test_nonterminal_or_unknown_deployment_refuses (tests.test_cbz_site_recovery.SiteRecoveryTests.test_nonterminal_or_unknown_deployment_refuses) ... FAIL
+
+======================================================================
+FAIL: test_nonterminal_or_unknown_deployment_refuses (tests.test_cbz_site_recovery.SiteRecoveryTests.test_nonterminal_or_unknown_deployment_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_checkpoint_20261110_input/empty-status-mutant-af5e_4zf/tree/tests/test_cbz_site_recovery.py", line 186, in test_nonterminal_or_unknown_deployment_refuses
+    self.assertEqual(self.refusal_observation(), ('prepared Pages deployment is not confirmed canceled', self.failed['head'], []))
+AssertionError: Tuples differ: (None, '318fac12a58427081f6303cc2569885b6b[71 chars]CH']) != ('prepared Pages deployment is not confirm[56 chars], [])
+
+First differing element 0:
+None
+'prepared Pages deployment is not confirmed canceled'
+
+- (None,
+-  '318fac12a58427081f6303cc2569885b6b259e73',
+-  ['POST', 'POST', 'POST', 'PATCH', 'POST', 'POST', 'POST', 'PATCH'])
++ ('prepared Pages deployment is not confirmed canceled',
++  '7217e6c8b210d258c97fe6956507de8848e3d70c',
++  [])
+
+----------------------------------------------------------------------
+Ran 1 test in 0.072s
+
+FAILED (failures=1)

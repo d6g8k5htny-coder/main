@@ -1,14 +1,33 @@
 # CBZ-0 execution status
 
+## Current Main integrations and empty Pages status — 10 November 2026
+
+Main #802 merged at `944dc555e38c4a2912d613276e1750976e6675d5`, with tree `275c6fb32e1ce5b6db05c6007146442ee3d8b991` matching its tested merge. Main #800 then merged at `2f878f8eb5c621dcf9231e4a1bf582b685321130`, with tree `d3b577f61a95d51383e72f17435eaef8b92e0e7b` matching its tested merge. Both used normal expected-head integration after fresh required checks; the selected-text subtree and prior evidence remain unchanged. These observations do not establish a final federation gate or scientific acceptance.
+
+Read-only hosted job `129632294202` observed the prepared Pages deployment endpoint return HTTP 200 with an empty status string. Its source run was completed/failure and the receipt ref was `6e01d1f5f83d320172e29391eea336e3256aeea2` in separately timed reads. The guarded recovery requires explicit `deployment_cancelled`; the empty value does not establish cancellation and no recovery write is authorized by it. See `cbz/evidence/pages-prepared-status-20261110/`. Main `984a6085` site run `42754141833` also failed public-history readback and skipped deployment; its decoded log is retained. Later site and receipt state must be reread.
+
+The recovery test and mutation runner in this candidate explicitly cover the observed empty status. On reconstructed source, Python 3.12.14 passed 34 recovery/workflow controls without skips in each mode. The runner passed 28 source and 10 workflow baseline/mutant pairs per mode and rejected three subject/helper/lifecycle assertion origins per mode. The new mutant that admits an empty status failed through the selected test assertion in both modes. Exact local logs, source identities and verification limits are in `cbz/evidence/empty-pages-status-adverse-20261110/`; fresh hosted checks on this complete candidate are required. Reproduce with:
+
+```sh
+python3 -B -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
+python3 -B -O -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
+CBZ_SITE_NORMAL=$(mktemp -d)/mutations
+CBZ_SITE_OPTIMIZED=$(mktemp -d)/mutations
+python3 -B -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_NORMAL"
+python3 -B -O -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_OPTIMIZED"
+```
+
+The reconstructed selected-text package also passed Main and Math cold readbacks in both modes and its 38 specified adverse children in each outer mode after the documented prerequisite. Two initial orchestration failures and their causes are retained in `cbz/evidence/reconstructed-selected-text-readback-20261110/`. This is selected source custody, not proof closure or a complete G0/G10 audit.
+
 ## Current publisher artifact custody — 10 November 2026
 
 For #802 tested merge `0f088dc3f508f1d2227aa35646509b3c637195e7`, hosted publisher controls ran 40 tests and 11 selected-oracle mutation pairs in each Python mode, rejecting three unauthorized assertion origins and one runtime error per mode. Recovery controls also completed successfully; the PR recovery dispatch was skipped. The exact publisher and recovery ZIPs, their decoded job logs and readback source are retained under `cbz/evidence/current-publication-artifacts-20261110/`.
 
-Hosted job `129627202561` checked the ZIP digests, CRCs, source hashes, unit outcomes and recorded origins. Hosted job `129627947666` then compared the Git-retained ZIP bytes with fresh artifact downloads and rejected changed-byte, truncation and wrong-digest controls. These are scoped component/custody observations; the new Main-based candidate still needs its protected checks and no authenticated recovery, deployment or final G0--G11 is implied.
+Hosted job `129627202561` checked the ZIP digests, CRCs, source hashes, unit outcomes and recorded origins. Hosted job `129627947666` then compared the Git-retained ZIP bytes with fresh artifact downloads and rejected changed-byte, truncation and wrong-digest controls. These are scoped component/custody observations; #802 subsequently passed protected checks and merged as recorded above. No authenticated recovery, deployment or final G0--G11 is implied.
 
 ## Dated integration and ref observations — 10 November 2026
 
-Recovery #801 merged at Main `984a608584281bca8db88a8a9ae7a837f6e9a6bb`. Its PR recovery-dispatch job was skipped; no live recovery or publication is claimed. Main `97663b478822848db5262b2fffcbacd37d6231b4` site run `42752589388` subsequently failed public-history readback and skipped deploy. The full decoded build log and limits are retained under `cbz/evidence/live-site-failure-20261110-0414/`; the prepared receipt remained at `6e01d1f5f83d320172e29391eea336e3256aeea2` in a separate read. Main `984a6085` started another site run; its outcome was not observed at this entry.
+Recovery #801 merged at Main `984a608584281bca8db88a8a9ae7a837f6e9a6bb`. Its PR recovery-dispatch job was skipped; no live recovery or publication is claimed. Main `97663b478822848db5262b2fffcbacd37d6231b4` site run `42752589388` subsequently failed public-history readback and skipped deploy. The full decoded build log and limits are retained under `cbz/evidence/live-site-failure-20261110-0414/`; the prepared receipt remained at `6e01d1f5f83d320172e29391eea336e3256aeea2` in a separate read. Main `984a6085` later failed public-history readback and skipped deployment, as recorded above.
 
 The public, non-atomic ref observation under `cbz/evidence/public-federation-observation-20261110/` records 10 public repositories and 2,074 visible branch entries, plus returned tag refs and open PRs. Its separately source-pinned Workspace observation resolved all eight gitlinks: seven matched their earlier observed default tips, while the Main pin was stale. These are dated observations with explicit gaps, not final G7, G10 or CBZ-0.
 
@@ -113,9 +132,7 @@ python3 -B -S tools/cbz_site_publisher_cas_mutations.py --output "$CBZ_PUBLISH_N
 python3 -B -O -S tools/cbz_site_publisher_cas_mutations.py --output "$CBZ_PUBLISH_OPTIMIZED"
 ```
 
-The source and hosted result are a candidate until normal guarded integration.
-Authenticated GraphQL and Pages status, actual recovery and current publication
-remain unobserved. The Main `31bc4c1f` site build failed its prepared-receipt
+The publisher source subsequently merged as #802. The later authenticated Pages status is recorded above; actual recovery and current publication remain unobserved. The Main `31bc4c1f` site build failed its prepared-receipt
 readback and skipped deploy; that job's original log is retained. No final
 G0–G11, no-skip federation regression or CBZ-0 is inferred.
 

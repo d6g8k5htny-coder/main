@@ -1,8 +1,22 @@
 # CBZ-0 governance
 
+## Observed empty Pages status and recovery controls — 10 November 2026
+
+An authenticated read-only Pages response for the prepared publication had an empty status. It is not evidence of cancellation; the recovery guard must refuse it. The candidate adds a real empty-status refusal case and a selected-oracle mutation that admits that value. Python 3.12.14 passed 34 controls and 38 paired mutations per mode, rejecting three unauthorized assertion origins per mode. This is bounded local engineering evidence; fresh hosted checks are required and no live recovery or final gate follows. Exact commands:
+
+```sh
+python3 -B -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
+python3 -B -O -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
+CBZ_SITE_NORMAL=$(mktemp -d)/mutations
+CBZ_SITE_OPTIMIZED=$(mktemp -d)/mutations
+python3 -B -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_NORMAL"
+python3 -B -O -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_OPTIMIZED"
+```
+
+
 ## Normal Pages publisher atomic-head boundary — 10 November 2026
 
-A candidate replaces the normal publisher's REST ref patch with an atomic
+Main #802 replaced the normal publisher's REST ref patch with an atomic
 expected-head, non-force update of the fixed receipt ref. Immutable Git
 object verification and readback remain required, and an unknown write outcome
 requires inspection of the actual ref. Its scoped commands, hosted observations
@@ -23,7 +37,7 @@ if a write's readback fails, inspect the actual ref before inferring its state.
 Workflow concurrency coordinates
 the normal publisher and recovery, not external actors or atomic public reads.
 At Main `31bc4c1f`, the normal publisher's separate REST ref write lacked
-this guarantee; the later candidate above addresses it subject to integration.
+this guarantee; the later #802 integration above addresses it.
 The [status](STATUS.md#guarded-pages-receipt-recovery--observed-10-november-2026)
 and [tool registry](TOOLING.md#guarded-pages-receipt-recovery--10-november-2026)
 give exact commands, observations and limits. This is neither mathematical nor
@@ -31,7 +45,7 @@ scientific acceptance and does not establish the final gates.
 
 ## Selected historical text verifier boundary — 10 November 2026
 
-This candidate preserves exact Git head/tree objects and selected changed
+The integrated custody record preserves exact Git head/tree objects and selected changed
 head-side text blobs from 430 historical public Main and Math refs: 588 Main
 `.lean` blobs and 608 Math `.lean`/`.md` blobs, with 6,867 head/path bindings.
 The case-sensitive suffix selection, separately observed defaults, exact

@@ -1,6 +1,6 @@
 # CBZ proof and quarantine index
 
-## Publication atomic-head candidate — 10 November 2026
+## Publication atomic-head boundary — 10 November 2026
 
 Receipt ref safety and hosted control results are operational provenance, not
 mathematical proof or quarantine disposition. The original publisher failure
@@ -17,7 +17,7 @@ and TOOLING for commands and verification limits. This entry closes no proof.
 
 ## Selected historical text custody boundary — 10 November 2026
 
-This candidate preserves exact Git head/tree objects and selected changed
+The integrated custody record preserves exact Git head/tree objects and selected changed
 head-side text blobs from 430 historical public Main and Math refs: 588 Main
 `.lean` blobs and 608 Math `.lean`/`.md` blobs, with 6,867 head/path bindings.
 The case-sensitive suffix selection, separately observed defaults, exact
