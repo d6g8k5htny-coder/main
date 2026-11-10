@@ -1260,3 +1260,197 @@ Scientific NONE; classification/qualification BLOCKED; execution_authenticated f
   Root source read precedes publication; integration waits for independently
   read new native original receipts and current checks/review. This visibility
   stage grants no extra G5, CBZ, scientific or negative-E2E credit.
+
+## 2026-11-10 — publish actual kernel replay contracts before Task C implementation
+
+Root read the complete qualified-B integration design4ffc79dc9356879aa255813b5c97b3456a76313d,
+C-only transferc86d0d4abab173b4d9b13ca4c8e4a44632fe7f7f and manifest471c452a4a62b8e5342ce3f1180e0a335f835f82.
+A fresh scoped source reviewer independently checked all14exact edits, reverse
+recovery of repaired Blauncher54421c70918fdebf6b676cd8cfd49cde0c9d67b9,
+metadata/gating and preserved methods, with no findings and ReadyTestFirstYES.
+This is source review; it is not current C native replay evidence.
+
+Publish this Draft test-first child from fresh B805 head4fe4369aecdaf0b3af02f3f77cb91dfbbd3355cd,
+tree6677c6cf4744f5136c7a4c67bf4f3a74d869cff8, preserving its complete Mainb6be
+and qualified B81fc ancestry, canonical prefixes, peer changes and old evidence.
+Root independently read B's actual covering run42759083506/attempt1/job129640263816
+at native5530ccb9 with ordered parents[Mainb6be,B4fe]: both modes10/52,
+pure12, separate custody3/6 and21observations/10bindings/55paths passed.
+That earlier source-bound B observation is not rebound to the new C tree;
+B's current protected checks and Main merge are separate pending facts.
+
+Change only reviewed Controlsc25cd01838c152403eba1acd39fb029a488bb21f,
+integrated launcher28a380649337295255812e095b59652155463fb5, this owned C
+design/report and this append-only decision. C08/C09/C10 add3explicit methods
+and9actualLean subcases, making13methods/61declaredIDs=55Lean+6Python_controller.
+OriginalA39/B13test bodies and all custody/request/cleanup/Bdependency binding
+code remain exact. The three new native_case calls reuse the actual Safe request:
+fixed expected observations become24, while10request bindings/55paths stay fixed.
+Pure12 and separate Python custody3methods/6routes remain outside61.
+
+C08 requires full genuine final-private Safe-map replay into a fresh actual
+direct-import private base with target/all-owned Names absent. C09 changes only
+the actual good:True theorem CI value to Nat.zero, verifies resolved references
+and absence, then submits only that singleton through exact SDGA.replayOwned.
+Only an actual exact upstream kernel declTypeMismatch/native wrapper may pass;
+NOT_IMPLEMENTED, missing/setup/compile errors and arbitrary failures cannot.
+C10 first establishes contamination by successful original good-map replay,
+then submits only that same bad singleton and requires duplicateBase before
+upstream's matching-duplicate-theorem shortcut. No unchecked insertion, copied
+checker, new base helper or assertion weakening is introduced.
+
+ProductionComponent7f89460edca71754dbce9a07de229ad39ad3e851 is untouched:
+shared unsafe/partial guard remains; safe replayOwned/runReplay still refuse
+NOT_IMPLEMENTED. Existing workflowf22987c60144ae7db6202cae6085402ca2c2f947,
+custodytesta9e147e246abfacf9561d286aef65086dedd2c66, pure12, all fixtures,
+Task1JSONL/Name/classifier/assertions, frozen profile/99module/1137targets,
+proofs/bounds/formal gates and original failures remain exact.
+
+Actual initial R0 is pending at publication. Retain exact native source/tree/
+parents, run/attempt/job, all original streams/limits and before/after custody.
+Observe all13methods/61declaredIDs,24/10/55if Controls compiles, plus pure12
+and custody3/6in both Python modes. Present stub must fail actual good replay
+or wrong-cause C09; setup/API/compile absence is separately blocking unexecuted
+evidence. Preserve first failures. Root must read actual R0 and give GO before
+any kernel implementation. Draft only; no merge or manual workflow rerun.
+Scientific effect NONE; qualification/classification BLOCKED;
+execution_authenticated false.
+
+## 2026-11-10 — retain Task C helper-stub RED and require the public replay CLI
+
+Root independently read actual run42759906446/attempt1/job129642895238,
+native46b8079aafd5b4d784174c0b680a43ae57e1c4a6,
+treefde944db2b70af4abbd30ec775e7179a192b4084, signed ordered parents
+[B4fe4369a,Cfa0deec2]. Both modes ran13methods:10success/3failure,
+61unique declared IDs=56pass+3fail+2not_run,59observed,0errors/skips.
+A/B52passed. C08good replay and C10good-base setup failed actual production
+NOT_IMPLEMENTED; C09 explicitly failed wrong-cause NOT_IMPLEMENTED.
+C10's remaining two subcases stayed unexecuted. Healthy fresh-base,
+actual theorem-CI and singleton-reference prerequisites give no kernel
+success/type-rejection/duplicateBase credit. Pure12, separate custody3/6,
+24observations/10bindings/55paths/final registry and cleanup passed both modes;
+source/object drift was empty. No harness repair was needed.
+
+Complete original job log is retained as Gitblob4c1798d5b0a0b32852a05382479629394c30f1b3,
+1,410,858UTF8bytes/SHA2562280ad23ca10814e5b62e0982326467f4a4d5c90c444cc583f11213e7e3c3f45.
+All210runner-printed original blocks matched their declared byte counts/SHA256
+and are retained in packetdef3e3e95fb4d7edeca76695d696a5a91fc00a3c;
+receipt332d5b81c11b046f6d43f3d67eb1d8898ab6acd0 binds source/run/limits.
+Artifact13736893830 is hosted, ZIP digestd4f9cbaf1de321cc66a8ba426a7e0052c15e0801842fc9a725c923344935998b;
+no independent artifactZIP extraction/read is claimed.
+
+The R0 helper contracts could eventually pass while public runReplay remained
+the NOT_IMPLEMENTED stub. Root therefore requires one meaningful public CLI
+positive probe before kernel implementation. Add it inside existing C08 under
+a separate subTest after the unchanged helper block; helper assertion failure
+must not prevent the CLI attempt. Call actual Component replay on the existing
+Safe request through observe_lean, retaining raw exit/streams/cleanup in a
+supplemental cli_replay record outside61. Require exit0, empty stderr and one
+exact structured cbz.sdga.kernel-replay.v1 receipt bound to actual request and
+complete native inventory Name population, with no skipped Names and all
+scientific/qualification/authentication limits unchanged. Final acceptance
+must require this supplemental PASS, not just the61subcases. Duplicate JSON
+fields/Names and missing/extra receipt fields fail. No synthetic producer or
+fake passing marker is introduced.
+
+Only fixed expected custody observations change24→25; existing10bindings/
+55paths stay fixed. Native13methods/61IDs and every original C08 assertion,
+C09/C10/A-B body, Controls c25, Component7f, workflowf229, custodytesta9e,
+pure12, fixtures, Task1/proofs/profile/history and all guards remain intact.
+R1 is test-only; actual unsupported CLI must fail with raw NOT_IMPLEMENTED,
+never kernel-negative credit. Root must read R1 source before publication
+and the actual R1 CLI unsupported result before production implementation.
+
+Compose full fresh Main964390a94c08f00f119dc3b2e0be16180c1544e2 first parent
+and old Cfa0deec246fa603d7c45aae27df7684de35538ee second parent, retaining the
+complete fresh Main DECISIONS prefix plus only the old C-owned suffix relative
+to B4fe and this R1-owned suffix. No force update, workflow edit, manual rerun,
+review/comment/settings mutation or merge is part of this stage.
+Scientific effect NONE; qualification/classification BLOCKED;
+execution_authenticated false.
+
+## 2026-11-10 — stage guarded actual kernel replay after public CLI stub RED
+
+Root independently read actual R1run42761796853/attempt1/job129648973831,
+signed nativee080ce31514a334ec95ab12ff5e9a4d351f99a32,
+treecaa1506fb3db73d08e8f9b80decea155b90fea0f, ordered parents
+[Main964390a9,C2850d98a]. Both modes13methods had10success/3failed methods,
+four failure entries,61unique IDs=56pass+3fail+2not_run,0errors/skips.
+Independent public cli-safe-replay ran after helper failure in both modes:
+exit1,stdoutempty,exact81byte NOT_IMPLEMENTED stderr, lossless retained hex,
+confirmed cleanup/no timeout, supplementalFAIL/receiptNULL. Existing helper
+NOT_IMPLEMENTED good-control/wrong-cause failures remained. A/B52,pure12,
+custody3/6,all25file observations/final10bindings55paths passed with drift[].
+No kernel/type-rejection/duplicateBase/publicCLI-success credit follows.
+
+Retain complete R0/R1 job logs, every210/214runner-printed original block with
+independently matched UTF8 byte counts/SHA256, and observation receipts under
+cbz/evidence/sdga-task-c-20261110/red-r0 and red-r1. ReceiptR0
+332d5b81c11b046f6d43f3d67eb1d8898ab6acd0 and receiptR1
+ee18f0e736f70c67b20c8c86b21cdfbac025d178 remain bound to their exact old
+source/run/parents. Hosted artifacts13736893830/13737927810 are retained,
+but no independent artifactZIP download/unpack/read is claimed.
+
+Only after that actual R1 read did root authorize this production SOURCE
+STAGE. CandidateComponentca46b1ae1031aa0740a9d4366d649e156181aac4
+adds every-owned-name/base-absence and map-identity guards, calls the exact
+existing unsafe/partial guard, uses strict missing-fatal closure with owned
+axiom refusal and only exact dependency propext/Classical.choice/Quot.sound,
+then calls unchanged base.replay owned without catching/wrapping its native
+kernel IO error. Full postcheck covers all owned CIs, including every pinned
+inductive/constructor/recursor/quotient field, with no display/hash substitute
+or skipped Name. Validate only upstream's indexed inductive-group/constructor
+metadata before its unchanged replay. No copied kernel, unchecked insertion,
+parallel prefix CLI or fake checker/receipt is introduced.
+
+runReplay constructs a fresh private/trust0/loadExtsfalse base from actual final
+ModuleData.imports, verifies target module absent, uses that same guarded
+replayOwned, keeps raw/import regions without freeing, and emits the exact
+12field R1 receipt only after actual successful replay/full postcheck.
+Receipt Names come from actual replayed CIs; scientificNONE,
+qualification/classificationBLOCKED and execution_authenticatedfalse persist.
+
+Isolate three narrow defn/thm/opaque .all branches in the existing dependency
+collector: pinned getUsedConstantsAsSet covers type/value but omits those group
+links. Existing strictAxioms/closeAxioms and inventory JSONL bodies stay exact,
+but their traversal now sees those additional group links. This can change
+future inventory closure contents/failures and is not a rebinding of historical
+runs. Root explicitly allowed staging these branches for source review.
+No new missing-group/inductive-link/quotient adverse runtime coverage is claimed.
+
+Controls c25,launcher868,workflowf229,custodya9e,pure12,all fixtures,
+Task1JSONL/Name/classifier/assertions,frozen99module/1137targets,
+source proofs/bounds/formal gates and all earlier failures remain exact.
+No TaskD guards/sidecar are added. Preserve complete fresh Main964390a9
+canonical prefixes and feature2850history with only this owned appended suffix.
+This candidate has SOURCE TEXT checks only, no compile/run/qualification.
+Root must read the exact source/diff/report/scope and give publication GO
+before refs/runs. Expected future all13/61+supplementalCLI/Pure12/custody3/6
+and25/10/55 remain unobserved obligations. No merge is authorized here.
+Scientific effect NONE; qualification/classification BLOCKED;
+execution_authenticated false.
+
+## 2026-11-10 — retain initial Task C GREEN and stage one fresh Q/Main composition
+
+Root independently read run42764126530/1/job129656474935 at signed
+nativea908e4af5d8a33d0f90d1d8f8e83e9f105c66b25/tree0abdb0aac07bb72550f34a4ea39cda4a487ff94d,
+parents[Main964390a9,C9607199c]. Both modes passed13methods/61uniqueIDs,
+mandatory15-Name CLI receipt,pure12,custody3/6 and25observations/final10bindings/
+55paths, with0failures/errors/skips/not_run/drift. Full-map native replay,
+exact malformed-theorem kernel type rejection and good-base duplicate refusal
+were observed. Final scoped broad review ReadyYES had no C/I/M finding.
+
+Retain exact initial GREEN log20b0730ec172c9b2671b260824dad2ddca7e99dc,
+all214hash-matched originals75f502cddea83f72382313c4e3b849acf7c72d9e and
+receipte038858936c8d85e9a072c89d1fd4d8603a17e51 under this feature's green-r0
+evidence directory. No artifactZIP download/unpack/read is claimed.
+
+Stage fresh Q806/Main first parent plus complete C9607 second parent once.
+Preserve full fresh Main DEC prefix plus exact11030-character C-owned suffix
+relative to old Main964/c76, then only this append. Preserve all four Q peer
+paths, especially node workflow56c9/test3bcd. Componentca46,868/c25/f229/a9e,
+pure/fixtures/Task1 remain exact; owned implementation doc receives only its
+dated validation/composition append. No intermediate base-only push or manual
+rerun. Earlier GREEN is not rebound: fresh composed native/protected
+qualification remains pending before Ready/merge. Q806 precedes C integration.
+Scientific NONE; qualification/classification BLOCKED; authfalse.
