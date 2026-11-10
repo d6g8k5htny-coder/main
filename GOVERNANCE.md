@@ -1139,3 +1139,48 @@ PYTHONPATH="$POLICY_PURELIB" "$POLICY_VENV/bin/python" -B -O -S -m unittest test
 ```
 
 The workflow requires exact ten-body identities and zero skips/failures/errors per mode, actual same-venv `-I` pytest children, native source/runtime identities before/after, and original acquisition, runtime, child, log and exit evidence. Its immutable run/attempt artifact uploads on every conclusion. Source review passed; hosted job `129614618042` ran the ten unchanged methods in both modes without reported skips on tested merge `fd80e41202ed4ee266956d1e1f85598e90ff1904`, whose tree matches merged Main #803. The retained artifact has not been independently unpacked here. This registers only one G5 prerequisite population, with scientific effect NONE and no full G5, CBZ or mathematical award. See [the reviewed design and plan](docs/superpowers/plans/2026-11-10-pytest-bytecode-policy-population.md).
+
+## SDGA Task A compiled-inventory candidate
+
+`tools/sdga/Component.lean` loads exact core-Lean4.34.1 objects, keeps all
+ordered OLean parts and compacted regions, observes actual module ownership,
+private populations and Meta.isProp, and emits the unchanged Task1 JSONL.
+Name identities preserve string/numeric components and UTF-8 bytes. Inventory
+axioms use actual missing-fatal type/value/transitive dependency traversal.
+TaskB policy qualification and TaskC kernel replay remain incomplete; replay
+returns explicit NOT_IMPLEMENTED. Full99-module SDGA execution is later work.
+
+`tools/sdga_component.py` currently contains only two standard-library pure
+functions: strict positional deps-json parsing and fixed-local-graph ordering.
+Rows contain no filename, so native argv/source custody remains necessary.
+Empty pure results do not qualify the fixed nonempty production cohort.
+
+Run the12ordinary pure contracts normally and optimized:
+
+```sh
+python3 -B -S tests/test_sdga_component_protocol.py -v
+python3 -B -O -S tests/test_sdga_component_protocol.py -v
+```
+
+The explicit `tests/sdga_component_contract.py --output <new-external-dir>`
+must run normally and optimized with pinnedLean5045d005. It requires6methods
+and all39named subcases; missing prerequisites fail. A separately labelled
+Python owned-process cleanup preflight earns only resource-cleanup evidence.
+The read-only sdga-component workflow runs both suites and retains originals.
+
+Root observed initial implementation absence before authorizing these sources;
+fresh native compilation and complete current contracts are required for each
+source-specific qualification. Task1
+classification/qualification stayBLOCKED, scientific_effectNONE and declared
+execution_authenticatedfalse. Mathematical roles, kernel replay, completeIR
+coverage and scientific admission remain unresolved. Maintenance owner:none;
+stdlib Python and exact pinned core Lean only. Requalify changed inputs.
+See the Task2 design, plan, test-repair and source-assumptions reports under
+`docs/cbz/` and `docs/superpowers/plans/2026-11-10-sdga-task2-lean-bridge.md`.
+
+Selected native parts currently require Linux x86_64 LE64 ordinary v2. A
+source-derived header/root-extent preflight precedes the unchanged native
+reader; v2 has no total-length field. Unsupported formats are refused. This
+bounded framing check does not certify arbitrary corrupted object graphs,
+external dependencies or concurrent host mutation. Original typed C13 refusal
+and all six/39 control outcomes remain required on the current source.
