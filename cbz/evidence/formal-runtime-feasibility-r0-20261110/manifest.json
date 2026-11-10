@@ -1,0 +1,224 @@
+{
+  "purpose": "RETAIN_ACTUAL_FAILED_FORMAL_PROBE_R0_AND_MINIMAL_LOOKUP_REPAIR_SOURCE",
+  "native": {
+    "repository": "d6g8k5htny-coder/main",
+    "branch": "codex/g5-formal-runtime-feasibility-20261110",
+    "event": "push",
+    "run_id": 42800617010,
+    "attempt": 1,
+    "job_id": 129776833470,
+    "conclusion": "failure",
+    "controller_commit": "90093a2e61cf53271570db5707162e1c3176d773",
+    "controller_tree": "5512877d0ad460bd254b89f48537fa6ba0b10e4e",
+    "controller_parents": [
+      "02973f3975a1c4cc91b7c51d372f65717c9b3c5c"
+    ],
+    "controller_signature_status": "unsigned Git API created candidate"
+  },
+  "fixed_subject": {
+    "commit": "02973f3975a1c4cc91b7c51d372f65717c9b3c5c",
+    "tree": "5d3160d982b4513f17848de45e0f4569233acd4e",
+    "subject_worktrees_created": false,
+    "original_methods_executed": 0
+  },
+  "result": {
+    "status": "HOLD",
+    "phase": "resolve-real-lake",
+    "cause": "elan v4.2.4 rejects unsupported which --toolchain flag before any mounts or original methods",
+    "lean_installation_observed": "Lean 4.34.1 / commit5045d0056413266e57c625dcd7c365b10e377c52 Release",
+    "mounts": [],
+    "modes": [],
+    "cleanup": "COMPLETE"
+  },
+  "material": {
+    "original_files": 12,
+    "original_bytes": 3461,
+    "full_original_frames_byte_and_sha256_verified": true,
+    "decoded_native_log_bytes": 81760,
+    "decoded_native_log_sha256": "d8969ef639a8731f1bd3cbab7df7173e2ad1a92b812459a5c919b164bdd8dc01",
+    "sha256_implementation_known_answers": [
+      "empty",
+      "abc"
+    ],
+    "native_artifact": {
+      "id": 13756036247,
+      "name": "formal-runtime-feasibility-42800617010-1",
+      "size_in_bytes": 4961397,
+      "declared_digest": "sha256:ac03c86848d5bc215d8c5434ddad9d20149068d1643f41d113367f3e2d3a03f6",
+      "archive_downloaded": false,
+      "archive_bytes_read": false,
+      "archive_digest_recomputed": false
+    }
+  },
+  "minimal_source_repair": {
+    "old_worker": "a60de8aa10f683e8a3848b94fa260b8713eb878c",
+    "new_worker": "6199d4f8081dd37fb0e8d32a5f07e6277cc29147",
+    "precise_diff": "7e021febcc8321f1e85027cc27e232975b1f019d",
+    "workflow_unchanged": "a755741e8d8c0f263a3251a5830fbbeba7a7a30a",
+    "changes": [
+      "fixed ELAN_TOOLCHAIN=TOOLCHAIN in the existing closed subprocess environment",
+      "supported fixed elan which lake argv"
+    ],
+    "entire_inverse_exact": true,
+    "independent_scoped_review": "lean_task_a: C0/I0/M0, ReadyForMinimalRepair YES; no runtime validation"
+  },
+  "supported_cli_source": {
+    "repository": "leanprover/elan",
+    "tag": "v4.2.4",
+    "annotated_tag": "e9268f8b213e09a99768befe548049c046074225",
+    "commit": "227caca133724d5516bee25c2aeb3e609478f2d8",
+    "files": [
+      {
+        "path": "src/elan/config.rs",
+        "blob": "6433cc3fb46d254f3800af98de17ae1b7c2e113c",
+        "lines": [
+          91,
+          135,
+          160
+        ]
+      },
+      {
+        "path": "src/elan-cli/elan_mode.rs",
+        "blob": "8897018ad0e7bcbfc695c69e635a7645b43d47f0",
+        "lines": [
+          182,
+          184,
+          290,
+          294
+        ]
+      }
+    ]
+  },
+  "scope_limits": {
+    "R0_rebound_to_future_source": false,
+    "repaired_runtime_executed": false,
+    "runtime_feasibility_proven": false,
+    "write_census_produced": false,
+    "production_budget_guarantee": false,
+    "full_Main_qualification": false,
+    "G5_claim": false,
+    "CBZ_claim": false,
+    "scientific_credit": false
+  },
+  "retained_files": [
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/originals/probe.json",
+      "bytes": 1754,
+      "sha256": "aee637e164c5504ba97d4e69c7d41f79ab9662326b11e027a0c62d6b493d06e4",
+      "kind": "original complete material decoded from nonce-framed native job log",
+      "blob": "8b295c0d3af242c10d7db84d1c836b597b5d9976"
+    },
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/originals/cleanup.json",
+      "bytes": 69,
+      "sha256": "9a189eba0cccce3aa963a8706accd17bb97cba665ffad77aef930f8ec0d82bdb",
+      "kind": "original complete material decoded from nonce-framed native job log",
+      "blob": "5d9fbce5f4570dde534545e52b276af9330835c4"
+    },
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/originals/control.json",
+      "bytes": 338,
+      "sha256": "bee0c13a623c750324560105bd5262a2a552dcb61fc66ab821e484fea5856a1c",
+      "kind": "original complete material decoded from nonce-framed native job log",
+      "blob": "e66c26e540d7deee793ea1d2dbd3a6d5e2ffaaea"
+    },
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/originals/observer-error.log",
+      "bytes": 778,
+      "sha256": "a3e02e2c14f016e5d139bbcc2229c006f33123bf621a7d46e3d5d73a98d47ec4",
+      "kind": "original complete material decoded from nonce-framed native job log",
+      "blob": "df2a417325bdb9e64a71aa6fffe04a2915528ee9"
+    },
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/originals/download-elan.stderr.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "original complete material decoded from nonce-framed native job log",
+      "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/originals/download-elan.stdout.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "original complete material decoded from nonce-framed native job log",
+      "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/originals/install-elan.stderr.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "original complete material decoded from nonce-framed native job log",
+      "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/originals/install-elan.stdout.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "original complete material decoded from nonce-framed native job log",
+      "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/originals/install-lean.stderr.bin",
+      "bytes": 221,
+      "sha256": "b5c65769879463508dec9638f9cf5a467a1d9a72aa3d37ddb6041a55e175dbcb",
+      "kind": "original complete material decoded from nonce-framed native job log",
+      "blob": "485ae40978f553884977e564aac59e1734aaeac7"
+    },
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/originals/install-lean.stdout.bin",
+      "bytes": 145,
+      "sha256": "da3f319610d41a9e7ddea0bd792ab2621827518f28929992cc9c943296dd832b",
+      "kind": "original complete material decoded from nonce-framed native job log",
+      "blob": "f8fd13c8f1e384f8115932002b5cc0ba038551f6"
+    },
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/originals/resolve-real-lake.stderr.bin",
+      "bytes": 156,
+      "sha256": "2bb84502d2be9d5ff9be9efa7fc817e8178314af47ce493c5263330987f2a15c",
+      "kind": "original complete material decoded from nonce-framed native job log",
+      "blob": "d7c4611a8f8c769918ab5f18caa0c5c45752c3e0"
+    },
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/originals/resolve-real-lake.stdout.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "original complete material decoded from nonce-framed native job log",
+      "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/native-job-129776833470.log",
+      "bytes": 81760,
+      "sha256": "d8969ef639a8731f1bd3cbab7df7173e2ad1a92b812459a5c919b164bdd8dc01",
+      "kind": "original decoded native API response",
+      "blob": "351f296cda3f56932a49f185cf3ae2a6d9140b2a"
+    },
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/native-attempt-42800617010-1.json",
+      "bytes": 12963,
+      "sha256": "63ae5d968c1d3675be8075e0557015533dac7b77adbece6c5ffd7858321eb0aa",
+      "kind": "original decoded native API response",
+      "blob": "be72cca890e1dd57326de64c80057e59a6c05c15"
+    },
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/native-jobs-42800617010-1.json",
+      "bytes": 2922,
+      "sha256": "e1337316284c69e241f933d2d3f0b76ae739a4e76d2d8a90b9d99096e74cadff",
+      "kind": "original decoded native API response",
+      "blob": "ed8cb86df8b22738835357115d0c9fe899574e19"
+    },
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/native-artifacts-42800617010.json",
+      "bytes": 783,
+      "sha256": "6b10a2f0516e0fcd4686b2562e1de1d3ae5adbc4e77772a4e620ffd1fb15af3d",
+      "kind": "original decoded native API response",
+      "blob": "f24514d998ef5b1c726483795400d2ec7b385b12"
+    },
+    {
+      "path": "cbz/evidence/formal-runtime-feasibility-r0-20261110/native-controller-90093.json",
+      "bytes": 1217,
+      "sha256": "ef9b75bb2ca967549c870bdf7ed78e14638f4899a2cdb26619772c9b03cac2cf",
+      "kind": "original decoded native API response",
+      "blob": "972cacbdc85318c4c40ae818286f9230f2878251"
+    }
+  ]
+}

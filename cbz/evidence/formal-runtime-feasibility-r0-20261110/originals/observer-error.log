@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/runner/work/main/main/tools/formal_runtime_feasibility_probe.py", line 852, in main
+    bootstrap()
+  File "/home/runner/work/main/main/tools/formal_runtime_feasibility_probe.py", line 326, in bootstrap
+    selected_lake = tool("resolve-real-lake", [str(ELAN / "bin/elan"), "which",
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/main/main/tools/formal_runtime_feasibility_probe.py", line 203, in tool
+    require(code == 0 and not timed_out, "fixed native tool failed: " + label)
+  File "/home/runner/work/main/main/tools/formal_runtime_feasibility_probe.py", line 73, in require
+    raise RuntimeError(reason)
+RuntimeError: fixed native tool failed: resolve-real-lake

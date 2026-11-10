@@ -156,7 +156,8 @@ def environment(scratch=None):
                 if key in os.environ}
     selected.update(PATH=str(LEAN_BIN if LEAN_BIN is not None else ELAN / "bin")
                     + os.pathsep + os.defpath,
-                    ELAN_HOME=str(ELAN), GIT_CONFIG_NOSYSTEM="1",
+                    ELAN_HOME=str(ELAN), ELAN_TOOLCHAIN=TOOLCHAIN,
+                    GIT_CONFIG_NOSYSTEM="1",
                     GIT_CONFIG_GLOBAL=os.devnull, GIT_NO_REPLACE_OBJECTS="1",
                     GIT_OPTIONAL_LOCKS="0", PYTHONDONTWRITEBYTECODE="1",
                     PYTHONNOUSERSITE="1")
@@ -324,7 +325,7 @@ def bootstrap():
          "--default-toolchain", "none"], BASE, 300)
     tool("install-lean", [str(ELAN / "bin/elan"), "toolchain", "install", TOOLCHAIN], BASE, 900)
     selected_lake = tool("resolve-real-lake", [str(ELAN / "bin/elan"), "which",
-                         "--toolchain", TOOLCHAIN, "lake"], BASE, 60).decode("utf-8").strip()
+                         "lake"], BASE, 60).decode("utf-8").strip()
     lake_path = Path(selected_lake)
     require(lake_path.is_absolute() and lake_path == lake_path.resolve(strict=True)
             and (ELAN / "toolchains") in lake_path.parents and lake_path.name == "lake",
