@@ -22,8 +22,8 @@ jobs:
           test "$(git hash-object tools/current_site_publication.py)" = d147a3a39fe17147fa4f9c3dda4b34db5b2573a3
           python3 -I -B -S - <<'PY'
           import json, os, sys
-          sys.path.insert(0, os.getcwd())
-          from tools import current_site_publication as p
+          sys.path.insert(0, os.path.join(os.getcwd(), 'tools'))
+          import current_site_publication as p
           api = p.GitHubAPI()
           head = p.read_ref_head(api)
           if head != '6e01d1f5f83d320172e29391eea336e3256aeea2':
