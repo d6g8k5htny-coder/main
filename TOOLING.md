@@ -1,5 +1,10 @@
 # CBZ mission-tool registry
 
+## G11 report field correction — 10 November 2026
+
+The original reports for five independently checked source commits each contain 132 classified `findings` and empty `failing`, `failing_tools` and `skipped` lists. The distinction and original report hashes are retained in [this comparison](cbz/evidence/g11-python-subprocess-options-20261110/g11-findings-correction.json); an empty failing list is not an empty findings list. Counts apply only to the named historical commits.
+
+
 ## Prepared Pages original-byte observer — 10 November 2026
 
 Purpose and scope: verify the exact preserved prepared receipt and its original Pages and metadata ZIPs offline, including source fingerprint and control bytes. With the two original ZIPs (`13728153243.zip` and `13728342519.zip`), `prepared-receipt-original.json`, `verify_prepared_artifact.py` and `check_prepared_verifier.py` copied into an isolated directory named by `CBZ_PAGES_STAGE`, run:

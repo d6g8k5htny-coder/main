@@ -1,0 +1,53 @@
+import collections
+import hashlib
+import io
+import json
+import pathlib
+import zipfile
+
+root = pathlib.Path('/workspace/scratch/7abea556a9be')
+checkpoint = root / 'cbz_v46_readback/zip/main790-evidence-v38.zip'
+current = root / 'cbz_browser_observation/main811-g11-census-13743673695.zip'
+cases = [
+    ('sealed-709975', 'checkpoint-update-20261110T0631/native/main-merge/cbz/evidence/g11-sealed-candidate-census-20261110/original-artifact.zip', '709975c6ff42f0bca020abd4164a45479e29a0df'),
+    ('hosted-ccb98', 'checkpoint-update-20261110T0700/native/debug/cbz/evidence/g11-python-subprocess-options-20261110/hosted-census.zip', 'ccb98a32b83b3dc82197ec52efd64ff44f622865'),
+    ('expanded-d517', 'checkpoint-update-20261110T0700/native/debug/cbz/evidence/g11-python-subprocess-options-20261110/expanded-census.zip', 'd51700eb5466158206c3431f6b99c4db036fdc95'),
+    ('recomposed-d723', 'checkpoint-update-20261110T0700/native/debug-current/cbz/evidence/g11-python-subprocess-options-20261110/recomposed-census.zip', 'd72365a1701a05d0e6abb990fc38d6e4407fe763'),
+    ('observations-9e0', None, '9e0c6c5f0b2b0e5f8d70055290c6eef1ebd3d0c7'),
+]
+results = []
+with zipfile.ZipFile(checkpoint) as outer:
+    for label, member, commit in cases:
+        raw = outer.read(member) if member else current.read_bytes()
+        with zipfile.ZipFile(io.BytesIO(raw)) as z:
+            names = z.namelist()
+            if len(names) != len(set(names)) or set(names) != {'g11-census-normal.json', 'g11-census-optimized.json'} or z.testzip():
+                raise ValueError(label + ': archive population or CRC')
+            modes = []
+            for name in names:
+                report_raw = z.read(name)
+                report = json.loads(report_raw)
+                if (report['commit'] != commit or report['status'] != 'PASS'
+                        or len(report['findings']) != 132 or report['failing']
+                        or report['failing_tools'] or report['skipped']):
+                    raise ValueError(label + ': report fields')
+                modes.append({
+                    'member': name,
+                    'report_sha256': hashlib.sha256(report_raw).hexdigest(),
+                    'findings': len(report['findings']),
+                    'finding_areas': dict(collections.Counter(x['area'] for x in report['findings'])),
+                    'failing': len(report['failing']),
+                    'failing_tools': len(report['failing_tools']),
+                    'skipped': len(report['skipped']),
+                })
+            results.append({'label': label, 'commit': commit,
+                            'archive_sha256': hashlib.sha256(raw).hexdigest(),
+                            'archive_bytes': len(raw), 'modes': modes})
+out = {
+    'observation': 'Each original report has 132 classified findings and empty failing, failing_tools and skipped lists. An empty failing list is not an empty findings list.',
+    'scope': 'These report fields describe a bounded scanner, not a full Layer A or mathematical audit.',
+    'cases': results,
+}
+destination = root / 'cbz_browser_observation/g11-findings-correction.json'
+destination.write_text(json.dumps(out, indent=2) + '\n')
+print(json.dumps(out))

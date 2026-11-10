@@ -1,5 +1,10 @@
 # CBZ baseline ledger
 
+## G11 report correction — 10 November 2026
+
+The earlier claim of zero reported findings for the named G11 source censuses was inaccurate: the original reports contain 132 classified findings each and empty failing, failing-tool and skipped lists. See [STATUS](STATUS.md) and the [source-bound comparison](cbz/evidence/g11-python-subprocess-options-20261110/g11-findings-correction.json). These bounded scanner results do not establish the final Layer A audit.
+
+
 ## Current observed limitations — 10 November 2026
 
 Main #810 and Workspace #75 were integrated with the tested trees. The Main post-merge discovery run reported 2,774 tests with 23 skips; separate successful browser controls do not turn that discovery run into a no-skip gate. Main post-merge site publication failed at prepared-publication readback and did not deploy. The retained original prepared archive matches its receipt offline; live readback and recovery are not established. Sequential pin observations are not a final atomic federation gate, and any Main advance requires a new Workspace pin. See [STATUS](STATUS.md) for source-bound runs, commands and evidence.

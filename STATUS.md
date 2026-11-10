@@ -1,5 +1,12 @@
 # CBZ-0 execution status
 
+## Correction: G11 findings are not the failing list — 10 November 2026
+
+The earlier descriptions below saying that the G11 censuses on `709975c6ff42f0bca020abd4164a45479e29a0df`, `ccb98a32b83b3dc82197ec52efd64ff44f622865` and `d51700eb5466158206c3431f6b99c4db036fdc95` had no reported findings were inaccurate. Both original reports for each of those commits contain **132 classified entries in `findings`**; their separate `failing`, `failing_tools` and `skipped` lists are empty. The separately verified reports on `d72365a1701a05d0e6abb990fc38d6e4407fe763` and the earlier #811 head `9e0c6c5f0b2b0e5f8d70055290c6eef1ebd3d0c7` have the same counts. These entries are scanner observations, not a count of established violations. [Original-report field comparison](cbz/evidence/g11-python-subprocess-options-20261110/g11-findings-correction.json).
+
+At the earlier #811 head `9e0c6c5f0b2b0e5f8d70055290c6eef1ebd3d0c7`, the bounded census scanned 1,516 files and 6,157 tracked leaves in both modes; the empty failing and skipped lists did not make the findings list empty. A separate hosted run executed ten selected pytest bytecode-policy cases in each mode, without skips, against that same commit and tree; its original artifact, 20 child receipts and source identities were independently checked. [Census](cbz/evidence/g11-python-subprocess-options-20261110/main811-g11-census-verification.json); [pytest](cbz/evidence/regression-skip-observation-20261110/current-pytest-verification.json). These observations belong to the earlier head; any later tree requires its own current-source checks. Neither selected run removes the 23 skips recorded in normal discovery or constitutes the final G0–G11 pass.
+
+
 ## Integrated observations and remaining gates — 10 November 2026
 
 As observed through 07:30 UTC, Main #810 merged as `d1819f0aa4d914c770687606ccd9f131e6b7634f`, tree `079d00619890da57b438b223b6be42732b044998`. The post-merge G11 component run `42773535888` recorded the original 328 mutation cases per mode plus the origin and format campaigns; 714 individual mutation records across both modes were checked against the retained results. This is bounded component evidence, not a current whole-federation G11 or Layer A audit. [Component observation](cbz/evidence/g11-python-subprocess-options-20261110/main810-postmerge-g11.json) and [verification](cbz/evidence/g11-python-subprocess-options-20261110/main810-postmerge-g11-verification.json).

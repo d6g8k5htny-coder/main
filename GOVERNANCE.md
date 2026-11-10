@@ -1,5 +1,10 @@
 # CBZ-0 governance
 
+## G11 report field interpretation — 10 November 2026
+
+A G11 `findings` list records classified scanner observations and is distinct from `failing`, `failing_tools` and `skipped`. Do not describe an empty failing list as an empty findings list. The [source-bound correction](cbz/evidence/g11-python-subprocess-options-20261110/g11-findings-correction.json) retains the original report counts and does not establish a full Layer A audit.
+
+
 ## Prepared Pages offline observer — 10 November 2026
 
 Purpose: independently compare the retained original Pages and metadata ZIPs with the exact prepared receipt, including archive membership, control bytes and the original fingerprint. With the two original ZIPs (`13728153243.zip` and `13728342519.zip`), `prepared-receipt-original.json`, `verify_prepared_artifact.py` and `check_prepared_verifier.py` copied into an isolated directory named by `CBZ_PAGES_STAGE`, run:
