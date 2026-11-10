@@ -652,9 +652,16 @@ def inventory (loaded : LoadedModule) : IO Unit := do
     ("declaration_count", toJson final.constants.size), ("axioms", nameArray axiomUnion)
   ]
 
-/-- Task C is intentionally absent; this entry point cannot report replay success. -/
-def replayOwned (_base : Kernel.Environment) (_owned : Std.HashMap Name ConstantInfo) :
-    IO Kernel.Environment :=
+/-- Refuse declarations upstream replay would skip, preserving their exact identities. -/
+def guardReplayConstant (ci : ConstantInfo) : Except AuditError Unit := do
+  if ci.isUnsafe then throw (.unsafeReplaySkip ci.name)
+  if ci.isPartial then throw (.partialReplaySkip ci.name)
+
+/-- Task C is intentionally absent; safety refusal does not establish replay success. -/
+def replayOwned (_base : Kernel.Environment) (owned : Std.HashMap Name ConstantInfo) :
+    IO Kernel.Environment := do
+  for (_, ci) in owned.toArray do
+    fromAudit (guardReplayConstant ci)
   failCode "NOT_IMPLEMENTED" "Task C kernel replay is not implemented or qualified"
 
 def runReplay (_loaded : LoadedModule) : IO Unit :=
