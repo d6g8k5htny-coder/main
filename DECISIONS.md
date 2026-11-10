@@ -778,3 +778,17 @@ README, SHA256SUMS and retained verification history.
 - This is a staged composition on the publication candidates, not an
   integration or a new proof, quarantine, scientific or final-gate claim.
   Recheck the actual base, exact tested tree and required checks before merge.
+
+## 2026-11-10 — Preserve failed architecture preparation observation
+
+- [Layer B / adverse evidence] Preserve Main #800's actual architecture and
+  intake failures plus the bounded read-only diagnostic source and decoded
+  job logs under `cbz/evidence/architecture-artifact-observation-20261110/`.
+  The diagnostic checked one retained ZIP digest, native run/commit identity
+  and one result member; it did not qualify architecture or any final gate.
+- The artifact reported unsafe/private daemon configuration, no completed
+  daemon mutation, and no recovery error. Retain the failure and its limits;
+  do not disclose the daemon configuration or disable the affected checks.
+- Preserve the diagnostic commit as an additional candidate parent and retain
+  its workflow as evidence rather than enabling it on the candidate. This is
+  reversible and does not alter any default ref or scientific claim.
