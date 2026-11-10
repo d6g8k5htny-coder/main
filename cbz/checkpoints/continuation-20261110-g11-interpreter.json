@@ -689,7 +689,32 @@
       "positive_control_passed": true
     },
     "finding": "Python test subprocess references with invalid --check-hash-based-pycs, invalid attached -X utf8, and invalid bash -o operands were statically credited despite actual subprocess failure and absent execution markers. This is a synthetic, local Python 3.12 observation; the earlier source-bound census outputs remain historical and have this attribution limitation. It does not refute mathematical results.",
-    "repair_status": "not yet implemented; CI 3.11 reproduction pending",
-    "evidence": "cbz/evidence/g11-python-subprocess-options-red-20261110/"
+    "repair_status": "draft Main #810 ccb98a32b83b3dc82197ec52efd64ff44f622865; local controls and mutations passed; hosted candidate checks and census in progress",
+    "evidence": "cbz/evidence/g11-python-subprocess-options-red-20261110/",
+    "hosted": {
+      "run": 42770128530,
+      "job": 129675715031,
+      "checkout": "1a6acb192f0946900c4d445ee36febec27540da0",
+      "original_census_blob": "904a4e417a7565918412c599bfcbdbdd420c9515",
+      "tests_from": "ccb98a32b83b3dc82197ec52efd64ff44f622865",
+      "test_blob": "0f38c09308b001b4e59a3095e1c5a07d5708ad6b",
+      "python": "3.11.18",
+      "both_modes": {
+        "tests": 4,
+        "failures": 3,
+        "errors": 0,
+        "positive_control_passed": true,
+        "exit_code": 1
+      },
+      "job_conclusion": "failure, including explicit final failure step to retain original adverse outcome",
+      "artifact": {
+        "id": 13741720928,
+        "sha256": "547c979593b64157daa152e3edfc8cc19353b4035198cbc78a7d3e6ee8ab75bd",
+        "bytes": 1150,
+        "independent_hash_crc_members_and_content_verified": true,
+        "git_blob": "542275d43c0282c02b5e975e25bc5201066c9edb"
+      },
+      "scope": "Synthetic marker-bearing subprocesses; not proof any actual production tool failed to execute. No mathematical results rebound."
+    }
   }
 }
