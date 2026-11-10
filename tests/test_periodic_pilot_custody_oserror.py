@@ -78,6 +78,7 @@ class RawOSErrorExitTests(unittest.TestCase):
                 (REPO / 'tools/periodic_pilot_custody.py').read_bytes())
             with mock.patch.dict(os.environ, clear=False), mock.patch(__name__ + '.REPO', isolated):
                 os.environ.pop('PYTHONDONTWRITEBYTECODE', None)
+                os.environ.pop('PYTHONPYCACHEPREFIX', None)
                 p = self.seal_with_fault('scandir')
             self.assertEqual(p.returncode, custody.CUSTODY_FAILURE, p.stderr)
             self.assertIn('periodic pilot custody refused', p.stderr)
