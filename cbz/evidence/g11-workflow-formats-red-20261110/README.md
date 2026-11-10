@@ -1,0 +1,3 @@
+# Workflow-reference regression: first red and fixture limitation
+
+Run 42762365551, job 129650834506, on debug commit 64bd55ae06cbc2853d951401b3ad1cd9490bb8f2 ran five tests per Python 3.11.18 mode. Each mode had three failures (env-unset reference, JSON job-step reference, and the actual G11 workflow reference) and two errors because the debug checkout lacked the two other native workflow files. The original full log is retained. The two missing files are restored in the next debug commit from the exact already-existing candidate blobs; those setup errors are not credited as evidence of a scanner defect. No results were silently skipped or reclassified.

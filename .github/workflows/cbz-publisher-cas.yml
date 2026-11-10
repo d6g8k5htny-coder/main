@@ -1,0 +1,50 @@
+{
+  "name": "CBZ publisher atomic receipt controls",
+  "on": {
+    "pull_request": {
+      "paths": [
+        "tools/current_site_publication.py",
+        "tools/current_site_data.py",
+        "tests/test_current_site_publication.py",
+        "tools/cbz_site_publisher_cas_mutations.py",
+        "tools/cbz/reference_crawler_mutation_check.py",
+        ".github/workflows/cbz-publisher-cas.yml"
+      ]
+    }
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "jobs": {
+    "controls": {
+      "runs-on": "ubuntu-24.04",
+      "timeout-minutes": 15,
+      "steps": [
+        {
+          "uses": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "with": {
+            "ref": "${{ github.sha }}",
+            "persist-credentials": false
+          }
+        },
+        {
+          "name": "Run publication atomic-head controls",
+          "shell": "bash",
+          "run": "set -euo pipefail\nmkdir -p \"$RUNNER_TEMP/cbz-publisher-cas\"\ntest \"$(git rev-parse HEAD)\" = \"$GITHUB_SHA\"\npython3 --version > \"$RUNNER_TEMP/cbz-publisher-cas/python.txt\"\nfor mode in normal optimized; do\n  log=\"$RUNNER_TEMP/cbz-publisher-cas/unit-$mode.log\"\n  if [ \"$mode\" = optimized ]; then\n    python3 -B -O -S -m unittest -v tests.test_current_site_publication > \"$log\" 2>&1 || { cat \"$log\"; exit 1; }\n  else\n    python3 -B -S -m unittest -v tests.test_current_site_publication > \"$log\" 2>&1 || { cat \"$log\"; exit 1; }\n  fi\n  cat \"$log\"\n  grep -Eq '^Ran 40 tests in ' \"$log\"\n  tail -n 1 \"$log\" | grep -Fxq 'OK'\n  if grep -Fq ' ... skipped ' \"$log\"; then echo 'skipped publication control' >&2; exit 1; fi\n  if [ \"$mode\" = optimized ]; then\n    python3 -B -O -S tools/cbz_site_publisher_cas_mutations.py --output \"$RUNNER_TEMP/cbz-publisher-cas/mutations-$mode\" | tee \"$RUNNER_TEMP/cbz-publisher-cas/mutations-$mode.log\"\n  else\n    python3 -B -S tools/cbz_site_publisher_cas_mutations.py --output \"$RUNNER_TEMP/cbz-publisher-cas/mutations-$mode\" | tee \"$RUNNER_TEMP/cbz-publisher-cas/mutations-$mode.log\"\n  fi\ndone\n"
+        },
+        {
+          "name": "Retain publication control evidence",
+          "if": "${{ always() }}",
+          "uses": "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+          "with": {
+            "name": "cbz-publisher-cas-${{ github.run_id }}-${{ github.run_attempt }}",
+            "path": "${{ runner.temp }}/cbz-publisher-cas",
+            "if-no-files-found": "warn",
+            "include-hidden-files": true,
+            "retention-days": 30
+          }
+        }
+      ]
+    }
+  }
+}

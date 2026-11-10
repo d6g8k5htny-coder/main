@@ -40,8 +40,8 @@ class WorkflowFormats(unittest.TestCase):
         self.assertEqual(g11.workflow_tool_references(text, TOOLS), {PUBLISHER})
 
     def test_json_duplicate_keys_and_non_run_paths_are_refused(self):
-        duplicate = ('{"jobs":{"one":{"steps":[{"run":"python3 ' + PUBLISHER
-                     + '"}]}},"jobs":{"two":{"steps":[]}}}')
+        duplicate = ('{"jobs":{"one":{"steps":[]}},"jobs":{"two":{"steps":[{"run":"python3 '
+                     + PUBLISHER + '"}]}}}')
         metadata = json.dumps({"jobs": {"a": {"steps": [{"with": {"path": RECOVERY}}]}}})
         self.assertEqual(g11.workflow_tool_references(duplicate, TOOLS), set())
         self.assertEqual(g11.workflow_tool_references(metadata, TOOLS), set())
