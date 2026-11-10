@@ -40,3 +40,91 @@ jobs:
         run: |
           node --test tests/test_node_status_atlas.mjs
           python3 -B -S tools/validate_node_status.py records/node_status
+      - name: Require five real-record methods in normal Python
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          log="$RUNNER_TEMP/node-status-real-record-normal.log"
+          {
+            printf 'mode=normal\n'
+            python3 -B -S -c 'import sys; print("executable=" + sys.executable); print("python=" + sys.version.replace("\n", " ")); print("optimize=" + str(sys.flags.optimize))'
+            printf 'checked_commit='
+            git rev-parse HEAD
+            printf 'checked_tree='
+            git rev-parse 'HEAD^{tree}'
+            python3 -B -S -u - <<'Q9002_METHODS_PY'
+          import unittest
+
+          identifiers = (
+              "tests.test_living_project_validation.RealRecordTests.test_adoption_on_merged_records",
+              "tests.test_living_project_validation.RealRecordTests.test_real_records_required_fields",
+              "tests.test_living_project_validation.RealRecordTests.test_real_records_source_rev_equals_first_source",
+              "tests.test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern",
+              "tests.test_living_project_validation.RealRecordTests.test_real_records_match_published_projection",
+          )
+          suite = unittest.TestSuite(
+              unittest.defaultTestLoader.loadTestsFromName(name) for name in identifiers
+          )
+          result = unittest.TextTestRunner(verbosity=2, descriptions=False).run(suite)
+          raise SystemExit(0 if result.wasSuccessful() else 1)
+          Q9002_METHODS_PY
+          } 2>&1 | tee "$log"
+          grep -Ec '^Ran 5 tests in [0-9.]+s$' "$log" | grep -Fxq '1' || { echo '::error::Expected exactly one five-method unittest summary'; exit 1; }
+          tail -n 1 "$log" | grep -Fxq 'OK' || { echo '::error::Required real-record methods did not finish without failures, errors or skips'; exit 1; }
+          if grep -Fq ' ... skipped ' "$log"; then echo '::error::Required real-record method skipped'; exit 1; fi
+          test "$(grep -Ec '^[^[:space:]]+ \(.*\) \.\.\. ' "$log")" -eq 5 || { echo '::error::Expected exactly five unittest method outcomes'; exit 1; }
+          for method in \
+            test_adoption_on_merged_records \
+            test_real_records_required_fields \
+            test_real_records_source_rev_equals_first_source \
+            test_real_records_evidence_id_pattern \
+            test_real_records_match_published_projection
+          do
+            expected="$method (tests.test_living_project_validation.RealRecordTests.$method) ... ok"
+            test "$(grep -Fxc "$expected" "$log")" -eq 1 || { echo "::error::Required method did not pass exactly once: $method"; exit 1; }
+          done
+      - name: Require five real-record methods in optimized Python
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          log="$RUNNER_TEMP/node-status-real-record-optimized.log"
+          {
+            printf 'mode=optimized\n'
+            python3 -B -O -S -c 'import sys; print("executable=" + sys.executable); print("python=" + sys.version.replace("\n", " ")); print("optimize=" + str(sys.flags.optimize))'
+            printf 'checked_commit='
+            git rev-parse HEAD
+            printf 'checked_tree='
+            git rev-parse 'HEAD^{tree}'
+            python3 -B -O -S -u - <<'Q9002_METHODS_PY'
+          import unittest
+
+          identifiers = (
+              "tests.test_living_project_validation.RealRecordTests.test_adoption_on_merged_records",
+              "tests.test_living_project_validation.RealRecordTests.test_real_records_required_fields",
+              "tests.test_living_project_validation.RealRecordTests.test_real_records_source_rev_equals_first_source",
+              "tests.test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern",
+              "tests.test_living_project_validation.RealRecordTests.test_real_records_match_published_projection",
+          )
+          suite = unittest.TestSuite(
+              unittest.defaultTestLoader.loadTestsFromName(name) for name in identifiers
+          )
+          result = unittest.TextTestRunner(verbosity=2, descriptions=False).run(suite)
+          raise SystemExit(0 if result.wasSuccessful() else 1)
+          Q9002_METHODS_PY
+          } 2>&1 | tee "$log"
+          grep -Ec '^Ran 5 tests in [0-9.]+s$' "$log" | grep -Fxq '1' || { echo '::error::Expected exactly one five-method unittest summary'; exit 1; }
+          tail -n 1 "$log" | grep -Fxq 'OK' || { echo '::error::Required real-record methods did not finish without failures, errors or skips'; exit 1; }
+          if grep -Fq ' ... skipped ' "$log"; then echo '::error::Required real-record method skipped'; exit 1; fi
+          test "$(grep -Ec '^[^[:space:]]+ \(.*\) \.\.\. ' "$log")" -eq 5 || { echo '::error::Expected exactly five unittest method outcomes'; exit 1; }
+          for method in \
+            test_adoption_on_merged_records \
+            test_real_records_required_fields \
+            test_real_records_source_rev_equals_first_source \
+            test_real_records_evidence_id_pattern \
+            test_real_records_match_published_projection
+          do
+            expected="$method (tests.test_living_project_validation.RealRecordTests.$method) ... ok"
+            test "$(grep -Fxc "$expected" "$log")" -eq 1 || { echo "::error::Required method did not pass exactly once: $method"; exit 1; }
+          done

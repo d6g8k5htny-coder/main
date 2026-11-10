@@ -1,5 +1,22 @@
 # CBZ-0 execution status
 
+
+## Later Main, Workspace and Pages observation — 10 November 2026
+
+Main #799 merged as `3f05f8493afac71c6f4aac5c1db5aeb46194d98a`,
+preserving its tested tree. Workspace #69 at
+`d8d8b16af35b3f6d3d4b454ce98e26d7c3b81ab0` still pins the earlier Main
+`31bc4c1f`; that pin is stale after #799. Its post-merge pins and
+federation-contract workflows succeeded, but those observations are not a
+final current-tip federation pass. Main #803 is a separate draft qualifying a
+pytest population; its hosted results must be observed independently.
+
+The Main `31bc4c1f` site run `42747646763` failed at prepared-receipt
+public readback in build job `129605863089`; deploy was skipped. The full
+job log is retained on the separate publisher candidate. No observed receipt,
+public repair, scientific acceptance or CBZ-0 follows. Recheck all refs, live
+checks and receipt state before integration or dispatch.
+
 ## Guarded Pages receipt recovery — observed 10 November 2026
 
 Main #798 merged as `31bc4c1f5b66e92bfbf327366956944ea691289c` with the
