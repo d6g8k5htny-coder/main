@@ -1,5 +1,9 @@
 # CBZ-0 governance
 
+## G11 mutation-origin guard: current scope
+
+The old filename-based attribution admitted subject-origin AssertionErrors in actual run 42760114483; retain that failure and treat earlier totals as historical observations only. The candidate `tools/cbz/g11_mutation_selftest.py` captures live code provenance before unittest cleanup and requires selected-body or explicitly enumerated unittest-oracle origin. The companion `tools/cbz/g11_origin_mutation_selftest.py` exercises five bounded mutations against actual origin tests. Run both normally and with `-O` as listed in STATUS and TOOLING. Local Python 3.12.14 evidence covers 263 original methods, nine origin methods and five origin mutations per mode; hosted and final federation qualification must be observed separately. Synchronous unittest bodies are supported; arbitrary hostile in-process Python is outside the security claim.
+
 ## SDGA Task A integration — 10 November 2026
 
 Main #797 integrated the bounded compiled-object inventory and custody controls at `b6be588c82d2256c917b7d26d901085bc90319fb`. The later dated STATUS entry records its source-bound hosted execution, exact normal and optimized commands and limits. The earlier candidate description below is historical. Classification and qualification remain BLOCKED, replay is NOT_IMPLEMENTED, and this tool does not establish scientific acceptance or a final federation gate.

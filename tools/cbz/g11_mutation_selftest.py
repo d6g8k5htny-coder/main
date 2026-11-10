@@ -7,9 +7,11 @@ isolated directory, applies exactly one mutation, and runs one designated test.
 A mutation is KILLED only when the clean full baseline passes and that one test
 reports exactly one AssertionError at its exact designated assertion line,
 with the exact module/class/method identity, FAILED status, zero errors and
-zero skips. Setup, import, teardown, cleanup, process and unrelated assertion
-failures never count as kills. The self-test passes only when the unmutated
-baseline passes and every mutation is killed.
+zero skips. A child result records live traceback/code identity before unittest
+cleanup and permits only the selected body followed by explicit unittest oracle
+code. Setup, subject, helper, callback, teardown, cleanup, process and unrelated
+assertion failures never count as kills. The self-test passes only when the
+unmutated baseline passes and every mutation is killed.
 
 A mutation whose target text does not occur exactly once is a harness error,
 never a silent no-op.
@@ -24,6 +26,7 @@ import ast
 import json
 import os
 import re
+import secrets
 import shutil
 import subprocess
 import sys
@@ -2296,6 +2299,7 @@ def qualifies_kill(outcome, expected_test, expected_line):
         and outcome.get("traceback_method") == expected_method
         and outcome.get("traceback_line") == expected_line
         and outcome.get("exception_type") == "AssertionError"
+        and outcome.get("origin_authorized") is True
     )
 
 
@@ -2311,16 +2315,279 @@ def _clean_child_env(source=None):
     return env
 
 
+# Adapted from reference_crawler_mutation_check.ORIGIN_RUNNER. This child
+# captures live traceback frame/code identities in TestResult.addFailure before
+# unittest formats or clears the traceback. It supports synchronous unittest
+# bodies and the explicitly enumerated standard-library assertion code only.
+ORIGIN_RUNNER = r'''
+import inspect
+import json
+import sys
+import unittest
+import unittest.case
+from pathlib import Path
+
+_g11_target, _g11_report_path, _g11_token = sys.argv[1:4]
+sys.argv = sys.argv[:1]
+
+def code_of(value):
+    return getattr(getattr(value, "__func__", value), "__code__", None)
+
+oracle_codes = tuple(
+    code for cls in (unittest.TestCase, unittest.case._AssertRaisesContext,
+                     unittest.case._AssertRaisesBaseContext, unittest.case._BaseTestCaseContext)
+    for name, value in vars(cls).items()
+    if name.startswith("assert") or name in
+       ("fail", "_baseAssertEqual", "_formatMessage", "__exit__", "_raiseFailure")
+    for code in [code_of(value)] if code is not None
+)
+
+def is_oracle(code):
+    return any(code is allowed for allowed in oracle_codes)
+
+def leaves(node):
+    if isinstance(node, unittest.TestSuite):
+        for child in node:
+            yield from leaves(child)
+    else:
+        yield node
+
+suite = unittest.defaultTestLoader.loadTestsFromName(_g11_target)
+cases = list(leaves(suite))
+ids = [case.id() for case in cases]
+names = [getattr(case, "_testMethodName", "") for case in cases]
+if not cases or len(set(ids)) != len(ids) or len(set(names)) != len(names):
+    raise ValueError("test population must be nonempty and unique")
+states = {}
+for case in cases:
+    selected = getattr(case, case._testMethodName, None)
+    code = code_of(selected)
+    if (code is None or inspect.iscoroutinefunction(selected) or
+            inspect.isgeneratorfunction(selected) or inspect.isasyncgenfunction(selected)):
+        raise ValueError("only synchronous selected test bodies are supported")
+    state = {"code": code, "entered": 0, "phase": "initial"}
+    states[case.id()] = state
+    for attr, phase in (("_callSetUp", "setup"), ("_callTearDown", "teardown"),
+                        ("_callCleanup", "cleanup")):
+        original = getattr(case, attr)
+        def wrap(*args, _original=original, _state=state, _phase=phase, **kwargs):
+            _state["phase"] = _phase
+            return _original(*args, **kwargs)
+        setattr(case, attr, wrap)
+    def call_body(method, _state=state):
+        if code_of(method) is not _state["code"]:
+            raise RuntimeError("selected test body changed")
+        _state["entered"] += 1
+        _state["phase"] = "body"
+        try:
+            returned = method()
+            if returned is not None:
+                if inspect.iscoroutine(returned) or inspect.isgenerator(returned):
+                    returned.close()
+                raise RuntimeError("unsupported test-body return value")
+        finally:
+            _state["phase"] = "body-exited"
+    case._callTestMethod = call_body
+
+
+class ProvenanceResult(unittest.TestResult):
+    def __init__(self):
+        super().__init__()
+        self.events = []
+        self.started = []
+        self.stopped = []
+
+    def startTest(self, test):
+        self.started.append(test.id())
+        super().startTest(test)
+
+    def stopTest(self, test):
+        self.stopped.append(test.id())
+        super().stopTest(test)
+
+    @staticmethod
+    def selected_case(test):
+        return getattr(test, "test_case", test)
+
+    def record(self, test, err, kind):
+        case = self.selected_case(test)
+        method_name = getattr(case, "_testMethodName", "")
+        state = states.get(case.id(), {})
+        selected_code = state.get("code")
+        frames = []
+        codes = []
+        tb = err[2]
+        while tb is not None:
+            code = tb.tb_frame.f_code
+            codes.append(code)
+            frames.append({
+                "filename": str(Path(code.co_filename).resolve()),
+                "firstlineno": code.co_firstlineno,
+                "name": code.co_name,
+                "qualname": getattr(code, "co_qualname", code.co_name),
+                "lineno": tb.tb_lineno,
+                "selected": code is selected_code,
+                "oracle": is_oracle(code),
+            })
+            tb = tb.tb_next
+        positions = [i for i, code in enumerate(codes) if code is selected_code]
+        authorized = (kind == "failure" and type(err[1]) is AssertionError and
+                      state.get("entered") == 1 and
+                      state.get("phase") in ("body", "body-exited") and
+                      len(positions) == 1 and all(is_oracle(code) for code in codes[positions[0] + 1:]))
+        self.events.append({
+            "test": method_name or test.id(),
+            "kind": kind,
+            "authorized": authorized,
+            "exception": err[0].__name__,
+            "selected": {
+                "filename": str(Path(selected_code.co_filename).resolve()) if selected_code else None,
+                "firstlineno": selected_code.co_firstlineno if selected_code else None,
+                "name": selected_code.co_name if selected_code else None,
+            },
+            "frames": frames,
+        })
+
+    def addFailure(self, test, err):
+        self.record(test, err, "failure")
+        super().addFailure(test, err)
+
+    def addError(self, test, err):
+        self.record(test, err, "error")
+        super().addError(test, err)
+
+    def addSubTest(self, test, subtest, err):
+        if err is not None:
+            kind = "failure" if issubclass(err[0], test.failureException) else "error"
+            self.record(subtest, err, kind)
+        super().addSubTest(test, subtest, err)
+
+
+result = ProvenanceResult()
+suite.run(result)
+authorized = sorted({event["test"] for event in result.events if event["kind"] == "failure" and event["authorized"]})
+unauthorized = sorted({event["test"] for event in result.events if event["kind"] == "failure" and not event["authorized"]})
+errors = sorted({event["test"] for event in result.events if event["kind"] == "error"})
+report = {
+    "schema": "reference-crawler-origin-v3",
+    "optimize": sys.flags.optimize,
+    "tests_run": result.testsRun,
+    "ids": ids,
+    "names": names,
+    "started": result.started,
+    "stopped": result.stopped,
+    "failure_count": len(result.failures),
+    "error_count": len(result.errors),
+    "skip_count": len(result.skipped),
+    "expected_failure_count": len(result.expectedFailures),
+    "unexpected_success_count": len(result.unexpectedSuccesses),
+    "authorized_failures": authorized,
+    "unauthorized_failures": unauthorized,
+    "errors": errors,
+    "events": result.events,
+}
+with open(_g11_report_path, "x", encoding="utf-8") as stream:
+    json.dump(report, stream, sort_keys=True)
+print("G11_ORIGIN_DONE=" + _g11_token, flush=True)
+raise SystemExit(0 if result.wasSuccessful() else 1)
+'''
+
+
+def _parse_origin_run(proc, report, requested_test):
+    """Validate the child report; missing or inconsistent provenance fails closed."""
+    invalid = {"exit": proc.returncode, "ran": -1, "failures": 0, "errors": 0,
+               "skipped": 0, "test_id": None, "traceback_method": None,
+               "traceback_line": None, "exception_type": None, "parsed": False,
+               "origin_authorized": False}
+    if not isinstance(report, dict) or report.get("schema") != "reference-crawler-origin-v3":
+        return invalid
+    count_names = ("tests_run", "failure_count", "error_count", "skip_count",
+                   "expected_failure_count", "unexpected_success_count", "optimize")
+    if any(type(report.get(name)) is not int or report[name] < 0 for name in count_names):
+        return invalid
+    ids, names, events = report.get("ids"), report.get("names"), report.get("events")
+    if (report["optimize"] != sys.flags.optimize or report["tests_run"] != 1
+            or not isinstance(ids, list) or len(ids) != 1 or not isinstance(ids[0], str)
+            or not (ids[0] == requested_test or ids[0].startswith(requested_test + "."))
+            or names != [ids[0].rsplit(".", 1)[-1]]
+            or report.get("started") != ids or report.get("stopped") != ids
+            or not isinstance(events, list)
+            or len(events) != report["failure_count"] + report["error_count"]
+            or report["expected_failure_count"] or report["unexpected_success_count"]
+            or proc.returncode not in (0, 1)):
+        return invalid
+    failed = report["failure_count"] + report["error_count"] > 0
+    if proc.returncode != (1 if failed else 0):
+        return invalid
+    for event in events:
+        if (not isinstance(event, dict) or event.get("test") != names[0]
+                or event.get("kind") not in ("failure", "error")
+                or type(event.get("authorized")) is not bool
+                or not isinstance(event.get("frames"), list)
+                or not isinstance(event.get("selected"), dict)):
+            return invalid
+    fail_names = sorted({e["test"] for e in events if e["kind"] == "failure" and e["authorized"]})
+    unauthorized = sorted({e["test"] for e in events if e["kind"] == "failure" and not e["authorized"]})
+    errors = sorted({e["test"] for e in events if e["kind"] == "error"})
+    if (report.get("authorized_failures") != fail_names
+            or report.get("unauthorized_failures") != unauthorized
+            or report.get("errors") != errors):
+        return invalid
+    result = dict(invalid, parsed=True, ran=report["tests_run"],
+                  failures=report["failure_count"], errors=report["error_count"],
+                  skipped=report["skip_count"], status="FAILED" if failed else "OK")
+    if len(events) == 1:
+        event = events[0]
+        frames = event["frames"]
+        if any(not isinstance(f, dict) or type(f.get("selected")) is not bool
+               or type(f.get("oracle")) is not bool for f in frames):
+            return invalid
+        positions = [i for i, frame in enumerate(frames) if frame["selected"]]
+        if len(positions) == 1:
+            frame = frames[positions[0]]
+            selected = event["selected"]
+            if (type(frame.get("lineno")) is not int or frame["lineno"] < 1
+                    or frame.get("name") != names[0]
+                    or selected.get("name") != names[0]
+                    or frame.get("firstlineno") != selected.get("firstlineno")
+                    or frame.get("filename") != selected.get("filename")):
+                return invalid
+            result.update(test_id=ids[0], traceback_method=frame["name"],
+                          traceback_line=frame["lineno"], exception_type=event.get("exception"))
+            result["origin_authorized"] = (
+                event["kind"] == "failure" and event["authorized"] is True
+                and event.get("exception") == "AssertionError"
+                and all(f["oracle"] is True for f in frames[positions[0] + 1:])
+            )
+    return result
+
+
 def _run(workdir, test_id=None, env=None):
     command = [sys.executable, "-B", "-S"]
     if sys.flags.optimize:
         command.append("-O")
-    command.extend(["-m", "unittest"])
-    command.append(test_id if test_id else "tests.test_g11_census")
-    command.append("-v")
-    proc = subprocess.run(command, cwd=workdir, env=_clean_child_env(env),
-                          capture_output=True, text=True, timeout=300)
-    return _parse_run(proc)
+    if test_id is None:
+        command.extend(["-m", "unittest", "tests.test_g11_census", "-v"])
+        proc = subprocess.run(command, cwd=workdir, env=_clean_child_env(env),
+                              capture_output=True, text=True, timeout=300)
+        return _parse_run(proc)
+    with tempfile.TemporaryDirectory(prefix="g11-origin-report-") as tmp:
+        report_path = os.path.join(tmp, "origin.json")
+        token = secrets.token_hex(32)
+        command.extend(["-c", ORIGIN_RUNNER, test_id, report_path, token])
+        proc = subprocess.run(command, cwd=workdir, env=_clean_child_env(env),
+                              capture_output=True, text=True, timeout=300)
+        marker = "G11_ORIGIN_DONE=" + token
+        lines = proc.stdout.splitlines()
+        if not lines or lines[-1] != marker or lines.count(marker) != 1:
+            report = None
+        else:
+            try:
+                with open(report_path, encoding="utf-8") as stream:
+                    report = json.load(stream)
+            except (OSError, ValueError, TypeError):
+                report = None
+        return _parse_origin_run(proc, report, test_id)
 
 
 def _sandbox(tool_source, test_source, harness_source, workdir):

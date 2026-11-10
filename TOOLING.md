@@ -1,5 +1,18 @@
 # CBZ mission-tool registry
 
+## G11 assertion-origin mutation verification
+
+Purpose: test that the G11 mutation grader credits only the designated test body's actual assertion or its explicitly enumerated unittest oracle, using live pre-cleanup traceback code identities. Historical filename-filtered totals remain observations with an origin-attribution limitation; see [the adverse run](cbz/evidence/g11-origin-adverse-20261110/).
+
+```sh
+python3 -B -S -m unittest tests.test_g11_origin_provenance
+python3 -B -S -O -m unittest tests.test_g11_origin_provenance
+python3 -B -S tools/cbz/g11_origin_mutation_selftest.py
+python3 -B -S -O tools/cbz/g11_origin_mutation_selftest.py
+```
+
+The five bounded guard mutations each require a clean selected baseline and an actual authorized selected-body failure. Local 3.12.14 results, prior adverse failures and supported-domain limits are in [the local evidence](cbz/evidence/g11-origin-selftest-local-20261110/). The existing census and original 328 mutations remain separate, and this tool does not certify arbitrary hostile code or the final G11 gate.
+
 ## SDGA Task A integration — 10 November 2026
 
 Main #797 integrated the bounded compiled-object inventory and custody controls at `b6be588c82d2256c917b7d26d901085bc90319fb`. The later dated STATUS entry records its source-bound hosted execution, exact normal and optimized commands and limits. The earlier candidate description below is historical. Classification and qualification remain BLOCKED, replay is NOT_IMPLEMENTED, and this tool does not establish scientific acceptance or a final federation gate.

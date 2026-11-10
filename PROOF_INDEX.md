@@ -1,5 +1,9 @@
 # CBZ proof and quarantine index
 
+## Current tooling-evidence boundary
+
+The G11 grader's historical mutation totals are subject to the actual assertion-origin failure recorded in [STATUS](STATUS.md#current-g11-origin-boundary--10-november-2026). This limits tooling evidence only: it does not refute or rebind any historical mathematical statement or kernel outcome, nor establish scientific review or proof closure.
+
 ## SDGA Task A inventory boundary — 10 November 2026
 
 Main #797 integrated a bounded compiled-object inventory and fixture controls. Its classification and qualification remain BLOCKED; the observed component checks do not close, refute, or rebind any mathematical proof or quarantine and do not establish scientific acceptance. See STATUS for exact commands and observed execution.

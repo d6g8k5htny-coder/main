@@ -1,5 +1,18 @@
 # G11 auditor — bounded census, not certification
 
+## Current assertion-origin guard
+
+The earlier filename-based mutation grader accepted actual subject, helper and callback assertions in run 42760114483. Preserve that historical result and do not infer sound attribution from its old totals. The candidate captures live traceback/code identities before unittest cleanup and accepts only the selected synchronous test body followed by explicitly enumerated unittest oracle code. It validates a runner-completion marker before reading the child report. It is not a security sandbox against arbitrary hostile Python in the same process.
+
+```sh
+python3 -B -S -m unittest tests.test_g11_origin_provenance
+python3 -B -S -O -m unittest tests.test_g11_origin_provenance
+python3 -B -S tools/cbz/g11_origin_mutation_selftest.py
+python3 -B -S -O tools/cbz/g11_origin_mutation_selftest.py
+```
+
+Local Python 3.12.14 passed nine origin methods and five bounded guard mutations in each mode; [red and local evidence](../../cbz/evidence/g11-origin-selftest-local-20261110/) retains actual failures and source-bound results. The original G11 census tests and 328 mutation definitions remain separately required. No common final G11 run is implied.
+
 ## Purpose
 
 `tools/cbz/g11_census.py` reads tracked blob bytes from one Git revision and reports review triggers for the owner-defined G11 tooling-hygiene criterion: Python stubs, code-comment markers, no-op workflow run steps, and tool documentation/static-reference checks. It is a triage instrument, not a proof, a Layer A certificate, or a federation-wide G11 admission.

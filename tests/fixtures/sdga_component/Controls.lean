@@ -435,6 +435,171 @@ private def c15 : IO Unit := do
   run "C15" "wrong-resolved-path" do
     expectIOCode "RESOLVED_PATH" (SDGA.loadExact request)
 
+/- Task B controls: actual fixtures/CI alterations; no test-owned policy guard. -/
+private def taskBBaseline (expected : Name) : IO LoadedModule := do
+  let path ← envRequired "SDGA_CONTROL_TASK_B_REQUEST"
+  let loaded ← SDGA.loadExact (← SDGA.readRequest (System.FilePath.mk path))
+  check (loaded.request.module == expected) "Task B fixture module identity differs"
+  check (loaded.parts.map (·.1) == #["exported", "server", "private"])
+    "Task B fixture must retain all actual module parts"
+  return loaded
+
+private def lookupActual (loaded : LoadedModule) (name : Name) : Option ConstantInfo :=
+  loaded.owned[name]? <|> loaded.env.find? name
+
+private def closureActual (loaded : LoadedModule) (ci : ConstantInfo) : IO (Array Name) := do
+  match SDGA.strictAxioms (lookupActual loaded) #[ci.name] with
+  | .ok names => return names
+  | .error err => failure s!"strictAxioms failed: {err.code}: {err.message}"
+
+private def c04 (loaded : LoadedModule) : IO Unit := do
+  let bad : Name := `Fixture.BadDependency.BadProof
+  let some badCI := loaded.env.find? bad | setupFailure "genuine dependency axiom absent"
+  check (badCI.isAxiom && !loaded.owned.contains bad &&
+    (← rawOwner loaded bad) == `Fixture.BadDependency) "BadProof is not an actual dependency axiom"
+  run "C04" "type-route" do
+    let ci ← getCI loaded `Fixture.AxiomUse.typeOnly
+    let .defnInfo info := ci | setupFailure "typeOnly is not an actual definition"
+    check (ci.type.getUsedConstants.contains `Fixture.AxiomUse.TypeAlias)
+      "compiled typeOnly.type lost TypeAlias; no type-only route credit"
+    check (!info.value.getUsedConstants.contains bad)
+      "compiled typeOnly.value mentions BadProof; type-only route confounded"
+    let names ← closureActual loaded ci
+    check (names.contains bad) "strict closure omitted exact BadProof through declaration type"
+    return .mkObj [("axioms", wires names), ("compiled_type_alias_retained", .bool true),
+      ("value_badproof_absent", .bool true)]
+  run "C04" "value-route" do
+    let ci ← getCI loaded `Fixture.AxiomUse.valueOnly
+    let .defnInfo info := ci | setupFailure "valueOnly is not an actual definition"
+    check (!ci.type.getUsedConstants.contains bad && info.value.getUsedConstants.contains bad)
+      "compiled valueOnly does not isolate the actual value route"
+    let names ← closureActual loaded ci
+    check (names.contains bad) "strict closure omitted exact BadProof through definition value"
+    return .mkObj [("axioms", wires names)]
+  run "C04" "opaque-route" do
+    let ci ← getCI loaded `Fixture.AxiomUse.opaqueOnly
+    let .opaqueInfo info := ci | setupFailure "opaqueOnly is not an actual opaque CI"
+    check (!ci.type.getUsedConstants.contains bad && info.value.getUsedConstants.contains bad)
+      "compiled opaqueOnly does not isolate the actual opaque value route"
+    let names ← closureActual loaded ci
+    check (names.contains bad) "strict closure omitted exact BadProof through opaque value"
+    return .mkObj [("axioms", wires names)]
+
+private def expectMissing (loaded : LoadedModule) (altered : ConstantInfo)
+    (absent : Name) : IO Json := do
+  check ((lookupActual loaded absent).isNone) "missing-name alteration already resolves"
+  let lookup := fun name =>
+    if name == altered.name then some altered else lookupActual loaded name
+  match SDGA.strictAxioms lookup #[altered.name] with
+  | .ok _ => failure "strictAxioms accepted an actual-CI alteration with absent dependency"
+  | .error (.missingConstant actual) =>
+    check (actual == absent) "missingConstant did not preserve the exact absent Name"
+    return .mkObj [("expected_code", .str "MISSING_CONSTANT"),
+      ("missing_name", .str (SDGA.encodeName actual)),
+      ("altered_root", .str (SDGA.encodeName altered.name))]
+  | .error err => failure s!"wrong missing-lookup cause: {err.code}: {err.message}"
+
+private def c05 (loaded : LoadedModule) : IO Unit := do
+  let ci ← getCI loaded `Fixture.Safe.proof
+  let .defnInfo info := ci | setupFailure "missing lookup needs actual proof definition CI"
+  let absent := Name.num (Name.str (Name.str .anonymous "SDGAControl") "absent/é")
+    18446744073709551617
+  run "C05" "missing-type" do
+    expectMissing loaded (.defnInfo { info with type := .const absent [] }) absent
+  run "C05" "missing-value" do
+    expectMissing loaded (.defnInfo { info with value := .const absent [] }) absent
+  run "C05" "missing-link" do
+    let ind ← getCI loaded `Fixture.Safe.Switch
+    let .inductInfo indInfo := ind | setupFailure "Switch must have actual inductive CI"
+    let indError ← expectMissing loaded
+      (.inductInfo { indInfo with ctors := indInfo.ctors ++ [absent] }) absent
+    let recursors := (finalData loaded).constants.filter fun candidate =>
+      match candidate with
+      | .recInfo value => value.all.contains ind.name
+      | _ => false
+    check (!recursors.isEmpty) "no actual Switch recursor for link alteration"
+    let .recInfo recInfo := recursors[0]! | setupFailure "recursor selection changed"
+    let recError ← expectMissing loaded
+      (.recInfo { recInfo with all := recInfo.all ++ [absent] }) absent
+    return .mkObj [("inductive_link", indError), ("recursor_link", recError)]
+
+private def c06 (loaded : LoadedModule) : IO Unit := do
+  run "C06" "imports-empty" do
+    for (_, part) in loaded.parts do
+      check (part.imports.isEmpty) "OwnedAxiom raw source module has actual direct imports"
+    return .mkObj [("imports", .arr #[])]
+  run "C06" "exact-owned-propext" do
+    let ci ← getCI loaded `propext
+    check (ci.name == Name.str .anonymous "propext" && ci.isAxiom)
+      "genuine source CI must be exact root propext and axiom"
+    let row ← SDGA.observeConstant loaded ci
+    check (row.name == ci.name && row.owner == `Fixture.OwnedAxiom && row.kind == "axiom")
+      "exact propext is absent from owned observation"
+    check ((← rawOwner loaded ci.name) == `Fixture.OwnedAxiom) "raw axiom owner differs"
+    return .mkObj [("oracle_row", ← nativeRow loaded ci)]
+  -- owned-axiom-block is executed by the unchanged actual Task 1 classifier
+  -- over a separately retained native inventory, with Python_controller provenance.
+
+/-- Resolve only the exact proposed shared production guard. The absent branch
+throws at runtime, never returns an AuditError or manufactures policy behavior.
+The present branch is elaborated with the complete exact function type. -/
+elab "sdgaSharedReplayGuard%" : term => do
+  let guardName := `SDGA.guardReplayConstant
+  if ((← Lean.getEnv).find? guardName).isSome then
+    let guard := Lean.mkIdent guardName
+    Lean.Elab.Term.elabTerm (← `(fun (ci : Lean.ConstantInfo) =>
+      (pure (($guard : Lean.ConstantInfo → Except SDGA.AuditError Unit) ci) :
+        IO (Except SDGA.AuditError Unit)))) none
+  else
+    Lean.Elab.Term.elabTerm (← `(fun (_ : Lean.ConstantInfo) =>
+      (SDGA.Control.setupFailure "IMPLEMENTATION_ABSENCE: SDGA.guardReplayConstant" :
+        IO (Except SDGA.AuditError Unit)))) none
+
+private def c07 (loaded : LoadedModule) : IO Unit := do
+  let subcase ← envRequired "SDGA_CONTROL_SUBCASE"
+  let unsafeCI ← getCI loaded `Fixture.Skipped.unsafeValue
+  let partialName := Lean.Compiler.mkUnsafeRecName `Fixture.Skipped.partialValue
+  let partialCI ← getCI loaded partialName
+  let guard : ConstantInfo → IO (Except AuditError Unit) := sdgaSharedReplayGuard%
+  match subcase with
+  | "unsafe-info" =>
+    run "C07" subcase do
+      check (unsafeCI.isUnsafe && !unsafeCI.isPartial)
+        "genuine unsafe definition lacks exact unsafe/partial flags"
+      let row ← SDGA.observeConstant loaded unsafeCI
+      check (row.isUnsafe && !row.isPartial) "unsafe observation flags differ"
+      return .mkObj [("oracle_row", ← nativeRow loaded unsafeCI)]
+  | "partial-info" =>
+    run "C07" subcase do
+      check (partialCI.isPartial && !partialCI.isUnsafe)
+        "genuine compiler partial implementation lacks exact partial/unsafe flags"
+      let row ← SDGA.observeConstant loaded partialCI
+      check (row.isPartial && !row.isUnsafe) "partial observation flags differ"
+      return .mkObj [("oracle_row", ← nativeRow loaded partialCI),
+        ("public_wrapper", .str (SDGA.encodeName `Fixture.Skipped.partialValue))]
+  | "unsafe-replay-skip" =>
+    run "C07" subcase do
+      check (unsafeCI.isUnsafe && !unsafeCI.isPartial) "unsafe guard input flags differ"
+      match ← guard unsafeCI with
+      | .error (.unsafeReplaySkip name) =>
+        check (name == unsafeCI.name) "unsafe guard changed exact CI name"
+        return .mkObj [("expected_code", .str "UNSAFE_REPLAY_SKIP"),
+          ("name", .str (SDGA.encodeName name)), ("helper", .str "SDGA.guardReplayConstant")]
+      | .error err => failure s!"wrong shared unsafe guard cause: {err.code}"
+      | .ok _ => failure "shared production guard accepted actual unsafe CI"
+  | "partial-replay-skip" =>
+    run "C07" subcase do
+      check (partialCI.isPartial && !partialCI.isUnsafe) "partial guard input flags differ"
+      match ← guard partialCI with
+      | .error (.partialReplaySkip name) =>
+        check (name == partialCI.name) "partial guard changed exact CI name"
+        return .mkObj [("expected_code", .str "PARTIAL_REPLAY_SKIP"),
+          ("name", .str (SDGA.encodeName name)), ("helper", .str "SDGA.guardReplayConstant")]
+      | .error err => failure s!"wrong shared partial guard cause: {err.code}"
+      | .ok _ => failure "shared production guard accepted actual partial CI"
+  | _ => setupFailure s!"unsupported fixed C07 subcase {subcase}"
+
+
 end Control
 
 /-- One fixed native control case per compiler invocation; no root main or generic runner. -/
@@ -445,6 +610,10 @@ def runControls : IO Unit := do
     | "C01" => Control.c01
     | "C02" => Control.c02 (← Control.baseline)
     | "C03" => Control.c03 (← Control.baseline)
+    | "C04" => Control.c04 (← Control.taskBBaseline `Fixture.AxiomUse)
+    | "C05" => Control.c05 (← Control.baseline)
+    | "C06" => Control.c06 (← Control.taskBBaseline `Fixture.OwnedAxiom)
+    | "C07" => Control.c07 (← Control.taskBBaseline `Fixture.Skipped)
     | "C12" => Control.c12 (← Control.baseline)
     | "C13" => Control.c13
     | "C15" =>

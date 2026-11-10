@@ -1,5 +1,26 @@
 # CBZ-0 execution status
 
+## Current G11 origin boundary — 10 November 2026
+
+Actual-source [run 42760114483](https://github.com/d6g8k5htny-coder/main/actions/runs/42760114483), job 129643558161, showed the old G11 grader counting subject, helper and callback AssertionErrors as selected-oracle kills in both modes. Six false acceptances were observed; the number of affected historical outcomes is unknown. The original log, source and result are retained under [G11 origin evidence](cbz/evidence/g11-origin-adverse-20261110/). Historical mutation totals remain observations but do not establish sound attribution. They do not alter mathematical statements or kernel outcomes.
+
+This candidate captures live traceback/code provenance before unittest cleanup, requires the designated selected body followed only by explicit unittest-oracle code, and checks runner completion. Local Python 3.12.14 passed the original 263 G11 methods and nine origin methods in each mode; five bounded origin-guard mutations were killed in each mode. A provisional repair's forged-report failure and the first mutation-driver failure are retained under [local origin evidence](cbz/evidence/g11-origin-selftest-local-20261110/). Hosted completion and the final G11 gate must be observed separately.
+
+From the repository root:
+
+```sh
+python3 -B -S -m unittest tests.test_g11_census tests.test_g11_origin_provenance
+python3 -B -S -O -m unittest tests.test_g11_census tests.test_g11_origin_provenance
+python3 -B -S tools/cbz/g11_origin_mutation_selftest.py
+python3 -B -S -O tools/cbz/g11_origin_mutation_selftest.py
+python3 -B -S tools/cbz/g11_mutation_selftest.py
+python3 -B -S -O tools/cbz/g11_mutation_selftest.py
+```
+
+The origin runner supports synchronous unittest bodies and named standard-library unittest assertion code. It fails closed for missing or inconsistent origin reports; it is not a security sandbox for arbitrary hostile Python in the same process. These commands do not replace the fresh common G0–G11 pass.
+
+Separately observed Main `964390a94c08f00f119dc3b2e0be16180c1544e2` includes #805; Workspace `0bbf389e6893c1448e7599e9e290dd6efb60ae50` still pins earlier Main `b6be588c82d2256c917b7d26d901085bc90319fb`. These observations are non-atomic; pin convergence remains open.
+
 ## Earlier #804 hosted attempts — 10 November 2026
 
 On tested merge `2e09d4c16c3cad249be8d64135901631484741c2`, workspace-landing run `42757368825` attempt 1 failed architecture preparation with `SETUP_BLOCKED`; the daemon configuration was redacted, so the cause cannot be narrowed to secrets versus unsupported settings. Its original artifact was independently checked and retained in the contribution archive. A normal failed-job retry on the same tree passed architecture with 363 tests in each mode, but aggregate verify failed because the retained formal output identified attempt 1 while the aggregate ran in attempt 2. Both failures and the retry log are retained in `cbz/evidence/pr804-hosted-attempts-20261110/`. They are historical source-bound outcomes, not passing aggregate or credit for this recomposed tree; fresh complete checks are required.

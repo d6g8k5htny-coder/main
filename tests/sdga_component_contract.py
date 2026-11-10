@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Explicit Task A hosted contracts. No production bridge/controller is supplied here.
+"""Explicit Task A+B hosted contracts; Task B additions remain test first.
 
-Six unittest methods declare 39 subcases. Absence, compile/setup failure and unrun
+Ten unittest methods declare 52 subcases; original Task A remains six/39. Absence, compile/setup failure and unrun
 subcases are evidence categories, never semantic rejections or passing coverage.
 Run explicitly; this file is outside ordinary offline test_*.py discovery.
 """
@@ -48,6 +48,14 @@ CASES = {
             "malformed-transcript", "deps-json-error-row", "duplicate-vertex",
             "missing-local-edge", "cycle"),
 }
+TASK_A_CASES = dict(CASES)
+CASES.update({
+    "C04": ("type-route", "value-route", "opaque-route"),
+    "C05": ("missing-type", "missing-value", "missing-link"),
+    "C06": ("imports-empty", "exact-owned-propext", "owned-axiom-block"),
+    "C07": ("unsafe-info", "partial-info", "unsafe-replay-skip", "partial-replay-skip"),
+})
+TASK_B_FIXTURES = ("BadDependency", "AxiomUse", "Skipped", "OwnedAxiom")
 PURE_C15 = {"malformed-transcript", "deps-json-error-row", "duplicate-vertex",
             "missing-local-edge", "cycle"}
 STATE = None
@@ -193,6 +201,8 @@ class Evidence:
         self.cleanup_preflight = None
         self.records = {}
         self.bootstrap_errors = []
+        self.task_b_errors = {}
+        self.task_b_dependency_request = self.output / "task-b-BadDependency-request.json"
         self.inventory = None
         self.inventory_text = None
         self.request = None
@@ -214,7 +224,10 @@ class Evidence:
         }
         for case_id, names in CASES.items():
             for subcase in names:
-                executor = "Python_controller" if case_id == "C15" and subcase in PURE_C15 else "Lean"
+                executor = ("Python_controller" if
+                            (case_id == "C15" and subcase in PURE_C15)
+                            or (case_id == "C06" and subcase == "owned-axiom-block")
+                            else "Lean")
                 self.records[(case_id, subcase)] = {
                     "record": "subcase", "case_id": case_id,
                     "subcase_id": subcase, "executor": executor,
@@ -246,8 +259,12 @@ class Evidence:
             }
         self.identities["declared_cases"] = {
             case: list(names) for case, names in CASES.items()}
-        self.identities["declared_python_methods"] = 6
-        self.identities["declared_subcases"] = 39
+        self.identities["original_task_a_methods"] = 6
+        self.identities["original_task_a_subcases"] = 39
+        self.identities["original_task_a_cases"] = {k: list(v) for k, v in TASK_A_CASES.items()}
+        self.identities["task_b_fixed_fixtures"] = list(TASK_B_FIXTURES)
+        self.identities["declared_python_methods"] = 10
+        self.identities["declared_subcases"] = 52
         profile = self.identities["sources"]["tests/fixtures/sdga_scope/scope-f532.json"]
         self.identities["fixed_profile_matches"] = (
             profile.get("git_blob") == "4c6b4ea59eb07a17ebfed536b07688c53c01eb64")
@@ -541,9 +558,14 @@ class Evidence:
             "after": after, "drift": drift, "measurement_error": error,
             "observation_count": len(self.object_observations),
             "request_count": len(self.request_bindings),
+            "path_count": len(self.object_expected),
+            "expected_observation_count": 21,
+            "expected_request_count": 10,
+            "expected_path_count": 55,
             "status": ("pass" if error is None and not drift and not self.object_failures
-                       and len(self.object_observations) == 11
-                       and len(self.request_bindings) == 6 else "fail"),
+                       and len(self.object_observations) == 21
+                       and len(self.request_bindings) == 10
+                       and len(self.object_expected) == 55 else "fail"),
         }
         self.flush()
         return self.object_final["status"] == "pass"
@@ -580,8 +602,50 @@ class Evidence:
             self.identities["actual_lean_githash"] = out.decode("utf-8", errors="replace").strip()
             if tool["exit_code"] != 0 or self.identities["actual_lean_githash"] != RELEASE:
                 self.bootstrap_errors.append("TOOLCHAIN_IDENTITY")
+            # Fixed sequential compile order; B never accepts arbitrary module names.
+            task_b_dir = self.owned / "Fixture"
+            task_b_dir.mkdir(parents=True)
+            dependency, _, _ = self.lean(
+                "fixture-bad-dependency-compile",
+                ["--root=" + str(FIXTURE), "-o", str(task_b_dir / "BadDependency.olean"),
+                 "-i", str(task_b_dir / "BadDependency.ilean"),
+                 str(FIXTURE / "Fixture" / "BadDependency.lean")])
+            if dependency["exit_code"] != 0:
+                self.task_b_errors["AxiomUse"] = ["BAD_DEPENDENCY_COMPILE_FAILED"]
+            else:
+                # Binding only: zero inventory, observation or subcase credit.
+                dependency_scope = {
+                    "scope_id": "sdga-task-b-BadDependency",
+                    "modules": [{"module": "Fixture.BadDependency",
+                                 "path": "Fixture/BadDependency.lean", "role": "production"}],
+                    "targets": [],
+                    "expected_counts": {"public_targets": 0, "proposition_targets": 0,
+                                        "data_targets": 0},
+                }
+                dependency_base = task_b_dir / "BadDependency.olean"
+                dependency_request = {
+                    "schema": 1, "scope_id": dependency_scope["scope_id"],
+                    "profile_sha256": digest(json.dumps(
+                        dependency_scope, sort_keys=True).encode("utf-8")),
+                    "module": self.task1.encode_name(("Fixture", "BadDependency")),
+                    "olean_parts": [
+                        {"level": level, "path": str(path.resolve()),
+                         "sha256": digest(path.read_bytes())}
+                        for level, path in (
+                            ("exported", dependency_base),
+                            ("server", Path(str(dependency_base) + ".server")),
+                            ("private", Path(str(dependency_base) + ".private")))],
+                    "ir_parts": [
+                        {"level": level, "path": str(path.resolve()),
+                         "sha256": digest(path.read_bytes())}
+                        for level, path in (
+                            ("ir.sig", dependency_base.with_suffix(".ir.sig")),
+                            ("ir", dependency_base.with_suffix(".ir")))],
+                }
+                json_write(self.task_b_dependency_request, dependency_request)
+                self.bind_request(self.task_b_dependency_request, dependency_request)
             target = self.owned / "Fixture" / "Safe.olean"
-            target.parent.mkdir(parents=True)
+            target.parent.mkdir(parents=True, exist_ok=True)
             safe, _, _ = self.lean(
                 "fixture-safe-compile",
                 ["--root=" + str(FIXTURE), "-o", str(target),
@@ -589,6 +653,16 @@ class Evidence:
                  str(FIXTURE / "Fixture" / "Safe.lean")])
             if safe["exit_code"] != 0:
                 self.bootstrap_errors.append("FIXTURE_COMPILE_FAILED")
+            for module in TASK_B_FIXTURES[1:]:
+                if self.task_b_errors.get(module):
+                    continue  # AxiomUse is not scheduled after dependency failure.
+                compiled, _, _ = self.lean(
+                    "fixture-" + module.lower() + "-compile",
+                    ["--root=" + str(FIXTURE), "-o", str(task_b_dir / (module + ".olean")),
+                     "-i", str(task_b_dir / (module + ".ilean")),
+                     str(FIXTURE / "Fixture" / (module + ".lean"))])
+                if compiled["exit_code"] != 0:
+                    self.task_b_errors[module] = ["FIXTURE_COMPILE_FAILED"]
             bridge, _, _ = self.lean(
                 "bridge-compile",
                 ["--root=" + str(BRIDGE.parent), "-o", str(self.owned / "Component.olean"),
@@ -625,6 +699,7 @@ class Evidence:
             (self.output / "bootstrap-error.txt").write_text(
                 traceback.format_exc(), encoding="utf-8")
         self.identities["bootstrap_errors"] = self.bootstrap_errors
+        self.identities["task_b_fixture_errors"] = self.task_b_errors
         self.identities["controller_import_error"] = self.controller_error
         self.identities["process_scheduling_blocked"] = self.scheduling_blocked
         self.identities["cleanup_only_preflight"] = self.cleanup_preflight
@@ -667,7 +742,8 @@ class Evidence:
         for row in self.records.values():
             statuses[row["status"]] = statuses.get(row["status"], 0) + 1
         json_write(self.output / "census.json", {
-            "declared_python_methods": 6, "declared_subcases": 39,
+            "declared_python_methods": 10, "declared_subcases": 52,
+            "original_task_a_methods": 6, "original_task_a_subcases": 39,
             "actual_subcase_statuses": statuses,
             "scientific_effect": "NONE", "qualification": "BLOCKED",
             "classification_status": "BLOCKED", "execution_authenticated": False,
@@ -928,6 +1004,141 @@ class TaskAContracts(unittest.TestCase):
                 lambda: STATE.controller.topological_modules(
                     {"A": ("B",), "B": ("A",)}, ("A", "B"))))
 
+    def task_b_inventory(self, module):
+        """Retain the actual complete native inventory before grading Task B."""
+        self.require_bridge()
+        self.assertIn(module, ("AxiomUse", "OwnedAxiom", "Skipped"))
+        self.assertFalse(STATE.task_b_errors.get(module),
+                         repr(STATE.task_b_errors.get(module)))
+        scope = {
+            "scope_id": "sdga-task-b-" + module,
+            "modules": [{"module": "Fixture." + module,
+                         "path": "Fixture/" + module + ".lean", "role": "production"}],
+            "targets": [],
+            "expected_counts": {"public_targets": 0, "proposition_targets": 0, "data_targets": 0},
+        }
+        base = STATE.owned / "Fixture" / (module + ".olean")
+        request = {
+            "schema": 1, "scope_id": scope["scope_id"],
+            "profile_sha256": digest(json.dumps(scope, sort_keys=True).encode("utf-8")),
+            "module": STATE.task1.encode_name(("Fixture", module)),
+            "olean_parts": [
+                {"level": level, "path": str(path.resolve()), "sha256": digest(path.read_bytes())}
+                for level, path in (("exported", base), ("server", Path(str(base) + ".server")),
+                                    ("private", Path(str(base) + ".private")))],
+            "ir_parts": [
+                {"level": level, "path": str(path.resolve()), "sha256": digest(path.read_bytes())}
+                for level, path in (("ir.sig", base.with_suffix(".ir.sig")),
+                                    ("ir", base.with_suffix(".ir")))],
+        }
+        request_path = STATE.output / ("task-b-" + module + "-request.json")
+        json_write(request_path, request)
+        STATE.bind_request(request_path, request)
+        requests = (request_path,) + (
+            (STATE.task_b_dependency_request,) if module == "AxiomUse" else ())
+        command, out, _ = STATE.observe_lean(
+            "task-b-" + module + "-inventory",
+            ["--run", str(BRIDGE), "inventory", str(request_path)], requests=requests)
+        (STATE.output / ("task-b-" + module + "-inventory.jsonl")).write_bytes(out)
+        self.assertEqual(command["exit_code"], 0,
+                         "Task B inventory failed; partial transcript is blocking evidence")
+        inventory = STATE.task1.parse_inventory(out.decode("utf-8"))
+        classification = STATE.task1.classify_inventory(inventory, scope)
+        json_write(STATE.output / ("task-b-" + module + "-classification.json"), classification)
+        self.assertEqual(classification["classification_status"], "BLOCKED")
+        return request_path, inventory, classification
+
+    def task_b_native(self, case, request_path=None, subcase=None):
+        extra = {"SDGA_CONTROL_CASE": case, "SDGA_CONTROL_REQUEST": str(STATE.request_path)}
+        if request_path is not None:
+            extra["SDGA_CONTROL_TASK_B_REQUEST"] = str(request_path)
+        if subcase is not None:
+            extra["SDGA_CONTROL_SUBCASE"] = subcase
+        requests = (STATE.request_path,) if case == "C05" else (request_path,)
+        if case == "C04":
+            requests += (STATE.task_b_dependency_request,)
+        command, out, _ = STATE.observe_lean(
+            "control-" + case + ("-" + subcase if subcase else ""),
+            ["--root=" + str(FIXTURE), str(FIXTURE / "Controls.lean")],
+            requests=requests, env_extra=extra)
+        expected = (subcase,) if subcase else (
+            CASES[case][:2] if case == "C06" else CASES[case])
+        try:
+            return self.accept_rows(case, expected, command, out)
+        finally:
+            # Failed native assertions retain this provenance too.
+            for subcase_id in expected:
+                row = STATE.records[(case, subcase_id)]
+                if row["status"] != "not_run":
+                    row["native_label"] = command["label"]
+            STATE.flush()
+
+    def reconcile_task_b_rows(self, inventory, rows):
+        observed = {row["name"]: row for row in inventory["declarations"]}
+        fields = ("name", "module", "kind", "is_prop", "is_private", "unsafe", "partial")
+        for row in rows:
+            oracle = row.get("detail", {}).get("oracle_row")
+            if oracle is not None:
+                self.assertIn(oracle["name"], observed, "native inventory omitted actual CI")
+                self.assertEqual({key: observed[oracle["name"]][key] for key in fields}, oracle)
+
+    def test_C04_actual_axiom_routes(self):
+        request, inventory, classification = self.task_b_inventory("AxiomUse")
+        rows = self.task_b_native("C04", request)
+        bad = STATE.task1.encode_name(("Fixture", "BadDependency", "BadProof"))
+        self.assertIn({"code": "FORBIDDEN_AXIOM", "name": bad}, classification["findings"])
+        observed = {row["name"]: row for row in inventory["declarations"]}
+        for source in ("typeOnly", "valueOnly", "opaqueOnly"):
+            name = STATE.task1.encode_name(("Fixture", "AxiomUse", source))
+            self.assertIn(name, observed)
+            self.assertIn(bad, observed[name]["axioms"])
+        self.assertEqual(len(rows), 3)
+
+    def test_C05_actual_missing_lookup(self):
+        self.require_bridge()
+        self.task_b_native("C05")
+
+    def test_C06_actual_owned_allowlist_axiom(self):
+        request, inventory, classification = self.task_b_inventory("OwnedAxiom")
+        rows = self.task_b_native("C06", request)
+        self.reconcile_task_b_rows(inventory, rows)
+        # This subcase's executor is the actual unchanged Python Task 1 classifier.
+        key = ("C06", "owned-axiom-block")
+        try:
+            name = STATE.task1.encode_name(("propext",))
+            observed = [row for row in inventory["declarations"] if row["name"] == name]
+            self.assertEqual(len(observed), 1)
+            self.assertEqual(observed[0]["kind"], "axiom")
+            self.assertIn(name, observed[0]["axioms"])
+            self.assertIn({"code": "OWNED_AXIOM", "name": name}, classification["findings"])
+            self.assertNotIn({"code": "FORBIDDEN_AXIOM", "name": name}, classification["findings"])
+        except Exception as exc:
+            STATE.records[key] = {
+                "record": "subcase", "case_id": key[0], "subcase_id": key[1],
+                "executor": "Python_controller", "status": "fail",
+                "detail": type(exc).__name__ + ": " + str(exc)}
+            STATE.flush()
+            raise
+        STATE.records[key] = {
+            "record": "subcase", "case_id": key[0], "subcase_id": key[1],
+            "executor": "Python_controller", "status": "pass",
+            "detail": {"expected_code": "OWNED_AXIOM", "name": name,
+                       "source": "unchanged-Task1-classify_inventory",
+                       "native_label": "task-b-OwnedAxiom-inventory"}}
+        STATE.flush()
+
+    def test_C07_actual_safety_and_shared_guard(self):
+        request, inventory, classification = self.task_b_inventory("Skipped")
+        for subcase in CASES["C07"]:
+            with self.subTest(subcase=subcase):
+                rows = self.task_b_native("C07", request, subcase)
+                self.reconcile_task_b_rows(inventory, rows)
+                if subcase in ("unsafe-info", "partial-info"):
+                    name = rows[0]["detail"]["oracle_row"]["name"]
+                    code = "UNSAFE_REPLAY_SKIP" if subcase == "unsafe-info" else "PARTIAL_REPLAY_SKIP"
+                    self.assertIn({"code": code, "name": name}, classification["findings"])
+
+
 
 class Result(unittest.TextTestResult):
     def startTestRun(self):
@@ -996,10 +1207,11 @@ def main():
     STATE.identities["source_drift"] = drift
     STATE.flush()
     final = {
-        "record": "task-a-result", "methods_run": result.testsRun,
+        "record": "task-a-b-result", "methods_run": result.testsRun,
         "method_results": result.method_rows,
         "failures": len(result.failures), "errors": len(result.errors),
-        "skipped": len(result.skipped), "declared_subcases": 39,
+        "skipped": len(result.skipped), "declared_subcases": 52,
+        "original_task_a_methods": 6, "original_task_a_subcases": 39,
         "observed_subcases": sum(row["status"] != "not_run" for row in STATE.records.values()),
         "subcase_pass": sum(row["status"] == "pass" for row in STATE.records.values()),
         "subcase_fail": sum(row["status"] == "fail" for row in STATE.records.values()),
@@ -1016,8 +1228,8 @@ def main():
     json_write(STATE.output / "result.json", final)
     print(json.dumps(final, sort_keys=True), flush=True)
     complete = (
-        result.wasSuccessful() and result.testsRun == 6 and not result.skipped
-        and final["subcase_pass"] == 39 and final["subcase_fail"] == 0
+        result.wasSuccessful() and result.testsRun == 10 and not result.skipped
+        and final["subcase_pass"] == 52 and final["subcase_fail"] == 0
         and final["subcase_not_run"] == 0 and not drift and objects_complete
         and STATE.cleanup_preflight is not None
         and STATE.cleanup_preflight["status"] == "pass" and not STATE.scheduling_blocked)

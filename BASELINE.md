@@ -1,5 +1,9 @@
 # CBZ baseline ledger
 
+## Current G11 attribution limitation
+
+Actual run 42760114483 exposed six subject/helper/callback false kills across two modes in the older G11 grader. Preserve historical outcomes, but do not treat its mutation totals as sound attribution qualification. The candidate live-origin repair and bounded adverse checks are described in [STATUS](STATUS.md#current-g11-origin-boundary--10-november-2026); hosted completion and the common G0–G11 pass remain separate. No mathematical proof or kernel outcome is changed by this finding.
+
 ## Main SDGA Task A boundary — 10 November 2026
 
 Main #797 integrated the scoped inventory and custody controls after the source-bound hosted observations recorded in STATUS. Classification and qualification remain BLOCKED, replay remains NOT_IMPLEMENTED, and no proof, scientific acceptance or final federation gate is awarded.
