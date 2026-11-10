@@ -1,0 +1,29 @@
+"""Compare seven fetched current GitHub blobs with a prior scoped receipt."""
+import base64
+import hashlib
+import json
+from pathlib import Path
+import sys
+
+root = Path(__file__).resolve().parent
+prior = json.loads((root / 'pytest-prior-source-comparison.json').read_text())
+fetched = json.loads(sys.stdin.readline())
+if len(fetched) != 7 or {x['path'] for x in fetched} != {x['path'] for x in prior['sources']}:
+    raise ValueError('source population mismatch')
+by_path = {x['path']: x for x in prior['sources']}
+rows = []
+for item in fetched:
+    raw = base64.b64decode(''.join(item['content'].split()), validate=True)
+    git = hashlib.sha1(b'blob ' + str(len(raw)).encode('ascii') + b'\0' + raw).hexdigest()
+    digest = hashlib.sha256(raw).hexdigest()
+    expected = by_path[item['path']]
+    if (len(raw) != expected['bytes'] or digest != expected['sha256'] or git != expected['git_blob']):
+        raise ValueError('source mismatch: ' + item['path'])
+    rows.append({'path': item['path'], 'bytes': len(raw), 'sha256': digest, 'git_blob': git})
+out = {'current_tested_merge': '664ccb0a81fa4ad714d1b89bd981997eab5de77a',
+       'current_head': '3b5b52d6a7c647d14f30ef54946fe8aebde46728',
+       'prior_run': prior['prior_run'], 'prior_artifact': prior['prior_artifact'],
+       'prior_tested_commit': prior['prior_tested_commit'], 'sources': rows,
+       'scope': 'Seven raw current GitHub blobs match the prior recorded bytes and Git identities. Earlier pytest results stay bound to their original commit and runtime; this is not current execution or final G5.'}
+(root / 'pytest-current-source-comparison.json').write_text(json.dumps(out, indent=2) + '\n')
+print('seven current raw blobs match earlier source identities')
