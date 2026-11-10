@@ -1,0 +1,159 @@
+﻿2026-11-10T03:53:18.8137512Z Current runner version: '2.338.2'
+2026-11-10T03:53:18.8163499Z ##[group]Runner Image Provisioner
+2026-11-10T03:53:18.8164410Z Hosted Compute Agent
+2026-11-10T03:53:18.8165032Z Version: 20261028.624
+2026-11-10T03:53:18.8165822Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T03:53:18.8166590Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T03:53:18.8167429Z Worker ID: {a60e6df3-4005-4849-a88c-42d67f2a7b40}
+2026-11-10T03:53:18.8168223Z Region: westus
+2026-11-10T03:53:18.8168806Z Cloud: Azure
+2026-11-10T03:53:18.8169719Z ##[endgroup]
+2026-11-10T03:53:18.8171255Z ##[group]Operating System
+2026-11-10T03:53:18.8172037Z Ubuntu
+2026-11-10T03:53:18.8172631Z 24.04.5
+2026-11-10T03:53:18.8173182Z LTS
+2026-11-10T03:53:18.8173785Z ##[endgroup]
+2026-11-10T03:53:18.8174375Z ##[group]Runner Image
+2026-11-10T03:53:18.8175021Z Image: ubuntu-24.04
+2026-11-10T03:53:18.8175686Z Version: 20261101.360.1
+2026-11-10T03:53:18.8176966Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T03:53:18.8178616Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T03:53:18.8180430Z ##[endgroup]
+2026-11-10T03:53:18.8181838Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T03:53:18.8184116Z Actions: read
+2026-11-10T03:53:18.8184904Z Contents: read
+2026-11-10T03:53:18.8185533Z Metadata: read
+2026-11-10T03:53:18.8186161Z ##[endgroup]
+2026-11-10T03:53:18.8188292Z Secret source: Actions
+2026-11-10T03:53:18.8189345Z Cache mode: write
+2026-11-10T03:53:18.8190860Z Prepare workflow directory
+2026-11-10T03:53:18.8564855Z Prepare all required actions
+2026-11-10T03:53:18.8700703Z Complete job name: inspect
+2026-11-10T03:53:18.9801390Z ##[group]Run set -euo pipefail
+2026-11-10T03:53:18.9802570Z [36;1mset -euo pipefail[0m
+2026-11-10T03:53:18.9803811Z [36;1mmkdir -p "$RUNNER_TEMP/cbz-artifact-readback"[0m
+2026-11-10T03:53:18.9804639Z [36;1mulimit -f 8192[0m
+2026-11-10T03:53:18.9805398Z [36;1mfor pair in publisher:13734195859 recovery:13733836323; do[0m
+2026-11-10T03:53:18.9806353Z [36;1m  name="${pair%%:*}"; id="${pair#*:}"[0m
+2026-11-10T03:53:18.9808619Z [36;1m  curl --fail --silent --show-error --location --max-time 60 -H "Authorization: ***" -H 'Accept: application/vnd.github+json' "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/$id/zip" --output "$RUNNER_TEMP/cbz-artifact-readback/$name.zip"[0m
+2026-11-10T03:53:18.9810950Z [36;1mdone[0m
+2026-11-10T03:53:18.9811713Z [36;1mpython3 -I -B -S - "$RUNNER_TEMP/cbz-artifact-readback" <<'PY'[0m
+2026-11-10T03:53:18.9813096Z [36;1mimport collections, copy, hashlib, json, os, pathlib, re, sys, urllib.parse, urllib.request, zipfile[0m
+2026-11-10T03:53:18.9814202Z [36;1mroot = pathlib.Path(sys.argv[1])[0m
+2026-11-10T03:53:18.9815166Z [36;1mcommit = 'cd913c55ea6ff6187fedb6f5102ce0356aa38e24'[0m
+2026-11-10T03:53:18.9815971Z [36;1mfiles = {[0m
+2026-11-10T03:53:18.9816736Z [36;1m  'publisher_source': 'tools/current_site_publication.py',[0m
+2026-11-10T03:53:18.9817752Z [36;1m  'publisher_test': 'tests/test_current_site_publication.py',[0m
+2026-11-10T03:53:18.9818734Z [36;1m  'recovery_source': 'tools/cbz_site_receipt_recovery.py',[0m
+2026-11-10T03:53:18.9819956Z [36;1m  'recovery_test': 'tests/test_cbz_site_recovery.py',[0m
+2026-11-10T03:53:18.9820961Z [36;1m  'recovery_workflow': '.github/workflows/cbz-site-recovery.yml',[0m
+2026-11-10T03:53:18.9822124Z [36;1m  'recovery_workflow_test': 'tests/test_cbz_site_recovery_workflow.py',[0m
+2026-11-10T03:53:18.9823210Z [36;1m  'recorder': 'tools/cbz/reference_crawler_mutation_check.py',[0m
+2026-11-10T03:53:18.9824016Z [36;1m}[0m
+2026-11-10T03:53:18.9824697Z [36;1mdef require(condition, why):[0m
+2026-11-10T03:53:18.9825454Z [36;1m    if not condition: raise ValueError(why)[0m
+2026-11-10T03:53:18.9826248Z [36;1mdef source_digest(path):[0m
+2026-11-10T03:53:18.9827463Z [36;1m    url = 'https://api.github.com/repos/d6g8k5htny-coder/main/contents/' + urllib.parse.quote(path, safe='/') + '?ref=' + commit[0m
+2026-11-10T03:53:18.9830301Z [36;1m    request = urllib.request.Request(url, headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github.raw+json', 'User-Agent': 'cbz-bounded-readback'})[0m
+2026-11-10T03:53:18.9832097Z [36;1m    with urllib.request.urlopen(request, timeout=30) as response:[0m
+2026-11-10T03:53:18.9833315Z [36;1m        require(response.status == 200 and response.geturl() == url, 'source response identity')[0m
+2026-11-10T03:53:18.9834427Z [36;1m        raw = response.read(1024 * 1024 + 1)[0m
+2026-11-10T03:53:18.9835279Z [36;1m    require(len(raw) <= 1024 * 1024, 'source size bound')[0m
+2026-11-10T03:53:18.9836375Z [36;1m    text = raw.decode('utf-8').replace('\r\n', '\n').replace('\r', '\n')[0m
+2026-11-10T03:53:18.9837385Z [36;1m    return hashlib.sha256(text.encode('utf-8')).hexdigest()[0m
+2026-11-10T03:53:18.9838368Z [36;1msource = {key: source_digest(path) for key, path in files.items()}[0m
+2026-11-10T03:53:18.9839686Z [36;1mdef verify_origin(report, mode, selected, phase):[0m
+2026-11-10T03:53:18.9840886Z [36;1m    require(report.get('schema') == 'reference-crawler-origin-v3', 'origin schema')[0m
+2026-11-10T03:53:18.9842327Z [36;1m    require(report.get('optimize') == mode and report.get('tests_run') == 1, 'origin mode/population')[0m
+2026-11-10T03:53:18.9843615Z [36;1m    require(report.get('names') == [selected], 'selected test identity')[0m
+2026-11-10T03:53:18.9845019Z [36;1m    require(report.get('ids') == report.get('started') == report.get('stopped') and len(report.get('ids', [])) == 1, 'test lifecycle')[0m
+2026-11-10T03:53:18.9846938Z [36;1m    require(all(report.get(k) == 0 for k in ('skip_count', 'expected_failure_count', 'unexpected_success_count')), 'skip/unexpected result')[0m
+2026-11-10T03:53:18.9848247Z [36;1m    events = report.get('events')[0m
+2026-11-10T03:53:18.9849161Z [36;1m    require(type(events) is list, 'event list')[0m
+2026-11-10T03:53:18.9850227Z [36;1m    if phase == 'baseline':[0m
+2026-11-10T03:53:18.9851428Z [36;1m        require(report.get('failure_count') == 0 and report.get('error_count') == 0 and not events, 'baseline failure')[0m
+2026-11-10T03:53:18.9852556Z [36;1m    elif phase == 'selected':[0m
+2026-11-10T03:53:18.9854308Z [36;1m        require(report.get('failure_count') == 1 and report.get('error_count') == 0 and report.get('authorized_failures') == [selected] and report.get('unauthorized_failures') == [] and report.get('errors') == [], 'selected failure identity')[0m
+2026-11-10T03:53:18.9856750Z [36;1m        require(len(events) == 1 and events[0].get('kind') == 'failure' and events[0].get('test') == selected and events[0].get('authorized') is True, 'selected event provenance')[0m
+2026-11-10T03:53:18.9858142Z [36;1m    elif phase == 'unauthorized':[0m
+2026-11-10T03:53:18.9859883Z [36;1m        require(report.get('failure_count') == 1 and report.get('error_count') == 0 and report.get('unauthorized_failures') == [selected] and report.get('authorized_failures') == [], 'unauthorized origin')[0m
+2026-11-10T03:53:18.9861454Z [36;1m    elif phase == 'error':[0m
+2026-11-10T03:53:18.9863107Z [36;1m        require(report.get('failure_count') == 0 and report.get('error_count') == 1 and report.get('authorized_failures') == [], 'runtime error origin')[0m
+2026-11-10T03:53:18.9865401Z [36;1m    else: raise ValueError('phase')[0m
+2026-11-10T03:53:18.9866874Z [36;1mdef validate_archive(name, digest, publisher):[0m
+2026-11-10T03:53:18.9868219Z [36;1m    path = root / (name + '.zip')[0m
+2026-11-10T03:53:18.9870017Z [36;1m    require(path.stat().st_size <= 2 * 1024 * 1024, 'ZIP byte bound')[0m
+2026-11-10T03:53:18.9871365Z [36;1m    require(hashlib.sha256(path.read_bytes()).hexdigest() == digest, 'ZIP digest')[0m
+2026-11-10T03:53:18.9872472Z [36;1m    with zipfile.ZipFile(path) as archive:[0m
+2026-11-10T03:53:18.9873420Z [36;1m        infos = archive.infolist(); names = [x.filename for x in infos][0m
+2026-11-10T03:53:18.9874566Z [36;1m        require(len(infos) <= 10000 and len(names) == len(set(names)), 'ZIP member uniqueness/bound')[0m
+2026-11-10T03:53:18.9876109Z [36;1m        require(sum(x.file_size for x in infos) <= 64 * 1024 * 1024, 'ZIP expansion bound')[0m
+2026-11-10T03:53:18.9877471Z [36;1m        require(all(not n.startswith('/') and '..' not in n.split('/') and '\\' not in n for n in names), 'ZIP unsafe path')[0m
+2026-11-10T03:53:18.9878728Z [36;1m        require(archive.testzip() is None, 'ZIP CRC failure')[0m
+2026-11-10T03:53:18.9879902Z [36;1m        def get(suffix):[0m
+2026-11-10T03:53:18.9880980Z [36;1m            selected = [x for x in infos if x.filename == suffix or x.filename.endswith('/' + suffix)][0m
+2026-11-10T03:53:18.9882426Z [36;1m            require(len(selected) == 1 and selected[0].file_size <= 1024 * 1024, 'missing/ambiguous bounded member: ' + suffix)[0m
+2026-11-10T03:53:18.9883640Z [36;1m            return archive.read(selected[0])[0m
+2026-11-10T03:53:18.9884428Z [36;1m        actual = {}[0m
+2026-11-10T03:53:18.9885247Z [36;1m        for mode, flag in [('normal', 0), ('optimized', 1)]:[0m
+2026-11-10T03:53:18.9886216Z [36;1m            log = get('unit-' + mode + '.log').decode('utf-8')[0m
+2026-11-10T03:53:18.9887198Z [36;1m            expected_count = 40 if publisher else 34[0m
+2026-11-10T03:53:18.9888592Z [36;1m            require(re.search(r'(?m)^Ran ' + str(expected_count) + r' tests in [0-9.]+s$', log) is not None and log.rstrip().endswith('\nOK'), 'unit footer')[0m
+2026-11-10T03:53:18.9890565Z [36;1m            require(len(re.findall(r'(?m)^test_.* \.\.\. ok$', log)) == expected_count and ' ... skipped ' not in log, 'unit outcomes')[0m
+2026-11-10T03:53:18.9892029Z [36;1m            summary = json.loads(get('mutations-' + mode + '/results.json'))[0m
+2026-11-10T03:53:18.9893131Z [36;1m            require(summary.get('optimize') == flag, 'summary mode')[0m
+2026-11-10T03:53:18.9894022Z [36;1m            if publisher:[0m
+2026-11-10T03:53:18.9895138Z [36;1m                binding = {'source_sha256': 'publisher_source', 'test_sha256': 'publisher_test', 'recorder_sha256': 'recorder'}[0m
+2026-11-10T03:53:18.9896778Z [36;1m                expected = {'authorized-selected-failure': 11, 'rejected-unauthorized-origin': 3, 'rejected-error-origin': 1}[0m
+2026-11-10T03:53:18.9897979Z [36;1m            else:[0m
+2026-11-10T03:53:18.9899755Z [36;1m                binding = {'subject_sha256': 'recovery_source', 'test_sha256': 'recovery_test', 'workflow_sha256': 'recovery_workflow', 'workflow_test_sha256': 'recovery_workflow_test', 'recorder_sha256': 'recorder'}[0m
+2026-11-10T03:53:18.9901722Z [36;1m                expected = {'authorized-selected-failure': 37, 'rejected-unauthorized-origin': 3}[0m
+2026-11-10T03:53:18.9903224Z [36;1m            require(all(summary.get(key) == source[value] for key, value in binding.items()), 'tested source hash binding')[0m
+2026-11-10T03:53:18.9904562Z [36;1m            rows = summary.get('results'); require(type(rows) is list, 'results list')[0m
+2026-11-10T03:53:18.9905910Z [36;1m            require(dict(collections.Counter(row.get('mutant') for row in rows)) == expected, 'outcome counts')[0m
+2026-11-10T03:53:18.9907285Z [36;1m            require(len({row.get('mutation') for row in rows}) == len(rows), 'distinct mutation labels')[0m
+2026-11-10T03:53:18.9908328Z [36;1m            controls = 0; synthetic = 0[0m
+2026-11-10T03:53:18.9909113Z [36;1m            for row in rows:[0m
+2026-11-10T03:53:18.9910420Z [36;1m                label = row['mutation']; require(re.fullmatch(r'[a-z0-9-]+', label) is not None, 'mutation label')[0m
+2026-11-10T03:53:19.0000700Z [36;1m                prefix = 'mutations-' + mode + '/' + label + '/'[0m
+2026-11-10T03:53:19.0001575Z [36;1m                selected = row.get('selected')[0m
+2026-11-10T03:53:19.0002339Z [36;1m                if row['mutant'] == 'authorized-selected-failure':[0m
+2026-11-10T03:53:19.0003354Z [36;1m                    require(row.get('baseline') == 'pass' and type(selected) is str, 'clean baseline')[0m
+2026-11-10T03:53:19.0004935Z [36;1m                    base = json.loads(get(prefix + 'baseline/origin.json')); changed = json.loads(get(prefix + 'mutant/origin.json'))[0m
+2026-11-10T03:53:19.0006378Z [36;1m                    verify_origin(base, flag, selected, 'baseline'); verify_origin(changed, flag, selected, 'selected')[0m
+2026-11-10T03:53:19.0007775Z [36;1m                    mutant_path = 'mutant.yml' if label.startswith('workflow-') else 'mutant.py'[0m
+2026-11-10T03:53:19.0008879Z [36;1m                    claimed = row.get('sha256') if publisher else row.get('mutant_sha256')[0m
+2026-11-10T03:53:19.0010343Z [36;1m                    require(hashlib.sha256(get(prefix + mutant_path)).hexdigest() == claimed, 'mutant bytes')[0m
+2026-11-10T03:53:19.0011332Z [36;1m                    if controls == 0:[0m
+2026-11-10T03:53:19.0012238Z [36;1m                        for key, value in [('optimize', 1 - flag), ('skip_count', 1), ('authorized_failures', [])]:[0m
+2026-11-10T03:53:19.0013253Z [36;1m                            bad = copy.deepcopy(changed); bad[key] = value[0m
+2026-11-10T03:53:19.0014094Z [36;1m                            try: verify_origin(bad, flag, selected, 'selected')[0m
+2026-11-10T03:53:19.0014897Z [36;1m                            except ValueError: synthetic += 1[0m
+2026-11-10T03:53:19.0015729Z [36;1m                            else: raise ValueError('synthetic adverse origin accepted')[0m
+2026-11-10T03:53:19.0016510Z [36;1m                    controls += 1[0m
+2026-11-10T03:53:19.0017090Z [36;1m                else:[0m
+2026-11-10T03:53:19.0017636Z [36;1m                    if publisher:[0m
+2026-11-10T03:53:19.0018510Z [36;1m                        origin = json.loads(get(prefix + 'origin.json'))[0m
+2026-11-10T03:53:19.0019328Z [36;1m                        if row['mutant'] == 'rejected-error-origin':[0m
+2026-11-10T03:53:19.0020568Z [36;1m                            selected = origin['names'][0]; verify_origin(origin, flag, selected, 'error')[0m
+2026-11-10T03:53:19.0021586Z [36;1m                        else: verify_origin(origin, flag, selected, 'unauthorized')[0m
+2026-11-10T03:53:19.0022347Z [36;1m                    else:[0m
+2026-11-10T03:53:19.0023341Z [36;1m                        origin = json.loads(get(prefix + 'child/origin.json')); verify_origin(origin, flag, selected, 'unauthorized')[0m
+2026-11-10T03:53:19.0024548Z [36;1m            require(synthetic == 3, 'synthetic adverse checks incomplete')[0m
+2026-11-10T03:53:19.0025949Z [36;1m            actual[mode] = {'unit_tests': expected_count, 'selected_mutation_pairs': controls, 'other_outcomes': expected, 'synthetic_origin_refusals': synthetic}[0m
+2026-11-10T03:53:19.0027813Z [36;1m        print(json.dumps({'artifact': name, 'sha256': digest, 'entries': len(infos), 'crc': 'PASS', 'checked_source_commit': commit, 'modes': actual}, sort_keys=True))[0m
+2026-11-10T03:53:19.0029571Z [36;1mvalidate_archive('publisher', '95bb65815e8be2dfcceabed2fc97da763c2c537617580f9662de7b144dee7df1', True)[0m
+2026-11-10T03:53:19.0031031Z [36;1mvalidate_archive('recovery', 'cb73819ade3798c87efdd61cd32a5a431a63820fab9e84dac612cf466045b0f0', False)[0m
+2026-11-10T03:53:19.0032025Z [36;1mPY[0m
+2026-11-10T03:53:19.0324192Z shell: /usr/bin/bash -e {0}
+2026-11-10T03:53:19.0325264Z env:
+2026-11-10T03:53:19.0329252Z   GH_TOKEN: ***
+2026-11-10T03:53:19.0329941Z ##[endgroup]
+2026-11-10T03:53:23.4021790Z Traceback (most recent call last):
+2026-11-10T03:53:23.4022330Z   File "<stdin>", line 105, in <module>
+2026-11-10T03:53:23.4022709Z   File "<stdin>", line 83, in validate_archive
+2026-11-10T03:53:23.4023084Z   File "<stdin>", line 36, in verify_origin
+2026-11-10T03:53:23.4023436Z   File "<stdin>", line 14, in require
+2026-11-10T03:53:23.4023828Z ValueError: selected failure identity
+2026-11-10T03:53:23.4121168Z ##[error]Process completed with exit code 1.
+2026-11-10T03:53:23.4278594Z Cleaning up orphan processes

@@ -29,6 +29,29 @@ and [tool registry](TOOLING.md#guarded-pages-receipt-recovery--10-november-2026)
 give exact commands, observations and limits. This is neither mathematical nor
 scientific acceptance and does not establish the final gates.
 
+## Selected historical text verifier boundary — 10 November 2026
+
+This candidate preserves exact Git head/tree objects and selected changed
+head-side text blobs from 430 historical public Main and Math refs: 588 Main
+`.lean` blobs and 608 Math `.lean`/`.md` blobs, with 6,867 head/path bindings.
+The case-sensitive suffix selection, separately observed defaults, exact
+identities and exclusions are in the [custody record](cbz/evidence/public-selected-text-custody-20261110/README.md). It does not
+preserve deleted default-side blobs, unchanged files, other suffixes, Gitlink
+contents or private refs. Ref currency, semantic uniqueness, proof status,
+logical isolation and scientific acceptance are not inferred. No ref is
+removed.
+
+A fresh copy of the packaged record checked all 24 checksums, completed four
+Main/Math cold readbacks in normal and optimized Python modes, and ran the
+specified adverse driver: two clean passes, 30 altered-selection or source
+record rejections, four detected verifier-mutant executions and two damaged-pack
+rejections. These are bounded source-custody controls, not a complete Layer A
+auditor, proof inventory or final G0/G10 gate.
+
+The exact command and tool scope are registered in
+[TOOLING](TOOLING.md#selected-historical-text-custody-readback--10-november-2026)
+and [STATUS](STATUS.md#selected-historical-text-custody-candidate--observed-10-november-2026).
+
 ## Public branch custody verifier boundary — 10 November 2026
 
 This candidate preserves selected public Git objects from 58 captured refs in

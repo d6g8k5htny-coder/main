@@ -1,0 +1,83 @@
+﻿2026-11-10T03:48:40.1959381Z Current runner version: '2.338.2'
+2026-11-10T03:48:40.1985407Z ##[group]Runner Image Provisioner
+2026-11-10T03:48:40.1986267Z Hosted Compute Agent
+2026-11-10T03:48:40.1986946Z Version: 20261028.624
+2026-11-10T03:48:40.1987556Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T03:48:40.1988251Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T03:48:40.1989009Z Worker ID: {a8acbc53-d329-4eec-99cd-60b005544b99}
+2026-11-10T03:48:40.1989708Z Region: centralus
+2026-11-10T03:48:40.1990296Z Cloud: Azure
+2026-11-10T03:48:40.1990828Z ##[endgroup]
+2026-11-10T03:48:40.1992730Z ##[group]Operating System
+2026-11-10T03:48:40.1993396Z Ubuntu
+2026-11-10T03:48:40.1993964Z 24.04.5
+2026-11-10T03:48:40.1994568Z LTS
+2026-11-10T03:48:40.1995110Z ##[endgroup]
+2026-11-10T03:48:40.1995633Z ##[group]Runner Image
+2026-11-10T03:48:40.1996295Z Image: ubuntu-24.04
+2026-11-10T03:48:40.1996846Z Version: 20261101.360.1
+2026-11-10T03:48:40.1998113Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T03:48:40.1999594Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T03:48:40.2000536Z ##[endgroup]
+2026-11-10T03:48:40.2001886Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T03:48:40.2004351Z Actions: read
+2026-11-10T03:48:40.2004929Z Contents: read
+2026-11-10T03:48:40.2005681Z Metadata: read
+2026-11-10T03:48:40.2006288Z ##[endgroup]
+2026-11-10T03:48:40.2008803Z Secret source: Actions
+2026-11-10T03:48:40.2009782Z Cache mode: write
+2026-11-10T03:48:40.2010899Z Prepare workflow directory
+2026-11-10T03:48:40.2351072Z Prepare all required actions
+2026-11-10T03:48:40.2457270Z Complete job name: observe
+2026-11-10T03:48:40.3472066Z ##[group]Run set -euo pipefail
+2026-11-10T03:48:40.3473001Z [36;1mset -euo pipefail[0m
+2026-11-10T03:48:40.3473861Z [36;1marchive="$RUNNER_TEMP/architecture-preparation.zip"[0m
+2026-11-10T03:48:40.3474752Z [36;1mcurl --fail --silent --show-error --location --max-time 60 \[0m
+2026-11-10T03:48:40.3475883Z [36;1m  -H "Authorization: ***" \[0m
+2026-11-10T03:48:40.3476564Z [36;1m  -H 'Accept: application/vnd.github+json' \[0m
+2026-11-10T03:48:40.3477718Z [36;1m  'https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13734016279/zip' \[0m
+2026-11-10T03:48:40.3478670Z [36;1m  --output "$archive"[0m
+2026-11-10T03:48:40.3479348Z [36;1mpython3 -I -B -S - "$archive" <<'PY'[0m
+2026-11-10T03:48:40.3480113Z [36;1mimport hashlib, json, pathlib, re, sys, zipfile[0m
+2026-11-10T03:48:40.3480914Z [36;1mdata = pathlib.Path(sys.argv[1]).read_bytes()[0m
+2026-11-10T03:48:40.3481962Z [36;1mif len(data) > 2 * 1024 * 1024:[0m
+2026-11-10T03:48:40.3482740Z [36;1m    raise ValueError('archive size bound')[0m
+2026-11-10T03:48:40.3483527Z [36;1mdigest = hashlib.sha256(data).hexdigest()[0m
+2026-11-10T03:48:40.3484467Z [36;1mif digest != 'bbb826252a0385ae9427e05353c9fbffa55265d91e351536eef365a1678d3d1e':[0m
+2026-11-10T03:48:40.3485486Z [36;1m    raise ValueError('original artifact digest mismatch')[0m
+2026-11-10T03:48:40.3486376Z [36;1mwith zipfile.ZipFile(pathlib.Path(sys.argv[1])) as archive:[0m
+2026-11-10T03:48:40.3487163Z [36;1m    entries = archive.infolist()[0m
+2026-11-10T03:48:40.3487923Z [36;1m    names = [info.filename for info in entries][0m
+2026-11-10T03:48:40.3488738Z [36;1m    if len(entries) > 100 or len(names) != len(set(names)):[0m
+2026-11-10T03:48:40.3489598Z [36;1m        raise ValueError('archive member count or duplicate')[0m
+2026-11-10T03:48:40.3490691Z [36;1m    matches = [info for info in entries if info.filename.split('/')[-1] == 'preparation-result.json'][0m
+2026-11-10T03:48:40.3492063Z [36;1m    if len(matches) != 1 or matches[0].file_size > 256 * 1024:[0m
+2026-11-10T03:48:40.3493056Z [36;1m        raise ValueError('exact bounded result member missing or ambiguous')[0m
+2026-11-10T03:48:40.3494093Z [36;1m    result = json.loads(archive.read(matches[0]).decode('utf-8'))[0m
+2026-11-10T03:48:40.3495004Z [36;1mcontext = result.get('context', {})[0m
+2026-11-10T03:48:40.3496437Z [36;1mif context.get('checked_commit') != 'b269dba8e17e082395a46a90ef60b3a609c64921' or str(context.get('run_id')) != '42751353078':[0m
+2026-11-10T03:48:40.3497754Z [36;1m    raise ValueError('native result identity mismatch')[0m
+2026-11-10T03:48:40.3498553Z [36;1mdef safe_error(value):[0m
+2026-11-10T03:48:40.3499816Z [36;1m    if value is None:[0m
+2026-11-10T03:48:40.3500483Z [36;1m        return None[0m
+2026-11-10T03:48:40.3501123Z [36;1m    if not isinstance(value, dict):[0m
+2026-11-10T03:48:40.3502121Z [36;1m        raise ValueError('unexpected error representation')[0m
+2026-11-10T03:48:40.3503035Z [36;1m    kind, message = value.get('type'), value.get('message')[0m
+2026-11-10T03:48:40.3504026Z [36;1m    if not isinstance(kind, str) or not re.fullmatch(r'[A-Za-z0-9_]{1,80}', kind):[0m
+2026-11-10T03:48:40.3505029Z [36;1m        raise ValueError('unexpected error type')[0m
+2026-11-10T03:48:40.3506071Z [36;1m    if not isinstance(message, str) or not re.fullmatch(r'[A-Za-z0-9_ .:/+()\-]{0,512}', message):[0m
+2026-11-10T03:48:40.3507152Z [36;1m        message = 'REDACTED_UNEXPECTED_ERROR_TEXT'[0m
+2026-11-10T03:48:40.3507965Z [36;1m    return {'type': kind, 'message': message}[0m
+2026-11-10T03:48:40.3508920Z [36;1mprint(json.dumps({'archive_sha256': digest, 'archive_members': len(entries),[0m
+2026-11-10T03:48:40.3510086Z [36;1m    'checked_commit': context['checked_commit'], 'run_id': str(context['run_id']),[0m
+2026-11-10T03:48:40.3511523Z [36;1m    'status': result.get('status'), 'preparation_error': safe_error(result.get('preparation_error')),[0m
+2026-11-10T03:48:40.3512917Z [36;1m    'recovery_error': safe_error(result.get('recovery_error')),[0m
+2026-11-10T03:48:40.3513936Z [36;1m    'daemon_mutation_completed': result.get('daemon_mutation_completed'),[0m
+2026-11-10T03:48:40.3515121Z [36;1m    'source_and_test_exposed': result.get('source_and_test_exposed')}, sort_keys=True))[0m
+2026-11-10T03:48:40.3516058Z [36;1mPY[0m
+2026-11-10T03:48:40.3752106Z shell: /usr/bin/bash -e {0}
+2026-11-10T03:48:40.3752999Z env:
+2026-11-10T03:48:40.3756974Z   GH_TOKEN: ***
+2026-11-10T03:48:40.3757522Z ##[endgroup]
+2026-11-10T03:48:41.1554683Z {"archive_members": 43, "archive_sha256": "bbb826252a0385ae9427e05353c9fbffa55265d91e351536eef365a1678d3d1e", "checked_commit": "b269dba8e17e082395a46a90ef60b3a609c64921", "daemon_mutation_completed": false, "preparation_error": {"message": "unsafe/private daemon config refuses mutation", "type": "ValueError"}, "recovery_error": null, "run_id": "42751353078", "source_and_test_exposed": true, "status": "SETUP_BLOCKED"}
+2026-11-10T03:48:41.1772530Z Cleaning up orphan processes

@@ -15,6 +15,22 @@ prepared candidate is retained in receipt ancestry, and no successful recovery
 or publication is inferred. See the dated STATUS entry for actual observations
 and TOOLING for commands and verification limits. This entry closes no proof.
 
+## Selected historical text custody boundary — 10 November 2026
+
+This candidate preserves exact Git head/tree objects and selected changed
+head-side text blobs from 430 historical public Main and Math refs: 588 Main
+`.lean` blobs and 608 Math `.lean`/`.md` blobs, with 6,867 head/path bindings.
+The case-sensitive suffix selection, separately observed defaults, exact
+identities and exclusions are in the [custody record](cbz/evidence/public-selected-text-custody-20261110/README.md). It does not
+preserve deleted default-side blobs, unchanged files, other suffixes, Gitlink
+contents or private refs. Ref currency, semantic uniqueness, proof status,
+logical isolation and scientific acceptance are not inferred. No ref is
+removed.
+
+The preserved bytes are source custody only. No new CLOSED claim or dormant
+quarantine is admitted, and historical mathematical statements, authorship,
+outcomes and failures remain as originally recorded.
+
 ## Public branch custody boundary — 10 November 2026
 
 This candidate preserves selected public Git objects from 58 captured refs in

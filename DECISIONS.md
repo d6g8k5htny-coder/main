@@ -799,3 +799,64 @@ Author-family correction1 moves only the two runner.temp bindings into prepare-s
   `129618510111`, `129618705245` and `129618849837` remain preserved
   on the selected-text custody candidate. These observations do not perform
   an authenticated receipt write or establish a final gate.
+
+[2026-11-10] [Phase 2] [Layer B / source custody] Preserve the separately
+observed 430 public Main and Math historical refs, their exact head/tree
+objects and the selected changed head-side `.lean` and `.md` blob packs under
+`cbz/evidence/public-selected-text-custody-20261110/`. Verify the stated
+selection and each preserved object in both Python modes; retain the specified
+adverse executions and their original results. Scope excludes deleted
+default-side data, unchanged content, Gitlink targets, other suffixes and
+private refs. Source identity is not a proof, quarantine, semantic uniqueness,
+scientific review or permission to remove a ref. Reversible: additive isolated
+candidate; prior source and historical outcomes remain. Evidence: package
+README, SHA256SUMS and retained verification history.
+
+## 2026-11-10 — Compose selected text custody after publication candidates
+
+- Preserve the complete publisher/recovery and Main #799 decisions prefix,
+  followed by the exact prior selected-text custody decision. The source packs,
+  selected records and their historical readbacks remain unchanged.
+- This is a staged composition on the publication candidates, not an
+  integration or a new proof, quarantine, scientific or final-gate claim.
+  Recheck the actual base, exact tested tree and required checks before merge.
+
+## 2026-11-10 — Preserve failed architecture preparation observation
+
+- [Layer B / adverse evidence] Preserve Main #800's actual architecture and
+  intake failures plus the bounded read-only diagnostic source and decoded
+  job logs under `cbz/evidence/architecture-artifact-observation-20261110/`.
+  The diagnostic checked one retained ZIP digest, native run/commit identity
+  and one result member; it did not qualify architecture or any final gate.
+- The artifact reported unsafe/private daemon configuration, no completed
+  daemon mutation, and no recovery error. Retain the failure and its limits;
+  do not disclose the daemon configuration or disable the affected checks.
+- Preserve the diagnostic commit as an additional candidate parent and retain
+  its workflow as evidence rather than enabling it on the candidate. This is
+  reversible and does not alter any default ref or scientific claim.
+
+## 2026-11-10 — Preserve publication artifact readback and inspection failures
+
+- [Layer B / tool evidence] Retain the two recomposed publication/recovery
+  component logs, the bounded archive-readback source and all four actual
+  readback attempts under
+  `cbz/evidence/publication-artifact-observation-20261110/`. The successful
+  readback checked exact artifact digests, CRCs, tested-source hashes, unit
+  outcomes and selected mutation-origin records; it is scoped component
+  evidence, not a deployment or final G0--G11 pass.
+- Keep the earlier readback failures: one selected test emitted two authorized
+  events and the initial reader assumed one; a later reader inferred a mutant
+  file extension from its label. The corrected reader checks every selected
+  event and requires one recorded mutant source. Original component outcomes
+  are unchanged. Preserve the diagnostic ancestry and its source as evidence,
+  not an active workflow or a new general-purpose certifier.
+
+## 2026-11-10 — Compose selected custody after Main #803
+
+- Preserve the entire latest publisher/recovery/#803 decisions prefix,
+  followed by the exact selected-text and diagnostic evidence suffix. Keep
+  selected source package tree `60eb8f16164f11aee59fcd38bcf7e777b8cea2ce`
+  and all historical failure and readback records. No source ref is removed.
+- Recheck the current base, exact tested tree, required checks and live
+  federation pins before integration. These custody and diagnostic records
+  do not establish mathematical, scientific or final-gate status.
