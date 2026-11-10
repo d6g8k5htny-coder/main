@@ -1,0 +1,102 @@
+"""Verify bounded Main #809 targeted artifacts against a native Git tree."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import re
+import zipfile
+
+HEAD = '3d1c8cbf4ecd6298b195ee92a06829285597e8f9'
+TREE = '3cd55d0bbf65e1e940bc9f96d97fd95a91b49f55'
+METHODS = (
+    'test_all_actual_parent_fixture_and_subtest_non_successes_cannot_qualify',
+    'test_fresh_pattern_dependent_load_tests_disagreement_refuses_before_body',
+    'test_interrupted_incomplete_nonzero_and_damaged_journals_cannot_qualify',
+    'test_native_pattern_censuses_select_actual_membership_not_id_prefix',
+    'test_omitted_duplicate_extra_zero_and_import_failed_inventories_refuse',
+    'test_original_zip_member_bytes_and_inert_api_bindings_are_both_checked',
+    'test_pilot_success_can_never_produce_main_discovery_qualification',
+    'test_real_unchanged_reader_accepts_only_labelled_test_archive_then_exact_join_membership',
+    'test_safe_original_cases_preserve_fixture_lifecycle_and_unsafe_suites_refuse',
+    'test_source_runtime_closed_records_stale_context_and_missing_producers_refuse',
+)
+IDS = ['test_unittest_full_qualification.MainUnittestQualificationContract.' + name for name in METHODS]
+
+
+def verify(archive, digest, native_tree, mode):
+    raw = Path(archive).read_bytes()
+    if hashlib.sha256(raw).hexdigest() != digest:
+        raise ValueError('artifact digest mismatch')
+    tree = json.loads(Path(native_tree).read_bytes())
+    if tree.get('sha') != TREE or tree.get('truncated') is not False:
+        raise ValueError('native tree identity or completeness mismatch')
+    leaves = [x for x in tree['tree'] if x['type'] != 'tree']
+    if len(leaves) != 6212 or any(x['type'] != 'blob' for x in leaves):
+        raise ValueError('unexpected native leaf population')
+    expected = {x['path']: (x['mode'], x['sha'], x['size']) for x in leaves}
+    if len(expected) != len(leaves):
+        raise ValueError('duplicate native path')
+    with zipfile.ZipFile(archive) as z:
+        names = z.namelist()
+        if len(names) != len(set(names)) or set(names) != {'observation.json', 'source-before.json',
+                                                         'source-after.json', 'stdout.bin', 'stderr.bin'} or z.testzip() is not None:
+            raise ValueError('artifact population or CRC mismatch')
+        before, after = (json.loads(z.read(name)) for name in ('source-before.json', 'source-after.json'))
+        obs = json.loads(z.read('observation.json'))
+        if before != after or before.get('checked_commit') != HEAD or before.get('checked_tree') != TREE:
+            raise ValueError('source context or before/after mismatch')
+        if before.get('repository') != 'd6g8k5htny-coder/main' or before.get('run_id') != '42790545086' or before.get('run_attempt') != '1':
+            raise ValueError('source run identity mismatch')
+        rows = before.get('files')
+        if not isinstance(rows, list) or len(rows) != len(expected):
+            raise ValueError('source population mismatch')
+        actual = {}
+        for row in rows:
+            path = row.get('path')
+            if not isinstance(path, str) or path in actual:
+                raise ValueError('duplicate or invalid source path')
+            if not isinstance(row.get('sha256'), str) or not re.fullmatch('[0-9a-f]{64}', row['sha256']):
+                raise ValueError('invalid source SHA-256 shape')
+            actual[path] = (row.get('mode'), row.get('git_blob'), row.get('bytes'))
+        if actual != expected:
+            raise ValueError('source path, mode, Git blob or size mismatch')
+        if (obs.get('mode') != mode or obs.get('outcome') != 'PASS' or obs.get('native_exit_code') != 0
+                or obs.get('reported_test_count') != 10 or obs.get('exact_parent_results') is not True
+                or obs.get('source_unchanged') is not True or obs.get('terminal_ok') is not True
+                or obs.get('timed_out') is not False or obs.get('full_discovery_run') is not False
+                or obs.get('g5_claim') is not False or obs.get('cbz_claim') is not False
+                or obs.get('expected_parent_ids') != IDS or obs.get('observed_parent_ids') != IDS
+                or obs.get('bad_result_lines') != [] or obs.get('malformed_result_lines') != []):
+            raise ValueError('targeted observation mismatch')
+        for name in ('stdout.bin', 'stderr.bin'):
+            data = z.read(name)
+            if obs.get(name) != {'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()}:
+                raise ValueError('stream hash mismatch')
+        stderr = z.read('stderr.bin').decode('utf-8')
+        observed = []
+        for line in stderr.splitlines():
+            match = re.fullmatch(r'(\S+) \(([^()]*)\) \.\.\. (.+)', line)
+            if match:
+                short, identity, disposition = match.groups()
+                if short != identity.rsplit('.', 1)[-1] or disposition != 'ok':
+                    raise ValueError('test disposition mismatch')
+                observed.append(identity)
+        if observed != IDS or not re.search(r'(?m)^Ran 10 tests in [0-9.]+s$', stderr) or not stderr.rstrip().endswith('OK'):
+            raise ValueError('targeted stream results mismatch')
+    return {'artifact_sha256': digest, 'mode': mode, 'tests': 10, 'skips': 0,
+            'native_tree': TREE, 'native_blob_paths_modes_sizes': len(expected),
+            'raw_sha256_values_independently_checked': False,
+            'scope': 'targeted TEST contracts and native tree metadata only; not full G5 or scientific review'}
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('archive')
+    parser.add_argument('sha256')
+    parser.add_argument('native_tree')
+    parser.add_argument('mode', choices=('normal', 'optimized'))
+    parser.add_argument('output')
+    args = parser.parse_args()
+    result = verify(args.archive, args.sha256, args.native_tree, args.mode)
+    Path(args.output).write_text(json.dumps(result, indent=2) + '\n')
+    print(json.dumps(result))
