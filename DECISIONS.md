@@ -1051,3 +1051,69 @@ negative and simultaneous body-error-plus-drift branches have source review
 only, not runtime-negative/mutation credit. Preserve fresh Main984/site801,
 all earlier pytest803/Node799 bytes and full fresh canonical prefixes.
 Scientific effect NONE; qualification/classification BLOCKED; authfalse.
+
+## 2026-11-10 — publish Task B axiom/safety contracts before production changes
+
+Repaired Task A head30ee811900b81c41b07650f68aa5b6db2f353a95/tree
+c048562421a3d0772bbc2bd3fe7898a9e676b086 has actual covering run
+42754577855/attempt1/job129625861805: normal and optimized native6/39,
+pure12 and separate custody3/6 passed, with11guarded observations,
+6request bindings/31paths. Root read those originals and the final scoped
+review before authorizing this separate test-first Draft B publication.
+This records bounded engineering evidence, not mathematical qualification.
+
+Add only four genuine source fixtures, reviewed Controls42a80b09,
+integrated launcher54421c70918fdebf6b676cd8cfd49cde0c9d67b9 and source-only
+reports/design. Integrationreport50e5b2279a7b6bbbb591f3ba6cf6a6323da3ec95
+and transfer747dcbbd0e00f782864e8c85963462d26fdd898a were fully read by
+root; a fresh scoped source reviewer returned PASS with no findings.
+The18surgical edits reverse exactly to repaired A9921; all originalA6
+test bodies/39IDs and reviewedB4test bodies remain unchanged.
+
+Expected combined native-contract census is10methods/52subcases:
+46Lean plus6Python_controller. Separate pure12, custody3methods/6routes
+and process cleanup remain outside that census. Three B inventories,
+C04/C05/C06 controls and four C07 calls extend custody to21observations,
+10bindings/55paths. BadDependency objects have a binding-only request
+with no inventory/subcase credit and are guarded in actual AxiomUse imports.
+Every missing, skipped, unsupported, partial or resource-failed outcome blocks.
+
+Production Component336, Task1 APIs/JSONL/Name/classifier, pure12,
+custodytesta9e, workflowf229, all proof/profile/99module/1137target bindings,
+prior failures and original A source/history remain exact. No new prerequisite,
+GOVERNANCE/TOOLING change, Task C replay or production guard is introduced.
+Existing strictAxioms is tested as implemented, never removed to manufacture RED.
+C07 must observe actual missing SDGA.guardReplayConstant independently from
+healthy file custody; fixture/compile/missing-IR failures are setup failures.
+Hosted B execution is pending at this publication. Preserve original native
+source/run/streams and require root to read actual RED before any guard code.
+Draft only; no merge. Scientific NONE; qualification/classification BLOCKED;
+execution_authenticated false.
+
+## 2026-11-10 — observed Task B guard absence and add only the shared safety refusal
+
+Root independently read actual42756168831/1/job129630964628 at native
+a2554bbb6a1b9ae75f526ea6dbbfa621638c2dff/tree1918377f, ordered parents
+[30ee8119,4415cfee]. Both modes ran10methods:9success/C07failure via2
+failed subtests;52unique subcases=50pass+2fail,0not_run/errors/skips.
+Only the two exactLean guard calls failed CONTROL_SETUP IMPLEMENTATION_ABSENCE
+SDGA.guardReplayConstant. OriginalA39/C04–06/actualflags passed; pure12,
+custody3/6, cleanup and independent21observations/10bindings/55paths/final
+registry passed without drift. This is helper-absence RED, no semantic
+guard-rejection or mutation-kill credit. Retain source-bound original records
+and complete log under cbz/evidence/sdga-task-b-20261110/red-r0; receipt
+72b1d718c2b032b646662be4a7de2b248df91a21. No artifactZIP read is claimed.
+
+After that actual RED, add only guardReplayConstant using actual isUnsafe/
+isPartial and exact ci.name, and invoke that same helper from actual replayOwned
+before its unchanged NOT_IMPLEMENTED placeholder. Safe replay/runReplay still
+refuse NOT_IMPLEMENTED; TaskC kernel replay remains absent. Correct existing
+strictAxioms/allowlist/traversal and every assertion/fixture/test/workflow stay
+unchanged. Component candidate7f89460edca71754dbce9a07de229ad39ad3e851
+reverse-recovers336 with one exact-region replacement.
+
+Compose complete fresh A/Main first parent and B4415 second parent, preserving
+all fresh peer/canonical prefixes and only appending this feature's owned ledger
+suffixes. Actual candidate10/52+pure12+custody3/6both modes/21-10-55/drift0
+and fresh scoped helper/wiring review remain required. Draft only, no merge.
+Scientific NONE; classification/qualification BLOCKED; execution_authenticated false.
