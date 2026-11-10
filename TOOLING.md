@@ -1,9 +1,23 @@
 # CBZ mission-tool registry
 
+## Empty Pages status adverse control — 10 November 2026
+
+Purpose: refuse the observed empty deployment status without changing the receipt, and detect a mutant that would treat it as canceled. The recovery tool remains limited to its explicit authenticated cancellation contract. Source, local controls, origin records, actual outputs and their boundaries are in `cbz/evidence/empty-pages-status-adverse-20261110/`. Python 3.12.14 ran 34 controls and 38 clean-baseline/selected-oracle mutation pairs per mode, with three unauthorized origins rejected per mode. Fresh hosted checks are required; this is not a live recovery or final G0. Run:
+
+```sh
+python3 -B -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
+python3 -B -O -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
+CBZ_SITE_NORMAL=$(mktemp -d)/mutations
+CBZ_SITE_OPTIMIZED=$(mktemp -d)/mutations
+python3 -B -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_NORMAL"
+python3 -B -O -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_OPTIMIZED"
+```
+
+
 ## Normal Pages publisher atomic-head controls — 10 November 2026
 
 `tools/current_site_publication.py` verifies immutable receipt objects and,
-in this candidate, advances the fixed receipt ref through GitHub GraphQL
+after Main #802, advances the fixed receipt ref through GitHub GraphQL
 `updateRefs` with the exact expected old commit and `force: false`. It
 rejects direct REST ref patches and retains bounded readback and unknown-outcome
 handling. The recovery wrapper uses the same publication interface while
@@ -1336,8 +1350,10 @@ contracts. No source proof, bound, scientific status or gate threshold changes.
 
 `tools/node_status_live_check.py` uses the existing validator, refresh contract
 and default authenticated HTTPS observer. It validates four current records
-and the complete declared-fresh cohort, while reporting eng.hard-gate as stale.
-It changes no record, source pin, graph, schema, owner or scientific status.
+and the complete declared-fresh cohort. An earlier observation reported
+`eng.hard-gate` stale; the later source-refresh candidate preserves that
+record and a scoped hosted observation checked all four fresh records. The
+observer changes no record, source pin, graph, schema, owner or scientific status.
 
 Offline self-verification:
 
@@ -1375,8 +1391,12 @@ See [the design](docs/plans/2026-11-09-node-status-live-check-design.md) and
 Predecessor dff06396 completed41offline methods and actual live reads per
 mode. Source-specific evidence is retained. A fresh review found an unbound
 package/bytecode import gap. Its actual RED is retained; the captured-source
-repair requires fresh43controls and actual live qualification before integration. The
-trusted runtime/bootstrap is explicit; this is not hostile-host certification.
+repair required fresh43controls and actual live qualification before integration.
+On the later tested merge `d06f5a0fcd00d2ae9a12b0c470c1254ac4c5c126`,
+hosted job `129622521449` ran 23 helper and 20 CLI tests per mode, and job
+`129622838982` observed the four-record cohort in both modes. This is a
+source-bound historical observation; fresh checks are required after changes.
+The trusted runtime/bootstrap is explicit; this is not hostile-host certification.
 Existing dormant history, Q-9002--Q-9005, fullG5 and CBZ remain unawarded.
 Maintenance owner: none; standard library plus existing project validators.
 
@@ -1437,3 +1457,7 @@ reader; v2 has no total-length field. Unsupported formats are refused. This
 bounded framing check does not certify arbitrary corrupted object graphs,
 external dependencies or concurrent host mutation. Original typed C13 refusal
 and all six/39 control outcomes remain required on the current source.
+
+## Read-only Pages predecessor observation — 10 November 2026
+
+The temporary read-only workflow retained at `cbz/evidence/pages-predecessor-read-20261110/successful-workflow.yml.txt` records the exact pinned checkout, source identity and `python3 -I -B -S` invocation. Its successful job matched the three public files to the previous observed receipt and compared the prepared ref before/after; the initial import failure is retained separately. The fresh Pages status was empty, so this bounded observation neither authorizes recovery nor proves cancellation. The temporary active workflow was removed; logs and sanitized results are retained alongside the workflow source.

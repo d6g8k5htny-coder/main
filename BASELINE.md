@@ -1,27 +1,31 @@
 # CBZ baseline ledger
 
-## Normal Pages publisher atomic-head candidate — 10 November 2026
+## Main SDGA Task A boundary — 10 November 2026
+
+Main #797 integrated the scoped inventory and custody controls after the source-bound hosted observations recorded in STATUS. Classification and qualification remain BLOCKED, replay remains NOT_IMPLEMENTED, and no proof, scientific acceptance or final federation gate is awarded.
+
+
+## Normal Pages publisher atomic-head boundary — 10 November 2026
 
 The original publisher's ancestor-rollback test failed in local and hosted
-runs. A stacked source candidate uses an atomic expected-head non-force update
-and passed the scoped hosted controls described in STATUS. It is not yet a
-published recovery, authenticated platform result, mathematical proof or final
-baseline. The actual red and intermediate failures remain preserved.
+runs. Main #802 integrated the atomic expected-head non-force update after the
+scoped hosted controls described in STATUS. This is not a completed recovery,
+mathematical proof or final baseline. The actual red and intermediate failures remain preserved.
 
 ## Pages failure and guarded recovery boundary — 10 November 2026
 
 The two attempts of site run `42737966287` failed during deployment and did
 not run public observation. The prepared receipt and previous observed receipt
 remain distinct; later three-file public reads matched the previous receipt.
-The guarded recovery candidate can re-observe those old bytes only under the
+The guarded recovery tool can re-observe those old bytes only under the
 live checks in [STATUS](STATUS.md#guarded-pages-receipt-recovery--observed-10-november-2026).
 Neither a successful recovery nor a successful new publication is inferred.
 The source-bound local tests and mutation campaign are scoped in TOOLING;
 no proof, scientific or final baseline status changes.
 
-## Selected historical text custody candidate — 10 November 2026
+## Selected historical text custody boundary — 10 November 2026
 
-This candidate preserves exact Git head/tree objects and selected changed
+The integrated custody record preserves exact Git head/tree objects and selected changed
 head-side text blobs from 430 historical public Main and Math refs: 588 Main
 `.lean` blobs and 608 Math `.lean`/`.md` blobs, with 6,867 head/path bindings.
 The case-sensitive suffix selection, separately observed defaults, exact

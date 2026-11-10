@@ -1112,3 +1112,75 @@ negative and simultaneous body-error-plus-drift branches have source review
 only, not runtime-negative/mutation credit. Preserve fresh Main984/site801,
 all earlier pytest803/Node799 bytes and full fresh canonical prefixes.
 Scientific effect NONE; qualification/classification BLOCKED; authfalse.
+
+## 2026-11-10 — Refresh the engineering hard-gate source pin
+
+- Preserve the exact prior stale `eng.hard-gate` record and observed Math
+  source variants under `cbz/evidence/hard-gate-source-refresh-20261110/`.
+  Point the candidate record and matching projection to Math `9bdfc54b76173b57912503bfcf901a5f9d43b09c`,
+  separately observed as its default at `2026-11-10T04:01:01Z`.
+- The old and new directory trees differ in the source manifest and two
+  temporary Git-test configuration lines. The graph and production gate
+  objects are unchanged. Retain the current Math downstream job and its
+  historical limits; do not infer mathematical proof, independent review,
+  final pins or scientific acceptance.
+- The freshness label is a time-bound source observation, not a guarantee of
+  future tips. Require actual current-tree live observations and normal
+  protected checks before serial integration; preserve any failures.
+
+## 2026-11-10 — Preserve and correct hard-gate cohort contract failure
+
+- Hosted job `129621544420` on tested merge
+  `d1e2d717522b65359a6c94569c35e110585b611a` ran 23 live-contract tests
+  in each mode and failed two in each: the former explicit three-fresh-node
+  expectation conflicts with this candidate's four. The dependent live job
+  `129621764656` was skipped. Preserve the original test source and full
+  decoded failure log under the hard-gate evidence directory.
+- Update those exact contract expectations to the four named fresh nodes and
+  twelve observed sources. Retain the existing side24 and discussion refusal
+  cases, and add changed-object and unavailable-source subcases for both new
+  hard-gate URLs. No live check, mathematical claim or regression is waived;
+  new hosted outcomes must be observed.
+
+## 2026-11-10 — Retain scoped live and regression observations
+
+- Preserve the corrected hard-gate candidate's actual normal/optimized
+  contract, node-status and live-observation logs under
+  `cbz/evidence/hard-gate-live-observation-20261110/`. On tested merge
+  `d06f5a0fcd00d2ae9a12b0c470c1254ac4c5c126`, the live job observed four
+  fresh records and twelve source observations in each mode at Math
+  `9bdfc54b`; no scientific or final-gate credit follows.
+- Preserve the exact earlier 2,720-test navigation log with its 23 explicit
+  skips and the separate Main `3f05f849` site readback failure. Their
+  artifacts, source commits and limits are recorded in the corresponding
+  evidence directories; neither failure nor skip is reclassified.
+- Keep the diagnostic source and ancestry recoverable while omitting temporary
+  diagnostic workflows from this candidate tree. Re-run appropriate required
+  checks for the new composition and use fresh source/ref guards.
+
+
+## 2026-11-10 — Preserve current ref and publication-failure observations
+
+- [Layer B / evidence] Retain the public subset of a non-atomic GitHub App ref inventory and separately source-pinned public tree/gitlink observations. All eight Workspace gitlink commits resolved; its Main pin was stale against the separately observed default. Keep transport and tag-namespace read errors, archival scope and missing ancestry/local-Git/final-gate coverage explicit. Evidence is in `cbz/evidence/public-federation-observation-20261110/`; no source or scientific verdict changes.
+- Retain Main `97663b47` site build job `129621637586` as an actual public-readback failure with deploy skipped, plus the earlier #801 integration guard snapshot and native diagnostic ancestry. No receipt was rewritten by this evidence composition. Fresh source, required checks and final ref comparisons remain necessary.
+
+
+## 2026-11-10 — Preserve current publisher artifact bytes
+
+- [Layer B / evidence] Retain both #802 tested-merge `0f088dc3` component ZIPs and decoded hosted logs at their original outcome. The source-bound readback checked ZIP digests/CRCs, source hashes, unit outcomes and mutation-origin records; a later hosted job compared the Git bytes with fresh artifact downloads and refused three deliberately altered inputs per archive. The direct connector's binary blob readback refused non-UTF-8; the hosted check is the actual verification. This is not a live ref write, deployment, independent scientific review or final G0--G11 pass.
+- Preserve diagnostic workflow source and ancestry as text; remove the temporary workflow from the debug branch tip. An earlier attempted #804 ref update named the wrong branch and returned a GraphQL error; a fresh read showed the actual branch unchanged before a guarded non-force update to the correct branch. No default ref was altered by that failed call.
+
+
+## 2026-11-10 — Integrate publisher and selected source custody
+
+- [Layer B / integration] Main #802 merged normally at `944dc555e38c4a2912d613276e1750976e6675d5`, tree `275c6fb32e1ce5b6db05c6007146442ee3d8b991`; Main #800 merged normally at `2f878f8eb5c621dcf9231e4a1bf582b685321130`, tree `d3b577f61a95d51383e72f17435eaef8b92e0e7b`. Each published tree matched its tested merge and each used fresh expected-head, ref and required-check guards. Preserve the guard snapshots, all earlier failures and source histories. Neither integration writes a receipt or closes mathematics.
+- [Layer B / adverse evidence] Authenticated read-only Pages observation returned HTTP 200 with an empty deployment status. Preserve the actual result and keep the explicit cancellation guard; do not infer cancellation. Add an empty-status no-write test and a designated mutant that admits that value. Actual Python 3.12.14 controls passed 34 per mode; the live-provenance runner observed 38 selected-oracle pairs and three unauthorized-origin refusals per mode. The new mutant was rejected by the selected test body in both modes. This is source-bound local evidence, not a live recovery or final G0.
+- [Layer B / custody] Reconstruct exact selected-text blobs and perform local Main/Math cold readbacks in both modes and 38 specified adverse children in each outer mode. Preserve the initial reused-directory and missing-prerequisite failures and their causes, then retain the successful isolated runs. No proof, bound, axiom, authorship, scientific status or historical failure is altered.
+
+## Main #797 integration and subsequent Pages observation — 10 November 2026
+
+- **Disposition:** Main #797 merged normally at `b6be588c82d2256c917b7d26d901085bc90319fb`, after the exact head, tested tree, 18 successful checks and separately observed federation/receipt refs were preserved in `cbz/evidence/integration-guards-20261110/main-797-before.json`. The merge tree equals tested tree `c7db1b6521d37b13a1ec1a695fcad9cf65af99e6`; original histories and failed controls remain. This integration is a published, recoverable Git action; no bypass or force was used. The newly registered tool remains scoped and classification/qualification remain BLOCKED.
+- **Conflict and resolution:** the source run's deployment action logged cancellation after timeout, but authenticated Pages status later returned an empty string. The previous observed public artifact matched its receipt on a separate read. Keep the empty-status refusal and retain both observations rather than infer terminal cancellation or alter the receipt. The initial observer's import failure and later successful read are preserved, and the temporary workflows were removed.
+- **Tool scope:** the exact temporary read-only workflow and original job outputs are retained under `cbz/evidence/pages-predecessor-read-20261110/`; its public readback is time-bound operational evidence, not a proof, review or final gate.
+
+- **Hosted attempt failure:** #804 run `42757368825` attempt 1 refused daemon preparation; a normal retry passed architecture but verify refused its prior-attempt formal receipt. Preserve both actual failures and the retry's scoped success under `cbz/evidence/pr804-hosted-attempts-20261110/`; require fresh source-bound checks on the recomposed tree rather than treating either attempt as aggregate success.

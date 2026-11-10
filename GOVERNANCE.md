@@ -1,8 +1,22 @@
 # CBZ-0 governance
 
+## Observed empty Pages status and recovery controls — 10 November 2026
+
+An authenticated read-only Pages response for the prepared publication had an empty status. It is not evidence of cancellation; the recovery guard must refuse it. The candidate adds a real empty-status refusal case and a selected-oracle mutation that admits that value. Python 3.12.14 passed 34 controls and 38 paired mutations per mode, rejecting three unauthorized assertion origins per mode. This is bounded local engineering evidence; fresh hosted checks are required and no live recovery or final gate follows. Exact commands:
+
+```sh
+python3 -B -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
+python3 -B -O -S -m unittest -v tests.test_cbz_site_recovery.SiteRecoveryTests tests.test_cbz_site_recovery_workflow.RecoveryWorkflowTests
+CBZ_SITE_NORMAL=$(mktemp -d)/mutations
+CBZ_SITE_OPTIMIZED=$(mktemp -d)/mutations
+python3 -B -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_NORMAL"
+python3 -B -O -S tools/cbz_site_recovery_mutations.py --output "$CBZ_SITE_OPTIMIZED"
+```
+
+
 ## Normal Pages publisher atomic-head boundary — 10 November 2026
 
-A candidate replaces the normal publisher's REST ref patch with an atomic
+Main #802 replaced the normal publisher's REST ref patch with an atomic
 expected-head, non-force update of the fixed receipt ref. Immutable Git
 object verification and readback remain required, and an unknown write outcome
 requires inspection of the actual ref. Its scoped commands, hosted observations
@@ -23,7 +37,7 @@ if a write's readback fails, inspect the actual ref before inferring its state.
 Workflow concurrency coordinates
 the normal publisher and recovery, not external actors or atomic public reads.
 At Main `31bc4c1f`, the normal publisher's separate REST ref write lacked
-this guarantee; the later candidate above addresses it subject to integration.
+this guarantee; the later #802 integration above addresses it.
 The [status](STATUS.md#guarded-pages-receipt-recovery--observed-10-november-2026)
 and [tool registry](TOOLING.md#guarded-pages-receipt-recovery--10-november-2026)
 give exact commands, observations and limits. This is neither mathematical nor
@@ -31,7 +45,7 @@ scientific acceptance and does not establish the final gates.
 
 ## Selected historical text verifier boundary — 10 November 2026
 
-This candidate preserves exact Git head/tree objects and selected changed
+The integrated custody record preserves exact Git head/tree objects and selected changed
 head-side text blobs from 430 historical public Main and Math refs: 588 Main
 `.lean` blobs and 608 Math `.lean`/`.md` blobs, with 6,867 head/path bindings.
 The case-sensitive suffix selection, separately observed defaults, exact
@@ -1106,8 +1120,10 @@ contracts. No source proof, bound, scientific status or gate threshold changes.
 
 `tools/node_status_live_check.py` uses the existing validator, refresh contract
 and default authenticated HTTPS observer. It validates four current records
-and the complete declared-fresh cohort, while reporting eng.hard-gate as stale.
-It changes no record, source pin, graph, schema, owner or scientific status.
+and the complete declared-fresh cohort. An earlier observation reported
+`eng.hard-gate` stale; the later source-refresh candidate preserves that
+record and a scoped hosted observation checked all four fresh records. The
+observer changes no record, source pin, graph, schema, owner or scientific status.
 
 Offline self-verification:
 
@@ -1145,8 +1161,12 @@ See [the design](docs/plans/2026-11-09-node-status-live-check-design.md) and
 Predecessor dff06396 completed41offline methods and actual live reads per
 mode. Source-specific evidence is retained. A fresh review found an unbound
 package/bytecode import gap. Its actual RED is retained; the captured-source
-repair requires fresh43controls and actual live qualification before integration. The
-trusted runtime/bootstrap is explicit; this is not hostile-host certification.
+repair required fresh43controls and actual live qualification before integration.
+On the later tested merge `d06f5a0fcd00d2ae9a12b0c470c1254ac4c5c126`,
+hosted job `129622521449` ran 23 helper and 20 CLI tests per mode, and job
+`129622838982` observed the four-record cohort in both modes. This is a
+source-bound historical observation; fresh checks are required after changes.
+The trusted runtime/bootstrap is explicit; this is not hostile-host certification.
 Existing dormant history, Q-9002--Q-9005, fullG5 and CBZ remain unawarded.
 Maintenance owner: none; standard library plus existing project validators.
 
@@ -1207,3 +1227,7 @@ reader; v2 has no total-length field. Unsupported formats are refused. This
 bounded framing check does not certify arbitrary corrupted object graphs,
 external dependencies or concurrent host mutation. Original typed C13 refusal
 and all six/39 control outcomes remain required on the current source.
+
+## Read-only Pages predecessor observation — 10 November 2026
+
+The temporary read-only workflow retained at `cbz/evidence/pages-predecessor-read-20261110/successful-workflow.yml.txt` records the exact pinned checkout, source identity and `python3 -I -B -S` invocation. Its successful job matched the three public files to the previous observed receipt and compared the prepared ref before/after; the initial import failure is retained separately. The fresh Pages status was empty, so this bounded observation neither authorizes recovery nor proves cancellation. The temporary active workflow was removed; logs and sanitized results are retained alongside the workflow source.

@@ -1,0 +1,248 @@
+﻿2026-11-10T04:25:57.9102422Z Current runner version: '2.338.2'
+2026-11-10T04:25:57.9124760Z ##[group]Runner Image Provisioner
+2026-11-10T04:25:57.9125487Z Hosted Compute Agent
+2026-11-10T04:25:57.9126079Z Version: 20261028.624
+2026-11-10T04:25:57.9126612Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T04:25:57.9127271Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T04:25:57.9127877Z Worker ID: {1d2ccac6-7cfd-44b5-b896-fff9bd0b52ee}
+2026-11-10T04:25:57.9128606Z Region: centralus
+2026-11-10T04:25:57.9129131Z Cloud: Azure
+2026-11-10T04:25:57.9129596Z ##[endgroup]
+2026-11-10T04:25:57.9130752Z ##[group]Operating System
+2026-11-10T04:25:57.9131448Z Ubuntu
+2026-11-10T04:25:57.9131903Z 24.04.5
+2026-11-10T04:25:57.9132395Z LTS
+2026-11-10T04:25:57.9132853Z ##[endgroup]
+2026-11-10T04:25:57.9133336Z ##[group]Runner Image
+2026-11-10T04:25:57.9134233Z Image: ubuntu-24.04
+2026-11-10T04:25:57.9134722Z Version: 20261101.360.1
+2026-11-10T04:25:57.9135806Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T04:25:57.9137091Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T04:25:57.9137958Z ##[endgroup]
+2026-11-10T04:25:57.9139168Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T04:25:57.9141000Z Contents: read
+2026-11-10T04:25:57.9141548Z Metadata: read
+2026-11-10T04:25:57.9142081Z ##[endgroup]
+2026-11-10T04:25:57.9144330Z Secret source: Actions
+2026-11-10T04:25:57.9145214Z Cache mode: write
+2026-11-10T04:25:57.9146000Z Prepare workflow directory
+2026-11-10T04:25:57.9413240Z Prepare all required actions
+2026-11-10T04:25:57.9453906Z Getting action download info
+2026-11-10T04:25:58.1457026Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-10T04:25:58.2383097Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+2026-11-10T04:25:58.4179713Z Complete job name: capture
+2026-11-10T04:25:58.4855747Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-11-10T04:25:58.4856571Z with:
+2026-11-10T04:25:58.4856969Z   ref: b5019e3fe65fef7657cf69326e8ca496e34a94d4
+2026-11-10T04:25:58.4857446Z   path: source
+2026-11-10T04:25:58.4857807Z   persist-credentials: false
+2026-11-10T04:25:58.4858209Z   fetch-depth: 1
+2026-11-10T04:25:58.4858733Z   repository: d6g8k5htny-coder/main
+2026-11-10T04:25:58.4862030Z   token: ***
+2026-11-10T04:25:58.4862396Z   ssh-strict: true
+2026-11-10T04:25:58.4862754Z   ssh-user: git
+2026-11-10T04:25:58.4863107Z   clean: true
+2026-11-10T04:25:58.4863473Z   sparse-checkout-cone-mode: true
+2026-11-10T04:25:58.4863895Z   fetch-tags: false
+2026-11-10T04:25:58.4864258Z   show-progress: true
+2026-11-10T04:25:58.4864627Z   lfs: false
+2026-11-10T04:25:58.4864976Z   submodules: false
+2026-11-10T04:25:58.4865345Z   set-safe-directory: true
+2026-11-10T04:25:58.4865769Z   allow-unsafe-pr-checkout: false
+2026-11-10T04:25:58.4866413Z ##[endgroup]
+2026-11-10T04:25:58.6983372Z Syncing repository: d6g8k5htny-coder/main
+2026-11-10T04:25:58.6985464Z ##[group]Getting Git version info
+2026-11-10T04:25:58.6986172Z Working directory is '/home/runner/work/main/main/source'
+2026-11-10T04:25:58.6987076Z [command]/usr/bin/git version
+2026-11-10T04:25:58.7055076Z git version 2.56.0
+2026-11-10T04:25:58.7072151Z ##[endgroup]
+2026-11-10T04:25:58.7080946Z Temporarily overriding HOME='/home/runner/work/_temp/115e9015-974e-4fae-b4b2-5ec6e0d61361' before making global git config changes
+2026-11-10T04:25:58.7082701Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T04:25:58.7087328Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main/source
+2026-11-10T04:25:58.7137352Z ##[group]Determining repository object format
+2026-11-10T04:25:58.7139683Z ##[endgroup]
+2026-11-10T04:25:58.7140606Z ##[group]Initializing the repository
+2026-11-10T04:25:58.7144383Z [command]/usr/bin/git init /home/runner/work/main/main/source
+2026-11-10T04:25:58.7220907Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T04:25:58.7221757Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T04:25:58.7222797Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T04:25:58.7223390Z hint: call:
+2026-11-10T04:25:58.7223730Z hint:
+2026-11-10T04:25:58.7224161Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T04:25:58.7224840Z hint:
+2026-11-10T04:25:58.7225313Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T04:25:58.7226037Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T04:25:58.7226841Z hint:
+2026-11-10T04:25:58.7227345Z hint: 	git branch -m <name>
+2026-11-10T04:25:58.7227921Z hint:
+2026-11-10T04:25:58.7228827Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T04:25:58.7230554Z Initialized empty Git repository in /home/runner/work/main/main/source/.git/
+2026-11-10T04:25:58.7240702Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-11-10T04:25:58.7283764Z ##[endgroup]
+2026-11-10T04:25:58.7284696Z ##[group]Disabling automatic garbage collection
+2026-11-10T04:25:58.7286643Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T04:25:58.7319671Z ##[endgroup]
+2026-11-10T04:25:58.7320582Z ##[group]Setting up auth
+2026-11-10T04:25:58.7321614Z Removing SSH command configuration
+2026-11-10T04:25:58.7324547Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T04:25:58.7360464Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T04:25:58.7682647Z Removing HTTP extra header
+2026-11-10T04:25:58.7699119Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T04:25:58.7738982Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T04:25:58.7974044Z Removing includeIf entries pointing to credentials config files
+2026-11-10T04:25:58.7975005Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T04:25:58.8018736Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T04:25:58.8238073Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-5f525ff8-d3b6-4cd2-bdab-d632fe91204d.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T04:25:58.8282046Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/source/.git.path /home/runner/work/_temp/git-credentials-5f525ff8-d3b6-4cd2-bdab-d632fe91204d.config
+2026-11-10T04:25:58.8319794Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/source/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-5f525ff8-d3b6-4cd2-bdab-d632fe91204d.config
+2026-11-10T04:25:58.8358230Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/source/.git.path /github/runner_temp/git-credentials-5f525ff8-d3b6-4cd2-bdab-d632fe91204d.config
+2026-11-10T04:25:58.8396778Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/source/.git/worktrees/*.path /github/runner_temp/git-credentials-5f525ff8-d3b6-4cd2-bdab-d632fe91204d.config
+2026-11-10T04:25:58.8440235Z ##[endgroup]
+2026-11-10T04:25:58.8441156Z ##[group]Fetching the repository
+2026-11-10T04:25:58.8442744Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin b5019e3fe65fef7657cf69326e8ca496e34a94d4
+2026-11-10T04:26:01.4163424Z From https://github.com/d6g8k5htny-coder/main
+2026-11-10T04:26:01.4165974Z  * branch            b5019e3fe65fef7657cf69326e8ca496e34a94d4 -> FETCH_HEAD
+2026-11-10T04:26:01.4169727Z [command]/usr/bin/git rev-parse --verify --quiet b5019e3fe65fef7657cf69326e8ca496e34a94d4^{object}
+2026-11-10T04:26:01.4203478Z b5019e3fe65fef7657cf69326e8ca496e34a94d4
+2026-11-10T04:26:01.4207982Z ##[endgroup]
+2026-11-10T04:26:01.4209382Z ##[group]Determining the checkout info
+2026-11-10T04:26:01.4210877Z ##[endgroup]
+2026-11-10T04:26:01.4211725Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T04:26:01.4261544Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T04:26:01.4299772Z ##[group]Checking out the ref
+2026-11-10T04:26:01.4302007Z [command]/usr/bin/git checkout --progress --force b5019e3fe65fef7657cf69326e8ca496e34a94d4
+2026-11-10T04:26:01.8899250Z Note: switching to 'b5019e3fe65fef7657cf69326e8ca496e34a94d4'.
+2026-11-10T04:26:01.8900468Z 
+2026-11-10T04:26:01.8900698Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-10T04:26:01.8901266Z changes and commit them, and you can discard any commits you make in this
+2026-11-10T04:26:01.8901706Z state without impacting any branches by switching back to a branch.
+2026-11-10T04:26:01.8901941Z 
+2026-11-10T04:26:01.8902111Z If you want to create a new branch to retain commits you create, you may
+2026-11-10T04:26:01.8902509Z do so (now or later) by using -c with the switch command. Example:
+2026-11-10T04:26:01.8902738Z 
+2026-11-10T04:26:01.8902854Z   git switch -c <new-branch-name>
+2026-11-10T04:26:01.8903033Z 
+2026-11-10T04:26:01.8903146Z Or undo this operation with:
+2026-11-10T04:26:01.8903295Z 
+2026-11-10T04:26:01.8903402Z   git switch -
+2026-11-10T04:26:01.8903541Z 
+2026-11-10T04:26:01.8903758Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-10T04:26:01.8904016Z 
+2026-11-10T04:26:01.8904235Z HEAD is now at b5019e3 Compose selected source custody after pytest and publisher updates
+2026-11-10T04:26:01.8907872Z ##[endgroup]
+2026-11-10T04:26:01.8959088Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T04:26:01.8990606Z b5019e3fe65fef7657cf69326e8ca496e34a94d4
+2026-11-10T04:26:01.8998611Z ##[group]Removing auth
+2026-11-10T04:26:01.8999160Z Removing SSH command configuration
+2026-11-10T04:26:01.9001758Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T04:26:01.9038333Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T04:26:01.9250445Z Removing HTTP extra header
+2026-11-10T04:26:01.9251166Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T04:26:01.9287190Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T04:26:01.9495324Z Removing includeIf entries pointing to credentials config files
+2026-11-10T04:26:01.9497795Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T04:26:01.9530724Z includeif.gitdir:/home/runner/work/main/main/source/.git.path
+2026-11-10T04:26:01.9531455Z includeif.gitdir:/home/runner/work/main/main/source/.git/worktrees/*.path
+2026-11-10T04:26:01.9531861Z includeif.gitdir:/github/workspace/source/.git.path
+2026-11-10T04:26:01.9532238Z includeif.gitdir:/github/workspace/source/.git/worktrees/*.path
+2026-11-10T04:26:01.9539976Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/source/.git.path
+2026-11-10T04:26:01.9571708Z /home/runner/work/_temp/git-credentials-5f525ff8-d3b6-4cd2-bdab-d632fe91204d.config
+2026-11-10T04:26:01.9580596Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/source/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-5f525ff8\-d3b6\-4cd2\-bdab\-d632fe91204d\.config
+2026-11-10T04:26:01.9619661Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/source/.git/worktrees/*.path
+2026-11-10T04:26:01.9647966Z /home/runner/work/_temp/git-credentials-5f525ff8-d3b6-4cd2-bdab-d632fe91204d.config
+2026-11-10T04:26:01.9661814Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/source/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-5f525ff8\-d3b6\-4cd2\-bdab\-d632fe91204d\.config
+2026-11-10T04:26:01.9701896Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/source/.git.path
+2026-11-10T04:26:01.9733429Z /github/runner_temp/git-credentials-5f525ff8-d3b6-4cd2-bdab-d632fe91204d.config
+2026-11-10T04:26:01.9739243Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/source/.git.path \/github\/runner_temp\/git\-credentials\-5f525ff8\-d3b6\-4cd2\-bdab\-d632fe91204d\.config
+2026-11-10T04:26:02.0162399Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/source/.git/worktrees/*.path
+2026-11-10T04:26:02.0192795Z /github/runner_temp/git-credentials-5f525ff8-d3b6-4cd2-bdab-d632fe91204d.config
+2026-11-10T04:26:02.0198927Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/source/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-5f525ff8\-d3b6\-4cd2\-bdab\-d632fe91204d\.config
+2026-11-10T04:26:02.0237407Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T04:26:02.0445962Z Removing credentials config '/home/runner/work/_temp/git-credentials-5f525ff8-d3b6-4cd2-bdab-d632fe91204d.config'
+2026-11-10T04:26:02.0455127Z ##[endgroup]
+2026-11-10T04:26:02.0633464Z ##[group]Run set -euo pipefail
+2026-11-10T04:26:02.0633912Z [36;1mset -euo pipefail[0m
+2026-11-10T04:26:02.0634171Z [36;1mpython3 -I -B -S - <<'PY'[0m
+2026-11-10T04:26:02.0634525Z [36;1mimport hashlib, json, os, pathlib, shutil, stat, subprocess[0m
+2026-11-10T04:26:02.0634904Z [36;1msource = pathlib.Path('source')[0m
+2026-11-10T04:26:02.0635236Z [36;1mexpected_commit = 'b5019e3fe65fef7657cf69326e8ca496e34a94d4'[0m
+2026-11-10T04:26:02.0635711Z [36;1mactual = subprocess.check_output(['git', '-C', str(source), 'rev-parse', 'HEAD'], text=True).strip()[0m
+2026-11-10T04:26:02.0636199Z [36;1mif actual != expected_commit: raise ValueError('checkout identity')[0m
+2026-11-10T04:26:02.0636538Z [36;1mexpected = {[0m
+2026-11-10T04:26:02.0637108Z [36;1m    "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/Math-/heads-and-trees.idx": "43e7ea901f6a03e098fd0b3ecdf8ea48319908ec",[0m
+2026-11-10T04:26:02.0638043Z [36;1m    "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/Math-/heads-and-trees.pack": "9889cb79fdd75e940a854a85e212fafdb7cfd735",[0m
+2026-11-10T04:26:02.0639289Z [36;1m    "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/Math-/selected-text-sources/bindings.jsonl.gz": "631a5093e525a5c6d855f1142c4aa753bc9997d1",[0m
+2026-11-10T04:26:02.0640337Z [36;1m    "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/Math-/selected-text-sources/selected-blobs.idx": "aebf66c1c7857d7286a82809a225376cd638e253",[0m
+2026-11-10T04:26:02.0641327Z [36;1m    "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/Math-/selected-text-sources/selected-blobs.pack": "32d76d1a3e015bf2257226735759f24504ef9bb3",[0m
+2026-11-10T04:26:02.0642257Z [36;1m    "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/main/heads-and-trees.idx": "4ab7398f49292b6d7d63e2b638adf08d287819ff",[0m
+2026-11-10T04:26:02.0643141Z [36;1m    "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/main/heads-and-trees.pack": "278b39e6058b4b7716fc6c356b505071d0b90fa3",[0m
+2026-11-10T04:26:02.0644062Z [36;1m    "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/main/selected-text-sources/bindings.jsonl.gz": "c6630d778dcb9fbb594265b91fecdb8839168ff8",[0m
+2026-11-10T04:26:02.0645234Z [36;1m    "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/main/selected-text-sources/selected-blobs.idx": "23a1ddf5e09a3198a0c7e01174fe839e1f09af12",[0m
+2026-11-10T04:26:02.0646221Z [36;1m    "cbz/evidence/public-selected-text-custody-20261110/large-nonancestor-tree-20261110/main/selected-text-sources/selected-blobs.pack": "458497751c167f73b2042df7626a08828bdff64e",[0m
+2026-11-10T04:26:02.0647086Z [36;1m    "cbz/evidence/public-selected-text-custody-20261110/verification-history.tar.gz": "9a776be9c451983ff053ae779017fadcfd116066"[0m
+2026-11-10T04:26:02.0647572Z [36;1m}[0m
+2026-11-10T04:26:02.0647865Z [36;1mout = pathlib.Path(os.environ['RUNNER_TEMP']) / 'cbz-pr800-binaries'[0m
+2026-11-10T04:26:02.0648196Z [36;1mout.mkdir()[0m
+2026-11-10T04:26:02.0648576Z [36;1mrows = [][0m
+2026-11-10T04:26:02.0648872Z [36;1mtotal = 0[0m
+2026-11-10T04:26:02.0649105Z [36;1mfor path, git_oid in expected.items():[0m
+2026-11-10T04:26:02.0649402Z [36;1m    p = pathlib.PurePosixPath(path)[0m
+2026-11-10T04:26:02.0649765Z [36;1m    if p.is_absolute() or '..' in p.parts: raise ValueError('unsafe path')[0m
+2026-11-10T04:26:02.0650117Z [36;1m    src = source.joinpath(*p.parts)[0m
+2026-11-10T04:26:02.0650384Z [36;1m    info = src.lstat()[0m
+2026-11-10T04:26:02.0650763Z [36;1m    if not stat.S_ISREG(info.st_mode) or info.st_size > 256 * 1024 * 1024: raise ValueError('unsafe file')[0m
+2026-11-10T04:26:02.0651155Z [36;1m    raw = src.read_bytes()[0m
+2026-11-10T04:26:02.0651395Z [36;1m    total += len(raw)[0m
+2026-11-10T04:26:02.0651841Z [36;1m    if total > 512 * 1024 * 1024: raise ValueError('capture bound')[0m
+2026-11-10T04:26:02.0652251Z [36;1m    oid = hashlib.sha1(('blob ' + str(len(raw)) + '\0').encode() + raw).hexdigest()[0m
+2026-11-10T04:26:02.0652696Z [36;1m    if oid != git_oid: raise ValueError('Git blob mismatch: ' + path)[0m
+2026-11-10T04:26:02.0653047Z [36;1m    dest = out.joinpath(*p.parts)[0m
+2026-11-10T04:26:02.0653352Z [36;1m    dest.parent.mkdir(parents=True, exist_ok=True)[0m
+2026-11-10T04:26:02.0653642Z [36;1m    dest.write_bytes(raw)[0m
+2026-11-10T04:26:02.0654045Z [36;1m    rows.append({'path': path, 'git_blob': oid, 'sha256': hashlib.sha256(raw).hexdigest(), 'bytes': len(raw)})[0m
+2026-11-10T04:26:02.0654944Z [36;1mmanifest = {'source_commit': expected_commit, 'source_tree':'d3b577f61a95d51383e72f17435eaef8b92e0e7b', 'run_id': os.environ['GITHUB_RUN_ID'], 'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'], 'count':len(rows), 'total_bytes':total, 'files':rows}[0m
+2026-11-10T04:26:02.0655811Z [36;1m(out / 'manifest.json').write_text(json.dumps(manifest, sort_keys=True, indent=2) + '\n')[0m
+2026-11-10T04:26:02.0656334Z [36;1mprint(json.dumps({'source_commit':actual,'files':len(rows),'bytes':total,'git_blob_check':'PASS'}))[0m
+2026-11-10T04:26:02.0656725Z [36;1mPY[0m
+2026-11-10T04:26:02.0677277Z shell: /usr/bin/bash -e {0}
+2026-11-10T04:26:02.0677541Z ##[endgroup]
+2026-11-10T04:26:02.1147293Z {"source_commit": "b5019e3fe65fef7657cf69326e8ca496e34a94d4", "files": 11, "bytes": 7490815, "git_blob_check": "PASS"}
+2026-11-10T04:26:02.1345766Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+2026-11-10T04:26:02.1346167Z with:
+2026-11-10T04:26:02.1346410Z   name: cbz-pr800-native-binaries-42755829072-1
+2026-11-10T04:26:02.1346730Z   path: /home/runner/work/_temp/cbz-pr800-binaries
+2026-11-10T04:26:02.1347016Z   include-hidden-files: true
+2026-11-10T04:26:02.1347253Z   if-no-files-found: error
+2026-11-10T04:26:02.1347481Z   retention-days: 30
+2026-11-10T04:26:02.1347700Z   compression-level: 6
+2026-11-10T04:26:02.1347915Z   overwrite: false
+2026-11-10T04:26:02.1348115Z   archive: true
+2026-11-10T04:26:02.1348318Z ##[endgroup]
+2026-11-10T04:26:02.2579500Z With the provided path, there will be 12 files uploaded
+2026-11-10T04:26:02.2580495Z Artifact name is valid!
+2026-11-10T04:26:02.2581316Z Root directory input is valid!
+2026-11-10T04:26:02.5366614Z Uploading artifact: cbz-pr800-native-binaries-42755829072-1.zip
+2026-11-10T04:26:02.5398629Z Beginning upload of artifact content to blob storage
+2026-11-10T04:26:03.2363677Z Uploaded bytes 7290574
+2026-11-10T04:26:03.2751530Z Finished uploading artifact content to blob storage!
+2026-11-10T04:26:03.2752504Z SHA256 digest of uploaded artifact is 8f92c0f6d52214194b9fac9de0a4a8655812d5159684c45978409c6040d3222c
+2026-11-10T04:26:03.2753106Z Finalizing artifact upload
+2026-11-10T04:26:03.7183809Z Artifact cbz-pr800-native-binaries-42755829072-1 successfully finalized. Artifact ID 13735531880
+2026-11-10T04:26:03.7184787Z Artifact cbz-pr800-native-binaries-42755829072-1 has been successfully uploaded! Final size is 7290574 bytes. Artifact ID is 13735531880
+2026-11-10T04:26:03.7188750Z Artifact download URL: https://github.com/d6g8k5htny-coder/main/actions/runs/42755829072/artifacts/13735531880
+2026-11-10T04:26:03.8237354Z Post job cleanup.
+2026-11-10T04:26:03.8939640Z [command]/usr/bin/git version
+2026-11-10T04:26:03.8984430Z git version 2.56.0
+2026-11-10T04:26:03.9014153Z Temporarily overriding HOME='/home/runner/work/_temp/8109118f-8995-4fa6-812b-c0272c79f4c2' before making global git config changes
+2026-11-10T04:26:03.9015357Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T04:26:03.9018114Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main/source
+2026-11-10T04:26:03.9915759Z Removing SSH command configuration
+2026-11-10T04:26:03.9923501Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T04:26:03.9972092Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T04:26:04.0199019Z Removing HTTP extra header
+2026-11-10T04:26:04.0204457Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T04:26:04.0244918Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T04:26:04.0467365Z Removing includeIf entries pointing to credentials config files
+2026-11-10T04:26:04.0474336Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T04:26:04.0511669Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T04:26:04.0871315Z Cleaning up orphan processes

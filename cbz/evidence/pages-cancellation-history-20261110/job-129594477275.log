@@ -1,0 +1,325 @@
+﻿2026-11-10T02:45:13.3929511Z Current runner version: '2.338.2'
+2026-11-10T02:45:13.3954465Z ##[group]Runner Image Provisioner
+2026-11-10T02:45:13.3955295Z Hosted Compute Agent
+2026-11-10T02:45:13.3955815Z Version: 20261028.624
+2026-11-10T02:45:13.3956449Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T02:45:13.3957097Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T02:45:13.3957688Z Worker ID: {81a35edd-f5c2-40a6-8b53-cc160e00f8ad}
+2026-11-10T02:45:13.3958354Z Region: eastus3
+2026-11-10T02:45:13.3958851Z Cloud: Azure
+2026-11-10T02:45:13.3959399Z ##[endgroup]
+2026-11-10T02:45:13.3960838Z ##[group]Operating System
+2026-11-10T02:45:13.3961379Z Ubuntu
+2026-11-10T02:45:13.3961910Z 24.04.5
+2026-11-10T02:45:13.3962371Z LTS
+2026-11-10T02:45:13.3962867Z ##[endgroup]
+2026-11-10T02:45:13.3963368Z ##[group]Runner Image
+2026-11-10T02:45:13.3963887Z Image: ubuntu-24.04
+2026-11-10T02:45:13.3964803Z Version: 20261101.360.1
+2026-11-10T02:45:13.3965969Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T02:45:13.3967391Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T02:45:13.3968240Z ##[endgroup]
+2026-11-10T02:45:13.3969409Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T02:45:13.3971329Z Contents: write
+2026-11-10T02:45:13.3971918Z Metadata: read
+2026-11-10T02:45:13.3972462Z Pages: write
+2026-11-10T02:45:13.3972957Z ##[endgroup]
+2026-11-10T02:45:13.3975773Z Secret source: Actions
+2026-11-10T02:45:13.3976633Z Cache mode: write
+2026-11-10T02:45:13.3977536Z Prepare workflow directory
+2026-11-10T02:45:13.4299544Z Prepare all required actions
+2026-11-10T02:45:13.4349455Z Getting action download info
+2026-11-10T02:45:13.6970928Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-10T02:45:13.8060864Z Download action repository 'actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0' (SHA:634f93cb2916e3fdff6788551b99b062d0335ce0)
+2026-11-10T02:45:14.0930580Z Download action repository 'actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d' (SHA:45bfe0192ca1faeb007ade9deae92b16b8254a0d)
+2026-11-10T02:45:14.3568246Z Download action repository 'actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346' (SHA:368f82528645a54fb793d4d04e342629a3f51346)
+2026-11-10T02:45:14.6755972Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+2026-11-10T02:45:14.8529973Z Complete job name: deploy
+2026-11-10T02:45:14.9540124Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-11-10T02:45:14.9541281Z with:
+2026-11-10T02:45:14.9541810Z   ref: 6d928a3216233fb75dc717ee0b2d2e4bb08db266
+2026-11-10T02:45:14.9542486Z   persist-credentials: false
+2026-11-10T02:45:14.9543055Z   repository: d6g8k5htny-coder/main
+2026-11-10T02:45:14.9547627Z   token: ***
+2026-11-10T02:45:14.9548065Z   ssh-strict: true
+2026-11-10T02:45:14.9548536Z   ssh-user: git
+2026-11-10T02:45:14.9548962Z   clean: true
+2026-11-10T02:45:14.9549418Z   sparse-checkout-cone-mode: true
+2026-11-10T02:45:14.9549975Z   fetch-depth: 1
+2026-11-10T02:45:14.9550429Z   fetch-tags: false
+2026-11-10T02:45:14.9550919Z   show-progress: true
+2026-11-10T02:45:14.9551388Z   lfs: false
+2026-11-10T02:45:14.9551807Z   submodules: false
+2026-11-10T02:45:14.9552272Z   set-safe-directory: true
+2026-11-10T02:45:14.9552798Z   allow-unsafe-pr-checkout: false
+2026-11-10T02:45:14.9553611Z ##[endgroup]
+2026-11-10T02:45:15.2534538Z Syncing repository: d6g8k5htny-coder/main
+2026-11-10T02:45:15.2537759Z ##[group]Getting Git version info
+2026-11-10T02:45:15.2539008Z Working directory is '/home/runner/work/main/main'
+2026-11-10T02:45:15.2540956Z [command]/usr/bin/git version
+2026-11-10T02:45:15.2634282Z git version 2.56.0
+2026-11-10T02:45:15.2659556Z ##[endgroup]
+2026-11-10T02:45:15.2667980Z Temporarily overriding HOME='/home/runner/work/_temp/016f6eeb-9b22-437c-a2e3-8144381c16ef' before making global git config changes
+2026-11-10T02:45:15.2670306Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T02:45:15.2674339Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T02:45:15.2722744Z Deleting the contents of '/home/runner/work/main/main'
+2026-11-10T02:45:15.2726401Z ##[group]Determining repository object format
+2026-11-10T02:45:15.2728678Z ##[endgroup]
+2026-11-10T02:45:15.2730329Z ##[group]Initializing the repository
+2026-11-10T02:45:15.2747191Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-11-10T02:45:15.2844967Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T02:45:15.2847347Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T02:45:15.2849460Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T02:45:15.2851104Z hint: call:
+2026-11-10T02:45:15.2851921Z hint:
+2026-11-10T02:45:15.2853000Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T02:45:15.2854477Z hint:
+2026-11-10T02:45:15.2855691Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T02:45:15.2857704Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T02:45:15.2859293Z hint:
+2026-11-10T02:45:15.2860128Z hint: 	git branch -m <name>
+2026-11-10T02:45:15.2861100Z hint:
+2026-11-10T02:45:15.2862489Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T02:45:15.2864701Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-11-10T02:45:15.2877666Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-11-10T02:45:15.2913134Z ##[endgroup]
+2026-11-10T02:45:15.2914881Z ##[group]Disabling automatic garbage collection
+2026-11-10T02:45:15.2916437Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T02:45:15.2945359Z ##[endgroup]
+2026-11-10T02:45:15.2947390Z ##[group]Setting up auth
+2026-11-10T02:45:15.2948728Z Removing SSH command configuration
+2026-11-10T02:45:15.2950483Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T02:45:15.2981876Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T02:45:15.3342431Z Removing HTTP extra header
+2026-11-10T02:45:15.3345107Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T02:45:15.3383422Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T02:45:15.3587263Z Removing includeIf entries pointing to credentials config files
+2026-11-10T02:45:15.3593333Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T02:45:15.3635049Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T02:45:15.3838974Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-47621680-6e40-458d-8efe-fc3b1226147a.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T02:45:15.3876328Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git.path /home/runner/work/_temp/git-credentials-47621680-6e40-458d-8efe-fc3b1226147a.config
+2026-11-10T02:45:15.3905465Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-47621680-6e40-458d-8efe-fc3b1226147a.config
+2026-11-10T02:45:15.3937529Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-47621680-6e40-458d-8efe-fc3b1226147a.config
+2026-11-10T02:45:15.3968033Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-47621680-6e40-458d-8efe-fc3b1226147a.config
+2026-11-10T02:45:15.3993571Z ##[endgroup]
+2026-11-10T02:45:15.3994916Z ##[group]Fetching the repository
+2026-11-10T02:45:15.4001698Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 6d928a3216233fb75dc717ee0b2d2e4bb08db266
+2026-11-10T02:45:17.6280741Z From https://github.com/d6g8k5htny-coder/main
+2026-11-10T02:45:17.6282715Z  * branch            6d928a3216233fb75dc717ee0b2d2e4bb08db266 -> FETCH_HEAD
+2026-11-10T02:45:17.6291979Z [command]/usr/bin/git rev-parse --verify --quiet 6d928a3216233fb75dc717ee0b2d2e4bb08db266^{object}
+2026-11-10T02:45:17.6317082Z 6d928a3216233fb75dc717ee0b2d2e4bb08db266
+2026-11-10T02:45:17.6322716Z ##[endgroup]
+2026-11-10T02:45:17.6324629Z ##[group]Determining the checkout info
+2026-11-10T02:45:17.6326059Z ##[endgroup]
+2026-11-10T02:45:17.6327651Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T02:45:17.6373293Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T02:45:17.6400476Z ##[group]Checking out the ref
+2026-11-10T02:45:17.6403320Z [command]/usr/bin/git checkout --progress --force 6d928a3216233fb75dc717ee0b2d2e4bb08db266
+2026-11-10T02:45:18.0818766Z Note: switching to '6d928a3216233fb75dc717ee0b2d2e4bb08db266'.
+2026-11-10T02:45:18.0819212Z 
+2026-11-10T02:45:18.0819580Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-10T02:45:18.0820453Z changes and commit them, and you can discard any commits you make in this
+2026-11-10T02:45:18.0820926Z state without impacting any branches by switching back to a branch.
+2026-11-10T02:45:18.0821193Z 
+2026-11-10T02:45:18.0821375Z If you want to create a new branch to retain commits you create, you may
+2026-11-10T02:45:18.0821795Z do so (now or later) by using -c with the switch command. Example:
+2026-11-10T02:45:18.0822080Z 
+2026-11-10T02:45:18.0822204Z   git switch -c <new-branch-name>
+2026-11-10T02:45:18.0822410Z 
+2026-11-10T02:45:18.0822573Z Or undo this operation with:
+2026-11-10T02:45:18.0822738Z 
+2026-11-10T02:45:18.0822839Z   git switch -
+2026-11-10T02:45:18.0822962Z 
+2026-11-10T02:45:18.0823172Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-10T02:45:18.0823451Z 
+2026-11-10T02:45:18.0823745Z HEAD is now at 6d928a3 Merge pull request #787 from d6g8k5htny-coder/codex/cbz-sdga-observer-20261109-2125
+2026-11-10T02:45:18.0847877Z ##[endgroup]
+2026-11-10T02:45:18.0903243Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T02:45:18.0928032Z 6d928a3216233fb75dc717ee0b2d2e4bb08db266
+2026-11-10T02:45:18.0940201Z ##[group]Removing auth
+2026-11-10T02:45:18.0940500Z Removing SSH command configuration
+2026-11-10T02:45:18.0940885Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T02:45:18.0971339Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T02:45:18.1159959Z Removing HTTP extra header
+2026-11-10T02:45:18.1164547Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T02:45:18.1194898Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T02:45:18.1381342Z Removing includeIf entries pointing to credentials config files
+2026-11-10T02:45:18.1384905Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T02:45:18.1416753Z includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T02:45:18.1417342Z includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T02:45:18.1417829Z includeif.gitdir:/github/workspace/.git.path
+2026-11-10T02:45:18.1418840Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T02:45:18.1425486Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T02:45:18.1457624Z /home/runner/work/_temp/git-credentials-47621680-6e40-458d-8efe-fc3b1226147a.config
+2026-11-10T02:45:18.1467851Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-47621680\-6e40\-458d\-8efe\-fc3b1226147a\.config
+2026-11-10T02:45:18.1498577Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T02:45:18.1519609Z /home/runner/work/_temp/git-credentials-47621680-6e40-458d-8efe-fc3b1226147a.config
+2026-11-10T02:45:18.1529172Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-47621680\-6e40\-458d\-8efe\-fc3b1226147a\.config
+2026-11-10T02:45:18.1563711Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-10T02:45:18.1585094Z /github/runner_temp/git-credentials-47621680-6e40-458d-8efe-fc3b1226147a.config
+2026-11-10T02:45:18.1592550Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-47621680\-6e40\-458d\-8efe\-fc3b1226147a\.config
+2026-11-10T02:45:18.1625580Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T02:45:18.1645548Z /github/runner_temp/git-credentials-47621680-6e40-458d-8efe-fc3b1226147a.config
+2026-11-10T02:45:18.1651341Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-47621680\-6e40\-458d\-8efe\-fc3b1226147a\.config
+2026-11-10T02:45:18.1681192Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T02:45:18.1862935Z Removing credentials config '/home/runner/work/_temp/git-credentials-47621680-6e40-458d-8efe-fc3b1226147a.config'
+2026-11-10T02:45:18.1872246Z ##[endgroup]
+2026-11-10T02:45:18.2096823Z ##[group]Run actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+2026-11-10T02:45:18.2097257Z with:
+2026-11-10T02:45:18.2097477Z   artifact-ids: 13728342519
+2026-11-10T02:45:18.2097805Z   path: /home/runner/work/_temp/current-site-publication-metadata
+2026-11-10T02:45:18.2098157Z   merge-multiple: false
+2026-11-10T02:45:18.2098402Z   repository: d6g8k5htny-coder/main
+2026-11-10T02:45:18.2098646Z   run-id: 42737966287
+2026-11-10T02:45:18.2098850Z ##[endgroup]
+2026-11-10T02:45:18.3560006Z Downloading artifacts by ID
+2026-11-10T02:45:18.3777469Z (node:2446) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T02:45:18.3778662Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T02:45:18.5122561Z Found 5 artifact(s)
+2026-11-10T02:45:18.5123363Z Preparing to download the following artifacts:
+2026-11-10T02:45:18.5124939Z - current-site-publication-metadata-42737966287-1 (ID: 13728342519, Size: 723214, Expected Digest: sha256:3676ea54b9b946d69ee561f43ef4818fca7a4dc0734eb6182c85dc43ea28af0f)
+2026-11-10T02:45:18.6786729Z Redirecting to blob download url: https://productionresultssa11.blob.core.windows.net/actions-results/6d24d67c-3fbf-8157-8e98-94da7076d300/workflow-job-run-e225e323-1071-5658-ad3b-f4cae871b791/artifacts/1f662a011e74c3e1527e83757a8041cfe3439ceb667a2b009a55609976b75855.zip
+2026-11-10T02:45:18.6787990Z Starting download of artifact to: /home/runner/work/_temp/current-site-publication-metadata
+2026-11-10T02:45:18.7899662Z (node:2446) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-11-10T02:45:18.8895319Z SHA256 digest of downloaded artifact is 3676ea54b9b946d69ee561f43ef4818fca7a4dc0734eb6182c85dc43ea28af0f
+2026-11-10T02:45:18.8896235Z Artifact download completed successfully.
+2026-11-10T02:45:18.8896778Z Total of 1 artifact(s) downloaded
+2026-11-10T02:45:18.8901655Z Download artifact has finished successfully
+2026-11-10T02:45:18.9094969Z ##[group]Run actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d
+2026-11-10T02:45:18.9095363Z with:
+2026-11-10T02:45:18.9095555Z   enablement: false
+2026-11-10T02:45:18.9097861Z   token: ***
+2026-11-10T02:45:18.9098062Z ##[endgroup]
+2026-11-10T02:45:19.3153837Z ##[group]Run python3 -B -S tools/current_site_publication.py prepare --metadata "$RUNNER_TEMP/current-site-publication-metadata" --prepared "$RUNNER_TEMP/current-site-prepared.json" --allow-bootstrap
+2026-11-10T02:45:19.3155749Z [36;1mpython3 -B -S tools/current_site_publication.py prepare --metadata "$RUNNER_TEMP/current-site-publication-metadata" --prepared "$RUNNER_TEMP/current-site-prepared.json" --allow-bootstrap[0m
+2026-11-10T02:45:19.3156581Z [36;1mpython3 -B -S - <<'PY'[0m
+2026-11-10T02:45:19.3156856Z [36;1mimport json, os[0m
+2026-11-10T02:45:19.3157106Z [36;1mfrom pathlib import Path[0m
+2026-11-10T02:45:19.3157618Z [36;1mphase = json.loads((Path(os.environ['RUNNER_TEMP']) / 'current-site-prepared.json').read_bytes())['receipt']['phase'][0m
+2026-11-10T02:45:19.3158161Z [36;1mif phase not in ('prepared', 'observed'):[0m
+2026-11-10T02:45:19.3158508Z [36;1m    raise SystemExit('Unadmitted publication phase')[0m
+2026-11-10T02:45:19.3158933Z [36;1mwith open(os.environ['GITHUB_OUTPUT'], 'a') as output:[0m
+2026-11-10T02:45:19.3159283Z [36;1m    output.write('phase=' + phase + '\n')[0m
+2026-11-10T02:45:19.3159553Z [36;1mPY[0m
+2026-11-10T02:45:19.3177608Z shell: /usr/bin/bash -e {0}
+2026-11-10T02:45:19.3177879Z env:
+2026-11-10T02:45:19.3178069Z   GITHUB_PAGES: true
+2026-11-10T02:45:19.3180505Z   GITHUB_TOKEN: ***
+2026-11-10T02:45:19.3180709Z ##[endgroup]
+2026-11-10T02:45:20.4989809Z {"action": "prepare", "scientific_effect": "NONE", "receipt_commit": "6e01d1f5f83d320172e29391eea336e3256aeea2", "phase": "prepared", "snapshots": 41}
+2026-11-10T02:45:20.5411014Z ##[group]Run actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346
+2026-11-10T02:45:20.5411385Z with:
+2026-11-10T02:45:20.5413675Z   token: ***
+2026-11-10T02:45:20.5413871Z   timeout: 600000
+2026-11-10T02:45:20.5414236Z   error_count: 10
+2026-11-10T02:45:20.5414450Z   reporting_interval: 5000
+2026-11-10T02:45:20.5414688Z   artifact_name: github-pages
+2026-11-10T02:45:20.5414927Z   preview: false
+2026-11-10T02:45:20.5415119Z env:
+2026-11-10T02:45:20.5415314Z   GITHUB_PAGES: true
+2026-11-10T02:45:20.5415519Z ##[endgroup]
+2026-11-10T02:45:20.7322808Z (node:2474) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T02:45:20.7324219Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T02:45:20.8435185Z Fetching artifact metadata for "github-pages" in this workflow run
+2026-11-10T02:45:20.9646482Z Found 5 artifact(s)
+2026-11-10T02:45:20.9711192Z Creating Pages deployment with payload:
+2026-11-10T02:45:20.9711705Z {
+2026-11-10T02:45:20.9712024Z 	"artifact_id": 13728153243,
+2026-11-10T02:45:20.9712573Z 	"pages_build_version": "6d928a3216233fb75dc717ee0b2d2e4bb08db266",
+2026-11-10T02:45:20.9780965Z 	"oidc_token": "***"
+2026-11-10T02:45:20.9781429Z }
+2026-11-10T02:45:21.7838622Z Created deployment for 6d928a3216233fb75dc717ee0b2d2e4bb08db266, ID: 6d928a3216233fb75dc717ee0b2d2e4bb08db266
+2026-11-10T02:45:26.9043190Z Getting Pages deployment status...
+2026-11-10T02:45:27.0778291Z Current status: deployment_queued
+2026-11-10T02:45:34.9157453Z Getting Pages deployment status...
+2026-11-10T02:45:35.0901164Z Current status: deployment_queued
+2026-11-10T02:45:47.1021261Z Getting Pages deployment status...
+2026-11-10T02:45:47.2875128Z Current status: deployment_queued
+2026-11-10T02:46:00.8368586Z Getting Pages deployment status...
+2026-11-10T02:46:00.9937499Z Current status: deployment_queued
+2026-11-10T02:46:25.3856439Z Getting Pages deployment status...
+2026-11-10T02:46:25.6420028Z Current status: deployment_queued
+2026-11-10T02:46:58.1045227Z Getting Pages deployment status...
+2026-11-10T02:46:58.2885156Z Current status: deployment_queued
+2026-11-10T02:47:29.9602893Z Getting Pages deployment status...
+2026-11-10T02:47:30.1937959Z Current status: deployment_queued
+2026-11-10T02:48:03.4424263Z Getting Pages deployment status...
+2026-11-10T02:48:03.6259173Z Current status: syncing_files
+2026-11-10T02:48:30.7113719Z Getting Pages deployment status...
+2026-11-10T02:48:30.8987541Z Current status: syncing_files
+2026-11-10T02:49:00.4827801Z Getting Pages deployment status...
+2026-11-10T02:49:00.6536462Z Current status: syncing_files
+2026-11-10T02:49:33.3444873Z Getting Pages deployment status...
+2026-11-10T02:49:33.5306149Z Current status: syncing_files
+2026-11-10T02:50:04.7094631Z Getting Pages deployment status...
+2026-11-10T02:50:04.9061970Z Current status: syncing_files
+2026-11-10T02:50:36.9751120Z Getting Pages deployment status...
+2026-11-10T02:50:37.3377951Z Current status: syncing_files
+2026-11-10T02:51:09.4050762Z Getting Pages deployment status...
+2026-11-10T02:51:09.5904478Z Current status: syncing_files
+2026-11-10T02:51:42.5898402Z Getting Pages deployment status...
+2026-11-10T02:51:42.7692234Z Current status: syncing_files
+2026-11-10T02:52:10.5223510Z Getting Pages deployment status...
+2026-11-10T02:52:10.7990233Z Current status: syncing_files
+2026-11-10T02:52:46.0549571Z Getting Pages deployment status...
+2026-11-10T02:52:46.2508336Z Current status: syncing_files
+2026-11-10T02:53:16.2549183Z Getting Pages deployment status...
+2026-11-10T02:53:16.4095295Z Current status: syncing_files
+2026-11-10T02:53:51.9716570Z Getting Pages deployment status...
+2026-11-10T02:53:52.1541391Z Current status: syncing_files
+2026-11-10T02:54:24.0237271Z Getting Pages deployment status...
+2026-11-10T02:54:24.2050120Z Current status: syncing_files
+2026-11-10T02:54:53.4117745Z Getting Pages deployment status...
+2026-11-10T02:54:53.5599610Z Current status: syncing_files
+2026-11-10T02:55:20.1611985Z Getting Pages deployment status...
+2026-11-10T02:55:20.4986165Z Current status: syncing_files
+2026-11-10T02:55:45.0308308Z Getting Pages deployment status...
+2026-11-10T02:55:45.2208294Z Current status: syncing_files
+2026-11-10T02:55:45.2232584Z ##[error]Timeout reached, aborting!
+2026-11-10T02:55:45.2241686Z ##[error]Timeout reached, aborting!
+2026-11-10T02:55:45.2242746Z Canceling Pages deployment...
+2026-11-10T02:55:45.5855421Z Canceled deployment with ID 6d928a3216233fb75dc717ee0b2d2e4bb08db266
+2026-11-10T02:55:45.6079045Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+2026-11-10T02:55:45.6079421Z with:
+2026-11-10T02:55:45.6079674Z   name: current-site-publication-state-42737966287-2
+2026-11-10T02:55:45.6080043Z   path: /home/runner/work/_temp/current-site-prepared.json
+2026-11-10T02:55:45.6080357Z   if-no-files-found: warn
+2026-11-10T02:55:45.6080603Z   retention-days: 30
+2026-11-10T02:55:45.6080812Z   compression-level: 6
+2026-11-10T02:55:45.6081019Z   overwrite: false
+2026-11-10T02:55:45.6081230Z   include-hidden-files: false
+2026-11-10T02:55:45.6081461Z   archive: true
+2026-11-10T02:55:45.6081647Z env:
+2026-11-10T02:55:45.6081823Z   GITHUB_PAGES: true
+2026-11-10T02:55:45.6082036Z ##[endgroup]
+2026-11-10T02:55:45.7472934Z With the provided path, there will be 1 file uploaded
+2026-11-10T02:55:45.7506966Z Artifact name is valid!
+2026-11-10T02:55:45.7507471Z Root directory input is valid!
+2026-11-10T02:55:46.0093497Z Uploading artifact: current-site-publication-state-42737966287-2.zip
+2026-11-10T02:55:46.0130055Z Beginning upload of artifact content to blob storage
+2026-11-10T02:55:46.1305801Z Uploaded bytes 2313
+2026-11-10T02:55:46.1582389Z Finished uploading artifact content to blob storage!
+2026-11-10T02:55:46.1583631Z SHA256 digest of uploaded artifact is 97e43b1af785fcf8cc6e63914e689b5da2c10ca4e9c9cc531f350105726e58c1
+2026-11-10T02:55:46.1584439Z Finalizing artifact upload
+2026-11-10T02:55:46.5655335Z Artifact current-site-publication-state-42737966287-2 successfully finalized. Artifact ID 13731585346
+2026-11-10T02:55:46.5656770Z Artifact current-site-publication-state-42737966287-2 has been successfully uploaded! Final size is 2313 bytes. Artifact ID is 13731585346
+2026-11-10T02:55:46.5658019Z Artifact download URL: https://github.com/d6g8k5htny-coder/main/actions/runs/42737966287/artifacts/13731585346
+2026-11-10T02:55:46.5817037Z Post job cleanup.
+2026-11-10T02:55:46.6687553Z [command]/usr/bin/git version
+2026-11-10T02:55:46.6728861Z git version 2.56.0
+2026-11-10T02:55:46.6762266Z Temporarily overriding HOME='/home/runner/work/_temp/9619569e-1f1a-434c-a46a-ad81af8af689' before making global git config changes
+2026-11-10T02:55:46.6763914Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T02:55:46.6767343Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T02:55:46.6798400Z Removing SSH command configuration
+2026-11-10T02:55:46.6805316Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T02:55:46.6838432Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T02:55:46.7051298Z Removing HTTP extra header
+2026-11-10T02:55:46.7057321Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T02:55:46.7099926Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T02:55:46.7418944Z Removing includeIf entries pointing to credentials config files
+2026-11-10T02:55:46.7430097Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T02:55:46.7480046Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T02:55:46.7910426Z Evaluate and set environment url
+2026-11-10T02:55:46.7913777Z Evaluated environment url: https://d6g8k5htny-coder.github.io/main/
+2026-11-10T02:55:46.7915039Z Cleaning up orphan processes
+2026-11-10T02:55:46.8209825Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
