@@ -1,5 +1,33 @@
 # CBZ baseline ledger
 
+## Later Main and pin observation - 10 November 2026, 02:02 UTC
+
+Main #788 `ad64930cbdc0d27bd896fc6231649e211ebf1562` adds the source-bound
+freshness companion; its historical failures and evidence limits are retained.
+Workspace #66 still pins `ae8de850`; a proposed refresh to `6d928a32` became
+stale and its integration guard refused. A new guarded pin and federation cut
+remain necessary. No final gate, proof or scientific acceptance is awarded.
+
+## Later Main and pin observation — 10 November 2026
+
+Main #787 `6d928a3216233fb75dc717ee0b2d2e4bb08db266` adds the bounded SDGA
+source/protocol library; its classifications remain BLOCKED and do not
+authenticate Lean execution. Workspace #66 pins the preceding Main `ae8de850`,
+so that pin requires a guarded refresh after #787. The separately observed
+Pages receipt and source are recorded in [STATUS](STATUS.md#later-main-and-pin-observation--10-november-2026-0148-utc).
+No final gate or CBZ criterion is awarded.
+
+## Historical tag custody candidate — 10 November 2026
+
+The candidate preserves exact selected objects and source bytes from seven
+additional non-ancestor tags and supplies a nine-document navigation inventory.
+Its bounded readbacks and adverse checks do not admit proof or quarantine
+status, logical isolation or a final gate. The first Pages deployment at Main
+`da92c829` timed out; the retry subsequently observed that exact candidate and
+appended a receipt. Both outcomes remain in [STATUS](STATUS.md#historical-tag-custody-and-pages-retry--observed-10-november-2026-0125-utc).
+A later Main integration still requires a fresh guarded Workspace pin and a
+same-pass federation vector; no CBZ criterion is awarded here.
+
 ## Historical foundation custody candidate — 10 November 2026
 
 At the observed published cut Workspace `a3ac03329c6c54f0e3df4f159d894b2a8e70de44`

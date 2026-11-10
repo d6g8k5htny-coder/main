@@ -522,3 +522,31 @@ requires its own86offline outcomes, actual normal/optimized live observations,
 source binding review and current required checks before integration. Prior
 source-specific qualification is not rebound to the new composition. No record,
 proof, ownership, scientific disposition, gate threshold, fullG5 or CBZ award changes.
+
+
+## Historical tag custody and Pages retry — 10 November 2026
+
+- Preserved selected objects and source bytes from five Math and two Main
+  non-ancestor tags, leaving the tags in place. The nine-manuscript index is
+  navigation only; it admits no proof, quarantine or scientific outcome. The
+  original verifier false greens, repaired checks and bounded adverse tests
+  are retained in [the custody record](cbz/evidence/tag-custody-20261110/README.md).
+  This additive source custody is recoverable and has scientific effect NONE.
+- Retried only the failed Pages deployment for unchanged Main `da92c829` after
+  checking the prepared receipt. The first timeout and skipped readback remain
+  recorded; the retry observed public bytes and appended receipt
+  `7e88f668216e5dcdf9aa8d3e957d2e3e87428a2f` after
+  `443fe72d76d05671de5dd9079ee8a17c0582eeab`. This was an externally visible
+  publication; its prepared and observed receipt history is retained. It is
+  not a scientific acceptance or full cold-start result.
+
+- After Main #787 advanced the default, the custody candidate's DECISIONS
+  append conflicted with the peer's append. The reconciliation retains the
+  published peer ledger suffix and then the complete custody suffix, without
+  rewriting either. The resulting combined source requires fresh checks and
+  a new expected-head guard; no proof or scientific status changes.
+
+- After Main #788 advanced the default, the custody and peer decision appends
+  conflicted. This composition retains the complete published peer suffix and
+  then the complete custody suffix; it requires new source-specific checks and
+  an expected-head guard. No proof or scientific status changes.

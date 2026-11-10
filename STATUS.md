@@ -1,5 +1,68 @@
 # CBZ-0 execution status
 
+## Later Main and pin observation - 10 November 2026, 02:02 UTC
+
+Main #788 merged as `ad64930cbdc0d27bd896fc6231649e211ebf1562`, adding
+the source-bound real-record freshness companion and retaining its prior
+failed import-binding controls. Its recorded limits are in GOVERNANCE and
+DECISIONS; this observation does not award a final gate, proof or scientific
+acceptance. Workspace #66 pins Main `ae8de850`; the proposed refresh to
+`6d928a32` became stale and its fresh integration guard refused. The pin must
+be checked against the next actual Main tip after this candidate integrates.
+
+## Later Main and pin observation — 10 November 2026, 01:48 UTC
+
+Main #787 merged as `6d928a3216233fb75dc717ee0b2d2e4bb08db266`, adding a
+bounded SDGA source and declared-protocol library. Its classifications remain
+BLOCKED; it does not authenticate Lean execution, establish a kernel result or
+change scientific status. Workspace #66 had pinned the preceding Main
+`ae8de850475f6924aef0abe0fa3670f5e4360751`; the later Main merge makes that
+pin stale and requires another guarded refresh. Main `ae8de850` Pages run
+`42736437394` subsequently observed public bytes and appended receipt
+`81b3998534827e2c2e45188a1a52672aa6666001`; this is a publication observation,
+not a complete cold-start or scientific acceptance.
+
+## Historical tag custody and Pages retry — observed 10 November 2026, 01:25 UTC
+
+A candidate custody record preserves selected Git objects and source files from
+five Math and two Main non-ancestor tags; the tags themselves remain in place.
+Its nine-manuscript index records exact blobs, tag/commit bindings and literal
+heading locations. It does not admit current proof or quarantine status,
+classify all obligations or establish scientific review. The earlier 01:09
+Pages deployment failure remains historical: retry job `129563572226`
+succeeded and observed the exact public candidate, appending receipt
+`7e88f668216e5dcdf9aa8d3e957d2e3e87428a2f` after prepared receipt
+`443fe72d76d05671de5dd9079ee8a17c0582eeab`. This publication observation is
+for Main `da92c8290d99b7ab1db686ce9294e20c915f01a7`, not a final CBZ gate.
+
+The scoped tag readback commands, from Main, are:
+
+```sh
+(cd cbz/evidence/tag-custody-20261110 && sha256sum -c SHA256SUMS)
+python3 -B -S cbz/evidence/tag-custody-20261110/verify_math_tag_native_custody.py cbz/evidence/tag-custody-20261110/math-tag-native-custody-20261110.tar.gz
+python3 -B -O -S cbz/evidence/tag-custody-20261110/verify_math_tag_native_custody.py cbz/evidence/tag-custody-20261110/math-tag-native-custody-20261110.tar.gz
+python3 -B -S cbz/evidence/tag-custody-20261110/verify_main_tag_native_custody.py cbz/evidence/tag-custody-20261110/main-tag-native-custody-20261110.tar.gz
+python3 -B -O -S cbz/evidence/tag-custody-20261110/verify_main_tag_native_custody.py cbz/evidence/tag-custody-20261110/main-tag-native-custody-20261110.tar.gz
+```
+
+To rerun the two specified adverse campaigns without writing inside the
+checkout, run from Main and retain each actual output and exit:
+
+```sh
+CBZ_TAG_TEST_DIR=$(mktemp -d) || exit 1
+cp cbz/evidence/tag-custody-20261110/* "$CBZ_TAG_TEST_DIR/" || exit 1
+python3 -B -S "$CBZ_TAG_TEST_DIR/test_tag_custody_adverse.py" after-repair || exit 1
+python3 -B -S "$CBZ_TAG_TEST_DIR/test_tag_custody_code_mutations.py" || exit 1
+```
+
+The initial one-off verifiers falsely accepted corrupted source under `-O`
+and some duplicate or relabeled bindings; the original failures are retained.
+The repaired bounded campaign accepted four clean controls, rejected 28 altered
+inputs and caught eight executions of two designated helper-code mutants. These
+checks and their limits are detailed in [TOOLING](TOOLING.md#historical-tag-custody-verifiers--10-november-2026)
+and the [source record](cbz/evidence/tag-custody-20261110/README.md). They do
+not establish complete changed-path enumeration, logical isolation or G0.
+
 ## Current handoff and gate limits — observed 10 November 2026, 00:57 UTC
 
 **Active intermediate baseline. CBZ-0 and terminal Partial are not established.**
