@@ -1,0 +1,254 @@
+name: Node-status v1 phase 2 contracts
+
+'on':
+  pull_request:
+    paths:
+      - tests/test_node_status_v1.py
+      - tools/node_status_v1.py
+      - architecture/node-status-v1.schema.json
+      - architecture/node-status.schema.json
+      - tools/validate_node_status.py
+      - docs/site/dependency-source/GRAPH.json
+      - cbz/evidence/hard-gate-source-refresh-20261110/**
+      - records/node_status/**
+      - tests/fixtures/node_status/math-463-released.json
+      - .github/workflows/node-status-v1-contract.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  targeted:
+    name: Node-status v1 targeted contracts (${{ matrix.mode }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Observe only the new behavioral contracts from this checked source
+        timeout-minutes: 10
+        env:
+          NODE_STATUS_V1_MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - "$RUNNER_TEMP" "$GITHUB_WORKSPACE" <<'PY'
+          import hashlib, json, os, pathlib, re, signal, stat, subprocess, sys
+          root = pathlib.Path(sys.argv[2]).resolve()
+          mode = os.environ["NODE_STATUS_V1_MODE"]
+          if os.environ.get("PYTHONDONTWRITEBYTECODE") != "1":
+              raise ValueError("job bytecode protection prerequisite missing")
+          if mode not in ("normal", "optimized"):
+              raise ValueError("unknown node-status v1 mode")
+          run_id, attempt = os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"]
+          if not all(re.fullmatch(r"[1-9][0-9]*", value) for value in (run_id, attempt)):
+              raise ValueError("invalid native run identity")
+          out = pathlib.Path(sys.argv[1]) / ("node-status-v1-phase2-" + mode + "-" + run_id + "-" + attempt)
+          out.mkdir(mode=0o700, exist_ok=False)
+          protected = {
+              ".github/workflows/research-architecture.yml": "69ad3b47537ab8e4f8936affa3e09fccbdcfd1e5",
+              "tools/unittest_timing_probe.py": "05fb481b5538c3f517174b00948de45d2849387a",
+              "tools/architecture_run_receipt.py": "a6062afa9261958b8d8b85853a9c43031385b2c1",
+              "architecture/graph_artifact_readback.py": "c39ffd0fdcde1fd5f895c57df5f770a582918a8a",
+              "tools/architecture_check_binding.py": "53ea34e4fffc1087770584744939904844a41cff",
+              "architecture/node-status.schema.json": "2bad95d30bcb89ea686d1ac5a50d52113dd730be",
+              "tools/validate_node_status.py": "e9d44b7620536b389a35ff6fad8aef2b0464b5d2",
+              "docs/site/dependency-source/GRAPH.json": "220b56867f24c5ef6f55a3cce70490e9777cf3af",
+              "tools/unittest_full_qualification.py": "02dc2f3222aaf3e3d4d024659fffff22d6fb5e66",
+              "tests/test_unittest_full_qualification.py": "2fe09abce9a8ef9356fd0af85780dcde75179386",
+              ".github/workflows/full-unittest-qualification.yml": "ff8226cdeea57ee2ddb41c58c8c93e644343557d",
+              "tests/test_node_status_v1.py": "debc4b3f07f8d47dbf1b1b6f3be93ce225627b7a",
+              "tests/fixtures/node_status/math-463-released.json": "9c0c4ecf748615afad5812625650df04c19b7dcd",
+              "records/node_status/eng.d0-packet-allowlist-fix.json": "0a7f209b58f4d309f8c8ae36d8dce1696c22ffbd",
+              "records/node_status/eng.hard-gate.json": "9889637191bc01e26a6ad6dfec19b35de8b72a0b",
+              "records/node_status/math.lifetime-remainder.json": "a6f82a36e4f9a31abf656661f7c8ee5201874522",
+              "records/node_status/math.side24-coefficient.json": "ecf9c42723ee72b8e7d1a4d5b36470f158d6af0e",
+              "cbz/evidence/hard-gate-source-refresh-20261110/README.md": "97f1406ffb21aefd9b8d31a0f6d64b4222f40133",
+              "cbz/evidence/hard-gate-source-refresh-20261110/observation.json": "300eca7ad096c5b7f44c3307c27da3d6cd8ac1e3",
+              "cbz/evidence/hard-gate-source-refresh-20261110/current-SOURCE_FILES.json": "1fc4ed2bdd1ad4efbeb19dd358a4e8f3e3138f4f",
+          }
+          def write(name, value):
+              with (out / name).open("x", encoding="ascii", newline="\n") as stream:
+                  json.dump(value, stream, sort_keys=True, ensure_ascii=True, allow_nan=False)
+                  stream.write("\n")
+          def git(*args):
+              environment = {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
+              environment.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
+                                 GIT_OPTIONAL_LOCKS="0")
+              return subprocess.check_output(
+                  ["git", "--no-replace-objects", "-c", "core.fsmonitor=false",
+                   "-c", "core.hooksPath=/dev/null", "-C", str(root), *args], env=environment)
+          def source():
+              head = git("rev-parse", "--verify", "HEAD").decode("ascii").strip()
+              tree = git("rev-parse", "--verify", "HEAD^{tree}").decode("ascii").strip()
+              if head != os.environ["GITHUB_SHA"]:
+                  raise ValueError("checked HEAD differs from native GITHUB_SHA")
+              if pathlib.Path(git("rev-parse", "--show-toplevel").decode().strip()).resolve() != root:
+                  raise ValueError("source is not the actual Git top-level")
+              rows = []
+              for item in git("ls-tree", "-r", "--full-tree", "-z", head).split(b"\0"):
+                  if not item:
+                      continue
+                  metadata, raw_path = item.split(b"\t", 1)
+                  mode_bits, kind, blob = metadata.decode("ascii").split()
+                  relative = raw_path.decode("utf-8")
+                  path = root / relative
+                  info = path.lstat()
+                  if kind != "blob" or mode_bits not in ("100644", "100755") or not stat.S_ISREG(info.st_mode):
+                      raise ValueError("non-regular tracked source: " + relative)
+                  if bool(info.st_mode & stat.S_IXUSR) != (mode_bits == "100755"):
+                      raise ValueError("changed source executable mode: " + relative)
+                  raw = path.read_bytes()
+                  actual_blob = hashlib.sha1(b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest()
+                  if actual_blob != blob or (relative in protected and blob != protected[relative]):
+                      raise ValueError("changed tracked/protected source: " + relative)
+                  rows.append(dict(path=relative, mode=mode_bits, git_blob=blob,
+                                   bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest()))
+              if set(protected) - {row["path"] for row in rows}:
+                  raise ValueError("missing protected source")
+              untracked = git("ls-files", "--others", "--exclude-standard", "-z")
+              ignored = git("ls-files", "--others", "--ignored", "--exclude-standard", "-z")
+              if untracked or ignored:
+                  raise ValueError("unexpected untracked or ignored checkout input")
+              return dict(repository=os.environ["GITHUB_REPOSITORY"], checked_commit=head,
+                          checked_tree=tree, run_id=run_id, run_attempt=attempt, files=rows)
+          record = dict(scope="NODE_STATUS_V1_PHASE2_CONTRACTS_ONLY", mode=mode,
+                        full_discovery_run=False, architecture_run=False, g5_claim=False, cbz_claim=False,
+                        data_adoption=False, native_acquisition=False,
+                        source_frame_scope="DECLARED_DATA_CONSISTENCY_ONLY",
+                        job_python_dontwritebytecode=os.environ.get("PYTHONDONTWRITEBYTECODE"))
+          before = None
+          process = None
+          try:
+              before = source()
+              write("source-before.json", before)
+              command = [sys.executable, "-B"] + (["-O"] if mode == "optimized" else [])
+              command += ["-S", "-m", "unittest", "discover", "-s", "tests",
+                          "-p", "test_node_status_v1.py", "-v"]
+              environment = dict(os.environ)
+              for name in ("PYTHONPATH", "PYTHONHOME", "PYTHONOPTIMIZE"):
+                  environment.pop(name, None)
+              environment.update(PYTHONDONTWRITEBYTECODE="1", PYTHONNOUSERSITE="1")
+              record["command"] = command
+              record["cwd"] = str(root)
+              with (out / "stdout.bin").open("xb") as stdout, (out / "stderr.bin").open("xb") as stderr:
+                  process = subprocess.Popen(command, cwd=root, env=environment, stdout=stdout,
+                                             stderr=stderr, start_new_session=True)
+                  try:
+                      code = process.wait(timeout=480)
+                      record["timed_out"] = False
+                  except subprocess.TimeoutExpired:
+                      record["timed_out"] = True
+                      os.killpg(process.pid, signal.SIGTERM)
+                      try:
+                          process.wait(timeout=10)
+                      except subprocess.TimeoutExpired:
+                          os.killpg(process.pid, signal.SIGKILL)
+                          process.wait(timeout=10)
+                      code = process.returncode
+              record["native_exit_code"] = code
+              after = source()
+              write("source-after.json", after)
+              record["source_unchanged"] = before == after
+              text = (out / "stderr.bin").read_bytes().decode("utf-8", errors="replace")
+              methods = (
+                  "test_actual_graph_and_artifact_originals_support_the_complete_current_fixture",
+                  "test_artifact_relevance_scope_and_original_bytes_are_required",
+                  "test_closed_record_source_and_json_primitives_are_enforced",
+                  "test_dependency_order_and_all_six_declared_edges_are_preserved",
+                  "test_directory_scope_and_full_reading_rule_components_are_not_reduced",
+                  "test_missing_extra_and_same_count_population_substitutions_are_refused",
+                  "test_native_identity_claims_cannot_be_inferred_from_inert_inputs",
+                  "test_projection_preserves_records_without_mutation_or_status_promotion",
+                  "test_same_count_dependency_target_relation_and_required_substitutions_refuse",
+                  "test_source_frames_and_declared_path_kinds_cannot_override_bindings",
+                  "test_synthetic_cycles_unknown_targets_and_reversed_edges_are_refused",
+                  "test_v0_schema_and_original_accept_refuse_vectors_remain_unchanged",
+              )
+              owner = "test_node_status_v1.NodeStatusV1Contract."
+              expected_ids = [owner + method for method in sorted(methods)]
+              observed_ids, bad_results, malformed_results = [], [], []
+              for line in text.splitlines():
+                  if " ... " not in line and not line.startswith("test"):
+                      continue
+                  result = re.fullmatch(r"(\S+) \(([^()]*)\) \.\.\. (.+)", line)
+                  if result is None:
+                      malformed_results.append(line)
+                      continue
+                  short, identity, disposition = result.groups()
+                  observed_ids.append(identity)
+                  if short != identity.rsplit(".", 1)[-1] or disposition != "ok":
+                      bad_results.append(line)
+              summaries = re.findall(
+                  r"^Ran ([1-9][0-9]*) tests? in [0-9]+(?:\.[0-9]+)?s$", text, re.M)
+              nonempty = [line for line in text.splitlines() if line.strip()]
+              record["expected_parent_ids"] = expected_ids
+              record["observed_parent_ids"] = observed_ids
+              record["bad_result_lines"] = bad_results
+              record["malformed_result_lines"] = malformed_results
+              record["reported_test_count"] = int(summaries[0]) if len(summaries) == 1 else None
+              record["exact_parent_results"] = (
+                  observed_ids == expected_ids and not bad_results and not malformed_results
+                  and len(summaries) == 1 and int(summaries[0]) == len(expected_ids))
+              record["terminal_ok"] = bool(nonempty and nonempty[-1] == "OK")
+              accepted = (code == 0 and before == after and not record["timed_out"]
+                          and record["exact_parent_results"] and record["terminal_ok"])
+              record["outcome"] = "PASS" if accepted else "FAIL"
+          except Exception as error:
+              record["outcome"] = "FAIL"
+              record["controller_error"] = type(error).__name__ + ": " + str(error)
+          finally:
+              if process is not None and process.poll() is None:
+                  os.killpg(process.pid, signal.SIGKILL)
+                  process.wait(timeout=10)
+              for name in ("stdout.bin", "stderr.bin"):
+                  path = out / name
+                  if path.is_file():
+                      raw = path.read_bytes()
+                      record[name] = dict(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest())
+              marker = os.urandom(24).hex()
+              print("::stop-commands::" + marker, flush=True)
+              try:
+                  for name in ("stdout.bin", "stderr.bin"):
+                      path = out / name
+                      if not path.is_file():
+                          print("NODE_STATUS_V1_STREAM_NOT_PRODUCED", name, flush=True)
+                          continue
+                      raw = path.read_bytes()
+                      prefix = raw[:65536]
+                      print("NODE_STATUS_V1_ORIGINAL_STREAM_PREFIX", mode, name,
+                            "original_bytes=" + str(len(raw)),
+                            "original_sha256=" + hashlib.sha256(raw).hexdigest(),
+                            "printed_prefix_bytes=" + str(len(prefix)), flush=True)
+                      sys.stdout.buffer.write(prefix)
+                      if prefix and not prefix.endswith(b"\n"):
+                          sys.stdout.buffer.write(b"\n")
+                      sys.stdout.buffer.flush()
+                      if len(raw) > len(prefix):
+                          print("NODE_STATUS_V1_PRINT_TRUNCATED", name,
+                                "full_original_retained_in_artifact=true", flush=True)
+              finally:
+                  print("::" + marker + "::", flush=True)
+              write("observation.json", record)
+              print(json.dumps(record, sort_keys=True))
+          raise SystemExit(0 if record["outcome"] == "PASS" else 1)
+          PY
+      - name: Retain original targeted observation including honest absence RED
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: node-status-v1-phase2-${{ matrix.mode }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/node-status-v1-phase2-${{ matrix.mode }}-${{ github.run_id }}-${{ github.run_attempt }}/
+          if-no-files-found: error
+          retention-days: 30
