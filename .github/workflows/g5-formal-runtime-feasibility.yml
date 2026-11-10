@@ -1,0 +1,43 @@
+# Fixed runtime feasibility observation; no full-discovery or G5 qualification.
+name: Formal runtime feasibility observation
+
+'on':
+  push:
+    branches: [codex/g5-formal-runtime-feasibility-20261110]
+
+permissions:
+  contents: read
+
+jobs:
+  formal-runtime-feasibility:
+    name: Observe the two unchanged real Lean methods
+    runs-on: ubuntu-24.04
+    timeout-minutes: 115
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Observe the fixed original methods under the initial observation limit
+        timeout-minutes: 85
+        run: python -I -B -S tools/formal_runtime_feasibility_probe.py
+      - name: Stop fixed probe processes and release its mounts
+        if: always()
+        timeout-minutes: 5
+        run: python -I -B -S tools/formal_runtime_feasibility_probe.py cleanup
+      - name: Print retained original material without replay
+        if: always()
+        timeout-minutes: 5
+        run: python -I -B -S tools/formal_runtime_feasibility_probe.py print
+      - name: Retain actual observations and failures
+        if: always()
+        timeout-minutes: 5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: formal-runtime-feasibility-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/g5-formal-runtime-feasibility-20261110/evidence/
+          if-no-files-found: error
+          retention-days: 30
