@@ -1692,3 +1692,12 @@ or ref update. Later normal/optimized qualification remains unobserved.
 The change is reversible by ordinary guarded removal of the two new production
 paths; retain this entry and historical R0 originals. No data/dispatcher/V2,
 owner assignment, science, full Main, G5 or CBZ award follows.
+
+
+## 2026-11-10 13:18 UTC — SDGA E original-member readback source candidate
+
+Phase: bounded evidence readback source preparation; Layer C. Writer: OpenAI/Codex task sdga_task_b_contract. Action: prepare an unreferenced candidate from fresh Main8aaaa387d11dc21a0867b9cc41cc81743ca59975 with only four reviewed readback files and this append. Rationale: recover complete originals from retained E run42812650934/1/job129817709245 without repeating its oversized log request or replaying tests. Root independently read inventory run42819110073/1/job129839737716: all1602 descriptors and six complete frames reconciled. Original E head21f5/checked3888/tree23b78/artifact13764261877 remain their old source-bound identities; member bodies and semantic GREEN/KILL qualification remain unread.
+
+Evidence: source transfer [79260fb66c67cce3a9858943fb5afbe832efb036](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/79260fb66c67cce3a9858943fb5afbe832efb036), exact source adaptation b861af38, and retained complete inventory dc7c2867. Root read the whole reader, all21 fixed workflow blocks, full selection/partitions and encoded bounds, and reports independent C0/I0/M0 source review. The fixed table selects954 originals/981 fragments in21 jobs, with no status filter; each decoded whole job must later measure below2MiB and every original must be rejoined and whole-SHA verified before credit. No PhaseB job has run.
+
+Reversible: abandon this unreferenced candidate or remove its four additions through an ordinary guarded change; retain this historical entry and original inventory/E evidence. Preserve the complete fresh Main canonical prefix, Acq/V1 and every peer leaf. No ref, PR, Main write, E rebase, original Lean/test/mutator replay, scientific promotion or final CBZ/G5 award follows. Scientific effect NONE; qualification BLOCKED.

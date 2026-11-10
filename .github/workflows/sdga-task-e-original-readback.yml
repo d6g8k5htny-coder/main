@@ -1,0 +1,495 @@
+# Print exact fragments of one retained original artifact; never replay original tests.
+name: Read retained SDGA E original evidence
+
+'on':
+  push:
+    branches: [codex/cbz-sdga-e-original-readback-20261110]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  original-e-part-01:
+    name: Read original E fixed part 01 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-01
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-01/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-02:
+    name: Read original E fixed part 02 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-02
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-02/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-03:
+    name: Read original E fixed part 03 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-03
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-03/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-04:
+    name: Read original E fixed part 04 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-04
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-04/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-05:
+    name: Read original E fixed part 05 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-05
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-05/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-06:
+    name: Read original E fixed part 06 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-06
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-06/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-07:
+    name: Read original E fixed part 07 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-07
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-07/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-08:
+    name: Read original E fixed part 08 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-08
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-08/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-09:
+    name: Read original E fixed part 09 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-09
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-09/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-10:
+    name: Read original E fixed part 10 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-10
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-10/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-11:
+    name: Read original E fixed part 11 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-11
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-11/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-12:
+    name: Read original E fixed part 12 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-12
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-12/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-13:
+    name: Read original E fixed part 13 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-13
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-13/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-14:
+    name: Read original E fixed part 14 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-14
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-14/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-15:
+    name: Read original E fixed part 15 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-15
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-15/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-16:
+    name: Read original E fixed part 16 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-16
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-16/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-17:
+    name: Read original E fixed part 17 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-17
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-17/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-18:
+    name: Read original E fixed part 18 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-18
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-18/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-19:
+    name: Read original E fixed part 19 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-19
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-19/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-20:
+    name: Read original E fixed part 20 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-20
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-20/
+          if-no-files-found: error
+          retention-days: 30
+  original-e-part-21:
+    name: Read original E fixed part 21 of 21
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify fixed API ZIP and inventory then print exact bounded original fragments
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -I -B -S tools/cbz/sdga_task_e_original_readback_20261110.py
+      - name: Retain unchanged ZIP full APIs inventory fragments and actual readback stream
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-e-original-readback-42812650934-1-original-e-part-21
+          path: ${{ runner.temp }}/sdga-e-original-readback-42812650934-1-original-e-part-21/
+          if-no-files-found: error
+          retention-days: 30
