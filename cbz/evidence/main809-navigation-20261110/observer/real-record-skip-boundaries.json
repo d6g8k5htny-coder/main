@@ -1,0 +1,77 @@
+{
+  "observed_at_utc": "2026-11-10T10:41Z",
+  "commits": [
+    {
+      "commit": "9ad2edf96a836532daea3dafb904793ecbf46552",
+      "tree": "111ec264e36b15a03bb3c5150247003198fc1609"
+    },
+    {
+      "commit": "3223113668a2a0b50e8fbc5e2571b2ae63e0827b",
+      "tree": "db66dc8bdb0959e1b999575ede96a55bbe1b0c8b"
+    }
+  ],
+  "test_source": {
+    "path": "tests/test_living_project_validation.py",
+    "git_blob": "3bcd5829ea60e8e8ac58979bc7f33e4fd7838201"
+  },
+  "record_population": [
+    {
+      "path": "records/node_status/eng.d0-packet-allowlist-fix.json",
+      "git_blob": "0a7f209b58f4d309f8c8ae36d8dce1696c22ffbd",
+      "owner_is_object": false,
+      "owner_is_null": true,
+      "depends_on_present": false,
+      "depends_on_truthy": false,
+      "artifacts_present": false,
+      "artifacts_count": 0
+    },
+    {
+      "path": "records/node_status/eng.hard-gate.json",
+      "git_blob": "9889637191bc01e26a6ad6dfec19b35de8b72a0b",
+      "owner_is_object": false,
+      "owner_is_null": true,
+      "depends_on_present": false,
+      "depends_on_truthy": false,
+      "artifacts_present": false,
+      "artifacts_count": 0
+    },
+    {
+      "path": "records/node_status/math.lifetime-remainder.json",
+      "git_blob": "a6f82a36e4f9a31abf656661f7c8ee5201874522",
+      "owner_is_object": false,
+      "owner_is_null": true,
+      "depends_on_present": false,
+      "depends_on_truthy": false,
+      "artifacts_present": false,
+      "artifacts_count": 0
+    },
+    {
+      "path": "records/node_status/math.side24-coefficient.json",
+      "git_blob": "ecf9c42723ee72b8e7d1a4d5b36470f158d6af0e",
+      "owner_is_object": false,
+      "owner_is_null": true,
+      "depends_on_present": false,
+      "depends_on_truthy": false,
+      "artifacts_present": false,
+      "artifacts_count": 0
+    }
+  ],
+  "conditions": [
+    {
+      "test": "test_real_records_owner_released_url_consistency",
+      "observed": "All four real record owners are null; no owner object is available to exercise.",
+      "boundary": "Assigning a fictional owner would alter real project data and is not evidence."
+    },
+    {
+      "test": "test_real_records_dependencies_when_present",
+      "observed": "All four real records lack depends_on; source describes it as outside interface v0.",
+      "boundary": "No actual dependency relation is established by this absence."
+    },
+    {
+      "test": "test_real_records_cited_artifacts_when_present",
+      "observed": "All four real records lack an artifacts field and thus cite no repository artifacts.",
+      "boundary": "No actual citation can be inferred or fabricated."
+    }
+  ],
+  "scope": "A non-atomic observation of four record blobs and explicit conditional tests at two Git commits; the tests skipped in original navigation. Not a proof quarantine, a no-skip result, or a final G5."
+}
