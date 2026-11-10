@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bounded mutations of G11 env-wrapper and JSON workflow reference handling."""
+"""Bounded mutations of G11 workflow and subprocess reference handling."""
 import hashlib
 import json
 import sys
@@ -99,14 +99,29 @@ CASES = (
      "self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())"),
     ("invalid Python option operand credited",
      "            if tokens and not _workflow_interpreter_options_bounded(tokens):\n                tokens = []",
-     "            if tokens and tokens[:2] != [\"python3\", \"--check-hash-based-pycs\"] and not _workflow_interpreter_options_bounded(tokens):\n                tokens = []",
+     "            if tokens and tokens[:2] == [\"python3\", \"--check-hash-based-pycs\"]:\n                tokens = tokens[-1:]\n            elif tokens and not _workflow_interpreter_options_bounded(tokens):\n                tokens = []",
      PREFIX + "test_invalid_interpreter_option_operands_do_not_execute_tool",
      "self.assertEqual(g11.workflow_tool_references(text, {tool}), set())"),
     ("invalid shell option operand credited",
      "            if tokens and not _workflow_interpreter_options_bounded(tokens):\n                tokens = []",
-     "            if tokens and tokens[:2] != [\"bash\", \"-o\"] and not _workflow_interpreter_options_bounded(tokens):\n                tokens = []",
+     "            if tokens and tokens[:2] == [\"bash\", \"-o\"]:\n                tokens = tokens[-1:]\n            elif tokens and not _workflow_interpreter_options_bounded(tokens):\n                tokens = []",
      PREFIX + "test_invalid_interpreter_option_operands_do_not_execute_tool",
      "self.assertEqual(g11.workflow_tool_references(text, {tool}), set())"),
+    ("Python subprocess invalid hash operand credited",
+     '        return operand in {"default", "always", "never"}',
+     '        return True',
+     PREFIX + "test_invalid_python_hash_operand_cannot_credit_subprocess",
+     'self.assertFalse(g11.census({key: value.encode() for key, value in tree.items()})["tools"][\'tools/probe.py\'][\'referenced\'])'),
+    ("Python subprocess invalid attached X operand credited",
+     '        return operand == "dev"',
+     '        return True',
+     PREFIX + "test_invalid_python_attached_x_operand_cannot_credit_subprocess",
+     'self.assertFalse(g11.census({key: value.encode() for key, value in tree.items()})["tools"][\'tools/probe.py\'][\'referenced\'])'),
+    ("shell subprocess unvalidated operand credited",
+     '    if interpreter not in {"<python>", "python", "python3", "python3.11"}:\n        return False',
+     '    if interpreter not in {"<python>", "python", "python3", "python3.11"}:\n        return True',
+     PREFIX + "test_invalid_shell_option_operand_cannot_credit_subprocess",
+     'self.assertFalse(g11.census({key: value.encode() for key, value in tree.items()})["tools"][\'tools/probe.sh\'][\'referenced\'])'),
 )
 
 def run(root):

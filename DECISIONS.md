@@ -1568,3 +1568,15 @@ dated validation/composition append. No intermediate base-only push or manual
 rerun. Earlier GREEN is not rebound: fresh composed native/protected
 qualification remains pending before Ready/merge. Q806 precedes C integration.
 Scientific NONE; qualification/classification BLOCKED; authfalse.
+
+## 2026-11-10 — G11 Python subprocess operand attribution
+
+- Actual nonexecuting interpreter-option subprocesses were incorrectly credited by the static Python-test reference analysis; retain the RED evidence and limit earlier census outcomes accordingly. Use a narrow explicit Python operand whitelist and refuse unvalidated shell operands. Preserve the prior workflow mutation driver as Git blob `1dce19dc61ccbdedfc34a6fb5ec5afeb8bc034f4` in the accompanying evidence. Two old workflow mutation definitions became redundant against the central guard and were adapted after their actual 17/19 outcomes were retained; their names remain. Add three designated subprocess mutations and retain the unchanged original 328-case campaign. This reversible tooling decision does not change any mathematical statement, scientific status or kernel result; hosted qualification and final G11 remain open.
+
+## 2026-11-10 — Expand G11 supported-operand controls
+
+- Exercise each of the 17 supported Python option combinations with an actual marker-bearing process, and add separate invalid Python `-X` and `sh -o` controls. Preserve the earlier test blob `0f38c09308b001b4e59a3095e1c5a07d5708ad6b`, source-bound hosted census and component artifacts, and the original architecture setup failure. The 22-mutation tool and unchanged original 328-case harness retain their previously observed source boundaries. The new tree requires fresh hosted checks and a current-tree census; this reversible tooling decision does not change any mathematical result or scientific status.
+
+## 2026-11-10 — Compose G11 operand repair over Main #807
+
+- Preserve the complete `cff23146a56949e03cad4b15bdc4f07feba665ae` peer tree and decision-ledger prefix, then append the two prior G11 decisions. The earlier `d51700eb5466158206c3431f6b99c4db036fdc95` census and hosted checks retain their original source identities; require fresh checks and a current-tree census for the composition. The separately observed Workspace pin is stale after #807 and must be refreshed. The prepared Pages status is still empty; no terminal cancellation or recovery is inferred. This reversible composition changes no mathematical statement, historical outcome or scientific status.

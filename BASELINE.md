@@ -1,5 +1,15 @@
 # CBZ baseline ledger
 
+## Main #807 and G11 recomposition boundary
+
+Main #807 integrates scoped SDGA fixture replay tooling with qualification and classification BLOCKED and no scientific acceptance. The earlier expanded G11 census passed on its own tree; the combined tree requires fresh evidence and the final federation gates.
+
+
+## G11 Python subprocess option limitation
+
+Three actual synthetic subprocess controls exposed nonexecuting commands that the prior static census nevertheless credited. The source-bound repair and adverse tests are recorded in [STATUS](STATUS.md#g11-python-subprocess-operand-boundary--10-november-2026); the earlier census outcome retains this limitation. Local component checks do not establish final federation G11 or Layer A clearance.
+
+
 ## Interpreter attribution evidence boundary
 
 The earlier exact-candidate G11 PASS is preserved with its later demonstrated interpreter-option attribution limitation. Eighteen bounded workflow controls and nineteen format mutations passed per mode on the recorded debug source; the original 328-case run then stopped at a missing target. One mutation target was adapted and its earlier definition retained. Current composed and final federation G11 evidence remains required.

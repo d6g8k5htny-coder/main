@@ -1,0 +1,47 @@
+{
+  "run": 42771407975,
+  "job": 129679820939,
+  "observed": {
+    "deployment": {
+      "fields": {
+        "status": ""
+      },
+      "http_status": 200
+    },
+    "main": {
+      "fields": {
+        "object": {
+          "sha": "1a6acb192f0946900c4d445ee36febec27540da0",
+          "type": "commit"
+        },
+        "ref": "refs/heads/main"
+      },
+      "http_status": 200
+    },
+    "receipt": {
+      "fields": {
+        "object": {
+          "sha": "6e01d1f5f83d320172e29391eea336e3256aeea2",
+          "type": "commit"
+        },
+        "ref": "refs/heads/codex/site-publication-receipts"
+      },
+      "http_status": 200
+    },
+    "source_run": {
+      "fields": {
+        "conclusion": "failure",
+        "event": "push",
+        "head_branch": "main",
+        "head_sha": "6d928a3216233fb75dc717ee0b2d2e4bb08db266",
+        "id": 42737966287,
+        "run_attempt": 2,
+        "status": "completed"
+      },
+      "http_status": 200
+    }
+  },
+  "at": "2026-11-10T06:52:39.022Z",
+  "non_atomic": true,
+  "interpretation": "HTTP 200 empty status does not establish deployment_cancelled; receipt and source run reads are separately timed. No recovery write or new publication observed."
+}

@@ -1,0 +1,26 @@
+{
+  "at": "2026-11-10T06:34:27.111Z",
+  "source_commit": "1a6acb192f0946900c4d445ee36febec27540da0",
+  "source_tree": "0653510713b14da67c0d3746aee854d47c4ed869",
+  "census_blob": "904a4e417a7565918412c599bfcbdbdd420c9515",
+  "test_blob_before": "d29f90b5d783297867cd078668ae9dc9b512801e",
+  "runtime": {
+    "python": "3.12.14",
+    "bash": "GNU bash, version 5.2.37(1)-release (x86_64-pc-linux-gnu)"
+  },
+  "commands": [
+    "python3 -B -S -m unittest -v four named ToolChecks methods",
+    "python3 -B -S -O -m unittest -v four named ToolChecks methods"
+  ],
+  "each_mode": {
+    "tests": 4,
+    "failures": 3,
+    "errors": 0,
+    "skips": 0,
+    "exit_code": 1,
+    "positive_control_passed": true
+  },
+  "finding": "Python test subprocess references with invalid --check-hash-based-pycs, invalid attached -X utf8, and invalid bash -o operands were statically credited despite actual subprocess failure and absent execution markers. This is a synthetic, local Python 3.12 observation; the earlier source-bound census outputs remain historical and have this attribution limitation. It does not refute mathematical results.",
+  "repair_status": "not yet implemented; CI 3.11 reproduction pending",
+  "evidence": "cbz/evidence/g11-python-subprocess-options-red-20261110/"
+}

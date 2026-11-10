@@ -1,5 +1,10 @@
 # CBZ-0 governance
 
+## G11 subprocess operand scope
+
+Python test subprocess references use an explicit operand whitelist: Python `--check-hash-based-pycs` accepts `default`, `always` or `never`; `-W` accepts the six documented simple actions; `-X` accepts `dev`. Other option operands, including shell operands, are not credited. This is a bounded static analysis and does not establish execution. The actual adverse failures, earlier mutation survivors, adapted mutation definitions and local source-bound outcomes are retained in STATUS and native evidence; hosted and final federation gates remain separate.
+
+
 ## G11 interpreter-option boundary
 
 The workflow census only credits bounded interpreter command forms. It refuses Python and shell options with unvalidated operands and does not treat version, help, alternate-code or syntax-only options as script execution. The exact commands and actual source-bound test, mutation and failure records are in STATUS and TOOLING. Static references do not establish execution. The earlier 328 mutation names remain, with one shell `-c` target adapted and its previous bytes preserved. The full current-source and federation gates remain separate.
@@ -7,7 +12,7 @@ The workflow census only credits bounded interpreter command forms. It refuses P
 
 ## Current G11 workflow and origin boundary
 
-The bounded G11 origin verifier records actual pre-cleanup frames and lifecycle state; `tools/cbz/g11_origin_mutation_selftest.py` tests seven origin-guard mutations. `tools/cbz/g11_workflow_formats_mutation_selftest.py` tests nineteen bounded env/JSON and interpreter-option workflow-scanner mutations. Both commands and their normal/optimized modes are in STATUS and TOOLING. The strict JSON path recognizes job-step runs and basic shapes, rejects invalid or duplicate-key input, and reports JSON no-op/parse findings with line 0 when position is unavailable. It is not a full GitHub workflow validator or a proof of execution. The latest per-source executions and failures are retained in STATUS and native evidence; final federation qualification remains open.
+The bounded G11 origin verifier records actual pre-cleanup frames and lifecycle state; `tools/cbz/g11_origin_mutation_selftest.py` tests seven origin-guard mutations. `tools/cbz/g11_workflow_formats_mutation_selftest.py` tests 22 bounded workflow and Python-subprocess reference mutations; two earlier definitions were adapted and preserved. Both commands and their normal/optimized modes are in STATUS and TOOLING. The strict JSON path recognizes job-step runs and basic shapes, rejects invalid or duplicate-key input, and reports JSON no-op/parse findings with line 0 when position is unavailable. It is not a full GitHub workflow validator or a proof of execution. The latest per-source executions and failures are retained in STATUS and native evidence; final federation qualification remains open.
 
 ## G11 mutation-origin guard: current scope
 

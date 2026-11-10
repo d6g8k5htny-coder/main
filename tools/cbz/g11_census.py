@@ -2284,6 +2284,19 @@ def _tool_values(value, tools):
     return {_tool_for_token(item, tools) for item in values if isinstance(item, str)} - {None}
 
 
+def _supported_interpreter_operand(interpreter, option, operand):
+    """Accept only explicitly supported nonterminating interpreter operands."""
+    if interpreter not in {"<python>", "python", "python3", "python3.11"}:
+        return False
+    if option == "--check-hash-based-pycs":
+        return operand in {"default", "always", "never"}
+    if option == "-W":
+        return operand in {"default", "error", "ignore", "always", "module", "once"}
+    if option == "-X":
+        return operand == "dev"
+    return False
+
+
 def _command_tool_values(value, tools):
     if isinstance(value, _StaticAlternatives):
         choices = [_command_tool_values(choice, tools) for choice in value]
@@ -2315,6 +2328,8 @@ def _command_tool_values(value, tools):
     for token in arguments:
         if not isinstance(token, str):
             return set()
+        if consume_operand and not _supported_interpreter_operand(first, consume_operand, token):
+            return set()
         if consume_operand:
             consume_operand = False
             continue
@@ -2328,10 +2343,12 @@ def _command_tool_values(value, tools):
                 and (token.startswith("-c") or token.startswith("-m"))):
             return set()
         if parsing_options and token in operand_options:
-            consume_operand = True
+            consume_operand = token
             continue
         if parsing_options and any(token.startswith(option) and token != option
                                    for option in attached_options):
+            if not _supported_interpreter_operand(first, token[:2], token[2:]):
+                return set()
             continue
         if parsing_options and token in flag_options:
             continue
