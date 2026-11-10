@@ -1,0 +1,215 @@
+# Existing formal R1 small metadata and typed ZIP inventory; no trace/helper/Lean execution.
+name: Read original formal R1 physical metadata
+
+'on':
+  push:
+    branches: [codex/formal-r1-physical-metadata-readback-20261110]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  physical-metadata-phase1:
+    name: Read fixed original formal R1 physical metadata
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Bootstrap verified fixed physical metadata utility
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python -I -B -S - <<'PY'
+          import hashlib, json, os, re, stat, subprocess, sys, traceback
+          from pathlib import Path
+          
+          UTILITY = "tools/cbz/formal_r1_physical_metadata_readback.py"
+          WORKFLOW = ".github/workflows/formal-r1-physical-metadata-readback.yml"
+          BLOB = "41cbbb062e89564301c2681baa4949afbb5a600e"
+          SIZE = 46199
+          SHA256 = "f824fb48cae06c0bc51339514f30e436be50ed790a96a8015e3e58f733d5d2a3"
+          proof = {"purpose": "FORMAL_R1_PHYSICAL_METADATA_BOOTSTRAP", "status": "STARTED",
+          "expected_utility": {"path": UTILITY, "git_blob": BLOB,
+          "bytes": SIZE, "sha256": SHA256}}
+          directory_fd = None
+          
+          def require(condition, reason):
+              if not condition:
+                  raise ValueError(reason)
+          
+          def identity(value):
+              return {"device": value.st_dev, "inode": value.st_ino,
+          "mode": value.st_mode, "links": value.st_nlink,
+          "bytes": value.st_size, "mtime_ns": value.st_mtime_ns,
+          "ctime_ns": value.st_ctime_ns}
+          
+          def stable_regular(path):
+              require(path.is_absolute() and path.resolve(strict=True) == path,
+          "file path alias")
+              before = path.lstat()
+              require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
+          and not before.st_mode & 0o111 and 0 < before.st_size <= 1048576,
+          "nonexec source required")
+              with os.fdopen(os.open(path, os.O_RDONLY | os.O_NOFOLLOW), "rb") as handle:
+                  opened = os.fstat(handle.fileno())
+                  require(identity(before) == identity(opened), "changed before read")
+                  raw = handle.read(opened.st_size + 1)
+                  require(identity(opened) == identity(os.fstat(handle.fileno()))
+          == identity(path.lstat()) and len(raw) == opened.st_size,
+          "changed during read")
+              return raw, {"path": str(path), **identity(opened),
+          "sha256": hashlib.sha256(raw).hexdigest()}
+          
+          def retained(name, raw):
+              fd = os.open(name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+          0o600, dir_fd=directory_fd)
+              try:
+                  view = memoryview(raw)
+                  while view:
+                      count = os.write(fd, view)
+                      require(count > 0, "short retention write")
+                      view = view[count:]
+                  os.fsync(fd)
+              finally:
+                  os.close(fd)
+          
+          def retain_proof():
+              retained("bootstrap.json",
+          (json.dumps(proof, sort_keys=True, ensure_ascii=True,
+          allow_nan=False) + chr(10)).encode("ascii"))
+          
+          try:
+              keys = ("GITHUB_REPOSITORY", "GITHUB_EVENT_NAME", "GITHUB_REF",
+          "GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT", "GITHUB_SHA", "GITHUB_JOB")
+              context = {key: os.environ.get(key) for key in keys}
+              require(context["GITHUB_REPOSITORY"] == "d6g8k5htny-coder/main"
+          and context["GITHUB_EVENT_NAME"] == "push"
+          and context["GITHUB_REF"] ==
+          "refs/heads/codex/formal-r1-physical-metadata-readback-20261110"
+          and context["GITHUB_JOB"] == "physical-metadata-phase1",
+          "native context")
+              require(all(re.fullmatch(r"[1-9][0-9]{0,19}", context[key] or "")
+          for key in ("GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT"))
+          and re.fullmatch(r"[0-9a-f]{40}", context["GITHUB_SHA"] or ""),
+          "native IDs")
+              require(sys.version_info[:2] == (3, 11) and sys.flags.isolated == 1
+          and sys.flags.no_site == 1 and sys.flags.dont_write_bytecode == 1
+          and sys.flags.optimize == 0, "Python flags")
+              workspace = Path(os.environ.get("GITHUB_WORKSPACE", ""))
+              temporary = Path(os.environ.get("RUNNER_TEMP", ""))
+              require(all(path.is_absolute() and path.resolve(strict=True) == path
+          and stat.S_ISDIR(path.lstat().st_mode)
+          for path in (workspace, temporary)), "dir alias")
+              require(workspace != temporary and workspace not in temporary.parents
+          and temporary not in workspace.parents, "temp not external")
+              case = context["GITHUB_RUN_ID"] + "-" + context["GITHUB_RUN_ATTEMPT"]
+              directory = temporary / ("formal-r1-physical-bootstrap-" + case)
+              parent_fd = os.open(temporary, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              try:
+                  require(identity(os.fstat(parent_fd)) == identity(temporary.lstat()),
+          "temp changed")
+                  os.mkdir(directory.name, 0o700, dir_fd=parent_fd)
+                  directory_fd = os.open(directory.name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+          dir_fd=parent_fd)
+                  require(directory.resolve(strict=True) == directory
+          and identity(os.fstat(directory_fd)) == identity(directory.lstat()),
+          "bootstrap changed")
+              finally:
+                  os.close(parent_fd)
+              proof.update(context=context, case=case,
+          workspace=str(workspace), runner_temp=str(temporary),
+          bootstrap_directory=str(directory))
+          
+              def git(*args):
+                  env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+                  env.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
+          GIT_OPTIONAL_LOCKS="0", GIT_NO_LAZY_FETCH="1", GIT_TERMINAL_PROMPT="0")
+                  return subprocess.run(["git", "--no-replace-objects", "--literal-pathspecs",
+          "-c", "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null",
+          "-C", str(workspace), *args], env=env, check=True,
+          stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30).stdout
+          
+              require(git("rev-parse", "--show-toplevel").decode().rstrip(chr(10))
+          == str(workspace), "Git root")
+              head = git("rev-parse", "--verify", "HEAD").decode().strip()
+              tree = git("rev-parse", "--verify", "HEAD^{tree}").decode().strip()
+              require(head == context["GITHUB_SHA"] and re.fullmatch(r"[0-9a-f]{40}", tree),
+          "HEAD/tree")
+              require(not git("status", "--porcelain=v1", "--untracked-files=all", "--ignored=matching"),
+          "source status")
+              entry = ("100644 blob " + BLOB + "\t" + UTILITY).encode("ascii") + b"\0"
+              require(git("ls-tree", "-z", "HEAD", "--", UTILITY) == entry,
+          "utility entry")
+              require(git("cat-file", "-s", BLOB) == (str(SIZE) + chr(10)).encode("ascii"),
+          "utility extent")
+              original = git("cat-file", "blob", BLOB)
+              raw, source = stable_regular(workspace / UTILITY)
+              require(raw == original and len(raw) == SIZE
+          and hashlib.sha256(raw).hexdigest() == SHA256,
+          "utility pin")
+              proof.update(head=head, tree=tree, source={"git_mode": "100644",
+          "git_blob": BLOB, **source})
+              def workflow_source():
+                  entry = git("ls-tree", "-z", "HEAD", "--", WORKFLOW)
+                  fields = entry.rstrip(b"\0").split(b"\t")
+                  require(entry.count(b"\0") == 1 and len(fields) == 2
+          and fields[1] == WORKFLOW.encode("ascii"), "workflow entry")
+                  meta = fields[0].split(b" ")
+                  require(len(meta) == 3 and meta[:2] == [b"100644", b"blob"]
+          and re.fullmatch(rb"[0-9a-f]{40}", meta[2]), "workflow100644")
+                  raw, info = stable_regular(workspace / WORKFLOW)
+                  require(raw == git("cat-file", "blob", meta[2].decode("ascii"))
+          and hashlib.sha1(b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest()
+          == meta[2].decode("ascii"), "workflow bytes")
+                  return {"git_mode": "100644", "git_blob": meta[2].decode("ascii"), **info}
+              wf_source = workflow_source()
+              retained("formal_r1_physical_metadata_readback.py", raw)
+              copied_path = directory / "formal_r1_physical_metadata_readback.py"
+              copied, copied_identity = stable_regular(copied_path)
+              again, source_again = stable_regular(workspace / UTILITY)
+              require(copied == raw == again and source_again == source
+          and (copied_identity["device"], copied_identity["inode"])
+          != (source["device"], source["inode"]), "copy mismatch")
+              require(git("rev-parse", "--verify", "HEAD").decode().strip() == head
+          and git("rev-parse", "--verify", "HEAD^{tree}").decode().strip() == tree
+          and not git("status", "--porcelain=v1", "--untracked-files=all", "--ignored=matching"),
+          "source changed")
+              require(workflow_source() == wf_source, "workflow changed")
+              proof.update(sources={UTILITY: proof["source"], WORKFLOW: wf_source},
+          copy=copied_identity, status="VERIFIED_COPY_COMPILED")
+              compiled = compile(copied, str(copied_path), "exec", dont_inherit=True)
+              retain_proof()
+          except Exception as error:
+              proof.update(status="BOOTSTRAP_HOLD", error_type=type(error).__name__, error=str(error))
+              if directory_fd is not None:
+                  try:
+                      retained("bootstrap-error.log", traceback.format_exc().encode("utf-8"))
+                      retain_proof()
+                  except Exception:
+                      pass
+              raise
+          finally:
+              if directory_fd is not None:
+                  os.close(directory_fd)
+          namespace = {"__name__": "__main__", "__file__": str(copied_path),
+          "__package__": None, "__spec__": None, "__builtins__": __builtins__}
+          exec(compiled, namespace, namespace)
+          PY
+      - name: Retain original physical metadata, inventory and custody
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: formal-r1-physical-metadata-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/formal-r1-physical-bootstrap-${{ github.run_id }}-${{ github.run_attempt }}/
+            ${{ runner.temp }}/formal-r1-physical-metadata-${{ github.run_id }}-${{ github.run_attempt }}/
+          if-no-files-found: error
+          retention-days: 30

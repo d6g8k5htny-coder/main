@@ -1728,3 +1728,14 @@ Phase: source-bound qualification reconciliation and fresh composition preparati
 Evidence: original E run42812650934/1/job129817709245 at signed3888/tree23b, fixed inventory42819110073/1 and readback42823904522/1. Root and author separately checked954 whole originals/981 fragments and21 bounded logs; accepted old-source D15/67+E3/19,52commands,33/15/60, all8 causal mutation families/57commands, pure12/custody3-6/admission2-6 with source, stream, producer and final custody joins. Retain [index](cbz/evidence/sdga-task-e-20261110/green-initial/readback-retention-index.json) and [causal receipt](cbz/evidence/sdga-task-e-20261110/green-initial/causal-read-receipt.json), original blobs54608ee33070719c859bb7752e0b014a0e1ed954 and1c4da16222a4c073f3652facb0d10b355ee57c8d. Preserve earlier API-absence and first-production-failure originals and every old scope limit; M8 remains a guard-cause mismatch with downstream MALFORMED_CONSTANT refusal.
 
 Reversible: abandon this unreferenced candidate, or restore its owned paths through an ordinary guarded update while keeping the evidence/history. No new composed-tree native result, ref, E rerun/rebase publication, Ready or merge is claimed here; Root candidate guard precedes any ordinary expected-head feature update. Fresh original qualification remains mandatory. Scientific effect NONE; classification/qualification BLOCKED; execution_authenticated=false; no full99/catalog/G5/CBZ or scientific award.
+
+
+## 2026-11-10 — Original formal R1 physical metadata Phase1 source proposal
+
+Date: 2026-11-10 17:06:03 UTC (source-bound discovery).
+Phase: diagnostic source review only; no compilation, candidate, ref update or native run.
+Layer: C.
+Action: propose only the fixed physical-metadata utility and isolated push workflow, plus this append. Preserve fresh Main, formal743, original R1 and every protected source.
+Rationale: read the twelve complete small originals and full typed ZIP directory from existing run42803771651/1/artifact13758500307 before planning complete physical-member readback. Large bodies remain unread; old PARTIAL_HOLD and physical admission remain open.
+Reversibility: abandon this unreferenced proposal, or later remove its two additions through an ordinary guarded update while retaining decision and failure history.
+Evidence: [exact source plan](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/2762e879893af0cdc5a32e20c81d5b761c89f7fe); existing derived-capture receipt eacfb156c8f0c25e664d982a4d3b4209f7822673 and next-evidence design19d317c11b1abb7d8208b5f9b6b3e79f4dfd778c. Observed Main e7515c02ccabba29d8a4c310af003c54d0f08785/tree d94423ddacc191b5c50a9a46366e76f96aa52f17 is a source base only. No new observation, full Main/G5/CBZ or scientific award follows.
