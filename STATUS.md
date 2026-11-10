@@ -1,5 +1,11 @@
 # CBZ-0 execution status
 
+## Dated integration and ref observations — 10 November 2026
+
+Recovery #801 merged at Main `984a608584281bca8db88a8a9ae7a837f6e9a6bb`. Its PR recovery-dispatch job was skipped; no live recovery or publication is claimed. Main `97663b478822848db5262b2fffcbacd37d6231b4` site run `42752589388` subsequently failed public-history readback and skipped deploy. The full decoded build log and limits are retained under `cbz/evidence/live-site-failure-20261110-0414/`; the prepared receipt remained at `6e01d1f5f83d320172e29391eea336e3256aeea2` in a separate read. Main `984a6085` started another site run; its outcome was not observed at this entry.
+
+The public, non-atomic ref observation under `cbz/evidence/public-federation-observation-20261110/` records 10 public repositories and 2,074 visible branch entries, plus returned tag refs and open PRs. Its separately source-pinned Workspace observation resolved all eight gitlinks: seven matched their earlier observed default tips, while the Main pin was stale. These are dated observations with explicit gaps, not final G7, G10 or CBZ-0.
+
 ## Additional retained observations — 10 November 2026
 
 An earlier #801 tested merge `8943bd095d8e99c27318b71c317957cccad700b6`

@@ -905,3 +905,9 @@ README, SHA256SUMS and retained verification history.
 - Keep the diagnostic source and ancestry recoverable while omitting temporary
   diagnostic workflows from this candidate tree. Re-run appropriate required
   checks for the new composition and use fresh source/ref guards.
+
+
+## 2026-11-10 — Preserve current ref and publication-failure observations
+
+- [Layer B / evidence] Retain the public subset of a non-atomic GitHub App ref inventory and separately source-pinned public tree/gitlink observations. All eight Workspace gitlink commits resolved; its Main pin was stale against the separately observed default. Keep transport and tag-namespace read errors, archival scope and missing ancestry/local-Git/final-gate coverage explicit. Evidence is in `cbz/evidence/public-federation-observation-20261110/`; no source or scientific verdict changes.
+- Retain Main `97663b47` site build job `129621637586` as an actual public-readback failure with deploy skipped, plus the earlier #801 integration guard snapshot and native diagnostic ancestry. No receipt was rewritten by this evidence composition. Fresh source, required checks and final ref comparisons remain necessary.
