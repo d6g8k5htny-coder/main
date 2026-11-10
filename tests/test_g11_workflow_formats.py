@@ -141,5 +141,24 @@ class WorkflowFormats(unittest.TestCase):
                 text = yaml_run(interpreter + " " + option + " " + shell_tool)
                 self.assertEqual(g11.workflow_tool_references(text, {shell_tool}), set())
 
+
+    def test_python_module_direct_reference_with_supported_options(self):
+        text = yaml_run("python3 -B -S -m tools.cbz.g11_origin_mutation_selftest")
+        self.assertEqual(g11.workflow_tool_references(text, TOOLS), {TOOL})
+
+    def test_python_module_after_early_exit_is_not_a_reference(self):
+        import subprocess
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as root:
+            path = Path(root) / TOOL
+            path.parent.mkdir(parents=True)
+            path.write_text("from pathlib import Path\nPath('tool_was_executed').touch()\n", encoding="utf-8")
+            subprocess.run([sys.executable, "-V", "-m", "tools.cbz.g11_origin_mutation_selftest"],
+                           cwd=root, capture_output=True, text=True, timeout=10, check=False)
+            self.assertFalse((Path(root) / "tool_was_executed").exists())
+            text = yaml_run("python3 -V -m tools.cbz.g11_origin_mutation_selftest")
+            self.assertEqual(g11.workflow_tool_references(text, TOOLS), set())
+
 if __name__ == "__main__":
     unittest.main()
