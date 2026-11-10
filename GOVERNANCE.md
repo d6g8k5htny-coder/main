@@ -1126,3 +1126,16 @@ repair requires fresh43controls and actual live qualification before integration
 trusted runtime/bootstrap is explicit; this is not hostile-host certification.
 Existing dormant history, Q-9002--Q-9005, fullG5 and CBZ remain unawarded.
 Maintenance owner: none; standard library plus existing project validators.
+
+## Dedicated pytest bytecode-policy prerequisite candidate
+
+The separate `.github/workflows/pytest-bytecode-policy.yml` prepares a genuine CPython3.11 venv for the existing ten `tests.test_pytest_bytecode_policy.PytestBytecodePolicyTests` methods. It installs only the five pytest-related versions already declared in `tools/hypergraph/requirements.txt`, using `tests/pytest-bytecode-requirements.txt` and exact primary metadata recorded in `tests/pytest-bytecode-dependencies.json`. Ordinary-suite `-S` and all existing assertions remain unchanged; the intentional dirty-bytecode adverse control is retained.
+
+In the prepared hosted venv, the fixed population commands are:
+
+```sh
+PYTHONPATH="$POLICY_PURELIB" "$POLICY_VENV/bin/python" -B -S -m unittest tests.test_pytest_bytecode_policy -v
+PYTHONPATH="$POLICY_PURELIB" "$POLICY_VENV/bin/python" -B -O -S -m unittest tests.test_pytest_bytecode_policy -v
+```
+
+The workflow requires exact ten-body identities and zero skips/failures/errors per mode, actual same-venv `-I` pytest children, native source/runtime identities before/after, and original acquisition, runtime, child, log and exit evidence. Its immutable run/attempt artifact uploads on every conclusion. Source review passed; hosted job `129614618042` ran the ten unchanged methods in both modes without reported skips on tested merge `fd80e41202ed4ee266956d1e1f85598e90ff1904`, whose tree matches merged Main #803. The retained artifact has not been independently unpacked here. This registers only one G5 prerequisite population, with scientific effect NONE and no full G5, CBZ or mathematical award. See [the reviewed design and plan](docs/superpowers/plans/2026-11-10-pytest-bytecode-policy-population.md).
