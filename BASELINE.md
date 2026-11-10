@@ -1,5 +1,9 @@
 # CBZ baseline ledger
 
+## Latest G11 evidence boundary
+
+The former composed-tree census returned FAIL for three unexercised-tool reports. Its original reports and verified ZIP are preserved; a bounded source repair for env and JSON job-step references is staged and requires a fresh census. The revised origin runner's hosted component evidence is source-bound; no final G11, full Layer A audit or federation gate follows.
+
 ## Current G11 attribution limitation
 
 Actual run 42760114483 exposed six subject/helper/callback false kills across two modes in the older G11 grader. Preserve historical outcomes, but do not treat its mutation totals as sound attribution qualification. The candidate live-origin repair and bounded adverse checks are described in [STATUS](STATUS.md#current-g11-origin-boundary--10-november-2026); hosted completion and the common G0–G11 pass remain separate. No mathematical proof or kernel outcome is changed by this finding.

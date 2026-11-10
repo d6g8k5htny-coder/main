@@ -1,5 +1,9 @@
 # CBZ proof and quarantine index
 
+## Current G11 parser and origin repair boundary
+
+The G11 env/JSON parser and assertion-origin work changes tooling evidence only. Its preserved failures and source-bound component checks neither close nor refute any mathematical proof or scientific claim.
+
 ## Current tooling-evidence boundary
 
 The G11 grader's historical mutation totals are subject to the actual assertion-origin failure recorded in [STATUS](STATUS.md#current-g11-origin-boundary--10-november-2026). This limits tooling evidence only: it does not refute or rebind any historical mathematical statement or kernel outcome, nor establish scientific review or proof closure.

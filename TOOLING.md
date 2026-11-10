@@ -1,5 +1,18 @@
 # CBZ mission-tool registry
 
+## G11 workflow-format mutation verification
+
+Purpose: exercise bounded static recognition of direct tool commands behind supported `env` unset options and inside strict JSON job-step run strings, while rejecting unsupported forms and invalid JSON workflow shapes.
+
+```sh
+python3 -B -S -m unittest tests.test_g11_workflow_formats
+python3 -B -S -O -m unittest tests.test_g11_workflow_formats
+python3 -B -S tools/cbz/g11_workflow_formats_mutation_selftest.py
+python3 -B -S -O tools/cbz/g11_workflow_formats_mutation_selftest.py
+```
+
+The thirteen declared mutations require clean selected baselines and authorized selected-body failures. The actual old-census failure, red cases and bounded test results are retained under `cbz/evidence/g11-composed-census-20261110/` and `cbz/evidence/g11-workflow-formats-*`. Source references are static evidence, not proof of workflow execution; full JSON workflow semantics, arbitrary shell and dynamic conditions are not certified. JSON no-op and invalid-input findings use line 0 when their exact source line is unavailable.
+
 ## G11 assertion-origin mutation verification
 
 Purpose: test that the G11 mutation grader credits only the designated test body's actual assertion or its explicitly enumerated unittest oracle, using live pre-cleanup traceback code identities. Historical filename-filtered totals remain observations with an origin-attribution limitation; see [the adverse run](cbz/evidence/g11-origin-adverse-20261110/).
@@ -11,7 +24,7 @@ python3 -B -S tools/cbz/g11_origin_mutation_selftest.py
 python3 -B -S -O tools/cbz/g11_origin_mutation_selftest.py
 ```
 
-The five bounded guard mutations each require a clean selected baseline and an actual authorized selected-body failure. Local 3.12.14 results, prior adverse failures and supported-domain limits are in [the local evidence](cbz/evidence/g11-origin-selftest-local-20261110/). The existing census and original 328 mutations remain separate, and this tool does not certify arbitrary hostile code or the final G11 gate.
+The earlier five bounded guard mutations each required a clean selected baseline and an actual authorized selected-body failure; the current seven-case source is recorded in STATUS. Local 3.12.14 results, prior adverse failures and supported-domain limits are in [the local evidence](cbz/evidence/g11-origin-selftest-local-20261110/). The existing census and original 328 mutations remain separate, and this tool does not certify arbitrary hostile code or the final G11 gate.
 
 ## SDGA Task A integration — 10 November 2026
 

@@ -21,8 +21,8 @@ PREFIX = "tests.test_g11_origin_provenance.ActualG11Origin."
 CASES = (
     ("missing live-origin guard",
      (("        and outcome.get(\"origin_authorized\") is True\n", "        and True\n"),),
-     PREFIX + "test_formatted_traceback_without_live_origin_is_not_a_kill",
-     "self.assertFalse(g11m.qualifies_kill(parsed, SELECTED, 123))"),
+     PREFIX + "test_false_origin_authorization_is_not_a_kill",
+     "self.assertFalse(g11m.qualifies_kill(outcome, target, 7))"),
     ("subject and helper suffix accepted",
      (("len(positions) == 1 and all(is_oracle(code) for code in codes[positions[0] + 1:]))",
        "len(positions) == 1 and True)"),
@@ -30,7 +30,8 @@ CASES = (
      PREFIX + "test_direct_subject_assertion_is_not_a_kill",
      "self.assertFalse(g11m.qualifies_kill(outcome, SELECTED, self.line))"),
     ("cleanup phase accepted",
-     (("state.get(\"phase\") in (\"body\", \"body-exited\")", "True"),),
+     (("state.get(\"phase\") in (\"body\", \"body-exited\")", "True"),
+      ("and event.get(\"phase\") in (\"body\", \"body-exited\")", "and True")),
      PREFIX + "test_lifecycle_and_spoofed_nested_code_are_not_authorized",
      'self.assertFalse(outcome.get("origin_authorized"), outcome)'),
     ("untrusted suffix report accepted",
@@ -41,6 +42,14 @@ CASES = (
      (("if not lines or lines[-1] != marker or lines.count(marker) != 1:", "if False:"),),
      PREFIX + "test_precreated_report_without_runner_completion_is_rejected",
      "self.assertFalse(g11m.qualifies_kill(outcome, target, 123), outcome)"),
+    ("unapproved origin provenance credited",
+     (('        and outcome["origin_provenance"].get("authorized") is True\n', '        and True\n'),),
+     PREFIX + "test_unapproved_origin_provenance_is_not_a_kill",
+     "self.assertFalse(g11m.qualifies_kill(outcome, target, 7))"),
+    ("origin frames omitted",
+     (('        result["origin_provenance"] = event\n', '        pass\n'),),
+     PREFIX + "test_live_failure_retains_actual_origin_frames",
+     'self.assertIn("origin_provenance", outcome)'),
 )
 
 

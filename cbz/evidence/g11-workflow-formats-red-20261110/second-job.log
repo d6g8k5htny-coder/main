@@ -1,0 +1,365 @@
+﻿2026-11-10T05:29:23.1002880Z Current runner version: '2.338.2'
+2026-11-10T05:29:23.1021421Z ##[group]Runner Image Provisioner
+2026-11-10T05:29:23.1022054Z Hosted Compute Agent
+2026-11-10T05:29:23.1022412Z Version: 20261028.624
+2026-11-10T05:29:23.1022816Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T05:29:23.1023320Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T05:29:23.1023718Z Worker ID: {eb031496-b4e9-41fe-a9c4-afd4b7923e37}
+2026-11-10T05:29:23.1024177Z Region: centralus
+2026-11-10T05:29:23.1024521Z Cloud: Azure
+2026-11-10T05:29:23.1024874Z ##[endgroup]
+2026-11-10T05:29:23.1025660Z ##[group]Operating System
+2026-11-10T05:29:23.1026026Z Ubuntu
+2026-11-10T05:29:23.1026702Z 24.04.5
+2026-11-10T05:29:23.1027021Z LTS
+2026-11-10T05:29:23.1027327Z ##[endgroup]
+2026-11-10T05:29:23.1027811Z ##[group]Runner Image
+2026-11-10T05:29:23.1028167Z Image: ubuntu-24.04
+2026-11-10T05:29:23.1028545Z Version: 20261101.360.1
+2026-11-10T05:29:23.1029437Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T05:29:23.1030379Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T05:29:23.1030936Z ##[endgroup]
+2026-11-10T05:29:23.1031618Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T05:29:23.1032828Z Contents: read
+2026-11-10T05:29:23.1033262Z Metadata: read
+2026-11-10T05:29:23.1033603Z ##[endgroup]
+2026-11-10T05:29:23.1035173Z Secret source: Actions
+2026-11-10T05:29:23.1035807Z Cache mode: write
+2026-11-10T05:29:23.1036311Z Prepare workflow directory
+2026-11-10T05:29:23.1265415Z Prepare all required actions
+2026-11-10T05:29:23.1296398Z Getting action download info
+2026-11-10T05:29:23.3430928Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-10T05:29:23.4161462Z Download action repository 'actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-10T05:29:23.5054399Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+2026-11-10T05:29:23.6696583Z Complete job name: origin-regression
+2026-11-10T05:29:23.7252718Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-11-10T05:29:23.7253250Z with:
+2026-11-10T05:29:23.7253503Z   persist-credentials: false
+2026-11-10T05:29:23.7253797Z   repository: d6g8k5htny-coder/main
+2026-11-10T05:29:23.7255823Z   token: ***
+2026-11-10T05:29:23.7256066Z   ssh-strict: true
+2026-11-10T05:29:23.7256315Z   ssh-user: git
+2026-11-10T05:29:23.7256552Z   clean: true
+2026-11-10T05:29:23.7256804Z   sparse-checkout-cone-mode: true
+2026-11-10T05:29:23.7257094Z   fetch-depth: 1
+2026-11-10T05:29:23.7257333Z   fetch-tags: false
+2026-11-10T05:29:23.7257579Z   show-progress: true
+2026-11-10T05:29:23.7257823Z   lfs: false
+2026-11-10T05:29:23.7258054Z   submodules: false
+2026-11-10T05:29:23.7258305Z   set-safe-directory: true
+2026-11-10T05:29:23.7258587Z   allow-unsafe-pr-checkout: false
+2026-11-10T05:29:23.7258964Z ##[endgroup]
+2026-11-10T05:29:23.9150132Z Syncing repository: d6g8k5htny-coder/main
+2026-11-10T05:29:23.9151896Z ##[group]Getting Git version info
+2026-11-10T05:29:23.9152503Z Working directory is '/home/runner/work/main/main'
+2026-11-10T05:29:23.9153437Z [command]/usr/bin/git version
+2026-11-10T05:29:23.9208076Z git version 2.56.0
+2026-11-10T05:29:23.9221983Z ##[endgroup]
+2026-11-10T05:29:23.9229989Z Temporarily overriding HOME='/home/runner/work/_temp/2c71af86-4367-4fe1-ab09-aa5859a73c84' before making global git config changes
+2026-11-10T05:29:23.9231520Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T05:29:23.9234441Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T05:29:23.9276533Z Deleting the contents of '/home/runner/work/main/main'
+2026-11-10T05:29:23.9279178Z ##[group]Determining repository object format
+2026-11-10T05:29:23.9280221Z ##[endgroup]
+2026-11-10T05:29:23.9281223Z ##[group]Initializing the repository
+2026-11-10T05:29:23.9283165Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-11-10T05:29:23.9364745Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T05:29:23.9365853Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T05:29:23.9366682Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T05:29:23.9367343Z hint: call:
+2026-11-10T05:29:23.9367695Z hint:
+2026-11-10T05:29:23.9368153Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T05:29:23.9368722Z hint:
+2026-11-10T05:29:23.9369386Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T05:29:23.9370336Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T05:29:23.9371101Z hint:
+2026-11-10T05:29:23.9371513Z hint: 	git branch -m <name>
+2026-11-10T05:29:23.9372014Z hint:
+2026-11-10T05:29:23.9372680Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T05:29:23.9373685Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-11-10T05:29:23.9381600Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-11-10T05:29:23.9424586Z ##[endgroup]
+2026-11-10T05:29:23.9425366Z ##[group]Disabling automatic garbage collection
+2026-11-10T05:29:23.9427986Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T05:29:23.9460707Z ##[endgroup]
+2026-11-10T05:29:23.9461811Z ##[group]Setting up auth
+2026-11-10T05:29:23.9465756Z Removing SSH command configuration
+2026-11-10T05:29:23.9466945Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T05:29:23.9501053Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T05:29:23.9810111Z Removing HTTP extra header
+2026-11-10T05:29:23.9814364Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T05:29:23.9856244Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T05:29:24.0051290Z Removing includeIf entries pointing to credentials config files
+2026-11-10T05:29:24.0055721Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T05:29:24.0102801Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T05:29:24.0302983Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-89a09789-027a-4265-87df-3214bfce0d2a.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T05:29:24.0347861Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git.path /home/runner/work/_temp/git-credentials-89a09789-027a-4265-87df-3214bfce0d2a.config
+2026-11-10T05:29:24.0387370Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-89a09789-027a-4265-87df-3214bfce0d2a.config
+2026-11-10T05:29:24.0428746Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-89a09789-027a-4265-87df-3214bfce0d2a.config
+2026-11-10T05:29:24.0467138Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-89a09789-027a-4265-87df-3214bfce0d2a.config
+2026-11-10T05:29:24.0504801Z ##[endgroup]
+2026-11-10T05:29:24.0505296Z ##[group]Fetching the repository
+2026-11-10T05:29:24.0510216Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +5b5e1a2a013b976ca7bbfb67d74b0cc1137cd49a:refs/remotes/origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:29:26.5162272Z From https://github.com/d6g8k5htny-coder/main
+2026-11-10T05:29:26.5163501Z  * [new ref]         5b5e1a2a013b976ca7bbfb67d74b0cc1137cd49a -> origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:29:26.5170357Z [command]/usr/bin/git branch --list --remote origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:29:26.5209293Z   origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:29:26.5216964Z [command]/usr/bin/git rev-parse refs/remotes/origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:29:26.5251685Z 5b5e1a2a013b976ca7bbfb67d74b0cc1137cd49a
+2026-11-10T05:29:26.5255723Z ##[endgroup]
+2026-11-10T05:29:26.5256205Z ##[group]Determining the checkout info
+2026-11-10T05:29:26.5257073Z ##[endgroup]
+2026-11-10T05:29:26.5262501Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T05:29:26.5327523Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T05:29:26.5370346Z ##[group]Checking out the ref
+2026-11-10T05:29:26.5373849Z [command]/usr/bin/git checkout --progress --force -B codex/cbz-architecture-observation-20261110 refs/remotes/origin/codex/cbz-architecture-observation-20261110
+2026-11-10T05:29:26.9474643Z Switched to a new branch 'codex/cbz-architecture-observation-20261110'
+2026-11-10T05:29:26.9475669Z branch 'codex/cbz-architecture-observation-20261110' set up to track 'origin/codex/cbz-architecture-observation-20261110'.
+2026-11-10T05:29:26.9504681Z ##[endgroup]
+2026-11-10T05:29:26.9555307Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T05:29:26.9590197Z 5b5e1a2a013b976ca7bbfb67d74b0cc1137cd49a
+2026-11-10T05:29:26.9598406Z ##[group]Removing auth
+2026-11-10T05:29:26.9598773Z Removing SSH command configuration
+2026-11-10T05:29:26.9601080Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T05:29:26.9640783Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T05:29:26.9839689Z Removing HTTP extra header
+2026-11-10T05:29:26.9842243Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T05:29:26.9880560Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T05:29:27.0079533Z Removing includeIf entries pointing to credentials config files
+2026-11-10T05:29:27.0080171Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T05:29:27.0120226Z includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T05:29:27.0121034Z includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T05:29:27.0121590Z includeif.gitdir:/github/workspace/.git.path
+2026-11-10T05:29:27.0122280Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T05:29:27.0127906Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T05:29:27.0159334Z /home/runner/work/_temp/git-credentials-89a09789-027a-4265-87df-3214bfce0d2a.config
+2026-11-10T05:29:27.0167124Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-89a09789\-027a\-4265\-87df\-3214bfce0d2a\.config
+2026-11-10T05:29:27.0208105Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T05:29:27.0238754Z /home/runner/work/_temp/git-credentials-89a09789-027a-4265-87df-3214bfce0d2a.config
+2026-11-10T05:29:27.0245187Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-89a09789\-027a\-4265\-87df\-3214bfce0d2a\.config
+2026-11-10T05:29:27.0289177Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-10T05:29:27.0320359Z /github/runner_temp/git-credentials-89a09789-027a-4265-87df-3214bfce0d2a.config
+2026-11-10T05:29:27.0325528Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-89a09789\-027a\-4265\-87df\-3214bfce0d2a\.config
+2026-11-10T05:29:27.0363784Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T05:29:27.0394106Z /github/runner_temp/git-credentials-89a09789-027a-4265-87df-3214bfce0d2a.config
+2026-11-10T05:29:27.0400529Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-89a09789\-027a\-4265\-87df\-3214bfce0d2a\.config
+2026-11-10T05:29:27.0439922Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T05:29:27.0638630Z Removing credentials config '/home/runner/work/_temp/git-credentials-89a09789-027a-4265-87df-3214bfce0d2a.config'
+2026-11-10T05:29:27.0644832Z ##[endgroup]
+2026-11-10T05:29:27.0925796Z ##[group]Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+2026-11-10T05:29:27.0926216Z with:
+2026-11-10T05:29:27.0926467Z   python-version: 3.11
+2026-11-10T05:29:27.0926735Z   check-latest: false
+2026-11-10T05:29:27.0928403Z   token: ***
+2026-11-10T05:29:27.0928653Z   update-environment: true
+2026-11-10T05:29:27.0928931Z   allow-prereleases: false
+2026-11-10T05:29:27.0929422Z   freethreaded: false
+2026-11-10T05:29:27.0929680Z ##[endgroup]
+2026-11-10T05:29:27.1863738Z ##[group]Installed versions
+2026-11-10T05:29:27.1921301Z (node:2214) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T05:29:27.1922145Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T05:29:27.1922711Z Successfully set up CPython (3.11.18)
+2026-11-10T05:29:27.1923231Z ##[endgroup]
+2026-11-10T05:29:27.2119441Z ##[group]Run set -o pipefail
+2026-11-10T05:29:27.2120054Z [36;1mset -o pipefail[0m
+2026-11-10T05:29:27.2120775Z [36;1mpython -B -S -m unittest tests.test_g11_workflow_formats -v 2>&1 | tee "$RUNNER_TEMP/g11-workflow-formats-normal.log"[0m
+2026-11-10T05:29:27.2159651Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T05:29:27.2160063Z env:
+2026-11-10T05:29:27.2160383Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:29:27.2160799Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:29:27.2161213Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:29:27.2161599Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:29:27.2161982Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:29:27.2162368Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:29:27.2162738Z ##[endgroup]
+2026-11-10T05:29:27.3431308Z test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) ... 
+2026-11-10T05:29:27.3433047Z   test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) (path='.github/workflows/cbz-g11-auditor.yml') ... FAIL
+2026-11-10T05:29:27.3434730Z   test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) (path='.github/workflows/cbz-publisher-cas.yml') ... FAIL
+2026-11-10T05:29:27.3436403Z   test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) (path='.github/workflows/cbz-site-recovery.yml') ... FAIL
+2026-11-10T05:29:27.3441593Z test_env_unset_preserves_direct_execution_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_env_unset_preserves_direct_execution_reference) ... FAIL
+2026-11-10T05:29:27.3444221Z test_env_unsupported_or_nonexecution_is_not_credited (tests.test_g11_workflow_formats.WorkflowFormats.test_env_unsupported_or_nonexecution_is_not_credited) ... ok
+2026-11-10T05:29:27.3445216Z test_json_duplicate_keys_and_non_run_paths_are_refused (tests.test_g11_workflow_formats.WorkflowFormats.test_json_duplicate_keys_and_non_run_paths_are_refused) ... ok
+2026-11-10T05:29:27.3446350Z test_json_workflow_recognizes_only_job_step_runs (tests.test_g11_workflow_formats.WorkflowFormats.test_json_workflow_recognizes_only_job_step_runs) ... FAIL
+2026-11-10T05:29:27.3447108Z 
+2026-11-10T05:29:27.3447356Z ======================================================================
+2026-11-10T05:29:27.3448152Z FAIL: test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) (path='.github/workflows/cbz-g11-auditor.yml')
+2026-11-10T05:29:27.3448911Z ----------------------------------------------------------------------
+2026-11-10T05:29:27.3449491Z Traceback (most recent call last):
+2026-11-10T05:29:27.3454025Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 56, in test_current_native_workflows_expose_real_static_references
+2026-11-10T05:29:27.3454679Z     self.assertIn(expected, g11.workflow_tool_references(text, TOOLS))
+2026-11-10T05:29:27.3455162Z AssertionError: 'tools/cbz/g11_origin_mutation_selftest.py' not found in set()
+2026-11-10T05:29:27.3455439Z 
+2026-11-10T05:29:27.3455608Z ======================================================================
+2026-11-10T05:29:27.3456406Z FAIL: test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) (path='.github/workflows/cbz-publisher-cas.yml')
+2026-11-10T05:29:27.3457468Z ----------------------------------------------------------------------
+2026-11-10T05:29:27.3457841Z Traceback (most recent call last):
+2026-11-10T05:29:27.3458430Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 56, in test_current_native_workflows_expose_real_static_references
+2026-11-10T05:29:27.3459028Z     self.assertIn(expected, g11.workflow_tool_references(text, TOOLS))
+2026-11-10T05:29:27.3459617Z AssertionError: 'tools/cbz_site_publisher_cas_mutations.py' not found in set()
+2026-11-10T05:29:27.3459887Z 
+2026-11-10T05:29:27.3460047Z ======================================================================
+2026-11-10T05:29:27.3460815Z FAIL: test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) (path='.github/workflows/cbz-site-recovery.yml')
+2026-11-10T05:29:27.3461562Z ----------------------------------------------------------------------
+2026-11-10T05:29:27.3461933Z Traceback (most recent call last):
+2026-11-10T05:29:27.3462495Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 56, in test_current_native_workflows_expose_real_static_references
+2026-11-10T05:29:27.3463072Z     self.assertIn(expected, g11.workflow_tool_references(text, TOOLS))
+2026-11-10T05:29:27.3463521Z AssertionError: 'tools/cbz_site_recovery_mutations.py' not found in set()
+2026-11-10T05:29:27.3463778Z 
+2026-11-10T05:29:27.3463942Z ======================================================================
+2026-11-10T05:29:27.3464546Z FAIL: test_env_unset_preserves_direct_execution_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_env_unset_preserves_direct_execution_reference)
+2026-11-10T05:29:27.3465150Z ----------------------------------------------------------------------
+2026-11-10T05:29:27.3465507Z Traceback (most recent call last):
+2026-11-10T05:29:27.3466043Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 22, in test_env_unset_preserves_direct_execution_reference
+2026-11-10T05:29:27.3466713Z     self.assertEqual(g11.workflow_tool_references(text, TOOLS), {TOOL})
+2026-11-10T05:29:27.3467138Z AssertionError: Items in the second set but not the first:
+2026-11-10T05:29:27.3467505Z 'tools/cbz/g11_origin_mutation_selftest.py'
+2026-11-10T05:29:27.3467699Z 
+2026-11-10T05:29:27.3467859Z ======================================================================
+2026-11-10T05:29:27.3468449Z FAIL: test_json_workflow_recognizes_only_job_step_runs (tests.test_g11_workflow_formats.WorkflowFormats.test_json_workflow_recognizes_only_job_step_runs)
+2026-11-10T05:29:27.3469037Z ----------------------------------------------------------------------
+2026-11-10T05:29:27.3469493Z Traceback (most recent call last):
+2026-11-10T05:29:27.3470015Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 40, in test_json_workflow_recognizes_only_job_step_runs
+2026-11-10T05:29:27.3470595Z     self.assertEqual(g11.workflow_tool_references(text, TOOLS), {PUBLISHER})
+2026-11-10T05:29:27.3471032Z AssertionError: Items in the second set but not the first:
+2026-11-10T05:29:27.3471403Z 'tools/cbz_site_publisher_cas_mutations.py'
+2026-11-10T05:29:27.3471600Z 
+2026-11-10T05:29:27.3471784Z ----------------------------------------------------------------------
+2026-11-10T05:29:27.3472152Z Ran 5 tests in 0.003s
+2026-11-10T05:29:27.3472309Z 
+2026-11-10T05:29:27.3472425Z FAILED (failures=5)
+2026-11-10T05:29:27.3551867Z ##[error]Process completed with exit code 1.
+2026-11-10T05:29:27.3595452Z ##[group]Run set -o pipefail
+2026-11-10T05:29:27.3595879Z [36;1mset -o pipefail[0m
+2026-11-10T05:29:27.3596344Z [36;1mpython -B -S -O -m unittest tests.test_g11_workflow_formats -v 2>&1 | tee "$RUNNER_TEMP/g11-workflow-formats-optimized.log"[0m
+2026-11-10T05:29:27.3615294Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T05:29:27.3615632Z env:
+2026-11-10T05:29:27.3615955Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:29:27.3616365Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:29:27.3616770Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:29:27.3617142Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:29:27.3617519Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:29:27.3617899Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:29:27.3618227Z ##[endgroup]
+2026-11-10T05:29:30.1549925Z test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) ... 
+2026-11-10T05:29:30.1550838Z   test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) (path='.github/workflows/cbz-g11-auditor.yml') ... FAIL
+2026-11-10T05:29:30.1552418Z   test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) (path='.github/workflows/cbz-publisher-cas.yml') ... FAIL
+2026-11-10T05:29:30.1560231Z   test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) (path='.github/workflows/cbz-site-recovery.yml') ... FAIL
+2026-11-10T05:29:30.1561736Z test_env_unset_preserves_direct_execution_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_env_unset_preserves_direct_execution_reference) ... FAIL
+2026-11-10T05:29:30.1564197Z test_env_unsupported_or_nonexecution_is_not_credited (tests.test_g11_workflow_formats.WorkflowFormats.test_env_unsupported_or_nonexecution_is_not_credited) ... ok
+2026-11-10T05:29:30.1565527Z test_json_duplicate_keys_and_non_run_paths_are_refused (tests.test_g11_workflow_formats.WorkflowFormats.test_json_duplicate_keys_and_non_run_paths_are_refused) ... ok
+2026-11-10T05:29:30.1567073Z test_json_workflow_recognizes_only_job_step_runs (tests.test_g11_workflow_formats.WorkflowFormats.test_json_workflow_recognizes_only_job_step_runs) ... FAIL
+2026-11-10T05:29:30.1567802Z 
+2026-11-10T05:29:30.1567980Z ======================================================================
+2026-11-10T05:29:30.1569268Z FAIL: test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) (path='.github/workflows/cbz-g11-auditor.yml')
+2026-11-10T05:29:30.1570351Z ----------------------------------------------------------------------
+2026-11-10T05:29:30.1570749Z Traceback (most recent call last):
+2026-11-10T05:29:30.1571612Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 56, in test_current_native_workflows_expose_real_static_references
+2026-11-10T05:29:30.1572355Z     self.assertIn(expected, g11.workflow_tool_references(text, TOOLS))
+2026-11-10T05:29:30.1572901Z AssertionError: 'tools/cbz/g11_origin_mutation_selftest.py' not found in set()
+2026-11-10T05:29:30.1573225Z 
+2026-11-10T05:29:30.1573344Z ======================================================================
+2026-11-10T05:29:30.1574243Z FAIL: test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) (path='.github/workflows/cbz-publisher-cas.yml')
+2026-11-10T05:29:30.1575397Z ----------------------------------------------------------------------
+2026-11-10T05:29:30.1575732Z Traceback (most recent call last):
+2026-11-10T05:29:30.1576375Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 56, in test_current_native_workflows_expose_real_static_references
+2026-11-10T05:29:30.1577004Z     self.assertIn(expected, g11.workflow_tool_references(text, TOOLS))
+2026-11-10T05:29:30.1577445Z AssertionError: 'tools/cbz_site_publisher_cas_mutations.py' not found in set()
+2026-11-10T05:29:30.1577756Z 
+2026-11-10T05:29:30.1577869Z ======================================================================
+2026-11-10T05:29:30.1578569Z FAIL: test_current_native_workflows_expose_real_static_references (tests.test_g11_workflow_formats.WorkflowFormats.test_current_native_workflows_expose_real_static_references) (path='.github/workflows/cbz-site-recovery.yml')
+2026-11-10T05:29:30.1579373Z ----------------------------------------------------------------------
+2026-11-10T05:29:30.1579608Z Traceback (most recent call last):
+2026-11-10T05:29:30.1580102Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 56, in test_current_native_workflows_expose_real_static_references
+2026-11-10T05:29:30.1580583Z     self.assertIn(expected, g11.workflow_tool_references(text, TOOLS))
+2026-11-10T05:29:30.1580878Z AssertionError: 'tools/cbz_site_recovery_mutations.py' not found in set()
+2026-11-10T05:29:30.1581067Z 
+2026-11-10T05:29:30.1581138Z ======================================================================
+2026-11-10T05:29:30.1581598Z FAIL: test_env_unset_preserves_direct_execution_reference (tests.test_g11_workflow_formats.WorkflowFormats.test_env_unset_preserves_direct_execution_reference)
+2026-11-10T05:29:30.1582022Z ----------------------------------------------------------------------
+2026-11-10T05:29:30.1582225Z Traceback (most recent call last):
+2026-11-10T05:29:30.1582627Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 22, in test_env_unset_preserves_direct_execution_reference
+2026-11-10T05:29:30.1583022Z     self.assertEqual(g11.workflow_tool_references(text, TOOLS), {TOOL})
+2026-11-10T05:29:30.1583262Z AssertionError: Items in the second set but not the first:
+2026-11-10T05:29:30.1583469Z 'tools/cbz/g11_origin_mutation_selftest.py'
+2026-11-10T05:29:30.1583582Z 
+2026-11-10T05:29:30.1583651Z ======================================================================
+2026-11-10T05:29:30.1584152Z FAIL: test_json_workflow_recognizes_only_job_step_runs (tests.test_g11_workflow_formats.WorkflowFormats.test_json_workflow_recognizes_only_job_step_runs)
+2026-11-10T05:29:30.1584549Z ----------------------------------------------------------------------
+2026-11-10T05:29:30.1584750Z Traceback (most recent call last):
+2026-11-10T05:29:30.1585100Z   File "/home/runner/work/main/main/tests/test_g11_workflow_formats.py", line 40, in test_json_workflow_recognizes_only_job_step_runs
+2026-11-10T05:29:30.1585529Z     self.assertEqual(g11.workflow_tool_references(text, TOOLS), {PUBLISHER})
+2026-11-10T05:29:30.1585820Z AssertionError: Items in the second set but not the first:
+2026-11-10T05:29:30.1586054Z 'tools/cbz_site_publisher_cas_mutations.py'
+2026-11-10T05:29:30.1586189Z 
+2026-11-10T05:29:30.1586296Z ----------------------------------------------------------------------
+2026-11-10T05:29:30.1586511Z Ran 5 tests in 0.003s
+2026-11-10T05:29:30.1586602Z 
+2026-11-10T05:29:30.1586657Z FAILED (failures=5)
+2026-11-10T05:29:30.1662456Z ##[error]Process completed with exit code 1.
+2026-11-10T05:29:30.1733143Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+2026-11-10T05:29:30.1733391Z with:
+2026-11-10T05:29:30.1733540Z   name: cbz-g11-workflow-formats-42762430862-1
+2026-11-10T05:29:30.1733883Z   path: /home/runner/work/_temp/g11-workflow-formats-normal.log
+/home/runner/work/_temp/g11-workflow-formats-optimized.log
+
+2026-11-10T05:29:30.1734205Z   if-no-files-found: error
+2026-11-10T05:29:30.1734339Z   retention-days: 90
+2026-11-10T05:29:30.1734465Z   compression-level: 6
+2026-11-10T05:29:30.1734586Z   overwrite: false
+2026-11-10T05:29:30.1734711Z   include-hidden-files: false
+2026-11-10T05:29:30.1734848Z   archive: true
+2026-11-10T05:29:30.1734962Z env:
+2026-11-10T05:29:30.1735116Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:29:30.1735359Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:29:30.1735597Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:29:30.1735861Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:29:30.1736084Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:29:30.1736320Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:29:30.1736523Z ##[endgroup]
+2026-11-10T05:29:30.2721915Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-11-10T05:29:30.2723244Z The least common ancestor is /home/runner/work/_temp. This will be the root directory of the artifact
+2026-11-10T05:29:30.2723855Z With the provided path, there will be 2 files uploaded
+2026-11-10T05:29:30.2742999Z Artifact name is valid!
+2026-11-10T05:29:30.2743374Z Root directory input is valid!
+2026-11-10T05:29:30.5404903Z Uploading artifact: cbz-g11-workflow-formats-42762430862-1.zip
+2026-11-10T05:29:30.5430712Z Beginning upload of artifact content to blob storage
+2026-11-10T05:29:30.7140271Z Uploaded bytes 1630
+2026-11-10T05:29:30.7543831Z Finished uploading artifact content to blob storage!
+2026-11-10T05:29:30.7544616Z SHA256 digest of uploaded artifact is 8625d71a66660885ffb4f7c73629e10bc83d0b227dfd0926bcc089dd11ef7d26
+2026-11-10T05:29:30.7545276Z Finalizing artifact upload
+2026-11-10T05:29:31.1542092Z Artifact cbz-g11-workflow-formats-42762430862-1 successfully finalized. Artifact ID 13738108308
+2026-11-10T05:29:31.1542883Z Artifact cbz-g11-workflow-formats-42762430862-1 has been successfully uploaded! Final size is 1630 bytes. Artifact ID is 13738108308
+2026-11-10T05:29:31.1545378Z Artifact download URL: https://github.com/d6g8k5htny-coder/main/actions/runs/42762430862/artifacts/13738108308
+2026-11-10T05:29:31.1672723Z ##[group]Run printf 'normal=%s optimized=%s\n' "$NORMAL" "$OPTIMIZED"
+2026-11-10T05:29:31.1673019Z [36;1mprintf 'normal=%s optimized=%s\n' "$NORMAL" "$OPTIMIZED"[0m
+2026-11-10T05:29:31.1673255Z [36;1mtest "$NORMAL" = success && test "$OPTIMIZED" = success[0m
+2026-11-10T05:29:31.1691375Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T05:29:31.1691567Z env:
+2026-11-10T05:29:31.1691719Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:29:31.1691960Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T05:29:31.1692198Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:29:31.1692417Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:29:31.1692643Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T05:29:31.1692862Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T05:29:31.1693042Z   NORMAL: failure
+2026-11-10T05:29:31.1693191Z   OPTIMIZED: failure
+2026-11-10T05:29:31.1693315Z ##[endgroup]
+2026-11-10T05:29:31.1727831Z normal=failure optimized=failure
+2026-11-10T05:29:31.1731368Z ##[error]Process completed with exit code 1.
+2026-11-10T05:29:31.1841968Z Post job cleanup.
+2026-11-10T05:29:31.2423471Z [command]/usr/bin/git version
+2026-11-10T05:29:31.2462019Z git version 2.56.0
+2026-11-10T05:29:31.2488334Z Temporarily overriding HOME='/home/runner/work/_temp/b42b5483-747d-4e8f-82ae-241e1fb8c845' before making global git config changes
+2026-11-10T05:29:31.2489269Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T05:29:31.2494391Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T05:29:31.2528462Z Removing SSH command configuration
+2026-11-10T05:29:31.2534160Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T05:29:31.2577381Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T05:29:31.2808966Z Removing HTTP extra header
+2026-11-10T05:29:31.2814149Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T05:29:31.2857739Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T05:29:31.3084958Z Removing includeIf entries pointing to credentials config files
+2026-11-10T05:29:31.3090819Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T05:29:31.3131820Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T05:29:31.3500520Z Cleaning up orphan processes
+2026-11-10T05:29:31.3756610Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

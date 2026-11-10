@@ -1261,3 +1261,14 @@ Scientific NONE; classification/qualification BLOCKED; execution_authenticated f
 ## 2026-11-10 — Retain repaired G11 hosted component execution
 
 Run 42761158495, job 129646886891, on debug commit `db0d076ea7d5d38a78d6c16955844a7d32816cf4`, actually completed 265 census controls, nine origin methods, five origin-guard mutations and 328 existing G11 mutations in each Python 3.11.18 mode. The full original log, source hashes and individually parsed records are retained at `cbz/evidence/g11-origin-hosted-20261110/`. This scoped component result does not bind the later composed tree, close scientific claims or substitute for the final federation G11 gate.
+
+## 2026-11-10 — Preserve G11 provenance and repair workflow formats
+
+- Retain the old composed-tree G11 census failure and independently verified ZIP at its original commit, plus the workflow-format, JSON no-op/parse, invalid-shape and mutation-target-collision failures. Do not relabel historical false kills or infer proof/scientific conclusions.
+- Preserve live selected-body/oracle traceback frames and lifecycle state in mutation results, test report-completion and adverse guards, and retain the independently verified hosted provenance ZIP for debug source `b65ebdbbc6af587af2c6706105286edcbbfeb531`. This is not a security boundary for arbitrary hostile in-process Python.
+- Extend bounded static references for env-unset wrappers and strict JSON job-step runs; report malformed or unsupported JSON/flow-style workflow input as unparseable and JSON no-op findings at line 0 where precise position is unavailable. Do not equate static references with execution or claim full workflow-language coverage. The original 328 mutation definitions remain; thirteen workflow-format adverse mutations and their commands are registered in STATUS and TOOLING.
+- Retain Workspace #71 pre- and post-merge evidence at the original source and observed run. Pin observations are non-atomic and do not establish final G7. Fresh candidate and federation gates remain required.
+
+## 2026-11-10 — Retain revised-scanner mutation run
+
+Hosted run 42763200124 on debug commit `101cc0fea2dbafac9af29dec925aa94c51804714` completed the original 328 G11 mutation cases in each mode against the staged census, origin-grader and original census-test blobs. The original full log and the individually checked 656 selected-origin records are retained under `cbz/evidence/g11-current-scanner-hosted-20261110/`; its format suite was the earlier eight-case source. Its reported ZIP digest has not been independently verified. This is component evidence, not a composed census or the final G11 gate.

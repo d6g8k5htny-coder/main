@@ -2300,6 +2300,8 @@ def qualifies_kill(outcome, expected_test, expected_line):
         and outcome.get("traceback_line") == expected_line
         and outcome.get("exception_type") == "AssertionError"
         and outcome.get("origin_authorized") is True
+        and isinstance(outcome.get("origin_provenance"), dict)
+        and outcome["origin_provenance"].get("authorized") is True
     )
 
 
@@ -2440,6 +2442,8 @@ class ProvenanceResult(unittest.TestResult):
             "kind": kind,
             "authorized": authorized,
             "exception": err[0].__name__,
+            "entered": state.get("entered"),
+            "phase": state.get("phase"),
             "selected": {
                 "filename": str(Path(selected_code.co_filename).resolve()) if selected_code else None,
                 "firstlineno": selected_code.co_firstlineno if selected_code else None,
@@ -2523,6 +2527,8 @@ def _parse_origin_run(proc, report, requested_test):
         if (not isinstance(event, dict) or event.get("test") != names[0]
                 or event.get("kind") not in ("failure", "error")
                 or type(event.get("authorized")) is not bool
+                or type(event.get("entered")) is not int
+                or not isinstance(event.get("phase"), str)
                 or not isinstance(event.get("frames"), list)
                 or not isinstance(event.get("selected"), dict)):
             return invalid
@@ -2538,6 +2544,7 @@ def _parse_origin_run(proc, report, requested_test):
                   skipped=report["skip_count"], status="FAILED" if failed else "OK")
     if len(events) == 1:
         event = events[0]
+        result["origin_provenance"] = event
         frames = event["frames"]
         if any(not isinstance(f, dict) or type(f.get("selected")) is not bool
                or type(f.get("oracle")) is not bool for f in frames):
@@ -2556,6 +2563,8 @@ def _parse_origin_run(proc, report, requested_test):
                           traceback_line=frame["lineno"], exception_type=event.get("exception"))
             result["origin_authorized"] = (
                 event["kind"] == "failure" and event["authorized"] is True
+                and event.get("entered") == 1
+                and event.get("phase") in ("body", "body-exited")
                 and event.get("exception") == "AssertionError"
                 and all(f["oracle"] is True for f in frames[positions[0] + 1:])
             )

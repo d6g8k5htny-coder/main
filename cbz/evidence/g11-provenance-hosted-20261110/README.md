@@ -1,0 +1,5 @@
+# G11 origin provenance hosted qualification
+
+Run 42762190477, job 129650254180, on debug commit b65ebdbbc6af587af2c6706105286edcbbfeb531 completed 265 census controls, 12 origin methods, seven origin-guard mutations and all 328 original G11 mutations in each Python 3.11.18 mode. Its original full decoded log is retained. The log's two original 328-case JSON objects were parsed independently: all 656 records had exactly one authorized selected-body failure, no errors or skips, the expected line, one selected frame, the body phase and only explicit oracle frames after the selected frame. Mutation names were unique within each mode and matched in order. The two seven-case origin-guard reports were also checked for clean baseline and authorized failure in each mode. Exact source hashes and limits are recorded in observation.json.
+
+GitHub reported artifact 13738108831 SHA-256 dd7a9ea89dd4762e8c978324af0cece67bce2f48ae4fe9d6cdbcf52eefd81a0a; ZIP bytes have not been independently read. The subsequently modified G11 census, later composed source and final federation G11 require separate fresh evidence.

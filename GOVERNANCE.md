@@ -1,8 +1,12 @@
 # CBZ-0 governance
 
+## Current G11 workflow and origin boundary
+
+The bounded G11 origin verifier records actual pre-cleanup frames and lifecycle state; `tools/cbz/g11_origin_mutation_selftest.py` tests seven origin-guard mutations. `tools/cbz/g11_workflow_formats_mutation_selftest.py` tests thirteen bounded env/JSON workflow-scanner mutations. Both commands and their normal/optimized modes are in STATUS and TOOLING. The strict JSON path recognizes job-step runs and basic shapes, rejects invalid or duplicate-key input, and reports JSON no-op/parse findings with line 0 when position is unavailable. It is not a full GitHub workflow validator or a proof of execution. The latest per-source executions and failures are retained in STATUS and native evidence; final federation qualification remains open.
+
 ## G11 mutation-origin guard: current scope
 
-The old filename-based attribution admitted subject-origin AssertionErrors in actual run 42760114483; retain that failure and treat earlier totals as historical observations only. The candidate `tools/cbz/g11_mutation_selftest.py` captures live code provenance before unittest cleanup and requires selected-body or explicitly enumerated unittest-oracle origin. The companion `tools/cbz/g11_origin_mutation_selftest.py` exercises five bounded mutations against actual origin tests. Run both normally and with `-O` as listed in STATUS and TOOLING. Local Python 3.12.14 evidence covers 263 original methods, nine origin methods and five origin mutations per mode; hosted and final federation qualification must be observed separately. Synchronous unittest bodies are supported; arbitrary hostile in-process Python is outside the security claim.
+The old filename-based attribution admitted subject-origin AssertionErrors in actual run 42760114483; retain that failure and treat earlier totals as historical observations only. The candidate `tools/cbz/g11_mutation_selftest.py` captures live code provenance before unittest cleanup and requires selected-body or explicitly enumerated unittest-oracle origin. The earlier local version of `tools/cbz/g11_origin_mutation_selftest.py` exercised five bounded mutations; the current seven-case source is recorded above. Run both normally and with `-O` as listed in STATUS and TOOLING. Local Python 3.12.14 evidence covers 263 original methods, nine origin methods and five origin mutations per mode; hosted and final federation qualification must be observed separately. Synchronous unittest bodies are supported; arbitrary hostile in-process Python is outside the security claim.
 
 ## SDGA Task A integration — 10 November 2026
 

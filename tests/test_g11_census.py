@@ -4860,7 +4860,7 @@ class MutationAttribution(unittest.TestCase):
         good = {"parsed": True, "status": "FAILED", "exit": 1, "ran": 1, "failures": 1,
                 "errors": 0, "skipped": 0, "test_id": expected,
                 "traceback_method": "test_mutation_kill_requires_exact_target_assertion",
-                "traceback_line": 17, "exception_type": "AssertionError", "origin_authorized": True}
+                "traceback_line": 17, "exception_type": "AssertionError", "origin_authorized": True, "origin_provenance": {"authorized": True}}
         self.assertTrue(g11m.qualifies_kill(good, expected, 17))
         wrong_line = dict(good, traceback_line=18)
         self.assertFalse(g11m.qualifies_kill(wrong_line, expected, 17))
@@ -4887,6 +4887,7 @@ class MutationAttribution(unittest.TestCase):
         self.assertEqual(parsed["test_id"], expected_parser)
         self.assertFalse(g11m.qualifies_kill(parsed, expected_parser, 123))
         parsed["origin_authorized"] = True  # Explicit synthetic origin for parser-only control.
+        parsed["origin_provenance"] = {"authorized": True}
         self.assertTrue(g11m.qualifies_kill(parsed, expected_parser, 123))
         current = output.replace("(tests.test_g11_census.MutationAttribution)", "(%s)" % expected_parser)
         parsed_current = g11m._parse_run(subprocess.CompletedProcess(["python"], 1, current, ""))

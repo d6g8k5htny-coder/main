@@ -1,5 +1,28 @@
 # CBZ-0 execution status
 
+## Latest G11 source and pin observations — 10 November 2026
+
+The original composed-tree census on `0f7412c5933a97dfa15d84667d176bcc60a130e6` returned FAIL in both modes: zero production findings, but three tools were reported unexercised. Its original [ZIP, reports and independently verified checksums](cbz/evidence/g11-composed-census-20261110/) are retained. Actual workflow and adverse controls exposed unsupported `env -u` wrappers and JSON-formatted job-step runs; subsequent tests also exposed JSON no-op, malformed and invalid-shape false greens. Their original red outcomes and the mutation-target collision are retained.
+
+This candidate's bounded scanner recognizes explicit `env -u`, `--unset` and `--unset=NAME` wrappers and strict JSON workflow job-step run strings. It rejects duplicate keys, nonstandard constants and invalid job/step/run shapes; JSON no-op and invalid/unsupported flow-style findings use line 0 when an exact source line is unavailable. It does not evaluate arbitrary shell, dynamic conditions, full GitHub workflow semantics or hostile in-process Python. A static reference is not proof that a workflow executed. A fresh census of this candidate and the final federation G11 gate remain required.
+
+The revised origin runner retains the actual pre-cleanup traceback frames and lifecycle state in its result. On debug commit `b65ebdbbc6af587af2c6706105286edcbbfeb531`, hosted run `42762190477` passed 265 census controls, twelve origin methods, seven origin mutations and 328 original G11 mutations per mode. The [original artifact](cbz/evidence/g11-provenance-hosted-20261110/) was independently checked, including all 656 selected-origin records. On debug commit `101cc0fea2dbafac9af29dec925aa94c51804714`, hosted run `42763200124` passed the original 328 mutations in each mode against the same census, origin-grader and original census-test blobs staged here. The [full log and independently parsed 656 records](cbz/evidence/g11-current-scanner-hosted-20261110/) are retained; that run used an earlier eight-case workflow-format suite. The later thirteen-method workflow-format tests passed in each mode; their full mutation workflow is still being verified.
+
+Run the bounded checks from the repository root:
+
+```sh
+python3 -B -S -m unittest tests.test_g11_census tests.test_g11_origin_provenance tests.test_g11_workflow_formats
+python3 -B -S -O -m unittest tests.test_g11_census tests.test_g11_origin_provenance tests.test_g11_workflow_formats
+python3 -B -S tools/cbz/g11_origin_mutation_selftest.py
+python3 -B -S -O tools/cbz/g11_origin_mutation_selftest.py
+python3 -B -S tools/cbz/g11_workflow_formats_mutation_selftest.py
+python3 -B -S -O tools/cbz/g11_workflow_formats_mutation_selftest.py
+python3 -B -S tools/cbz/g11_mutation_selftest.py --json
+python3 -B -S -O tools/cbz/g11_mutation_selftest.py --json
+```
+
+Workspace #71 merged at `47221adf89749dc226e8e3578af2f8fd7c16ea20`, with Main pin `964390a94c08f00f119dc3b2e0be16180c1544e2`; the separately observed Main tip matched at that cut. Its pre- and post-merge strict pin and 254-per-mode contract logs are retained under [integration evidence](cbz/evidence/integration-guards-20261110/). These are non-atomic, scoped observations, not final G7.
+
 ## Current G11 origin boundary — 10 November 2026
 
 Actual-source [run 42760114483](https://github.com/d6g8k5htny-coder/main/actions/runs/42760114483), job 129643558161, showed the old G11 grader counting subject, helper and callback AssertionErrors as selected-oracle kills in both modes. Six false acceptances were observed; the number of affected historical outcomes is unknown. The original log, source and result are retained under [G11 origin evidence](cbz/evidence/g11-origin-adverse-20261110/). Historical mutation totals remain observations but do not establish sound attribution. They do not alter mathematical statements or kernel outcomes.
@@ -19,7 +42,7 @@ python3 -B -S -O tools/cbz/g11_mutation_selftest.py
 
 The origin runner supports synchronous unittest bodies and named standard-library unittest assertion code. It fails closed for missing or inconsistent origin reports; it is not a security sandbox for arbitrary hostile Python in the same process. These commands do not replace the fresh common G0–G11 pass.
 
-Separately observed Main `964390a94c08f00f119dc3b2e0be16180c1544e2` includes #805; Workspace `0bbf389e6893c1448e7599e9e290dd6efb60ae50` still pins earlier Main `b6be588c82d2256c917b7d26d901085bc90319fb`. These observations are non-atomic; pin convergence remains open.
+At the earlier non-atomic observation, Workspace `0bbf389e6893c1448e7599e9e290dd6efb60ae50` still pinned Main `b6be588c82d2256c917b7d26d901085bc90319fb`; Workspace #71 subsequently refreshed that pointer, as recorded above.
 
 ## Earlier #804 hosted attempts — 10 November 2026
 

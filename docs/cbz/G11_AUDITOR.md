@@ -1,5 +1,18 @@
 # G11 auditor — bounded census, not certification
 
+## Workflow formats and explicit limits
+
+The census recognizes direct tool commands wrapped in `env -u NAME`, `env --unset NAME` or `env --unset=NAME`, with optional `--`, and strict JSON object workflows at `jobs.*.steps[].run`. Other env options and assignments are not credited. Duplicate keys, nonstandard JSON constants and invalid job/step/run shapes fail closed as unparseable; JSON no-op and unsupported-flow findings use line 0 when an exact source line is unavailable. Static reference recognition does not establish execution, evaluate dynamic conditions, or implement all shell/GitHub workflow semantics.
+
+```sh
+python3 -B -S -m unittest tests.test_g11_workflow_formats
+python3 -B -S -O -m unittest tests.test_g11_workflow_formats
+python3 -B -S tools/cbz/g11_workflow_formats_mutation_selftest.py
+python3 -B -S -O tools/cbz/g11_workflow_formats_mutation_selftest.py
+```
+
+The prior [composed-tree census failure](../../cbz/evidence/g11-composed-census-20261110/) and actual red tests remain preserved. Thirteen format methods have passed in each mode on the debug source; the newer full mutation campaign and composed-tree census must be verified separately.
+
 ## Current assertion-origin guard
 
 The earlier filename-based mutation grader accepted actual subject, helper and callback assertions in run 42760114483. Preserve that historical result and do not infer sound attribution from its old totals. The candidate captures live traceback/code identities before unittest cleanup and accepts only the selected synchronous test body followed by explicitly enumerated unittest oracle code. It validates a runner-completion marker before reading the child report. It is not a security sandbox against arbitrary hostile Python in the same process.
