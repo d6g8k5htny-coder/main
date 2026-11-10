@@ -1,0 +1,578 @@
+{
+  "record": "sdga-task-e-production-first-native-failure",
+  "schema": 1,
+  "PR": 813,
+  "run_id": 42808807061,
+  "attempt": 1,
+  "job_id": 129804688745,
+  "conclusion": "failure",
+  "head": "2b8db33557a30759680fce18b9fae39103c7b083",
+  "native": {
+    "commit": "0607816a7bacdcc1f0cd9ae1e4ad85f9fca081b9",
+    "tree": "22bb9ff1df5f0877b7e83c4842c3bb90f4478d0b",
+    "parents": [
+      "d09f3252e4f9eb91d624f42357e81e3e43a658e5",
+      "2b8db33557a30759680fce18b9fae39103c7b083"
+    ],
+    "verified": true,
+    "reason": "valid"
+  },
+  "raw_log": {
+    "blob": "6766050310b4f5d1a1093533cb47f31d00d1ac3b",
+    "utf8_bytes": 3671396,
+    "sha256": "4bc68630b29b8090f0fa1c5f0f1247339f2c19313836bc8ddf4883c73dddf255"
+  },
+  "originals": {
+    "packet": "c5e5a604eb5e348909f299ed470a87f508e2f04e",
+    "total": 312,
+    "old_D_custody_IR": 258,
+    "new_E": 54,
+    "all_UTF8_extents_SHA256_exact": true
+  },
+  "mode_joins": [
+    {
+      "mode": "normal",
+      "D": {
+        "methods": 15,
+        "pass": 67,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0,
+        "commands": 39,
+        "stream_joins": 78,
+        "IR_contexts": 7,
+        "IR_output_joins": 12,
+        "custody": "pass",
+        "observations": 28,
+        "bindings": 10,
+        "paths": 55,
+        "source_drift": []
+      },
+      "E": {
+        "methods": 3,
+        "failures": 2,
+        "errors": 1,
+        "skips": 0,
+        "statuses": {
+          "pass": 1,
+          "fail": 3,
+          "not_run": 15
+        },
+        "failed": [
+          {
+            "case": "E01",
+            "id": "compile-fixed-argv",
+            "error": "builtins.RuntimeError: PART_PRODUCER_FAILED: complete source/six-output capture absent: bridge-compile"
+          },
+          {
+            "case": "E02",
+            "id": "inventory-BadDependency",
+            "error": "builtins.AssertionError: unexpectedly None : E02_SETUP: actual API compile prerequisite failed"
+          },
+          {
+            "case": "E03",
+            "id": "complete-native-composition",
+            "error": "builtins.AssertionError: 0 != 5 : E03_SETUP: five actual inventories required"
+          }
+        ],
+        "validation_errors": [],
+        "D_preserved": true,
+        "all_Dfiles_unchanged": true,
+        "sources_unchanged": true,
+        "dependencies_unchanged": true,
+        "dependency_count": 32,
+        "union_actual": {
+          "observations": 28,
+          "paths": 55,
+          "requests": 10
+        },
+        "cohort_actual": {
+          "observations": 0,
+          "paths": 0,
+          "requests": 0,
+          "validated_observations": 0,
+          "written_requests": 0
+        }
+      },
+      "bridge": {
+        "command": "bridge-compile",
+        "exit": 0,
+        "stdout": 0,
+        "stderr": 0,
+        "cleanup": {
+          "confirmed": true,
+          "errors": [],
+          "group_absent": true,
+          "leader_reaped": true,
+          "pgid": 2330,
+          "reaped_descendants": [],
+          "signals": []
+        },
+        "source_before": {
+          "bytes": 42509,
+          "exists": true,
+          "sha256": "3491f417b9746daebf9059d98967e059a542733a57fa93bfd9fc47a2b49fd7ee"
+        },
+        "source_after": {
+          "bytes": 42509,
+          "exists": true,
+          "sha256": "3491f417b9746daebf9059d98967e059a542733a57fa93bfd9fc47a2b49fd7ee"
+        },
+        "output_snapshot": {
+          "/home/runner/work/_temp/sdga-task-a-normal/owned/Component.ilean": {
+            "bytes": 113751,
+            "exists": true,
+            "sha256": "71bc6b2548be84910d87c30811a146a36bdc9f77b17b2071517bfeeb3a6c3264"
+          },
+          "/home/runner/work/_temp/sdga-task-a-normal/owned/Component.ir": {
+            "exists": false
+          },
+          "/home/runner/work/_temp/sdga-task-a-normal/owned/Component.ir.sig": {
+            "exists": false
+          },
+          "/home/runner/work/_temp/sdga-task-a-normal/owned/Component.olean": {
+            "bytes": 3233544,
+            "exists": true,
+            "sha256": "5fd1ece735df62e928b3bc72feb21b1c08bb2a9894d26dbc75dc4789321ba8b0"
+          },
+          "/home/runner/work/_temp/sdga-task-a-normal/owned/Component.olean.private": {
+            "exists": false
+          },
+          "/home/runner/work/_temp/sdga-task-a-normal/owned/Component.olean.server": {
+            "exists": false
+          }
+        }
+      },
+      "mutations": {
+        "status": "BLOCKED",
+        "commands": 0,
+        "families": {
+          "M1": {
+            "reason": "healthy D+E baseline prerequisite",
+            "status": "not_run"
+          },
+          "M2": {
+            "reason": "healthy D+E baseline prerequisite",
+            "status": "not_run"
+          },
+          "M3": {
+            "reason": "healthy D+E baseline prerequisite",
+            "status": "not_run"
+          },
+          "M4": {
+            "reason": "healthy D+E baseline prerequisite",
+            "status": "not_run"
+          },
+          "M5": {
+            "reason": "healthy D+E baseline prerequisite",
+            "status": "not_run"
+          },
+          "M6": {
+            "reason": "healthy D+E baseline prerequisite",
+            "status": "not_run"
+          },
+          "M7": {
+            "reason": "healthy D+E baseline prerequisite",
+            "status": "not_run"
+          },
+          "M8": {
+            "reason": "healthy D+E baseline prerequisite",
+            "status": "not_run"
+          }
+        },
+        "error": {
+          "message": "current same-mode E API baseline incomplete",
+          "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/main/main/main/tests/sdga_component_mutations.py\", line 464, in main\n    S.require(e[\"status\"] == \"pass\" and e[\"methods_run\"] == 3 and e[\"subcase_pass\"] == 19\n  File \"/home/runner/work/main/main/main/tests/sdga_component_e_support.py\", line 63, in require\n    raise ValueError(message)\nValueError: current same-mode E API baseline incomplete\n",
+          "type": "ValueError"
+        }
+      }
+    },
+    {
+      "mode": "optimized",
+      "D": {
+        "methods": 15,
+        "pass": 67,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0,
+        "commands": 39,
+        "stream_joins": 78,
+        "IR_contexts": 7,
+        "IR_output_joins": 12,
+        "custody": "pass",
+        "observations": 28,
+        "bindings": 10,
+        "paths": 55,
+        "source_drift": []
+      },
+      "E": {
+        "methods": 3,
+        "failures": 2,
+        "errors": 1,
+        "skips": 0,
+        "statuses": {
+          "pass": 1,
+          "fail": 3,
+          "not_run": 15
+        },
+        "failed": [
+          {
+            "case": "E01",
+            "id": "compile-fixed-argv",
+            "error": "builtins.RuntimeError: PART_PRODUCER_FAILED: complete source/six-output capture absent: bridge-compile"
+          },
+          {
+            "case": "E02",
+            "id": "inventory-BadDependency",
+            "error": "builtins.AssertionError: unexpectedly None : E02_SETUP: actual API compile prerequisite failed"
+          },
+          {
+            "case": "E03",
+            "id": "complete-native-composition",
+            "error": "builtins.AssertionError: 0 != 5 : E03_SETUP: five actual inventories required"
+          }
+        ],
+        "validation_errors": [],
+        "D_preserved": true,
+        "all_Dfiles_unchanged": true,
+        "sources_unchanged": true,
+        "dependencies_unchanged": true,
+        "dependency_count": 32,
+        "union_actual": {
+          "observations": 28,
+          "paths": 55,
+          "requests": 10
+        },
+        "cohort_actual": {
+          "observations": 0,
+          "paths": 0,
+          "requests": 0,
+          "validated_observations": 0,
+          "written_requests": 0
+        }
+      },
+      "bridge": {
+        "command": "bridge-compile",
+        "exit": 0,
+        "stdout": 0,
+        "stderr": 0,
+        "cleanup": {
+          "confirmed": true,
+          "errors": [],
+          "group_absent": true,
+          "leader_reaped": true,
+          "pgid": 2758,
+          "reaped_descendants": [],
+          "signals": []
+        },
+        "source_before": {
+          "bytes": 42509,
+          "exists": true,
+          "sha256": "3491f417b9746daebf9059d98967e059a542733a57fa93bfd9fc47a2b49fd7ee"
+        },
+        "source_after": {
+          "bytes": 42509,
+          "exists": true,
+          "sha256": "3491f417b9746daebf9059d98967e059a542733a57fa93bfd9fc47a2b49fd7ee"
+        },
+        "output_snapshot": {
+          "/home/runner/work/_temp/sdga-task-a-optimized/owned/Component.ilean": {
+            "bytes": 113751,
+            "exists": true,
+            "sha256": "71bc6b2548be84910d87c30811a146a36bdc9f77b17b2071517bfeeb3a6c3264"
+          },
+          "/home/runner/work/_temp/sdga-task-a-optimized/owned/Component.ir": {
+            "exists": false
+          },
+          "/home/runner/work/_temp/sdga-task-a-optimized/owned/Component.ir.sig": {
+            "exists": false
+          },
+          "/home/runner/work/_temp/sdga-task-a-optimized/owned/Component.olean": {
+            "bytes": 3233544,
+            "exists": true,
+            "sha256": "5fd1ece735df62e928b3bc72feb21b1c08bb2a9894d26dbc75dc4789321ba8b0"
+          },
+          "/home/runner/work/_temp/sdga-task-a-optimized/owned/Component.olean.private": {
+            "exists": false
+          },
+          "/home/runner/work/_temp/sdga-task-a-optimized/owned/Component.olean.server": {
+            "exists": false
+          }
+        }
+      },
+      "mutations": {
+        "status": "BLOCKED",
+        "commands": 0,
+        "families": {
+          "M1": {
+            "reason": "healthy D+E baseline prerequisite",
+            "status": "not_run"
+          },
+          "M2": {
+            "reason": "healthy D+E baseline prerequisite",
+            "status": "not_run"
+          },
+          "M3": {
+            "reason": "healthy D+E baseline prerequisite",
+            "status": "not_run"
+          },
+          "M4": {
+            "reason": "healthy D+E baseline prerequisite",
+            "status": "not_run"
+          },
+          "M5": {
+            "reason": "healthy D+E baseline prerequisite",
+            "status": "not_run"
+          },
+          "M6": {
+            "reason": "healthy D+E baseline prerequisite",
+            "status": "not_run"
+          },
+          "M7": {
+            "reason": "healthy D+E baseline prerequisite",
+            "status": "not_run"
+          },
+          "M8": {
+            "reason": "healthy D+E baseline prerequisite",
+            "status": "not_run"
+          }
+        },
+        "error": {
+          "message": "current same-mode E API baseline incomplete",
+          "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/main/main/main/tests/sdga_component_mutations.py\", line 464, in main\n    S.require(e[\"status\"] == \"pass\" and e[\"methods_run\"] == 3 and e[\"subcase_pass\"] == 19\n  File \"/home/runner/work/main/main/main/tests/sdga_component_e_support.py\", line 63, in require\n    raise ValueError(message)\nValueError: current same-mode E API baseline incomplete\n",
+          "type": "ValueError"
+        }
+      }
+    }
+  ],
+  "extra_joins": [
+    {
+      "mode": "normal",
+      "D_source_count": 19,
+      "E_source_count": 22,
+      "command_sets": [
+        {
+          "path": "acquisition/commands.json",
+          "commands": 4,
+          "labels": [
+            "cleanup-only-preflight",
+            "main_commit",
+            "main_tree",
+            "lean-githash"
+          ],
+          "stream_joins": 8,
+          "unexpected_timeouts": 0,
+          "uncertain_cleanup": 0
+        },
+        {
+          "path": "supervision/commands.json",
+          "commands": 2,
+          "labels": [
+            "cleanup-only-preflight",
+            "e-deps-json-five"
+          ],
+          "stream_joins": 4,
+          "unexpected_timeouts": 0,
+          "uncertain_cleanup": 0
+        }
+      ],
+      "actual_observed_command_total": 45,
+      "existing_C08_public_route": {
+        "status": "pass",
+        "receipt_fields": 12,
+        "helper": "SDGA.replayOwned",
+        "observation": {
+          "command": {
+            "argv": [
+              "lake",
+              "env",
+              "env",
+              "LEAN_PATH=/home/runner/work/_temp/sdga-task-a-normal/owned",
+              "lean",
+              "--threads=2",
+              "--run",
+              "/home/runner/work/main/main/main/tools/sdga/Component.lean",
+              "replay",
+              "/home/runner/work/_temp/sdga-task-a-normal/request.json"
+            ],
+            "cleanup": {
+              "confirmed": true,
+              "errors": [],
+              "group_absent": true,
+              "leader_reaped": true,
+              "pgid": 2515,
+              "reaped_descendants": [],
+              "signals": []
+            },
+            "cumulative_child_maxrss_kib": 5730480,
+            "cwd": "/home/runner/work/main/main/main/tests/fixtures/sdga_component",
+            "declared_env": {},
+            "exit_code": 0,
+            "finished_monotonic_ns": 99394446116,
+            "finished_utc": "2026-11-10T11:37:32.349867+00:00",
+            "label": "cli-safe-replay",
+            "launch_error": null,
+            "pgid": 2515,
+            "pid": 2515,
+            "started_monotonic_ns": 94267119208,
+            "started_utc": "2026-11-10T11:37:27.222539+00:00",
+            "stderr_bytes": 0,
+            "stderr_path": "/home/runner/work/_temp/sdga-task-a-normal/native/26-cli-safe-replay.stderr",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_bytes": 1199,
+            "stdout_path": "/home/runner/work/_temp/sdga-task-a-normal/native/26-cli-safe-replay.stdout",
+            "stdout_sha256": "820ca3b7405aaad6cff12052788f5b341a4f21c3ed10df8269420b97d0864959",
+            "timed_out": false,
+            "timeout_expected_cleanup_only": false,
+            "timeout_seconds": 180
+          },
+          "custody_path": "/home/runner/work/_temp/sdga-task-a-normal/object-custody/16-cli-safe-replay.json",
+          "envelope_path": "/home/runner/work/_temp/sdga-task-a-normal/ir-evidence/16-cli-safe-replay.json",
+          "mode": "replay",
+          "record": "sdga-controller-observation",
+          "request_path": "/home/runner/work/_temp/sdga-task-a-normal/request.json",
+          "schema": 1
+        }
+      },
+      "new_E_frame_contexts_exact": true
+    },
+    {
+      "mode": "optimized",
+      "D_source_count": 19,
+      "E_source_count": 22,
+      "command_sets": [
+        {
+          "path": "acquisition/commands.json",
+          "commands": 4,
+          "labels": [
+            "cleanup-only-preflight",
+            "main_commit",
+            "main_tree",
+            "lean-githash"
+          ],
+          "stream_joins": 8,
+          "unexpected_timeouts": 0,
+          "uncertain_cleanup": 0
+        },
+        {
+          "path": "supervision/commands.json",
+          "commands": 2,
+          "labels": [
+            "cleanup-only-preflight",
+            "e-deps-json-five"
+          ],
+          "stream_joins": 4,
+          "unexpected_timeouts": 0,
+          "uncertain_cleanup": 0
+        }
+      ],
+      "actual_observed_command_total": 45,
+      "existing_C08_public_route": {
+        "status": "pass",
+        "receipt_fields": 12,
+        "helper": "SDGA.replayOwned",
+        "observation": {
+          "command": {
+            "argv": [
+              "lake",
+              "env",
+              "env",
+              "LEAN_PATH=/home/runner/work/_temp/sdga-task-a-optimized/owned",
+              "lean",
+              "--threads=2",
+              "--run",
+              "/home/runner/work/main/main/main/tools/sdga/Component.lean",
+              "replay",
+              "/home/runner/work/_temp/sdga-task-a-optimized/request.json"
+            ],
+            "cleanup": {
+              "confirmed": true,
+              "errors": [],
+              "group_absent": true,
+              "leader_reaped": true,
+              "pgid": 3002,
+              "reaped_descendants": [],
+              "signals": []
+            },
+            "cumulative_child_maxrss_kib": 5730392,
+            "cwd": "/home/runner/work/main/main/main/tests/fixtures/sdga_component",
+            "declared_env": {},
+            "exit_code": 0,
+            "finished_monotonic_ns": 200957158225,
+            "finished_utc": "2026-11-10T11:39:13.912580+00:00",
+            "label": "cli-safe-replay",
+            "launch_error": null,
+            "pgid": 3002,
+            "pid": 3002,
+            "started_monotonic_ns": 195679922278,
+            "started_utc": "2026-11-10T11:39:08.635345+00:00",
+            "stderr_bytes": 0,
+            "stderr_path": "/home/runner/work/_temp/sdga-task-a-optimized/native/26-cli-safe-replay.stderr",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_bytes": 1199,
+            "stdout_path": "/home/runner/work/_temp/sdga-task-a-optimized/native/26-cli-safe-replay.stdout",
+            "stdout_sha256": "820ca3b7405aaad6cff12052788f5b341a4f21c3ed10df8269420b97d0864959",
+            "timed_out": false,
+            "timeout_expected_cleanup_only": false,
+            "timeout_seconds": 180
+          },
+          "custody_path": "/home/runner/work/_temp/sdga-task-a-optimized/object-custody/16-cli-safe-replay.json",
+          "envelope_path": "/home/runner/work/_temp/sdga-task-a-optimized/ir-evidence/16-cli-safe-replay.json",
+          "mode": "replay",
+          "record": "sdga-controller-observation",
+          "request_path": "/home/runner/work/_temp/sdga-task-a-optimized/request.json",
+          "schema": 1
+        }
+      },
+      "new_E_frame_contexts_exact": true
+    }
+  ],
+  "separate_checks": {
+    "pure": {
+      "methods_per_mode": 12,
+      "plain_OK": true
+    },
+    "custody": {
+      "methods": 3,
+      "routes": 6,
+      "both_modes_pass": true
+    },
+    "admission": {
+      "methods": 2,
+      "routes": 6,
+      "both_modes_pass": true
+    }
+  },
+  "cause": "Producer admission incorrectly imposed six existing module-mode output files on ordinary non-module Component.lean. Actual healthy bridge native snapshots have two present files and four explicit absences. E01 failed before actual API compile; E02/E03 prerequisite cascades. No semantic guard or mutant kill credit.",
+  "source_derived_followup": {
+    "runtime": "Admit exact fixed ordinary bridge two-present/four-absent native six-key snapshot and current readback; keep six-present requirement for five fixed module fixtures, complete cleanup/source/sticky guards.",
+    "frozen_driver": "Static L295 owned36 and L565 ordinary helper6 assumptions contradict actual fixed 5*6+2=32 population/ordinary Component header. Not runtime-tested mutation outcomes. Propose exact fixed file sets32/2, not expected=observed; root review before any code/ref/run."
+  },
+  "new_refs_after_failure": 0,
+  "new_runs_after_failure": 0,
+  "source_changes_after_failure": 0,
+  "artifact": {
+    "id": 13762116684,
+    "name": "sdga-task-a-42808807061-1",
+    "size_in_bytes": 9619488,
+    "url": "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13762116684",
+    "archive_download_url": "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13762116684/zip",
+    "expired": false,
+    "created_at": "2026-11-10T11:40:05Z",
+    "expires_at": "2026-12-10T11:40:03Z",
+    "updated_at": "2026-11-10T11:40:05Z",
+    "digest": "sha256:c39f1b82208c0444f320016bddbcee03af682b370a5b6cca28608ec36a7aaa38",
+    "workflow_run": {
+      "id": 42808807061,
+      "repository_id": 1117225690,
+      "head_repository_id": 1117225690,
+      "head_branch": "codex/cbz-sdga-controller-task-e-20261110",
+      "head_sha": "2b8db33557a30759680fce18b9fae39103c7b083"
+    }
+  },
+  "ZIP_members_read": false,
+  "scientific_effect": "NONE",
+  "qualification": "BLOCKED",
+  "classification_status": "BLOCKED",
+  "execution_authenticated": false
+}

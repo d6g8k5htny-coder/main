@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "architecture/node-status-v1.schema.json",
+  "title": "Node status record v1 — declared dependencies and engineering source artifacts",
+  "description": "Source-view freshness only. No field establishes mathematical validity, live-source equality, custody or ownership beyond its actual evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "node_id",
+    "owner",
+    "next_action",
+    "missing_input",
+    "stops",
+    "sources",
+    "source_rev",
+    "observed_at",
+    "status",
+    "scientific_effect",
+    "graph_source"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "node_id": {
+      "$ref": "node-status.schema.json#/properties/node_id"
+    },
+    "owner": {
+      "$ref": "node-status.schema.json#/properties/owner"
+    },
+    "next_action": {
+      "$ref": "node-status.schema.json#/properties/next_action"
+    },
+    "missing_input": {
+      "$ref": "node-status.schema.json#/properties/missing_input"
+    },
+    "stops": {
+      "$ref": "node-status.schema.json#/properties/stops"
+    },
+    "sources": {
+      "$ref": "node-status.schema.json#/properties/sources"
+    },
+    "source_rev": {
+      "$ref": "node-status.schema.json#/properties/source_rev"
+    },
+    "observed_at": {
+      "$ref": "node-status.schema.json#/properties/observed_at"
+    },
+    "status": {
+      "$ref": "node-status.schema.json#/properties/status"
+    },
+    "scientific_effect": {
+      "$ref": "node-status.schema.json#/properties/scientific_effect"
+    },
+    "predecessor": {
+      "$ref": "node-status.schema.json#/properties/predecessor"
+    },
+    "successor": {
+      "$ref": "node-status.schema.json#/properties/successor"
+    },
+    "carried_forward": {
+      "$ref": "node-status.schema.json#/properties/carried_forward"
+    },
+    "refresh_error": {
+      "$ref": "node-status.schema.json#/properties/refresh_error"
+    },
+    "graph_source": {
+      "$ref": "#/$defs/graph_identity"
+    },
+    "depends_on": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/node_id"
+      }
+    },
+    "dependency_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": {
+        "$ref": "#/$defs/dependency"
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/path"
+      }
+    },
+    "artifact_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "$ref": "#/$defs/artifact"
+      }
+    }
+  },
+  "dependentRequired": {
+    "depends_on": [
+      "dependency_evidence"
+    ],
+    "dependency_evidence": [
+      "depends_on"
+    ],
+    "artifacts": [
+      "artifact_evidence"
+    ],
+    "artifact_evidence": [
+      "artifacts"
+    ]
+  },
+  "$defs": {
+    "node_id": {
+      "$ref": "node-status.schema.json#/properties/node_id"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_./-]*$"
+    },
+    "graph_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "commit",
+        "path",
+        "git_blob",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "repository": {
+          "const": "d6g8k5htny-coder/Math-"
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "path": {
+          "const": "frontiers/downstream_gate_20260925/GRAPH.json"
+        },
+        "git_blob": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2097152
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "dependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node_id",
+        "relation",
+        "required"
+      ],
+      "properties": {
+        "node_id": {
+          "$ref": "#/$defs/node_id"
+        },
+        "relation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "required": {
+          "const": true
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "repository",
+        "commit",
+        "git_mode",
+        "git_blob",
+        "bytes",
+        "sha256",
+        "role",
+        "scope"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "repository": {
+          "const": "d6g8k5htny-coder/main"
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "git_mode": {
+          "enum": [
+            "100644",
+            "100755"
+          ]
+        },
+        "git_blob": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2097152
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "role": {
+          "const": "engineering-source-identity-evidence"
+        },
+        "scope": {
+          "const": "ENGINEERING_OBJECT_IDENTITY_ONLY"
+        }
+      }
+    }
+  }
+}

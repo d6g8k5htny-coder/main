@@ -38,6 +38,7 @@ Run: python -B -S -m unittest tests.test_living_project_validation
 from __future__ import annotations
 
 import copy
+from collections import Counter
 import hashlib
 import importlib.util
 import json
@@ -369,6 +370,394 @@ for _name in sorted(FAULTS):
 del _name
 
 
+
+# Independent Q9006 current-input expectations. These helpers use only stdlib,
+# captured native originals and reviewed fixed paths; they perform no HTTP,
+# invoke no production checker and create no source or owner data.
+_Q9006_CODE = (
+    "tools/node_status_live_check.py", "tools/node_status_refresh.py",
+    "tools/node_status_v1.py", "tools/validate_node_status.py",
+)
+_Q9006_SCHEMAS = (
+    "architecture/node-status.schema.json", "architecture/node-status-v1.schema.json",
+)
+_Q9006_MANIFEST = "architecture/node-status-inputs.json"
+_Q9006_SNAPSHOT = "docs/site/current.json"
+_Q9006_GRAPH = "docs/site/dependency-source/GRAPH.json"
+_Q9006_BOOTSTRAP = (*_Q9006_CODE, *_Q9006_SCHEMAS, _Q9006_MANIFEST,
+                    _Q9006_SNAPSHOT, _Q9006_GRAPH)
+_Q9006_SEEDS = (
+    "eng.d0-packet-allowlist-fix", "eng.hard-gate",
+    "math.lifetime-remainder", "math.side24-coefficient",
+)
+_Q9006_ARTIFACTS = tuple("cbz/evidence/hard-gate-source-refresh-20261110/" + name
+                       for name in ("README.md", "current-SOURCE_FILES.json", "observation.json"))
+_Q9006_GRAPH_ID = {
+    "repository": "d6g8k5htny-coder/Math-",
+    "commit": "dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde",
+    "path": "frontiers/downstream_gate_20260925/GRAPH.json",
+    "blob": "220b56867f24c5ef6f55a3cce70490e9777cf3af", "bytes": 38753,
+    "sha256": "8822e9618678321a342d69cd0b8ae6552de1b5d578c331de5072b2892ee9dd09",
+}
+_Q9006_PINNED = re.compile(
+    r"https://github\.com/d6g8k5htny-coder/(main|Math-)/(blob|tree)/"
+    r"([0-9a-f]{40})/([A-Za-z0-9_./-]+)\Z")
+_Q9006_DISCUSSION = re.compile(
+    r"https://github\.com/d6g8k5htny-coder/(main|Math-)/(issues|pull)/"
+    r"[1-9][0-9]*(?:#issuecomment-[1-9][0-9]*)?\Z")
+_Q9006_READBACK_LIMIT = 2 * 1024 * 1024
+
+
+def _q9006_same(left, right):
+    if type(left) is not type(right):
+        return False
+    if type(left) is dict:
+        return left.keys() == right.keys() and all(
+            _q9006_same(left[key], right[key]) for key in left)
+    if type(left) is list:
+        return len(left) == len(right) and all(
+            _q9006_same(a, b) for a, b in zip(left, right))
+    return left == right
+
+
+def _q9006_json(raw, limit):
+    _require(type(raw) is bytes and 0 < len(raw) <= limit, "bounded original JSON required")
+    text = raw.decode("utf-8")
+    depth, quoted, escaped = 0, False, False
+    for character in text:
+        if quoted:
+            if escaped:
+                escaped = False
+            elif character == "\\":
+                escaped = True
+            elif character == '"':
+                quoted = False
+        elif character == '"':
+            quoted = True
+        elif character in "[{":
+            depth += 1
+            _require(depth <= 64, "current JSON depth exceeds 64")
+        elif character in "]}":
+            depth -= 1
+
+    def pairs(items):
+        result = {}
+        for key, value in items:
+            _require(key not in result, "duplicate current JSON key")
+            result[key] = value
+        return result
+
+    def constant(_value):
+        raise AssertionError("nonfinite current JSON constant")
+
+    def floating(value):
+        result = float(value)
+        _require(result not in (float("inf"), float("-inf")), "nonfinite current JSON number")
+        return result
+
+    return json.loads(text, object_pairs_hook=pairs, parse_constant=constant, parse_float=floating)
+
+
+def _q9006_layout(raw):
+    """Derive the finite current set independently of any production receipt."""
+    manifest = _q9006_json(raw[_Q9006_MANIFEST], 65536)
+    _require(type(manifest) is dict and set(manifest) == {
+        "schema", "profile", "records", "schema_paths", "code_paths", "graph", "artifact_paths"},
+        "closed current manifest required")
+    _require(type(manifest["schema"]) is str and manifest["schema"] == "node-status-inputs.v2"
+             and type(manifest["profile"]) is str
+             and manifest["profile"] in ("legacy-four-v0", "graph-closure-v1"),
+             "unsupported current manifest")
+    expected_schemas = [{"record_version": version, "path": path}
+                        for version, path in enumerate(_Q9006_SCHEMAS)]
+    _require(_q9006_same(manifest["code_paths"], list(_Q9006_CODE))
+             and _q9006_same(manifest["schema_paths"], expected_schemas)
+             and _q9006_same(manifest["graph"], {
+                 "snapshot_path": _Q9006_SNAPSHOT, "raw_path": _Q9006_GRAPH}),
+             "manifest cannot select project imports, schemas or Graph paths")
+    artifacts = [] if manifest["profile"] == "legacy-four-v0" else list(_Q9006_ARTIFACTS)
+    _require(_q9006_same(manifest["artifact_paths"], artifacts), "artifact policy differs")
+    graph_raw = raw[_Q9006_GRAPH]
+    _require(len(graph_raw) == _Q9006_GRAPH_ID["bytes"]
+             and hashlib.sha256(graph_raw).hexdigest() == _Q9006_GRAPH_ID["sha256"]
+             and hashlib.sha1(b"blob " + str(len(graph_raw)).encode() + b"\0" + graph_raw).hexdigest()
+             == _Q9006_GRAPH_ID["blob"], "reviewed pinned Graph bytes differ")
+    graph = _q9006_json(graph_raw, 2_000_000)
+    snapshot = _q9006_json(raw[_Q9006_SNAPSHOT], 2_000_000)
+    _require(type(snapshot) is dict and type(snapshot.get("graph")) is dict
+             and set(snapshot["graph"]) == {"identity", "data"}
+             and _q9006_same(snapshot["graph"]["identity"], _Q9006_GRAPH_ID)
+             and _q9006_same(snapshot["graph"]["data"], graph), "full snapshot Graph join differs")
+    _require(type(graph) is dict and type(graph.get("nodes")) is dict
+             and type(graph.get("edges")) is list, "Graph structure differs")
+    nodes, edges = graph["nodes"], graph["edges"]
+    _require(set(_Q9006_SEEDS) <= nodes.keys()
+             and all(type(node) is str and re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", node)
+                     and type(value) is dict for node, value in nodes.items()),
+             "Graph seed/node scope differs")
+    outgoing, seen = {node: [] for node in nodes}, set()
+    for edge in edges:
+        _require(type(edge) is dict and set(edge) == {"from", "to", "required", "relation"}
+                 and type(edge["from"]) is str and edge["from"] in nodes
+                 and type(edge["to"]) is str and edge["to"] in nodes
+                 and type(edge["required"]) is bool
+                 and type(edge["relation"]) is str and bool(edge["relation"]), "invalid Graph edge")
+        key = (edge["from"], edge["to"], edge["required"], edge["relation"])
+        _require(key not in seen, "duplicate Graph edge")
+        seen.add(key)
+        if edge["required"]:
+            outgoing[edge["from"]].append(edge["to"])
+    cohort, pending = set(), list(_Q9006_SEEDS)
+    while pending:
+        node = pending.pop()
+        if node not in cohort:
+            cohort.add(node)
+            if manifest["profile"] == "graph-closure-v1":
+                pending.extend(outgoing[node])
+    version = 0 if manifest["profile"] == "legacy-four-v0" else 1
+    rows = [{"node_id": node, "path": "records/node_status/" + node + ".json",
+             "record_version": version} for node in sorted(cohort)]
+    _require(type(manifest["records"]) is list
+             and all(type(row) is dict and set(row) == {"node_id", "path", "record_version"}
+                     and type(row["record_version"]) is int and row["record_version"] in (0, 1)
+                     for row in manifest["records"])
+             and _q9006_same(manifest["records"], rows), "manifest cohort/version differs from Graph")
+    return manifest, rows, tuple(sorted((*_Q9006_BOOTSTRAP, *(row["path"] for row in rows), *artifacts)))
+
+
+def _q9006_capture_current(root, identity):
+    """Native local custody and independent expectations; no project imports or HTTP."""
+    root = Path(root)
+    _require(root.is_absolute() and root.resolve(strict=True) == root
+             and all(not path.is_symlink() and path.is_dir() for path in (root, *root.parents)),
+             "canonical current source root required")
+    environment = {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
+    environment.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
+                       GIT_OPTIONAL_LOCKS="0", GIT_TERMINAL_PROMPT="0",
+                       GIT_NO_REPLACE_OBJECTS="1", GIT_NO_LAZY_FETCH="1")
+
+    def git(*arguments):
+        result = subprocess.run(
+            ["git", "--no-replace-objects", "--literal-pathspecs", "-c", "core.fsmonitor=false",
+             "-c", "core.hooksPath=/dev/null", "-C", str(root), *arguments],
+            env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30, check=False)
+        _require(result.returncode == 0, "native expectation source Git read failed")
+        return result.stdout
+
+    commit = git("rev-parse", "--verify", "HEAD^{commit}").decode("ascii").strip()
+    tree = git("rev-parse", "--verify", "HEAD^{tree}").decode("ascii").strip()
+    _require(identity["checked_commit"] == commit and re.fullmatch(r"[0-9a-f]{40}", commit)
+             and re.fullmatch(r"[0-9a-f]{40}", tree)
+             and git("rev-parse", "--show-toplevel").decode().strip() == str(root),
+             "native expectation source cut differs")
+    raw, files = {}, {}
+
+    def capture(relative):
+        _require(type(relative) is str and not relative.startswith("/")
+                 and all(part not in ("", ".", "..") for part in relative.split("/")),
+                 "noncanonical expectation path")
+        limit = 65536 if relative == _Q9006_MANIFEST or relative.startswith("records/") else 2_000_000
+        entry = git("ls-tree", "--full-tree", "-z", commit, "--", relative)
+        _require(entry.count(b"\0") == 1 and entry.endswith(b"\0"), "one native path required")
+        metadata, name = entry[:-1].split(b"\t", 1)
+        mode, kind, blob = metadata.decode("ascii").split(" ")
+        _require(name == relative.encode("ascii") and kind == "blob"
+                 and mode in ("100644", "100755") and re.fullmatch(r"[0-9a-f]{40}", blob),
+                 "native expectation path/mode/blob differs")
+        size = git("cat-file", "-s", blob).decode("ascii").strip()
+        _require(size.isdecimal() and int(size) <= limit, "native expectation object exceeds bound")
+        directory = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        descriptor = None
+        try:
+            parts = relative.split("/")
+            for part in parts[:-1]:
+                following = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                                    dir_fd=directory)
+                os.close(directory)
+                directory = following
+            descriptor = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                                 dir_fd=directory)
+            before = os.fstat(descriptor)
+            _require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
+                     and before.st_size <= limit
+                     and bool(before.st_mode & 0o111) == (mode == "100755"),
+                     "physical expectation input mode/type/size differs")
+            with os.fdopen(descriptor, "rb") as stream:
+                descriptor = None
+                body = stream.read(limit + 1)
+                after = os.fstat(stream.fileno())
+            current = os.stat(parts[-1], dir_fd=directory, follow_symlinks=False)
+            fields = ("st_dev", "st_ino", "st_mode", "st_nlink", "st_size", "st_mtime_ns", "st_ctime_ns")
+            _require(all(getattr(before, field) == getattr(observed, field)
+                         for observed in (after, current) for field in fields)
+                     and len(body) == before.st_size <= limit, "expectation input changed during capture")
+        finally:
+            if descriptor is not None:
+                os.close(descriptor)
+            os.close(directory)
+        _require(body == git("cat-file", "blob", blob)
+                 and hashlib.sha1(b"blob " + str(len(body)).encode() + b"\0" + body).hexdigest() == blob,
+                 "expectation working/native bytes differ")
+        raw[relative] = body
+        files[relative] = {"git_blob": blob, "git_mode": mode,
+                           "sha256": hashlib.sha256(body).hexdigest()}
+
+    for path in _Q9006_BOOTSTRAP:
+        capture(path)
+    for path, blob in zip(_Q9006_SCHEMAS, (
+            "2bad95d30bcb89ea686d1ac5a50d52113dd730be", "05f5dbf110497bbc89fd6030df2c21c1d8ae52ac")):
+        _require(files[path]["git_blob"] == blob, "reviewed record schema changed")
+    manifest, rows, paths = _q9006_layout(raw)
+    expected_names = {row["path"].rsplit("/", 1)[1] for row in rows}
+    directory = root / "records/node_status"
+    _require(directory.is_dir() and not directory.is_symlink()
+             and {path.name for path in directory.iterdir()} == expected_names,
+             "complete physical current record cohort differs")
+    for path in paths:
+        if path not in raw:
+            capture(path)
+    records = {}
+    for row in rows:
+        record = _q9006_json(raw[row["path"]], 65536)
+        _require(type(record) is dict and record.get("node_id") == row["node_id"]
+                 and type(record.get("schema_version")) is int
+                 and record["schema_version"] == row["record_version"]
+                 and type(record.get("status")) is str and record["status"] in STATUSES
+                 and record.get("scientific_effect") == "NONE"
+                 and type(record.get("sources")) is list and bool(record["sources"]),
+                 "captured current record/version/status differs")
+        for source in record["sources"]:
+            _require(type(source) is dict and set(source) == {"url", "rev"}
+                     and type(source["url"]) is str and type(source["rev"]) is str,
+                     "captured current source declaration differs")
+        records[row["node_id"]] = record
+    _require(set(files) == set(paths)
+             and git("rev-parse", "--verify", "HEAD^{commit}").decode("ascii").strip() == commit
+             and git("rev-parse", "--verify", "HEAD^{tree}").decode("ascii").strip() == tree,
+             "complete expectation set or native cut changed")
+    return {"manifest": manifest, "records": records, "raw": raw, "files": files,
+            "checked_commit": commit, "checked_tree": tree}
+
+
+def _q9006_check_freshness(receipt, capture, identity):
+    """Compare a v2 receipt with independent captured declarations, including multiplicity."""
+    _require(type(receipt) is dict and set(receipt) == {
+        "schema", "scope", "records_total", "record_versions", "fresh_candidates", "fresh_checked",
+        "fresh_nodes", "nonfresh_records", "source_bindings", "manifest_binding", "input_sha256",
+        "identity", "observed_heads", "source_observation_count", "source_observations",
+        "pinned_graph_binding", "scientific_effect", "cbz_green"}, "closed v2 freshness receipt required")
+    records, files = capture["records"], capture["files"]
+    fresh = [record for record in records.values() if record["status"] == "fresh"]
+    nonfresh = sorted(({"node_id": r["node_id"], "declared_status": r["status"]}
+                       for r in records.values() if r["status"] != "fresh"), key=lambda row: row["node_id"])
+    _require(receipt["schema"] == "cbz.node-status-live-check.v2"
+             and receipt["scope"] == "NODE_RECORD_FRESHNESS_ONLY"
+             and receipt["scientific_effect"] == "NONE" and receipt["cbz_green"] is False
+             and _q9006_same(receipt["identity"], identity), "v2 freshness identity/scope differs")
+    expected_versions = {node: record["schema_version"] for node, record in records.items()}
+    _require(type(receipt["record_versions"]) is dict
+             and all(type(version) is int and version in (0, 1)
+                     for version in receipt["record_versions"].values())
+             and _q9006_same(receipt["record_versions"], expected_versions)
+             and type(receipt["records_total"]) is int and receipt["records_total"] == len(records)
+             and bool(fresh) and type(receipt["fresh_candidates"]) is int
+             and type(receipt["fresh_checked"]) is int
+             and receipt["fresh_candidates"] == receipt["fresh_checked"] == len(fresh)
+             and _q9006_same(receipt["fresh_nodes"], sorted(r["node_id"] for r in fresh))
+             and _q9006_same(receipt["nonfresh_records"], nonfresh), "current versions/status partition differs")
+    _require(_q9006_same(receipt["source_bindings"], files), "complete current binding set/values differ")
+    expected_manifest = dict(path=_Q9006_MANIFEST, profile=capture["manifest"]["profile"],
+                             bytes=len(capture["raw"][_Q9006_MANIFEST]), **files[_Q9006_MANIFEST])
+    _require(_q9006_same(receipt["manifest_binding"], expected_manifest), "actual manifest binding differs")
+    _require(_q9006_same(receipt["input_sha256"], {
+        node + ".json": files["records/node_status/" + node + ".json"]["sha256"] for node in records}),
+        "complete current record hashes differ")
+    graph = _Q9006_GRAPH_ID
+    expected_pinned = dict(scope="PINNED_MATH_GRAPH_OBJECT_IDENTITY_ONLY",
+        repository=graph["repository"], commit=graph["commit"], path=graph["path"],
+        git_kind="blob", git_mode="100644", git_blob=graph["blob"], bytes=graph["bytes"],
+        sha256=graph["sha256"], snapshot_path=_Q9006_SNAPSHOT, raw_path=_Q9006_GRAPH,
+        snapshot_git_blob=files[_Q9006_SNAPSHOT]["git_blob"],
+        raw_git_blob=files[_Q9006_GRAPH]["git_blob"], full_data_equal=True, complete=True)
+    _require(_q9006_same(receipt["pinned_graph_binding"], expected_pinned),
+             "separate native pinned Graph join differs")
+    requested = [(source["url"], source["rev"]) for record in fresh for source in record["sources"]]
+    observations, heads = receipt["source_observations"], receipt["observed_heads"]
+    _require(type(observations) is list and type(heads) is dict
+             and all(type(row) is dict and type(row.get("url")) is str for row in observations),
+             "retained native source observations required")
+    _require(type(receipt["source_observation_count"]) is int
+             and receipt["source_observation_count"] == len(observations) == len(requested)
+             and Counter(row["url"] for row in observations) == Counter(url for url, _ in requested),
+             "fresh source URL multiplicities differ")
+    repositories = set()
+    for row in observations:
+        match = _Q9006_PINNED.fullmatch(row["url"])
+        if match:
+            repository, kind = match.group(1), match.group(2)
+            repositories.add(repository)
+            _require(type(heads.get(repository)) is str
+                     and re.fullmatch(r"[0-9a-f]{40}", heads[repository])
+                     and row.get("head") == heads[repository], "captured default-head binding differs")
+            before, after = row.get("pinned_object"), row.get("current_object")
+            _require(type(before) is list and type(after) is list and len(before) == len(after) == 3
+                     and all(type(value) is str for value in before + after)
+                     and before[0] == kind and before[1] in (
+                         ("040000",) if kind == "tree" else ("100644", "100755"))
+                     and re.fullmatch(r"[0-9a-f]{40}", before[2])
+                     and before == after, "native cited object tuple differs")
+            _require({revision for url, revision in requested if url == row["url"]} == {match.group(3)},
+                     "pinned source revision differs from original URL")
+        else:
+            _require(_Q9006_DISCUSSION.fullmatch(row["url"])
+                     and type(row.get("updated_at")) is str and UTC_Z.fullmatch(row["updated_at"])
+                     and {revision for url, revision in requested if url == row["url"]}
+                     == {row["updated_at"]}, "retained discussion revision differs")
+    _require(set(heads) == repositories, "default-head repository coverage differs")
+
+
+def _q9006_readback_names():
+    names = []
+    for mode in ("normal", "optimized"):
+        names.extend(("node-status-live-" + mode + suffix, mode)
+                     for suffix in (".json", ".log", "-exit.json"))
+        names.extend(("q9006-real-record-" + mode + suffix, mode)
+                     for suffix in (".json", ".stdout.log", ".stderr.log", ".exit.json"))
+        names.extend(("q9006-original-" + mode + suffix, mode)
+                     for suffix in ("-source-before.json", "-source-after.json", "-parent-exit.json",
+                                    "-unittest.log", "-strict-guard.json"))
+    return tuple(names)
+
+
+def _q9006_readback_payload(originals, context, marker):
+    """Preflight every original and its complete framing against ONE 2 MiB budget."""
+    names = _q9006_readback_names()
+    _require(type(originals) is dict and set(originals) == {name for name, _ in names},
+             "complete original evidence inventory required")
+    _require(type(marker) is str and re.fullmatch(r"[0-9a-f]{48}", marker),
+             "workflow command marker required")
+    parts = [("::stop-commands::" + marker + "\n").encode("ascii")]
+    total = len(parts[0])
+    for name, mode in names:
+        raw = originals[name]
+        _require(type(raw) is bytes, "original evidence must be bytes")
+        raw.decode("utf-8")
+        separator = b"" if raw.endswith(b"\n") else b"\n"
+        metadata = {"file": name, "mode": mode, "context": context, "encoding": "utf-8",
+                    "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest(),
+                    "boundary_separator_bytes": len(separator)}
+        body = json.dumps(metadata, sort_keys=True)
+        pieces = [("Q9006_ORIGINAL_BYTES_BEGIN " + body + "\n").encode("utf-8"), raw, separator,
+                  ("Q9006_ORIGINAL_BYTES_END " + body + "\n").encode("utf-8")]
+        total += sum(map(len, pieces))
+        _require(total <= _Q9006_READBACK_LIMIT, "aggregate original readback exceeds 2 MiB")
+        parts.extend(pieces)
+    parts.append(("::" + marker + "::\n").encode("ascii"))
+    total += len(parts[-1])
+    _require(total <= _Q9006_READBACK_LIMIT, "aggregate framed readback exceeds 2 MiB")
+    return b"".join(parts)
+
+
 class RealRecordTests(unittest.TestCase):
     def test_adoption_on_merged_records(self):
         """Real records/node_status files, checked by main's validator and schema."""
@@ -501,33 +890,16 @@ class RealRecordTests(unittest.TestCase):
         identity, output = prepared(os.environ)
         fresh = [record for _, record in records if record.get("status") == "fresh"]
         self.assertTrue(fresh, "mandatory live shard has no declared-fresh candidates")
-        selected = ("tools/node_status_live_check.py", "tools/node_status_refresh.py",
-                    "tools/validate_node_status.py", "architecture/node-status.schema.json",
-                    "docs/site/current.json",
-                    *("records/node_status/" + path.name for path, _ in records))
-        self.assertEqual(len(selected), 9, "production live CLI requires its exact nine inputs")
+        captured = _q9006_capture_current(REPO, identity)
+        self.assertEqual({path.stem: record for path, record in records}, captured["records"])
+        self.assertEqual(captured["checked_commit"], identity["checked_commit"])
 
         def source_bindings():
-            bindings = {}
-            for relative in selected:
-                path = REPO
-                for part in Path(relative).parts:
-                    path = path / part
-                    self.assertFalse(path.is_symlink(), "selected source symlink refused")
-                before = path.stat()
-                self.assertTrue(stat.S_ISREG(before.st_mode))
-                self.assertLessEqual(before.st_size, 2_000_000)
-                raw = path.read_bytes()
-                after = path.stat()
-                fields = ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_ctime_ns")
-                self.assertEqual(tuple(getattr(before, field) for field in fields),
-                                 tuple(getattr(after, field) for field in fields))
-                self.assertEqual(len(raw), before.st_size)
-                bindings[relative] = {
-                    "git_blob": hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest(),
-                    "git_mode": "100755" if before.st_mode & stat.S_IXUSR else "100644",
-                    "sha256": hashlib.sha256(raw).hexdigest()}
-            return bindings
+            latest = _q9006_capture_current(REPO, identity)
+            self.assertEqual(latest["checked_tree"], captured["checked_tree"])
+            self.assertEqual(latest["manifest"], captured["manifest"])
+            self.assertEqual(latest["records"], captured["records"])
+            return latest["files"]
 
         before = source_bindings()
         command = [sys.executable, "-B", *(["-O"] if sys.flags.optimize else []), "-S",
@@ -609,7 +981,7 @@ class RealRecordTests(unittest.TestCase):
         self.assertTrue(output.is_file(), "actual CLI report missing")
         self.assertLessEqual(output.stat().st_size, 4 * 1024 * 1024)
         self.assertEqual(output.read_bytes(), stdout_raw, "CLI file/stdout bytes differ")
-        report = json.loads(stdout_raw)
+        report = _q9006_json(stdout_raw, 4 * 1024 * 1024)
         self.assertEqual(set(report), {
             "schema", "status", "scope", "scientific_effect", "cbz_green", "identity",
             "checked_commit_before", "checked_commit_after", "checked_tree_before",
@@ -617,7 +989,7 @@ class RealRecordTests(unittest.TestCase):
             "started_at", "source_bound_at", "observation_started_at",
             "observation_finished_at", "source_rechecked_at", "finished_at",
             "elapsed_seconds", "freshness"})
-        self.assertEqual(report["schema"], "cbz.node-status-live-cli.v1")
+        self.assertEqual(report["schema"], "cbz.node-status-live-cli.v2")
         self.assertEqual(report["status"], "FRESH")
         self.assertEqual(report["scope"], "NODE_RECORD_FRESHNESS_ONLY")
         self.assertEqual(report["scientific_effect"], "NONE")
@@ -628,36 +1000,158 @@ class RealRecordTests(unittest.TestCase):
         self.assertTrue(isinstance(report["checked_tree_before"], str)
                         and re.fullmatch(r"[0-9a-f]{40}", report["checked_tree_before"]) is not None)
         self.assertEqual(report["checked_tree_after"], report["checked_tree_before"])
+        self.assertEqual(report["checked_tree_before"], captured["checked_tree"])
         self.assertEqual(report["source_bindings"], before)
         self.assertEqual(report["source_bindings_after"], before)
         freshness = report["freshness"]
-        self.assertEqual(freshness["schema"], "cbz.node-status-live-check.v1")
-        self.assertEqual(freshness["scope"], "NODE_RECORD_FRESHNESS_ONLY")
-        self.assertEqual(freshness["scientific_effect"], "NONE")
-        self.assertIs(freshness["cbz_green"], False)
-        self.assertEqual(freshness["identity"], identity)
-        self.assertEqual(freshness["records_total"], len(records))
-        self.assertEqual(freshness["fresh_candidates"], len(fresh))
-        self.assertEqual(freshness["fresh_checked"], len(fresh))
-        self.assertEqual(freshness["fresh_nodes"], sorted(record["node_id"] for record in fresh))
-        self.assertEqual(freshness["nonfresh_records"], sorted(
-            ({"node_id": record["node_id"], "declared_status": record["status"]}
-             for _, record in records if record.get("status") != "fresh"),
-            key=lambda row: row["node_id"]))
-        self.assertEqual(freshness["input_sha256"], {
-            path.name: before["records/node_status/" + path.name]["sha256"] for path, _ in records})
-        self.assertEqual(freshness["schema_sha256"],
-                         before["architecture/node-status.schema.json"]["sha256"])
-        self.assertEqual(freshness["graph_sha256"], before["docs/site/current.json"]["sha256"])
-        observations = freshness["source_observations"]
-        self.assertIsInstance(observations, list)
-        self.assertTrue(all(isinstance(row, dict) and isinstance(row.get("url"), str)
-                            for row in observations))
-        requested = [source["url"] for record in fresh for source in record["sources"]]
-        self.assertTrue(requested)
-        self.assertEqual(freshness["source_observation_count"], len(requested))
-        self.assertEqual(len(observations), len(requested))
-        self.assertEqual(sorted(row["url"] for row in observations), sorted(requested))
+        _q9006_check_freshness(freshness, captured, identity)
+
+
+class Q9006V2OracleTests(unittest.TestCase):
+    """Supplied-byte oracle controls only; no authentication, HTTP or native credit."""
+
+    def fixture(self):
+        nodes = ("eng.d0-packet-allowlist-fix", "eng.hard-gate",
+                 "math.lifetime-remainder", "math.side24-coefficient")
+        url = ("https://github.com/d6g8k5htny-coder/Math-/blob/"
+               "dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/"
+               "frontiers/downstream_gate_20260925/GRAPH.json")
+        manifest = {
+            "schema": "node-status-inputs.v2", "profile": "legacy-four-v0",
+            "records": [{"node_id": node, "path": "records/node_status/" + node + ".json",
+                         "record_version": 0} for node in nodes],
+            "schema_paths": [{"record_version": 0, "path": "architecture/node-status.schema.json"},
+                             {"record_version": 1, "path": "architecture/node-status-v1.schema.json"}],
+            "code_paths": ["tools/node_status_live_check.py", "tools/node_status_refresh.py",
+                           "tools/node_status_v1.py", "tools/validate_node_status.py"],
+            "graph": {"snapshot_path": "docs/site/current.json",
+                      "raw_path": "docs/site/dependency-source/GRAPH.json"}, "artifact_paths": []}
+        raw = {"architecture/node-status-inputs.json":
+               (json.dumps(manifest, sort_keys=True) + "\n").encode("ascii")}
+        files = {path: {"git_blob": "1" * 40, "git_mode": "100644", "sha256": "2" * 64}
+                 for path in (*_Q9006_BOOTSTRAP,
+                              *("records/node_status/" + node + ".json" for node in nodes))}
+        files["docs/site/dependency-source/GRAPH.json"] = {
+            "git_blob": "220b56867f24c5ef6f55a3cce70490e9777cf3af", "git_mode": "100644",
+            "sha256": "8822e9618678321a342d69cd0b8ae6552de1b5d578c331de5072b2892ee9dd09"}
+        records = {node: _rec(node, sources=[{"url": url, "rev":
+                    "dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde"}],
+                    source_rev="dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde",
+                    status="fresh" if index < 2 else "unknown")
+                   for index, node in enumerate(nodes)}
+        identity = {"repository": "d6g8k5htny-coder/main", "checked_commit": "3" * 40,
+                    "run_id": "123", "run_attempt": "1", "python_optimize": 0}
+        capture = {"manifest": manifest, "records": records, "raw": raw, "files": files}
+        observation = {"url": url, "head": "4" * 40,
+                       "pinned_object": ["blob", "100644", "220b56867f24c5ef6f55a3cce70490e9777cf3af"],
+                       "current_object": ["blob", "100644", "220b56867f24c5ef6f55a3cce70490e9777cf3af"]}
+        receipt = {
+            "schema": "cbz.node-status-live-check.v2", "scope": "NODE_RECORD_FRESHNESS_ONLY",
+            "records_total": 4, "record_versions": {node: 0 for node in nodes},
+            "fresh_candidates": 2, "fresh_checked": 2, "fresh_nodes": list(nodes[:2]),
+            "nonfresh_records": [{"node_id": node, "declared_status": "unknown"} for node in nodes[2:]],
+            "source_bindings": copy.deepcopy(files),
+            "manifest_binding": dict(path="architecture/node-status-inputs.json",
+                profile="legacy-four-v0", bytes=len(raw["architecture/node-status-inputs.json"]),
+                **files["architecture/node-status-inputs.json"]),
+            "input_sha256": {node + ".json": "2" * 64 for node in nodes},
+            "identity": identity, "observed_heads": {"Math-": "4" * 40},
+            "source_observation_count": 2, "source_observations": [copy.deepcopy(observation),
+                                                                  copy.deepcopy(observation)],
+            "pinned_graph_binding": {
+                "scope": "PINNED_MATH_GRAPH_OBJECT_IDENTITY_ONLY",
+                "repository": "d6g8k5htny-coder/Math-",
+                "commit": "dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde",
+                "path": "frontiers/downstream_gate_20260925/GRAPH.json", "git_kind": "blob",
+                "git_mode": "100644", "git_blob": "220b56867f24c5ef6f55a3cce70490e9777cf3af",
+                "bytes": 38753, "sha256": "8822e9618678321a342d69cd0b8ae6552de1b5d578c331de5072b2892ee9dd09",
+                "snapshot_path": "docs/site/current.json", "raw_path": "docs/site/dependency-source/GRAPH.json",
+                "snapshot_git_blob": "1" * 40, "raw_git_blob": "220b56867f24c5ef6f55a3cce70490e9777cf3af",
+                "full_data_equal": True, "complete": True},
+            "scientific_effect": "NONE", "cbz_green": False}
+        return receipt, capture, identity
+
+    def test_supplied_consistent_v2_receipt_has_only_oracle_credit(self):
+        receipt, capture, identity = self.fixture()
+        _q9006_check_freshness(receipt, capture, identity)
+
+    def test_same_count_source_binding_substitution_refuses(self):
+        receipt, capture, identity = self.fixture()
+        _q9006_check_freshness(receipt, capture, identity)
+        old = receipt["source_bindings"].pop("tools/node_status_v1.py")
+        receipt["source_bindings"]["tools/unrelated.py"] = old
+        with self.assertRaisesRegex(AssertionError, "binding set"):
+            _q9006_check_freshness(receipt, capture, identity)
+
+    def test_primitive_record_version_substitution_refuses(self):
+        receipt, capture, identity = self.fixture()
+        _q9006_check_freshness(receipt, capture, identity)
+        for value in (False, 1):
+            changed = copy.deepcopy(receipt)
+            changed["record_versions"]["eng.hard-gate"] = value
+            with self.assertRaisesRegex(AssertionError, "versions/status"):
+                _q9006_check_freshness(changed, capture, identity)
+
+    def test_same_count_status_partition_substitution_refuses(self):
+        receipt, capture, identity = self.fixture()
+        _q9006_check_freshness(receipt, capture, identity)
+        receipt["nonfresh_records"][0]["declared_status"] = "stale"
+        with self.assertRaisesRegex(AssertionError, "versions/status"):
+            _q9006_check_freshness(receipt, capture, identity)
+
+    def test_same_count_url_multiplicity_substitution_refuses(self):
+        receipt, capture, identity = self.fixture()
+        _q9006_check_freshness(receipt, capture, identity)
+        receipt["source_observations"][1]["url"] = receipt["source_observations"][1]["url"].replace(
+            "GRAPH.json", "unrelated.json")
+        with self.assertRaisesRegex(AssertionError, "multiplicities"):
+            _q9006_check_freshness(receipt, capture, identity)
+
+    def test_equal_wrong_object_tuple_and_pinned_join_refuse(self):
+        receipt, capture, identity = self.fixture()
+        _q9006_check_freshness(receipt, capture, identity)
+        changed = copy.deepcopy(receipt)
+        changed["source_observations"][0]["pinned_object"][1] = "040000"
+        changed["source_observations"][0]["current_object"][1] = "040000"
+        with self.assertRaisesRegex(AssertionError, "object tuple"):
+            _q9006_check_freshness(changed, capture, identity)
+        receipt["pinned_graph_binding"]["complete"] = 1
+        with self.assertRaisesRegex(AssertionError, "pinned Graph join"):
+            _q9006_check_freshness(receipt, capture, identity)
+
+    def test_complete_framed_readback_enforces_one_aggregate_budget(self):
+        names = (
+            "node-status-live-normal.json", "node-status-live-normal.log", "node-status-live-normal-exit.json",
+            "q9006-real-record-normal.json", "q9006-real-record-normal.stdout.log",
+            "q9006-real-record-normal.stderr.log", "q9006-real-record-normal.exit.json",
+            "q9006-original-normal-source-before.json", "q9006-original-normal-source-after.json",
+            "q9006-original-normal-parent-exit.json", "q9006-original-normal-unittest.log",
+            "q9006-original-normal-strict-guard.json",
+            "node-status-live-optimized.json", "node-status-live-optimized.log", "node-status-live-optimized-exit.json",
+            "q9006-real-record-optimized.json", "q9006-real-record-optimized.stdout.log",
+            "q9006-real-record-optimized.stderr.log", "q9006-real-record-optimized.exit.json",
+            "q9006-original-optimized-source-before.json", "q9006-original-optimized-source-after.json",
+            "q9006-original-optimized-parent-exit.json", "q9006-original-optimized-unittest.log",
+            "q9006-original-optimized-strict-guard.json",
+        )
+        originals = {name: b"" for name in names}
+        context = {"repository": "d6g8k5htny-coder/main", "checked_commit": "3" * 40,
+                   "checked_tree": "4" * 40, "run_id": "123", "run_attempt": "1"}
+        marker = "a" * 48
+        payload = _q9006_readback_payload(originals, context, marker)
+        first = next(iter(originals))
+        padding = _Q9006_READBACK_LIMIT - len(payload) - 32
+        originals[first] = b"x" * padding
+        payload = _q9006_readback_payload(originals, context, marker)
+        originals[first] += b"x" * (_Q9006_READBACK_LIMIT - len(payload))
+        self.assertEqual(len(_q9006_readback_payload(originals, context, marker)), 2 * 1024 * 1024)
+        originals[first] += b"x"
+        with self.assertRaisesRegex(AssertionError, "aggregate"):
+            _q9006_readback_payload(originals, context, marker)
+        originals = {name: b"" for name in names}
+        originals.pop(first)
+        with self.assertRaisesRegex(AssertionError, "inventory"):
+            _q9006_readback_payload(originals, context, marker)
 
 
 class MandatoryInputTests(unittest.TestCase):

@@ -13,7 +13,7 @@ permissions:
 jobs:
   task-a:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 75
     defaults:
       run:
         shell: bash
@@ -39,17 +39,19 @@ jobs:
           lint: "false"
           use-mathlib-cache: "false"
           use-github-cache: "false"
-      - name: Observe Task A contracts normally
+      - name: Observe original D and E API contracts normally
+        timeout-minutes: 10
         run: |
           set -euo pipefail
-          python3 -B -S tests/sdga_component_contract.py \
+          python3 -B -S tests/sdga_component_controller_contract.py \
             --output "$RUNNER_TEMP/sdga-task-a-normal" -v \
             2>&1 | tee "$RUNNER_TEMP/sdga-task-a-normal.log"
-      - name: Observe Task A contracts with optimized Python
+      - name: Observe original D and E API contracts with optimized Python
+        timeout-minutes: 10
         if: ${{ !cancelled() }}
         run: |
           set -euo pipefail
-          python3 -B -O -S tests/sdga_component_contract.py \
+          python3 -B -O -S tests/sdga_component_controller_contract.py \
             --output "$RUNNER_TEMP/sdga-task-a-optimized" -v \
             2>&1 | tee "$RUNNER_TEMP/sdga-task-a-optimized.log"
       - name: Observe pure dependency contracts normally
@@ -96,6 +98,22 @@ jobs:
           python3 -B -O -S tests/sdga_ir_evidence_contract.py \
             --output "$RUNNER_TEMP/sdga-ir-admission-optimized" -v \
             2>&1 | tee "$RUNNER_TEMP/sdga-ir-admission-optimized.log"
+      - name: Observe all eight fixed source mutations normally
+        if: ${{ !cancelled() }}
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          python3 -B -S tests/sdga_component_mutations.py \
+            --output "$RUNNER_TEMP/sdga-e-mutations-normal" \
+            2>&1 | tee "$RUNNER_TEMP/sdga-e-mutations-normal.log"
+      - name: Observe all eight fixed source mutations with optimized Python
+        if: ${{ !cancelled() }}
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          python3 -B -O -S tests/sdga_component_mutations.py \
+            --output "$RUNNER_TEMP/sdga-e-mutations-optimized" \
+            2>&1 | tee "$RUNNER_TEMP/sdga-e-mutations-optimized.log"
       - name: Print original Python-only object-custody records
         if: always()
         run: |
@@ -208,6 +226,73 @@ jobs:
           print("Evidence printed from runner files before upload; no ZIP read is claimed.",
                 flush=True)
           PY
+      - name: Print original E contracts and mutation evidence
+        if: always()
+        run: |
+          python3 -B -S - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import sys
+          context = {
+              "candidate_commit": os.environ["GITHUB_SHA"],
+              "run_id": os.environ["GITHUB_RUN_ID"],
+              "run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "github_job": os.environ["GITHUB_JOB"],
+          }
+          def original(path, root, mode, group):
+              if not path.is_file():
+                  print("SDGA_E_NOT_PRODUCED", mode, group, str(path), flush=True)
+                  return
+              raw = path.read_bytes()
+              try:
+                  body = raw.decode("utf-8")
+                  encoding = "utf-8"
+              except UnicodeDecodeError:
+                  body = raw.hex()
+                  encoding = "hex"
+              value = {
+                  **context, "mode": mode, "group": group,
+                  "path": str(path.relative_to(root)), "bytes": len(raw),
+                  "sha256": hashlib.sha256(raw).hexdigest(), "encoding": encoding,
+              }
+              print("SDGA_E_ORIGINAL_BYTES_BEGIN " + json.dumps(value, sort_keys=True), flush=True)
+              sys.stdout.write(body)
+              if not body.endswith("\n"):
+                  sys.stdout.write("\n")
+              sys.stdout.flush()
+              print("SDGA_E_ORIGINAL_BYTES_END " + json.dumps(value, sort_keys=True), flush=True)
+          def text_tree(root, mode, group, skip):
+              if not root.is_dir():
+                  print("SDGA_E_NOT_PRODUCED", mode, group, str(root), flush=True)
+                  return
+              for path in sorted(root.rglob("*")):
+                  if not path.is_file():
+                      continue
+                  relative = path.relative_to(root)
+                  if any(part in skip for part in relative.parts):
+                      continue
+                  if path.suffix in (".json", ".jsonl", ".stdout", ".stderr",
+                                     ".log", ".diff", ".lean", ".py", ".yml", ".toml"):
+                      original(path, root, mode, group)
+          for mode in ("normal", "optimized"):
+              temp = Path(os.environ["RUNNER_TEMP"])
+              controller = temp / ("sdga-task-a-" + mode + "-controller")
+              text_tree(controller, mode, "controller", {"owned", "compile-owned", ".lake"})
+              mutation = temp / ("sdga-e-mutations-" + mode)
+              # Worktree source copies are tracked by candidate+source maps. Print only
+              # their explicitly captured failure/command/source records below.
+              text_tree(mutation, mode, "mutations",
+                        {"M2-baseline-tree", "M2-mutant-tree", "owned", ".lake", ".git"})
+              if mutation.is_dir():
+                  for tree in ("M2-baseline-tree", "M2-mutant-tree"):
+                      path = mutation.parent / (mutation.name + "-" + tree) / "tools/sdga/Component.lean"
+                      if path.is_file():
+                          original(path, mutation.parent, mode, "M2-actual-worktree-source")
+          print("Original runner bytes printed before upload; no ZIP-member read claimed.",
+                flush=True)
+          PY
       - name: Retain original source, cases, objects and failures
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -218,6 +303,12 @@ jobs:
             ${{ runner.temp }}/sdga-task-a-optimized/
             ${{ runner.temp }}/sdga-task-a-normal.log
             ${{ runner.temp }}/sdga-task-a-optimized.log
+            ${{ runner.temp }}/sdga-task-a-normal-controller/
+            ${{ runner.temp }}/sdga-task-a-optimized-controller/
+            ${{ runner.temp }}/sdga-e-mutations-normal/
+            ${{ runner.temp }}/sdga-e-mutations-optimized/
+            ${{ runner.temp }}/sdga-e-mutations-normal.log
+            ${{ runner.temp }}/sdga-e-mutations-optimized.log
             ${{ runner.temp }}/sdga-pure-dependency-normal.log
             ${{ runner.temp }}/sdga-pure-dependency-optimized.log
             ${{ runner.temp }}/sdga-object-custody-normal/

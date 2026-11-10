@@ -11,21 +11,13 @@ from __future__ import annotations
 
 import argparse
 import copy
-import contextlib
-import ctypes
 import datetime as dt
 import hashlib
-import importlib.util
 import json
 import os
 from pathlib import Path
-import resource
 import shutil
-import signal
-import stat
-import subprocess
 import sys
-import time
 import traceback
 import unittest
 
@@ -75,207 +67,25 @@ PURE_C15 = {"malformed-transcript", "deps-json-error-row", "duplicate-vertex",
             "missing-local-edge", "cycle"}
 STATE = None
 
-# This fixed process exercise is cleanup evidence only, outside all Lean/control cases.
-CLEANUP_CHILD = (
-    "import os, signal, time\n"
-    "signal.signal(signal.SIGTERM, signal.SIG_IGN)\n"
-    "print('READY', os.getpid(), os.getpgrp(), flush=True)\n"
-    "time.sleep(60)\n"
-)
-CLEANUP_PARENT = (
-    "import json, os, signal, subprocess, sys, time\n"
-    "signal.signal(signal.SIGTERM, signal.SIG_IGN)\n"
-    "child = subprocess.Popen([sys.executable, '-B', '-S', '-c', "
-    + repr(CLEANUP_CHILD) + "], stdout=subprocess.PIPE, text=True)\n"
-    "ready = child.stdout.readline().strip().split()\n"
-    "if len(ready) != 3 or ready[0] != 'READY':\n"
-    "    raise RuntimeError('descendant readiness handshake failed')\n"
-    "print(json.dumps({'record': 'cleanup-ready', 'parent_pid': os.getpid(), "
-    "'parent_pgid': os.getpgrp(), 'descendant_pid': int(ready[1]), "
-    "'descendant_pgid': int(ready[2])}), flush=True)\n"
-    "time.sleep(60)\n"
-)
+# The production controller owns the sole acquisition runtime. Execute its
+# captured source at its real path; no package/pyc search selects another module.
+_controller_raw = CONTROLLER.read_bytes()
+_controller_entry = type(sys)("sdga_d_controller_entry")
+_controller_entry.__file__, _controller_entry.__package__ = str(CONTROLLER), None
+exec(compile(_controller_raw, str(CONTROLLER), "exec"), _controller_entry.__dict__)
+if CONTROLLER.read_bytes() != _controller_raw:
+    raise RuntimeError("SOURCE_DRIFT: controller bootstrap")
+_RUNTIME = _controller_entry._runtime()
+utc = _RUNTIME.utc
+digest = _RUNTIME.digest
+json_write = _RUNTIME.json_write
+load_module = _RUNTIME.load_module
+measure_objects = _RUNTIME.measure_objects
+object_custody = _RUNTIME.object_custody
 
-
-def utc():
-    return dt.datetime.now(dt.timezone.utc).isoformat(timespec="microseconds")
-
-
-def digest(raw):
-    return hashlib.sha256(raw).hexdigest()
-
-
-def json_write(path, value):
-    path.write_text(json.dumps(value, sort_keys=True, ensure_ascii=False,
-                               indent=2) + "\n", encoding="utf-8")
-
-
-def load_module(path, module_name):
-    spec = importlib.util.spec_from_file_location(module_name, path)
-    if spec is None or spec.loader is None:
-        raise ImportError("no module loader: " + str(path))
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[module_name] = module
-    spec.loader.exec_module(module)
-    return module
-
-
-def measure_objects(paths):
-    """Measure actual bytes; only FileNotFoundError denotes an absent path."""
-    rows = {}
-    for path in sorted({Path(path).resolve() for path in paths}, key=str):
-        try:
-            raw = path.read_bytes()
-        except FileNotFoundError:
-            rows[str(path)] = {"exists": False}
-        else:
-            rows[str(path)] = {"exists": True, "bytes": len(raw), "sha256": digest(raw)}
-    return rows
-
-
-@contextlib.contextmanager
-def object_custody(paths, expected_manifest, evidence_path):
-    """Check immutable expectations before/after, preserving any original body error."""
-    paths = tuple(paths)
-    expected = copy.deepcopy(expected_manifest)
-    evidence_path = Path(evidence_path)
-    if evidence_path.exists():
-        raise ValueError("CUSTODY_EVIDENCE_REUSE: " + str(evidence_path))
-    before = after = None
-    pending = None
-    entered = False
-    record = {"record": "object-custody", "expected": expected,
-              "before": None, "after": None, "drift": [], "status": "fail",
-              "precheck_error": None, "observation_error": None,
-              "measurement_errors": []}
-    try:
-        try:
-            before = measure_objects(paths)
-        except BaseException as exc:
-            record["measurement_errors"].append("before: " + type(exc).__name__ + ": " + str(exc))
-            raise
-        if before != expected:
-            raise RuntimeError("OBJECT_DRIFT: before observation")
-        entered = True
-        yield
-    except BaseException as exc:
-        pending = exc
-        key = "observation_error" if entered else "precheck_error"
-        record[key] = type(exc).__name__ + ": " + str(exc)
-        raise
-    finally:
-        try:
-            after = measure_objects(paths)
-        except BaseException as exc:
-            record["measurement_errors"].append("after: " + type(exc).__name__ + ": " + str(exc))
-        names = set(expected)
-        for measured in (before, after):
-            if measured is not None:
-                names.update(measured)
-        drift = sorted(name for name in names if any(
-            measured is not None and measured.get(name) != expected.get(name)
-            for measured in (before, after)))
-        record.update(before=before, after=after, drift=drift,
-                      status=("pass" if not drift and pending is None
-                              and not record["measurement_errors"] else "fail"))
-        try:
-            json_write(evidence_path, record)
-        except BaseException as write_error:
-            if pending is not None:
-                raise pending from write_error
-            raise
-        # Preserve the first body/precheck exception; custody failure is independently retained.
-        if pending is None:
-            if record["measurement_errors"]:
-                raise RuntimeError("OBJECT_MEASUREMENT: after observation")
-            if drift:
-                raise RuntimeError("OBJECT_DRIFT: after observation")
-
-
-
-def _load_ir_io_subject(expected=None):
-    """Execute only captured bytes from the exact canonical production file."""
-    subject = ROOT / "tools" / "sdga_ir_evidence.py"
-    canonical = subject.resolve(strict=True)
-    if canonical != subject.absolute():
-        raise RuntimeError("IR_SOURCE_PATH: production helper alias is not admitted")
-    raw = canonical.read_bytes()
-    binding = {
-        "path": str(canonical), "bytes": len(raw), "sha256": digest(raw),
-        "git_blob": hashlib.sha1(
-            b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest(),
-    }
-    if expected is not None and binding != expected:
-        raise RuntimeError("IR_SOURCE_DRIFT: production helper changed after capture")
-    if canonical.read_bytes() != raw:
-        raise RuntimeError("IR_SOURCE_DRIFT: helper changed before captured execution")
-    namespace = {"__name__": "sdga_ir_io_captured_subject",
-                 "__file__": str(canonical), "__package__": None}
-    exec(compile(raw, str(canonical), "exec"), namespace)
-    api = {}
-    for name in ("admit_output_root", "retain_ir_manifest"):
-        if not callable(namespace.get(name)):
-            raise RuntimeError("IR_SOURCE_API: missing " + name)
-        api[name] = namespace[name]
-    if canonical.read_bytes() != raw:
-        raise RuntimeError("IR_SOURCE_DRIFT: helper changed during captured execution")
-    return api, binding
-
-
-
-def _append_ir_cause(error, prior):
-    """Preserve existing evidence-error causes before attaching an earlier failure."""
-    if prior is None or prior is error:
-        return error
-    seen = set()
-    tail = error
-    while tail.__cause__ is not None:
-        if id(tail) in seen:
-            error.add_note("Earlier evidence failure: " + type(prior).__name__ + ": " + str(prior))
-            return error
-        seen.add(id(tail))
-        if tail.__cause__ is prior:
-            return error
-        tail = tail.__cause__
-    seen.add(id(tail))
-    node = prior
-    prior_seen = set()
-    while node is not None and id(node) not in prior_seen:
-        if node is error or id(node) in seen:
-            error.add_note("Earlier evidence failure: " + type(prior).__name__ + ": " + str(prior))
-            return error
-        prior_seen.add(id(node))
-        node = node.__cause__
-    tail.__cause__ = prior
-    return error
-
-
-class Evidence:
+class Evidence(_RUNTIME.Runtime):
     def __init__(self, output):
-        subject, self.ir_subject_binding = _load_ir_io_subject()
-        self.source_roots = (ROOT.resolve(strict=True),)
-        self.output = subject["admit_output_root"](output, self.source_roots)
-        self.ir_expected = {}
-        self.ir_contexts = []
-        self.ir_observations = []
-        self.ir_failures = []
-        self.ir_final = None
-        self.owned = self.output / "owned"
-        self.owned.mkdir()
-        self.native = self.output / "native"
-        self.native.mkdir()
-        self.commands = []
-        self.custody = self.output / "object-custody"
-        self.custody.mkdir()
-        self.object_expected = {}
-        self.request_objects = {}
-        self.request_bindings = {}
-        self.object_observations = []
-        self.object_failures = []
-        self.object_final = None
-        self.scheduling_blocked = False
-        self.subreaper = None
-        self.cleanup_preflight = None
+        super().__init__(output)
         self.records = {}
         self.bootstrap_errors = []
         self.task_b_errors = {}
@@ -327,6 +137,7 @@ class Evidence:
 
     def capture_sources(self):
         paths = [Path(__file__).resolve(), BRIDGE, CONTROLLER,
+                 ROOT / "tools" / "sdga_runtime.py",
                  ROOT / "tests" / "sdga_object_custody_contract.py",
                  ROOT / "tests" / "sdga_ir_evidence_contract.py",
                  ROOT / "tools" / "sdga_ir_evidence.py",
@@ -367,451 +178,6 @@ class Evidence:
         self.identities["fixed_profile_matches"] = (
             profile.get("git_blob") == "4c6b4ea59eb07a17ebfed536b07688c53c01eb64")
 
-    def enable_subreaper(self):
-        if sys.platform != "linux":
-            raise RuntimeError("PROCESS_CLEANUP_UNAVAILABLE: Linux subreaper required")
-        libc = ctypes.CDLL(None, use_errno=True)
-        previous = ctypes.c_int()
-        if libc.prctl(37, ctypes.byref(previous), 0, 0, 0) != 0:
-            raise OSError(ctypes.get_errno(), "PR_GET_CHILD_SUBREAPER")
-        if libc.prctl(36, 1, 0, 0, 0) != 0:
-            raise OSError(ctypes.get_errno(), "PR_SET_CHILD_SUBREAPER")
-        current = ctypes.c_int()
-        if libc.prctl(37, ctypes.byref(current), 0, 0, 0) != 0 or current.value != 1:
-            raise RuntimeError("PROCESS_CLEANUP_UNAVAILABLE: subreaper not enabled")
-        self.subreaper = {"previous": previous.value, "active": current.value}
-        self.identities["process_subreaper"] = self.subreaper
-
-    def cleanup_group(self, process):
-        pgid = process.pid
-        cleanup = {"pgid": pgid, "signals": [], "reaped_descendants": [],
-                   "leader_reaped": False, "group_absent": False,
-                   "confirmed": False, "errors": []}
-        if pgid <= 1 or pgid == os.getpgrp():
-            cleanup["errors"].append("owned group identity guard failed")
-            return cleanup
-
-        def exists():
-            try:
-                os.killpg(pgid, 0)
-                return True
-            except ProcessLookupError:
-                return False
-
-        def settle(seconds):
-            deadline = time.monotonic() + seconds
-            while True:
-                # Popen consumes the direct leader before scoped waitpid can run.
-                cleanup["leader_reaped"] = process.poll() is not None
-                if cleanup["leader_reaped"]:
-                    while True:
-                        try:
-                            pid, status = os.waitpid(-pgid, os.WNOHANG)
-                        except ChildProcessError:
-                            break
-                        except InterruptedError:
-                            continue
-                        if pid == 0:
-                            break
-                        cleanup["reaped_descendants"].append(
-                            {"pid": pid, "wait_status": status})
-                        if time.monotonic() >= deadline:
-                            break
-                cleanup["group_absent"] = not exists()
-                if cleanup["leader_reaped"] and cleanup["group_absent"]:
-                    return True
-                if time.monotonic() >= deadline:
-                    return False
-                time.sleep(0.02)
-
-        try:
-            if settle(0):
-                cleanup["confirmed"] = True
-                return cleanup
-            for sig, grace in ((signal.SIGTERM, 1.0), (signal.SIGKILL, 2.0)):
-                try:
-                    os.killpg(pgid, sig)
-                    cleanup["signals"].append(sig.name)
-                except ProcessLookupError:
-                    pass
-                if settle(grace):
-                    cleanup["confirmed"] = True
-                    return cleanup
-            cleanup["errors"].append("owned group did not disappear within cleanup bound")
-        except BaseException as exc:
-            cleanup["errors"].append(type(exc).__name__ + ": " + str(exc))
-        return cleanup
-
-    def command(self, label, args, *, cwd=FIXTURE, env_extra=None, timeout=180,
-                _cleanup_only_timeout=False):
-        if _cleanup_only_timeout and (
-                label != "cleanup-only-preflight" or cwd != ROOT or timeout != 3
-                or args != [sys.executable, "-B", "-S", "-c", CLEANUP_PARENT]):
-            raise ValueError("EXPECTED_TIMEOUT_SCOPE: fixed cleanup preflight only")
-        if self.scheduling_blocked or self.subreaper is None:
-            raise RuntimeError("PROCESS_SCHEDULING_BLOCKED: cleanup unavailable or uncertain")
-        if self.ir_failures:
-            raise RuntimeError("IR_EVIDENCE_BLOCKED: earlier generated-output failure")
-        self._check_generated("before-command-" + label)
-        index = len(self.commands) + 1
-        prefix = self.native / ("%02d-%s" % (index, label))
-        env = os.environ.copy()
-        env["LEAN_NUM_THREADS"] = "2"
-        if env_extra:
-            env.update(env_extra)
-        entry = {
-            "label": label, "argv": [str(x) for x in args], "cwd": str(cwd),
-            "started_utc": utc(), "started_monotonic_ns": time.monotonic_ns(),
-            "declared_env": dict(env_extra or {}), "timeout_seconds": timeout,
-            "exit_code": None, "timed_out": False, "launch_error": None,
-            "pid": None, "pgid": None, "cleanup": None,
-            "timeout_expected_cleanup_only": _cleanup_only_timeout,
-        }
-        process = None
-        pending_error = None
-        # Files preserve original bytes without PIPE descendants keeping communicate alive.
-        with prefix.with_suffix(".stdout").open("wb") as out_stream, (
-                prefix.with_suffix(".stderr").open("wb")) as err_stream:
-            try:
-                process = subprocess.Popen(
-                    [str(x) for x in args], cwd=cwd, env=env,
-                    stdout=out_stream, stderr=err_stream, start_new_session=True)
-                entry["pid"] = entry["pgid"] = process.pid
-                try:
-                    process.wait(timeout=timeout)
-                except subprocess.TimeoutExpired:
-                    entry["timed_out"] = True
-            except OSError as exc:
-                entry["launch_error"] = type(exc).__name__ + ": " + str(exc)
-                err_stream.write(entry["launch_error"].encode("utf-8"))
-            except BaseException as exc:
-                pending_error = exc
-                entry["interruption"] = type(exc).__name__ + ": " + str(exc)
-            finally:
-                if process is not None:
-                    entry["cleanup"] = self.cleanup_group(process)
-                    entry["exit_code"] = process.returncode
-                    if not entry["cleanup"]["confirmed"]:
-                        self.scheduling_blocked = True
-        stdout = prefix.with_suffix(".stdout").read_bytes()
-        stderr = prefix.with_suffix(".stderr").read_bytes()
-        entry.update(
-            finished_utc=utc(), finished_monotonic_ns=time.monotonic_ns(),
-            stdout_path=str(prefix.with_suffix(".stdout")),
-            stderr_path=str(prefix.with_suffix(".stderr")),
-            stdout_sha256=digest(stdout), stderr_sha256=digest(stderr),
-            stdout_bytes=len(stdout), stderr_bytes=len(stderr),
-            cumulative_child_maxrss_kib=resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss,
-        )
-        # ru_maxrss is cumulative across observed children, not a per-process peak.
-        self.commands.append(entry)
-        json_write(self.output / "commands.json", self.commands)
-        if pending_error is not None:
-            raise pending_error
-        if self.scheduling_blocked:
-            raise RuntimeError("PROCESS_CLEANUP_UNCERTAIN: scheduling permanently blocked")
-        if entry["timed_out"] and not _cleanup_only_timeout:
-            raise RuntimeError("NATIVE_TIMEOUT: original exit/streams/cleanup retained: " + label)
-        return entry, stdout, stderr
-
-    def cleanup_only_preflight(self):
-        report = {
-            "record": "cleanup-only-preflight", "executor": "Python_process_cleanup_only",
-            "status": "fail", "outside_lean_method_and_subcase_census": True,
-            "scientific_effect": "NONE", "qualification": "BLOCKED",
-            "classification_status": "BLOCKED", "execution_authenticated": False,
-        }
-        try:
-            command, out, err = self.command(
-                "cleanup-only-preflight", [sys.executable, "-B", "-S", "-c", CLEANUP_PARENT],
-                cwd=ROOT, timeout=3, _cleanup_only_timeout=True)
-            report["native_label"] = command["label"]
-            rows = out.decode("utf-8").splitlines()
-            if len(rows) != 1 or err:
-                raise ValueError("cleanup preflight readiness output differs")
-            ready = json.loads(rows[0])
-            pgid = command["pgid"]
-            cleanup = command["cleanup"]
-            descendant = ready.get("descendant_pid")
-            if (ready.get("record") != "cleanup-ready"
-                    or ready.get("parent_pid") != command["pid"]
-                    or ready.get("parent_pgid") != pgid
-                    or ready.get("descendant_pgid") != pgid
-                    or type(descendant) is not int or descendant <= 1
-                    or descendant == command["pid"]):
-                raise ValueError("cleanup preflight did not establish the owned descendant")
-            if (not command["timed_out"] or command["exit_code"] != -signal.SIGKILL
-                    or cleanup["signals"] != ["SIGTERM", "SIGKILL"]
-                    or not cleanup["confirmed"] or not cleanup["leader_reaped"]
-                    or not cleanup["group_absent"]
-                    or descendant not in [row["pid"] for row in cleanup["reaped_descendants"]]):
-                raise ValueError("genuine timeout did not prove owned group TERM/KILL/reap")
-            report.update(status="pass", ready=ready, cleanup=cleanup,
-                          timed_out=True, leader_exit_code=command["exit_code"])
-        except BaseException as exc:
-            report["error"] = type(exc).__name__ + ": " + str(exc)
-            self.scheduling_blocked = True
-            self.cleanup_preflight = report
-            json_write(self.output / "cleanup-only-preflight.json", report)
-            raise
-        self.cleanup_preflight = report
-        json_write(self.output / "cleanup-only-preflight.json", report)
-
-    def lean(self, label, lean_args, *, search_root=None, env_extra=None):
-        selected = search_root or self.owned
-        return self.command(
-            label, ["lake", "env", "env", "LEAN_PATH=" + str(selected),
-                    "lean", "--threads=2", *lean_args], env_extra=env_extra)
-
-    def bind_request(self, path, request, *, intentionally_missing=()):
-        """Bind each path once, after any explicitly declared adverse-copy mutation."""
-        path = Path(path).resolve()
-        raw = path.read_bytes()
-        if json.loads(raw.decode("utf-8")) != request:
-            raise ValueError("OBJECT_REQUEST_BYTES: request differs from supplied record")
-        parts = request["olean_parts"] + request["ir_parts"]
-        paths = tuple(sorted({path, *(Path(part["path"]).resolve() for part in parts)}, key=str))
-        snapshot = measure_objects(paths)
-        if snapshot[str(path)] != {"exists": True, "bytes": len(raw), "sha256": digest(raw)}:
-            raise RuntimeError("OBJECT_DRIFT: request changed while binding")
-        missing = {str(Path(name).resolve()) for name in intentionally_missing}
-        actual_missing = set()
-        declared = {}
-        for part in parts:
-            name = str(Path(part["path"]).resolve())
-            declared[name] = part["sha256"]
-            state = snapshot[name]
-            if not state["exists"]:
-                actual_missing.add(name)
-            elif state["sha256"] != part["sha256"]:
-                raise RuntimeError("OBJECT_DRIFT: declared part digest differs: " + name)
-        if actual_missing != missing:
-            raise RuntimeError("OBJECT_MISSING: unexplained or incorrect intentional absence")
-        for name, state in snapshot.items():
-            if name in self.object_expected and self.object_expected[name] != state:
-                raise RuntimeError("OBJECT_DRIFT: cannot reset expected state: " + name)
-        for name, state in snapshot.items():
-            if name not in self.object_expected:
-                self.object_expected[name] = copy.deepcopy(state)
-        name = str(path)
-        if name not in self.request_objects:
-            self.request_objects[name] = paths
-            self.request_bindings[name] = {
-                "paths": [str(item) for item in paths],
-                "request_sha256": digest(raw), "declared_part_sha256": declared,
-                "intentionally_missing": sorted(missing),
-                "expected": copy.deepcopy(snapshot),
-            }
-        self.flush()
-
-    def observe_lean(self, label, lean_args, *, requests, search_root=None, env_extra=None):
-        if self.object_failures:
-            raise RuntimeError("OBJECT_CUSTODY_BLOCKED: earlier custody failure")
-        if self.ir_failures:
-            raise RuntimeError("IR_EVIDENCE_BLOCKED: earlier generated-output failure")
-        names = [str(Path(path).resolve()) for path in requests]
-        if any(name not in self.request_objects for name in names):
-            raise ValueError("OBJECT_REQUEST_UNBOUND: fixed observation request")
-        paths = tuple(sorted({path for name in names for path in self.request_objects[name]},
-                             key=str))
-        expected = {str(path): copy.deepcopy(self.object_expected[str(path)]) for path in paths}
-        record_path = self.custody / ("%02d-%s.json" %
-                                     (len(self.object_observations) + 1, label))
-        pending = None
-        context = None
-        try:
-            context = self._prepare_ir(label, lean_args, names)
-            self._check_generated("before-" + label)
-            with object_custody(paths, expected, record_path):
-                return self.lean(label, lean_args, search_root=search_root, env_extra=env_extra)
-        except BaseException as error:
-            pending = error
-            raise
-        finally:
-            secondary = None
-            command = self.commands[-1] if self.commands and self.commands[-1]["label"] == label else None
-            try:
-                if record_path.is_file():
-                    record = json.loads(record_path.read_text(encoding="utf-8"))
-                else:
-                    record = {"status": "fail", "error": "custody record not produced"}
-                record["native_label"] = label
-                record["native_outcome"] = None if command is None else {
-                    key: command[key] for key in
-                    ("exit_code", "timed_out", "launch_error", "stdout_sha256", "stderr_sha256")
-                }
-                json_write(record_path, record)
-                self.object_observations.append(record)
-                if record["status"] != "pass":
-                    self.object_failures.append(str(record_path))
-            except BaseException as error:
-                self.object_failures.append(str(record_path) + ": " + str(error))
-                secondary = error
-            try:
-                # A before-measurement error still has its attempted CLI context.
-                if context is None and self.ir_contexts and self.ir_contexts[-1]["label"] == label:
-                    context = self.ir_contexts[-1]
-                if context is not None:
-                    original = pending if pending is not None else secondary
-                    self._retain_ir(
-                        context, command, record_path,
-                        None if original is None else type(original).__name__ + ": " + str(original))
-            except BaseException as error:
-                if not any(row.get("native_label") == label for row in self.ir_failures):
-                    self.ir_failures.append({
-                        "stage": "retention-finally", "native_label": label,
-                        "error": type(error).__name__ + ": " + str(error)})
-                _append_ir_cause(error, secondary)
-                secondary = error
-            try:
-                self._check_generated("after-" + label)
-            except BaseException as error:
-                _append_ir_cause(error, secondary)
-                secondary = error
-            try:
-                self.flush()
-            except BaseException as error:
-                self.ir_failures.append({"stage": "metadata", "native_label": label,
-                                         "error": type(error).__name__ + ": " + str(error)})
-                _append_ir_cause(error, secondary)
-                secondary = error
-            if secondary is not None:
-                if pending is not None:
-                    _append_ir_cause(pending, secondary)
-                    raise pending
-                raise secondary
-
-
-    def _generated_state(self, path):
-        path = Path(path)
-        if not path.is_absolute() or not path.is_relative_to(self.output):
-            raise OSError("IR_OUTPUT_PATH: expected canonical output child")
-        try:
-            info = path.lstat()
-        except FileNotFoundError:
-            return {"exists": False}
-        if not stat.S_ISREG(info.st_mode) or path.resolve(strict=True) != path:
-            raise OSError("IR_OUTPUT_TYPE: expected a regular canonical artifact")
-        raw = path.read_bytes()
-        return {"exists": True, "bytes": len(raw), "sha256": digest(raw)}
-
-    def _register_generated(self, path, label, kind):
-        path = Path(path)
-        state = self._generated_state(path)
-        if not state["exists"]:
-            return
-        name = str(path)
-        prior = self.ir_expected.get(name)
-        if prior is not None:
-            if state != prior["measurement"]:
-                raise RuntimeError("IR_OUTPUT_DRIFT: cannot replace expected bytes: " + name)
-            return
-        self.ir_expected[name] = {
-            "measurement": copy.deepcopy(state), "producer_label": label, "kind": kind}
-
-    def _check_generated(self, stage):
-        after = {}
-        drift = []
-        measurement_errors = []
-        for name, expected in self.ir_expected.items():
-            try:
-                after[name] = self._generated_state(Path(name))
-                if after[name] != expected["measurement"]:
-                    drift.append(name)
-            except OSError as error:
-                after[name] = None
-                measurement_errors.append(name + ": " + type(error).__name__ + ": " + str(error))
-        if drift or measurement_errors:
-            self.ir_failures.append({"stage": stage, "drift": drift,
-                                     "measurement_errors": measurement_errors})
-            raise RuntimeError("IR_OUTPUT_DRIFT: " + stage)
-        return after
-
-    def _prepare_ir(self, label, lean_args, requested_names):
-        if (len(lean_args) != 4 or lean_args[0] != "--run"
-                or Path(lean_args[1]).resolve() != BRIDGE
-                or lean_args[2] not in ("inventory", "replay")):
-            return None
-        argument = Path(lean_args[3])
-        if not argument.is_absolute():
-            # lake/lean runs from FIXTURE, including the frozen relative probe.
-            argument = FIXTURE / argument
-        origin = argument.resolve()
-        if str(origin) not in requested_names or str(origin) not in self.request_objects:
-            raise ValueError("IR_REQUEST_UNBOUND: CLI request differs from guarded inputs")
-        if not origin.is_relative_to(self.output):
-            raise ValueError("IR_REQUEST_PATH: request is outside the admitted output root")
-        mode = lean_args[2]
-        manifest = Path(str(origin) + "." + mode + ".ir-manifest.json")
-        ordinal = len(self.object_observations) + 1
-        envelope = self.output / "ir-evidence" / ("%02d-%s.json" % (ordinal, label))
-        prior = self.ir_expected.get(str(manifest))
-        context = {
-            "label": label, "ordinal": ordinal, "mode": mode,
-            "request_path": origin, "manifest_path": manifest, "envelope_path": envelope,
-            "manifest_before": None, "manifest_before_error": None,
-            "producer_label": None if prior is None else prior["producer_label"],
-            "requires_manifest": False,
-        }
-        self.ir_contexts.append(context)
-        try:
-            context["manifest_before"] = self._generated_state(manifest)
-        except OSError as error:
-            context["manifest_before_error"] = type(error).__name__ + ": " + str(error)
-            raise
-        return context
-
-    def _retain_ir(self, context, command, custody_path, observation_error):
-        pending = None
-        envelope = None
-        transport = {
-            "label": context["label"], "ordinal": context["ordinal"],
-            "command": copy.deepcopy(command),
-            "manifest_before": copy.deepcopy(context["manifest_before"]),
-            "manifest_before_error": context["manifest_before_error"],
-            "producer_label": context["producer_label"],
-        }
-        context["requires_manifest"] = command is not None and command["exit_code"] == 0
-        try:
-            subject, _ = _load_ir_io_subject(self.ir_subject_binding)
-            envelope = subject["retain_ir_manifest"](
-                mode=context["mode"], request_path=context["request_path"],
-                output_root=self.output, source_roots=self.source_roots,
-                native_outcome=transport, custody_record=custody_path,
-                source_bindings=copy.deepcopy(self.identities["sources"]),
-                observation_error=observation_error)
-            self.ir_observations.append({
-                "native_label": context["label"], "mode": context["mode"],
-                "manifest_path": str(context["manifest_path"]),
-                "envelope_path": str(context["envelope_path"]),
-                "validation_status": envelope["validation_status"],
-                "manifest_completeness": envelope["manifest_completeness"],
-                "registration": envelope["registration"],
-            })
-            if envelope["validation_status"] != "valid":
-                raise RuntimeError("IR_EVIDENCE_INVALID: " + context["label"])
-        except BaseException as error:
-            pending = error
-            self.ir_failures.append({"stage": "retention", "native_label": context["label"],
-                                     "error": type(error).__name__ + ": " + str(error)})
-            raise
-        finally:
-            try:
-                # Preserve even failed/partial bytes, without replacing a first expectation.
-                manifest_label = (envelope.get("producer_label") if envelope is not None
-                                  else context["producer_label"])
-                if context["manifest_before"] == {"exists": False}:
-                    manifest_label = context["label"]
-                self._register_generated(context["manifest_path"], manifest_label, "manifest")
-                self._register_generated(context["envelope_path"], context["label"], "envelope")
-            except BaseException as registration_error:
-                self.ir_failures.append({
-                    "stage": "registration", "native_label": context["label"],
-                    "error": type(registration_error).__name__ + ": " + str(registration_error)})
-                if pending is not None:
-                    _append_ir_cause(pending, registration_error)
-                    raise pending
-                raise
 
     def finalize_ir(self):
         after = {}
@@ -866,6 +232,22 @@ class Evidence:
         }
         self.flush()
         return self.object_final["status"] == "pass"
+
+    def observe_lean(self, label, lean_args, *, requests, search_root=None, env_extra=None):
+        if label == "cli-safe-replay":
+            if (lean_args != ["--run", str(BRIDGE), "replay", str(self.request_path)]
+                    or tuple(requests) != (self.request_path,)
+                    or search_root is not None or env_extra is not None):
+                raise ValueError("OBSERVATION_ROUTE: fixed C08 replay invocation differs")
+            observed = self.controller.observe_module(
+                mode="replay", request_path=self.request_path, output_root=self.owned,
+                dependency_path="", evidence_root=self.output)
+            self.cli_replay["controller_observation"] = copy.deepcopy(observed)
+            command = observed["command"]
+            return (command, Path(command["stdout_path"]).read_bytes(),
+                    Path(command["stderr_path"]).read_bytes())
+        return super().observe_lean(
+            label, lean_args, requests=requests, search_root=search_root, env_extra=env_extra)
 
     def bootstrap(self):
         try:
@@ -1025,29 +407,7 @@ class Evidence:
 
     def flush(self):
         self.identities["cli_replay"] = self.cli_replay
-        self.identities["ir_evidence"] = {
-            "expected_generated_outputs": self.ir_expected,
-            "contexts": [{
-                "native_label": row["label"], "ordinal": row["ordinal"], "mode": row["mode"],
-                "request_path": str(row["request_path"]),
-                "manifest_path": str(row["manifest_path"]),
-                "envelope_path": str(row["envelope_path"]),
-                "manifest_before": row["manifest_before"],
-                "manifest_before_error": row["manifest_before_error"],
-                "previous_producer_label": row["producer_label"],
-                "requires_manifest": row["requires_manifest"],
-            } for row in self.ir_contexts],
-            "observations": self.ir_observations, "failures": self.ir_failures,
-            "final": self.ir_final, "outside_method_and_subcase_census": True,
-        }
-        json_write(self.output / "ir-evidence-registry.json", self.identities["ir_evidence"])
-        self.identities["object_custody"] = {
-            "expected": self.object_expected, "request_bindings": self.request_bindings,
-            "observations": self.object_observations, "failures": self.object_failures,
-            "final": self.object_final, "outside_lean_method_and_subcase_census": True,
-        }
-        json_write(self.output / "object-custody.json", self.identities["object_custody"])
-        json_write(self.output / "source-identities.json", self.identities)
+        super().flush()
         with (self.output / "subcases.jsonl").open("w", encoding="utf-8") as stream:
             for key in self.records:
                 stream.write(json.dumps(self.records[key], sort_keys=True,
