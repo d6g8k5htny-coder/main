@@ -89,13 +89,14 @@ class Fixture(unittest.TestCase):
             for package in ("tools", "tests"):
                 (root / package / "__init__.py").write_text("", encoding="utf-8")
             target = root / target_path
-            original = target.read_text(encoding="utf-8")
+            whole_original = target.read_text(encoding="utf-8")
+            prefix, original, suffix = self.grader.legacy_main_parts(whole_original)
             self.assertEqual(original.count(old), 1)
             for optimized in (False, True):
-                target.write_text(original, encoding="utf-8")
+                target.write_text(prefix + original + suffix, encoding="utf-8")
                 baseline = self.grader.run_selected(root, test_id, optimized)
                 self.assertTrue(self.grader.baseline_ok(baseline, test_id), baseline)
-                target.write_text(original.replace(old, adverse, 1), encoding="utf-8")
+                target.write_text(prefix + original.replace(old, adverse, 1) + suffix, encoding="utf-8")
                 result = self.grader.run_selected(root, test_id, optimized)
                 self.assertFalse(self.grader.qualified_kill(result, test_id), result)
                 self.assertEqual(result["failure_count"], 1)

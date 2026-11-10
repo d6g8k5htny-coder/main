@@ -1728,3 +1728,191 @@ Phase: source-bound qualification reconciliation and fresh composition preparati
 Evidence: original E run42812650934/1/job129817709245 at signed3888/tree23b, fixed inventory42819110073/1 and readback42823904522/1. Root and author separately checked954 whole originals/981 fragments and21 bounded logs; accepted old-source D15/67+E3/19,52commands,33/15/60, all8 causal mutation families/57commands, pure12/custody3-6/admission2-6 with source, stream, producer and final custody joins. Retain [index](cbz/evidence/sdga-task-e-20261110/green-initial/readback-retention-index.json) and [causal receipt](cbz/evidence/sdga-task-e-20261110/green-initial/causal-read-receipt.json), original blobs54608ee33070719c859bb7752e0b014a0e1ed954 and1c4da16222a4c073f3652facb0d10b355ee57c8d. Preserve earlier API-absence and first-production-failure originals and every old scope limit; M8 remains a guard-cause mismatch with downstream MALFORMED_CONSTANT refusal.
 
 Reversible: abandon this unreferenced candidate, or restore its owned paths through an ordinary guarded update while keeping the evidence/history. No new composed-tree native result, ref, E rerun/rebase publication, Ready or merge is claimed here; Root candidate guard precedes any ordinary expected-head feature update. Fresh original qualification remains mandatory. Scientific effect NONE; classification/qualification BLOCKED; execution_authenticated=false; no full99/catalog/G5/CBZ or scientific award.
+
+
+## 2026-11-10 — Node-status v2 test-first historical-fixture source candidate
+
+Date/source observation: 2026-11-10 13:57:15 UTC. Phase: T1 test-first source staging;
+Layer B. Prepare an unreferenced sole-fresh-Main-parent candidate containing
+only twelve new v2 contract parents, the targeted offline workflow, a frozen
+eleven-payload legacy harness, the existing 23/20 test-entry loaders, one review
+document and this append. Preserve the complete prior decision prefix and every
+other Main leaf at 8aaaa387d11dc21a0867b9cc41cc81743ca59975, tree
+542e6ee34af4c99ba80c8b4d6acd2c6d5bc22f7c (6,246 leaves, nontruncated).
+
+Rationale: freeze actual current-input and provenance contracts before v2
+implementation while executing all 43 original legacy assertions unchanged
+against their byte-exact historical bundle. The unconditional line31 import
+must later produce actual missing evaluate_fresh_records_v2 ImportError, one
+loader FailedTest and zero of twelve bodies; R0 has not run. Historical local
+Git fixture receipts and synthetic observer inputs confer no native HTTP,
+current-default freshness, proof or scientific authority.
+
+Evidence: [review scope, exact final pins and source diffs](docs/plans/2026-11-10-node-status-v2-test-first-source.md);
+[complete 12+43 oracle and payload trace](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/e943ac4b76d000ba2f83737bf1dd63e3b19f0bf8).
+Root whole17 and final4 forward/inverse source gates are CLEAR; independent
+technical closure is C0/I0/M0. Final31delta b9a4486fc70580cd7f6e67b35f3034e015222562
+admits the literal /tmp or exact RUNNER_TEMP before creation, preserving all
+other code, bootstrap and payload bytes. Organizational-independence credit0.
+No Python/YAML compilation, test/native R0, runtime or complete-material-size
+observation is claimed. Root's candidate guard remains required before any
+branch, PR or run; the reserved branch is codex/node-status-v2-test-first-r0-20261110.
+
+Reversibility: ordinary guarded removal of the additions and restoration of
+the two entry modules from c5d578ddb9b7699f24966784ebfcb518d2d7284a and
+14d0c84b1236fdc0d01083c62b791117b663c682, retaining this historical entry.
+Production tools/schemas/input manifest, canonical records/history/projection,
+Graph cut, all Acq/V1/G5/native sources and owners remain unchanged. This source
+candidate awards no v2 execution, full-Main, G5, CBZ or science; scientific_effect NONE.
+
+
+## 2026-11-10 — Node-status v2 zero-job failure and source packaging correction
+
+Date: 2026-11-10 14:12:17 UTC. Phase: test-first workflow repair source review; Layer B.
+Action: factor the exact existing controller SOURCE into one non-test utility
+and shorten preparation; move only the two runner.temp evidence values from
+job env to the four invocation step envs. Preserve all controller/oracle bytes,
+37 protected pins, tests/legacy originals, cap, conditions and artifact scope.
+
+Rationale: actual automatic run42830214749/1 at 0e81116c failed with zero jobs;
+its public native annotation identifies invalid runner.temp contexts at55/56.
+Separately measured original run length27799 exceeds GitHub's21000 limit; that
+is not the native reported error. Prior pytest PR803 source correctiondb3066b
+had already recorded this context lesson, which this review missed.
+Evidence: [retained exact public error and bounded source correction](docs/plans/2026-11-10-node-status-v2-test-first-source.md);
+[native-error receipt](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/3d26680d2f2e1afc3758d59be1d8d0b136cfb271).
+New source pins: controller70146dc623661ad6275881c6fc564bcb7e0864fc,
+workflowe7ca903c6df0d8eea44cb3d3f19526dcde2ca2eb. Source review and candidate
+gates remain pending here; no ref movement, dispatch, rerun or new run follows.
+
+Reversibility: restore workflowf77c11f9 and remove only the new utility by an
+ordinary guarded change while retaining this failure history and prior ledger.
+Existing old-workflow outer23+20 successes in both modes do not supply missing
+43-inner/program readback or the new12 missing-import R0. No production/data,
+owner, current HTTP, full-Main, G5, CBZ or science credit; scientific_effect NONE.
+
+
+## 2026-11-10 — Current-input v2 source and deliberate default-observer regression
+
+Date/source observation: 2026-11-10 15:15:44 UTC. Phase: test-first implementation and
+bounded regression source review; Layer B. Action: stage the three existing
+node-status tools, the initial closed legacy-four-v0 manifest, an explicit
+historical CLI helper with five test call-site migrations, and the authorized
+Parent12 constructor witness with its three necessary literal pins.
+
+Rationale: actual dedicated run42834372722/1 at signed native879c8e35/tree1dfee
+closed missing-name R0 in both modes with zero12 bodies. All337 original frames,
+43 historical one-method cases and37 program capture chains per mode were read
+and retained. This authorizes source preparation, not behavioral green or data
+adoption. Records, schemas, pure-v1, projection, Graph cut and owners stay exact.
+
+Whole-source review C0/I1/M0 deliberately retains I1: run_live_v2 still uses
+the ambient observer factory. Root requires the strengthened Parent12 to show
+actual native regression RED before the one-line captured-constructor fix.
+The new witness admits no real network, capture/provider override or mock
+success. All12 IDs, other11 complete bodies and remaining assertions stay exact.
+The old refresh main body is retained by name-only legacy_main; all20 historical
+freshness test methods/assertions persist with only5 explicit call-site changes.
+Current main has no legacy fallback. No skip, ExpectedFailure or cap increase.
+
+Evidence: [source plan, exact pins, actual R0 archives and limitations](docs/plans/2026-11-10-node-status-v2-test-first-source.md);
+[whole eight-path forward/inverse source diff](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/34626d410eb05dc5667929992ae42320b0e9fc67);
+[accepted-plan continuation](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/541561fe1da8c7bc0eb84cbbe516625652e438a3).
+Root and independent source gates permit only the intentional regression stage;
+document/candidate gates and fresh Main composition remain required. No current
+proposal was compiled or run, and no candidate/ref/dispatch/rerun follows here.
+
+Reversibility: restore the exact pre-stage tool/test/controller/workflow blobs
+and remove only the new manifest through an ordinary guarded change, retaining
+all failure history and this ledger. Any candidate must preserve fresh Main's
+entire canonical prefix plus compatible feature history. No Ready, merge,
+actual HTTP refresh, nine-record adoption, owner change, Graph11-body source-cut
+advance, full-Main, G5, CBZ or science award; scientific_effect NONE.
+
+## 2026-11-10 — Captured default constructor and explicit historical Atlas fixture API
+
+Date/source observation: 2026-11-10 15:58:56 UTC. Phase: actual regression RED followed by
+bounded source correction. Layer: B. Action: change only run_live_v2's default
+constructor to the captured node_status_refresh module, and migrate only the
+Atlas temporary-record TEST helper to explicit validate_directory(root, tmp).
+
+Rationale: actual dedicated run42846487233/1 at signed native522312e5/treec010
+ran all12 methods in both modes: eleven passed and Parent12 alone failed at
+dc381:1082, LiveCheckError not raised. All379 original frames per mode are retained;
+later constructor/transport assertions and nine CLI controls were not reached.
+Separate actual Atlas run42846487855/1 reported4 PASS/6 FAIL because the temporary
+v0 fixtures called the mandatory current CLI; its canonical current call passed.
+
+Evidence: [whole two-file forward/inverse diff](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/fda749ad0c8bf0ee5924a5c7bb2ecaf3e4ff6393);
+[owned source and causal history](docs/plans/2026-11-10-node-status-v2-test-first-source.md);
+[actual normal original frames](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/a195784eb963c618a4e1cef76bc11a39445b2dbe);
+[actual optimized original frames](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/4bfbd98fb8aaf241e1ca33fdb822c108a5125e59).
+Independent bounded source review is C0/I0/M0. Root authorized these two source
+changes after actual RED; document and candidate gates remain required.
+The fixed route, Atlas success and full12 success have not run and are unclaimed.
+
+Reversibility: restore live20420830 and Atlasb2ac2d0e through a guarded ordinary
+change, retaining every failure receipt and this ledger. All dc381 assertions,
+37 protected pins, controller937 and workflowf1b5 stay exact. The canonical Atlas
+CURRENT CLI call and all10 test bodies/assertions stay exact. No current fallback,
+legacy CLI flag, validator API, record/schema/Graph/projection/owner change,
+cap increase, dispatch/rerun, Ready/merge, actual HTTP or nine-record adoption.
+Scientific_effect NONE; no full-suite, G5 or CBZ award follows.
+
+## 2026-11-10 — Retain offline v2 success and propose exact V1 guard identities
+
+Date/source observation: 2026-11-10 16:33:22 UTC.
+Phase: source-only guard migration after actual offline v2 success and V1 pretest RED.
+Layer: B.
+Action: propose one fixed V1 validator pin, its one V2 protected workflow pin,
+and the V2 workflow's two controller identity literals; retain the complete maps.
+
+Rationale: actual run42853434373/1 at signed5707397c/tree64fe passed all12 v2
+methods in both modes, with all406 originals/43 legacy cases/37 programs/23 TEST
+invocations retained and audited. Atlas10 and five real-record methods per mode
+also passed. Separate V1 run42853434363/1 stopped before any method at the stale
+e9d validator pin; all19 other V1 pins match. The reviewed1085 validator retains
+the entire15252-byte historical API block and all16 old function bodies exactly.
+V1's12 oracles and all36 other V2 protected pins remain exact.
+
+Evidence: [owned source history](docs/plans/2026-11-10-node-status-v2-test-first-source.md);
+[whole three-file identity-only diff](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/6405bc1a8036c44bce040b40b3eeb0c546fbced9);
+[normal receipt](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/2fc6fbd615c1bb09df563a4129f772ab25cbada3);
+[optimized receipt](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/a03a05e1e173ae806d3403616defb4d3c2e869c7).
+
+Reversibility: restore04408/937e/f1b5 through an ordinary guarded change while
+retaining the original success and failure evidence and this ledger. This is an
+unreferenced source proposal. Candidate/ref/run gates remain pending; fresh V1,
+V2 and all applicable CI results are required. Q9006 schema and site control
+holds remain separate; the two expected redirected originals are unread and
+mutation-driver execution is unproven. No Ready/merge, actual HTTP, data/owner/projection/Graph
+adoption, full-suite, G5, CBZ or scientific award. Scientific_effect NONE.
+
+## 2026-11-10 — Preserve original mutation oracles with an AST historical scope
+
+Date/source observation: 2026-11-10 17:25:34 UTC.
+Phase: source-only site correction after recovered original control RED.
+Layer: B.
+Action: scope the subject-origin control and schema-preflight mutation to the
+single top-level AST legacy_main source body, with exactly one intended anchor.
+
+Rationale: reader42862524537/1 recovered both original files from artifact13782246777.
+Actual normal controls ran24:23 passed; the sole failure was original72617:93,
+2 != 1 from a whole-module anchor count. Its stdout retained22 classifier
+self-test records. Controls-O and both mutation drivers never executed. The
+proposed helper preserves prefix/suffix and every current production branch.
+All24 IDs/assertions, all11 CASES and the origin/provenance classifier code remain
+byte-exact. Allother10 global uniqueness guards remain strict.
+
+Evidence: [actual original stderr](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/a6ca526e78aa557b5e76c3675eacd2c5ff4652d7);
+[custody receipt](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/0c7c822ab6a3cc0515f4c4f95faa3ef0777b7549);
+[whole two-file forward/inverse diff](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/4862114abe5f29ede9ee0da12dc47bdca330a768);
+[owned integration proposal](docs/plans/2026-11-10-node-status-v2-test-first-source.md).
+
+Reversibility: restore d661/72617 through an ordinary guarded change, retaining
+the captured failure and this ledger. Proposed integration includes the reviewed
+three pin sources and two Q9006 sources, with no intermediate branch update.
+Root and independent source/document gates precede one fresh guarded candidate;
+actual fixed controls, mutation drivers, V1, Q9006 and fresh V2 remain unobserved.
+Reader9088 stays separate. No production/data/owner/schema/Graph/projection
+change, Ready/merge, current HTTP, G5, CBZ or scientific award. Scientific_effect NONE.

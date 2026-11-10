@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Validate records/node_status against architecture/node-status.schema.json.
+"""Validate CURRENT native node-status inputs and retain explicit closed v0 helpers.
+
+validate_current_directory requires the fixed manifest-backed population. The
+historical check_record and validate_directory APIs retain interface v0 only.
 
 Status is freshness of the current view only. scientific_effect must stay NONE.
 An owner is null or an object. released_url may be present on that object and
@@ -9,6 +12,11 @@ sources[0].rev, one value, never a comma-joined list. No network and no writes.
 from __future__ import annotations
 
 import argparse
+import hashlib
+import os
+import stat
+import subprocess
+import types
 import json
 from datetime import datetime
 from pathlib import Path, PurePosixPath
@@ -370,12 +378,121 @@ def validate_directory(root, directory):
     return problems
 
 
+
+def _current_records_directory(root, directory=None):
+    """Select only the manifest-backed directory under the selected native root."""
+    selected_root = Path(root).absolute()
+    expected = selected_root / "records" / "node_status"
+    if directory is None:
+        return expected
+    selected = Path(directory)
+    if not selected.is_absolute():
+        selected = selected_root / selected
+    if selected != expected or selected.is_symlink():
+        raise ValueError("current records directory must be records/node_status under root")
+    return expected
+
+
+def _load_current_capture(root):
+    """Bind the fixed live bootstrap with stdlib before any project import."""
+    selected_root = Path(root).absolute()
+    if not selected_root.is_dir() or selected_root.resolve(strict=True) != selected_root:
+        raise ValueError("current root must be a canonical native directory")
+    relative = "tools/node_status_live_check.py"
+    source_path = selected_root
+    for part in relative.split("/"):
+        source_path = source_path / part
+        if source_path.is_symlink():
+            raise ValueError("current live bootstrap symlink refused")
+    environment = {key: value for key, value in os.environ.items()
+                   if not key.startswith("GIT_")}
+    environment.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
+        GIT_OPTIONAL_LOCKS="0", GIT_TERMINAL_PROMPT="0",
+        GIT_NO_REPLACE_OBJECTS="1", GIT_NO_LAZY_FETCH="1")
+
+    def git(*arguments):
+        result = subprocess.run(
+            ["git", "--no-replace-objects", "--literal-pathspecs", "-c",
+             "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null",
+             "-C", str(selected_root), *arguments],
+            env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+        if result.returncode != 0:
+            raise ValueError("native current bootstrap Git read refused")
+        return result.stdout
+
+    head = git("rev-parse", "--verify", "HEAD").decode("ascii").strip()
+    tree = git("rev-parse", "--verify", "HEAD^{tree}").decode("ascii").strip()
+    if any(re.fullmatch(r"[0-9a-f]{40}", value) is None for value in (head, tree)):
+        raise ValueError("invalid native current bootstrap context")
+    if Path(git("rev-parse", "--show-toplevel").decode("utf-8").strip()) != selected_root:
+        raise ValueError("current bootstrap escaped selected Git root")
+    entry = git("ls-tree", "--full-tree", "-z", head, "--", relative)
+    rows = entry.split(b"\0")
+    if len(rows) != 2 or rows[1] or b"\t" not in rows[0]:
+        raise ValueError("current live bootstrap is not one tracked blob")
+    metadata, name = rows[0].split(b"\t", 1)
+    fields = metadata.decode("ascii").split()
+    if len(fields) != 3:
+        raise ValueError("invalid current bootstrap tree row")
+    mode, kind, identity = fields
+    if (name != relative.encode("ascii") or kind != "blob" or mode not in ("100644", "100755")
+            or re.fullmatch(r"[0-9a-f]{40}", identity) is None):
+        raise ValueError("current live bootstrap path/mode/blob refused")
+    descriptor = os.open(source_path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    with os.fdopen(descriptor, "rb") as stream:
+        before = os.fstat(stream.fileno())
+        if (not stat.S_ISREG(before.st_mode) or before.st_size > 2_000_000
+                or bool(before.st_mode & 0o111) != (mode == "100755")):
+            raise ValueError("current live bootstrap physical mode/size refused")
+        raw = stream.read(2_000_001)
+        after = os.fstat(stream.fileno())
+    current = source_path.lstat()
+    attributes = ("st_dev", "st_ino", "st_mode", "st_nlink", "st_size", "st_mtime_ns", "st_ctime_ns")
+    if (len(raw) > 2_000_000 or source_path.resolve(strict=True) != source_path
+            or any(getattr(before, field) != getattr(observed, field)
+                   for observed in (after, current) for field in attributes)):
+        raise ValueError("current live bootstrap changed during capture")
+    digest = hashlib.sha256(raw).hexdigest()
+    computed = hashlib.sha1(b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest()
+    if (computed != identity
+            or git("cat-file", "-s", identity) != (str(len(raw)) + "\n").encode("ascii")
+            or git("cat-file", "blob", identity) != raw):
+        raise ValueError("current live bootstrap working bytes differ from native Git")
+    if (git("rev-parse", "--verify", "HEAD").decode("ascii").strip() != head
+            or git("rev-parse", "--verify", "HEAD^{tree}").decode("ascii").strip() != tree):
+        raise ValueError("current native context changed before bootstrap")
+    module = types.ModuleType("_node_status_current_bootstrap")
+    module.__file__ = str(source_path)
+    module.__package__ = ""
+    module._CAPTURE_BOOTSTRAP = True
+    module._CAPTURE_BOOTSTRAP_RAW = raw
+    exec(compile(raw, str(source_path), "exec", dont_inherit=True), module.__dict__)
+    capture = module._capture_v2(selected_root)
+    expected = dict(git_blob=identity, git_mode=mode, sha256=digest)
+    if (capture["checked_commit"] != head or capture["checked_tree"] != tree
+            or capture["raw"][relative] != raw or capture["files"][relative] != expected):
+        raise ValueError("current capture differs from executed native live bootstrap")
+    return module, capture
+
+
+def validate_current_directory(root, directory=None) -> list[str]:
+    """Validate one complete CURRENT native population without observing sources."""
+    try:
+        _current_records_directory(root, directory)
+        live, capture = _load_current_capture(root)
+        # Initial capture already dispatches closed v0 or pure v1 admission.
+        live._recapture_v2(Path(root).absolute(), capture)
+    except Exception as error:
+        return [str(error) or type(error).__name__]
+    return []
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("directory", type=Path)
     parser.add_argument("--root", type=Path, default=ROOT)
     args = parser.parse_args(argv)
-    problems = validate_directory(args.root, args.directory)
+    problems = validate_current_directory(args.root, args.directory)
     if problems:
         for problem in problems:
             print(problem, file=sys.stderr)

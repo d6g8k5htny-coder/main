@@ -20,6 +20,10 @@ inferred and scientific_effect stays NONE. This certifies no mathematics.
 The default fetcher reads the public GitHub REST API (read-only, optional
 GITHUB_TOKEN from the workflow). Tests inject an offline fetcher.
 Report-only: without --write, records are not modified.
+
+The CURRENT main entry binds the full native manifest-backed input set before
+constructing an observer. legacy_main is the explicit historical directory CLI
+helper; it supplies no current-v2 native admission or qualification.
 """
 from __future__ import annotations
 
@@ -31,6 +35,9 @@ import tempfile
 import os
 import re
 import sys
+import stat
+import subprocess
+import types
 import urllib.request
 from pathlib import Path
 from typing import Callable
@@ -350,6 +357,19 @@ def _primary_rev(sources: object) -> str | None:
     return None
 
 
+def _v1_graph_identity(value):
+    """A v1 helper declaration is shaped data, never native population custody."""
+    return (type(value) is dict
+        and set(value) == {"repository", "commit", "path", "git_blob", "bytes", "sha256"}
+        and type(value["repository"]) is str and value["repository"] == "d6g8k5htny-coder/Math-"
+        and type(value["path"]) is str and value["path"] == "frontiers/downstream_gate_20260925/GRAPH.json"
+        and all(type(value[name]) is str and _SHA.fullmatch(value[name]) is not None
+                for name in ("commit", "git_blob"))
+        and type(value["bytes"]) is int and 1 <= value["bytes"] <= 2_097_152
+        and type(value["sha256"]) is str
+        and re.fullmatch(r"[0-9a-f]{64}", value["sha256"]) is not None)
+
+
 def refresh_record(record: dict, fetch: Fetcher, now: str | None = None,
                    comments: Comments | None = None) -> dict:
     """Return a new record with freshness recomputed. Never raises for source errors."""
@@ -361,8 +381,15 @@ def refresh_record(record: dict, fetch: Fetcher, now: str | None = None,
     changed = False
     sources = record.get("sources")
     primary = _primary_rev(sources)
-    if record.get("schema_version") != SCHEMA_VERSION:
-        errors.append(f"unsupported schema_version: {record.get('schema_version')!r}")
+    version = record.get("schema_version")
+    if type(version) is not int or version not in (0, 1):
+        out["status"] = "unknown"
+        out["refresh_error"] = f"unsupported schema_version: {version!r}"
+        return out
+    if version == 1 and not _v1_graph_identity(record.get("graph_source")):
+        out["status"] = "unknown"
+        out["refresh_error"] = "schema_version 1 requires a strict graph_source identity"
+        return out
     if not isinstance(sources, list) or not sources:
         errors.append("no sources to check")
         sources = []
@@ -458,7 +485,7 @@ def refresh_dir(directory: Path, fetch: Fetcher, write: bool, now: str | None = 
     return report
 
 
-def main(argv: list[str] | None = None) -> int:
+def legacy_main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("records", nargs="?", default="records/node_status")
     ap.add_argument("--write", action="store_true", help="rewrite records (default: report only)")
@@ -526,6 +553,242 @@ def main(argv: list[str] | None = None) -> int:
                       "input_sha256": input_hashes, "input_drift": drift,
                       "contract": "cited-object-content-v1"}, indent=2))
     return 1 if args.check and (drift or not report or any(row["status"] != "fresh" for row in report)) else 0
+
+
+def _current_records_directory(root, directory=None):
+    """Select only the manifest-backed directory under the selected native root."""
+    selected_root = Path(root).absolute()
+    expected = selected_root / "records" / "node_status"
+    if directory is None:
+        return expected
+    selected = Path(directory)
+    if not selected.is_absolute():
+        selected = selected_root / selected
+    if selected != expected or selected.is_symlink():
+        raise ValueError("current records directory must be records/node_status under root")
+    return expected
+
+
+def _load_current_capture(root):
+    """Bind the fixed live bootstrap with stdlib before any project import."""
+    selected_root = Path(root).absolute()
+    if not selected_root.is_dir() or selected_root.resolve(strict=True) != selected_root:
+        raise ValueError("current root must be a canonical native directory")
+    relative = "tools/node_status_live_check.py"
+    source_path = selected_root
+    for part in relative.split("/"):
+        source_path = source_path / part
+        if source_path.is_symlink():
+            raise ValueError("current live bootstrap symlink refused")
+    environment = {key: value for key, value in os.environ.items()
+                   if not key.startswith("GIT_")}
+    environment.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
+        GIT_OPTIONAL_LOCKS="0", GIT_TERMINAL_PROMPT="0",
+        GIT_NO_REPLACE_OBJECTS="1", GIT_NO_LAZY_FETCH="1")
+
+    def git(*arguments):
+        result = subprocess.run(
+            ["git", "--no-replace-objects", "--literal-pathspecs", "-c",
+             "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null",
+             "-C", str(selected_root), *arguments],
+            env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+        if result.returncode != 0:
+            raise ValueError("native current bootstrap Git read refused")
+        return result.stdout
+
+    head = git("rev-parse", "--verify", "HEAD").decode("ascii").strip()
+    tree = git("rev-parse", "--verify", "HEAD^{tree}").decode("ascii").strip()
+    if any(re.fullmatch(r"[0-9a-f]{40}", value) is None for value in (head, tree)):
+        raise ValueError("invalid native current bootstrap context")
+    if Path(git("rev-parse", "--show-toplevel").decode("utf-8").strip()) != selected_root:
+        raise ValueError("current bootstrap escaped selected Git root")
+    entry = git("ls-tree", "--full-tree", "-z", head, "--", relative)
+    rows = entry.split(b"\0")
+    if len(rows) != 2 or rows[1] or b"\t" not in rows[0]:
+        raise ValueError("current live bootstrap is not one tracked blob")
+    metadata, name = rows[0].split(b"\t", 1)
+    fields = metadata.decode("ascii").split()
+    if len(fields) != 3:
+        raise ValueError("invalid current bootstrap tree row")
+    mode, kind, identity = fields
+    if (name != relative.encode("ascii") or kind != "blob" or mode not in ("100644", "100755")
+            or re.fullmatch(r"[0-9a-f]{40}", identity) is None):
+        raise ValueError("current live bootstrap path/mode/blob refused")
+    descriptor = os.open(source_path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    with os.fdopen(descriptor, "rb") as stream:
+        before = os.fstat(stream.fileno())
+        if (not stat.S_ISREG(before.st_mode) or before.st_size > 2_000_000
+                or bool(before.st_mode & 0o111) != (mode == "100755")):
+            raise ValueError("current live bootstrap physical mode/size refused")
+        raw = stream.read(2_000_001)
+        after = os.fstat(stream.fileno())
+    current = source_path.lstat()
+    attributes = ("st_dev", "st_ino", "st_mode", "st_nlink", "st_size", "st_mtime_ns", "st_ctime_ns")
+    if (len(raw) > 2_000_000 or source_path.resolve(strict=True) != source_path
+            or any(getattr(before, field) != getattr(observed, field)
+                   for observed in (after, current) for field in attributes)):
+        raise ValueError("current live bootstrap changed during capture")
+    digest = hashlib.sha256(raw).hexdigest()
+    computed = hashlib.sha1(b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest()
+    if (computed != identity
+            or git("cat-file", "-s", identity) != (str(len(raw)) + "\n").encode("ascii")
+            or git("cat-file", "blob", identity) != raw):
+        raise ValueError("current live bootstrap working bytes differ from native Git")
+    if (git("rev-parse", "--verify", "HEAD").decode("ascii").strip() != head
+            or git("rev-parse", "--verify", "HEAD^{tree}").decode("ascii").strip() != tree):
+        raise ValueError("current native context changed before bootstrap")
+    module = types.ModuleType("_node_status_current_bootstrap")
+    module.__file__ = str(source_path)
+    module.__package__ = ""
+    module._CAPTURE_BOOTSTRAP = True
+    module._CAPTURE_BOOTSTRAP_RAW = raw
+    exec(compile(raw, str(source_path), "exec", dont_inherit=True), module.__dict__)
+    capture = module._capture_v2(selected_root)
+    expected = dict(git_blob=identity, git_mode=mode, sha256=digest)
+    if (capture["checked_commit"] != head or capture["checked_tree"] != tree
+            or capture["raw"][relative] != raw or capture["files"][relative] != expected):
+        raise ValueError("current capture differs from executed native live bootstrap")
+    return module, capture
+
+
+def _current_validation_refusal(directory, error):
+    print(json.dumps({"records": str(directory), "report": [],
+        "error_code": "VALIDATION_REFUSED",
+        "validation_errors": [str(error) or type(error).__name__],
+        "scientific_effect": "NONE"}, indent=2))
+    return 1
+
+
+def _current_refreshed_population(capture, observer, now):
+    """Observe captured records and validate the complete prospective population."""
+    implementation = capture["modules"]["node_status_refresh"]
+    updates = {}
+    report = []
+    encoded = []
+    for node, record in sorted(capture["records"].items()):
+        refreshed = implementation.refresh_record(record, observer, now=now)
+        raw = (json.dumps(refreshed, indent=2, sort_keys=True, allow_nan=False) + "\n").encode("utf-8")
+        if len(raw) > 65536:
+            raise ValueError("refreshed record exceeds current byte limit")
+        filename = node + ".json"
+        relative = "records/node_status/" + filename
+        updates[relative] = raw
+        encoded.append((filename, raw))
+        row = {"file": filename, "node_id": node, "status": refreshed["status"],
+            "previous_status": record["status"], "refresh_error": refreshed.get("refresh_error")}
+        owner = refreshed.get("owner")
+        if isinstance(owner, dict) and isinstance(owner.get("released_url"), str) and owner["released_url"]:
+            row["released_url"] = owner["released_url"]
+        report.append(row)
+    if capture["profile"] == "graph-closure-v1":
+        capture["modules"]["node_status_v1"].check_v1_population(encoded, capture["source_inputs"])
+    else:
+        validator = capture["modules"]["validate_node_status"]
+        snapshot = json.loads(capture["raw"]["docs/site/current.json"])
+        known = set(snapshot["graph"]["data"]["nodes"])
+        for filename, raw in encoded:
+            problems = validator.check_record(json.loads(raw), filename, known)
+            if problems:
+                raise ValueError(filename + ": " + "; ".join(problems))
+    return report, updates
+
+
+def _write_current_updates(root, capture, updates):
+    """Open and verify every owned original before any explicit current write."""
+    opened = []
+    try:
+        for relative, updated in sorted(updates.items()):
+            path = root
+            for part in relative.split("/"):
+                path = path / part
+                if path.is_symlink():
+                    raise ValueError("current write path symlink refused")
+            descriptor = os.open(path, os.O_RDWR | os.O_NOFOLLOW | os.O_NONBLOCK)
+            stream = os.fdopen(descriptor, "r+b")
+            opened.append((stream, updated))
+            before = os.fstat(stream.fileno())
+            expected_mode = capture["files"][relative]["git_mode"]
+            if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1
+                    or bool(before.st_mode & 0o111) != (expected_mode == "100755")
+                    or stream.read(65537) != capture["raw"][relative]):
+                raise ValueError("current write original differs from captured native input")
+            after = os.fstat(stream.fileno())
+            current = path.lstat()
+            attributes = ("st_dev", "st_ino", "st_mode", "st_nlink", "st_size", "st_mtime_ns", "st_ctime_ns")
+            if any(getattr(before, field) != getattr(observed, field)
+                   for observed in (after, current) for field in attributes):
+                raise ValueError("current write original changed during admission")
+        for stream, updated in opened:
+            stream.seek(0)
+            if stream.write(updated) != len(updated):
+                raise OSError("short current record write")
+            stream.truncate()
+            stream.flush()
+    finally:
+        for stream, _updated in opened:
+            stream.close()
+
+
+def main(argv: list[str] | None = None) -> int:
+    """Refresh only the complete manifest-backed CURRENT native population."""
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("records", nargs="?", default="records/node_status")
+    ap.add_argument("--write", action="store_true", help="rewrite admitted current records (default: report only)")
+    ap.add_argument("--check", action="store_true", help="fail unless nonempty admitted records are all fresh; never writes")
+    args = ap.parse_args(argv)
+    if args.check and args.write:
+        ap.error("--check cannot be combined with --write")
+    root = Path(__file__).resolve().parents[1]
+    directory = Path(args.records)
+    try:
+        directory = _current_records_directory(root, directory)
+        live, capture = _load_current_capture(root)
+    except Exception as error:
+        return _current_validation_refusal(directory, error)
+    started = _utc_now()
+    report = []
+    observer = None
+    pinned_graph_binding = None
+    input_hashes = {node + ".json": hashlib.sha256(
+        capture["raw"]["records/node_status/" + node + ".json"]).hexdigest()
+        for node in sorted(capture["records"])}
+    try:
+        # Use the freshly captured implementation, never ambient sibling imports.
+        observer = capture["modules"]["node_status_refresh"].ContentObserver()
+        pinned_graph_binding = live._pinned_graph_binding_v2(capture, observer)
+        report, updates = _current_refreshed_population(capture, observer, started)
+    except Exception as error:
+        print(json.dumps({"records": str(directory), "report": report,
+            "error_code": "OBSERVATION_REFUSED", "input_error": str(error) or type(error).__name__,
+            "scientific_effect": "NONE", "input_sha256": input_hashes,
+            "observation_started_at": started, "observation_finished_at": _utc_now()}, indent=2))
+        return 1
+    try:
+        # This guard reads and compares inert originals; it executes no project code.
+        live._recapture_v2(root, capture)
+    except Exception as error:
+        print(json.dumps({"records": str(directory), "report": report,
+            "error_code": "INPUT_DRIFT", "input_error": str(error) or type(error).__name__,
+            "input_drift": True, "input_sha256": input_hashes,
+            "scientific_effect": "NONE"}, indent=2))
+        return 1
+    if args.write:
+        try:
+            _write_current_updates(root, capture, updates)
+        except Exception as error:
+            print(json.dumps({"records": str(directory), "report": report,
+                "error_code": "WRITE_REFUSED", "input_error": str(error) or type(error).__name__,
+                "input_sha256": input_hashes, "scientific_effect": "NONE"}, indent=2))
+            return 1
+    print(json.dumps({"records": str(directory), "report": report, "scientific_effect": "NONE",
+        "observation_started_at": started, "observation_finished_at": _utc_now(),
+        "heads": observer.heads, "sources": observer.observations,
+        "input_sha256": input_hashes, "input_drift": False,
+        "contract": "cited-object-content-v1", "input_protocol": "node-status-inputs.v2",
+        "profile": capture["profile"], "checked_commit": capture["checked_commit"],
+        "checked_tree": capture["checked_tree"], "source_bindings": capture["files"],
+        "pinned_graph_binding": pinned_graph_binding}, indent=2))
+    return 1 if args.check and (not report or any(row["status"] != "fresh" for row in report)) else 0
 
 
 if __name__ == "__main__":
