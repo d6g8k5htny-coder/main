@@ -1,0 +1,91 @@
+{
+  "purpose": "SOURCE_ONLY_FIXED_READBACK_OF_EXISTING_R1_ORIGINALS",
+  "original": {
+    "run": 42803771651,
+    "attempt": 1,
+    "job": 129787665051,
+    "controller": "b1b8267f6774f4f8c536ee8c54a00bcbcd5271b1",
+    "tree": "50cf08822e0e642b9f21aa7efb8c62fa6fc7859e",
+    "parents": [
+      "90093a2e61cf53271570db5707162e1c3176d773"
+    ],
+    "subject": "02973f3975a1c4cc91b7c51d372f65717c9b3c5c",
+    "subject_tree": "5d3160d982b4513f17848de45e0f4569233acd4e",
+    "conclusion": "failure",
+    "worker_step_seconds_from_native_timestamps": 205,
+    "method_execution_and_actual_worker_cause": "UNKNOWN_ORIGINAL_JOB_LOG_READER_TRANSPORT_CLOSED"
+  },
+  "artifact": {
+    "id": 13758500307,
+    "name": "formal-runtime-feasibility-42803771651-1",
+    "size_in_bytes": 16104541,
+    "native_declared_digest": "sha256:a18fd4260fb3dc8f694ea24744a87a4933a21a3b48c5cafa0a8cd9d56d7ee2d0",
+    "raw_zip_downloaded_at_source_stage": false
+  },
+  "reader": {
+    "path": ".github/workflows/g5-formal-r1-evidence-readback.yml",
+    "blob": "70e86f911ba17029ba014f60f98194f89415c70d",
+    "future_fixed_branch": "codex/g5-formal-r1-evidence-readback-20261110",
+    "trigger": "push only; no manual dispatch/inputs",
+    "permissions": [
+      "contents:read",
+      "actions:read"
+    ],
+    "auth": "official preinstalled gh api GET using GITHUB_TOKEN only in the dedicated reader step; no custom auth client/token output",
+    "requests": "fixed attempt/jobs/artifact/controller JSON and original artifact ZIP only",
+    "material_limit_bytes": 1572864,
+    "complete_framed_stdout_limit_bytes": 2097152,
+    "zip_member_limit_bytes": 134217728,
+    "zip_declared_total_member_limit_bytes": 536870912,
+    "operations": "in-memory selected-member read/CRC/hash/UTF8; no extraction/execution/producer replay",
+    "original_small_members": 13,
+    "snapshot_projections": 6,
+    "source_snapshot_count": 6183,
+    "source_snapshot_pins": 8,
+    "census_projections": 2,
+    "raw_trace_decompressed_or_reviewed": false,
+    "partial_output_policy": "oversize or framing-omitted originals NOT_FULL with exact extent/hash and reader visibility HOLD/exit1; no prefix counts as full; raw ZIP retained",
+    "projected_census_policy": "bounded summary/counts/first three concerns; producer-declared trace facts labelled; full census/raw trace not model reviewed",
+    "artifact_retention": "raw ZIP, exact acquired JSON, bounded framed stream, observation/error records in external RUNNER_TEMP",
+    "output_ceiling_scope": "hard 2MiB complete framed reader stdout stream; runner wrapper logs are additional and not a claimed measured transport limit"
+  },
+  "metadata_retention": [
+    {
+      "name": "native-attempt-42803771651-1.json",
+      "blob": "a7d720c819cb4318431cdbbc8816ae18f7b3661c",
+      "bytes": 12979,
+      "sha256": "70dcd231a4d816ce491aea27466f3101b0f5772caf1b0c7a9d0db0fa29ee7bb0",
+      "path": "cbz/evidence/formal-runtime-feasibility-r1-20261110/native-attempt-42803771651-1.json"
+    },
+    {
+      "name": "native-jobs-42803771651-1.json",
+      "blob": "d6fc5f9d4eb1f0bcab2ca05dd7812a61a9e1de6a",
+      "bytes": 2922,
+      "sha256": "9b741e79efa2e9e0c961750818a21049d13d7630e671f4b38f120dfaa3e2c193",
+      "path": "cbz/evidence/formal-runtime-feasibility-r1-20261110/native-jobs-42803771651-1.json"
+    },
+    {
+      "name": "native-artifacts-42803771651.json",
+      "blob": "dee915b763619db5f7b8c13f1eb9ba4f91be0893",
+      "bytes": 784,
+      "sha256": "2f7be7dffee800802544114e55df7103ae49a88b05d591787edb7817bfbb0c89",
+      "path": "cbz/evidence/formal-runtime-feasibility-r1-20261110/native-artifacts-42803771651.json"
+    },
+    {
+      "name": "native-controller-b1b826.json",
+      "blob": "68d2ce8e8be57af4a3d74fbb04714664c520c352",
+      "bytes": 1225,
+      "sha256": "49a3bad1db121d689f3901679bb6161dad8f91fcdbed02a5b5d1d29c34e3c184",
+      "path": "cbz/evidence/formal-runtime-feasibility-r1-20261110/native-controller-b1b826.json"
+    }
+  ],
+  "scope_limits": {
+    "source_stage_native_execution": false,
+    "original_method_replay": false,
+    "original_R1_rebound_to_new_reader": false,
+    "actual_method_pass_or_runtime_feasibility_claim": false,
+    "full_census_review_or_generated_input_admission": false,
+    "production_budget_guarantee": false,
+    "full_Main_G5_CBZ_scientific_credit": false
+  }
+}
