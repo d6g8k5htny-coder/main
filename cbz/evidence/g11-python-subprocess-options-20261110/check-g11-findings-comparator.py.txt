@@ -1,0 +1,91 @@
+import io
+import json
+import pathlib
+import shutil
+import subprocess
+import sys
+import tempfile
+import warnings
+import zipfile
+
+origin = pathlib.Path('/workspace/scratch/7abea556a9be')
+script = (origin / 'cbz_browser_observation/verify_g11_findings_correction.py').read_text()
+old_root = "root = pathlib.Path('/workspace/scratch/7abea556a9be')"
+check = "or len(report['findings']) != 132"
+if script.count(old_root) != 1 or script.count(check) != 1:
+    raise ValueError('observer mutation sites differ')
+outer_path = origin / 'cbz_v46_readback/zip/main790-evidence-v38.zip'
+current_path = origin / 'cbz_browser_observation/main811-g11-census-13743673695.zip'
+inner_names = [
+    'checkpoint-update-20261110T0631/native/main-merge/cbz/evidence/g11-sealed-candidate-census-20261110/original-artifact.zip',
+    'checkpoint-update-20261110T0700/native/debug/cbz/evidence/g11-python-subprocess-options-20261110/hosted-census.zip',
+    'checkpoint-update-20261110T0700/native/debug/cbz/evidence/g11-python-subprocess-options-20261110/expanded-census.zip',
+    'checkpoint-update-20261110T0700/native/debug-current/cbz/evidence/g11-python-subprocess-options-20261110/recomposed-census.zip',
+]
+results = []
+with tempfile.TemporaryDirectory(prefix='cbz-findings-comparator-') as temp:
+    root = pathlib.Path(temp)
+    outer = root / 'cbz_v46_readback/zip/main790-evidence-v38.zip'
+    current = root / 'cbz_browser_observation/main811-g11-census-13743673695.zip'
+    outer.parent.mkdir(parents=True)
+    current.parent.mkdir(parents=True)
+    with zipfile.ZipFile(outer_path) as original, zipfile.ZipFile(outer, 'w') as reduced:
+        for name in inner_names:
+            reduced.writestr(name, original.read(name))
+    original_current = current_path.read_bytes()
+    current.write_bytes(original_current)
+    baseline = root / 'observer.py'
+    mutant = root / 'mutant.py'
+    adapted = script.replace(old_root, 'root = pathlib.Path(' + repr(str(root)) + ')')
+    baseline.write_text(adapted)
+    mutant.write_text(adapted.replace(check, 'or False'))
+
+    def modified_current(kind):
+        if kind == 'truncated':
+            return original_current[:1024]
+        out = io.BytesIO()
+        with zipfile.ZipFile(io.BytesIO(original_current)) as source, zipfile.ZipFile(out, 'w') as target:
+            for name in source.namelist():
+                data = source.read(name)
+                if name == 'g11-census-normal.json' and kind in ('empty_findings', 'wrong_commit'):
+                    report = json.loads(data)
+                    if kind == 'empty_findings':
+                        report['findings'] = []
+                    else:
+                        report['commit'] = '0' * 40
+                    data = (json.dumps(report, sort_keys=True) + '\n').encode()
+                target.writestr(name, data)
+            if kind == 'duplicate':
+                with warnings.catch_warnings():
+                    warnings.simplefilter('ignore', UserWarning)
+                    target.writestr('g11-census-normal.json', source.read('g11-census-normal.json'))
+        return out.getvalue()
+
+    for mode in ('normal', 'optimized'):
+        argv = [sys.executable, '-B', '-S']
+        if mode == 'optimized':
+            argv.append('-O')
+        for case in ('original', 'empty_findings', 'wrong_commit', 'duplicate', 'truncated'):
+            current.write_bytes(original_current if case == 'original' else modified_current(case))
+            proc = subprocess.run(argv + [str(baseline)], text=True, capture_output=True, timeout=60)
+            expected = 0 if case == 'original' else 1
+            marker = ('report fields' if case in ('empty_findings', 'wrong_commit')
+                      else 'archive population or CRC' if case == 'duplicate'
+                      else 'BadZipFile' if case == 'truncated' else '')
+            if proc.returncode != expected or (marker and marker not in proc.stderr):
+                raise ValueError(f'unexpected {mode}/{case}: {proc.returncode} {proc.stderr}')
+            results.append({'mode': mode, 'case': case, 'exit': proc.returncode,
+                            'stdout': proc.stdout, 'stderr': proc.stderr})
+        current.write_bytes(modified_current('empty_findings'))
+        proc = subprocess.run(argv + [str(mutant)], text=True, capture_output=True, timeout=60)
+        if proc.returncode != 0:
+            raise ValueError(f'mutant did not expose the missing count check: {mode} {proc.stderr}')
+        results.append({'mode': mode, 'case': 'mutant_accepts_empty_findings',
+                        'exit': proc.returncode, 'stdout': proc.stdout, 'stderr': proc.stderr,
+                        'interpretation': 'the adverse expected rejection distinguishes this mutant'})
+
+out = origin / 'cbz_browser_observation/g11-findings-comparator-adverse.json'
+out.write_text(json.dumps(results, indent=2) + '\n')
+print(json.dumps({'modes': ['normal', 'optimized'], 'original_runs': 2,
+                  'adverse_rejections': 8, 'count-check_mutants_exposed': 2,
+                  'scope': 'fixed five-archive report-field comparison'}))

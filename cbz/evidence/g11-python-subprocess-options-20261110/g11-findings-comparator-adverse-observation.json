@@ -1,0 +1,23 @@
+{
+  "kind": "Adverse controls of one-off G11 report-field comparison",
+  "source_blob": "8dbd7b2360493e8ef29458c7936553549979067e",
+  "driver_blob": "80e3a85e0d2726e3f3664f8d37412f30070c0046",
+  "results_blob": "f7dd19e20d466c75875aab257d812e5fc3dd45c1",
+  "actual": {
+    "modes": [
+      "normal",
+      "optimized"
+    ],
+    "original_passes": 2,
+    "adverse_rejections": 8,
+    "cases": [
+      "empty findings",
+      "wrong source commit",
+      "duplicate inner member",
+      "truncated inner archive"
+    ],
+    "mutants_exposed": 2,
+    "mutation": "remove findings-count check; malformed empty-findings report was then accepted"
+  },
+  "scope": "fixed five original nested census archives; this does not qualify general ZIP security, full Layer A, or final G11"
+}
