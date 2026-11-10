@@ -1,5 +1,17 @@
 # CBZ-0 execution status
 
+## Main pytest component merge — observed 10 November 2026
+
+Main #803 merged as `97663b478822848db5262b2fffcbacd37d6231b4`, with
+tree `c1435f6d84c557d3fddadcf84bfdecfdf9a5738f` equal to tested merge
+`fd80e41202ed4ee266956d1e1f85598e90ff1904`. Hosted job `129614618042`
+ran the ten unchanged pytest bytecode-policy methods in normal and optimized
+modes, with ten OK outcomes and no reported skips in each. The earlier
+workflow-validation failure remains recorded. This is component evidence:
+the earlier full-regression skips are not erased and no full G5 or CBZ-0 is
+established. Workspace #69 still pins `31bc4c1f`, not this Main tip.
+
+
 
 ## Later Main, Workspace and Pages observation — 10 November 2026
 
@@ -8,8 +20,7 @@ preserving its tested tree. Workspace #69 at
 `d8d8b16af35b3f6d3d4b454ce98e26d7c3b81ab0` still pins the earlier Main
 `31bc4c1f`; that pin is stale after #799. Its post-merge pins and
 federation-contract workflows succeeded, but those observations are not a
-final current-tip federation pass. Main #803 is a separate draft qualifying a
-pytest population; its hosted results must be observed independently.
+final current-tip federation pass. Main #803 was then a separate draft.
 
 The Main `31bc4c1f` site run `42747646763` failed at prepared-receipt
 public readback in build job `129605863089`; deploy was skipped. The full
