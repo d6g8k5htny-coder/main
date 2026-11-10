@@ -682,3 +682,9 @@ The current composition requires its own actual hosted qualification and
 strict current-head/base integration guards. No old result is rebound, no
 record ownership or scientific hold changes, and Q-9003–Q-9005, full G5 and CBZ
 remain open. Scientific effect NONE.
+
+## 2026-11-10 — mandatory hosted pytest bytecode-policy population candidate
+
+The existing ten methods in tests/test_pytest_bytecode_policy.py (blob42252c0a1871189948e0d240151619b04f53e001) require genuine installed pytest; ordinary navigation retains -S and has not supplied this population's hosted execution. Root reports fresh source review PASS and separate pytest_policy_review PASS for workflowe1a24ee369ef540fd53805e49c449c7aeed09769, five-wheel hashlocka92172337814f1d6e0d3d302846a2dad0498464b and primary dependency provenance004f2ec44cce022457555b2a29e502f4b4a606f2. Root then authorized isolated draft publication and actual normal/optimized qualification of the unchanged ten existing methods; no artificial new-test baseline is substituted for them.
+
+Use a dedicated CPython3.11 venv with the existing project's pytest9.1.1/iniconfig2.3.1/packaging26.3/pluggy1.7.0/pygments2.21.0 versions, actual acquired universal-wheel hashes and original metadata. Parent -S receives the prepared actual purelib; unchanged child -I commands use that same real venv, preserving the deliberate adverse bytecode control. Require all ten exact method identities in each mode, zero skips/failures/errors, native HEAD/tree and source/runtime identities before/after, original logs/exits and child receipts, and immutable always-uploaded evidence. Do not change the test, conftest, validator or original dependency-version source, weaken ordinary-suite flags, install scipy/gudhi, delete caches, or infer a full G5/CBZ/scientific pass. Preserve all current Main content and peer canonical prefixes. This entry records authorized source publication only; actual current-tree hosted outcomes remain pending.

@@ -1,0 +1,70 @@
+{
+  "schema": "cbz.pytest-policy.dependencies.v1",
+  "scope": "PYTEST_BYTECODE_POLICY_TEN_METHODS_ONLY",
+  "scientific_effect": "NONE",
+  "acquisition": {
+    "date": "2026-11-10",
+    "tool": "mcp__codex_apps__search_service_web_run",
+    "operation": "open exact https://pypi.org/pypi/<project>/<version>/json release URLs",
+    "limitations": "Observed JSON fields through web-tool rendering; raw JSON/wheel bytes were not downloaded or independently hashed in this staging session. core_metadata_sha256 is the release JSON core-metadata.sha256 field, not a hash of the whole JSON response. Hosted preparation must retain original JSON/wheels and verify their hashes before installation."
+  },
+  "version_source": {
+    "repository": "d6g8k5htny-coder/main",
+    "commit": "812a799f4cf4cee730efa0177a9101af4cf259ef",
+    "path": "tools/hypergraph/requirements.txt",
+    "git_blob": "2f5732e68f66aca0c0286e2f0ef2f936dcdd00a2"
+  },
+  "python": "CPython 3.11",
+  "packages": [
+    {
+      "project": "pytest",
+      "version": "9.1.1",
+      "primary_json_url": "https://pypi.org/pypi/pytest/9.1.1/json",
+      "filename": "pytest-9.1.1-py3-none-any.whl",
+      "sha256": "37a86b45efb9a47a61a36449063e8e18d0cab3161329fc099eb21783169c4f0c",
+      "core_metadata_sha256": "c5d032518012789cabc870d46589aca3aeda36cf9fa4399ee88bda3d10438451",
+      "requires_python": ">=3.10",
+      "url": "https://files.pythonhosted.org/packages/24/25/1de2678b631f5a49215c6c96fff41ba892b0a34df68d6d80292b1b48aa7f/pytest-9.1.1-py3-none-any.whl"
+    },
+    {
+      "project": "iniconfig",
+      "version": "2.3.1",
+      "primary_json_url": "https://pypi.org/pypi/iniconfig/2.3.1/json",
+      "filename": "iniconfig-2.3.1-py3-none-any.whl",
+      "sha256": "9121e2c1fdb355232495be3194c8dfe87ccc2d5dee45947b78e68f499790d7a7",
+      "core_metadata_sha256": "47c2c35d936f5c649d8074c6464719a42966a67b5cebad01e3e5784cf090cfb6",
+      "requires_python": ">=3.10",
+      "url": "https://files.pythonhosted.org/packages/56/43/4ca9e49d27a1fcf6bece6f6aec0ea46bb9112489b93d4b688fb415457bdb/iniconfig-2.3.1-py3-none-any.whl"
+    },
+    {
+      "project": "packaging",
+      "version": "26.3",
+      "primary_json_url": "https://pypi.org/pypi/packaging/26.3/json",
+      "filename": "packaging-26.3-py3-none-any.whl",
+      "sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+      "core_metadata_sha256": "70fdb89fc4d4a9a043bf7372b8972bcc883fddff34ab55e9cf80d73875384763",
+      "requires_python": ">=3.9",
+      "url": "https://files.pythonhosted.org/packages/63/34/ba1c580383c9eada3711951fef0795c80b829a078d72188184bcab9dd527/packaging-26.3-py3-none-any.whl"
+    },
+    {
+      "project": "pluggy",
+      "version": "1.7.0",
+      "primary_json_url": "https://pypi.org/pypi/pluggy/1.7.0/json",
+      "filename": "pluggy-1.7.0-py3-none-any.whl",
+      "sha256": "7dd7b0d8832ba3cb632c306926ded123429211b83641b35dc5c41ad2d34f9bec",
+      "core_metadata_sha256": "20ac8237e37f1d6e7e75500cd663015177ba80c1a1a595ff6bae18a539ff8a2c",
+      "requires_python": ">=3.10",
+      "url": "https://files.pythonhosted.org/packages/40/9e/2b38731e0fc536806f16490e1a12d7f0dc2a1235aa8cc07bcc75416a7daa/pluggy-1.7.0-py3-none-any.whl"
+    },
+    {
+      "project": "pygments",
+      "version": "2.21.0",
+      "primary_json_url": "https://pypi.org/pypi/pygments/2.21.0/json",
+      "filename": "pygments-2.21.0-py3-none-any.whl",
+      "sha256": "2363c69b61c4a97c838da3b130dcd6468f4848992b21a82f2a63ec34377137d9",
+      "core_metadata_sha256": "1dde075570136774c706bf0009183a793fe0ee262e4a5590cc6eff8453eedd43",
+      "requires_python": ">=3.9",
+      "url": "https://files.pythonhosted.org/packages/71/46/17f022dd3e953bf20a04a028a21ec746d942f8d2af30fa0f124fa0e6a684/pygments-2.21.0-py3-none-any.whl"
+    }
+  ]
+}
