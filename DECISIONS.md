@@ -1692,3 +1692,12 @@ or ref update. Later normal/optimized qualification remains unobserved.
 The change is reversible by ordinary guarded removal of the two new production
 paths; retain this entry and historical R0 originals. No data/dispatcher/V2,
 owner assignment, science, full Main, G5 or CBZ award follows.
+
+
+## 2026-11-10 — Bounded inventory source for retained SDGA E evidence
+
+Phase: diagnostic source preparation; Layer B. Original E run42812650934/1/job129817709245 completed successfully at signed native3888fd73af76b515dc74f8381121ef1ce060117a/tree23b78cfe06577d34ae8b0ce9b944f1859d2c9f83, with feature head21f5f75b2f96ffca01368b3597a977e0ee0364d1. Two oversized job-log reads failed in transport; no original-member semantic review, GREEN or mutation-kill credit is inferred from job status. The fixed original artifact13764261877 is27670946 bytes, SHA256d8e875884c165480131c4db6f022318655a1048a582c06c042dbb3985e0656c9.
+
+Prepare only the reviewed inventory reader, its fixed push workflow and owned plan on fresh Main8aaaa387d11dc21a0867b9cc41cc81743ca59975, preserving all Acq/V1/peer leaves and the entire canonical prefix. Root and runtime_conditional_sources whole-source review report C0/I0/M0; source transfer06e1526bcc6bfd67a73b39df77ac617f876d7587. The plan retains its historical32a cut and appends the current source-cut and exact encoded PhaseB output-budget requirements. No unmerged E production code is carried into this reader composition.
+
+Rationale: one closed six-GET official-gh table can authenticate the old API/ZIP custody, stream-check all member extents/CRC/SHA and print a bounded complete derived inventory without extraction or original-test execution. Reader-controlled stdout is capped at1.5MiB, reserving0.5MiB for the fixed job wrapper; actual decoded job size must be measured before evidence credit. Original API replies, archive and reader output remain retained in external RUNNER_TEMP. Original member bodies remain unread by the model; any later full-original fragment table needs the actual inventory and Root source review first. Reversibility: abandon the isolated diagnostic branch without changing Main or E. The starting environment may provide a local alternative, so this source composition grants no ref/run authority. Scientific effect NONE; qualification/classification BLOCKED; execution_authenticated=false; no99/catalog/kernel/G5/CBZ promotion follows.
