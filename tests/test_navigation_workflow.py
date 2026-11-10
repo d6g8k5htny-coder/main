@@ -219,6 +219,9 @@ class NavigationWorkflowTests(unittest.TestCase):
 
     def test_entire_job_and_permissions_are_byte_preserved(self):
         suffix = self.workflow[self.workflow.index('permissions:'):]
+        inherited_bytecode = "    env:\n      PYTHONDONTWRITEBYTECODE: '1'\n"
+        self.assertEqual(suffix.count(inherited_bytecode), 1)
+        suffix = suffix.replace(inherited_bytecode, '', 1)
         # Remove only the new original-byte diagnostic step, then restore
         # the closed output-path changes before the prior byte contract.
         printer = (
