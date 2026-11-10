@@ -1,0 +1,225 @@
+{
+  "kind": "ACTUAL_NAVIGATION_IMPORT_FAILURE_CONFIRMED",
+  "scope": "Stage1 compatibility failure diagnosis; no gate promotion",
+  "repository": "d6g8k5htny-coder/main",
+  "original_failure": {
+    "workflow_blob": "23f27d396680483ae083752363bacfba8c170b7c",
+    "head": "b574a3074303eabad9c12bf2d8a79a917abd073c",
+    "checked_commit": "b305fcd91d58f54256ed951132480a3f5599aee0",
+    "checked_tree": "9ed60a47cf08ceb037cb7734c987ac74e776a677",
+    "checked_ordered_parents": [
+      "02973f3975a1c4cc91b7c51d372f65717c9b3c5c",
+      "b574a3074303eabad9c12bf2d8a79a917abd073c"
+    ],
+    "run": 42782254230,
+    "attempt": 1,
+    "job": 129714840608,
+    "native_exit": 1,
+    "artifact": 13747193068,
+    "artifact_name": "research-navigation-42782254230",
+    "declared_ZIP_bytes": 71260,
+    "declared_ZIP_sha256": "e7d75a9f81888443637446a9ec98d40422ac05708429aa15979ab4e15d149918",
+    "original_decoded_job_log_proposal": "3f9495c02e6d3404bc6a05a819d3f86b251083ff",
+    "original_attempt_jobs_artifact_proposals": [
+      "a14dd9a0f99d4695912c92a29fe7bfd4313ee041",
+      "96a89805420e697d82cf09b3d84e6eadcf1cb22a",
+      "2340e094f48fe8b296abc1df71d5f5741efbf8e4"
+    ]
+  },
+  "recovery": {
+    "purpose": "DIAGNOSTIC_EXISTING_FAILURE_ONLY",
+    "head": "1eb77655b6ae4613d34bda6cf682e3520abc859e",
+    "source_tree": "956dcfc36078616c613f6d13ebc0fd7fe68be512",
+    "workflow_blob": "0f5d48f2d85b5e91f01c7c2fe6ee97cbf07fe8a3",
+    "checked_commit": "e6f532ac7e7115c34778248c8072a42d1de47186",
+    "checked_ordered_parents": [
+      "02973f3975a1c4cc91b7c51d372f65717c9b3c5c",
+      "1eb77655b6ae4613d34bda6cf682e3520abc859e"
+    ],
+    "signed_Git_verification": {
+      "verified": true,
+      "reason": "valid"
+    },
+    "run": 42787237918,
+    "attempt": 1,
+    "job": 129731421541,
+    "conclusion": "success",
+    "decoded_native_log_UTF8_bytes": 693165,
+    "decoded_native_log_SHA256": "9fa4e82b9f29241b53d2029b3c9fe5dab3ee89dc536c9f84dd3cf5f058816573",
+    "retention_artifact": 13748039935,
+    "retention_artifact_size": 150291,
+    "retention_artifact_declared_SHA256": "1f8c38271d19ff945dd6b9dbedb64a1ca9a1b15352ad8d70662acd007699ef41",
+    "original_tests_executed_by_reader": false
+  },
+  "verification_distinction": {
+    "reviewed_native_reader_downloaded_and_verified_original_raw_ZIP_size_SHA_CRC_layout": true,
+    "ROOT_direct_raw_ZIP_download_or_unpack": false,
+    "assistant_direct_raw_ZIP_unpack_or_digest_recomputation": false,
+    "models_extracted_original_member_text_from_full_decoded_reader_job_log": true,
+    "ROOT_and_assistant_independently_matched_all4_original_UTF8_extents_SHA256": true,
+    "assistant_UTF8_SHA256_known_answers": [
+      "empty",
+      "abc",
+      "é"
+    ],
+    "source_of_durable_members": "Original complete member bytes printed by reviewed native reader; reconstructed only outer native timestamp framing, never a test summary."
+  },
+  "original_members": [
+    {
+      "path": "cbz/evidence/main-unittest-stage1-navigation-failure-20261110/python.txt",
+      "mode": "100644",
+      "git_blob": "4965f4891ecf5e7c74b0db63a764ac9d19fc9733",
+      "original_bytes": 15,
+      "sha256": "8dab88328537f15c219ff04f4c55b0150f9867347067f4b5868ed8b0769249af",
+      "kind": "Verified complete original failed-run member"
+    },
+    {
+      "path": "cbz/evidence/main-unittest-stage1-navigation-failure-20261110/commit.txt",
+      "mode": "100644",
+      "git_blob": "a5a7c626f22b94ee4a5fd0395a76833b8c37a38b",
+      "original_bytes": 41,
+      "sha256": "55a2590ea753870433b8c40eee3e6d1d55b0fb1983315e1fc747bcbe3a4687ac",
+      "kind": "Verified complete original failed-run member"
+    },
+    {
+      "path": "cbz/evidence/main-unittest-stage1-navigation-failure-20261110/landing.txt",
+      "mode": "100644",
+      "git_blob": "2d0d75de34766242b9e9d4a0c13a53f25a1beb25",
+      "original_bytes": 230,
+      "sha256": "8562e8b6c8c50ee1b036bd3875fcca08be200d68000b10649d0553b835707daf",
+      "kind": "Verified complete original failed-run member"
+    },
+    {
+      "path": "cbz/evidence/main-unittest-stage1-navigation-failure-20261110/tests-normal.log",
+      "mode": "100644",
+      "git_blob": "46be391a80ba11fff8fe707adcb8a03238a34336",
+      "original_bytes": 560586,
+      "sha256": "ffdeb25eaa4634b793d25664e5e21ab99f73a68643fade732009ba74596c6d86",
+      "kind": "Verified complete original failed-run member"
+    }
+  ],
+  "observed_failure": {
+    "sole_unittest_error": "unittest.loader._FailedTest.test_unittest_full_qualification",
+    "trace": [
+      {
+        "file": "tests/test_unittest_full_qualification.py",
+        "line": 31,
+        "statement": "from tools import unittest_full_qualification as subject"
+      },
+      {
+        "file": "tools/unittest_full_qualification.py",
+        "line": 254,
+        "statement": "_PROJECT_STAMP = _project_snapshot()"
+      },
+      {
+        "file": "tools/unittest_full_qualification.py",
+        "line": 213,
+        "statement": "_fail(\"SOURCE_MISMATCH\")"
+      },
+      {
+        "file": "tools/unittest_full_qualification.py",
+        "line": 49,
+        "statement": "raise ValueError(reason)"
+      }
+    ],
+    "exception": "ValueError: SOURCE_MISMATCH",
+    "native_unittest_reported_count": 2775,
+    "elapsed_seconds": 647.944,
+    "summary": "FAILED (errors=1, skipped=23)",
+    "frozen_G5_ten_parent_bodies_executed": 0,
+    "skip_credit": false,
+    "all_original_output_retained": true
+  },
+  "cause": {
+    "status": "ACTUAL_TRACE_CONFIRMS_STATIC_INCOMPATIBILITY",
+    "workflow_behavior": "Creates navigation-evidence and redirects generated outputs inside checked source before discovery.",
+    "helper_behavior": "Import-time _project_snapshot rejects every untracked or ignored actual source checkout file.",
+    "targeted_workflow_difference": "Frozen targeted workflow uses RUNNER_TEMP outside checkout and its ten cases passed on the old source.",
+    "boundary": "No helper weakening or generic ignored-file exception is authorized."
+  },
+  "source_fix_proposal": {
+    "status": "SOURCE_STAGE_ONLY_NOT_EXECUTED",
+    "navigation_workflow_blob": "6482bf3ab023dbab725ffa3e363ea177b8eee87e",
+    "behavior": "Move only generated output path references to fixed RUNNER_TEMP/navigation-evidence, adapt strict original-file printer/upload, preserve all test/verification commands and assertions otherwise.",
+    "consumers": "Four exact workflow consumers require minimal path/harness/inverse-preservation adaptations; source stage only.",
+    "remove_ephemeral_historical_reader": true,
+    "no_fresh_pass_claim": true
+  },
+  "evidence_entries": [
+    {
+      "path": "cbz/evidence/main-unittest-stage1-navigation-failure-20261110/python.txt",
+      "mode": "100644",
+      "git_blob": "4965f4891ecf5e7c74b0db63a764ac9d19fc9733",
+      "original_bytes": 15,
+      "sha256": "8dab88328537f15c219ff04f4c55b0150f9867347067f4b5868ed8b0769249af",
+      "kind": "Verified complete original failed-run member"
+    },
+    {
+      "path": "cbz/evidence/main-unittest-stage1-navigation-failure-20261110/commit.txt",
+      "mode": "100644",
+      "git_blob": "a5a7c626f22b94ee4a5fd0395a76833b8c37a38b",
+      "original_bytes": 41,
+      "sha256": "55a2590ea753870433b8c40eee3e6d1d55b0fb1983315e1fc747bcbe3a4687ac",
+      "kind": "Verified complete original failed-run member"
+    },
+    {
+      "path": "cbz/evidence/main-unittest-stage1-navigation-failure-20261110/landing.txt",
+      "mode": "100644",
+      "git_blob": "2d0d75de34766242b9e9d4a0c13a53f25a1beb25",
+      "original_bytes": 230,
+      "sha256": "8562e8b6c8c50ee1b036bd3875fcca08be200d68000b10649d0553b835707daf",
+      "kind": "Verified complete original failed-run member"
+    },
+    {
+      "path": "cbz/evidence/main-unittest-stage1-navigation-failure-20261110/tests-normal.log",
+      "mode": "100644",
+      "git_blob": "46be391a80ba11fff8fe707adcb8a03238a34336",
+      "original_bytes": 560586,
+      "sha256": "ffdeb25eaa4634b793d25664e5e21ab99f73a68643fade732009ba74596c6d86",
+      "kind": "Verified complete original failed-run member"
+    },
+    {
+      "path": "cbz/evidence/main-unittest-stage1-navigation-failure-20261110/reader-job.log",
+      "mode": "100644",
+      "git_blob": "0b0b88656026ef357f470de2ced57947547483ad",
+      "kind": "Verbatim decoded native job-log UTF8 text"
+    },
+    {
+      "path": "cbz/evidence/main-unittest-stage1-navigation-failure-20261110/native-reader-attempt.json",
+      "mode": "100644",
+      "git_blob": "a71b7b5ef4e9f5cbfac0d8da785d39dcf631f941",
+      "kind": "Original native API response text"
+    },
+    {
+      "path": "cbz/evidence/main-unittest-stage1-navigation-failure-20261110/native-reader-jobs.json",
+      "mode": "100644",
+      "git_blob": "5e13efd004ca8a3c1f03387c663955e18baf7ed7",
+      "kind": "Original native API response text"
+    },
+    {
+      "path": "cbz/evidence/main-unittest-stage1-navigation-failure-20261110/native-reader-artifacts.json",
+      "mode": "100644",
+      "git_blob": "958ed747e7401c04869ceaa0ff35f5fda0060ca7",
+      "kind": "Original native API response text"
+    },
+    {
+      "path": "cbz/evidence/main-unittest-stage1-navigation-failure-20261110/native-reader-checked-commit.json",
+      "mode": "100644",
+      "git_blob": "7bc480c3a75229e2d5771ed17eace2bb075795ef",
+      "kind": "Original native API response text"
+    }
+  ],
+  "credit": {
+    "new_test_credit": false,
+    "full_Main_pass": false,
+    "G5": false,
+    "CBZ": false,
+    "science": "NONE",
+    "owner_data_custody": false
+  },
+  "actions": {
+    "no_manual_rerun_dispatch": true,
+    "no_Ready_or_merge": true,
+    "no_helper_or_frozen_test_change": true
+  }
+}
