@@ -1618,3 +1618,32 @@ Source publication still requires root's final exact-tree GO, preserving the ful
 Initial automatic42778057843/1/job129701152691 is bounded green only at signed-valid native d775b73b343a5deabd6a60e984b9be8aeb5225c3/treef327728e921afc7db79b21a5324f8113ad850f9f parents[Main d1819f0a, feature1b1885a8]. Both modes actual15/67(61Lean+6Python_controller), pure12, custody3/6, admission2/6 and28 input observations/10bindings/55paths passed with0errors/skips/not_run/drift. All5 manifests+7 envelopes/mode matched12 immutable generated-file entries and final measurements; actual stream/request/source/custody bindings reconcile. C11 altered-private-extra and C14 verified-dependency-residue causes are exact typed refusals, with metadata mutation provenance retained; no generated-source/semantic credit beyond those controls.
 
 Retain exact green-initial job.log349aff5d37af474ea3c192fcf2b7b2f8f9e2ac4e,258-originals packeta243a1c559142324404d75c3c0c728ff3b148e68 and receipt22955e6a27147a31a0eb4cd3fcc743aad7577e11 under cbz/evidence/sdga-task-d-20261110/green-initial/. Every declared UTF8 extent/SHA256 reconciled and all3 blobs read back exactly; no ZIP or independent host-file measurement claim. Preserve the full actual fresh Main b285dd7a31ad7b297abc9f2aa93267300111a4e9 tree/canonical prefix and complete1b188 feature ancestry, overlay only owned D entries and these retained records/minimal report append, with no code/test/workflow change. The necessary newly composed tree requires fresh automatic native qualification; old green is not rebound. Draft remains; no Ready/merge authorization follows from this source stage. Unexecuted I/O failure branches have no runtime credit; scientific_effect NONE, classification/qualification BLOCKED, execution_authenticated=false.
+
+
+## 2026-11-10 — Node-status v1 phase2 test-first source candidate
+
+Phase: test-first contract preparation; Layer B. Add only the twelve-parent
+`tests/test_node_status_v1.py` contract and its separate targeted normal and
+optimized workflow. This reversible candidate preserves v0, the current four
+records and nine-input live ABI, merged G5 controls, strict sources and every
+fresh peer leaf. Production helper/schema, data adoption, dispatcher/V2 and
+owner assignments are absent and unchanged.
+
+Rationale: freeze meaningful closed-v1 consistency tests before implementation.
+Actual Graph220b and three existing Main artifact originals supply inert source
+frames; nine TEST records confer no native acquisition, freshness or science.
+Root read final tests debc4b3f07f8d47dbf1b1b6f3be93ce225627b7a and workflow
+04408cd164eb7abbb0cf71131e0c670f8ddb145a; independent whole-source review and
+bounded missing-frame correction closed at C0/I0/M0. Plan
+3d17f553d612b52b4cae5bd2e8f559202763575f and source manifest
+23a6681605471fe6839d4337349404d07760fbdf bind scope and preserved inputs.
+
+Source observation: 2026-11-10 11:42:32 UTC; Main
+d09f3252e4f9eb91d624f42357e81e3e43a658e5, tree
+111ec264e36b15a03bb3c5150247003198fc1609. No tests or native RED have run for this
+candidate. Future missing-module RED must be read at its actual native source:
+zero of twelve behavioral bodies, no semantic-negative credit. Helper/schema
+implementation requires that actual read. This entry records only an
+unreferenced candidate; publication and any later execution remain separate.
+No full Main, G5, CBZ, owner or scientific award follows. Reversal is an
+ordinary guarded removal of the two additions with this historical entry kept.
