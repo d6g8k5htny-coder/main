@@ -1,0 +1,178 @@
+name: sdga-m2-selected-c02-reachability
+
+on:
+  push:
+    branches:
+      - codex/cbz-sdga-m2-reachability-probe-20261110
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+        working-directory: main
+    env:
+      LEAN_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          path: main
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.11"
+      - name: Install only the pinned core Lean toolchain
+        uses: leanprover/lean-action@24581d74d674803a25a81b10b059c5c0cdd344c6
+        with:
+          lake-package-directory: main/tests/fixtures/sdga_component
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "false"
+          use-github-cache: "false"
+      - name: Prepare four fixed actual detached D worktrees
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git merge-base --is-ancestor 02973f3975a1c4cc91b7c51d372f65717c9b3c5c HEAD
+          test "$(git rev-parse 02973f3975a1c4cc91b7c51d372f65717c9b3c5c^{tree})" = 5d3160d982b4513f17848de45e0f4569233acd4e
+          for mode in normal optimized
+          do
+            for state in baseline mutant
+            do
+              git worktree add --detach "$RUNNER_TEMP/sdga-m2-$mode-$state-tree" 02973f3975a1c4cc91b7c51d372f65717c9b3c5c
+            done
+          done
+          git worktree list --porcelain
+      - name: Observe fixed healthy then M2 selected C02 normally
+        timeout-minutes: 10
+        run: |
+          set -euo pipefail
+          python3 -B -S tests/sdga_m2_reachability_probe.py \
+            --output "$RUNNER_TEMP/sdga-m2-normal" \
+            2>&1 | tee "$RUNNER_TEMP/sdga-m2-normal.log"
+      - name: Observe fixed healthy then M2 selected C02 with optimized Python
+        if: ${{ !cancelled() }}
+        timeout-minutes: 10
+        run: |
+          set -euo pipefail
+          python3 -B -O -S tests/sdga_m2_reachability_probe.py \
+            --output "$RUNNER_TEMP/sdga-m2-optimized" \
+            2>&1 | tee "$RUNNER_TEMP/sdga-m2-optimized.log"
+      - name: Print original selected-scope bytes before upload
+        if: always()
+        run: |
+          python3 -B -S - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import sys
+
+          context = {
+              "candidate_commit": os.environ["GITHUB_SHA"],
+              "run_id": os.environ["GITHUB_RUN_ID"],
+              "run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "github_job": os.environ["GITHUB_JOB"],
+              "base_commit": "02973f3975a1c4cc91b7c51d372f65717c9b3c5c",
+          }
+
+          def original(path, relative, mode, state):
+              if not path.is_file():
+                  print("M2_NOT_PRODUCED", mode, state, relative, flush=True)
+                  return
+              raw = path.read_bytes()
+              try:
+                  payload = raw.decode("utf-8")
+                  encoding = "utf-8"
+              except UnicodeDecodeError:
+                  payload = raw.hex()
+                  encoding = "hex"
+              identity = {
+                  **context, "mode": mode, "state": state,
+                  "relative_path": relative, "bytes": len(raw),
+                  "sha256": hashlib.sha256(raw).hexdigest(), "encoding": encoding,
+              }
+              print("M2_ORIGINAL_BYTES_BEGIN " + json.dumps(identity, sort_keys=True), flush=True)
+              sys.stdout.write(payload)
+              if not payload.endswith("\n"):
+                  sys.stdout.write("\n")
+              sys.stdout.flush()
+              print("M2_ORIGINAL_BYTES_END " + json.dumps(identity, sort_keys=True), flush=True)
+
+          labels = (
+              "cleanup-only-preflight", "main_commit", "main_tree", "lean-githash",
+              "fixture-bad-dependency-compile", "fixture-safe-compile",
+              "fixture-axiomuse-compile", "fixture-skipped-compile",
+              "fixture-ownedaxiom-compile", "bridge-compile", "inventory",
+              "m2-source-before-control", "control-C02", "m2-source-after-control",
+          )
+          state_files = (
+              "source-identities.json", "commands.json", "census.json",
+              "subcases.jsonl", "inventory.jsonl", "fixture-classification.json",
+              "cleanup-only-preflight.json", "ir-evidence-registry.json",
+              "object-custody.json", "control-observation-control-C02.json",
+              "selected-unittest.log", "request.json", "task-b-BadDependency-request.json",
+              "request.json.inventory.ir-manifest.json", "ir-evidence/01-inventory.json",
+              "object-custody/01-inventory.json", "object-custody/02-control-C02.json",
+              "bootstrap-error.txt", "controller-import.txt",
+          )
+          for mode in ("normal", "optimized"):
+              root = Path(os.environ["RUNNER_TEMP"]) / ("sdga-m2-" + mode)
+              for name in ("probe-context.json", "m2-source-edit.json", "m2-source.diff",
+                           "baseline-state.json", "mutant-state.json", "probe-result.json"):
+                  original(root / name, name, mode, "batch")
+              for state in ("baseline", "mutant"):
+                  state_root = root / state
+                  for name in state_files:
+                      original(state_root / name, state + "/" + name, mode, state)
+                  for ordinal, label in enumerate(labels, 1):
+                      for suffix in ("stdout", "stderr"):
+                          name = "native/%02d-%s.%s" % (ordinal, label, suffix)
+                          original(state_root / name, state + "/" + name, mode, state)
+                  source_root = state_root / "probe-sources"
+                  if mode == "normal" and state == "baseline":
+                      source_files = sorted(source_root.rglob("*")) if source_root.is_dir() else []
+                      for path in source_files:
+                          if path.is_file():
+                              original(path, state + "/probe-sources/" + str(path.relative_to(source_root)),
+                                       mode, state)
+                  else:
+                      name = "probe-sources/tools/sdga/Component.lean"
+                      original(state_root / name, state + "/" + name, mode, state)
+                  owned = state_root / "owned"
+                  if owned.is_dir():
+                      for path in sorted(owned.rglob("*")):
+                          if path.is_file():
+                              raw = path.read_bytes()
+                              print("M2_RETAINED_BINARY_IDENTITY " + json.dumps({
+                                  **context, "mode": mode, "state": state,
+                                  "relative_path": state + "/owned/" + str(path.relative_to(owned)),
+                                  "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest(),
+                                  "claim": "retention identity only; binary/ZIP content not inspected",
+                              }, sort_keys=True), flush=True)
+          print("Selected C02 reachability only; no full D/E qualification or mutation-kill claim.",
+                flush=True)
+          print("Original runner files printed before upload; no ZIP-member inspection claimed.",
+                flush=True)
+          PY
+      - name: Retain originals, fresh objects, source copies and failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sdga-m2-selected-c02-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/sdga-m2-normal/
+            ${{ runner.temp }}/sdga-m2-optimized/
+            ${{ runner.temp }}/sdga-m2-normal.log
+            ${{ runner.temp }}/sdga-m2-optimized.log
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
