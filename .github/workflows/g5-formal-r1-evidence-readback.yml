@@ -1,0 +1,626 @@
+# Read existing original bytes only; no formal method replay or qualification.
+name: Read retained formal R1 observations
+
+'on':
+  push:
+    branches: [codex/g5-formal-r1-evidence-readback-20261110]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  original-formal-r1-artifact:
+    name: Read only the retained formal R1 observations
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify and print bounded fixed original R1 records
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python -I -B -S - <<'PY'
+          import binascii
+          import hashlib
+          import io
+          import json
+          import os
+          from pathlib import Path, PurePosixPath
+          import re
+          import secrets
+          import selectors
+          import signal
+          import stat
+          import subprocess
+          import sys
+          import time
+          import traceback
+          import zipfile
+          
+          PURPOSE = "DIAGNOSTIC_EXISTING_FORMAL_R1_ONLY"
+          REPOSITORY = "d6g8k5htny-coder/main"
+          BRANCH = "refs/heads/codex/g5-formal-r1-evidence-readback-20261110"
+          RUN, ATTEMPT, JOB, ARTIFACT = 42803771651, 1, 129787665051, 13758500307
+          CHECKED = "b1b8267f6774f4f8c536ee8c54a00bcbcd5271b1"
+          TREE = "50cf08822e0e642b9f21aa7efb8c62fa6fc7859e"
+          PARENTS = ["90093a2e61cf53271570db5707162e1c3176d773"]
+          SUBJECT = "02973f3975a1c4cc91b7c51d372f65717c9b3c5c"
+          SUBJECT_TREE = "5d3160d982b4513f17848de45e0f4569233acd4e"
+          ZIP_SIZE = 16104541
+          ZIP_SHA256 = "a18fd4260fb3dc8f694ea24744a87a4933a21a3b48c5cafa0a8cd9d56d7ee2d0"
+          MIB = 1024 * 1024
+          OUTPUT_LIMIT = 2 * MIB
+          ORIGINAL_BUDGET = 3 * MIB // 2
+          METHODS = [
+              "tests.test_formal_gate.RepositoryControls.test_real_package_executes_with_receipt",
+              "tests.test_formal_compiled_inventory.PinnedLeanInventoryTests.test_actual_clean_and_omitted_constants",
+          ]
+          PINS = {
+              "tests/test_formal_gate.py": "aa8acd86661183a4d0b97704efaf025ee385bc3e",
+              "tests/test_formal_compiled_inventory.py": "ce3b77bebd084c711acf5509ca56410ea3e56071",
+              "tools/formal_gate_check.py": "aa2f90376f349ec6fca3d35a115990829d3d3f54",
+              "tools/formal_compiled_inventory.py": "c037a8c3cdab114089a37f67aeb5d109277083ea",
+              "formal/manifest.json": "7bd51fe201ade413fcd18314854c40ee4aae3df6",
+              "formal/lake-manifest.json": "fc7655fad5ede55ad51ac99d0801a13a21f78dd7",
+              "formal/lakefile.toml": "d986aa8d776636f3f47deaa6d17d41e79eb5b0d3",
+              "formal/lean-toolchain": "ba8ebf2dbaf6a668cd2a0e086186d6d569b69ff5",
+          }
+          SMALL = ("probe.json", "cleanup.json", "control.json", "runtime-binaries.json",
+                   "observer-error.log") + tuple(
+              mode + "/" + name for mode in ("normal", "optimized")
+              for name in ("observation.json", "stdout.bin", "stderr.bin", "observer-error.log"))
+          SNAPSHOTS = tuple(mode + "/" + name for mode in ("normal", "optimized")
+                            for name in ("source-preparation.json", "source-before.json", "source-after.json"))
+          CENSUSES = ("normal/write-census.json", "optimized/write-census.json")
+          TRACE_IDENTITIES = {
+              "normal": {"bytes": 124150681, "lines": 278262,
+                         "sha256": "4c78906cfb1b65d98e0702af43dac084faaae1a8b921fa68d77528c68e470a07"},
+              "optimized": {"bytes": 124923553, "lines": 277657,
+                            "sha256": "be0e917478f37611af72127ef26dc45db313b8246d091f55d9b6f960d88361f7"},
+          }
+          TRACE_ANCHORS = {
+              "normal": ((1, 323, 111300, "9a1afa083ccab12a69ac67833683e076f70faf59ed5d66d2ed8c083e796a9818"),
+                         (2, 350, 117413, "72602f015a1816487de279c60817c2fe3d7348efd47d2306ea09755a3f2e0323"),
+                         (3, 383, 125406, "b4fb5a5c11aa546fed18e782c60eedc51c6978efef4c6eb9aa6df9985db42d57")),
+              "optimized": ((1, 425, 145373, "f1c558008f941569287917d38d48fb3199b241849420095afac36a305e822121"),
+                            (2, 452, 151594, "a211eb87d6e33e885200f3f94860bd4b72a26b035cb6a1d0636f7805f0eef3ef"),
+                            (3, 485, 159743, "67f87c336e5ec5bc4278be83ab957c52eacd3d0f1a05e8c92537c2cb528376fa")),
+          }
+          TRACE_SLICES = {}
+          REQUESTS = (
+              ("original-attempt.json", "repos/d6g8k5htny-coder/main/actions/runs/42803771651/attempts/1", 128 * 1024),
+              ("original-jobs.json", "repos/d6g8k5htny-coder/main/actions/runs/42803771651/attempts/1/jobs?per_page=100", 128 * 1024),
+              ("original-artifact.json", "repos/d6g8k5htny-coder/main/actions/artifacts/13758500307", 64 * 1024),
+              ("original-controller.json", "repos/d6g8k5htny-coder/main/git/commits/b1b8267f6774f4f8c536ee8c54a00bcbcd5271b1", 64 * 1024),
+              ("original-artifact.zip", "repos/d6g8k5htny-coder/main/actions/artifacts/13758500307/zip", ZIP_SIZE),
+          )
+          
+          def encoded(value):
+              return (json.dumps(value, sort_keys=True, ensure_ascii=True, allow_nan=False) + "\n").encode("ascii")
+          
+          def require(condition, reason):
+              if not condition:
+                  raise ValueError(reason)
+          
+          require(os.environ.get("GITHUB_REPOSITORY") == REPOSITORY
+                  and os.environ.get("GITHUB_EVENT_NAME") == "push"
+                  and os.environ.get("GITHUB_REF") == BRANCH, "fixed reader native context mismatch")
+          temporary = Path(os.environ["RUNNER_TEMP"])
+          workspace = Path(os.environ["GITHUB_WORKSPACE"]).resolve(strict=True)
+          require(temporary.is_absolute() and temporary == temporary.resolve(strict=True)
+                  and not temporary.is_symlink() and not temporary.is_relative_to(workspace),
+                  "reader output root is not genuine external RUNNER_TEMP")
+          out = temporary / "formal-original-r1-42803771651-1"
+          out.mkdir(mode=0o700, exist_ok=False)
+          observation = {
+              "purpose": PURPOSE, "status": "STARTED",
+              "original_run": RUN, "original_attempt": ATTEMPT, "original_job": JOB,
+              "original_artifact": ARTIFACT, "original_controller": CHECKED, "original_tree": TREE,
+              "original_ordered_parents": PARENTS, "original_subject": SUBJECT,
+              "reader_context": {name: os.environ.get(name) for name in
+                                 ("GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT", "GITHUB_SHA", "GITHUB_REF")},
+              "no_original_tests_executed_by_reader": True,
+              "original_probe_source_or_runtime_changed_by_reader": False,
+              "new_runtime_feasibility_claim": False, "full_census_review": False,
+              "model_raw_trace_or_full_archive_member_review": False,
+              "G5_claim": False, "CBZ_claim": False, "scientific_credit": False,
+              "raw_zip_verified_by_reader": False, "requests": [], "members": [],
+              "snapshot_summaries": [], "census_projections": [], "trace_operand_recovery": {},
+          }
+          (out / "observation.json").write_bytes(encoded(observation))
+          
+          def request(index):
+              # The request table above is closed; no CLI argument, API response, or
+              # archive member can supply a command, endpoint, host, or output path.
+              name, endpoint, limit = REQUESTS[index]
+              environment = os.environ.copy()
+              environment.pop("GH_TOKEN", None)
+              environment.pop("GH_DEBUG", None)
+              environment.update(GH_HOST="github.com", GH_PROMPT_DISABLED="1", GH_PAGER="cat",
+                                 NO_COLOR="1", CLICOLOR="0")
+              require(bool(environment.get("GITHUB_TOKEN")), "native GITHUB_TOKEN is absent")
+              command = ["gh", "api", "--method", "GET", "--hostname", "github.com", endpoint]
+              chunks = {"stdout": bytearray(), "stderr": bytearray()}
+              limits = {"stdout": limit, "stderr": 64 * 1024}
+              record = {"name": name, "endpoint": endpoint, "method": "GET",
+                        "status": "STARTED", "stdout_complete": False, "stderr_complete": False}
+              observation["requests"].append(record)
+              process = None
+              error = None
+              selector = selectors.DefaultSelector()
+              deadline = time.monotonic() + 90
+              try:
+                  process = subprocess.Popen(command, env=environment, stdin=subprocess.DEVNULL,
+                                             stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                             start_new_session=True)
+                  for channel, stream in (("stdout", process.stdout), ("stderr", process.stderr)):
+                      os.set_blocking(stream.fileno(), False)
+                      selector.register(stream, selectors.EVENT_READ, channel)
+                  while selector.get_map():
+                      remaining = deadline - time.monotonic()
+                      if remaining <= 0:
+                          raise TimeoutError("fixed gh GET exceeded 90 seconds")
+                      for key, _ in selector.select(min(remaining, 1.0)):
+                          channel = key.data
+                          allowance = limits[channel] + 1 - len(chunks[channel])
+                          data = os.read(key.fileobj.fileno(), min(64 * 1024, allowance))
+                          if not data:
+                              selector.unregister(key.fileobj)
+                              key.fileobj.close()
+                              record[channel + "_complete"] = True
+                          else:
+                              chunks[channel].extend(data)
+                              if len(chunks[channel]) > limits[channel]:
+                                  raise ValueError("fixed gh GET " + channel + " exceeds byte bound")
+                  remaining = deadline - time.monotonic()
+                  if remaining <= 0:
+                      raise TimeoutError("fixed gh GET exceeded 90 seconds")
+                  record["exit_code"] = process.wait(timeout=remaining)
+                  require(record["exit_code"] == 0, "fixed gh GET returned nonzero native exit")
+                  record["status"] = "COMPLETE"
+              except Exception as caught:
+                  error = caught
+                  record["status"] = "NATIVE_ERROR"
+                  record["error_type"] = type(caught).__name__
+                  record["error"] = str(caught)
+              finally:
+                  if process is not None and process.poll() is None:
+                      try:
+                          os.killpg(process.pid, signal.SIGKILL)
+                      except ProcessLookupError:
+                          pass
+                      process.wait(timeout=5)
+                  selector.close()
+                  if process is not None:
+                      for stream in (process.stdout, process.stderr):
+                          if stream is not None and not stream.closed:
+                              stream.close()
+                      record.setdefault("exit_code", process.returncode)
+                  for channel in ("stdout", "stderr"):
+                      raw = bytes(chunks[channel])
+                      record[channel + "_bytes_retained"] = len(raw)
+                      record[channel + "_sha256"] = hashlib.sha256(raw).hexdigest()
+                      # Partial/error responses have their explicit completeness flags.
+                      # They are never passed to metadata or archive acceptance.
+                      suffix = "" if channel == "stdout" and record["status"] == "COMPLETE" else ".gh-" + channel + ".bin"
+                      (out / (name + suffix)).write_bytes(raw)
+                  (out / "observation.json").write_bytes(encoded(observation))
+              if error is not None:
+                  raise error
+              return bytes(chunks["stdout"])
+          
+          def parse(raw):
+              def unique(pairs):
+                  value = {}
+                  for key, item in pairs:
+                      require(key not in value, "duplicate metadata key")
+                      value[key] = item
+                  return value
+              def reject_constant(value):
+                  raise ValueError("non-finite metadata number")
+              value = json.loads(raw.decode("utf-8"), object_pairs_hook=unique,
+                                 parse_constant=reject_constant)
+              require(type(value) is dict, "metadata is not an object")
+              return value
+          
+          def verify_api(attempt, jobs, artifact, checked):
+              require(attempt.get("id") == RUN and attempt.get("run_attempt") == ATTEMPT
+                      and attempt.get("head_sha") == CHECKED
+                      and attempt.get("head_commit", {}).get("tree_id") == TREE
+                      and attempt.get("repository", {}).get("id") == 1117225690
+                      and attempt.get("repository", {}).get("full_name") == REPOSITORY
+                      and attempt.get("head_repository", {}).get("id") == 1117225690
+                      and attempt.get("event") == "push"
+                      and attempt.get("head_branch") == "codex/g5-formal-runtime-feasibility-20261110"
+                      and attempt.get("path") == ".github/workflows/g5-formal-runtime-feasibility.yml"
+                      and attempt.get("status") == "completed" and attempt.get("conclusion") == "failure",
+                      "fixed R1 attempt binding mismatch")
+              require(jobs.get("total_count") == 1 and type(jobs.get("jobs")) is list
+                      and len(jobs["jobs"]) == 1, "fixed R1 job population mismatch")
+              job = jobs["jobs"][0]
+              require(job.get("id") == JOB and job.get("run_id") == RUN
+                      and job.get("run_attempt") == ATTEMPT and job.get("head_sha") == CHECKED
+                      and job.get("name") == "Observe the two unchanged real Lean methods"
+                      and job.get("status") == "completed" and job.get("conclusion") == "failure",
+                      "fixed R1 job binding mismatch")
+              steps = job.get("steps")
+              require(type(steps) is list, "fixed R1 steps missing")
+              for number, name, conclusion in (
+                  (4, "Observe the fixed original methods under the initial observation limit", "failure"),
+                  (5, "Stop fixed probe processes and release its mounts", "success"),
+                  (6, "Print retained original material without replay", "success"),
+                  (7, "Retain actual observations and failures", "success"),
+              ):
+                  rows = [row for row in steps if row.get("number") == number]
+                  require(len(rows) == 1 and rows[0].get("name") == name
+                          and rows[0].get("status") == "completed"
+                          and rows[0].get("conclusion") == conclusion, "fixed R1 step binding mismatch")
+              native = artifact.get("workflow_run", {})
+              require(artifact.get("id") == ARTIFACT
+                      and artifact.get("name") == "formal-runtime-feasibility-42803771651-1"
+                      and artifact.get("size_in_bytes") == ZIP_SIZE
+                      and artifact.get("digest") == "sha256:" + ZIP_SHA256
+                      and artifact.get("expired") is False
+                      and native.get("id") == RUN and native.get("repository_id") == 1117225690
+                      and native.get("head_repository_id") == 1117225690
+                      and native.get("head_sha") == CHECKED, "fixed R1 artifact binding mismatch")
+              require(checked.get("sha") == CHECKED and checked.get("tree", {}).get("sha") == TREE
+                      and [row.get("sha") for row in checked.get("parents", [])] == PARENTS
+                      and checked.get("verification", {}).get("verified") is False
+                      and checked.get("verification", {}).get("reason") == "unsigned",
+                      "fixed R1 controller commit binding mismatch")
+          
+          def member_bytes(source, item, limit):
+              require(item.file_size <= limit, "selected original exceeds fixed read ceiling")
+              with source.open(item, "r") as stream:
+                  raw = stream.read(limit + 1)
+                  require(len(raw) <= limit and stream.read(1) == b"", "selected original extent exceeded")
+              require(len(raw) == item.file_size
+                      and (binascii.crc32(raw) & 0xffffffff) == item.CRC,
+                      "selected original extent or CRC mismatch")
+              return raw
+          
+          def descriptor(name, raw):
+              return {"name": name, "original_bytes": len(raw),
+                      "sha256": hashlib.sha256(raw).hexdigest()}
+          
+          def snapshot_projection(name, raw):
+              doc = parse(raw)
+              rows = doc.get("files")
+              require(type(rows) is list and len(rows) == 6183
+                      and doc.get("subject_commit") == SUBJECT and doc.get("subject_tree") == SUBJECT_TREE,
+                      "fixed original snapshot subject or count mismatch")
+              by_path = {}
+              for row in rows:
+                  require(type(row) is dict and type(row.get("path")) is str
+                          and row["path"] not in by_path, "snapshot row population mismatch")
+                  by_path[row["path"]] = row
+              require(all(by_path.get(name, {}).get("git_blob") == blob for name, blob in PINS.items()),
+                      "fixed eight snapshot pins mismatch")
+              return {**descriptor(name, raw), "kind": "PROJECTION_NOT_ORIGINAL_SNAPSHOT",
+                      "tracked_count": len(rows), "subject_commit": SUBJECT, "subject_tree": SUBJECT_TREE,
+                      "known_original_pins": {name: by_path[name]["git_blob"] for name in PINS},
+                      "full_snapshot_printed_or_model_reviewed": False}
+          
+          def census_projection(name, raw):
+              doc = parse(raw)
+              rows, concerns = doc.get("records"), doc.get("hold_concerns")
+              require(type(rows) is list and type(concerns) is list, "census arrays absent")
+              first = []
+              for concern in concerns[:3]:
+                  require(type(concern) is dict and type(concern.get("record_index")) is int,
+                          "census concern index malformed")
+                  index = concern["record_index"]
+                  require(0 <= index < len(rows) and type(rows[index]) is dict,
+                          "census concern row absent")
+                  row = rows[index]
+                  paths = row.get("absolute_paths", [])
+                  require(type(paths) is list and all(type(path) is str for path in paths),
+                          "census path population malformed")
+                  first.append({
+                      "record_index": index, "operation": row.get("operation"),
+                      "trace_line_number": row.get("trace_line_number"),
+                      "trace_byte_offset": row.get("trace_byte_offset"),
+                      "trace_line_sha256": row.get("trace_line_sha256"),
+                      "native_failure": row.get("native_failure"),
+                      "unresolved_or_incomplete": row.get("unresolved_or_incomplete"),
+                      "parse_error_present": row.get("parse_error") is not None,
+                      "absolute_paths_first_three_prefix512": [path[:512] for path in paths[:3]],
+                      "paths_are_bounded_projection_not_complete_originals": True,
+                  })
+              return {**descriptor(name, raw), "kind": "BOUNDED_PROJECTION_NOT_ORIGINAL_CENSUS",
+                      "status": doc.get("status"), "partial_reason": doc.get("partial_reason"),
+                      "producer_declared_raw_trace_bytes": doc.get("raw_trace_bytes"),
+                      "producer_declared_raw_trace_sha256": doc.get("raw_trace_sha256"),
+                      "producer_declared_raw_trace_lines": doc.get("raw_trace_lines"),
+                      "indexed_trace_prefix_bytes": doc.get("indexed_trace_prefix_bytes"),
+                      "all_trace_lines_considered_by_original_producer": doc.get("all_trace_lines_considered"),
+                      "unresolved_write_path_lines": doc.get("unresolved_write_path_lines"),
+                      "producer_review_index_only": doc.get("review_index_only"),
+                      "producer_manual_write_review_required": doc.get("manual_write_review_required"),
+                      "record_count": len(rows), "concern_count": len(concerns),
+                      "first_three_concern_projection": first, "full_census_or_raw_trace_reviewed": False}
+          
+          def recover_trace_operands(source, members, mode, remaining):
+              # Derived selection only. This never interprets paths or changes R1's HOLD.
+              expected = TRACE_IDENTITIES[mode]
+              index = parse(member_bytes(source, members[mode + "/write-census.json"], 4 * MIB))
+              require(index["raw_trace_bytes"] == expected["bytes"]
+                      and index["raw_trace_sha256"] == expected["sha256"]
+                      and index["raw_trace_lines"] == expected["lines"],
+                      "bound original census trace declaration mismatch")
+              rows = index["records"]
+              anchors = TRACE_ANCHORS[mode]
+              require([row["record_index"] for row in index["hold_concerns"][:3]]
+                      == [item[0] for item in anchors], "fixed first concern population mismatch")
+              for record_index, line_number, byte_offset, line_sha256 in anchors:
+                  row = rows[record_index]
+                  require(row["trace_line_number"] == line_number
+                          and row["trace_byte_offset"] == byte_offset
+                          and row["trace_line_sha256"] == line_sha256,
+                          "previously observed fixed anchor identity mismatch")
+              unresolved = [row for row in rows if row["unresolved_or_incomplete"] is True][:4]
+              require(len(unresolved) == 4, "fixed R1 unresolved sample population changed")
+              selected = [rows[item[0]] for item in anchors] + unresolved
+              trace_name = mode + "/file-syscalls.log"
+              raw = member_bytes(source, members[trace_name], 128 * MIB)
+              require(len(raw) == expected["bytes"]
+                      and hashlib.sha256(raw).hexdigest() == expected["sha256"],
+                      "fixed original full raw trace identity mismatch")
+              lines = raw.splitlines(keepends=True)
+              require(len(lines) == expected["lines"], "fixed original raw trace line count mismatch")
+              offsets, total = [], 0
+              for line in lines:
+                  offsets.append(total)
+                  total += len(line)
+              selected_lines = set()
+              unresolved_lines = set()
+              for row in selected:
+                  number = row["trace_line_number"]
+                  require(type(number) is int and 1 <= number <= len(lines),
+                          "selected original trace line number invalid")
+                  position, line = number - 1, lines[number - 1]
+                  require(offsets[position] == row["trace_byte_offset"]
+                          and len(line) == row["trace_original_bytes"]
+                          and hashlib.sha256(line).hexdigest() == row["trace_line_sha256"]
+                          and line == row["original_trace_utf8"].encode("utf-8"),
+                          "original census-to-raw-line byte identity mismatch")
+                  selected_lines.add(position)
+                  if row["unresolved_or_incomplete"] is True:
+                      unresolved_lines.add(position)
+              # These links only select additional original context. They are NOT syscall
+              # reconstruction, pathname interpretation, or evidence that a concern is safe.
+              pending, partners, conflicts = {}, {}, 0
+              for position, line in enumerate(lines):
+                  envelope = re.match(rb"^(?:\[pid\s+)?([0-9]+)\]?\s+[0-9]+\.[0-9]+\s+(.*)", line)
+                  if envelope is None:
+                      continue
+                  pid, payload = envelope[1], envelope[2].rstrip(b"\r\n")
+                  resumed = re.match(rb"<\.\.\. ([a-z][a-z0-9_]*) resumed>", payload)
+                  if resumed:
+                      previous = pending.pop(pid, None)
+                      if previous is not None and previous[0] == resumed[1]:
+                          if position in unresolved_lines or previous[1] in unresolved_lines:
+                              partners[position] = previous[1]
+                              partners[previous[1]] = position
+                      continue
+                  entered = re.match(rb"([a-z][a-z0-9_]*)\(", payload)
+                  if entered and payload.endswith(b"<unfinished ...>"):
+                      conflicts += pid in pending
+                      pending[pid] = (entered[1], position)
+              context_lines = set()
+              for position in selected_lines | {partners[p] for p in unresolved_lines if p in partners}:
+                  context_lines.update(range(max(0, position - 1), min(len(lines), position + 2)))
+              require(len(context_lines) <= 33, "fixed trace context sample ceiling exceeded")
+              recovery = {
+                  "kind": "ORIGINAL_TRACE_LINE_SLICES_AND_DERIVED_SELECTION_ONLY",
+                  "original_member": trace_name, "full_raw_trace_bytes_verified": len(raw),
+                  "full_raw_trace_sha256_verified": hashlib.sha256(raw).hexdigest(),
+                  "full_raw_trace_crc_and_line_count_verified": True, "trace_line_count": len(lines),
+                  "model_full_trace_review": False, "full_trace_printed": False,
+                  "path_or_write_safety_interpretation": False,
+                  "selection_scope": "FIRST_THREE_CONCERNS_AND_FIRST_FOUR_UNRESOLVED_ROWS_FROM_ORIGINAL_INDEX",
+                  "original_index_status": index["status"],
+                  "original_index_all_trace_lines_considered": index["all_trace_lines_considered"],
+                  "original_indexed_trace_prefix_bytes": index["indexed_trace_prefix_bytes"],
+                  "candidate_partner_context_can_extend_beyond_original_index_prefix": True,
+                  "pending_marker_conflicts_seen_by_selector": conflicts,
+                  "sampled_unresolved_partner_context": [
+                      {"trace_line_number": p + 1,
+                       "candidate_partner_line": partners[p] + 1 if p in partners else None,
+                       "link_is_selection_context_not_semantic_resolution": True}
+                      for p in sorted(unresolved_lines)],
+              }
+              observation["trace_operand_recovery"][mode] = recovery
+              for position in sorted(context_lines):
+                  line = lines[position]
+                  name = mode + "/trace-line-" + str(position + 1) + "@" + str(offsets[position]) + ".bin"
+                  row = descriptor(name, line)
+                  extra = {"original_archive_member": trace_name, "trace_line_number": position + 1,
+                           "trace_byte_offset": offsets[position],
+                           "full_selected_original_line_only": True, "full_trace_printed": False}
+                  TRACE_SLICES[name] = extra
+                  row.update(extra)
+                  require(len(line) <= 16384, "original selected context line exceeds unchanged 16KiB ceiling")
+                  line.decode("utf-8", errors="strict")
+                  if len(line) <= remaining:
+                      row.update(status="FULL_ORIGINAL_TRACE_LINE_SLICE", printed_original_bytes=len(line))
+                      records.append((name, line))
+                      remaining -= len(line)
+                  else:
+                      row.update(status="NOT_FULL_ORIGINAL_OUTPUT_CEILING", printed_original_bytes=0)
+                      recovery["visibility_hold"] = True
+                  observation["members"].append(row)
+              return remaining
+          
+          records = []
+          code = 1
+          try:
+              responses = [request(index) for index in range(len(REQUESTS))]
+              verify_api(*[parse(raw) for raw in responses[:4]])
+              raw_zip = responses[4]
+              require(len(raw_zip) == ZIP_SIZE and hashlib.sha256(raw_zip).hexdigest() == ZIP_SHA256,
+                      "fixed original raw ZIP extent or digest mismatch")
+              observation.update(raw_zip_verified_by_reader=True, raw_zip_bytes=len(raw_zip),
+                                 raw_zip_sha256=hashlib.sha256(raw_zip).hexdigest())
+              with zipfile.ZipFile(io.BytesIO(raw_zip), "r") as source:
+                  infos = source.infolist()
+                  require(0 < len(infos) <= 2048 and len({row.filename for row in infos}) == len(infos),
+                          "original ZIP member population mismatch")
+                  require(sum(row.file_size for row in infos) <= 512 * MIB,
+                          "original ZIP total declared member bound exceeded")
+                  members = {}
+                  for item in infos:
+                      name = item.filename
+                      relative = PurePosixPath(name)
+                      kind = stat.S_IFMT(item.external_attr >> 16)
+                      require(item.orig_filename == name and name and "\\" not in name
+                              and ":" not in name and not relative.is_absolute()
+                              and all(part not in ("", ".", "..") for part in name.rstrip("/").split("/"))
+                              and not item.flag_bits & 1
+                              and item.compress_type in (zipfile.ZIP_STORED, zipfile.ZIP_DEFLATED)
+                              and 0 <= item.file_size <= 128 * MIB
+                              and 0 <= item.compress_size <= ZIP_SIZE
+                              and 0 <= item.header_offset < ZIP_SIZE
+                              and kind in ((0, stat.S_IFDIR) if item.is_dir() else (0, stat.S_IFREG)),
+                              "original ZIP member layout or declared bounds refused")
+                      if not item.is_dir():
+                          members[name] = item
+                  require("probe.json" in members, "original probe record was not produced")
+                  remaining = ORIGINAL_BUDGET
+                  incomplete_visibility = False
+                  probe_context = None
+                  for name in SMALL:
+                      item = members.get(name)
+                      if item is None:
+                          observation["members"].append({"name": name, "status": "NOT_PRODUCED"})
+                          continue
+                      observation["current_original_member"] = name
+                      raw = member_bytes(source, item, 128 * MIB)
+                      row = descriptor(name, raw)
+                      raw.decode("utf-8", errors="strict")
+                      if name == "probe.json":
+                          doc = parse(raw)
+                          probe_context = doc.get("native_controller")
+                          require(probe_context == {
+                              "GITHUB_EVENT_NAME": "push",
+                              "GITHUB_REF": "refs/heads/codex/g5-formal-runtime-feasibility-20261110",
+                              "GITHUB_REPOSITORY": REPOSITORY, "GITHUB_RUN_ATTEMPT": "1",
+                              "GITHUB_RUN_ID": str(RUN), "GITHUB_SHA": CHECKED,
+                          } and doc.get("fixed_original_subject", {}).get("commit") == SUBJECT
+                              and doc.get("fixed_original_subject", {}).get("tree") == SUBJECT_TREE
+                              and doc.get("fixed_original_subject", {}).get("pins") == PINS
+                              and doc.get("methods") == METHODS, "original probe source/run binding mismatch")
+                      if name in ("normal/observation.json", "optimized/observation.json"):
+                          doc = parse(raw)
+                          require(doc.get("subject_commit") == SUBJECT and doc.get("subject_tree") == SUBJECT_TREE
+                                  and doc.get("expected_original_ids") == METHODS
+                                  and doc.get("native_context") == probe_context,
+                                  "original mode observation source/run binding mismatch")
+                      if len(raw) <= remaining:
+                          row.update(status="FULL_ORIGINAL", utf8="valid", prefix_truncated=False,
+                                     printed_original_bytes=len(raw))
+                          records.append((name, raw))
+                          remaining -= len(raw)
+                      else:
+                          row.update(status="NOT_FULL_ORIGINAL_OUTPUT_CEILING", utf8="valid",
+                                     full_original_retained_in_verified_raw_archive=True,
+                                     printed_original_bytes=0)
+                          incomplete_visibility = True
+                      observation["members"].append(row)
+                  for name in SNAPSHOTS:
+                      observation["current_original_member"] = name
+                      item = members.get(name)
+                      observation["snapshot_summaries"].append(
+                          {"name": name, "status": "NOT_PRODUCED"} if item is None
+                          else snapshot_projection(name, member_bytes(source, item, 8 * MIB)))
+                  for name in CENSUSES:
+                      observation["current_original_member"] = name
+                      item = members.get(name)
+                      observation["census_projections"].append(
+                          {"name": name, "status": "NOT_PRODUCED"} if item is None
+                          else census_projection(name, member_bytes(source, item, 4 * MIB)))
+                  for mode in ("normal", "optimized"):
+                      observation["current_original_member"] = mode + "/file-syscalls.log"
+                      remaining = recover_trace_operands(source, members, mode, remaining)
+                      incomplete_visibility |= observation["trace_operand_recovery"][mode].get("visibility_hold", False)
+                  observation["original_zip_member_count"] = len(infos)
+                  observation["unselected_member_contents_not_read"] = True
+                  observation["selected_original_bytes_to_print"] = ORIGINAL_BUDGET - remaining
+              observation["status"] = ("READBACK_HOLD_INCOMPLETE_ORIGINAL_VISIBILITY" if incomplete_visibility
+                                       else "FIXED_ORIGINAL_READBACK_COMPLETE_NO_FEASIBILITY_QUALIFICATION")
+              code = 1 if incomplete_visibility else 0
+          except Exception as error:
+              observation.update(status="READER_HOLD", error_type=type(error).__name__, error=str(error))
+              raw_error = traceback.format_exc().encode("utf-8")
+              (out / "reader-error.log").write_bytes(raw_error)
+              if len(raw_error) <= 64 * 1024:
+                  records.append(("reader-error.log", raw_error))
+              else:
+                  observation["reader_error_visibility"] = {
+                      **descriptor("reader-error.log", raw_error), "status": "NOT_FULL_ERROR_CEILING"}
+              for record in observation["requests"]:
+                  stderr = out / (record["name"] + ".gh-stderr.bin")
+                  if stderr.is_file() and stderr.stat().st_size:
+                      records.append((record["name"] + ".gh-stderr.bin", stderr.read_bytes()))
+          finally:
+              # Only this fixed <=2MiB framed stream is printed. Oversize originals remain
+              # in the verified raw ZIP; no prefix is presented as a complete original.
+              nonce = secrets.token_hex(32)
+              while any(nonce.encode("ascii") in raw for _, raw in records):
+                  nonce = secrets.token_hex(32)
+              frames = []
+              framed_bytes = 0
+              for name, raw in records:
+                  raw.decode("utf-8", errors="strict")
+                  frame = b"FORMAL_R1_ORIGINAL " + encoded({
+                      **descriptor(name, raw), "full_original_printed": True,
+                      "origin": ("ORIGINAL_R1_ARCHIVE_MEMBER" if name in SMALL else
+                                 "ORIGINAL_R1_ARCHIVE_TRACE_LINE_SLICE" if name in TRACE_SLICES else
+                                 "ACTUAL_READER_FILE"),
+                      **TRACE_SLICES.get(name, {}),
+                      "native_gh_response_completeness_not_assumed": name.endswith(".gh-stderr.bin"),
+                      "framing_newline_after": bool(raw and not raw.endswith(b"\n")),
+                  }) + raw + (b"\n" if raw and not raw.endswith(b"\n") else b"")
+                  frame += b"FORMAL_R1_ORIGINAL_END " + encoded({"name": name})
+                  # Reserve the entire bounded summary and framing before accepting bytes.
+                  # Set visibility status and member facts before encoding that summary.
+                  if framed_bytes + len(frame) + 128 * 1024 + 1024 > OUTPUT_LIMIT:
+                      code = 1
+                      observation["status"] = "READBACK_HOLD_INCOMPLETE_ORIGINAL_VISIBILITY"
+                      for member in observation["members"]:
+                          if member["name"] == name:
+                              member.update(status="NOT_FULL_ORIGINAL_FRAMING_CEILING",
+                                            printed_original_bytes=0)
+                      frame = b"FORMAL_R1_NOT_FULL " + encoded({
+                          **descriptor(name, raw), "status": "NOT_PRINTED_FRAMING_CEILING",
+                          "full_original_printed": False,
+                      })
+                  frames.append(frame)
+                  framed_bytes += len(frame)
+              summary = encoded(observation)
+              require(len(summary) <= 128 * 1024, "fixed reader summary ceiling exceeded")
+              stream = (("::stop-commands::" + nonce + "\n").encode("ascii")
+                        + b"FORMAL_R1_READBACK_SUMMARY " + summary + b"".join(frames)
+                        + ("::" + nonce + "::\n").encode("ascii"))
+              require(len(stream) <= OUTPUT_LIMIT, "fixed complete framed-output ceiling exceeded")
+              (out / "readback-stream.bin").write_bytes(stream)
+              (out / "observation.json").write_bytes(encoded(observation))
+              require(sys.stdout.buffer.write(stream) == len(stream), "short native stdout write")
+              sys.stdout.buffer.flush()
+          raise SystemExit(code)
+          PY
+      - name: Retain original archive, API records and bounded native readback
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: formal-original-r1-42803771651-1
+          path: ${{ runner.temp }}/formal-original-r1-42803771651-1/
+          if-no-files-found: error
+          retention-days: 30
