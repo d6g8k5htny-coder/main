@@ -1,0 +1,996 @@
+﻿2026-11-10T07:42:02.6193568Z Current runner version: '2.338.2'
+2026-11-10T07:42:02.6228098Z ##[group]Runner Image Provisioner
+2026-11-10T07:42:02.6229473Z Hosted Compute Agent
+2026-11-10T07:42:02.6230451Z Version: 20261028.624
+2026-11-10T07:42:02.6231574Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T07:42:02.6233147Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T07:42:02.6234243Z Worker ID: {e5214690-860c-42b7-9a59-2243305a6bf9}
+2026-11-10T07:42:02.6235565Z Region: eastus2
+2026-11-10T07:42:02.6236547Z Cloud: Azure
+2026-11-10T07:42:02.6237374Z ##[endgroup]
+2026-11-10T07:42:02.6239879Z ##[group]Operating System
+2026-11-10T07:42:02.6240909Z Ubuntu
+2026-11-10T07:42:02.6241918Z 24.04.5
+2026-11-10T07:42:02.6243137Z LTS
+2026-11-10T07:42:02.6244053Z ##[endgroup]
+2026-11-10T07:42:02.6244956Z ##[group]Runner Image
+2026-11-10T07:42:02.6245966Z Image: ubuntu-24.04
+2026-11-10T07:42:02.6247029Z Version: 20261101.360.1
+2026-11-10T07:42:02.6249099Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T07:42:02.6251891Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T07:42:02.6253881Z ##[endgroup]
+2026-11-10T07:42:02.6255849Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T07:42:02.6258746Z Contents: read
+2026-11-10T07:42:02.6259824Z Metadata: read
+2026-11-10T07:42:02.6260721Z ##[endgroup]
+2026-11-10T07:42:02.6264277Z Secret source: Actions
+2026-11-10T07:42:02.6265756Z Cache mode: write
+2026-11-10T07:42:02.6267452Z Prepare workflow directory
+2026-11-10T07:42:02.6841565Z Prepare all required actions
+2026-11-10T07:42:02.6913111Z Getting action download info
+2026-11-10T07:42:02.8775188Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-10T07:42:02.9840451Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+2026-11-10T07:42:03.1190960Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+2026-11-10T07:42:03.2869219Z Uses: d6g8k5htny-coder/main/.github/workflows/formal-verification.yml@refs/pull/811/merge (ec3eb3479d654643cb93b4c9dcc074b6ba71cc7b)
+2026-11-10T07:42:03.2874227Z Complete job name: formal / formal-evidence
+2026-11-10T07:42:03.3785179Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-11-10T07:42:03.3786247Z with:
+2026-11-10T07:42:03.3786700Z   persist-credentials: false
+2026-11-10T07:42:03.3787242Z   repository: d6g8k5htny-coder/main
+2026-11-10T07:42:03.3790883Z   token: ***
+2026-11-10T07:42:03.3791309Z   ssh-strict: true
+2026-11-10T07:42:03.3791739Z   ssh-user: git
+2026-11-10T07:42:03.3792157Z   clean: true
+2026-11-10T07:42:03.3792801Z   sparse-checkout-cone-mode: true
+2026-11-10T07:42:03.3793331Z   fetch-depth: 1
+2026-11-10T07:42:03.3793753Z   fetch-tags: false
+2026-11-10T07:42:03.3794187Z   show-progress: true
+2026-11-10T07:42:03.3794658Z   lfs: false
+2026-11-10T07:42:03.3795062Z   submodules: false
+2026-11-10T07:42:03.3795509Z   set-safe-directory: true
+2026-11-10T07:42:03.3796005Z   allow-unsafe-pr-checkout: false
+2026-11-10T07:42:03.3796783Z ##[endgroup]
+2026-11-10T07:42:03.7049604Z Syncing repository: d6g8k5htny-coder/main
+2026-11-10T07:42:03.7051553Z ##[group]Getting Git version info
+2026-11-10T07:42:03.7052296Z Working directory is '/home/runner/work/main/main'
+2026-11-10T07:42:03.7053740Z [command]/usr/bin/git version
+2026-11-10T07:42:03.7171988Z git version 2.56.0
+2026-11-10T07:42:03.7198582Z ##[endgroup]
+2026-11-10T07:42:03.7217206Z Temporarily overriding HOME='/home/runner/work/_temp/ecfeaa89-ee28-4f3a-8984-6e039e2f2a58' before making global git config changes
+2026-11-10T07:42:03.7219743Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T07:42:03.7224914Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T07:42:03.7297408Z Deleting the contents of '/home/runner/work/main/main'
+2026-11-10T07:42:03.7301523Z ##[group]Determining repository object format
+2026-11-10T07:42:03.7304018Z ##[endgroup]
+2026-11-10T07:42:03.7305552Z ##[group]Initializing the repository
+2026-11-10T07:42:03.7310046Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-11-10T07:42:03.7440647Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T07:42:03.7441931Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T07:42:03.7443775Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T07:42:03.7444619Z hint: call:
+2026-11-10T07:42:03.7445088Z hint:
+2026-11-10T07:42:03.7445674Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T07:42:03.7446897Z hint:
+2026-11-10T07:42:03.7447571Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T07:42:03.7448587Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T07:42:03.7450286Z hint:
+2026-11-10T07:42:03.7451116Z hint: 	git branch -m <name>
+2026-11-10T07:42:03.7451999Z hint:
+2026-11-10T07:42:03.7453438Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T07:42:03.7454796Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-11-10T07:42:03.7466198Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-11-10T07:42:03.7541694Z ##[endgroup]
+2026-11-10T07:42:03.7543058Z ##[group]Disabling automatic garbage collection
+2026-11-10T07:42:03.7546339Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T07:42:03.7592985Z ##[endgroup]
+2026-11-10T07:42:03.7594872Z ##[group]Setting up auth
+2026-11-10T07:42:03.7595717Z Removing SSH command configuration
+2026-11-10T07:42:03.7601060Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T07:42:03.7655812Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T07:42:03.8110757Z Removing HTTP extra header
+2026-11-10T07:42:03.8116367Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T07:42:03.8161971Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T07:42:03.8411296Z Removing includeIf entries pointing to credentials config files
+2026-11-10T07:42:03.8416791Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T07:42:03.8461359Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T07:42:03.8707346Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-6d49b8f4-f96e-4621-b0bd-a57d1f94158d.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T07:42:03.8757715Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git.path /home/runner/work/_temp/git-credentials-6d49b8f4-f96e-4621-b0bd-a57d1f94158d.config
+2026-11-10T07:42:03.8810265Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-6d49b8f4-f96e-4621-b0bd-a57d1f94158d.config
+2026-11-10T07:42:03.8854921Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-6d49b8f4-f96e-4621-b0bd-a57d1f94158d.config
+2026-11-10T07:42:03.8898052Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-6d49b8f4-f96e-4621-b0bd-a57d1f94158d.config
+2026-11-10T07:42:03.8940673Z ##[endgroup]
+2026-11-10T07:42:03.8941733Z ##[group]Fetching the repository
+2026-11-10T07:42:03.8948054Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +ec3eb3479d654643cb93b4c9dcc074b6ba71cc7b:refs/remotes/pull/811/merge
+2026-11-10T07:42:07.5299438Z From https://github.com/d6g8k5htny-coder/main
+2026-11-10T07:42:07.5301318Z  * [new ref]         ec3eb3479d654643cb93b4c9dcc074b6ba71cc7b -> pull/811/merge
+2026-11-10T07:42:07.5304503Z ##[endgroup]
+2026-11-10T07:42:07.5305510Z ##[group]Determining the checkout info
+2026-11-10T07:42:07.5306620Z ##[endgroup]
+2026-11-10T07:42:07.5311702Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T07:42:07.5379344Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T07:42:07.5424679Z ##[group]Checking out the ref
+2026-11-10T07:42:07.5429686Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/811/merge
+2026-11-10T07:42:08.2633754Z Note: switching to 'refs/remotes/pull/811/merge'.
+2026-11-10T07:42:08.2634615Z 
+2026-11-10T07:42:08.2635103Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-10T07:42:08.2636041Z changes and commit them, and you can discard any commits you make in this
+2026-11-10T07:42:08.2637125Z state without impacting any branches by switching back to a branch.
+2026-11-10T07:42:08.2637729Z 
+2026-11-10T07:42:08.2638179Z If you want to create a new branch to retain commits you create, you may
+2026-11-10T07:42:08.2639044Z do so (now or later) by using -c with the switch command. Example:
+2026-11-10T07:42:08.2639650Z 
+2026-11-10T07:42:08.2639889Z   git switch -c <new-branch-name>
+2026-11-10T07:42:08.2640261Z 
+2026-11-10T07:42:08.2640480Z Or undo this operation with:
+2026-11-10T07:42:08.2640836Z 
+2026-11-10T07:42:08.2641043Z   git switch -
+2026-11-10T07:42:08.2641349Z 
+2026-11-10T07:42:08.2641794Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-10T07:42:08.2642811Z 
+2026-11-10T07:42:08.2643541Z HEAD is now at ec3eb34 Merge 1ce3edade03e18a42822914749b73b1a68f376b0 into d1819f0aa4d914c770687606ccd9f131e6b7634f
+2026-11-10T07:42:08.2693103Z ##[endgroup]
+2026-11-10T07:42:08.2757664Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T07:42:08.2796073Z ec3eb3479d654643cb93b4c9dcc074b6ba71cc7b
+2026-11-10T07:42:08.2805302Z ##[group]Removing auth
+2026-11-10T07:42:08.2805776Z Removing SSH command configuration
+2026-11-10T07:42:08.2809656Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T07:42:08.2852978Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T07:42:08.3139074Z Removing HTTP extra header
+2026-11-10T07:42:08.3143390Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T07:42:08.3188533Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T07:42:08.3454105Z Removing includeIf entries pointing to credentials config files
+2026-11-10T07:42:08.3458260Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T07:42:08.3500933Z includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T07:42:08.3501432Z includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T07:42:08.3501903Z includeif.gitdir:/github/workspace/.git.path
+2026-11-10T07:42:08.3502286Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T07:42:08.3511559Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T07:42:08.3547155Z /home/runner/work/_temp/git-credentials-6d49b8f4-f96e-4621-b0bd-a57d1f94158d.config
+2026-11-10T07:42:08.3563785Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-6d49b8f4\-f96e\-4621\-b0bd\-a57d1f94158d\.config
+2026-11-10T07:42:08.3611736Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T07:42:08.3653769Z /home/runner/work/_temp/git-credentials-6d49b8f4-f96e-4621-b0bd-a57d1f94158d.config
+2026-11-10T07:42:08.3662210Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-6d49b8f4\-f96e\-4621\-b0bd\-a57d1f94158d\.config
+2026-11-10T07:42:08.3708558Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-10T07:42:08.3744226Z /github/runner_temp/git-credentials-6d49b8f4-f96e-4621-b0bd-a57d1f94158d.config
+2026-11-10T07:42:08.3753155Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-6d49b8f4\-f96e\-4621\-b0bd\-a57d1f94158d\.config
+2026-11-10T07:42:08.3810030Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T07:42:08.3847019Z /github/runner_temp/git-credentials-6d49b8f4-f96e-4621-b0bd-a57d1f94158d.config
+2026-11-10T07:42:08.3857263Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-6d49b8f4\-f96e\-4621\-b0bd\-a57d1f94158d\.config
+2026-11-10T07:42:08.3905123Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T07:42:08.4161556Z Removing credentials config '/home/runner/work/_temp/git-credentials-6d49b8f4-f96e-4621-b0bd-a57d1f94158d.config'
+2026-11-10T07:42:08.4171375Z ##[endgroup]
+2026-11-10T07:42:08.4436072Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+2026-11-10T07:42:08.4436502Z with:
+2026-11-10T07:42:08.4436709Z   python-version: 3.11
+2026-11-10T07:42:08.4436946Z   check-latest: false
+2026-11-10T07:42:08.4439290Z   token: ***
+2026-11-10T07:42:08.4439510Z   update-environment: true
+2026-11-10T07:42:08.4439756Z   allow-prereleases: false
+2026-11-10T07:42:08.4439988Z   freethreaded: false
+2026-11-10T07:42:08.4440204Z ##[endgroup]
+2026-11-10T07:42:08.5672179Z ##[group]Installed versions
+2026-11-10T07:42:08.5773454Z Successfully set up CPython (3.11.18)
+2026-11-10T07:42:08.5774510Z ##[endgroup]
+2026-11-10T07:42:08.5951779Z ##[group]Run set +e
+2026-11-10T07:42:08.5952260Z [36;1mset +e[0m
+2026-11-10T07:42:08.5953161Z [36;1mpython -c 'raise SystemExit(17)' | tee "$RUNNER_TEMP/formal-shell-negative.log"[0m
+2026-11-10T07:42:08.5953890Z [36;1mstatus=$?[0m
+2026-11-10T07:42:08.5954237Z [36;1mset -e[0m
+2026-11-10T07:42:08.5954582Z [36;1mif [ "$status" -ne 17 ]; then[0m
+2026-11-10T07:42:08.5955228Z [36;1m  echo "PIPELINE_FAILURE_PROPAGATION_FAIL: expected 17, got $status"[0m
+2026-11-10T07:42:08.5955871Z [36;1m  exit 1[0m
+2026-11-10T07:42:08.5956196Z [36;1mfi[0m
+2026-11-10T07:42:08.5956610Z [36;1mecho 'PIPELINE_FAILURE_PROPAGATION_PASS'[0m
+2026-11-10T07:42:08.6003111Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T07:42:08.6003683Z env:
+2026-11-10T07:42:08.6004103Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:08.6004857Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T07:42:08.6005633Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:08.6006274Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:08.6006919Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:08.6007562Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T07:42:08.6008105Z ##[endgroup]
+2026-11-10T07:42:08.6468546Z PIPELINE_FAILURE_PROPAGATION_PASS
+2026-11-10T07:42:08.6514339Z ##[group]Run python -B -S -m unittest discover -s tests -p test_formal_workflow_shell.py -v
+2026-11-10T07:42:08.6515028Z [36;1mpython -B -S -m unittest discover -s tests -p test_formal_workflow_shell.py -v[0m
+2026-11-10T07:42:08.6536537Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T07:42:08.6536886Z env:
+2026-11-10T07:42:08.6537156Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:08.6537600Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T07:42:08.6538035Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:08.6538422Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:08.6538808Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:08.6539202Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T07:42:08.6539525Z ##[endgroup]
+2026-11-10T07:42:08.9680659Z test_actual_probe_accepts_fail_closed_shell (test_formal_workflow_shell.FormalWorkflowShellTests.test_actual_probe_accepts_fail_closed_shell) ... ok
+2026-11-10T07:42:08.9814292Z test_actual_probe_rejects_original_fail_open_shell (test_formal_workflow_shell.FormalWorkflowShellTests.test_actual_probe_rejects_original_fail_open_shell) ... ok
+2026-11-10T07:42:08.9822140Z test_explicit_bash_default_without_overrides (test_formal_workflow_shell.FormalWorkflowShellTests.test_explicit_bash_default_without_overrides) ... ok
+2026-11-10T07:42:08.9823924Z test_installer_uses_exact_official_release_archive_and_digest (test_formal_workflow_shell.FormalWorkflowShellTests.test_installer_uses_exact_official_release_archive_and_digest) ... ok
+2026-11-10T07:42:09.0096545Z test_probe_when_parent_path_has_no_python_alias (test_formal_workflow_shell.FormalWorkflowShellTests.test_probe_when_parent_path_has_no_python_alias) ... ok
+2026-11-10T07:42:09.0098955Z test_required_lane_runs_all_auditor_controls_after_lean_install (test_formal_workflow_shell.FormalWorkflowShellTests.test_required_lane_runs_all_auditor_controls_after_lean_install) ... ok
+2026-11-10T07:42:09.0100801Z test_summary_does_not_claim_success_unconditionally (test_formal_workflow_shell.FormalWorkflowShellTests.test_summary_does_not_claim_success_unconditionally) ... ok
+2026-11-10T07:42:09.0788298Z test_workflow_and_its_regression_are_mandatory_source_bound_controls (test_formal_workflow_shell.FormalWorkflowShellTests.test_workflow_and_its_regression_are_mandatory_source_bound_controls) ... ok
+2026-11-10T07:42:09.0790539Z test_workflow_triggers_and_executes_regression (test_formal_workflow_shell.FormalWorkflowShellTests.test_workflow_triggers_and_executes_regression) ... ok
+2026-11-10T07:42:09.0791529Z 
+2026-11-10T07:42:09.0791769Z ----------------------------------------------------------------------
+2026-11-10T07:42:09.0792306Z Ran 9 tests in 0.125s
+2026-11-10T07:42:09.0792800Z 
+2026-11-10T07:42:09.0792927Z OK
+2026-11-10T07:42:09.0964499Z ##[group]Run python -B -S tools/formal_gate_check.py
+2026-11-10T07:42:09.0964928Z [36;1mpython -B -S tools/formal_gate_check.py[0m
+2026-11-10T07:42:09.0986272Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T07:42:09.0986615Z env:
+2026-11-10T07:42:09.0986902Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:09.0987346Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T07:42:09.0987787Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:09.0988174Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:09.0988558Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:09.0988947Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T07:42:09.0989272Z ##[endgroup]
+2026-11-10T07:42:09.1705871Z SOURCE_IDENTITY_PASS (not a Lean build or scientific acceptance): 022cf67419a08402ace3b689b1603c61283a633128fb7fcb12f212c0468d4b73
+2026-11-10T07:42:09.1707923Z {"alignment_status": "PENDING_INDEPENDENT_REVIEW", "formalization_status": "proved", "package": "side24-arithmetic-skeleton", "sources": 6, "targets": 59}
+2026-11-10T07:42:09.1804424Z ##[group]Run set -euo pipefail
+2026-11-10T07:42:09.1804751Z [36;1mset -euo pipefail[0m
+2026-11-10T07:42:09.1805588Z [36;1mcurl -sSfL https://github.com/leanprover/elan/releases/download/v4.2.4/elan-x86_64-unknown-linux-gnu.tar.gz -o /tmp/elan-v4.2.4.tar.gz[0m
+2026-11-10T07:42:09.1806547Z [36;1mecho '42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63  /tmp/elan-v4.2.4.tar.gz' | sha256sum -c -[0m
+2026-11-10T07:42:09.1807113Z [36;1minstall_dir=$(mktemp -d)[0m
+2026-11-10T07:42:09.1807442Z [36;1mtar -xzf /tmp/elan-v4.2.4.tar.gz -C "$install_dir"[0m
+2026-11-10T07:42:09.1807848Z [36;1m"$install_dir/elan-init" -y --default-toolchain none[0m
+2026-11-10T07:42:09.1808227Z [36;1mecho "$HOME/.elan/bin" >> "$GITHUB_PATH"[0m
+2026-11-10T07:42:09.1808652Z [36;1m"$HOME/.elan/bin/elan" toolchain install "$(cat formal/lean-toolchain)"[0m
+2026-11-10T07:42:09.1829478Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T07:42:09.1829821Z env:
+2026-11-10T07:42:09.1830135Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:09.1830585Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T07:42:09.1831013Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:09.1831395Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:09.1831777Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:09.1832168Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T07:42:09.1832770Z ##[endgroup]
+2026-11-10T07:42:09.3224389Z /tmp/elan-v4.2.4.tar.gz: OK
+2026-11-10T07:42:09.7086434Z info: downloading https://releases.lean-lang.org/lean4/v4.34.1/lean-4.34.1-linux.tar.zst
+2026-11-10T07:42:12.8618340Z info: installing /home/runner/.elan/toolchains/leanprover--lean4---v4.34.1
+2026-11-10T07:42:19.8077441Z 
+2026-11-10T07:42:19.8466792Z leanprover/lean4:v4.34.1 installed - Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)
+2026-11-10T07:42:19.8467415Z 
+2026-11-10T07:42:19.8527933Z ##[group]Run python -B -S -m unittest tests.test_formal_gate tests.test_formal_negative_diagnostics tests.test_formal_compiled_inventory tests.test_formal_source_custody -v 2>&1 | tee /tmp/tests-normal.log
+2026-11-10T07:42:19.8529407Z [36;1mpython -B -S -m unittest tests.test_formal_gate tests.test_formal_negative_diagnostics tests.test_formal_compiled_inventory tests.test_formal_source_custody -v 2>&1 | tee /tmp/tests-normal.log[0m
+2026-11-10T07:42:19.8530744Z [36;1mpython -B -O -S -m unittest tests.test_formal_gate tests.test_formal_negative_diagnostics tests.test_formal_compiled_inventory tests.test_formal_source_custody -v 2>&1 | tee /tmp/tests-optimized.log[0m
+2026-11-10T07:42:19.8555798Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T07:42:19.8556360Z env:
+2026-11-10T07:42:19.8556795Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:19.8557535Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T07:42:19.8558316Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:19.8558986Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:19.8559649Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:42:19.8560318Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T07:42:19.8560883Z ##[endgroup]
+2026-11-10T07:42:20.0360231Z test_real_manifest_cli_source_only (tests.test_formal_gate.RepositoryControls.test_real_manifest_cli_source_only) ... ok
+2026-11-10T07:42:20.0582413Z test_real_manifest_source_check (tests.test_formal_gate.RepositoryControls.test_real_manifest_source_check) ... ok
+2026-11-10T07:42:33.5782394Z test_real_package_executes_with_receipt (tests.test_formal_gate.RepositoryControls.test_real_package_executes_with_receipt) ... ok
+2026-11-10T07:42:33.6001649Z test_real_template_record_is_refused (tests.test_formal_gate.RepositoryControls.test_real_template_record_is_refused) ... ok
+2026-11-10T07:42:33.6055311Z test_alignment_mutable_ref_refused (tests.test_formal_gate.SyntheticControls.test_alignment_mutable_ref_refused) ... ok
+2026-11-10T07:42:33.6103943Z test_alignment_not_accepted_refused (tests.test_formal_gate.SyntheticControls.test_alignment_not_accepted_refused) ... ok
+2026-11-10T07:42:33.6155469Z test_alignment_partial_coverage_refused (tests.test_formal_gate.SyntheticControls.test_alignment_partial_coverage_refused) ... ok
+2026-11-10T07:42:33.6206985Z test_alignment_same_provider_refused (tests.test_formal_gate.SyntheticControls.test_alignment_same_provider_refused) ... ok
+2026-11-10T07:42:33.6255680Z test_alignment_stale_manifest_refused (tests.test_formal_gate.SyntheticControls.test_alignment_stale_manifest_refused) ... ok
+2026-11-10T07:42:33.6304783Z test_alignment_table_drift_fails_cli (tests.test_formal_gate.SyntheticControls.test_alignment_table_drift_fails_cli) ... FORMAL_GATE_FAIL: alignment table differs from the manifest rendering; regenerate with --write-alignment
+2026-11-10T07:42:33.6310859Z ok
+2026-11-10T07:42:33.6358802Z test_alignment_valid (tests.test_formal_gate.SyntheticControls.test_alignment_valid) ... ok
+2026-11-10T07:42:33.6405127Z test_anchor_not_verbatim (tests.test_formal_gate.SyntheticControls.test_anchor_not_verbatim) ... ok
+2026-11-10T07:42:33.6427333Z test_audit_allowed_axioms_pass (tests.test_formal_gate.SyntheticControls.test_audit_allowed_axioms_pass) ... ok
+2026-11-10T07:42:33.6449472Z test_audit_from_file_passes (tests.test_formal_gate.SyntheticControls.test_audit_from_file_passes) ... ok
+2026-11-10T07:42:33.6475795Z test_audit_missing_target (tests.test_formal_gate.SyntheticControls.test_audit_missing_target) ... ok
+2026-11-10T07:42:33.6499392Z test_audit_native_axiom (tests.test_formal_gate.SyntheticControls.test_audit_native_axiom) ... ok
+2026-11-10T07:42:33.6521795Z test_audit_sorry_axiom (tests.test_formal_gate.SyntheticControls.test_audit_sorry_axiom) ... ok
+2026-11-10T07:42:33.6545632Z test_audit_unexpected_target_fails (tests.test_formal_gate.SyntheticControls.test_audit_unexpected_target_fails) ... ok
+2026-11-10T07:42:33.6567804Z test_audit_unrecognized_output_fails (tests.test_formal_gate.SyntheticControls.test_audit_unrecognized_output_fails) ... ok
+2026-11-10T07:42:33.6685900Z test_changed_checked_head_after_execution_refuses_receipt (tests.test_formal_gate.SyntheticControls.test_changed_checked_head_after_execution_refuses_receipt) ... ok
+2026-11-10T07:42:33.6739149Z test_cli_source_only_reports_not_a_build (tests.test_formal_gate.SyntheticControls.test_cli_source_only_reports_not_a_build) ... ok
+2026-11-10T07:42:33.6781169Z test_control_files_must_be_bound (tests.test_formal_gate.SyntheticControls.test_control_files_must_be_bound) ... ok
+2026-11-10T07:42:33.6830750Z test_custom_axiom_refused (tests.test_formal_gate.SyntheticControls.test_custom_axiom_refused) ... ok
+2026-11-10T07:42:33.6879288Z test_dependency_lock_mismatch (tests.test_formal_gate.SyntheticControls.test_dependency_lock_mismatch) ... ok
+2026-11-10T07:42:33.6925244Z test_does_not_claim_required (tests.test_formal_gate.SyntheticControls.test_does_not_claim_required) ... ok
+2026-11-10T07:42:33.6951754Z test_duplicate_json_key (tests.test_formal_gate.SyntheticControls.test_duplicate_json_key) ... ok
+2026-11-10T07:42:33.6984175Z test_hash_mismatch (tests.test_formal_gate.SyntheticControls.test_hash_mismatch) ... ok
+2026-11-10T07:42:33.7110069Z test_local_producer_has_null_hosted_identity (tests.test_formal_gate.SyntheticControls.test_local_producer_has_null_hosted_identity) ... ok
+2026-11-10T07:42:33.7139593Z test_manifest_cannot_claim_alignment (tests.test_formal_gate.SyntheticControls.test_manifest_cannot_claim_alignment) ... ok
+2026-11-10T07:42:33.7168488Z test_manifest_cannot_claim_kernel_checked (tests.test_formal_gate.SyntheticControls.test_manifest_cannot_claim_kernel_checked) ... ok
+2026-11-10T07:42:33.7217426Z test_missing_theorem_refused (tests.test_formal_gate.SyntheticControls.test_missing_theorem_refused) ... ok
+2026-11-10T07:42:33.7266444Z test_native_decide_refused (tests.test_formal_gate.SyntheticControls.test_native_decide_refused) ... ok
+2026-11-10T07:42:33.7311197Z test_nonpublic_source_repository_refused (tests.test_formal_gate.SyntheticControls.test_nonpublic_source_repository_refused) ... ok
+2026-11-10T07:42:33.7400458Z test_postflight_source_change_still_refuses_receipt (tests.test_formal_gate.SyntheticControls.test_postflight_source_change_still_refuses_receipt) ... ok
+2026-11-10T07:42:33.7461743Z test_preflight_process_failure_preserves_build (tests.test_formal_gate.SyntheticControls.test_preflight_process_failure_preserves_build) ... ok
+2026-11-10T07:42:33.7522073Z test_preflight_timeout_preserves_build (tests.test_formal_gate.SyntheticControls.test_preflight_timeout_preserves_build) ... ok
+2026-11-10T07:42:33.7646969Z test_producer_serializes_actual_nondefault_workflow_attempt (tests.test_formal_gate.SyntheticControls.test_producer_serializes_actual_nondefault_workflow_attempt) ... ok
+2026-11-10T07:42:33.7695170Z test_root_must_import_exactly_registered_modules (tests.test_formal_gate.SyntheticControls.test_root_must_import_exactly_registered_modules) ... ok
+2026-11-10T07:42:33.7735964Z test_scope_must_be_bound (tests.test_formal_gate.SyntheticControls.test_scope_must_be_bound) ... ok
+2026-11-10T07:42:33.7784318Z test_sorry_in_code (tests.test_formal_gate.SyntheticControls.test_sorry_in_code) ... ok
+2026-11-10T07:42:33.7841050Z test_sorry_only_in_comments_ignored (tests.test_formal_gate.SyntheticControls.test_sorry_only_in_comments_ignored) ... ok
+2026-11-10T07:42:33.7890012Z test_source_bytes_changed (tests.test_formal_gate.SyntheticControls.test_source_bytes_changed) ... ok
+2026-11-10T07:42:33.7918244Z test_status_authority_must_be_false (tests.test_formal_gate.SyntheticControls.test_status_authority_must_be_false) ... ok
+2026-11-10T07:42:33.7963170Z test_target_order_must_match_source (tests.test_formal_gate.SyntheticControls.test_target_order_must_match_source) ... ok
+2026-11-10T07:42:33.8009704Z test_toolchain_mismatch (tests.test_formal_gate.SyntheticControls.test_toolchain_mismatch) ... ok
+2026-11-10T07:42:33.8056613Z test_unbound_package_file (tests.test_formal_gate.SyntheticControls.test_unbound_package_file) ... ok
+2026-11-10T07:42:33.8106549Z test_unregistered_lean_module (tests.test_formal_gate.SyntheticControls.test_unregistered_lean_module) ... ok
+2026-11-10T07:42:33.8156546Z test_unregistered_theorem_refused (tests.test_formal_gate.SyntheticControls.test_unregistered_theorem_refused) ... ok
+2026-11-10T07:42:33.8277317Z test_valid_runtime_preserves_both_version_observations_and_logs (tests.test_formal_gate.SyntheticControls.test_valid_runtime_preserves_both_version_observations_and_logs) ... ok
+2026-11-10T07:42:33.8336843Z test_valid_source_check_and_no_writes (tests.test_formal_gate.SyntheticControls.test_valid_source_check_and_no_writes) ... ok
+2026-11-10T07:42:33.9766157Z test_wrong_postflight_runtime_refuses_receipt_after_source_recheck (tests.test_formal_gate.SyntheticControls.test_wrong_postflight_runtime_refuses_receipt_after_source_recheck) ... ok
+2026-11-10T07:42:34.0387297Z test_wrong_runtime_preserves_build_and_refuses_before_work (tests.test_formal_gate.SyntheticControls.test_wrong_runtime_preserves_build_and_refuses_before_work) ... ok
+2026-11-10T07:42:34.0550318Z test_archive_paths_cannot_follow_symlinks (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_archive_paths_cannot_follow_symlinks) ... ok
+2026-11-10T07:42:34.0631336Z test_axiom_control_stderr_is_not_ignored (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_axiom_control_stderr_is_not_ignored) ... ok
+2026-11-10T07:42:34.1119529Z test_axiom_controls_require_the_exact_complete_forbidden_report (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_axiom_controls_require_the_exact_complete_forbidden_report) ... ok
+2026-11-10T07:42:34.1251377Z test_exact_observed_false_goal_is_accepted (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_exact_observed_false_goal_is_accepted) ... ok
+2026-11-10T07:42:34.1552117Z test_extra_wrong_location_or_wrong_goal_diagnostic_is_refused (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_extra_wrong_location_or_wrong_goal_diagnostic_is_refused) ... ok
+2026-11-10T07:42:34.1616293Z test_failed_rerun_archives_prior_receipt_and_logs_together (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_failed_rerun_archives_prior_receipt_and_logs_together) ... ok
+2026-11-10T07:42:34.1828092Z test_missing_or_malformed_control_contract_is_refused (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_missing_or_malformed_control_contract_is_refused) ... ok
+2026-11-10T07:42:34.1886104Z test_missing_tool_rerun_does_not_leave_current_success (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_missing_tool_rerun_does_not_leave_current_success) ... ok
+2026-11-10T07:42:34.1930277Z test_new_diagnostic_controls_cannot_be_unbound (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_new_diagnostic_controls_cannot_be_unbound) ... ok
+2026-11-10T07:42:34.2150548Z test_one_removed_main_control_is_refused (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_one_removed_main_control_is_refused) ... ok
+2026-11-10T07:42:34.2228225Z test_permissive_axiom_auditor_mutation_is_detected (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_permissive_axiom_auditor_mutation_is_detected) ... ok
+2026-11-10T07:42:34.2451361Z test_real_diagnostic_with_wrong_exit_or_stderr_is_refused (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_real_diagnostic_with_wrong_exit_or_stderr_is_refused) ... ok
+2026-11-10T07:42:34.2824216Z test_unrelated_failures_cannot_mint_successful_negative_receipt (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_unrelated_failures_cannot_mint_successful_negative_receipt) ... ok
+2026-11-10T07:42:34.2831280Z test_auxiliary_parent_must_be_user_written (tests.test_formal_compiled_inventory.AuditInventoryTests.test_auxiliary_parent_must_be_user_written) ... ok
+2026-11-10T07:42:34.2852253Z test_auxiliary_theorem_needs_user_parent_in_same_module (tests.test_formal_compiled_inventory.AuditInventoryTests.test_auxiliary_theorem_needs_user_parent_in_same_module) ... ok
+2026-11-10T07:42:34.2857957Z test_axiom_closure_line_required_exactly_once (tests.test_formal_compiled_inventory.AuditInventoryTests.test_axiom_closure_line_required_exactly_once) ... ok
+2026-11-10T07:42:34.2859962Z test_axiom_free_closure_passes (tests.test_formal_compiled_inventory.AuditInventoryTests.test_axiom_free_closure_passes) ... ok
+2026-11-10T07:42:34.2863140Z test_axiom_kind_rejected_even_if_unused (tests.test_formal_compiled_inventory.AuditInventoryTests.test_axiom_kind_rejected_even_if_unused) ... ok
+2026-11-10T07:42:34.2868727Z test_bound_record_must_match_kind_and_provenance (tests.test_formal_compiled_inventory.AuditInventoryTests.test_bound_record_must_match_kind_and_provenance) ... ok
+2026-11-10T07:42:34.2870757Z test_clean_passes (tests.test_formal_compiled_inventory.AuditInventoryTests.test_clean_passes) ... ok
+2026-11-10T07:42:34.2873898Z test_closure_smaller_than_inventory_rejected (tests.test_formal_compiled_inventory.AuditInventoryTests.test_closure_smaller_than_inventory_rejected) ... ok
+2026-11-10T07:42:34.2876189Z test_custom_axiom_in_closure_rejected (tests.test_formal_compiled_inventory.AuditInventoryTests.test_custom_axiom_in_closure_rejected) ... ok
+2026-11-10T07:42:34.2879022Z test_default_bound_is_empty (tests.test_formal_compiled_inventory.AuditInventoryTests.test_default_bound_is_empty) ... ok
+2026-11-10T07:42:34.2881651Z test_duplicate_name_rejected (tests.test_formal_compiled_inventory.AuditInventoryTests.test_duplicate_name_rejected) ... ok
+2026-11-10T07:42:34.2885142Z test_every_finding_is_reported (tests.test_formal_compiled_inventory.AuditInventoryTests.test_every_finding_is_reported) ... ok
+2026-11-10T07:42:34.2897643Z test_extra_user_theorem_rejected_whatever_its_name (tests.test_formal_compiled_inventory.AuditInventoryTests.test_extra_user_theorem_rejected_whatever_its_name) ... ok
+2026-11-10T07:42:34.2901372Z test_local_module_only_when_allowed (tests.test_formal_compiled_inventory.AuditInventoryTests.test_local_module_only_when_allowed) ... ok
+2026-11-10T07:42:34.2904671Z test_local_user_theorem_rejected_even_when_local_allowed (tests.test_formal_compiled_inventory.AuditInventoryTests.test_local_user_theorem_rejected_even_when_local_allowed) ... ok
+2026-11-10T07:42:34.2916732Z test_malformed_lines_are_protocol_errors (tests.test_formal_compiled_inventory.AuditInventoryTests.test_malformed_lines_are_protocol_errors) ... ok
+2026-11-10T07:42:34.2919298Z test_missing_bound_constant_rejected (tests.test_formal_compiled_inventory.AuditInventoryTests.test_missing_bound_constant_rejected) ... ok
+2026-11-10T07:42:34.2921858Z test_missing_target_rejected (tests.test_formal_compiled_inventory.AuditInventoryTests.test_missing_target_rejected) ... ok
+2026-11-10T07:42:34.2937679Z test_module_table_findings (tests.test_formal_compiled_inventory.AuditInventoryTests.test_module_table_findings) ... ok
+2026-11-10T07:42:34.2939164Z test_noise_lines_refused (tests.test_formal_compiled_inventory.AuditInventoryTests.test_noise_lines_refused) ... ok
+2026-11-10T07:42:34.2941854Z test_non_theorem_auxiliaries_are_closure_only (tests.test_formal_compiled_inventory.AuditInventoryTests.test_non_theorem_auxiliaries_are_closure_only) ... ok
+2026-11-10T07:42:34.2948731Z test_per_target_audit_cross_check (tests.test_formal_compiled_inventory.AuditInventoryTests.test_per_target_audit_cross_check) ... ok
+2026-11-10T07:42:34.2952199Z test_quoted_private_sorry_rejected_for_both_reasons (tests.test_formal_compiled_inventory.AuditInventoryTests.test_quoted_private_sorry_rejected_for_both_reasons) ... ok
+2026-11-10T07:42:34.2957072Z test_report_is_deterministic (tests.test_formal_compiled_inventory.AuditInventoryTests.test_report_is_deterministic) ... ok
+2026-11-10T07:42:34.2962676Z test_target_only_as_auxiliary_or_private_is_missing (tests.test_formal_compiled_inventory.AuditInventoryTests.test_target_only_as_auxiliary_or_private_is_missing) ... ok
+2026-11-10T07:42:34.2973577Z test_unbound_constants_rejected_whatever_their_provenance (tests.test_formal_compiled_inventory.AuditInventoryTests.test_unbound_constants_rejected_whatever_their_provenance) ... ok
+2026-11-10T07:42:34.4383313Z test_policy_mutants_are_killed (tests.test_formal_compiled_inventory.AuditorMutationTests.test_policy_mutants_are_killed) ... ok
+2026-11-10T07:42:34.4388462Z test_empty_targets_or_modules_rejected (tests.test_formal_compiled_inventory.BoundInventoryTests.test_empty_targets_or_modules_rejected) ... ok
+2026-11-10T07:42:34.4391456Z test_invalid_records_refused (tests.test_formal_compiled_inventory.BoundInventoryTests.test_invalid_records_refused) ... ok
+2026-11-10T07:42:34.4393026Z test_valid_records (tests.test_formal_compiled_inventory.BoundInventoryTests.test_valid_records) ... ok
+2026-11-10T07:42:34.4394061Z test_closure_missing_reference_is_fatal (tests.test_formal_compiled_inventory.CodegenInventoryTests.test_closure_missing_reference_is_fatal) ... ok
+2026-11-10T07:42:34.4400969Z test_codegen_names_are_bound_separately (tests.test_formal_compiled_inventory.CodegenInventoryTests.test_codegen_names_are_bound_separately) ... ok
+2026-11-10T07:42:34.4458113Z test_source_requires_compiled_binding (tests.test_formal_compiled_inventory.IntegrationTests.test_source_requires_compiled_binding) ... ok
+2026-11-10T07:42:34.4460132Z test_local_mode_adds_current_file_constants (tests.test_formal_compiled_inventory.InventorySourceTests.test_local_mode_adds_current_file_constants) ... ok
+2026-11-10T07:42:34.4462275Z test_missing_constant_is_fatal_in_lean (tests.test_formal_compiled_inventory.InventorySourceTests.test_missing_constant_is_fatal_in_lean) ... ok
+2026-11-10T07:42:34.4464646Z test_package_import_and_module_table_enumeration (tests.test_formal_compiled_inventory.InventorySourceTests.test_package_import_and_module_table_enumeration) ... ok
+2026-11-10T07:42:34.4466964Z test_arbitrary_failure_callback_never_qualifies (tests.test_formal_compiled_inventory.MutationKillContractTests.test_arbitrary_failure_callback_never_qualifies) ... ok
+2026-11-10T07:42:34.4480643Z test_class_and_module_fixture_failures_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_class_and_module_fixture_failures_never_qualify) ... ok
+2026-11-10T07:42:34.4486617Z test_coroutine_async_generator_and_generator_bodies_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_coroutine_async_generator_and_generator_bodies_never_qualify) ... ok
+2026-11-10T07:42:34.4491999Z test_expected_and_unexpected_success_mechanisms_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_expected_and_unexpected_success_mechanisms_never_qualify) ... ok
+2026-11-10T07:42:34.4500802Z test_fixture_assertions_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_fixture_assertions_never_qualify) ... ok
+2026-11-10T07:42:34.4510353Z test_fixture_calls_to_method_or_dispatcher_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_fixture_calls_to_method_or_dispatcher_never_qualify) ... ok
+2026-11-10T07:42:34.4523257Z test_incorrect_duplicate_and_ambiguous_populations_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_incorrect_duplicate_and_ambiguous_populations_never_qualify) ... ok
+2026-11-10T07:42:34.4573587Z test_intended_assertion_failure_qualifies (tests.test_formal_compiled_inventory.MutationKillContractTests.test_intended_assertion_failure_qualifies) ... ok
+2026-11-10T07:42:34.4610325Z test_missing_incomplete_unknown_and_duplicate_records_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_missing_incomplete_unknown_and_duplicate_records_never_qualify) ... ok
+2026-11-10T07:42:34.4618718Z test_mixed_body_and_fixture_assertions_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_mixed_body_and_fixture_assertions_never_qualify) ... ok
+2026-11-10T07:42:34.4625561Z test_returned_dormant_body_and_custom_lifecycle_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_returned_dormant_body_and_custom_lifecycle_never_qualify) ... ok
+2026-11-10T07:42:34.4628112Z test_setup_dispatcher_assertion_never_qualifies (tests.test_formal_compiled_inventory.MutationKillContractTests.test_setup_dispatcher_assertion_never_qualifies) ... ok
+2026-11-10T07:42:34.4680605Z test_skips_or_incomplete_population_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_skips_or_incomplete_population_never_qualify) ... ok
+2026-11-10T07:42:34.4693622Z test_subtests_never_qualify_in_any_phase (tests.test_formal_compiled_inventory.MutationKillContractTests.test_subtests_never_qualify_in_any_phase) ... ok
+2026-11-10T07:42:34.4783204Z test_survival_unexpected_failures_and_empty_contract_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_survival_unexpected_failures_and_empty_contract_never_qualify) ... ok
+2026-11-10T07:42:34.4835377Z test_test_errors_never_qualify_even_with_expected_assertion (tests.test_formal_compiled_inventory.MutationKillContractTests.test_test_errors_never_qualify_even_with_expected_assertion) ... ok
+2026-11-10T07:42:34.4843165Z test_unmapped_and_duplicate_subtest_failures_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_unmapped_and_duplicate_subtest_failures_never_qualify) ... ok
+2026-11-10T07:42:34.4845611Z test_lossless_where_dotted_rendering_collides (tests.test_formal_compiled_inventory.NameEncodingTests.test_lossless_where_dotted_rendering_collides) ... ok
+2026-11-10T07:42:34.4847574Z test_malformed_encodings_refused (tests.test_formal_compiled_inventory.NameEncodingTests.test_malformed_encodings_refused) ... ok
+2026-11-10T07:42:34.4849211Z test_private_user_name (tests.test_formal_compiled_inventory.NameEncodingTests.test_private_user_name) ... ok
+2026-11-10T07:42:34.4850806Z test_render_marks_quoted_components (tests.test_formal_compiled_inventory.NameEncodingTests.test_render_marks_quoted_components) ... ok
+2026-11-10T07:42:34.4852855Z test_round_trip (tests.test_formal_compiled_inventory.NameEncodingTests.test_round_trip) ... ok
+2026-11-10T07:42:34.4854480Z test_simple_name_refuses_unrepresentable_targets (tests.test_formal_compiled_inventory.NameEncodingTests.test_simple_name_refuses_unrepresentable_targets) ... ok
+2026-11-10T07:42:45.8999196Z test_actual_clean_and_omitted_constants (tests.test_formal_compiled_inventory.PinnedLeanInventoryTests.test_actual_clean_and_omitted_constants) ... ok
+2026-11-10T07:42:55.8619391Z test_nine_declared_source_mutants_have_reason_bound_kills (tests.test_formal_source_custody.CustodySourceMutationTests.test_nine_declared_source_mutants_have_reason_bound_kills) ... ok
+2026-11-10T07:42:55.9240499Z test_ambient_git_overrides_cannot_substitute_another_repository (tests.test_formal_source_custody.ExactSourceCommitTests.test_ambient_git_overrides_cannot_substitute_another_repository) ... ok
+2026-11-10T07:42:55.9646232Z test_assume_unchanged_cannot_hide_changed_owned_bytes (tests.test_formal_source_custody.ExactSourceCommitTests.test_assume_unchanged_cannot_hide_changed_owned_bytes) ... ok
+2026-11-10T07:42:56.0249197Z test_build_outputs_and_unrelated_dirty_data_do_not_invalidate_owned_commit (tests.test_formal_source_custody.ExactSourceCommitTests.test_build_outputs_and_unrelated_dirty_data_do_not_invalidate_owned_commit) ... ok
+2026-11-10T07:42:56.1231302Z test_clean_exact_commit_is_bound (tests.test_formal_source_custody.ExactSourceCommitTests.test_clean_exact_commit_is_bound) ... ok
+2026-11-10T07:42:56.1870521Z test_core_filemode_false_cannot_hide_owned_mode_drift (tests.test_formal_source_custody.ExactSourceCommitTests.test_core_filemode_false_cannot_hide_owned_mode_drift) ... ok
+2026-11-10T07:42:56.2139122Z test_custody_refusal_archives_prior_success_before_any_lean_process (tests.test_formal_source_custody.ExactSourceCommitTests.test_custody_refusal_archives_prior_success_before_any_lean_process) ... ok
+2026-11-10T07:42:56.2626338Z test_dirty_manifest_bytes_are_refused_even_when_parsed_data_is_equal (tests.test_formal_source_custody.ExactSourceCommitTests.test_dirty_manifest_bytes_are_refused_even_when_parsed_data_is_equal) ... ok
+2026-11-10T07:42:56.3016445Z test_dirty_owned_source_is_refused_even_if_manifest_is_refreshed (tests.test_formal_source_custody.ExactSourceCommitTests.test_dirty_owned_source_is_refused_even_if_manifest_is_refreshed) ... ok
+2026-11-10T07:42:56.3591885Z test_executable_mode_drift_is_refused (tests.test_formal_source_custody.ExactSourceCommitTests.test_executable_mode_drift_is_refused) ... ok
+2026-11-10T07:42:56.3910305Z test_execute_package_argument_cannot_substitute_another_tree (tests.test_formal_source_custody.ExactSourceCommitTests.test_execute_package_argument_cannot_substitute_another_tree) ... ok
+2026-11-10T07:42:56.4249051Z test_expected_head_must_remain_stable (tests.test_formal_source_custody.ExactSourceCommitTests.test_expected_head_must_remain_stable) ... ok
+2026-11-10T07:42:56.4819617Z test_git_replace_cannot_launder_dirty_bytes_as_original_commit (tests.test_formal_source_custody.ExactSourceCommitTests.test_git_replace_cannot_launder_dirty_bytes_as_original_commit) ... ok
+2026-11-10T07:42:56.5204539Z test_loaded_helper_must_match_bound_source (tests.test_formal_source_custody.ExactSourceCommitTests.test_loaded_helper_must_match_bound_source) ... ok
+2026-11-10T07:42:56.5595788Z test_loaded_producer_must_match_bound_source (tests.test_formal_source_custody.ExactSourceCommitTests.test_loaded_producer_must_match_bound_source) ... ok
+2026-11-10T07:42:56.5881078Z test_manifest_digest_must_match_argument (tests.test_formal_source_custody.ExactSourceCommitTests.test_manifest_digest_must_match_argument) ... ok
+2026-11-10T07:42:56.6168312Z test_manifest_parsed_data_must_match_argument (tests.test_formal_source_custody.ExactSourceCommitTests.test_manifest_parsed_data_must_match_argument) ... ok
+2026-11-10T07:42:56.6586677Z test_staged_but_uncommitted_source_and_manifest_are_refused (tests.test_formal_source_custody.ExactSourceCommitTests.test_staged_but_uncommitted_source_and_manifest_are_refused) ... ok
+2026-11-10T07:42:56.6854537Z test_subdirectory_cannot_be_presented_as_another_git_root (tests.test_formal_source_custody.ExactSourceCommitTests.test_subdirectory_cannot_be_presented_as_another_git_root) ... ok
+2026-11-10T07:42:56.7086887Z test_symlink_to_identical_bound_bytes_is_refused (tests.test_formal_source_custody.ExactSourceCommitTests.test_symlink_to_identical_bound_bytes_is_refused) ... ok
+2026-11-10T07:42:56.7498088Z test_untracked_manifest_bound_input_is_refused (tests.test_formal_source_custody.ExactSourceCommitTests.test_untracked_manifest_bound_input_is_refused) ... ok
+2026-11-10T07:42:56.8592697Z test_live_consumer_and_custody_controls_cannot_be_unbound (tests.test_formal_source_custody.MainCustodyBindingTests.test_live_consumer_and_custody_controls_cannot_be_unbound) ... ok
+2026-11-10T07:42:56.8593871Z 
+2026-11-10T07:42:56.8594128Z ----------------------------------------------------------------------
+2026-11-10T07:42:56.8594679Z Ran 147 tests in 36.845s
+2026-11-10T07:42:56.8594915Z 
+2026-11-10T07:42:56.8595042Z OK
+2026-11-10T07:43:00.1946993Z test_real_manifest_cli_source_only (tests.test_formal_gate.RepositoryControls.test_real_manifest_cli_source_only) ... ok
+2026-11-10T07:43:00.2163278Z test_real_manifest_source_check (tests.test_formal_gate.RepositoryControls.test_real_manifest_source_check) ... ok
+2026-11-10T07:43:13.1501113Z test_real_package_executes_with_receipt (tests.test_formal_gate.RepositoryControls.test_real_package_executes_with_receipt) ... ok
+2026-11-10T07:43:13.1731009Z test_real_template_record_is_refused (tests.test_formal_gate.RepositoryControls.test_real_template_record_is_refused) ... ok
+2026-11-10T07:43:13.1784293Z test_alignment_mutable_ref_refused (tests.test_formal_gate.SyntheticControls.test_alignment_mutable_ref_refused) ... ok
+2026-11-10T07:43:13.1832981Z test_alignment_not_accepted_refused (tests.test_formal_gate.SyntheticControls.test_alignment_not_accepted_refused) ... ok
+2026-11-10T07:43:13.1887073Z test_alignment_partial_coverage_refused (tests.test_formal_gate.SyntheticControls.test_alignment_partial_coverage_refused) ... ok
+2026-11-10T07:43:13.1940106Z test_alignment_same_provider_refused (tests.test_formal_gate.SyntheticControls.test_alignment_same_provider_refused) ... ok
+2026-11-10T07:43:13.1989165Z test_alignment_stale_manifest_refused (tests.test_formal_gate.SyntheticControls.test_alignment_stale_manifest_refused) ... ok
+2026-11-10T07:43:13.2039485Z test_alignment_table_drift_fails_cli (tests.test_formal_gate.SyntheticControls.test_alignment_table_drift_fails_cli) ... FORMAL_GATE_FAIL: alignment table differs from the manifest rendering; regenerate with --write-alignment
+2026-11-10T07:43:13.2047217Z ok
+2026-11-10T07:43:13.2096707Z test_alignment_valid (tests.test_formal_gate.SyntheticControls.test_alignment_valid) ... ok
+2026-11-10T07:43:13.2143698Z test_anchor_not_verbatim (tests.test_formal_gate.SyntheticControls.test_anchor_not_verbatim) ... ok
+2026-11-10T07:43:13.2167093Z test_audit_allowed_axioms_pass (tests.test_formal_gate.SyntheticControls.test_audit_allowed_axioms_pass) ... ok
+2026-11-10T07:43:13.2189855Z test_audit_from_file_passes (tests.test_formal_gate.SyntheticControls.test_audit_from_file_passes) ... ok
+2026-11-10T07:43:13.2212977Z test_audit_missing_target (tests.test_formal_gate.SyntheticControls.test_audit_missing_target) ... ok
+2026-11-10T07:43:13.2236274Z test_audit_native_axiom (tests.test_formal_gate.SyntheticControls.test_audit_native_axiom) ... ok
+2026-11-10T07:43:13.2259779Z test_audit_sorry_axiom (tests.test_formal_gate.SyntheticControls.test_audit_sorry_axiom) ... ok
+2026-11-10T07:43:13.2283091Z test_audit_unexpected_target_fails (tests.test_formal_gate.SyntheticControls.test_audit_unexpected_target_fails) ... ok
+2026-11-10T07:43:13.2306444Z test_audit_unrecognized_output_fails (tests.test_formal_gate.SyntheticControls.test_audit_unrecognized_output_fails) ... ok
+2026-11-10T07:43:13.2423843Z test_changed_checked_head_after_execution_refuses_receipt (tests.test_formal_gate.SyntheticControls.test_changed_checked_head_after_execution_refuses_receipt) ... ok
+2026-11-10T07:43:13.2477972Z test_cli_source_only_reports_not_a_build (tests.test_formal_gate.SyntheticControls.test_cli_source_only_reports_not_a_build) ... ok
+2026-11-10T07:43:13.2520412Z test_control_files_must_be_bound (tests.test_formal_gate.SyntheticControls.test_control_files_must_be_bound) ... ok
+2026-11-10T07:43:13.2570904Z test_custom_axiom_refused (tests.test_formal_gate.SyntheticControls.test_custom_axiom_refused) ... ok
+2026-11-10T07:43:13.2620755Z test_dependency_lock_mismatch (tests.test_formal_gate.SyntheticControls.test_dependency_lock_mismatch) ... ok
+2026-11-10T07:43:13.2667289Z test_does_not_claim_required (tests.test_formal_gate.SyntheticControls.test_does_not_claim_required) ... ok
+2026-11-10T07:43:13.2693654Z test_duplicate_json_key (tests.test_formal_gate.SyntheticControls.test_duplicate_json_key) ... ok
+2026-11-10T07:43:13.2725699Z test_hash_mismatch (tests.test_formal_gate.SyntheticControls.test_hash_mismatch) ... ok
+2026-11-10T07:43:13.2860675Z test_local_producer_has_null_hosted_identity (tests.test_formal_gate.SyntheticControls.test_local_producer_has_null_hosted_identity) ... ok
+2026-11-10T07:43:13.2889247Z test_manifest_cannot_claim_alignment (tests.test_formal_gate.SyntheticControls.test_manifest_cannot_claim_alignment) ... ok
+2026-11-10T07:43:13.2917759Z test_manifest_cannot_claim_kernel_checked (tests.test_formal_gate.SyntheticControls.test_manifest_cannot_claim_kernel_checked) ... ok
+2026-11-10T07:43:13.2964739Z test_missing_theorem_refused (tests.test_formal_gate.SyntheticControls.test_missing_theorem_refused) ... ok
+2026-11-10T07:43:13.3014612Z test_native_decide_refused (tests.test_formal_gate.SyntheticControls.test_native_decide_refused) ... ok
+2026-11-10T07:43:13.3060422Z test_nonpublic_source_repository_refused (tests.test_formal_gate.SyntheticControls.test_nonpublic_source_repository_refused) ... ok
+2026-11-10T07:43:13.3152737Z test_postflight_source_change_still_refuses_receipt (tests.test_formal_gate.SyntheticControls.test_postflight_source_change_still_refuses_receipt) ... ok
+2026-11-10T07:43:13.3215148Z test_preflight_process_failure_preserves_build (tests.test_formal_gate.SyntheticControls.test_preflight_process_failure_preserves_build) ... ok
+2026-11-10T07:43:13.3277507Z test_preflight_timeout_preserves_build (tests.test_formal_gate.SyntheticControls.test_preflight_timeout_preserves_build) ... ok
+2026-11-10T07:43:13.3403584Z test_producer_serializes_actual_nondefault_workflow_attempt (tests.test_formal_gate.SyntheticControls.test_producer_serializes_actual_nondefault_workflow_attempt) ... ok
+2026-11-10T07:43:13.3452148Z test_root_must_import_exactly_registered_modules (tests.test_formal_gate.SyntheticControls.test_root_must_import_exactly_registered_modules) ... ok
+2026-11-10T07:43:13.3495193Z test_scope_must_be_bound (tests.test_formal_gate.SyntheticControls.test_scope_must_be_bound) ... ok
+2026-11-10T07:43:13.3544889Z test_sorry_in_code (tests.test_formal_gate.SyntheticControls.test_sorry_in_code) ... ok
+2026-11-10T07:43:13.3602161Z test_sorry_only_in_comments_ignored (tests.test_formal_gate.SyntheticControls.test_sorry_only_in_comments_ignored) ... ok
+2026-11-10T07:43:13.3650675Z test_source_bytes_changed (tests.test_formal_gate.SyntheticControls.test_source_bytes_changed) ... ok
+2026-11-10T07:43:13.3679935Z test_status_authority_must_be_false (tests.test_formal_gate.SyntheticControls.test_status_authority_must_be_false) ... ok
+2026-11-10T07:43:13.3726089Z test_target_order_must_match_source (tests.test_formal_gate.SyntheticControls.test_target_order_must_match_source) ... ok
+2026-11-10T07:43:13.3773557Z test_toolchain_mismatch (tests.test_formal_gate.SyntheticControls.test_toolchain_mismatch) ... ok
+2026-11-10T07:43:13.3821337Z test_unbound_package_file (tests.test_formal_gate.SyntheticControls.test_unbound_package_file) ... ok
+2026-11-10T07:43:13.3872027Z test_unregistered_lean_module (tests.test_formal_gate.SyntheticControls.test_unregistered_lean_module) ... ok
+2026-11-10T07:43:13.3922306Z test_unregistered_theorem_refused (tests.test_formal_gate.SyntheticControls.test_unregistered_theorem_refused) ... ok
+2026-11-10T07:43:13.4043819Z test_valid_runtime_preserves_both_version_observations_and_logs (tests.test_formal_gate.SyntheticControls.test_valid_runtime_preserves_both_version_observations_and_logs) ... ok
+2026-11-10T07:43:13.4104074Z test_valid_source_check_and_no_writes (tests.test_formal_gate.SyntheticControls.test_valid_source_check_and_no_writes) ... ok
+2026-11-10T07:43:13.5475040Z test_wrong_postflight_runtime_refuses_receipt_after_source_recheck (tests.test_formal_gate.SyntheticControls.test_wrong_postflight_runtime_refuses_receipt_after_source_recheck) ... ok
+2026-11-10T07:43:13.6076385Z test_wrong_runtime_preserves_build_and_refuses_before_work (tests.test_formal_gate.SyntheticControls.test_wrong_runtime_preserves_build_and_refuses_before_work) ... ok
+2026-11-10T07:43:13.6237397Z test_archive_paths_cannot_follow_symlinks (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_archive_paths_cannot_follow_symlinks) ... ok
+2026-11-10T07:43:13.6317603Z test_axiom_control_stderr_is_not_ignored (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_axiom_control_stderr_is_not_ignored) ... ok
+2026-11-10T07:43:13.6807356Z test_axiom_controls_require_the_exact_complete_forbidden_report (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_axiom_controls_require_the_exact_complete_forbidden_report) ... ok
+2026-11-10T07:43:13.6928525Z test_exact_observed_false_goal_is_accepted (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_exact_observed_false_goal_is_accepted) ... ok
+2026-11-10T07:43:13.7231235Z test_extra_wrong_location_or_wrong_goal_diagnostic_is_refused (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_extra_wrong_location_or_wrong_goal_diagnostic_is_refused) ... ok
+2026-11-10T07:43:13.7297400Z test_failed_rerun_archives_prior_receipt_and_logs_together (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_failed_rerun_archives_prior_receipt_and_logs_together) ... ok
+2026-11-10T07:43:13.7514834Z test_missing_or_malformed_control_contract_is_refused (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_missing_or_malformed_control_contract_is_refused) ... ok
+2026-11-10T07:43:13.7574297Z test_missing_tool_rerun_does_not_leave_current_success (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_missing_tool_rerun_does_not_leave_current_success) ... ok
+2026-11-10T07:43:13.7618450Z test_new_diagnostic_controls_cannot_be_unbound (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_new_diagnostic_controls_cannot_be_unbound) ... ok
+2026-11-10T07:43:13.7841456Z test_one_removed_main_control_is_refused (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_one_removed_main_control_is_refused) ... ok
+2026-11-10T07:43:13.7920077Z test_permissive_axiom_auditor_mutation_is_detected (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_permissive_axiom_auditor_mutation_is_detected) ... ok
+2026-11-10T07:43:13.8149534Z test_real_diagnostic_with_wrong_exit_or_stderr_is_refused (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_real_diagnostic_with_wrong_exit_or_stderr_is_refused) ... ok
+2026-11-10T07:43:13.8535571Z test_unrelated_failures_cannot_mint_successful_negative_receipt (tests.test_formal_negative_diagnostics.NegativeDiagnosticContract.test_unrelated_failures_cannot_mint_successful_negative_receipt) ... ok
+2026-11-10T07:43:13.8554240Z test_auxiliary_parent_must_be_user_written (tests.test_formal_compiled_inventory.AuditInventoryTests.test_auxiliary_parent_must_be_user_written) ... ok
+2026-11-10T07:43:13.8562046Z test_auxiliary_theorem_needs_user_parent_in_same_module (tests.test_formal_compiled_inventory.AuditInventoryTests.test_auxiliary_theorem_needs_user_parent_in_same_module) ... ok
+2026-11-10T07:43:13.8567064Z test_axiom_closure_line_required_exactly_once (tests.test_formal_compiled_inventory.AuditInventoryTests.test_axiom_closure_line_required_exactly_once) ... ok
+2026-11-10T07:43:13.8569214Z test_axiom_free_closure_passes (tests.test_formal_compiled_inventory.AuditInventoryTests.test_axiom_free_closure_passes) ... ok
+2026-11-10T07:43:13.8572183Z test_axiom_kind_rejected_even_if_unused (tests.test_formal_compiled_inventory.AuditInventoryTests.test_axiom_kind_rejected_even_if_unused) ... ok
+2026-11-10T07:43:13.8577352Z test_bound_record_must_match_kind_and_provenance (tests.test_formal_compiled_inventory.AuditInventoryTests.test_bound_record_must_match_kind_and_provenance) ... ok
+2026-11-10T07:43:13.8580096Z test_clean_passes (tests.test_formal_compiled_inventory.AuditInventoryTests.test_clean_passes) ... ok
+2026-11-10T07:43:13.8583069Z test_closure_smaller_than_inventory_rejected (tests.test_formal_compiled_inventory.AuditInventoryTests.test_closure_smaller_than_inventory_rejected) ... ok
+2026-11-10T07:43:13.8585935Z test_custom_axiom_in_closure_rejected (tests.test_formal_compiled_inventory.AuditInventoryTests.test_custom_axiom_in_closure_rejected) ... ok
+2026-11-10T07:43:13.8589034Z test_default_bound_is_empty (tests.test_formal_compiled_inventory.AuditInventoryTests.test_default_bound_is_empty) ... ok
+2026-11-10T07:43:13.8592079Z test_duplicate_name_rejected (tests.test_formal_compiled_inventory.AuditInventoryTests.test_duplicate_name_rejected) ... ok
+2026-11-10T07:43:13.8595367Z test_every_finding_is_reported (tests.test_formal_compiled_inventory.AuditInventoryTests.test_every_finding_is_reported) ... ok
+2026-11-10T07:43:13.8607536Z test_extra_user_theorem_rejected_whatever_its_name (tests.test_formal_compiled_inventory.AuditInventoryTests.test_extra_user_theorem_rejected_whatever_its_name) ... ok
+2026-11-10T07:43:13.8611595Z test_local_module_only_when_allowed (tests.test_formal_compiled_inventory.AuditInventoryTests.test_local_module_only_when_allowed) ... ok
+2026-11-10T07:43:13.8614799Z test_local_user_theorem_rejected_even_when_local_allowed (tests.test_formal_compiled_inventory.AuditInventoryTests.test_local_user_theorem_rejected_even_when_local_allowed) ... ok
+2026-11-10T07:43:13.8626369Z test_malformed_lines_are_protocol_errors (tests.test_formal_compiled_inventory.AuditInventoryTests.test_malformed_lines_are_protocol_errors) ... ok
+2026-11-10T07:43:13.8629279Z test_missing_bound_constant_rejected (tests.test_formal_compiled_inventory.AuditInventoryTests.test_missing_bound_constant_rejected) ... ok
+2026-11-10T07:43:13.8632333Z test_missing_target_rejected (tests.test_formal_compiled_inventory.AuditInventoryTests.test_missing_target_rejected) ... ok
+2026-11-10T07:43:13.8647840Z test_module_table_findings (tests.test_formal_compiled_inventory.AuditInventoryTests.test_module_table_findings) ... ok
+2026-11-10T07:43:13.8649113Z test_noise_lines_refused (tests.test_formal_compiled_inventory.AuditInventoryTests.test_noise_lines_refused) ... ok
+2026-11-10T07:43:13.8653414Z test_non_theorem_auxiliaries_are_closure_only (tests.test_formal_compiled_inventory.AuditInventoryTests.test_non_theorem_auxiliaries_are_closure_only) ... ok
+2026-11-10T07:43:13.8659486Z test_per_target_audit_cross_check (tests.test_formal_compiled_inventory.AuditInventoryTests.test_per_target_audit_cross_check) ... ok
+2026-11-10T07:43:13.8662822Z test_quoted_private_sorry_rejected_for_both_reasons (tests.test_formal_compiled_inventory.AuditInventoryTests.test_quoted_private_sorry_rejected_for_both_reasons) ... ok
+2026-11-10T07:43:13.8667036Z test_report_is_deterministic (tests.test_formal_compiled_inventory.AuditInventoryTests.test_report_is_deterministic) ... ok
+2026-11-10T07:43:13.8671754Z test_target_only_as_auxiliary_or_private_is_missing (tests.test_formal_compiled_inventory.AuditInventoryTests.test_target_only_as_auxiliary_or_private_is_missing) ... ok
+2026-11-10T07:43:13.8682054Z test_unbound_constants_rejected_whatever_their_provenance (tests.test_formal_compiled_inventory.AuditInventoryTests.test_unbound_constants_rejected_whatever_their_provenance) ... ok
+2026-11-10T07:43:13.9966193Z test_policy_mutants_are_killed (tests.test_formal_compiled_inventory.AuditorMutationTests.test_policy_mutants_are_killed) ... ok
+2026-11-10T07:43:13.9970060Z test_empty_targets_or_modules_rejected (tests.test_formal_compiled_inventory.BoundInventoryTests.test_empty_targets_or_modules_rejected) ... ok
+2026-11-10T07:43:13.9972022Z test_invalid_records_refused (tests.test_formal_compiled_inventory.BoundInventoryTests.test_invalid_records_refused) ... ok
+2026-11-10T07:43:13.9974098Z test_valid_records (tests.test_formal_compiled_inventory.BoundInventoryTests.test_valid_records) ... ok
+2026-11-10T07:43:13.9975423Z test_closure_missing_reference_is_fatal (tests.test_formal_compiled_inventory.CodegenInventoryTests.test_closure_missing_reference_is_fatal) ... ok
+2026-11-10T07:43:13.9981650Z test_codegen_names_are_bound_separately (tests.test_formal_compiled_inventory.CodegenInventoryTests.test_codegen_names_are_bound_separately) ... ok
+2026-11-10T07:43:14.0038337Z test_source_requires_compiled_binding (tests.test_formal_compiled_inventory.IntegrationTests.test_source_requires_compiled_binding) ... ok
+2026-11-10T07:43:14.0039760Z test_local_mode_adds_current_file_constants (tests.test_formal_compiled_inventory.InventorySourceTests.test_local_mode_adds_current_file_constants) ... ok
+2026-11-10T07:43:14.0040894Z test_missing_constant_is_fatal_in_lean (tests.test_formal_compiled_inventory.InventorySourceTests.test_missing_constant_is_fatal_in_lean) ... ok
+2026-11-10T07:43:14.0044231Z test_package_import_and_module_table_enumeration (tests.test_formal_compiled_inventory.InventorySourceTests.test_package_import_and_module_table_enumeration) ... ok
+2026-11-10T07:43:14.0045516Z test_arbitrary_failure_callback_never_qualifies (tests.test_formal_compiled_inventory.MutationKillContractTests.test_arbitrary_failure_callback_never_qualifies) ... ok
+2026-11-10T07:43:14.0060439Z test_class_and_module_fixture_failures_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_class_and_module_fixture_failures_never_qualify) ... ok
+2026-11-10T07:43:14.0066300Z test_coroutine_async_generator_and_generator_bodies_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_coroutine_async_generator_and_generator_bodies_never_qualify) ... ok
+2026-11-10T07:43:14.0071597Z test_expected_and_unexpected_success_mechanisms_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_expected_and_unexpected_success_mechanisms_never_qualify) ... ok
+2026-11-10T07:43:14.0080419Z test_fixture_assertions_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_fixture_assertions_never_qualify) ... ok
+2026-11-10T07:43:14.0090391Z test_fixture_calls_to_method_or_dispatcher_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_fixture_calls_to_method_or_dispatcher_never_qualify) ... ok
+2026-11-10T07:43:14.0103155Z test_incorrect_duplicate_and_ambiguous_populations_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_incorrect_duplicate_and_ambiguous_populations_never_qualify) ... ok
+2026-11-10T07:43:14.0158384Z test_intended_assertion_failure_qualifies (tests.test_formal_compiled_inventory.MutationKillContractTests.test_intended_assertion_failure_qualifies) ... ok
+2026-11-10T07:43:14.0194251Z test_missing_incomplete_unknown_and_duplicate_records_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_missing_incomplete_unknown_and_duplicate_records_never_qualify) ... ok
+2026-11-10T07:43:14.0202713Z test_mixed_body_and_fixture_assertions_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_mixed_body_and_fixture_assertions_never_qualify) ... ok
+2026-11-10T07:43:14.0208843Z test_returned_dormant_body_and_custom_lifecycle_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_returned_dormant_body_and_custom_lifecycle_never_qualify) ... ok
+2026-11-10T07:43:14.0211376Z test_setup_dispatcher_assertion_never_qualifies (tests.test_formal_compiled_inventory.MutationKillContractTests.test_setup_dispatcher_assertion_never_qualifies) ... ok
+2026-11-10T07:43:14.0257265Z test_skips_or_incomplete_population_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_skips_or_incomplete_population_never_qualify) ... ok
+2026-11-10T07:43:14.0270298Z test_subtests_never_qualify_in_any_phase (tests.test_formal_compiled_inventory.MutationKillContractTests.test_subtests_never_qualify_in_any_phase) ... ok
+2026-11-10T07:43:14.0363287Z test_survival_unexpected_failures_and_empty_contract_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_survival_unexpected_failures_and_empty_contract_never_qualify) ... ok
+2026-11-10T07:43:14.0413672Z test_test_errors_never_qualify_even_with_expected_assertion (tests.test_formal_compiled_inventory.MutationKillContractTests.test_test_errors_never_qualify_even_with_expected_assertion) ... ok
+2026-11-10T07:43:14.0421196Z test_unmapped_and_duplicate_subtest_failures_never_qualify (tests.test_formal_compiled_inventory.MutationKillContractTests.test_unmapped_and_duplicate_subtest_failures_never_qualify) ... ok
+2026-11-10T07:43:14.0423956Z test_lossless_where_dotted_rendering_collides (tests.test_formal_compiled_inventory.NameEncodingTests.test_lossless_where_dotted_rendering_collides) ... ok
+2026-11-10T07:43:14.0425946Z test_malformed_encodings_refused (tests.test_formal_compiled_inventory.NameEncodingTests.test_malformed_encodings_refused) ... ok
+2026-11-10T07:43:14.0427654Z test_private_user_name (tests.test_formal_compiled_inventory.NameEncodingTests.test_private_user_name) ... ok
+2026-11-10T07:43:14.0429222Z test_render_marks_quoted_components (tests.test_formal_compiled_inventory.NameEncodingTests.test_render_marks_quoted_components) ... ok
+2026-11-10T07:43:14.0430684Z test_round_trip (tests.test_formal_compiled_inventory.NameEncodingTests.test_round_trip) ... ok
+2026-11-10T07:43:14.0434723Z test_simple_name_refuses_unrepresentable_targets (tests.test_formal_compiled_inventory.NameEncodingTests.test_simple_name_refuses_unrepresentable_targets) ... ok
+2026-11-10T07:43:25.5177884Z test_actual_clean_and_omitted_constants (tests.test_formal_compiled_inventory.PinnedLeanInventoryTests.test_actual_clean_and_omitted_constants) ... ok
+2026-11-10T07:43:34.6252930Z test_nine_declared_source_mutants_have_reason_bound_kills (tests.test_formal_source_custody.CustodySourceMutationTests.test_nine_declared_source_mutants_have_reason_bound_kills) ... ok
+2026-11-10T07:43:34.6877365Z test_ambient_git_overrides_cannot_substitute_another_repository (tests.test_formal_source_custody.ExactSourceCommitTests.test_ambient_git_overrides_cannot_substitute_another_repository) ... ok
+2026-11-10T07:43:34.7299063Z test_assume_unchanged_cannot_hide_changed_owned_bytes (tests.test_formal_source_custody.ExactSourceCommitTests.test_assume_unchanged_cannot_hide_changed_owned_bytes) ... ok
+2026-11-10T07:43:34.7918079Z test_build_outputs_and_unrelated_dirty_data_do_not_invalidate_owned_commit (tests.test_formal_source_custody.ExactSourceCommitTests.test_build_outputs_and_unrelated_dirty_data_do_not_invalidate_owned_commit) ... ok
+2026-11-10T07:43:34.8903175Z test_clean_exact_commit_is_bound (tests.test_formal_source_custody.ExactSourceCommitTests.test_clean_exact_commit_is_bound) ... ok
+2026-11-10T07:43:34.9516125Z test_core_filemode_false_cannot_hide_owned_mode_drift (tests.test_formal_source_custody.ExactSourceCommitTests.test_core_filemode_false_cannot_hide_owned_mode_drift) ... ok
+2026-11-10T07:43:34.9784443Z test_custody_refusal_archives_prior_success_before_any_lean_process (tests.test_formal_source_custody.ExactSourceCommitTests.test_custody_refusal_archives_prior_success_before_any_lean_process) ... ok
+2026-11-10T07:43:35.0271606Z test_dirty_manifest_bytes_are_refused_even_when_parsed_data_is_equal (tests.test_formal_source_custody.ExactSourceCommitTests.test_dirty_manifest_bytes_are_refused_even_when_parsed_data_is_equal) ... ok
+2026-11-10T07:43:35.0657626Z test_dirty_owned_source_is_refused_even_if_manifest_is_refreshed (tests.test_formal_source_custody.ExactSourceCommitTests.test_dirty_owned_source_is_refused_even_if_manifest_is_refreshed) ... ok
+2026-11-10T07:43:35.1234611Z test_executable_mode_drift_is_refused (tests.test_formal_source_custody.ExactSourceCommitTests.test_executable_mode_drift_is_refused) ... ok
+2026-11-10T07:43:35.1496886Z test_execute_package_argument_cannot_substitute_another_tree (tests.test_formal_source_custody.ExactSourceCommitTests.test_execute_package_argument_cannot_substitute_another_tree) ... ok
+2026-11-10T07:43:35.1851451Z test_expected_head_must_remain_stable (tests.test_formal_source_custody.ExactSourceCommitTests.test_expected_head_must_remain_stable) ... ok
+2026-11-10T07:43:35.2385093Z test_git_replace_cannot_launder_dirty_bytes_as_original_commit (tests.test_formal_source_custody.ExactSourceCommitTests.test_git_replace_cannot_launder_dirty_bytes_as_original_commit) ... ok
+2026-11-10T07:43:35.2777028Z test_loaded_helper_must_match_bound_source (tests.test_formal_source_custody.ExactSourceCommitTests.test_loaded_helper_must_match_bound_source) ... ok
+2026-11-10T07:43:35.3174406Z test_loaded_producer_must_match_bound_source (tests.test_formal_source_custody.ExactSourceCommitTests.test_loaded_producer_must_match_bound_source) ... ok
+2026-11-10T07:43:35.3460971Z test_manifest_digest_must_match_argument (tests.test_formal_source_custody.ExactSourceCommitTests.test_manifest_digest_must_match_argument) ... ok
+2026-11-10T07:43:35.3748008Z test_manifest_parsed_data_must_match_argument (tests.test_formal_source_custody.ExactSourceCommitTests.test_manifest_parsed_data_must_match_argument) ... ok
+2026-11-10T07:43:35.4167104Z test_staged_but_uncommitted_source_and_manifest_are_refused (tests.test_formal_source_custody.ExactSourceCommitTests.test_staged_but_uncommitted_source_and_manifest_are_refused) ... ok
+2026-11-10T07:43:35.4434912Z test_subdirectory_cannot_be_presented_as_another_git_root (tests.test_formal_source_custody.ExactSourceCommitTests.test_subdirectory_cannot_be_presented_as_another_git_root) ... ok
+2026-11-10T07:43:35.4669401Z test_symlink_to_identical_bound_bytes_is_refused (tests.test_formal_source_custody.ExactSourceCommitTests.test_symlink_to_identical_bound_bytes_is_refused) ... ok
+2026-11-10T07:43:35.5076428Z test_untracked_manifest_bound_input_is_refused (tests.test_formal_source_custody.ExactSourceCommitTests.test_untracked_manifest_bound_input_is_refused) ... ok
+2026-11-10T07:43:35.6173481Z test_live_consumer_and_custody_controls_cannot_be_unbound (tests.test_formal_source_custody.MainCustodyBindingTests.test_live_consumer_and_custody_controls_cannot_be_unbound) ... ok
+2026-11-10T07:43:35.6174665Z 
+2026-11-10T07:43:35.6174903Z ----------------------------------------------------------------------
+2026-11-10T07:43:35.6175409Z Ran 147 tests in 35.449s
+2026-11-10T07:43:35.6175624Z 
+2026-11-10T07:43:35.6175748Z OK
+2026-11-10T07:43:35.6445841Z ##[group]Run python -B -S tools/formal_gate_check.py --run-lean | tee /tmp/run-lean.log
+2026-11-10T07:43:35.6446498Z [36;1mpython -B -S tools/formal_gate_check.py --run-lean | tee /tmp/run-lean.log[0m
+2026-11-10T07:43:35.6467931Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T07:43:35.6468271Z env:
+2026-11-10T07:43:35.6468536Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:35.6469004Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T07:43:35.6469446Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:35.6469832Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:35.6470214Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:35.6470599Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T07:43:35.6470945Z   GITHUB_REPOSITORY: d6g8k5htny-coder/main
+2026-11-10T07:43:35.6471260Z   GITHUB_RUN_ID: 42777106338
+2026-11-10T07:43:35.6471493Z ##[endgroup]
+2026-11-10T07:43:35.8927712Z preflight-version: exit 0
+2026-11-10T07:43:37.6464259Z build: exit 0
+2026-11-10T07:43:39.2826261Z leanchecker: exit 0
+2026-11-10T07:43:39.5461640Z axioms: exit 0
+2026-11-10T07:43:40.6955372Z compiled-inventory: exit 0
+2026-11-10T07:43:41.1587447Z elaborated-types: exit 0
+2026-11-10T07:43:41.5991326Z false_exponent_bound_d3: exit 1
+2026-11-10T07:43:42.0341038Z false_covariance_bound: exit 1
+2026-11-10T07:43:42.4662292Z false_exp_partial_sum: exit 1
+2026-11-10T07:43:42.9118870Z wrong_image_constant: exit 1
+2026-11-10T07:43:43.3538622Z false_eigenvalue_third: exit 1
+2026-11-10T07:43:43.8066181Z false_trace_variance: exit 1
+2026-11-10T07:43:44.0810226Z false_endpoint_adjacency: exit 1
+2026-11-10T07:43:44.4086413Z false_price_boundary_third: exit 1
+2026-11-10T07:43:44.7242909Z wrong_generator_prices: exit 1
+2026-11-10T07:43:45.1400668Z false_palette_815_count: exit 1
+2026-11-10T07:43:45.5670916Z wrong_transversal_count: exit 1
+2026-11-10T07:43:46.1869707Z false_rho_endpoint_adjacency: exit 1
+2026-11-10T07:43:46.7925788Z false_rho_upper_six_sevenths: exit 1
+2026-11-10T07:43:47.3955966Z wrong_taylor_certificate: exit 1
+2026-11-10T07:43:47.8193112Z wrong_whole_ground_chromatic: exit 1
+2026-11-10T07:43:48.0807020Z sorry: exit 0
+2026-11-10T07:43:48.3420645Z custom_imported: exit 0
+2026-11-10T07:43:48.6058288Z native: exit 0
+2026-11-10T07:43:48.7253247Z version: exit 0
+2026-11-10T07:43:48.8005233Z {
+2026-11-10T07:43:48.8005732Z   "alignment_status": "PENDING_INDEPENDENT_REVIEW",
+2026-11-10T07:43:48.8006250Z   "axioms": {
+2026-11-10T07:43:48.8006751Z     "UniversalLaw.P15.benchmark_block_and_ground_sizes": [],
+2026-11-10T07:43:48.8007175Z     "UniversalLaw.P15.block_occupancy_one_percent": [],
+2026-11-10T07:43:48.8007766Z     "UniversalLaw.P15.ceil_block_over_capacity_instances": [],
+2026-11-10T07:43:48.8008699Z     "UniversalLaw.P15.cover_price_numerator_and_denominator_positive": [],
+2026-11-10T07:43:48.8009505Z     "UniversalLaw.P15.demand_one_good_sets": [],
+2026-11-10T07:43:48.8010117Z     "UniversalLaw.P15.demand_one_obstruction": [],
+2026-11-10T07:43:48.8010744Z     "UniversalLaw.P15.e_rational_bounds_ordering": [],
+2026-11-10T07:43:48.8011441Z     "UniversalLaw.P15.elementary_palette_formula_instances": [],
+2026-11-10T07:43:48.8012210Z     "UniversalLaw.P15.exp_eleven_sixths_taylor_certificate": [],
+2026-11-10T07:43:48.8013194Z     "UniversalLaw.P15.explicit_rational_price_above_p": [],
+2026-11-10T07:43:48.8013856Z     "UniversalLaw.P15.four_block_supports_fifteen": [],
+2026-11-10T07:43:48.8014463Z     "UniversalLaw.P15.generator_prices_ninths": [],
+2026-11-10T07:43:48.8015069Z     "UniversalLaw.P15.good_measure_three_quarters": [],
+2026-11-10T07:43:48.8015759Z     "UniversalLaw.P15.h_star_rational_certificate_constants": [],
+2026-11-10T07:43:48.8016311Z     "UniversalLaw.P15.low_failure_union_bound_arithmetic": [],
+2026-11-10T07:43:48.8016710Z     "UniversalLaw.P15.macro_triangle_three_colors": [],
+2026-11-10T07:43:48.8017461Z     "UniversalLaw.P15.minimal_block_size_instances": [],
+2026-11-10T07:43:48.8017830Z     "UniversalLaw.P15.minimal_forbidder_counts": [],
+2026-11-10T07:43:48.8018211Z     "UniversalLaw.P15.minimum_generator_price_exceeds_third": [],
+2026-11-10T07:43:48.8018635Z     "UniversalLaw.P15.palette_815_fails_by_counting": [],
+2026-11-10T07:43:48.8019140Z     "UniversalLaw.P15.palette_816_from_two_label_classes": [],
+2026-11-10T07:43:48.8019612Z     "UniversalLaw.P15.rho_star_endpoints_adjacent": [],
+2026-11-10T07:43:48.8020075Z     "UniversalLaw.P15.rho_star_upper_endpoint_below_six_sevenths": [],
+2026-11-10T07:43:48.8020804Z     "UniversalLaw.P15.sixteen_twentysevenths_below_six_sevenths": [],
+2026-11-10T07:43:48.8021346Z     "UniversalLaw.P15.smallest_member_block_size": [],
+2026-11-10T07:43:48.8021835Z     "UniversalLaw.P15.t3_bound_finite_instances": [],
+2026-11-10T07:43:48.8022264Z     "UniversalLaw.P15.t3_ratio_at_minimal_block": [],
+2026-11-10T07:43:48.8033858Z     "UniversalLaw.P15.whole_ground_chromatic_818": [],
+2026-11-10T07:43:48.8034610Z     "UniversalLaw.Side24.conditional_third_derivative_variance": [],
+2026-11-10T07:43:48.8035140Z     "UniversalLaw.Side24.cone_moment_m1_thirds": [],
+2026-11-10T07:43:48.8035513Z     "UniversalLaw.Side24.cone_moment_m2_algebra": [],
+2026-11-10T07:43:48.8036461Z     "UniversalLaw.Side24.covariance_relative_bound": [],
+2026-11-10T07:43:48.8036842Z     "UniversalLaw.Side24.cube_root_simplification": [],
+2026-11-10T07:43:48.8037211Z     "UniversalLaw.Side24.d2_endpoints_adjacent": [],
+2026-11-10T07:43:48.8037530Z     "UniversalLaw.Side24.d3_below_d2": [],
+2026-11-10T07:43:48.8037841Z     "UniversalLaw.Side24.d3_endpoints_adjacent": [],
+2026-11-10T07:43:48.8038223Z     "UniversalLaw.Side24.density_comparison_below_reported": [],
+2026-11-10T07:43:48.8038621Z     "UniversalLaw.Side24.endpoints_in_unit_tenth": [],
+2026-11-10T07:43:48.8038998Z     "UniversalLaw.Side24.exp_taylor_partial_sum_gt_ten": [],
+2026-11-10T07:43:48.8039348Z     "UniversalLaw.Side24.exponent_bounds": [],
+2026-11-10T07:43:48.8039666Z     "UniversalLaw.Side24.exponent_values": [],
+2026-11-10T07:43:48.8040014Z     "UniversalLaw.Side24.exponential_moment_of_trace": [],
+2026-11-10T07:43:48.8040387Z     "UniversalLaw.Side24.fourth_moment_of_trace": [],
+2026-11-10T07:43:48.8040741Z     "UniversalLaw.Side24.geometric_ratio_constants": [],
+2026-11-10T07:43:48.8041102Z     "UniversalLaw.Side24.hessian_block_eigenvalues": [],
+2026-11-10T07:43:48.8041442Z     "UniversalLaw.Side24.image_constant_value": [],
+2026-11-10T07:43:48.8041786Z     "UniversalLaw.Side24.lattice_shell_constant": [],
+2026-11-10T07:43:48.8042117Z     "UniversalLaw.Side24.odd_block_eigenvalues": [],
+2026-11-10T07:43:48.8042688Z     "UniversalLaw.Side24.odd_block_shifted_minors": [],
+2026-11-10T07:43:48.8043188Z     "UniversalLaw.Side24.pairing_sum_le_six": [],
+2026-11-10T07:43:48.8043519Z     "UniversalLaw.Side24.pairing_sum_six": [],
+2026-11-10T07:43:48.8043845Z     "UniversalLaw.Side24.pairing_terms_six": [],
+2026-11-10T07:43:48.8044166Z     "UniversalLaw.Side24.period_exponent": [],
+2026-11-10T07:43:48.8044542Z     "UniversalLaw.Side24.pin_determinant_and_joint_dimension": [],
+2026-11-10T07:43:48.8044939Z     "UniversalLaw.Side24.ratio_constant_ordering": [],
+2026-11-10T07:43:48.8045314Z     "UniversalLaw.Side24.sixth_moment_double_factorial": [],
+2026-11-10T07:43:48.8045711Z     "UniversalLaw.Side24.smaller_eigenvalue_exceeds_third": [],
+2026-11-10T07:43:48.8046106Z     "UniversalLaw.Side24.trace_and_traceless_variances": [],
+2026-11-10T07:43:48.8046510Z     "UniversalLaw.Side24.transverse_covariance_entries_thirds": []
+2026-11-10T07:43:48.8046845Z   },
+2026-11-10T07:43:48.8047110Z   "checked_commit": "ec3eb3479d654643cb93b4c9dcc074b6ba71cc7b",
+2026-11-10T07:43:48.8047447Z   "compiled_inventory": {
+2026-11-10T07:43:48.8047687Z     "auxiliary_theorems": 0,
+2026-11-10T07:43:48.8047913Z     "axioms": [],
+2026-11-10T07:43:48.8048114Z     "closure": 466,
+2026-11-10T07:43:48.8048318Z     "codegen_entries": 38,
+2026-11-10T07:43:48.8048570Z     "declarations": 93,
+2026-11-10T07:43:48.8048956Z     "public_theorems": [
+2026-11-10T07:43:48.8049252Z       "UniversalLaw.P15.benchmark_block_and_ground_sizes",
+2026-11-10T07:43:48.8049613Z       "UniversalLaw.P15.block_occupancy_one_percent",
+2026-11-10T07:43:48.8049980Z       "UniversalLaw.P15.ceil_block_over_capacity_instances",
+2026-11-10T07:43:48.8050397Z       "UniversalLaw.P15.cover_price_numerator_and_denominator_positive",
+2026-11-10T07:43:48.8050791Z       "UniversalLaw.P15.demand_one_good_sets",
+2026-11-10T07:43:48.8051104Z       "UniversalLaw.P15.demand_one_obstruction",
+2026-11-10T07:43:48.8051428Z       "UniversalLaw.P15.e_rational_bounds_ordering",
+2026-11-10T07:43:48.8051791Z       "UniversalLaw.P15.elementary_palette_formula_instances",
+2026-11-10T07:43:48.8052174Z       "UniversalLaw.P15.exp_eleven_sixths_taylor_certificate",
+2026-11-10T07:43:48.8053045Z       "UniversalLaw.P15.explicit_rational_price_above_p",
+2026-11-10T07:43:48.8053411Z       "UniversalLaw.P15.four_block_supports_fifteen",
+2026-11-10T07:43:48.8053761Z       "UniversalLaw.P15.generator_prices_ninths",
+2026-11-10T07:43:48.8054089Z       "UniversalLaw.P15.good_measure_three_quarters",
+2026-11-10T07:43:48.8054450Z       "UniversalLaw.P15.h_star_rational_certificate_constants",
+2026-11-10T07:43:48.8055003Z       "UniversalLaw.P15.low_failure_union_bound_arithmetic",
+2026-11-10T07:43:48.8055347Z       "UniversalLaw.P15.macro_triangle_three_colors",
+2026-11-10T07:43:48.8055681Z       "UniversalLaw.P15.minimal_block_size_instances",
+2026-11-10T07:43:48.8056014Z       "UniversalLaw.P15.minimal_forbidder_counts",
+2026-11-10T07:43:48.8056376Z       "UniversalLaw.P15.minimum_generator_price_exceeds_third",
+2026-11-10T07:43:48.8056746Z       "UniversalLaw.P15.palette_815_fails_by_counting",
+2026-11-10T07:43:48.8057104Z       "UniversalLaw.P15.palette_816_from_two_label_classes",
+2026-11-10T07:43:48.8057452Z       "UniversalLaw.P15.rho_star_endpoints_adjacent",
+2026-11-10T07:43:48.8057831Z       "UniversalLaw.P15.rho_star_upper_endpoint_below_six_sevenths",
+2026-11-10T07:43:48.8058268Z       "UniversalLaw.P15.sixteen_twentysevenths_below_six_sevenths",
+2026-11-10T07:43:48.8058652Z       "UniversalLaw.P15.smallest_member_block_size",
+2026-11-10T07:43:48.8058979Z       "UniversalLaw.P15.t3_bound_finite_instances",
+2026-11-10T07:43:48.8059299Z       "UniversalLaw.P15.t3_ratio_at_minimal_block",
+2026-11-10T07:43:48.8059621Z       "UniversalLaw.P15.whole_ground_chromatic_818",
+2026-11-10T07:43:48.8060021Z       "UniversalLaw.Side24.conditional_third_derivative_variance",
+2026-11-10T07:43:48.8060401Z       "UniversalLaw.Side24.cone_moment_m1_thirds",
+2026-11-10T07:43:48.8060724Z       "UniversalLaw.Side24.cone_moment_m2_algebra",
+2026-11-10T07:43:48.8061063Z       "UniversalLaw.Side24.covariance_relative_bound",
+2026-11-10T07:43:48.8061404Z       "UniversalLaw.Side24.cube_root_simplification",
+2026-11-10T07:43:48.8061748Z       "UniversalLaw.Side24.d2_endpoints_adjacent",
+2026-11-10T07:43:48.8062061Z       "UniversalLaw.Side24.d3_below_d2",
+2026-11-10T07:43:48.8062360Z       "UniversalLaw.Side24.d3_endpoints_adjacent",
+2026-11-10T07:43:48.8063003Z       "UniversalLaw.Side24.density_comparison_below_reported",
+2026-11-10T07:43:48.8063374Z       "UniversalLaw.Side24.endpoints_in_unit_tenth",
+2026-11-10T07:43:48.8063731Z       "UniversalLaw.Side24.exp_taylor_partial_sum_gt_ten",
+2026-11-10T07:43:48.8064070Z       "UniversalLaw.Side24.exponent_bounds",
+2026-11-10T07:43:48.8064371Z       "UniversalLaw.Side24.exponent_values",
+2026-11-10T07:43:48.8064700Z       "UniversalLaw.Side24.exponential_moment_of_trace",
+2026-11-10T07:43:48.8065045Z       "UniversalLaw.Side24.fourth_moment_of_trace",
+2026-11-10T07:43:48.8065384Z       "UniversalLaw.Side24.geometric_ratio_constants",
+2026-11-10T07:43:48.8065724Z       "UniversalLaw.Side24.hessian_block_eigenvalues",
+2026-11-10T07:43:48.8066057Z       "UniversalLaw.Side24.image_constant_value",
+2026-11-10T07:43:48.8066379Z       "UniversalLaw.Side24.lattice_shell_constant",
+2026-11-10T07:43:48.8066699Z       "UniversalLaw.Side24.odd_block_eigenvalues",
+2026-11-10T07:43:48.8067152Z       "UniversalLaw.Side24.odd_block_shifted_minors",
+2026-11-10T07:43:48.8067527Z       "UniversalLaw.Side24.pairing_sum_le_six",
+2026-11-10T07:43:48.8067840Z       "UniversalLaw.Side24.pairing_sum_six",
+2026-11-10T07:43:48.8068193Z       "UniversalLaw.Side24.pairing_terms_six",
+2026-11-10T07:43:48.8068508Z       "UniversalLaw.Side24.period_exponent",
+2026-11-10T07:43:48.8068886Z       "UniversalLaw.Side24.pin_determinant_and_joint_dimension",
+2026-11-10T07:43:48.8069280Z       "UniversalLaw.Side24.ratio_constant_ordering",
+2026-11-10T07:43:48.8069635Z       "UniversalLaw.Side24.sixth_moment_double_factorial",
+2026-11-10T07:43:48.8070015Z       "UniversalLaw.Side24.smaller_eigenvalue_exceeds_third",
+2026-11-10T07:43:48.8070467Z       "UniversalLaw.Side24.trace_and_traceless_variances",
+2026-11-10T07:43:48.8070866Z       "UniversalLaw.Side24.transverse_covariance_entries_thirds"
+2026-11-10T07:43:48.8071194Z     ],
+2026-11-10T07:43:48.8071516Z     "sha256": "d17e261a68551991f47e91dd36124a43e6dc355c3dc128ba429c225a013eb94b"
+2026-11-10T07:43:48.8071898Z   },
+2026-11-10T07:43:48.8072092Z   "dependency_revisions": {},
+2026-11-10T07:43:48.8072361Z   "formalization_status": "kernel-checked",
+2026-11-10T07:43:48.8073368Z   "lean_version": "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+2026-11-10T07:43:48.8073897Z   "logs": {
+2026-11-10T07:43:48.8074251Z     "axioms.log": "be8eab828b6aef7253fecf41dc4ea1d5da88c1c36fd8092ffc9e270f9aaba038",
+2026-11-10T07:43:48.8074908Z     "build.log": "70b1b3e84a7831de1fdd2ede52e7187e4e65a97757519e6fe4c3cd5cca9f338b",
+2026-11-10T07:43:48.8075519Z     "compiled-inventory.log": "dcb6aa398d4c562f7be03510b741ffff82cb465d1dd956ed4685054f49e7cd99",
+2026-11-10T07:43:48.8076188Z     "custom_imported-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8076847Z     "custom_imported.log": "6e7f917c7fe2fdc3efe1943dcc327c56acadd0b0ca96507a4327073fdfd2f083",
+2026-11-10T07:43:48.8077498Z     "elaborated-types.log": "a0b13c549f1f91c13ba0b6ce962b15add04087e2fb1abaf2b9c46bb3479aa4a1",
+2026-11-10T07:43:48.8078179Z     "false_covariance_bound-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8078887Z     "false_covariance_bound.log": "bd18be7b92bd50bcc050d2dd6a5c93cc3140efcab081a550d8929152befe08b4",
+2026-11-10T07:43:48.8079612Z     "false_eigenvalue_third-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8080285Z     "false_eigenvalue_third.log": "3d267da92c295b3e78e0ed4ab8753a94f5be814142b72509519e9f4473ba2ad9",
+2026-11-10T07:43:48.8080968Z     "false_endpoint_adjacency-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8081654Z     "false_endpoint_adjacency.log": "2e5595a4980542f45526b8dfa73284a072d70b9867a01754c75b67270e105c6d",
+2026-11-10T07:43:48.8082327Z     "false_exp_partial_sum-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8083308Z     "false_exp_partial_sum.log": "01b4e155b2c58f357c11149fbe6019df8591956995c5f5766171a3f2b8b84eec",
+2026-11-10T07:43:48.8083989Z     "false_exponent_bound_d3-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8084679Z     "false_exponent_bound_d3.log": "96582a758ed1b7b5f2e685814fed49a2d610d97dc974b6d995094659e52a9681",
+2026-11-10T07:43:48.8085354Z     "false_palette_815_count-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8086031Z     "false_palette_815_count.log": "9b1f458b6386536dedbb8d06bb6d8c231581c4602fa6bdc9f420cba2fd83c733",
+2026-11-10T07:43:48.8086720Z     "false_price_boundary_third-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8087415Z     "false_price_boundary_third.log": "6b7f3d7e121575cdf8214804480872e5204b8b6bc8a0cb0c644606762509cad7",
+2026-11-10T07:43:48.8088554Z     "false_rho_endpoint_adjacency-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8089393Z     "false_rho_endpoint_adjacency.log": "c85bf1f1bda4cc5fbcb74f69ad478fd97082fbd6e1247e1da00fe19b455e1f4c",
+2026-11-10T07:43:48.8090724Z     "false_rho_upper_six_sevenths-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8092045Z     "false_rho_upper_six_sevenths.log": "ecfc5bd333e0d921c1a6dab5c0bea22a33b49596bc5721c16e7004a4759f84c5",
+2026-11-10T07:43:48.8093614Z     "false_trace_variance-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8094619Z     "false_trace_variance.log": "02332935610b87a339e29462ce2cdbb309a7a9a540756db255fc32c3327a6d63",
+2026-11-10T07:43:48.8095264Z     "leanchecker.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8095874Z     "native-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8096453Z     "native.log": "8a0b9f79f3265724af58b27461627f9d532535f8a23681361da731c9ea37c101",
+2026-11-10T07:43:48.8097038Z     "preflight-version.log": "355a9a028f81641782d75d6e6b58dec70f29d2f61238a9e271690259d9bf5680",
+2026-11-10T07:43:48.8097842Z     "sorry-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8098417Z     "sorry.log": "2ce4bc55b4dd0d68ede207caa2d8e140f629fa7ae11787fa6421f402c5195018",
+2026-11-10T07:43:48.8098956Z     "version.log": "355a9a028f81641782d75d6e6b58dec70f29d2f61238a9e271690259d9bf5680",
+2026-11-10T07:43:48.8099581Z     "wrong_generator_prices-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8100273Z     "wrong_generator_prices.log": "679f01b79ba2d8a901f6f235c3d93b85ee0db1faa57aedbc562d25199432b9fa",
+2026-11-10T07:43:48.8100971Z     "wrong_image_constant-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8101649Z     "wrong_image_constant.log": "f2195cb24ad86c155a4d3f96afb8a6ce2695d6ef800dc4eea877583b181e55ea",
+2026-11-10T07:43:48.8102345Z     "wrong_taylor_certificate-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8103348Z     "wrong_taylor_certificate.log": "018f2a1f152f0fd8b97034c816fc5f218b55cb64ecc0a39f791c01cf293ae9e0",
+2026-11-10T07:43:48.8104045Z     "wrong_transversal_count-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8104721Z     "wrong_transversal_count.log": "38363727ed65952f8e0b43ac6c7ef0b75863864b5f0f6f47207bb4c0477d1458",
+2026-11-10T07:43:48.8105419Z     "wrong_whole_ground_chromatic-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-11-10T07:43:48.8106151Z     "wrong_whole_ground_chromatic.log": "0b4548ccbab4fee7c3d0eefcb3c7cb416738092f44efbbdd56a20211c0f38887"
+2026-11-10T07:43:48.8106623Z   },
+2026-11-10T07:43:48.8106958Z   "manifest_sha256": "022cf67419a08402ace3b689b1603c61283a633128fb7fcb12f212c0468d4b73",
+2026-11-10T07:43:48.8107376Z   "negative_controls": {
+2026-11-10T07:43:48.8107636Z     "custom_imported": "REJECTED_BY_AXIOM_GATE",
+2026-11-10T07:43:48.8107963Z     "false_covariance_bound": "REJECTED_BY_LEAN",
+2026-11-10T07:43:48.8108277Z     "false_eigenvalue_third": "REJECTED_BY_LEAN",
+2026-11-10T07:43:48.8108593Z     "false_endpoint_adjacency": "REJECTED_BY_LEAN",
+2026-11-10T07:43:48.8108913Z     "false_exp_partial_sum": "REJECTED_BY_LEAN",
+2026-11-10T07:43:48.8109221Z     "false_exponent_bound_d3": "REJECTED_BY_LEAN",
+2026-11-10T07:43:48.8109536Z     "false_palette_815_count": "REJECTED_BY_LEAN",
+2026-11-10T07:43:48.8109857Z     "false_price_boundary_third": "REJECTED_BY_LEAN",
+2026-11-10T07:43:48.8110193Z     "false_rho_endpoint_adjacency": "REJECTED_BY_LEAN",
+2026-11-10T07:43:48.8110531Z     "false_rho_upper_six_sevenths": "REJECTED_BY_LEAN",
+2026-11-10T07:43:48.8110850Z     "false_trace_variance": "REJECTED_BY_LEAN",
+2026-11-10T07:43:48.8111274Z     "native": "REJECTED_BY_AXIOM_GATE",
+2026-11-10T07:43:48.8111551Z     "sorry": "REJECTED_BY_AXIOM_GATE",
+2026-11-10T07:43:48.8111837Z     "wrong_generator_prices": "REJECTED_BY_LEAN",
+2026-11-10T07:43:48.8112155Z     "wrong_image_constant": "REJECTED_BY_LEAN",
+2026-11-10T07:43:48.8112706Z     "wrong_taylor_certificate": "REJECTED_BY_LEAN",
+2026-11-10T07:43:48.8113092Z     "wrong_transversal_count": "REJECTED_BY_LEAN",
+2026-11-10T07:43:48.8113420Z     "wrong_whole_ground_chromatic": "REJECTED_BY_LEAN"
+2026-11-10T07:43:48.8113700Z   },
+2026-11-10T07:43:48.8113913Z   "package": "side24-arithmetic-skeleton",
+2026-11-10T07:43:48.8114206Z   "repository": "d6g8k5htny-coder/main",
+2026-11-10T07:43:48.8114475Z   "schema_version": 1,
+2026-11-10T07:43:48.8114700Z   "scientific_effect": "NONE",
+2026-11-10T07:43:48.8114956Z   "scientific_status_authority": false,
+2026-11-10T07:43:48.8115239Z   "workflow_run_attempt": "1",
+2026-11-10T07:43:48.8115486Z   "workflow_run_id": "42777106338"
+2026-11-10T07:43:48.8115729Z }
+2026-11-10T07:43:48.8147734Z ##[group]Run python3 -B -S tools/required_formal_check.py receipt
+2026-11-10T07:43:48.8148243Z [36;1mpython3 -B -S tools/required_formal_check.py receipt[0m
+2026-11-10T07:43:48.8168997Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T07:43:48.8169334Z env:
+2026-11-10T07:43:48.8169602Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:48.8170045Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T07:43:48.8170481Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:48.8170865Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:48.8171252Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:48.8171641Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T07:43:48.8171972Z ##[endgroup]
+2026-11-10T07:43:48.8578620Z {
+2026-11-10T07:43:48.8579216Z   "checked_commit": "ec3eb3479d654643cb93b4c9dcc074b6ba71cc7b",
+2026-11-10T07:43:48.8579949Z   "repository": "d6g8k5htny-coder/main",
+2026-11-10T07:43:48.8580448Z   "run_id": "42777106338",
+2026-11-10T07:43:48.8580846Z   "run_attempt": "1",
+2026-11-10T07:43:48.8581528Z   "receipt_sha256": "ebf119351d39ec44c8745119eb57026b7e7b7b723d71b7c1bedd48600f676ea6"
+2026-11-10T07:43:48.8582295Z }
+2026-11-10T07:43:48.8683901Z ##[group]Run mkdir -p formal-evidence
+2026-11-10T07:43:48.8684266Z [36;1mmkdir -p formal-evidence[0m
+2026-11-10T07:43:48.8684592Z [36;1mgit rev-parse HEAD > formal-evidence/commit.txt[0m
+2026-11-10T07:43:48.8685166Z [36;1mcp /tmp/run-lean.log /tmp/tests-normal.log /tmp/tests-optimized.log formal-evidence/ 2>/dev/null || true[0m
+2026-11-10T07:43:48.8685924Z [36;1mif [ -d formal/.lake/formal-evidence ]; then cp -r formal/.lake/formal-evidence formal-evidence/receipt; fi[0m
+2026-11-10T07:43:48.8686453Z [36;1mls -R formal-evidence[0m
+2026-11-10T07:43:48.8706624Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T07:43:48.8706966Z env:
+2026-11-10T07:43:48.8707239Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:48.8707690Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T07:43:48.8708134Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:48.8708531Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:48.8708916Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:48.8709297Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T07:43:48.8709619Z ##[endgroup]
+2026-11-10T07:43:48.8846219Z formal-evidence:
+2026-11-10T07:43:48.8846610Z commit.txt
+2026-11-10T07:43:48.8846920Z receipt
+2026-11-10T07:43:48.8847226Z run-lean.log
+2026-11-10T07:43:48.8847507Z tests-normal.log
+2026-11-10T07:43:48.8847748Z tests-optimized.log
+2026-11-10T07:43:48.8847906Z 
+2026-11-10T07:43:48.8848022Z formal-evidence/receipt:
+2026-11-10T07:43:48.8848276Z Audit.lean
+2026-11-10T07:43:48.8848477Z Inventory.lean
+2026-11-10T07:43:48.8848714Z Types.lean
+2026-11-10T07:43:48.8848952Z axioms.log
+2026-11-10T07:43:48.8849194Z build.log
+2026-11-10T07:43:48.8849686Z compiled-inventory.log
+2026-11-10T07:43:48.8850097Z custom_imported-stderr.log
+2026-11-10T07:43:48.8850522Z custom_imported.lean
+2026-11-10T07:43:48.8850883Z custom_imported.log
+2026-11-10T07:43:48.8851187Z elaborated-types.log
+2026-11-10T07:43:48.8851439Z false_covariance_bound-stderr.log
+2026-11-10T07:43:48.8851741Z false_covariance_bound.lean
+2026-11-10T07:43:48.8852006Z false_covariance_bound.log
+2026-11-10T07:43:48.8852276Z false_eigenvalue_third-stderr.log
+2026-11-10T07:43:48.8852806Z false_eigenvalue_third.lean
+2026-11-10T07:43:48.8853069Z false_eigenvalue_third.log
+2026-11-10T07:43:48.8853343Z false_endpoint_adjacency-stderr.log
+2026-11-10T07:43:48.8853645Z false_endpoint_adjacency.lean
+2026-11-10T07:43:48.8853921Z false_endpoint_adjacency.log
+2026-11-10T07:43:48.8854195Z false_exp_partial_sum-stderr.log
+2026-11-10T07:43:48.8854475Z false_exp_partial_sum.lean
+2026-11-10T07:43:48.8854734Z false_exp_partial_sum.log
+2026-11-10T07:43:48.8855005Z false_exponent_bound_d3-stderr.log
+2026-11-10T07:43:48.8855295Z false_exponent_bound_d3.lean
+2026-11-10T07:43:48.8855558Z false_exponent_bound_d3.log
+2026-11-10T07:43:48.8856033Z false_palette_815_count-stderr.log
+2026-11-10T07:43:48.8856320Z false_palette_815_count.lean
+2026-11-10T07:43:48.8856581Z false_palette_815_count.log
+2026-11-10T07:43:48.8856853Z false_price_boundary_third-stderr.log
+2026-11-10T07:43:48.8857159Z false_price_boundary_third.lean
+2026-11-10T07:43:48.8857437Z false_price_boundary_third.log
+2026-11-10T07:43:48.8857727Z false_rho_endpoint_adjacency-stderr.log
+2026-11-10T07:43:48.8858049Z false_rho_endpoint_adjacency.lean
+2026-11-10T07:43:48.8858343Z false_rho_endpoint_adjacency.log
+2026-11-10T07:43:48.8858634Z false_rho_upper_six_sevenths-stderr.log
+2026-11-10T07:43:48.8858940Z false_rho_upper_six_sevenths.lean
+2026-11-10T07:43:48.8859224Z false_rho_upper_six_sevenths.log
+2026-11-10T07:43:48.8859503Z false_trace_variance-stderr.log
+2026-11-10T07:43:48.8859774Z false_trace_variance.lean
+2026-11-10T07:43:48.8860028Z false_trace_variance.log
+2026-11-10T07:43:48.8860270Z leanchecker.log
+2026-11-10T07:43:48.8860495Z native-stderr.log
+2026-11-10T07:43:48.8860719Z native.lean
+2026-11-10T07:43:48.8860922Z native.log
+2026-11-10T07:43:48.8861304Z preflight-version.log
+2026-11-10T07:43:48.8861551Z receipt.json
+2026-11-10T07:43:48.8861780Z required-check-binding.json
+2026-11-10T07:43:48.8862043Z sorry-stderr.log
+2026-11-10T07:43:48.8862238Z sorry.lean
+2026-11-10T07:43:48.8862676Z sorry.log
+2026-11-10T07:43:48.8862935Z version.log
+2026-11-10T07:43:48.8863145Z wrong_generator_prices-stderr.log
+2026-11-10T07:43:48.8863413Z wrong_generator_prices.lean
+2026-11-10T07:43:48.8863654Z wrong_generator_prices.log
+2026-11-10T07:43:48.8863897Z wrong_image_constant-stderr.log
+2026-11-10T07:43:48.8864154Z wrong_image_constant.lean
+2026-11-10T07:43:48.8864384Z wrong_image_constant.log
+2026-11-10T07:43:48.8864634Z wrong_taylor_certificate-stderr.log
+2026-11-10T07:43:48.8864911Z wrong_taylor_certificate.lean
+2026-11-10T07:43:48.8865161Z wrong_taylor_certificate.log
+2026-11-10T07:43:48.8865411Z wrong_transversal_count-stderr.log
+2026-11-10T07:43:48.8865678Z wrong_transversal_count.lean
+2026-11-10T07:43:48.8865912Z wrong_transversal_count.log
+2026-11-10T07:43:48.8866166Z wrong_whole_ground_chromatic-stderr.log
+2026-11-10T07:43:48.8866446Z wrong_whole_ground_chromatic.lean
+2026-11-10T07:43:48.8866707Z wrong_whole_ground_chromatic.log
+2026-11-10T07:43:48.8915646Z ##[group]Run if [ "success" = "success" ] && [ -s formal/.lake/formal-evidence/receipt.json ]; then
+2026-11-10T07:43:48.8916324Z [36;1mif [ "success" = "success" ] && [ -s formal/.lake/formal-evidence/receipt.json ]; then[0m
+2026-11-10T07:43:48.8917548Z [36;1m  echo 'Kernel evidence for exactly the targets in formal/manifest.json at the checked commit: build, leanchecker, transitive axiom audit, executable negative controls, receipt. Formal evidence only: no Layer 0 status or scientific acceptance changed.' >> "$GITHUB_STEP_SUMMARY"[0m
+2026-11-10T07:43:48.8918603Z [36;1melse[0m
+2026-11-10T07:43:48.8919392Z [36;1m  echo 'No successful kernel-verification claim is made for this run. Inspect preserved failures and the actual receipt/logs; neither an artifact nor this summary establishes acceptance.' >> "$GITHUB_STEP_SUMMARY"[0m
+2026-11-10T07:43:48.8920239Z [36;1mfi[0m
+2026-11-10T07:43:48.8939218Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T07:43:48.8939591Z env:
+2026-11-10T07:43:48.8939860Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:48.8940298Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T07:43:48.8940724Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:48.8941108Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:48.8941489Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:48.8941869Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T07:43:48.8942191Z ##[endgroup]
+2026-11-10T07:43:48.9054749Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+2026-11-10T07:43:48.9055353Z with:
+2026-11-10T07:43:48.9055584Z   name: formal-verification-42777106338
+2026-11-10T07:43:48.9055874Z   path: formal-evidence
+2026-11-10T07:43:48.9056112Z   if-no-files-found: error
+2026-11-10T07:43:48.9056345Z   retention-days: 30
+2026-11-10T07:43:48.9056559Z   compression-level: 6
+2026-11-10T07:43:48.9056772Z   overwrite: false
+2026-11-10T07:43:48.9056986Z   include-hidden-files: false
+2026-11-10T07:43:48.9057222Z   archive: true
+2026-11-10T07:43:48.9057410Z env:
+2026-11-10T07:43:48.9057666Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:48.9058108Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T07:43:48.9058543Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:48.9058923Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:48.9059338Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T07:43:48.9059738Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T07:43:48.9060069Z ##[endgroup]
+2026-11-10T07:43:49.0733462Z With the provided path, there will be 70 files uploaded
+2026-11-10T07:43:49.0735965Z Artifact name is valid!
+2026-11-10T07:43:49.0736702Z Root directory input is valid!
+2026-11-10T07:43:49.3368102Z Uploading artifact: formal-verification-42777106338.zip
+2026-11-10T07:43:49.3406704Z Beginning upload of artifact content to blob storage
+2026-11-10T07:43:49.4732795Z Uploaded bytes 81221
+2026-11-10T07:43:49.4895386Z Finished uploading artifact content to blob storage!
+2026-11-10T07:43:49.4896489Z SHA256 digest of uploaded artifact is ebf86f2bee0c81245ac226fdd692d143ad515c60917b376deeaf4587fc651e6e
+2026-11-10T07:43:49.4897474Z Finalizing artifact upload
+2026-11-10T07:43:49.9281726Z Artifact formal-verification-42777106338 successfully finalized. Artifact ID 13744915222
+2026-11-10T07:43:49.9282930Z Artifact formal-verification-42777106338 has been successfully uploaded! Final size is 81221 bytes. Artifact ID is 13744915222
+2026-11-10T07:43:49.9286257Z Artifact download URL: https://github.com/d6g8k5htny-coder/main/actions/runs/42777106338/artifacts/13744915222
+2026-11-10T07:43:49.9478388Z Post job cleanup.
+2026-11-10T07:43:50.0890193Z Post job cleanup.
+2026-11-10T07:43:50.1883714Z [command]/usr/bin/git version
+2026-11-10T07:43:50.1907621Z git version 2.56.0
+2026-11-10T07:43:50.1950858Z Temporarily overriding HOME='/home/runner/work/_temp/5f99e1f5-6747-4dd2-843d-e291805360af' before making global git config changes
+2026-11-10T07:43:50.1952302Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T07:43:50.1956954Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T07:43:50.1991935Z Removing SSH command configuration
+2026-11-10T07:43:50.1998821Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T07:43:50.2040597Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T07:43:50.2317506Z Removing HTTP extra header
+2026-11-10T07:43:50.2324511Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T07:43:50.2364578Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T07:43:50.2746181Z Removing includeIf entries pointing to credentials config files
+2026-11-10T07:43:50.2747263Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T07:43:50.2815676Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T07:43:50.3278865Z Evaluate and set job outputs
+2026-11-10T07:43:50.3285099Z Set output 'checked_commit'
+2026-11-10T07:43:50.3286778Z Set output 'repository'
+2026-11-10T07:43:50.3287808Z Set output 'run_id'
+2026-11-10T07:43:50.3288120Z Set output 'run_attempt'
+2026-11-10T07:43:50.3288552Z Set output 'receipt_sha256'
+2026-11-10T07:43:50.3289554Z Cleaning up orphan processes
