@@ -1692,3 +1692,65 @@ or ref update. Later normal/optimized qualification remains unobserved.
 The change is reversible by ordinary guarded removal of the two new production
 paths; retain this entry and historical R0 originals. No data/dispatcher/V2,
 owner assignment, science, full Main, G5 or CBZ award follows.
+
+
+## 2026-11-10 — Node-status v2 test-first historical-fixture source candidate
+
+Date/source observation: 2026-11-10 13:57:15 UTC. Phase: T1 test-first source staging;
+Layer B. Prepare an unreferenced sole-fresh-Main-parent candidate containing
+only twelve new v2 contract parents, the targeted offline workflow, a frozen
+eleven-payload legacy harness, the existing 23/20 test-entry loaders, one review
+document and this append. Preserve the complete prior decision prefix and every
+other Main leaf at 8aaaa387d11dc21a0867b9cc41cc81743ca59975, tree
+542e6ee34af4c99ba80c8b4d6acd2c6d5bc22f7c (6,246 leaves, nontruncated).
+
+Rationale: freeze actual current-input and provenance contracts before v2
+implementation while executing all 43 original legacy assertions unchanged
+against their byte-exact historical bundle. The unconditional line31 import
+must later produce actual missing evaluate_fresh_records_v2 ImportError, one
+loader FailedTest and zero of twelve bodies; R0 has not run. Historical local
+Git fixture receipts and synthetic observer inputs confer no native HTTP,
+current-default freshness, proof or scientific authority.
+
+Evidence: [review scope, exact final pins and source diffs](docs/plans/2026-11-10-node-status-v2-test-first-source.md);
+[complete 12+43 oracle and payload trace](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/e943ac4b76d000ba2f83737bf1dd63e3b19f0bf8).
+Root whole17 and final4 forward/inverse source gates are CLEAR; independent
+technical closure is C0/I0/M0. Final31delta b9a4486fc70580cd7f6e67b35f3034e015222562
+admits the literal /tmp or exact RUNNER_TEMP before creation, preserving all
+other code, bootstrap and payload bytes. Organizational-independence credit0.
+No Python/YAML compilation, test/native R0, runtime or complete-material-size
+observation is claimed. Root's candidate guard remains required before any
+branch, PR or run; the reserved branch is codex/node-status-v2-test-first-r0-20261110.
+
+Reversibility: ordinary guarded removal of the additions and restoration of
+the two entry modules from c5d578ddb9b7699f24966784ebfcb518d2d7284a and
+14d0c84b1236fdc0d01083c62b791117b663c682, retaining this historical entry.
+Production tools/schemas/input manifest, canonical records/history/projection,
+Graph cut, all Acq/V1/G5/native sources and owners remain unchanged. This source
+candidate awards no v2 execution, full-Main, G5, CBZ or science; scientific_effect NONE.
+
+
+## 2026-11-10 — Node-status v2 zero-job failure and source packaging correction
+
+Date: 2026-11-10 14:12:17 UTC. Phase: test-first workflow repair source review; Layer B.
+Action: factor the exact existing controller SOURCE into one non-test utility
+and shorten preparation; move only the two runner.temp evidence values from
+job env to the four invocation step envs. Preserve all controller/oracle bytes,
+37 protected pins, tests/legacy originals, cap, conditions and artifact scope.
+
+Rationale: actual automatic run42830214749/1 at 0e81116c failed with zero jobs;
+its public native annotation identifies invalid runner.temp contexts at55/56.
+Separately measured original run length27799 exceeds GitHub's21000 limit; that
+is not the native reported error. Prior pytest PR803 source correctiondb3066b
+had already recorded this context lesson, which this review missed.
+Evidence: [retained exact public error and bounded source correction](docs/plans/2026-11-10-node-status-v2-test-first-source.md);
+[native-error receipt](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/3d26680d2f2e1afc3758d59be1d8d0b136cfb271).
+New source pins: controller70146dc623661ad6275881c6fc564bcb7e0864fc,
+workflowe7ca903c6df0d8eea44cb3d3f19526dcde2ca2eb. Source review and candidate
+gates remain pending here; no ref movement, dispatch, rerun or new run follows.
+
+Reversibility: restore workflowf77c11f9 and remove only the new utility by an
+ordinary guarded change while retaining this failure history and prior ledger.
+Existing old-workflow outer23+20 successes in both modes do not supply missing
+43-inner/program readback or the new12 missing-import R0. No production/data,
+owner, current HTTP, full-Main, G5, CBZ or science credit; scientific_effect NONE.
