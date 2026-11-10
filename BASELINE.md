@@ -1,5 +1,24 @@
 # CBZ baseline ledger
 
+## Normal Pages publisher atomic-head candidate — 10 November 2026
+
+The original publisher's ancestor-rollback test failed in local and hosted
+runs. A stacked source candidate uses an atomic expected-head non-force update
+and passed the scoped hosted controls described in STATUS. It is not yet a
+published recovery, authenticated platform result, mathematical proof or final
+baseline. The actual red and intermediate failures remain preserved.
+
+## Pages failure and guarded recovery boundary — 10 November 2026
+
+The two attempts of site run `42737966287` failed during deployment and did
+not run public observation. The prepared receipt and previous observed receipt
+remain distinct; later three-file public reads matched the previous receipt.
+The guarded recovery candidate can re-observe those old bytes only under the
+live checks in [STATUS](STATUS.md#guarded-pages-receipt-recovery--observed-10-november-2026).
+Neither a successful recovery nor a successful new publication is inferred.
+The source-bound local tests and mutation campaign are scoped in TOOLING;
+no proof, scientific or final baseline status changes.
+
 ## Selected historical text custody candidate — 10 November 2026
 
 This candidate preserves exact Git head/tree objects and selected changed

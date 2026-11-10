@@ -1,5 +1,20 @@
 # CBZ proof and quarantine index
 
+## Publication atomic-head candidate — 10 November 2026
+
+Receipt ref safety and hosted control results are operational provenance, not
+mathematical proof or quarantine disposition. The original publisher failure
+and scoped correction are recorded in STATUS and TOOLING. This entry closes no
+proof and claims no scientific acceptance.
+
+## Pages receipt recovery boundary — 10 November 2026
+
+Pages publication receipts and their guarded recovery are operational
+provenance, not mathematical proof or quarantine dispositions. The failed
+prepared candidate is retained in receipt ancestry, and no successful recovery
+or publication is inferred. See the dated STATUS entry for actual observations
+and TOOLING for commands and verification limits. This entry closes no proof.
+
 ## Selected historical text custody boundary — 10 November 2026
 
 This candidate preserves exact Git head/tree objects and selected changed

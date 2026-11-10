@@ -206,12 +206,6 @@ def guard_request(method, path, body):
             raise ValueError("nonmetadata branch creation refused")
         hex_value(body["sha"], HEX40, "receipt commit")
         return
-    if method == "PATCH" and path == REF_WRITE:
-        closed(body, ("sha", "force"), "branch advance")
-        if body["force"] is not False:
-            raise ValueError("force update refused")
-        hex_value(body["sha"], HEX40, "receipt commit")
-        return
     raise ValueError("nonmetadata GitHub route refused")
 
 
@@ -278,6 +272,45 @@ def _retry_delay(failed_attempt, retry_after, elapsed, jitter):
     return delay
 
 
+class AtomicRefAdvance:
+    """One fixed, non-force GitHub ref update with an exact old object ID."""
+    ORIGIN = 'https://api.github.com/graphql'
+    REPOSITORY_ID = 'R_kgDOQpeC2g'
+    CLIENT_ID = 'cbz-site-publication'
+    QUERY = 'mutation($input:UpdateRefsInput!){updateRefs(input:$input){clientMutationId}}'
+
+    def __init__(self, token=None, opener=None):
+        self.token = os.environ.get('GITHUB_TOKEN') if token is None else token
+        if not isinstance(self.token, str) or not self.token:
+            raise ValueError('GitHub token required for atomic receipt update')
+        self.opener = opener if opener is not None else urllib.request.build_opener(NoRedirect())
+
+    def advance(self, before, after):
+        hex_value(before, HEX40, 'expected receipt head')
+        hex_value(after, HEX40, 'new receipt head')
+        if before == after or before == '0' * 40 or after == '0' * 40:
+            raise ValueError('invalid receipt ref transition')
+        payload = {'query': self.QUERY, 'variables': {'input': {
+            'repositoryId': self.REPOSITORY_ID, 'clientMutationId': self.CLIENT_ID,
+            'refUpdates': [{'name': REF_NAME, 'beforeOid': before,
+                            'afterOid': after, 'force': False}]}}}
+        request = urllib.request.Request(self.ORIGIN, data=encode(payload), method='POST', headers={
+            'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json',
+            'User-Agent': 'cbz-site-publication', 'Authorization': 'Bearer ' + self.token})
+        with self.opener.open(request, timeout=20) as response:
+            if response.geturl() != self.ORIGIN or response.status != 200:
+                raise ValueError('atomic receipt response identity mismatch')
+            raw = response.read(MAX_RECEIPT_BYTES + 1)
+        if len(raw) > MAX_RECEIPT_BYTES:
+            raise ValueError('atomic receipt response too large')
+        obj = parse_json(raw)
+        if (not isinstance(obj, dict) or 'errors' in obj or not isinstance(obj.get('data'), dict)
+                or not isinstance(obj['data'].get('updateRefs'), dict)
+                or obj['data']['updateRefs'].get('clientMutationId') != self.CLIENT_ID):
+            raise ValueError('atomic receipt ref update refused or unknown')
+        return len(raw)
+
+
 class GitHubAPI:
     def __init__(self, *, token=None, opener=None, pause=time.sleep, clock=time.monotonic, jitter=None, now=None):
         self.token = os.environ.get("GITHUB_TOKEN") if token is None else token
@@ -288,13 +321,28 @@ class GitHubAPI:
         self.jitter = _default_jitter if jitter is None else jitter
         self.now = (lambda: datetime.now(timezone.utc)) if now is None else now
 
+    def advance_ref(self, before, after):
+        if self.requests >= 64:
+            raise ValueError("publication API request bound exceeded")
+        self.requests += 1
+        try:
+            size = AtomicRefAdvance(token=self.token, opener=self.opener).advance(before, after)
+            self.total_bytes += size
+            if self.total_bytes > 16 * MAX_RECEIPT_BYTES:
+                raise ValueError("publication API byte bound exceeded after atomic update; inspect ref")
+        except urllib.error.HTTPError as error:
+            _note_http_error(error, AtomicRefAdvance.ORIGIN)
+            raise
+        except urllib.error.URLError as error:
+            raise _note_url_error(error, AtomicRefAdvance.ORIGIN) from error
+
     def request(self, method, path, body=None):
         guard_request(method, path, body)
         if self.requests >= 64:
             raise ValueError("publication API request bound exceeded")
         # One logical request. GET retries below do not consume the 64-request
         # custody bound, so a full anchor read can still absorb a transient 503.
-        # PATCH and POST, including receipt ref writes, are never retried.
+        # POST object writes and atomic receipt advances are never retried.
         # PublicReader.get_bytes is a separate Pages path and is unchanged;
         # public_readback already repeats that read.
         self.requests += 1
@@ -526,7 +574,7 @@ def append_receipt(api, receipt, old_head, *, read_attempts=REF_READBACK_ATTEMPT
     if actual["tree"]["sha"] != tree or actual_parents != parents:
         raise ValueError("created receipt commit differs from requested immutable tree/parent")
     if old_head:
-        api.request("PATCH", REF_WRITE, {"sha": commit, "force": False})
+        api.advance_ref(old_head, commit)
         integer(read_attempts, 1, REF_READBACK_ATTEMPTS, "receipt ref readback attempts")
         deadline = read_clock() + REF_READBACK_SECONDS
         for attempt in range(read_attempts):

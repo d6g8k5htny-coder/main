@@ -567,6 +567,197 @@ proof, ownership, scientific disposition, gate threshold, fullG5 or CBZ award ch
   quarantine admission, scientific acceptance or gate threshold changes.
   The additive delivery is recoverable through Git history.
 
+## Q-9002 historical integration coverage baseline — 10 November 2026
+
+Prepared at 02:30:30 UTC by OpenAI/Codex /root/g5_reconciliation against Main
+`812a799f4cf4cee730efa0177a9101af4cf259ef`. This baseline changes only the
+existing node-status workflow plus this append and the source evidence below.
+Its two additive normal/optimized steps run five unchanged real-record methods,
+record the actual Python, HEAD and tree, retain complete combined output in
+native Actions logs through tee, and require the exact five methods without
+skips. Existing workflow steps, permissions, trigger paths and action pins are
+preserved. No new required check is introduced.
+
+The production records and published projection are deliberately unchanged.
+Source inspection predicts five methods with four passes and the existing
+Q-9002 missing-evidence skip per mode, followed by rejection by the new zero-skip
+guard. This is a proposed coverage-absence baseline, not an observed failure,
+a semantic negative control or evidence that the historical integration was
+invalid. No local or hosted test execution has yet been observed for this
+baseline; the managed local environment failed to start. Preserve its actual
+hosted outcome before applying the separately staged record/projection data.
+
+The record-only proposal and complete native comment snapshots are retained in
+[the candidate design](cbz/evidence/q9002-historical-integration-20261110/candidate-design.md)
+and [the native-copy evidence](cbz/evidence/q9002-historical-integration-20261110/native-source-evidence.json).
+Their prior unreferenced-blob preparation is a historical source stage. The
+proposed resolved item concerns only Math- PR495's four-file operational
+integration, pickup6351471006 and only-own release6351719961. It supplies no
+whole-node owner, source/review-role succession, R81/R83 adoption, execution
+admission or scientific outcome. The data itself is excluded from this
+baseline commit. Q-9003–Q-9005, full G5 and CBZ remain open; scientific effect
+NONE. The decision is reversible through ordinary source history.
+
+### Q-9002 initial hosted baseline and runner-description correction
+
+Initial Draft #799 head `52d719d547832a24de546cb8953d45e1a5c6d70d` was
+published before the root source-review HOLD arrived. Native Node status run
+`42743541425`, attempt 1, job `129590144984`, checked merge
+`ceb9ee2ee7f5183a9c4647efbc718c3877a4ddcf`, tree
+`3263fc8ee30fa56dadbebae43c12a8defb85c13a`. Its original decoded logs show
+Python 3.12.3 at /usr/bin/python3, optimization 0 and 1, and five methods per
+mode: four passes and the existing Q-9002 missing evidence/release/resolution
+URL skip. Summaries were OK (skipped=1), 0.015s normal and 0.021s optimized;
+the terminal-OK guard rejected both with exit 1. The original atlas/validator
+step succeeded. These are observed coverage-absence outcomes, not semantic
+negative controls or a scientific judgment.
+
+Root review found a separate P2 in the first workflow source: unittest's
+default descriptions=True prints the adoption method's docstring on a second
+line, so later exact one-line method guards would reject a valid final run.
+The original native logs reproduce that two-line shape. The initial source
+review missed it and is invalidated for that point; preserve both the source
+and review history. The correction uses an explicit suite of the same five
+unchanged methods with TextTestRunner(verbosity=2, descriptions=False) and
+returns the actual wasSuccessful outcome in each Python mode. It does not
+change a test body or weaken any inventory/no-skip guard. Its own hosted
+baseline remains required; the initial outcome is not rebound to corrected
+source. Production record and projection data remain excluded.
+
+### Q-9002 corrected baseline observed and historical data candidate
+
+Prepared at 02:57:51 UTC on 10 November 2026 following root's independent
+reading of the corrected Node status baseline and authorization of the concrete
+historical record/projection pair. Run `42743968795`, attempt 1, job `129591516283`, at head
+`e68c679455a190999fd775346987695abfecb86c`, checked merge
+`2068bb143a3c9f7b85faf3920dcf21a5b254c557`, tree
+`94773c535d110536efdd11b14e568a6bbd69fc58`. Original decoded logs show
+/usr/bin/python3 3.12.3, optimization 0 and 1, five methods per mode with four
+passes and the exact missing evidence/release/resolution URL skip, no unittest
+failures or errors, and OK (skipped=1). Normal duration was 0.014s and optimized
+0.022s; both terminal-OK guards rejected with exit 1. The unchanged atlas and
+validator step succeeded. descriptions=False now produced the expected
+one-line adoption outcome. This is observed coverage-absence RED, not a semantic
+negative control. The initial deficient guard and its separate run remain above.
+
+Apply only record blob `a6f82a36e4f9a31abf656661f7c8ee5201874522` and matching
+projection blob `9e27b1105fd1c8aa961a22b8df3d1394ee348cc0`. One existing-v0
+carried_forward item records resolution of the historical four-file operational
+integration through Math- PR495 and only-own release6351719961. All old record
+values, null owners, source pins, timestamps, freshness and scientific holds
+remain unchanged; the other three projected records remain equal. The original
+projection bytes match the existing two-space JSON serialization, and the staged
+projection matches that serialization with only this record value changed.
+This is a checked staged serialization, not a claim that the native Python
+projection generator ran in the failed local environment.
+
+No test, schema, production tool, current graph or corrected workflow body is
+changed by this data step. Its own current hosted qualification is pending:
+require the five unchanged methods to pass in each mode without skips, the
+existing atlas/validator step, the source-bound live contract and all applicable
+broader checks. Keep Draft #799; no merge is performed here. This records no
+whole-node owner, source/review/successor transfer, R81/R83 adoption, scientific
+acceptance, full G5 or CBZ award. Q-9003–Q-9005 remain open; scientific effect NONE.
+
+### Q-9002 compatible current-Main composition — 10 November 2026
+
+Prepared at 03:20:06 UTC after Main #798 advanced the default to
+`31bc4c1f5b66e92bfbf327366956944ea691289c`. Preserve its complete current
+DECISIONS text, then the complete Q-9002 suffix relative to Main `812a799f`.
+The five owned workflow/record/projection/design/evidence blobs stay exact;
+all peer source paths and the entire own history are retained through ordered
+parents [current Main, `77030b1e3f8a427f26b94d7aefa0146028cb43d2`].
+
+The earlier data head's actual Node status run `42746421755` passed five exact
+methods per mode without skips, atlas 10/10 and the production validator.
+Live-contract `42746421927` passed all 86 offline outcomes and emitted two
+FRESH reports, each checking three declared-fresh records through ten source
+observations with nine stable before/after source bindings. Those results
+remain bound to native merge `7b26b44fdcd243ce9066e9e784cc031a91890744` /
+tree `6edd0cbd122f83ca2864c3103c36c67078f66dbe` against the earlier Main.
+All applicable old-head checks completed successfully; conditional PR
+publication jobs were skipped without test or publication credit.
+
+The current composition requires its own actual hosted qualification and
+strict current-head/base integration guards. No old result is rebound, no
+record ownership or scientific hold changes, and Q-9003–Q-9005, full G5 and CBZ
+remain open. Scientific effect NONE.
+
+## 2026-11-10 — Preserve canceled Pages candidate and guard recovery
+
+- Retain both failed `42737966287` deployment attempts, skipped public
+  observation, prepared head `6e01d1f5f83d320172e29391eea336e3256aeea2` and
+  previous observed head `81b3998534827e2c2e45188a1a52672aa6666001`. Record
+  the later three matching old public bytes as sequential observations, not a
+  claim that the failed candidate deployed. The unauthenticated status 404 is
+  not an authenticated cancellation result.
+- Add a guarded, append-only recovery for this narrow state. The workflow
+  requires a real authenticated canceled deployment and reruns its controls;
+  it preserves both candidates in ancestry, refuses disagreement and records
+  actual observer identity. Normal and recovery workflows share a concurrency
+  group, while external actors remain outside that lock. A successful dispatch
+  is not presumed. The local source-bound 28-test and 28-mutation campaigns
+  per mode, plus three origin refusals per mode, cover the registered domain
+  only. See STATUS and TOOLING for exact commands and limits.
+- This reversible source addition does not alter mathematical statements,
+  adjudicate proofs, delete historical work, or establish a final gate. The
+  receipt append, if its live guards all pass, is an externally visible action
+  and its actual result and predecessor must be retained.
+
+## 2026-11-10 — Require atomic receipt heads for recovery
+
+- A real adverse test exposed that a non-force REST ref update could accept a
+  descendant after an intervening rollback to an ancestor. Retain that failing
+  test and the initial mutation campaign. For recovery only, replace the ref
+  update with GitHub's atomic `updateRefs` using the exact `beforeOid`, the
+  intended new object, the fixed receipt ref, and `force: false`. Unknown
+  responses remain failures whose actual ref state must be read back. The
+  authenticated endpoint and actual recovery still require hosted execution.
+- The normal publisher's separate REST ref write remains an open follow-up;
+  do not infer its atomic expected-head safety from the recovery controls.
+  The correction changes no mathematical or scientific status.
+
+## 2026-11-10 — Compose Pages recovery with Main #799
+
+- Preserve the complete fresh Main `3f05f8493afac71c6f4aac5c1db5aeb46194d98a`
+  decisions prefix, then append the exact recovery decisions made after their
+  common `31bc4c1f` base. Preserve all #799 source and record paths.
+- Workspace #69 still pins `31bc4c1f` and is stale after #799. The
+  `31bc4c1f` site build failed prepared-receipt readback and skipped deploy.
+  Recheck current refs, required checks, candidate composition and actual
+  receipt before any integration or dispatch. No final gate or scientific
+  acceptance follows from this composition.
+
+## 2026-11-10 — Guard normal publication with an atomic expected head
+
+- Preserve the actual local normal/optimized rollback failures, the hosted
+  229-test run with one failure, the first candidate's synthetic-token error
+  and its stacked recovery-control failure. Their exact sources and hosted
+  logs are retained under `cbz/evidence/site-publication-cas-20261110/`.
+- Replace the normal publisher's REST ref patch in this candidate with fixed
+  repository/ref `updateRefs`, exact `beforeOid` and `force: false`.
+  Retain immutable object verification, bounded no-retry mutation and ref
+  readback. Unknown write outcomes must be resolved from the actual ref.
+  Adapt the recovery wrapper to the same interface.
+- At tested merge `d243e1a2c833e5039b9cd0d1ceb9aa5682c78e35`, hosted
+  controls ran 40 tests without skips in each mode, 11 clean-baseline and
+  designated-oracle mutations per mode, and refused three unauthorized
+  assertion origins and one runtime error per mode. Artifact digest and
+  readback limits are recorded in STATUS. Authenticated ref mutation and site
+  recovery were not executed by this pull-request control.
+- This candidate changes no mathematical statements, proofs, quarantines or
+  scientific status. Normal required-check integration and fresh source/ref
+  observations remain necessary.
+
+## 2026-11-10 — Compose publisher candidate after Main #799
+
+- Retain the complete recomposed recovery decisions prefix, including the
+  entire Main #799 ledger, then append the exact publisher decision suffix.
+  The scoped hosted controls predate this composition; rerun required checks
+  and compare exact source and merge trees before integration.
+- Workspace #69's Main pin is stale at this observation. No receipt write,
+  public deployment, final gate or scientific acceptance follows.
+
 [2026-11-10] [Phase 2] [Layer B / source custody] Preserve the separately
 observed 430 public Main and Math historical refs, their exact head/tree
 objects and the selected changed head-side `.lean` and `.md` blob packs under
@@ -578,3 +769,12 @@ private refs. Source identity is not a proof, quarantine, semantic uniqueness,
 scientific review or permission to remove a ref. Reversible: additive isolated
 candidate; prior source and historical outcomes remain. Evidence: package
 README, SHA256SUMS and retained verification history.
+
+## 2026-11-10 — Compose selected text custody after publication candidates
+
+- Preserve the complete publisher/recovery and Main #799 decisions prefix,
+  followed by the exact prior selected-text custody decision. The source packs,
+  selected records and their historical readbacks remain unchanged.
+- This is a staged composition on the publication candidates, not an
+  integration or a new proof, quarantine, scientific or final-gate claim.
+  Recheck the actual base, exact tested tree and required checks before merge.

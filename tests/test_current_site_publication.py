@@ -28,6 +28,7 @@ class GitObjectAPI:
         self.objects = {}
         self.calls = []
         self.race = False
+        self.rollback_head = None
         self.unknown_patch = False
         self.ref_reads = []
         self.post_ref_reads = []
@@ -66,7 +67,12 @@ class GitObjectAPI:
                 raise ValueError("branch already exists")
             self.head = body["sha"]
             self.ref_reads = list(self.post_ref_reads)
-        elif method == "PATCH" and path == m.REF_WRITE:
+        elif method in ("PATCH", "CAS") and path == m.REF_WRITE:
+            if method == "CAS":
+                if self.rollback_head is not None:
+                    self.head = self.rollback_head
+                if body.get("before") != self.head:
+                    raise ValueError("atomic receipt head changed")
             if body["force"] is not False:
                 raise AssertionError("forced update reached fixture")
             parents = self.objects[body["sha"]]["parents"]
@@ -88,6 +94,11 @@ class GitObjectAPI:
         else:
             raise AssertionError("unexpected mutation route")
         return {"ref": m.REF_NAME, "object": {"sha": self.head, "type": "commit"}}
+
+
+    def advance_ref(self, before, after):
+        return self.request("CAS", self.module.REF_WRITE,
+                            {"before": before, "sha": after, "force": False})
 
 
 class PublicReader:
@@ -180,7 +191,43 @@ class PublicationTests(unittest.TestCase):
             self.module.observe_publication(self.candidate, prepared, api=self.api, reader=self.reader,
                                             context=self.context, attempts=1)
         self.assertEqual(self.api.head, prepared["head"])
-        self.assertTrue(all(body["force"] is False for method, _, body in self.api.calls if method == "PATCH"))
+        self.assertTrue(all(body["force"] is False for method, _, body in self.api.calls if method == "CAS"))
+
+    def test_rollback_between_read_and_ref_update_requires_exact_head(self):
+        m, api = self.module, self.api
+        first = self.prepare()
+        previous = m.observe_publication(self.candidate, first, api=api, reader=self.reader,
+            context=self.context, now="2026-10-13T15:01:00Z", attempts=1)
+        candidate = copy.deepcopy(self.candidate)
+        candidate["artifact"]["sha256"] = "e" * 64
+        prepared = m.prepare_publication(candidate, api=api, context=self.context,
+            reader=self.reader, now="2026-10-13T15:02:00Z", attempts=1)
+        original = api.request
+
+        def rollback_and_accept_fast_forward(method, path, body=None):
+            if method == "PATCH" and path == m.REF_WRITE:
+                cursor = body["sha"]
+                for _ in range(8):
+                    if cursor == previous["head"]:
+                        break
+                    parents = api.objects[cursor]["parents"]
+                    if len(parents) != 1:
+                        raise RuntimeError("fixture is not a single-parent chain")
+                    cursor = parents[0]["sha"]
+                else:
+                    raise RuntimeError("fixture does not descend from rollback head")
+                api.head = previous["head"]
+                api.calls.append((method, path, copy.deepcopy(body)))
+                api.head = body["sha"]
+                return {"ref": m.REF_NAME, "object": {"sha": api.head, "type": "commit"}}
+            return original(method, path, body)
+
+        api.request = rollback_and_accept_fast_forward
+        api.rollback_head = previous["head"]
+        with self.assertRaisesRegex(ValueError, "atomic receipt head changed"):
+            m.observe_publication(candidate, prepared, api=api, reader=self.reader,
+                context=self.context, now="2026-10-13T15:03:00Z", attempts=1)
+        self.assertEqual(api.head, previous["head"])
 
     def test_unknown_reference_update_can_be_recovered_idempotently(self):
         prepared = self.prepare()
@@ -200,11 +247,11 @@ class PublicationTests(unittest.TestCase):
         observed = self.module.observe_publication(
             self.candidate, prepared, api=self.api, reader=self.reader,
             context=self.context, now="2026-10-13T15:01:00Z", attempts=1)
-        writes = len([call for call in self.api.calls if call[0] in ("POST", "PATCH")])
+        writes = len([call for call in self.api.calls if call[0] in ("POST", "CAS")])
         self.context["run_attempt"] = 2
         same = self.prepare(self.candidate)
         self.assertEqual(same, observed)
-        self.assertEqual(len([call for call in self.api.calls if call[0] in ("POST", "PATCH")]), writes)
+        self.assertEqual(len([call for call in self.api.calls if call[0] in ("POST", "CAS")]), writes)
 
     def test_later_attempt_observes_exact_prepared_candidate_with_original_run_identity(self):
         prepared = self.prepare()
@@ -264,7 +311,7 @@ class PublicationTests(unittest.TestCase):
             self.candidate, prepared, api=self.api, reader=self.reader,
             context=self.context, now="2026-10-13T15:01:00Z", attempts=1)
         self.assertEqual(observed["receipt"]["phase"], "observed")
-        self.assertEqual(len([call for call in self.api.calls if call[0] == "PATCH"]), 1)
+        self.assertEqual(len([call for call in self.api.calls if call[0] == "CAS"]), 1)
 
     def test_post_patch_old_head_forever_fails_bounded_without_repatch(self):
         prepared = self.prepare()
@@ -276,7 +323,7 @@ class PublicationTests(unittest.TestCase):
                 context=self.context, now="2026-10-13T15:01:00Z", attempts=1)
         reads_after = len([call for call in self.api.calls if call[:2] == ("GET", self.module.REF_READ)])
         self.assertEqual(reads_after - reads_before, 5)
-        self.assertEqual(len([call for call in self.api.calls if call[0] == "PATCH"]), 1)
+        self.assertEqual(len([call for call in self.api.calls if call[0] == "CAS"]), 1)
 
     def test_post_patch_third_head_is_a_hard_race_without_repatch(self):
         prepared = self.prepare()
@@ -286,7 +333,7 @@ class PublicationTests(unittest.TestCase):
             self.module.observe_publication(
                 self.candidate, prepared, api=self.api, reader=self.reader,
                 context=self.context, now="2026-10-13T15:01:00Z", attempts=1)
-        self.assertEqual(len([call for call in self.api.calls if call[0] == "PATCH"]), 1)
+        self.assertEqual(len([call for call in self.api.calls if call[0] == "CAS"]), 1)
 
     def test_post_patch_target_requires_immutable_commit_tree_and_receipt_verification(self):
         for corruption in ("commit", "tree", "receipt"):
@@ -298,7 +345,7 @@ class PublicationTests(unittest.TestCase):
                     self.module.observe_publication(
                         self.candidate, prepared, api=self.api, reader=self.reader,
                         context=self.context, now="2026-10-13T15:01:00Z", attempts=1)
-                self.assertEqual(len([call for call in self.api.calls if call[0] == "PATCH"]), 1)
+                self.assertEqual(len([call for call in self.api.calls if call[0] == "CAS"]), 1)
 
     def test_missing_receipt_branch_needs_explicit_bootstrap_and_actual_remote_absence(self):
         with self.assertRaisesRegex(ValueError, "bootstrap"):
@@ -388,11 +435,138 @@ class PublicationTests(unittest.TestCase):
         for method, path, body in (("PATCH", "/git/refs/heads/main", {"sha": "a" * 40, "force": False}),
                                    ("DELETE", self.module.REF_WRITE, None),
                                    ("PATCH", self.module.REF_WRITE, {"sha": "a" * 40, "force": True}),
+                                   ("PATCH", self.module.REF_WRITE, {"sha": "a" * 40, "force": False}),
                                    ("POST", "/git/trees", {"tree": [{"path": "code.py", "mode": "100644", "type": "blob", "sha": "a" * 40}]}),
                                    ("POST", "/git/refs", {"ref": "refs/heads/main", "sha": "a" * 40})):
             with self.subTest(path=path), self.assertRaises(ValueError):
                 client.request(method, path, body)
         self.assertEqual(client.requests, 0)
+
+    def test_atomic_ref_protocol_binds_repo_ref_heads_and_nonforce(self):
+        class Response(io.BytesIO):
+            status = 200
+            def __init__(self, raw, url):
+                super().__init__(raw)
+                self.url = url
+            def geturl(self):
+                return self.url
+
+        class Opener:
+            def __init__(self):
+                self.requests = []
+            def open(self, request, timeout):
+                self.requests.append((request, timeout))
+                return Response(encoded({"data": {"updateRefs": {"clientMutationId": "cbz-site-publication"}}}),
+                                request.full_url)
+
+        opener = Opener()
+        self.module.AtomicRefAdvance(token="fixture-only-secret", opener=opener).advance("a" * 40, "b" * 40)
+        self.assertEqual(len(opener.requests), 1)
+        request, timeout = opener.requests[0]
+        self.assertEqual(request.get_method(), "POST")
+        self.assertEqual(request.full_url, "https://api.github.com/graphql")
+        self.assertEqual(timeout, 20)
+        body = json.loads(request.data)
+        self.assertEqual(body["variables"]["input"]["repositoryId"], "R_kgDOQpeC2g")
+        self.assertEqual(body["variables"]["input"]["refUpdates"], [{
+            "name": self.module.REF_NAME, "beforeOid": "a" * 40,
+            "afterOid": "b" * 40, "force": False}])
+
+    def test_atomic_ref_protocol_refuses_errors_and_wrong_response_identity(self):
+        valid = encoded({"data": {"updateRefs": {"clientMutationId": "cbz-site-publication"}}})
+
+        class Response(io.BytesIO):
+            def __init__(self, raw, url, status):
+                super().__init__(raw)
+                self.url, self.status = url, status
+            def geturl(self):
+                return self.url
+
+        class Opener:
+            def __init__(self, raw, url=None, status=200):
+                self.raw, self.url, self.status = raw, url, status
+            def open(self, request, timeout):
+                return Response(self.raw, self.url or request.full_url, self.status)
+
+        cases = (
+            (Opener(encoded({"errors": [{"message": "ref changed"}],
+                             "data": {"updateRefs": {"clientMutationId": "cbz-site-publication"}}})),
+             "ref update refused or unknown"),
+            (Opener(encoded({"data": {"updateRefs": {"clientMutationId": "wrong"}}})),
+             "ref update refused or unknown"),
+            (Opener(valid, url="https://example.invalid/"), "response identity mismatch"),
+            (Opener(valid, status=201), "response identity mismatch"),
+            (Opener(b" " * (self.module.MAX_RECEIPT_BYTES + 1)), "response too large"),
+        )
+        for opener, reason in cases:
+            with self.subTest(opener=opener), self.assertRaisesRegex(ValueError, reason):
+                self.module.AtomicRefAdvance(token="fixture-only-secret", opener=opener).advance("a" * 40, "b" * 40)
+
+    def test_atomic_ref_protocol_rejects_invalid_heads_without_network(self):
+        class Response(io.BytesIO):
+            status = 200
+            def __init__(self, url):
+                super().__init__(encoded({"data": {"updateRefs": {"clientMutationId": "cbz-site-publication"}}}))
+                self.url = url
+            def geturl(self):
+                return self.url
+        class Opener:
+            def __init__(self):
+                self.opens = 0
+            def open(self, request, timeout):
+                self.opens += 1
+                return Response(request.full_url)
+        opener = Opener()
+        updater = self.module.AtomicRefAdvance(token="fixture-only-secret", opener=opener)
+        for before, after in (("a" * 40, "a" * 40), ("0" * 40, "b" * 40),
+                              ("a" * 40, "0" * 40), ("bad", "b" * 40)):
+            with self.subTest(before=before, after=after), self.assertRaises(ValueError):
+                updater.advance(before, after)
+        self.assertEqual(opener.opens, 0)
+
+    def test_atomic_advance_obeys_request_bound_without_network(self):
+        class Response(io.BytesIO):
+            status = 200
+            def __init__(self, url):
+                super().__init__(encoded({"data": {"updateRefs": {"clientMutationId": "cbz-site-publication"}}}))
+                self.url = url
+            def geturl(self):
+                return self.url
+        class Opener:
+            def __init__(self):
+                self.opens = 0
+            def open(self, request, timeout):
+                self.opens += 1
+                return Response(request.full_url)
+        opener = Opener()
+        api = self.module.GitHubAPI(token="fixture-only-secret", opener=opener)
+        api.requests = 64
+        with self.assertRaisesRegex(ValueError, "request bound"):
+            api.advance_ref("a" * 40, "b" * 40)
+        self.assertEqual(opener.opens, 0)
+
+    def test_raw_rest_ref_patch_is_refused_without_network(self):
+        class Response(io.BytesIO):
+            status = 200
+            def __init__(self, url):
+                super().__init__(b"{}")
+                self.url = url
+            def geturl(self):
+                return self.url
+
+        class Opener:
+            def __init__(self):
+                self.opens = 0
+            def open(self, request, timeout):
+                self.opens += 1
+                return Response(request.full_url)
+
+        opener = Opener()
+        api = self.module.GitHubAPI(token="fixture-only-secret", opener=opener)
+        with self.assertRaisesRegex(ValueError, "nonmetadata GitHub route refused"):
+            api.request("PATCH", self.module.REF_WRITE, {"sha": "a" * 40, "force": False})
+        self.assertEqual(opener.opens, 0)
+        self.assertEqual(api.requests, 0)
 
     def test_workflow_has_pr_specific_concurrency_and_separate_metadata_handoff(self):
         raw = (ROOT / ".github/workflows/current-site.yml").read_text()
@@ -563,12 +737,12 @@ class PublicationTests(unittest.TestCase):
         api, opener, sleeps = client([
             lambda request: http_error(request, 503, "Service Unavailable"),
             (200, b"{}"),
-        ])
+        ], token="fixture-only-secret")
         with self.assertRaises(urllib.error.HTTPError) as caught:
-            api.request("PATCH", module.REF_WRITE, {"sha": "a" * 40, "force": False})
+            api.advance_ref("b" * 40, "a" * 40)
         self.assertEqual(len(opener.opens), 1)
-        self.assertEqual(opener.opens[0][0], "PATCH")
-        self.assertIn(module.API_ORIGIN + module.REF_WRITE, str(caught.exception))
+        self.assertEqual(opener.opens[0][0], "POST")
+        self.assertIn(module.AtomicRefAdvance.ORIGIN, str(caught.exception))
         self.assertEqual(sleeps, [])
         self.assertEqual(api.requests, 1)
 
