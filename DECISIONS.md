@@ -216,3 +216,128 @@ Append-only. Historical source outcomes remain in their original records.
   default-ref comparisons and normal required checks. Any later Main merge
   requires a new Workspace pin comparison; no atomic cross-repository snapshot
   or scientific acceptance is inferred.
+
+## 2026-11-09 — SDGA bounded observer contract, before implementation
+
+- Phase2 / LayerB. Prepare an isolated test-first draft on Main1902 for the
+  fixed Mathf532 SDGA source:99 module/path/source bindings and1137 literal
+  written public targets, distinct from the complete compiled population.
+  Root read the design/plan/contracts and accepted the bounded observer
+  approach after a separate pinned-Lean API feasibility review.
+- Task1 provides20 pure contract methods plus one explicit mandatory pinned
+  source control, all required in normal and optimized modes. The pinned
+  control stays outside ordinary offline discovery and fails on unavailable
+  inputs; no new dormant skip or optional coverage is added. A read-only
+  component workflow guards Math commit/tree, hashes original inputs and all
+  99 selected sources, and retains original source/result evidence.
+- The production module is deliberately absent in the initial draft. Expected
+  import failure is implementation-absence evidence only, never an adverse
+  rejection, mutation kill, Lean observation or gate pass. Root will observe
+  actual hosted absence before authorizing the minimal pure implementation.
+- Qualification/classification remainBLOCKED and scientific_effectNONE.
+  Unknown type semantics, declaration roles and execution/kernel coverage
+  remain explicit. Later private/all-part inventory, missing-fatal axiom
+  traversal and exact sequential replay require their own real Lean controls.
+  No proof source, bound, disposition or scientific status is changed.
+
+## 2026-11-09 — observed SDGA implementation absence and pure candidate
+
+- Root independently read run42702101999/attempt1/job129449186722: both source
+  checkouts, Python and exactMathf532/treeb713 guard succeeded. All four normal/
+  optimized commands failed solely importing absent sdga_scope. Pure loaders
+  ran one failed-import test each; intended20+1 bodies did not run. No adverse,
+  mutation, live, Lean or passing credit follows.
+- Author was then authorized to implement only the pure standard-library
+  `tools/sdga_scope.py` APIs against unchanged contracts/profile/configs. The
+  source candidate has no process/Git/network/filesystem/Lean execution API;
+  all observations remainBLOCKED/NONE, receipt execution_authenticatedfalse.
+  Original raw/config/test hashes were not changed to accommodate output.
+- Root registers the library and its exact20offline+1mandatorypinned controls
+  per mode, publishes the source candidate, and requires actual hosted results
+  plus fresh complete engineering source review before integration. This is
+  tooling toward fresh owned observations, not proof or scientific acceptance.
+
+## 2026-11-09 — SDGA source observations and reviewed receipt counterexamples
+
+- Actual4b773d198f95cc342d85bd097f903a50920a8fb0/tree56a08809af9b8879ca57f2bd508cb942c1d22dcc
+  componentrun42704583824/attempt1/job129457919403 passed20pure plus1pinned
+  source control in each Python mode,42 successful method records/no skips.
+  ExactMathf532/treeb713 and original rawinputs/all99source bindings were
+  guarded. This is declared source/protocol evidence, not Lean execution.
+- Full source review identified date-only UTC acceptance by fromisoformat;
+  identical malformed receipt/expected timestamps could be declared valid.
+  Root also explicitly requires nonempty module coverage for this fixed
+  nonempty SDGA observer, including caller-declared fixture scope.
+- Preserve the original20 contracts and add2 methods against unchanged
+  productiond00a866e55c5d20fd4aeb8d44e51fa471f1d1031: four malformed UTC
+  subcases expectRECEIPT_SCHEMA; both-empty coverage with build/inventory
+  expectsMODULE_COVERAGE. There are now22pure plus1mandatorypinned controls
+  per mode. Actual semantic RED must precede the minimal two guards. No
+  expected profile/source/config bytes or existing assertions are weakened.
+
+## 2026-11-09 — observed receipt RED, guarded candidate and UTC precision case
+
+- Root independently read run42706338390/attempt1/job129463995764 at f160a96:
+  both pure modes ran22 tests, original20 passed, exactly5 assertion failures
+  (four malformed UTC forms and both-empty coverage), zero errors/skips.
+  Both mandatory pinned-source tests passed. All five failures were actual
+  DECLARED_FIELDS_VALID versus INVALID, not setup or source failures.
+- Author was authorized to require full aware UTC/calendar syntax and reject
+  empty coverage at its existing priority. All22 assertions and fixed source
+  fixtures remain unchanged. That guarded source is now paired with a further
+  precision case before the final bound is implemented: Python datetime
+  truncates fractions beyond six digits, potentially losing reversed instant
+  order. This observer explicitly supports at most microsecond UTC precision;
+  duration_ns remains a separate integer observation.
+- Add one23rd pure method against unchanged candidate28ce8a145adc53fdc9f78007e871076d12081d46,
+  testing reversed seven- and nine-digit instants with matching declared
+  bindings. It must reject as RECEIPT_SCHEMA. There are now23pure+1pinned per
+  mode. Actual new semantic RED must precede the one-line precision limit.
+  No expected profile/config/source bytes or earlier test assertions changed.
+  Qualification remainsBLOCKED/NONE; no Lean or scientific credit follows.
+
+## 2026-11-09 — final UTC precision guard and current Main composition
+
+- Actual run42709381408/attempt1/job129474558012 at d561405 observed both
+  pure modes:23 tests, prior22 passed, exactly2 fraction-precision assertion
+  failures, zero errors/skips. Both mandatory pinned-source tests passed.
+  Root independently read the original native footers and failure traces.
+- The final source changes only the optional fraction bound from unbounded
+  digits to1--6 digits, preserving every23pure+1pinned control and all fixed
+  profile/config bytes. Earlier UTC syntax/empty-coverage counterexamples and
+  repairs retain their source identities. No test or mathematical bound changes.
+- Compose the complete feature ancestry with current Main05f2289478a0ee9492adc1eb501466e0f66866df,
+  preserving peerPR789--791 code/workflows and all current canonical bytes as
+  intact prefixes. The Math default moved to9bdfc54b; its entire SDGA package
+  subtree equals the frozen f532 subtreea56e5c36f2b0395a268aea3054cbc5df9d13fa6e.
+  This does not rebind old CI or change the explicitly historical f532 profile.
+- The managed local environment is unavailable; all further source/CI work
+  uses GitHub tools and hosted runners. Earlier incomplete local writes are
+  not assumed persisted. Require actual24controls per mode and all current
+  required checks on this composed head before integration. Qualification,
+  classification and execution-authentication boundaries remain unchanged.
+
+## 2026-11-10 — preserve auditor-origin integration in SDGA composition
+
+The previous composed5b91d922 candidate passed23pure+1mandatorypinned controls
+in both modes (run42723593567/attempt1/job129523439892), all48method outcomes
+without errors/skips. Those observations remain bound to their tested source.
+Main subsequently integrated auditor-origin hardening in PR792. Preserve every
+current canonical byte and all new peer code/evidence/workflows, then append
+the exact existing feature suffix. No source library, test, profile or config
+is changed by this composition; complete feature ancestry is retained.
+Current composed-head required checks must be observed before integration.
+No historical CI is rebound, and no Lean/scientific/global gate is awarded.
+
+## 2026-11-10 — preserve option-member repair and SDGA qualification boundary
+
+The2ca2824a22af76ce46468b2504cb1ed2e2dbcdbc composition passed all48 scope
+method outcomes:23pure+1mandatorypinned in each Python mode, zero failures,
+errors or skips. Original source14d4617b, fixed profiles and all tests remain
+unchanged. Scoped engineering review found the UTC syntax, empty coverage and
+precision findings addressed; this is a pure protocol/source library review.
+Main then integrated PR793 option-member scanner controls. Preserve all of its
+code, evidence, workflow, attributes and every canonical byte, with the entire
+feature ancestry. Current composed-tree checks remain mandatory; historical
+passes are not rebound. No actual Lean execution or scientific/global gate
+credit follows, and classification/qualification stayBLOCKED/NONE.

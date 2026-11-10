@@ -965,3 +965,38 @@ false-credit cases, source-mutant controls and corrected failed attempts remain
 in the evidence. No original test, bound or expected verdict is weakened.
 Maintenance owner: none; frozen profile, self-contained. Requalify changed
 source/profile inputs; do not convert this registration into global admission.
+
+## SDGA source and declared-protocol library candidate
+
+`tools/sdga_scope.py` is a standard-library Python3.11+ library for fixed SDGA
+source extraction, lossless Name encoding, declared JSONL inventory consistency
+and receipt-field validation. It executes no Git, process, network, filesystem
+read/write or Lean operation. It serves source-bound inspection and tooling
+soundness; it cannot authenticate execution, classify complete mathematical
+roles or award G2--G4 or CBZ. All returned classification/qualification fields
+remain `BLOCKED`, scientific effect `NONE`, and execution authentication false.
+
+From a Main checkout, run its23offline contracts in both modes:
+
+```sh
+python3 -B -S -m unittest discover -s tests -p 'test_sdga_scope.py' -v
+python3 -B -O -S -m unittest discover -s tests -p 'test_sdga_scope.py' -v
+```
+
+The separately mandatory `tests/sdga_source_observation.py` must also run in
+both modes after guarding exact Mathf532 commit/tree and setting its three
+required source environment fields; missing inputs fail rather than skip.
+The read-only `sdga-scope-contract` workflow performs that guard and all four
+commands, binding original inputs and99sources and retaining original logs.
+See [the design](docs/cbz/SDGA_COMPONENT_DESIGN.md) and
+[the exact plan](docs/superpowers/plans/2026-11-09-sdga-task1-scope-classifiers.md).
+
+The final library/source controls passed23pure+1mandatorypinned methods in
+both Python modes at composed2ca2824a22af76ce46468b2504cb1ed2e2dbcdbc,
+with zero failures/errors/skips. Scoped engineering review addressed the UTC
+syntax, empty coverage and precision findings. Every later composed tree must
+pass its own current required checks before integration. Initial hosted missing-module failures
+remain implementation-absence evidence only. No Lean inventory/replay/axiom
+observation is inferred from declared fixture fields. Maintenance owner: none;
+this library is self-contained with immutable source profile and explicit
+contracts. No source proof, bound, scientific status or gate threshold changes.
