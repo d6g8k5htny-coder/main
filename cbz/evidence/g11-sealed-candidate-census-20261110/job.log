@@ -1,0 +1,314 @@
+﻿2026-11-10T06:03:06.7494878Z Current runner version: '2.338.2'
+2026-11-10T06:03:06.7512971Z ##[group]Runner Image Provisioner
+2026-11-10T06:03:06.7513590Z Hosted Compute Agent
+2026-11-10T06:03:06.7513999Z Version: 20261028.624
+2026-11-10T06:03:06.7514405Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T06:03:06.7514885Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T06:03:06.7515324Z Worker ID: {248cb3b9-67d7-4190-916e-1d25aaa5a673}
+2026-11-10T06:03:06.7516073Z Region: westus3
+2026-11-10T06:03:06.7516431Z Cloud: Azure
+2026-11-10T06:03:06.7516796Z ##[endgroup]
+2026-11-10T06:03:06.7517641Z ##[group]Operating System
+2026-11-10T06:03:06.7518066Z Ubuntu
+2026-11-10T06:03:06.7518375Z 24.04.5
+2026-11-10T06:03:06.7518775Z LTS
+2026-11-10T06:03:06.7519123Z ##[endgroup]
+2026-11-10T06:03:06.7519488Z ##[group]Runner Image
+2026-11-10T06:03:06.7519849Z Image: ubuntu-24.04
+2026-11-10T06:03:06.7520191Z Version: 20261101.360.1
+2026-11-10T06:03:06.7521334Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T06:03:06.7522318Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T06:03:06.7522908Z ##[endgroup]
+2026-11-10T06:03:06.7523614Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T06:03:06.7524848Z Contents: read
+2026-11-10T06:03:06.7525187Z Metadata: read
+2026-11-10T06:03:06.7525590Z ##[endgroup]
+2026-11-10T06:03:06.7527192Z Secret source: Actions
+2026-11-10T06:03:06.7527810Z Cache mode: write
+2026-11-10T06:03:06.7528269Z Prepare workflow directory
+2026-11-10T06:03:06.7736007Z Prepare all required actions
+2026-11-10T06:03:06.7767665Z Getting action download info
+2026-11-10T06:03:07.0402887Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-10T06:03:07.1265231Z Download action repository 'actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-10T06:03:07.2152647Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+2026-11-10T06:03:07.3675740Z Complete job name: census
+2026-11-10T06:03:07.4223164Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-11-10T06:03:07.4223671Z with:
+2026-11-10T06:03:07.4223926Z   ref: 709975c6ff42f0bca020abd4164a45479e29a0df
+2026-11-10T06:03:07.4224255Z   persist-credentials: false
+2026-11-10T06:03:07.4224538Z   repository: d6g8k5htny-coder/main
+2026-11-10T06:03:07.4226705Z   token: ***
+2026-11-10T06:03:07.4226983Z   ssh-strict: true
+2026-11-10T06:03:07.4227305Z   ssh-user: git
+2026-11-10T06:03:07.4227658Z   clean: true
+2026-11-10T06:03:07.4228021Z   sparse-checkout-cone-mode: true
+2026-11-10T06:03:07.4228435Z   fetch-depth: 1
+2026-11-10T06:03:07.4228769Z   fetch-tags: false
+2026-11-10T06:03:07.4229128Z   show-progress: true
+2026-11-10T06:03:07.4229492Z   lfs: false
+2026-11-10T06:03:07.4229835Z   submodules: false
+2026-11-10T06:03:07.4230233Z   set-safe-directory: true
+2026-11-10T06:03:07.4230779Z   allow-unsafe-pr-checkout: false
+2026-11-10T06:03:07.4231555Z ##[endgroup]
+2026-11-10T06:03:07.6153445Z Syncing repository: d6g8k5htny-coder/main
+2026-11-10T06:03:07.6154557Z ##[group]Getting Git version info
+2026-11-10T06:03:07.6154914Z Working directory is '/home/runner/work/main/main'
+2026-11-10T06:03:07.6155411Z [command]/usr/bin/git version
+2026-11-10T06:03:07.6221032Z git version 2.56.0
+2026-11-10T06:03:07.6239957Z ##[endgroup]
+2026-11-10T06:03:07.6244996Z Temporarily overriding HOME='/home/runner/work/_temp/73db9fc2-c5ca-480d-8057-830666004fd7' before making global git config changes
+2026-11-10T06:03:07.6245782Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T06:03:07.6251508Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T06:03:07.6288324Z Deleting the contents of '/home/runner/work/main/main'
+2026-11-10T06:03:07.6291248Z ##[group]Determining repository object format
+2026-11-10T06:03:07.6292639Z ##[endgroup]
+2026-11-10T06:03:07.6293348Z ##[group]Initializing the repository
+2026-11-10T06:03:07.6296130Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-11-10T06:03:07.6397044Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T06:03:07.6397695Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T06:03:07.6398202Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T06:03:07.6398597Z hint: call:
+2026-11-10T06:03:07.6398823Z hint:
+2026-11-10T06:03:07.6399139Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T06:03:07.6399485Z hint:
+2026-11-10T06:03:07.6399824Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T06:03:07.6400686Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T06:03:07.6401091Z hint:
+2026-11-10T06:03:07.6401325Z hint: 	git branch -m <name>
+2026-11-10T06:03:07.6401646Z hint:
+2026-11-10T06:03:07.6401994Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T06:03:07.6407376Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-11-10T06:03:07.6416806Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-11-10T06:03:07.6463955Z ##[endgroup]
+2026-11-10T06:03:07.6464627Z ##[group]Disabling automatic garbage collection
+2026-11-10T06:03:07.6466942Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T06:03:07.6497875Z ##[endgroup]
+2026-11-10T06:03:07.6498880Z ##[group]Setting up auth
+2026-11-10T06:03:07.6499332Z Removing SSH command configuration
+2026-11-10T06:03:07.6503780Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T06:03:07.6564696Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T06:03:07.6861281Z Removing HTTP extra header
+2026-11-10T06:03:07.6866225Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T06:03:07.6905923Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T06:03:07.7100050Z Removing includeIf entries pointing to credentials config files
+2026-11-10T06:03:07.7104188Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T06:03:07.7141673Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T06:03:07.7349622Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-cc7e8bf4-7d01-4f14-8c71-1a82d93d6694.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T06:03:07.7394240Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git.path /home/runner/work/_temp/git-credentials-cc7e8bf4-7d01-4f14-8c71-1a82d93d6694.config
+2026-11-10T06:03:07.7430671Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-cc7e8bf4-7d01-4f14-8c71-1a82d93d6694.config
+2026-11-10T06:03:07.7468052Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-cc7e8bf4-7d01-4f14-8c71-1a82d93d6694.config
+2026-11-10T06:03:07.7505738Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-cc7e8bf4-7d01-4f14-8c71-1a82d93d6694.config
+2026-11-10T06:03:07.7540633Z ##[endgroup]
+2026-11-10T06:03:07.7541236Z ##[group]Fetching the repository
+2026-11-10T06:03:07.7544732Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 709975c6ff42f0bca020abd4164a45479e29a0df
+2026-11-10T06:03:11.4679439Z From https://github.com/d6g8k5htny-coder/main
+2026-11-10T06:03:11.4680823Z  * branch            709975c6ff42f0bca020abd4164a45479e29a0df -> FETCH_HEAD
+2026-11-10T06:03:11.4687609Z [command]/usr/bin/git rev-parse --verify --quiet 709975c6ff42f0bca020abd4164a45479e29a0df^{object}
+2026-11-10T06:03:11.4721122Z 709975c6ff42f0bca020abd4164a45479e29a0df
+2026-11-10T06:03:11.4725168Z ##[endgroup]
+2026-11-10T06:03:11.4725968Z ##[group]Determining the checkout info
+2026-11-10T06:03:11.4726791Z ##[endgroup]
+2026-11-10T06:03:11.4728813Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T06:03:11.4781790Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T06:03:11.4819601Z ##[group]Checking out the ref
+2026-11-10T06:03:11.4822615Z [command]/usr/bin/git checkout --progress --force 709975c6ff42f0bca020abd4164a45479e29a0df
+2026-11-10T06:03:11.9861222Z Note: switching to '709975c6ff42f0bca020abd4164a45479e29a0df'.
+2026-11-10T06:03:11.9862238Z 
+2026-11-10T06:03:11.9862776Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-10T06:03:11.9864058Z changes and commit them, and you can discard any commits you make in this
+2026-11-10T06:03:11.9865309Z state without impacting any branches by switching back to a branch.
+2026-11-10T06:03:11.9866023Z 
+2026-11-10T06:03:11.9866493Z If you want to create a new branch to retain commits you create, you may
+2026-11-10T06:03:11.9867635Z do so (now or later) by using -c with the switch command. Example:
+2026-11-10T06:03:11.9868324Z 
+2026-11-10T06:03:11.9868594Z   git switch -c <new-branch-name>
+2026-11-10T06:03:11.9869049Z 
+2026-11-10T06:03:11.9869365Z Or undo this operation with:
+2026-11-10T06:03:11.9869764Z 
+2026-11-10T06:03:11.9869988Z   git switch -
+2026-11-10T06:03:11.9870294Z 
+2026-11-10T06:03:11.9870969Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-10T06:03:11.9871739Z 
+2026-11-10T06:03:11.9872328Z HEAD is now at 709975c Bound interpreter references and preserve sealed G11 evidence
+2026-11-10T06:03:11.9900685Z ##[endgroup]
+2026-11-10T06:03:11.9950177Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T06:03:11.9983580Z 709975c6ff42f0bca020abd4164a45479e29a0df
+2026-11-10T06:03:11.9991167Z ##[group]Removing auth
+2026-11-10T06:03:11.9992072Z Removing SSH command configuration
+2026-11-10T06:03:11.9993925Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T06:03:12.0033239Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T06:03:12.0231805Z Removing HTTP extra header
+2026-11-10T06:03:12.0233791Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T06:03:12.0271272Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T06:03:12.0466287Z Removing includeIf entries pointing to credentials config files
+2026-11-10T06:03:12.0468524Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T06:03:12.0500985Z includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T06:03:12.0502891Z includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T06:03:12.0504693Z includeif.gitdir:/github/workspace/.git.path
+2026-11-10T06:03:12.0506511Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T06:03:12.0510363Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T06:03:12.0544591Z /home/runner/work/_temp/git-credentials-cc7e8bf4-7d01-4f14-8c71-1a82d93d6694.config
+2026-11-10T06:03:12.0554390Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-cc7e8bf4\-7d01\-4f14\-8c71\-1a82d93d6694\.config
+2026-11-10T06:03:12.0594574Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T06:03:12.0624350Z /home/runner/work/_temp/git-credentials-cc7e8bf4-7d01-4f14-8c71-1a82d93d6694.config
+2026-11-10T06:03:12.0632511Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-cc7e8bf4\-7d01\-4f14\-8c71\-1a82d93d6694\.config
+2026-11-10T06:03:12.0673847Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-10T06:03:12.0706812Z /github/runner_temp/git-credentials-cc7e8bf4-7d01-4f14-8c71-1a82d93d6694.config
+2026-11-10T06:03:12.0712124Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-cc7e8bf4\-7d01\-4f14\-8c71\-1a82d93d6694\.config
+2026-11-10T06:03:12.0751051Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T06:03:12.0781119Z /github/runner_temp/git-credentials-cc7e8bf4-7d01-4f14-8c71-1a82d93d6694.config
+2026-11-10T06:03:12.0787825Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-cc7e8bf4\-7d01\-4f14\-8c71\-1a82d93d6694\.config
+2026-11-10T06:03:12.0826331Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T06:03:12.1023039Z Removing credentials config '/home/runner/work/_temp/git-credentials-cc7e8bf4-7d01-4f14-8c71-1a82d93d6694.config'
+2026-11-10T06:03:12.1029258Z ##[endgroup]
+2026-11-10T06:03:12.1341231Z ##[group]Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+2026-11-10T06:03:12.1342240Z with:
+2026-11-10T06:03:12.1342765Z   python-version: 3.11
+2026-11-10T06:03:12.1343376Z   check-latest: false
+2026-11-10T06:03:12.1349147Z   token: ***
+2026-11-10T06:03:12.1349699Z   update-environment: true
+2026-11-10T06:03:12.1350339Z   allow-prereleases: false
+2026-11-10T06:03:12.1351049Z   freethreaded: false
+2026-11-10T06:03:12.1351617Z ##[endgroup]
+2026-11-10T06:03:12.2300781Z ##[group]Installed versions
+2026-11-10T06:03:12.2375619Z (node:2275) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T06:03:12.2378096Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T06:03:12.2379382Z Successfully set up CPython (3.11.18)
+2026-11-10T06:03:12.2380712Z ##[endgroup]
+2026-11-10T06:03:12.2551104Z ##[group]Run test "$(git rev-parse HEAD)" = 709975c6ff42f0bca020abd4164a45479e29a0df
+2026-11-10T06:03:12.2553247Z [36;1mtest "$(git rev-parse HEAD)" = 709975c6ff42f0bca020abd4164a45479e29a0df[0m
+2026-11-10T06:03:12.2555193Z [36;1mtest "$(git rev-parse 'HEAD^{tree}')" = b5aea45ffcc05cb51b0b088b8f96b7a24478c240[0m
+2026-11-10T06:03:12.2557462Z [36;1mtest "$(git hash-object tools/cbz/g11_census.py)" = 904a4e417a7565918412c599bfcbdbdd420c9515[0m
+2026-11-10T06:03:12.2560566Z [36;1mtest "$(git hash-object tools/cbz/g11_mutation_selftest.py)" = 6d6d8fd951c5386626caed81a43d377b19a036f6[0m
+2026-11-10T06:03:12.2563115Z [36;1mtest "$(git hash-object tests/test_g11_census.py)" = d29f90b5d783297867cd078668ae9dc9b512801e[0m
+2026-11-10T06:03:12.2565664Z [36;1mtest "$(git hash-object tests/test_g11_workflow_formats.py)" = 516e0c00b7d484d5dfe7802fa9b5f7d41f4cae57[0m
+2026-11-10T06:03:12.2568719Z [36;1mtest "$(git hash-object tools/cbz/g11_workflow_formats_mutation_selftest.py)" = 1dce19dc61ccbdedfc34a6fb5ec5afeb8bc034f4[0m
+2026-11-10T06:03:12.2610206Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T06:03:12.2611689Z env:
+2026-11-10T06:03:12.2612650Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:03:12.2614204Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T06:03:12.2615477Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:03:12.2616420Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:03:12.2617370Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:03:12.2618310Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T06:03:12.2619128Z ##[endgroup]
+2026-11-10T06:03:12.2850780Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_census.py --rev 709975c6ff42f0bca020abd4164a45479e29a0df --json "$RUNNER_TEMP/g11-census-normal.json"
+2026-11-10T06:03:12.2854335Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_census.py --rev 709975c6ff42f0bca020abd4164a45479e29a0df --json "$RUNNER_TEMP/g11-census-normal.json"[0m
+2026-11-10T06:03:12.2872675Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T06:03:12.2873479Z env:
+2026-11-10T06:03:12.2874102Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:03:12.2875108Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T06:03:12.2876116Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:03:12.2877026Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:03:12.2877979Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:03:12.2878918Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T06:03:12.2879704Z ##[endgroup]
+2026-11-10T06:03:59.6891033Z G11_CENSUS_PASS: commit 709975c6ff42f0bca020abd4164a45479e29a0df, 1505 files, 78 tools, findings {"marker": 23, "mention": 82, "stub": 14, "stub-context": 13}, failing 0, failing tools 0
+2026-11-10T06:03:59.7078901Z ##[group]Run env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_census.py --rev 709975c6ff42f0bca020abd4164a45479e29a0df --json "$RUNNER_TEMP/g11-census-optimized.json"
+2026-11-10T06:03:59.7079838Z [36;1menv -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_census.py --rev 709975c6ff42f0bca020abd4164a45479e29a0df --json "$RUNNER_TEMP/g11-census-optimized.json"[0m
+2026-11-10T06:03:59.7098059Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T06:03:59.7098245Z env:
+2026-11-10T06:03:59.7098396Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:03:59.7098628Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T06:03:59.7098860Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:03:59.7099072Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:03:59.7099300Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:03:59.7099518Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T06:03:59.7099710Z ##[endgroup]
+2026-11-10T06:04:48.9318869Z G11_CENSUS_PASS: commit 709975c6ff42f0bca020abd4164a45479e29a0df, 1505 files, 78 tools, findings {"marker": 23, "mention": 82, "stub": 14, "stub-context": 13}, failing 0, failing tools 0
+2026-11-10T06:04:48.9498099Z ##[group]Run python3 - <<'PY'
+2026-11-10T06:04:48.9498311Z [36;1mpython3 - <<'PY'[0m
+2026-11-10T06:04:48.9498475Z [36;1mimport hashlib, json, os, pathlib[0m
+2026-11-10T06:04:48.9498659Z [36;1mroot = pathlib.Path(os.environ["RUNNER_TEMP"])[0m
+2026-11-10T06:04:48.9498846Z [36;1mfor mode in ("normal", "optimized"):[0m
+2026-11-10T06:04:48.9499027Z [36;1m    path = root / ("g11-census-" + mode + ".json")[0m
+2026-11-10T06:04:48.9499224Z [36;1m    if not path.is_file():[0m
+2026-11-10T06:04:48.9499382Z [36;1m        print("CENSUS_REPORT_MISSING", mode)[0m
+2026-11-10T06:04:48.9499544Z [36;1m        continue[0m
+2026-11-10T06:04:48.9499682Z [36;1m    raw = path.read_bytes()[0m
+2026-11-10T06:04:48.9499996Z [36;1m    data = json.loads(raw)[0m
+2026-11-10T06:04:48.9500225Z [36;1m    print("CENSUS_REPORT", json.dumps({"mode":mode,"sha256":hashlib.sha256(raw).hexdigest(),[0m
+2026-11-10T06:04:48.9500702Z [36;1m        "bytes":len(raw),"commit":data["commit"],"status":data["status"],[0m
+2026-11-10T06:04:48.9500965Z [36;1m        "files":data["files"],"tracked":data["tracked"],"skipped":data["skipped"],[0m
+2026-11-10T06:04:48.9501250Z [36;1m        "failing":data["failing"],"failing_tools":data["failing_tools"]}, sort_keys=True))[0m
+2026-11-10T06:04:48.9501465Z [36;1mPY[0m
+2026-11-10T06:04:48.9518154Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T06:04:48.9518376Z env:
+2026-11-10T06:04:48.9518528Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:04:48.9518758Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T06:04:48.9518982Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:04:48.9519193Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:04:48.9519396Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:04:48.9519598Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T06:04:48.9519769Z ##[endgroup]
+2026-11-10T06:04:48.9737895Z CENSUS_REPORT {"bytes": 48658, "commit": "709975c6ff42f0bca020abd4164a45479e29a0df", "failing": [], "failing_tools": [], "files": 1505, "mode": "normal", "sha256": "aec7cdf79dc79000b8a5fcf5e638f0334fc51f661ed802fa82836d77e3f0ff60", "skipped": [], "status": "PASS", "tracked": 6026}
+2026-11-10T06:04:48.9739325Z CENSUS_REPORT {"bytes": 48658, "commit": "709975c6ff42f0bca020abd4164a45479e29a0df", "failing": [], "failing_tools": [], "files": 1505, "mode": "optimized", "sha256": "aec7cdf79dc79000b8a5fcf5e638f0334fc51f661ed802fa82836d77e3f0ff60", "skipped": [], "status": "PASS", "tracked": 6026}
+2026-11-10T06:04:48.9839274Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+2026-11-10T06:04:48.9839504Z with:
+2026-11-10T06:04:48.9839641Z   name: cbz-composed-g11-census-42765914053-1
+2026-11-10T06:04:48.9839924Z   path: /home/runner/work/_temp/g11-census-normal.json
+/home/runner/work/_temp/g11-census-optimized.json
+
+2026-11-10T06:04:48.9840189Z   if-no-files-found: error
+2026-11-10T06:04:48.9840315Z   retention-days: 90
+2026-11-10T06:04:48.9840432Z   compression-level: 6
+2026-11-10T06:04:48.9840685Z   overwrite: false
+2026-11-10T06:04:48.9840807Z   include-hidden-files: false
+2026-11-10T06:04:48.9840934Z   archive: true
+2026-11-10T06:04:48.9841039Z env:
+2026-11-10T06:04:48.9841178Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:04:48.9841403Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T06:04:48.9841630Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:04:48.9841848Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:04:48.9842051Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:04:48.9842255Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T06:04:48.9842456Z ##[endgroup]
+2026-11-10T06:04:49.0751885Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-11-10T06:04:49.0753583Z The least common ancestor is /home/runner/work/_temp. This will be the root directory of the artifact
+2026-11-10T06:04:49.0754353Z With the provided path, there will be 2 files uploaded
+2026-11-10T06:04:49.0755801Z Artifact name is valid!
+2026-11-10T06:04:49.0776120Z Root directory input is valid!
+2026-11-10T06:04:49.4017631Z Uploading artifact: cbz-composed-g11-census-42765914053-1.zip
+2026-11-10T06:04:49.4041662Z Beginning upload of artifact content to blob storage
+2026-11-10T06:04:49.6565954Z Uploaded bytes 10256
+2026-11-10T06:04:49.7179200Z Finished uploading artifact content to blob storage!
+2026-11-10T06:04:49.7179914Z SHA256 digest of uploaded artifact is dbb1db8d458c349bfd00d68ca3994ee344023700f6eb6aa438e3aaa300b4060d
+2026-11-10T06:04:49.7180821Z Finalizing artifact upload
+2026-11-10T06:04:50.2053597Z Artifact cbz-composed-g11-census-42765914053-1 successfully finalized. Artifact ID 13738689802
+2026-11-10T06:04:50.2054327Z Artifact cbz-composed-g11-census-42765914053-1 has been successfully uploaded! Final size is 10256 bytes. Artifact ID is 13738689802
+2026-11-10T06:04:50.2060648Z Artifact download URL: https://github.com/d6g8k5htny-coder/main/actions/runs/42765914053/artifacts/13738689802
+2026-11-10T06:04:50.2176026Z ##[group]Run printf 'normal=%s optimized=%s\n' "$NORMAL" "$OPTIMIZED"
+2026-11-10T06:04:50.2176315Z [36;1mprintf 'normal=%s optimized=%s\n' "$NORMAL" "$OPTIMIZED"[0m
+2026-11-10T06:04:50.2176551Z [36;1mtest "$NORMAL" = success && test "$OPTIMIZED" = success[0m
+2026-11-10T06:04:50.2193395Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T06:04:50.2193587Z env:
+2026-11-10T06:04:50.2193744Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:04:50.2193984Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-10T06:04:50.2194232Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:04:50.2194451Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:04:50.2194668Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-10T06:04:50.2194888Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-10T06:04:50.2195071Z   NORMAL: success
+2026-11-10T06:04:50.2195222Z   OPTIMIZED: success
+2026-11-10T06:04:50.2195352Z ##[endgroup]
+2026-11-10T06:04:50.2228213Z normal=success optimized=success
+2026-11-10T06:04:50.2277641Z Post job cleanup.
+2026-11-10T06:04:50.3033933Z (node:2342) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-10T06:04:50.3034424Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-10T06:04:50.3156847Z Post job cleanup.
+2026-11-10T06:04:50.3781445Z [command]/usr/bin/git version
+2026-11-10T06:04:50.3807403Z git version 2.56.0
+2026-11-10T06:04:50.3831461Z Temporarily overriding HOME='/home/runner/work/_temp/f9ab2b9d-d2be-4aad-8044-26371a959d84' before making global git config changes
+2026-11-10T06:04:50.3832151Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T06:04:50.3841160Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T06:04:50.3863673Z Removing SSH command configuration
+2026-11-10T06:04:50.3868046Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T06:04:50.3897383Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T06:04:50.4107285Z Removing HTTP extra header
+2026-11-10T06:04:50.4111562Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T06:04:50.4142880Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T06:04:50.4431505Z Removing includeIf entries pointing to credentials config files
+2026-11-10T06:04:50.4431942Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T06:04:50.4463791Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T06:04:50.4804780Z Cleaning up orphan processes
+2026-11-10T06:04:50.5152653Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
