@@ -1,5 +1,34 @@
 # CBZ mission-tool registry
 
+## Normal Pages publisher atomic-head controls — 10 November 2026
+
+`tools/current_site_publication.py` verifies immutable receipt objects and,
+in this candidate, advances the fixed receipt ref through GitHub GraphQL
+`updateRefs` with the exact expected old commit and `force: false`. It
+rejects direct REST ref patches and retains bounded readback and unknown-outcome
+handling. The recovery wrapper uses the same publication interface while
+maintaining its own checks. This scope does not authenticate future GitHub
+responses or establish public deployment.
+
+From Main, run:
+
+```sh
+python3 -B -S -m unittest -v tests.test_current_site_publication
+python3 -B -O -S -m unittest -v tests.test_current_site_publication
+CBZ_PUBLISH_NORMAL=$(mktemp -d)/mutations
+CBZ_PUBLISH_OPTIMIZED=$(mktemp -d)/mutations
+python3 -B -S tools/cbz_site_publisher_cas_mutations.py --output "$CBZ_PUBLISH_NORMAL"
+python3 -B -O -S tools/cbz_site_publisher_cas_mutations.py --output "$CBZ_PUBLISH_OPTIMIZED"
+```
+
+Hosted tested merge `d243e1a2c833e5039b9cd0d1ceb9aa5682c78e35` ran 40
+tests without skips per mode, 11 designated mutation pairs per mode, and
+rejected three unauthorized assertion origins and one runtime error per mode.
+The tracer is scoped to trusted synchronous unittest. The corresponding
+artifact's reported digest and the full job log are identified in STATUS;
+its ZIP was not independently unpacked here. Earlier real red and candidate
+failure logs are retained. This is not a full auditor, final G0 or proof.
+
 ## Guarded Pages receipt recovery — 10 November 2026
 
 `tools/cbz_site_receipt_recovery.py` narrowly reconciles a canceled prepared
@@ -33,8 +62,8 @@ failures per mode, and three subject/helper/lifecycle-origin refusals per mode.
 Its existing traceback recorder is scoped to trusted synchronous unittest.
 The original 28-test/28-mutation campaign missed a rollback race; its adverse
 test and the earlier failed fixture and mutation runs remain in contribution evidence.
-The normal publisher's separate REST ref update still lacks the atomic
-expected-head guarantee and is not qualified by these recovery checks.
+The normal publisher's REST ref update at Main `31bc4c1f` lacked this
+atomic expected-head guarantee; the later candidate above has separate checks.
 These checks do not prove an authenticated Pages status is available or that a
 real dispatch succeeded; reads and external actor state are not atomic. They
 are not a full tool audit, final G0 or mathematical certification.

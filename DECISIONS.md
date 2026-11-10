@@ -600,3 +600,24 @@ proof, ownership, scientific disposition, gate threshold, fullG5 or CBZ award ch
 - The normal publisher's separate REST ref write remains an open follow-up;
   do not infer its atomic expected-head safety from the recovery controls.
   The correction changes no mathematical or scientific status.
+
+## 2026-11-10 — Guard normal publication with an atomic expected head
+
+- Preserve the actual local normal/optimized rollback failures, the hosted
+  229-test run with one failure, the first candidate's synthetic-token error
+  and its stacked recovery-control failure. Their exact sources and hosted
+  logs are retained under `cbz/evidence/site-publication-cas-20261110/`.
+- Replace the normal publisher's REST ref patch in this candidate with fixed
+  repository/ref `updateRefs`, exact `beforeOid` and `force: false`.
+  Retain immutable object verification, bounded no-retry mutation and ref
+  readback. Unknown write outcomes must be resolved from the actual ref.
+  Adapt the recovery wrapper to the same interface.
+- At tested merge `d243e1a2c833e5039b9cd0d1ceb9aa5682c78e35`, hosted
+  controls ran 40 tests without skips in each mode, 11 clean-baseline and
+  designated-oracle mutations per mode, and refused three unauthorized
+  assertion origins and one runtime error per mode. Artifact digest and
+  readback limits are recorded in STATUS. Authenticated ref mutation and site
+  recovery were not executed by this pull-request control.
+- This candidate changes no mathematical statements, proofs, quarantines or
+  scientific status. Normal required-check integration and fresh source/ref
+  observations remain necessary.

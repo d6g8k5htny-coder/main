@@ -1,5 +1,13 @@
 # CBZ baseline ledger
 
+## Normal Pages publisher atomic-head candidate — 10 November 2026
+
+The original publisher's ancestor-rollback test failed in local and hosted
+runs. A stacked source candidate uses an atomic expected-head non-force update
+and passed the scoped hosted controls described in STATUS. It is not yet a
+published recovery, authenticated platform result, mathematical proof or final
+baseline. The actual red and intermediate failures remain preserved.
+
 ## Pages failure and guarded recovery boundary — 10 November 2026
 
 The two attempts of site run `42737966287` failed during deployment and did

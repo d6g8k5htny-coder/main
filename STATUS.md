@@ -1,5 +1,50 @@
 # CBZ-0 execution status
 
+## Normal Pages publisher atomic-head candidate — observed 10 November 2026
+
+The normal publisher at Main `31bc4c1f5b66e92bfbf327366956944ea691289c`
+had an ancestor-rollback race: after its ref read, a non-force REST update
+could still accept a descendant if the ref had moved back. The new adverse
+test failed in both local Python modes, and hosted current-site job
+`129610695154` ran 229 tests with one failure; its optimized step was not
+reached. The original test tree and full job log are retained under
+`cbz/evidence/site-publication-cas-20261110/`. The first correction attempt
+also produced one hosted fixture error and a separate recovery-control
+failure; their logs remain in that evidence directory.
+
+The subsequent stacked candidate replaces the normal publisher's REST ref
+patch with GitHub's atomic `updateRefs`, binding the exact `beforeOid`,
+the new commit, the fixed receipt ref and `force: false`. It retains immutable
+object checks and post-write readback; a failed response can have an unknown
+remote outcome, so inspect the actual ref. Hosted controls job `129613200124`
+at tested merge `d243e1a2c833e5039b9cd0d1ceb9aa5682c78e35`, tree
+`dafca516877750f5e06603729e862ca9e7420b7a`, ran 40 tests without skips per
+Python mode. It also ran 11 clean-baseline/designated-oracle mutations and
+rejected three unauthorized assertion origins plus one runtime error per mode.
+Its artifact `13733117677` was reported with SHA-256
+`8c84b2b1fb2a9ced407ac72e7994a973d54313bbcbb6509e171587c5780822b3`;
+the full hosted job log is retained, but the artifact was not independently
+unpacked in this observation. Stacked recovery controls job `129613199744`
+also passed; its recovery-dispatch job was skipped on the pull request.
+These are scoped checks, not actual authenticated ref mutation or full G0.
+
+From Main, after the candidate is present, rerun:
+
+```sh
+python3 -B -S -m unittest -v tests.test_current_site_publication
+python3 -B -O -S -m unittest -v tests.test_current_site_publication
+CBZ_PUBLISH_NORMAL=$(mktemp -d)/mutations
+CBZ_PUBLISH_OPTIMIZED=$(mktemp -d)/mutations
+python3 -B -S tools/cbz_site_publisher_cas_mutations.py --output "$CBZ_PUBLISH_NORMAL"
+python3 -B -O -S tools/cbz_site_publisher_cas_mutations.py --output "$CBZ_PUBLISH_OPTIMIZED"
+```
+
+The source and hosted result are a candidate until normal guarded integration.
+Authenticated GraphQL and Pages status, actual recovery and current publication
+remain unobserved. The Main `31bc4c1f` site build failed its prepared-receipt
+readback and skipped deploy; that job's original log is retained. No final
+G0–G11, no-skip federation regression or CBZ-0 is inferred.
+
 ## Guarded Pages receipt recovery — observed 10 November 2026
 
 Main #798 merged as `31bc4c1f5b66e92bfbf327366956944ea691289c` with the
@@ -30,9 +75,9 @@ recovery is not evidence of success; inspect the actual ref if write readback
 fails because the remote write may already have taken effect. The normal publisher
 and recovery dispatch share a workflow concurrency group, but external actors
 and public reads are not atomic. Platform denial or an unavailable status is
-not bypassed. The existing normal publisher's REST non-force ref update does
-not provide the same atomic expected-head guarantee; its correction remains
-open. The source-bound local checks below ran in both modes; hosted
+not bypassed. At Main `31bc4c1f`, the normal publisher's REST ref update did not provide
+this atomic expected-head guarantee. The later candidate above addresses it
+subject to its own checks and integration. The source-bound local checks below ran in both modes; hosted
 checks and an actual recovery must be observed separately.
 
 From Main, run the focused tests and designated mutation campaign:

@@ -101,3 +101,24 @@ synthetic token and prints redirected recovery-control failures on error.
 New hosted tests are required; changing the branch base or source is not
 itself evidence of success. If #801 merges, retarget this draft to the new
 Main tip and recheck its actual composition and required checks.
+
+## Scoped hosted controls after fixture correction
+
+At tested merge `d243e1a2c833e5039b9cd0d1ceb9aa5682c78e35`, tree
+`dafca516877750f5e06603729e862ca9e7420b7a`, publisher controls job
+`129613200124` completed successfully. Its full log
+`publisher-cas-controls-129613200124.log` records 40 tests without skips
+per mode, 11 clean-baseline/designated-oracle mutations, three rejected
+unauthorized assertion origins and one rejected runtime error per mode. It
+reported artifact `13733117677`, SHA-256
+`8c84b2b1fb2a9ced407ac72e7994a973d54313bbcbb6509e171587c5780822b3`.
+The artifact ZIP was not independently unpacked in this observation.
+
+Stacked recovery controls job `129613199744` also completed successfully
+on that tested merge; its full log is
+`stacked-recovery-controls-129613199744.log`. It reported artifact
+`13733396297`, SHA-256
+`a8228247988dfad4d15a0ce345b7614249c654b54270cd786e5315ca87a9b182`.
+The recovery-dispatch job was skipped on this pull request. These controls
+do not establish authenticated ref mutation, Pages cancellation, public
+recovery, scientific acceptance or the final federation gates.
