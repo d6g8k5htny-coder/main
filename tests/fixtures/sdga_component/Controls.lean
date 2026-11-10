@@ -134,7 +134,11 @@ private def baseline : IO LoadedModule := do
 
 private def roundTrip (name : Name) (expected : String) : IO Unit := do
   check (SDGA.encodeName name == expected) s!"wire bytes differ: expected {expected}"
-  check (SDGA.decodeName expected == .ok name) s!"wire did not preserve exact Name constructor: {expected}"
+  match SDGA.decodeName expected with
+  | .ok actual =>
+    check (actual == name) s!"wire did not preserve exact Name constructor: {expected}"
+  | .error error =>
+    failure s!"wire decoder rejected expected canonical Name: {expected}: {error}"
 
 private def malformedWire (wire : String) : IO Unit := do
   match SDGA.decodeName wire with

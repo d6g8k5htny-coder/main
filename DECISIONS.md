@@ -686,3 +686,22 @@ found no concrete source blocker. Fresh native compilation, zero extras,
 private-only plain Name, full6methods/39subcases and12pure methods per mode
 remain actual obligations. No old11extra names are erased or admitted, and
 no mathematical/scientific/global gate is awarded.
+
+## 2026-11-10 — preserve positive inventory and repair Name-result control syntax
+
+Actual run42745346135/attempt1/job129595991277 compiled the revised fixture
+and unchanged bridge, emitted15CIs/zeroextras, actualplainNameunexported only
+inprivatepart, and exact3/1/2targetcounts/findings[]. Classification remains
+BLOCKED/NONE. Then every Controls invocation failed compilation: pinnedLean
+has no BEq(Except String Name) for the round-trip check. #eval correctly refused
+the invalid elaboration; its risk-taking diagnostic hint was not applied.
+Six methods produced8failure entries per mode, zero errors/skips, and every
+39subcase remained not_run. Pure12methods passed both modes; cleanup passed
+and no source drift was observed. Retain the complete602-byte first control
+compiler stdout (reportedSHA256230cb8b2e8ce7371dd7c6f61c788b070581f1eddd67c56841e0ef83746218bc5).
+
+Re-express only that intended equality check by explicitly matching decodeName:
+.ok must yield the identical Name, while .error fails. Every other assertion,
+fixture, production source, test ID/count and normal #eval remains unchanged.
+This is a harness syntax repair, not a relaxed expected verdict. Require actual
+full6methods/39case execution in both modes before any native-control credit.
