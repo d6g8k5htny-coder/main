@@ -1,0 +1,35 @@
+import hashlib,json,re,zipfile
+from pathlib import Path
+
+expected_ids={13740947528:'a85767a8e901e0d7067f5d9483ce4cf571441d873b2d63d2f78ca32eb40a41e3',13741395766:'6366877b40cec8b8da128b53bb8ac5322658c7b19767a32d4067b175547d1693'}
+all_results=[]
+for artifact,digest in expected_ids.items():
+    p=Path(f'evidence/workspace-73-{artifact}.zip');raw=p.read_bytes();assert hashlib.sha256(raw).hexdigest()==digest
+    with zipfile.ZipFile(p) as z:
+        names=z.namelist();assert len(names)==len(set(names))==212 and z.testzip() is None
+        assert all(not n.startswith('/') and '..' not in Path(n).parts for n in names)
+        for mode,log in [('normal','discovery.log'),('optimized','discovery-optimized.log')]:
+            text=z.read(log).decode('utf-8');assert re.search(r'Ran 254 tests in [0-9.]+s\s+OK(?:\s|$)',text) and not re.search(r'OK\s*\([^)]*skipped',text)
+        summaries=[n for n in names if n.endswith('/summary.json')];assert len(summaries)==2
+        nonces=set();pairs={};counts={}
+        for s in summaries:
+            mode=s.split('/')[1];assert mode in ('normal','optimized') and mode not in counts
+            rows=json.loads(z.read(s));assert len(rows)==26;counts[mode]=len(rows);folder=s.rsplit('/',1)[0]
+            for row in rows:
+                kind=row['kind'];mutation=row['mutation'];assert kind in ('baseline','mutant')
+                base=f'{folder}/{mutation}-{kind}';event=json.loads(z.read(base+'.json'))
+                source=z.read(base+'.py');stderr=z.read(base+'.stderr');z.read(base+'.stdout')
+                assert hashlib.sha256(source).hexdigest()==row['source_sha256']==event['source_before']==event['source_after']
+                assert hashlib.sha256(stderr).hexdigest()==row['stderr_sha256']
+                assert event['test']==row['test'] and event['tests_run']==1 and event['errors']==0 and event['skipped']==0 and event['expected_failures']==0 and event['unexpected_successes']==0
+                assert isinstance(event['nonce'],str) and re.fullmatch(r'[0-9a-f]{32}',event['nonce']) and event['nonce'] not in nonces;nonces.add(event['nonce'])
+                if kind=='baseline':assert row['exit_code']==0 and event['failures']==[]
+                else:assert row['exit_code']==1 and len(event['failures'])==1 and event['failures'][0]['selected_body'] is True
+                key=(mode,mutation);assert kind not in pairs.setdefault(key,{})
+                pairs[key][kind]=row['source_sha256']
+        assert counts=={'normal':26,'optimized':26} and len(nonces)==52 and len(pairs)==26
+        for pair in pairs.values():assert set(pair)=={'baseline','mutant'} and pair['baseline']!=pair['mutant']
+        nm={m for mode,m in pairs if mode=='normal'};om={m for mode,m in pairs if mode=='optimized'};assert len(nm)==13 and nm==om
+        for m in nm:assert pairs[('normal',m)]==pairs[('optimized',m)]
+        all_results.append({'artifact':artifact,'sha256':digest,'members':len(names),'crc':'valid','tests_per_mode':254,'pairs_per_mode':13,'events':52,'unique_nonces':len(nonces),'source_and_stderr_hashes':'matched','selected_body_flag':'observed on mutant records','scope':'structural verification of retained artifact; no final G7 or independent assertion-origin proof'})
+print(json.dumps(all_results,indent=2))
