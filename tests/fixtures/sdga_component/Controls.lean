@@ -600,6 +600,187 @@ private def c07 (loaded : LoadedModule) : IO Unit := do
   | _ => setupFailure s!"unsupported fixed C07 subcase {subcase}"
 
 
+/- Task C: actual upstream replay through the fixed shared production helper.
+The base is an independent native import oracle, never loaded.env (which already
+contains Safe). No test-owned kernel checker or unchecked insertion is used. -/
+private def cFreshBase (loaded : LoadedModule) : IO Environment := do
+  let imports := (finalData loaded).imports
+  for (_, part) in loaded.parts do
+    check (part.imports == imports) "actual raw direct imports differ between OLean parts"
+  let base ← importModules imports {} (trustLevel := 0) (loadExts := false) (level := .private)
+  check (base.header.trustLevel == 0 && base.header.imports == imports)
+    "fresh base did not retain actual direct imports at trust level zero"
+  return base
+
+private def cCleanBase (loaded : LoadedModule) (base : Environment) : IO Json := do
+  check (base.getModuleIdx? loaded.request.module |>.isNone)
+    "target module is already present in direct-import base"
+  check (!base.header.moduleNames.contains loaded.request.module)
+    "target module is already in fresh base module header"
+  for (name, _) in loaded.owned.toArray do
+    check ((base.toKernelEnv.find? name).isNone)
+      s!"owned name already in base: {SDGA.encodeName name}"
+  return .mkObj [("direct_imports", toJson (finalData loaded).imports),
+    ("target_absent", .bool true), ("all_owned_absent", .bool true),
+    ("owned_count", toJson loaded.owned.size)]
+
+private def cCompleteReplay (loaded : LoadedModule) (replayed : Kernel.Environment) : IO Json := do
+  let mut inductives : Array Name := #[]
+  let mut constructors : Array Name := #[]
+  let mut recursors : Array Name := #[]
+  for (name, original) in loaded.owned.toArray do
+    check (!original.isUnsafe && !original.isPartial)
+      "Safe replay input includes an unsafe/partial CI; no skip credit"
+    let some actual := replayed.find? name |
+      failure s!"shared replay omitted owned CI: {SDGA.encodeName name}"
+    check (actual.name == name && actual.type == original.type &&
+      actual.levelParams == original.levelParams && nativeKind actual == nativeKind original &&
+      actual.isUnsafe == original.isUnsafe && actual.isPartial == original.isPartial &&
+      actual.value? (allowOpaque := true) == original.value? (allowOpaque := true))
+      s!"replayed owned CI fields differ: {SDGA.encodeName name}"
+    match original, actual with
+    | .inductInfo expected, .inductInfo observed =>
+      check (expected.numParams == observed.numParams && expected.numIndices == observed.numIndices &&
+        expected.all == observed.all && expected.ctors == observed.ctors &&
+        expected.numNested == observed.numNested && expected.isRec == observed.isRec &&
+        expected.isUnsafe == observed.isUnsafe && expected.isReflexive == observed.isReflexive)
+        "actual replayed inductive metadata differ"
+      inductives := inductives.push name
+    | .ctorInfo expected, .ctorInfo observed =>
+      check (expected == observed) "actual kernel-generated constructor differs"
+      constructors := constructors.push name
+    | .recInfo expected, .recInfo observed =>
+      check (expected == observed) "actual kernel-generated recursor differs"
+      recursors := recursors.push name
+    | _, _ => pure ()
+  check (inductives.contains `Fixture.Safe.Switch && constructors.size >= 2 &&
+    !recursors.isEmpty) "full replay lacks actual inductive/constructor/recursor coverage"
+  return .mkObj [("helper", .str "SDGA.replayOwned"), ("owned_count", toJson loaded.owned.size),
+    ("inductives", wires inductives), ("constructors", wires constructors), ("recursors", wires recursors),
+    ("skipped_names", .arr #[])]
+
+private def cBadTheorem (loaded : LoadedModule) : IO (TheoremVal × TheoremVal) := do
+  let ci ← getCI loaded `Fixture.Safe.good
+  let .thmInfo original := ci | setupFailure "actual Safe.good is not a theorem CI"
+  let raw := (finalData loaded).constants.filter (·.name == ci.name)
+  check (raw.size == 1) "actual Safe.good has no unique raw final source CI"
+  let .thmInfo rawInfo := raw[0]! | setupFailure "raw final Safe.good is not a theorem"
+  check (rawInfo == original && original.type == .const `True [] &&
+    original.value == .const `True.intro [])
+    "actual source theorem identity/type/value differs from compiled good : True"
+  let altered := { original with value := Expr.const `Nat.zero [] }
+  let bad := ConstantInfo.thmInfo altered
+  check (altered.name == original.name && altered.type == original.type &&
+    altered.levelParams == original.levelParams && altered.all == original.all &&
+    bad.isUnsafe == ci.isUnsafe && bad.isPartial == ci.isPartial &&
+    { altered with value := original.value } == original && altered.value != original.value)
+    "bad theorem must alter only the actual source CI value"
+  return (original, altered)
+
+private def cSingleton (bad : TheoremVal) : Std.HashMap Name ConstantInfo :=
+  ({} : Std.HashMap Name ConstantInfo).insert bad.name (.thmInfo bad)
+
+private def cResolvedSingleton (base : Kernel.Environment) (bad : TheoremVal) : IO Json := do
+  let singleton := cSingleton bad
+  check (singleton.size == 1 && singleton.contains bad.name)
+    "malformed replay map must contain only the same actual good theorem name"
+  check (bad.type == .const `True [] && bad.value == .const `Nat.zero [])
+    "malformed theorem lost exact True/Nat.zero cause"
+  check (!bad.type.hasLooseBVars && !bad.type.hasFVar && !bad.type.hasMVar &&
+    !bad.value.hasLooseBVars && !bad.value.hasFVar && !bad.value.hasMVar)
+    "malformed theorem has unrelated open-expression failure"
+  let mut references : Array Name := #[]
+  for reference in (ConstantInfo.thmInfo bad).getUsedConstantsAsSet do
+    let some resolved := base.find? reference |
+      setupFailure s!"malformed theorem expression reference absent: {SDGA.encodeName reference}"
+    check (resolved.name == reference) "expression reference lookup identity differs"
+    references := references.push reference
+  check (references.contains `True && references.contains `Nat.zero)
+    "malformed theorem reference census omitted type or value"
+  return .mkObj [("singleton_names", wires #[bad.name]), ("resolved_references", wires references)]
+
+private def c08 (loaded : LoadedModule) : IO Unit := do
+  let base ← cFreshBase loaded
+  run "C08" "clean-base-absence" do cCleanBase loaded base
+  run "C08" "full-safe-replay" do
+    let replayed ← (SDGA.replayOwned :
+      Kernel.Environment → Std.HashMap Name ConstantInfo → IO Kernel.Environment)
+      base.toKernelEnv loaded.owned
+    cCompleteReplay loaded replayed
+
+private def c09 (loaded : LoadedModule) : IO Unit := do
+  let base ← cFreshBase loaded
+  run "C09" "actual-source-ci" do
+    let (original, bad) ← cBadTheorem loaded
+    return .mkObj [("name", .str (SDGA.encodeName original.name)),
+      ("altered_field", .str "value"), ("replacement", .str "Nat.zero"),
+      ("same_group", .bool (bad.all == original.all))]
+  let (_, bad) ← cBadTheorem loaded
+  run "C09" "singleton-resolved-refs" do cResolvedSingleton base.toKernelEnv bad
+  run "C09" "clean-base-absence" do cCleanBase loaded base
+  run "C09" "kernel-type-rejection" do
+    -- Only this exact production call is caught. Assertions below cannot catch
+    -- their own expected-failure exception. Setup and NOT_IMPLEMENTED never pass.
+    let observed ← try
+      let _ ← (SDGA.replayOwned :
+        Kernel.Environment → Std.HashMap Name ConstantInfo → IO Kernel.Environment)
+        base.toKernelEnv (cSingleton bad)
+      pure none
+    catch error => pure (some error)
+    -- This renders the expected pinned native diagnostic; it does not typecheck
+    -- or decide acceptance. Only the real helper result can satisfy the test.
+    let nativeDiagnostic ← (Kernel.Exception.declTypeMismatch base.toKernelEnv
+      (.thmDecl bad) (.const `Nat [])).toMessageData {} |>.toString
+    let expected := s!"while replaying declaration '{bad.name}':\n{nativeDiagnostic}"
+    match observed with
+    | some (.userError message) =>
+      check (message == expected)
+        s!"expected exact upstream kernel declaration type mismatch; observed {message}"
+      return .mkObj [("helper", .str "SDGA.replayOwned"),
+        ("native_error", .str message), ("kernel_cause", .str "declTypeMismatch"),
+        ("singleton_names", wires #[bad.name])]
+    | some error => failure s!"wrong native error category: {error}"
+    | none => failure "shared replay accepted singleton malformed actual theorem"
+
+private def c10 (loaded : LoadedModule) : IO Unit := do
+  let base ← cFreshBase loaded
+  let (_, bad) ← cBadTheorem loaded
+  let established ← IO.mkRef (none : Option Kernel.Environment)
+  run "C10" "good-base-setup" do
+    let _ ← cCleanBase loaded base
+    let replayed ← (SDGA.replayOwned :
+      Kernel.Environment → Std.HashMap Name ConstantInfo → IO Kernel.Environment)
+      base.toKernelEnv loaded.owned
+    let detail ← cCompleteReplay loaded replayed
+    let some (.thmInfo actual) := replayed.find? bad.name |
+      failure "successful original good replay did not establish theorem contamination"
+    check (actual.name == bad.name && actual.type == bad.type &&
+      actual.levelParams == bad.levelParams && actual.all == bad.all &&
+      actual.value != bad.value) "good theorem contamination does not isolate upstream duplicate shortcut"
+    established.set (some replayed)
+    return detail
+  let some contaminated ← established.get | setupFailure "successful good replay base not established"
+  run "C10" "singleton-resolved-refs" do cResolvedSingleton contaminated bad
+  run "C10" "duplicate-base-guard" do
+    let observed ← try
+      let _ ← (SDGA.replayOwned :
+        Kernel.Environment → Std.HashMap Name ConstantInfo → IO Kernel.Environment)
+        contaminated (cSingleton bad)
+      pure none
+    catch error => pure (some error)
+    let cause := AuditError.duplicateBase bad.name
+    let expected := s!"SDGA_ERROR {cause.code}: {cause.message}"
+    match observed with
+    | some (.userError message) =>
+      check (message == expected)
+        s!"expected exact pre-upstream duplicateBase for bad singleton; observed {message}"
+      return .mkObj [("helper", .str "SDGA.replayOwned"), ("expected_code", .str cause.code),
+        ("native_error", .str message), ("singleton_names", wires #[bad.name]),
+        ("contamination", .str "successful-original-complete-map-replay")]
+    | some error => failure s!"wrong duplicateBase error category: {error}"
+    | none => failure "shared replay accepted contaminated singleton; duplicateBase guard absent"
+
+
 end Control
 
 /-- One fixed native control case per compiler invocation; no root main or generic runner. -/
@@ -614,6 +795,9 @@ def runControls : IO Unit := do
     | "C05" => Control.c05 (← Control.baseline)
     | "C06" => Control.c06 (← Control.taskBBaseline `Fixture.OwnedAxiom)
     | "C07" => Control.c07 (← Control.taskBBaseline `Fixture.Skipped)
+    | "C08" => Control.c08 (← Control.baseline)
+    | "C09" => Control.c09 (← Control.baseline)
+    | "C10" => Control.c10 (← Control.baseline)
     | "C12" => Control.c12 (← Control.baseline)
     | "C13" => Control.c13
     | "C15" =>

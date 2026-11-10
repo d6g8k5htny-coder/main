@@ -5,13 +5,14 @@ import Lean.Util.FoldConsts
 import Init.Data.String.Legacy
 
 /-!
-Task A bridge: actual object loading and inventory only.
+Actual object inventory and guarded upstream kernel replay.
 
 The request digests are controller measurements, repeated after exact path
 resolution; this program does not independently authenticate SHA-256. Raw OLean
 and IR compacted regions remain live with LoadedModule and are never freed here.
-Task B policy qualification, Task C kernel replay and Task D IR qualification
-remain incomplete. No inventory result establishes SDGA qualification.
+Replay uses the pinned upstream kernel route; hosted qualification of each new
+source remains required. Task D IR qualification remains incomplete. Neither an
+inventory nor a replay receipt establishes SDGA or scientific qualification.
 -/
 
 namespace SDGA
@@ -559,6 +560,12 @@ private def dependencies (ci : ConstantInfo) : Array Name := Id.run do
   for name in ci.getUsedConstantsAsSet do
     result := result.push name
   match ci with
+  | .defnInfo value =>
+    for name in value.all do result := result.push name
+  | .thmInfo value =>
+    for name in value.all do result := result.push name
+  | .opaqueInfo value =>
+    for name in value.all do result := result.push name
   | .inductInfo value =>
     for name in value.all ++ value.ctors do result := result.push name
   | .ctorInfo value => result := result.push value.induct
@@ -657,15 +664,133 @@ def guardReplayConstant (ci : ConstantInfo) : Except AuditError Unit := do
   if ci.isUnsafe then throw (.unsafeReplaySkip ci.name)
   if ci.isPartial then throw (.partialReplaySkip ci.name)
 
-/-- Task C is intentionally absent; safety refusal does not establish replay success. -/
-def replayOwned (_base : Kernel.Environment) (owned : Std.HashMap Name ConstantInfo) :
-    IO Kernel.Environment := do
-  for (_, ci) in owned.toArray do
-    fromAudit (guardReplayConstant ci)
-  failCode "NOT_IMPLEMENTED" "Task C kernel replay is not implemented or qualified"
+/-- Exact dependency-only axiom policy; owned axioms are always refused. -/
+private def allowedReplayAxiom (name : Name) : Bool :=
+  name == `propext || name == `Classical.choice || name == `Quot.sound
 
-def runReplay (_loaded : LoadedModule) : IO Unit :=
-  failCode "NOT_IMPLEMENTED" "Task C kernel replay is not implemented or qualified"
+/-- Upstream indexes mutual inductives and their constructors in the new map.
+Validate only those metadata lookups before entering that unchanged route. -/
+private def guardReplayInductiveLinks (owned : Std.HashMap Name ConstantInfo) :
+    Except AuditError Unit := do
+  for (name, ci) in owned.toArray do
+    match ci with
+    | .inductInfo info =>
+      if !info.all.contains name then
+        throw (.malformedConstant name "inductive mutual group omits itself")
+      for memberName in info.all do
+        let some member := owned[memberName]? | throw (.missingConstant memberName)
+        let .inductInfo memberInfo := member |
+          throw (.malformedConstant memberName "inductive group member has another CI kind")
+        if memberInfo.all != info.all || memberInfo.levelParams != info.levelParams ||
+            memberInfo.numParams != info.numParams then
+          throw (.malformedConstant memberName "inductive group metadata differ")
+        for ctorName in memberInfo.ctors do
+          let some ctor := owned[ctorName]? | throw (.missingConstant ctorName)
+          let .ctorInfo ctorInfo := ctor |
+            throw (.malformedConstant ctorName "inductive constructor link has another CI kind")
+          if ctorInfo.induct != memberName then
+            throw (.malformedConstant ctorName "constructor points to another inductive")
+    | _ => pure ()
+
+/-- All submitted identities must be fresh before any call to upstream replay.
+Use the existing shared safety guard and missing-fatal type/value/link closure. -/
+private def guardReplayInput (base : Kernel.Environment)
+    (owned : Std.HashMap Name ConstantInfo) : Except AuditError Unit := do
+  for (name, ci) in owned.toArray do
+    match requireIdentity name with
+    | .error message => throw (.malformedConstant name message)
+    | .ok _ => pure ()
+    if ci.name != name then
+      throw (.malformedConstant name "owned map key differs from ConstantInfo.name")
+    if (base.find? name).isSome then throw (.duplicateBase name)
+  for (_, ci) in owned.toArray do
+    guardReplayConstant ci
+  guardReplayInductiveLinks owned
+  let lookup := fun name => owned[name]? <|> base.find? name
+  let axioms ← strictAxioms lookup (owned.toArray.map (·.1))
+  for name in axioms do
+    if owned.contains name then throw (.ownedAxiom name)
+    if !allowedReplayAxiom name then throw (.forbiddenAxiom name)
+
+/-- These two pinned metadata types do not derive BEq. No display/hash equality. -/
+private def sameReplayQuotKind : QuotKind → QuotKind → Bool
+  | .type, .type => true
+  | .ctor, .ctor => true
+  | .lift, .lift => true
+  | .ind, .ind => true
+  | _, _ => false
+
+private def sameReplayConstant : ConstantInfo → ConstantInfo → Bool
+  | .axiomInfo expected, .axiomInfo actual => expected == actual
+  | .defnInfo expected, .defnInfo actual => expected == actual
+  | .thmInfo expected, .thmInfo actual => expected == actual
+  | .opaqueInfo expected, .opaqueInfo actual => expected == actual
+  | .ctorInfo expected, .ctorInfo actual => expected == actual
+  | .recInfo expected, .recInfo actual => expected == actual
+  | .quotInfo expected, .quotInfo actual =>
+    expected.toConstantVal == actual.toConstantVal &&
+      sameReplayQuotKind expected.kind actual.kind
+  | .inductInfo expected, .inductInfo actual =>
+    expected.toConstantVal == actual.toConstantVal &&
+      expected.numParams == actual.numParams && expected.numIndices == actual.numIndices &&
+      expected.all == actual.all && expected.ctors == actual.ctors &&
+      expected.numNested == actual.numNested && expected.isRec == actual.isRec &&
+      expected.isUnsafe == actual.isUnsafe && expected.isReflexive == actual.isReflexive
+  | _, _ => false
+
+/-- Every submitted CI must be present in full, including generated metadata. -/
+private def verifyReplayOutput (replayed : Kernel.Environment)
+    (owned : Std.HashMap Name ConstantInfo) : Except AuditError Unit := do
+  for (name, expected) in owned.toArray do
+    let some actual := replayed.find? name | throw (.missingConstant name)
+    if !sameReplayConstant expected actual then
+      throw (.malformedConstant name "replayed ConstantInfo differs from complete input")
+
+/-- The one production/control replay route. Native kernel IO errors propagate
+unchanged; callers retain the actual LoadedModule/raw regions while using CIs. -/
+def replayOwned (base : Kernel.Environment) (owned : Std.HashMap Name ConstantInfo) :
+    IO Kernel.Environment := do
+  fromAudit (guardReplayInput base owned)
+  let replayed ← base.replay owned
+  fromAudit (verifyReplayOutput replayed owned)
+  return replayed
+
+/-- Import only the module's actual dependencies at full private visibility,
+then emit a bounded receipt only after the same real guarded replay succeeds. -/
+def runReplay (loaded : LoadedModule) : IO Unit := do
+  let final := loaded.parts[loaded.parts.size - 1]!.2
+  let imports := final.imports
+  for (_, part) in loaded.parts do
+    if part.imports != imports then
+      failCode "PART_TABLE" "actual direct imports differ between OLean parts"
+  let base ← importModules imports {}
+    (trustLevel := 0) (loadExts := false) (level := .private)
+  if base.header.trustLevel != 0 || base.header.imports != imports then
+    failCode "OBJECT_READ" "fresh replay base differs from actual direct imports/trust level"
+  if (base.getModuleIdx? loaded.request.module).isSome ||
+      base.header.moduleNames.contains loaded.request.module then
+    fromAudit (.error (.duplicateBase loaded.request.module))
+  -- replayOwned checks absence of every owned Name and all safety/closure
+  -- obligations before unchanged upstream replay. No compacted region is freed.
+  let replayed ← replayOwned base.toKernelEnv loaded.owned
+  let mut replayedNames : Array Name := #[]
+  for name in final.constNames do
+    let some actual := replayed.find? name | fromAudit (.error (.missingConstant name))
+    replayedNames := replayedNames.push actual.name
+  emit <| .mkObj [
+    ("schema", .str "cbz.sdga.kernel-replay.v1"),
+    ("module", .str (encodeName loaded.request.module)),
+    ("scope_id", .str loaded.request.scopeId),
+    ("profile_sha256", .str loaded.request.profileSha256),
+    ("helper", .str "SDGA.replayOwned"),
+    ("owned_count", toJson loaded.owned.size),
+    ("replayed_names", nameArray replayedNames),
+    ("skipped_names", .arr #[]),
+    ("scientific_effect", .str "NONE"),
+    ("qualification", .str "BLOCKED"),
+    ("classification_status", .str "BLOCKED"),
+    ("execution_authenticated", .bool false)
+  ]
 
 private def diagnostic (error : IO.Error) : IO Unit := do
   let message := match error with
