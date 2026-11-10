@@ -1,0 +1,1046 @@
+{
+  "record": "sdga-task-d-production-observation",
+  "status": "bounded_fixture_green",
+  "classification_status": "BLOCKED",
+  "qualification": "BLOCKED",
+  "scientific_effect": "NONE",
+  "execution_authenticated": false,
+  "repository": "d6g8k5htny-coder/main",
+  "pull_request": 808,
+  "head_sha": "1b1885a816758974d07c26c680412a2e4dfd0707",
+  "source_tree": "f327728e921afc7db79b21a5324f8113ad850f9f",
+  "feature_ordered_parents": [
+    "d1819f0aa4d914c770687606ccd9f131e6b7634f",
+    "abf423eabc0eecbb09ff73641b35014ac4afd44d"
+  ],
+  "native": {
+    "sha": "d775b73b343a5deabd6a60e984b9be8aeb5225c3",
+    "tree": "f327728e921afc7db79b21a5324f8113ad850f9f",
+    "ordered_parents": [
+      "d1819f0aa4d914c770687606ccd9f131e6b7634f",
+      "1b1885a816758974d07c26c680412a2e4dfd0707"
+    ],
+    "github_api_signature_verified": true,
+    "signature_reason": "valid"
+  },
+  "run_id": 42778057843,
+  "run_attempt": 1,
+  "job_id": 129701152691,
+  "event": "pull_request",
+  "manual_dispatch_or_rerun": false,
+  "job_conclusion": "success",
+  "evidence": {
+    "job_log_blob": "349aff5d37af474ea3c192fcf2b7b2f8f9e2ac4e",
+    "job_log_utf8_bytes": 2284487,
+    "job_log_sha256": "d4eb662754fc0e2bdeeb0a28517548ef88d001f66e14cda4ac8a17323ab7d400",
+    "original_packet_blob": "a243a1c559142324404d75c3c0c728ff3b148e68",
+    "original_records": 258,
+    "all_declared_utf8_extents_and_sha256_reconciled": true,
+    "retained_blob_readback_exact": true,
+    "transport_normalization": "Removed optional BOM only immediately before GHA timestamp prefixes, then the timestamp prefix. No payload BOM removal.",
+    "hosted_artifact_metadata": {
+      "id": 13745275595,
+      "name": "sdga-task-a-42778057843-1",
+      "size_in_bytes": 9512586,
+      "url": "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13745275595",
+      "archive_download_url": "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13745275595/zip",
+      "expired": false,
+      "created_at": "2026-11-10T07:53:42Z",
+      "expires_at": "2026-12-10T07:53:40Z",
+      "updated_at": "2026-11-10T07:53:42Z",
+      "digest": "sha256:d2c6d20e48bd4a87d40185281aa3ad0f0a0f0c9f77386a85fa1ab7704b931cb5",
+      "workflow_run": {
+        "id": 42778057843,
+        "repository_id": 1117225690,
+        "head_repository_id": 1117225690,
+        "head_branch": "codex/cbz-sdga-extras-ir-task-d-20261110",
+        "head_sha": "1b1885a816758974d07c26c680412a2e4dfd0707"
+      }
+    },
+    "zip_downloaded": false,
+    "independent_host_file_measurement": false
+  },
+  "modes": [
+    {
+      "mode": "normal",
+      "source_ids": {
+        ".github/workflows/sdga-component-contract.yml": "1df4e0338cebac30b3c049be9768bd7c66006e9d",
+        "tests/fixtures/sdga_component/Controls.lean": "9e14a94302f3c5988f0af51bc9fc1f74836a9fae",
+        "tests/fixtures/sdga_component/Fixture/AxiomUse.lean": "9fd2e71b4025d53b05ee3caeb1c26f7066f6ddce",
+        "tests/fixtures/sdga_component/Fixture/BadDependency.lean": "aa7b27902b38fe805f49e11b71df7cc3c48ff5da",
+        "tests/fixtures/sdga_component/Fixture/OwnedAxiom.lean": "c08550a94286998dd88c29a7f77794e0acfcdf0b",
+        "tests/fixtures/sdga_component/Fixture/Safe.lean": "35c407e867b19e60a22a3cca39edf49c4a07b088",
+        "tests/fixtures/sdga_component/Fixture/Skipped.lean": "e68e3203646d082a04afd242f17821e61587892a",
+        "tests/fixtures/sdga_component/lake-manifest.json": "59b0d1e913a238009b1daeb383128996146f493d",
+        "tests/fixtures/sdga_component/lakefile.toml": "6f8645db9422a25732aa7848b1e942616f909656",
+        "tests/fixtures/sdga_component/lean-toolchain": "ba8ebf2dbaf6a668cd2a0e086186d6d569b69ff5",
+        "tests/fixtures/sdga_scope/scope-f532.json": "4c6b4ea59eb07a17ebfed536b07688c53c01eb64",
+        "tests/sdga_component_contract.py": "c45b685f21f05232dad1e84898cac06f354e336c",
+        "tests/sdga_ir_evidence_contract.py": "d233aac6538d7afc8a97ec602d62a9a50d687a24",
+        "tests/sdga_object_custody_contract.py": "a9e147e246abfacf9561d286aef65086dedd2c66",
+        "tools/sdga/Component.lean": "ccf340774887d612ef5956405fb53f925eb1f424",
+        "tools/sdga_component.py": "372dab47ade30bc2202ebf554ab1def9b1900211",
+        "tools/sdga_ir_evidence.py": "b29702b941d03f1db34464a6bd9db2cf65de5632",
+        "tools/sdga_scope.py": "14d4617b523c29007da4bdb95ee6ee4dc588a86c"
+      },
+      "source_before_after_sha256_match": true,
+      "lean_githash": "5045d0056413266e57c625dcd7c365b10e377c52",
+      "main_methods": {
+        "run": 15,
+        "declared_ids": 67,
+        "observed_ids": 67,
+        "unique_case_subcase_pairs": 67,
+        "pass": 67,
+        "fail": 0,
+        "not_run": 0,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "executors": {
+          "Lean": 61,
+          "Python_controller": 6
+        }
+      },
+      "pure_dependency": {
+        "methods": 12,
+        "status": "pass",
+        "evidence": "Original job log: actual Ran 12 tests ... OK from fixed normal/optimized steps."
+      },
+      "separate_custody": {
+        "classification_status": "BLOCKED",
+        "declared_routes": 6,
+        "errors": 0,
+        "execution_authenticated": false,
+        "failures": 0,
+        "methods_run": 3,
+        "outside_lean_method_and_subcase_census": true,
+        "qualification": "BLOCKED",
+        "record": "python-object-custody-result",
+        "route_fail": 0,
+        "route_not_run": 0,
+        "route_pass": 6,
+        "scientific_effect": "NONE",
+        "skipped": 0,
+        "source_drift": [],
+        "sources_after": {
+          ".github/workflows/sdga-component-contract.yml": {
+            "bytes": 10679,
+            "git_blob": "1df4e0338cebac30b3c049be9768bd7c66006e9d",
+            "sha256": "f8f9ad9c2fa0635beb989b1de7367556705b368ff3d35967fff3c78291cc56df"
+          },
+          "tests/sdga_component_contract.py": {
+            "bytes": 106412,
+            "git_blob": "c45b685f21f05232dad1e84898cac06f354e336c",
+            "sha256": "211aaa8875ea9ba746080424f3fb54b2e1183917a93bd53ece786206127a5af6"
+          },
+          "tests/sdga_object_custody_contract.py": {
+            "bytes": 14709,
+            "git_blob": "a9e147e246abfacf9561d286aef65086dedd2c66",
+            "sha256": "86875253431e310bb704e8db116bbdb1e2ada44af333a142a08bf6ba2dd5efe6"
+          }
+        }
+      },
+      "separate_admission": {
+        "methods": 2,
+        "route_count": 6,
+        "pass": 6,
+        "routes": [
+          {
+            "route": "new-external-accept",
+            "status": "pass",
+            "expected": "accept",
+            "observed_error": null,
+            "source_unchanged": true
+          },
+          {
+            "route": "existing-dir-reject",
+            "status": "pass",
+            "expected": "OUTPUT_NOT_FRESH",
+            "observed_error": "ValueError: OUTPUT_NOT_FRESH: /home/runner/work/_temp/sdga-ir-admission-normal/existing-dir-reject/new-output",
+            "source_unchanged": true
+          },
+          {
+            "route": "existing-file-reject",
+            "status": "pass",
+            "expected": "OUTPUT_NOT_FRESH",
+            "observed_error": "ValueError: OUTPUT_NOT_FRESH: /home/runner/work/_temp/sdga-ir-admission-normal/existing-file-reject/new-output",
+            "source_unchanged": true
+          },
+          {
+            "route": "dangling-root-symlink-reject",
+            "status": "pass",
+            "expected": "OUTPUT_NOT_FRESH",
+            "observed_error": "ValueError: OUTPUT_NOT_FRESH: /home/runner/work/_temp/sdga-ir-admission-normal/dangling-root-symlink-reject/new-output",
+            "source_unchanged": true
+          },
+          {
+            "route": "source-descendant-reject",
+            "status": "pass",
+            "expected": "OUTPUT_IN_SOURCE",
+            "observed_error": "ValueError: OUTPUT_IN_SOURCE: /home/runner/work/_temp/sdga-ir-admission-normal/source-descendant-reject/source/absent-child",
+            "source_unchanged": true
+          },
+          {
+            "route": "parent-alias-into-source-reject",
+            "status": "pass",
+            "expected": "OUTPUT_IN_SOURCE",
+            "observed_error": "ValueError: OUTPUT_IN_SOURCE: /home/runner/work/_temp/sdga-ir-admission-normal/parent-alias-into-source-reject/source/absent-child",
+            "source_unchanged": true
+          }
+        ]
+      },
+      "input_custody": {
+        "observations": 28,
+        "request_bindings": 10,
+        "paths": 55,
+        "all_before_equal_expected_equal_after": true,
+        "failures": [],
+        "final": {
+          "drift": [],
+          "expected_observation_count": 28,
+          "expected_path_count": 55,
+          "expected_request_count": 10,
+          "measurement_error": null,
+          "observation_count": 28,
+          "path_count": 55,
+          "request_count": 10,
+          "status": "pass"
+        }
+      },
+      "ir_evidence": {
+        "contexts": 7,
+        "complete_manifests": 5,
+        "envelopes": [
+          {
+            "file": "ir-evidence/01-inventory.json",
+            "label": "inventory",
+            "exit": 0,
+            "validation": "valid",
+            "completeness": "complete",
+            "registration": "new",
+            "producer": "inventory",
+            "errors": [],
+            "manifestBefore": false,
+            "manifestAfter": true,
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            }
+          },
+          {
+            "file": "ir-evidence/05-task-b-AxiomUse-inventory.json",
+            "label": "task-b-AxiomUse-inventory",
+            "exit": 0,
+            "validation": "valid",
+            "completeness": "complete",
+            "registration": "new",
+            "producer": "task-b-AxiomUse-inventory",
+            "errors": [],
+            "manifestBefore": false,
+            "manifestAfter": true,
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            }
+          },
+          {
+            "file": "ir-evidence/08-task-b-OwnedAxiom-inventory.json",
+            "label": "task-b-OwnedAxiom-inventory",
+            "exit": 0,
+            "validation": "valid",
+            "completeness": "complete",
+            "registration": "new",
+            "producer": "task-b-OwnedAxiom-inventory",
+            "errors": [],
+            "manifestBefore": false,
+            "manifestAfter": true,
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            }
+          },
+          {
+            "file": "ir-evidence/10-task-b-Skipped-inventory.json",
+            "label": "task-b-Skipped-inventory",
+            "exit": 0,
+            "validation": "valid",
+            "completeness": "complete",
+            "registration": "new",
+            "producer": "task-b-Skipped-inventory",
+            "errors": [],
+            "manifestBefore": false,
+            "manifestAfter": true,
+            "policy": {
+              "combined": "blocked",
+              "ir_residue": "blocked",
+              "olean_extras": "blocked"
+            }
+          },
+          {
+            "file": "ir-evidence/16-cli-safe-replay.json",
+            "label": "cli-safe-replay",
+            "exit": 0,
+            "validation": "valid",
+            "completeness": "complete",
+            "registration": "new",
+            "producer": "cli-safe-replay",
+            "errors": [],
+            "manifestBefore": false,
+            "manifestAfter": true,
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            }
+          },
+          {
+            "file": "ir-evidence/25-cli-ir-sidecar-collision.json",
+            "label": "cli-ir-sidecar-collision",
+            "exit": 1,
+            "validation": "valid",
+            "completeness": "complete",
+            "registration": "preexisting",
+            "producer": "inventory",
+            "errors": [
+              {
+                "code": "SIDECAR_COLLISION",
+                "message": "SDGA_ERROR SIDECAR_COLLISION: /home/runner/work/_temp/sdga-task-a-normal/request.json.inventory.ir-manifest.json: evidence path already exists",
+                "stage": "native"
+              }
+            ],
+            "manifestBefore": true,
+            "manifestAfter": true,
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            }
+          },
+          {
+            "file": "ir-evidence/28-cli-unknown-field.json",
+            "label": "cli-unknown-field",
+            "exit": 1,
+            "validation": "valid",
+            "completeness": "missing",
+            "registration": "none",
+            "producer": null,
+            "errors": [
+              {
+                "code": "REQUEST_SCHEMA",
+                "message": "SDGA_ERROR REQUEST_SCHEMA: request record fields differ",
+                "stage": "native"
+              }
+            ],
+            "manifestBefore": false,
+            "manifestAfter": false,
+            "policy": null
+          }
+        ],
+        "immutable_generated_registry_entries": 12,
+        "all_printed_outputs_equal_registry_and_final_measurements": true,
+        "all_source_stream_request_and_custody_bindings_match": true,
+        "final": {
+          "contexts": 7,
+          "expected_contexts": 7,
+          "finalization_error": null,
+          "missing_envelopes": [],
+          "missing_required_manifests": [],
+          "registry_entries": 12,
+          "status": "pass"
+        },
+        "manifests": [
+          {
+            "path": "request.json.inventory.ir-manifest.json",
+            "bytes": 13579,
+            "sha256": "f292b9bd6bc2d0a4a1e44d643001bd80c1f7be9b9a0b2815c00791f9110b626e",
+            "mode": "inventory",
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            },
+            "olean_extra_union": [],
+            "ci_backed_names": [
+              "s46697874757265/s53616665/s6e617456616c7565"
+            ],
+            "unexplained_residue": []
+          },
+          {
+            "path": "request.json.replay.ir-manifest.json",
+            "bytes": 13576,
+            "sha256": "c0395dd597efe7eafdff74f90e5e2e07fc6a10725ffa44eb13638d9827e3292a",
+            "mode": "replay",
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            },
+            "olean_extra_union": [],
+            "ci_backed_names": [
+              "s46697874757265/s53616665/s6e617456616c7565"
+            ],
+            "unexplained_residue": []
+          },
+          {
+            "path": "task-b-AxiomUse-request.json.inventory.ir-manifest.json",
+            "bytes": 6134,
+            "sha256": "4f7a238be438da1a0a840f78d289ae4d99bb772b93c48b0c98e50d2c7b06c1f0",
+            "mode": "inventory",
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            },
+            "olean_extra_union": [],
+            "ci_backed_names": [],
+            "unexplained_residue": []
+          },
+          {
+            "path": "task-b-OwnedAxiom-request.json.inventory.ir-manifest.json",
+            "bytes": 3984,
+            "sha256": "f73eb12dc61c4d6af2d7873d777ce2a77cf8b1d3c6a1abb94f91d95089d4fdcd",
+            "mode": "inventory",
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            },
+            "olean_extra_union": [],
+            "ci_backed_names": [],
+            "unexplained_residue": []
+          },
+          {
+            "path": "task-b-Skipped-request.json.inventory.ir-manifest.json",
+            "bytes": 8640,
+            "sha256": "4a43b02f4a356140b3d8587924bf46bf6cc46124efb4909b5a8016a057fbedd0",
+            "mode": "inventory",
+            "policy": {
+              "combined": "blocked",
+              "ir_residue": "blocked",
+              "olean_extras": "blocked"
+            },
+            "olean_extra_union": [
+              "s46697874757265/s536b6970706564/s7061727469616c56616c7565/s5f626f786564",
+              "s46697874757265/s536b6970706564/s756e7361666556616c7565/s5f626f786564"
+            ],
+            "ci_backed_names": [
+              "s46697874757265/s536b6970706564/s7061727469616c56616c7565",
+              "s46697874757265/s536b6970706564/s756e7361666556616c7565"
+            ],
+            "unexplained_residue": [
+              "s46697874757265/s536b6970706564/s7061727469616c56616c7565/s5f626f786564",
+              "s46697874757265/s536b6970706564/s756e7361666556616c7565/s5f626f786564"
+            ]
+          }
+        ]
+      },
+      "d_cells": [
+        {
+          "case_id": "C11",
+          "subcase_id": "raw-union-preserved",
+          "status": "pass",
+          "expected_code": null,
+          "metadata_origin": "altered_in_memory",
+          "alteration": {
+            "appended_name": "s53444741436f6e74726f6c44496e6a65637465644578747261",
+            "family": "olean",
+            "field": "extra_const_names",
+            "old_length": 0,
+            "operation": "append",
+            "part_index": 2
+          },
+          "dependency_present": null,
+          "owned_absent": null,
+          "raw_absent": null
+        },
+        {
+          "case_id": "C11",
+          "subcase_id": "raw-extra-block",
+          "status": "pass",
+          "expected_code": "UNSUPPORTED_EXTRAS",
+          "metadata_origin": "altered_in_memory",
+          "alteration": {
+            "appended_name": "s53444741436f6e74726f6c44496e6a65637465644578747261",
+            "family": "olean",
+            "field": "extra_const_names",
+            "old_length": 0,
+            "operation": "append",
+            "part_index": 2
+          },
+          "dependency_present": null,
+          "owned_absent": null,
+          "raw_absent": null
+        },
+        {
+          "case_id": "C14",
+          "subcase_id": "actual-ir-binding",
+          "status": "pass",
+          "expected_code": null,
+          "metadata_origin": "actual_loaded_objects",
+          "alteration": null,
+          "dependency_present": null,
+          "owned_absent": null,
+          "raw_absent": null
+        },
+        {
+          "case_id": "C14",
+          "subcase_id": "raw-names-preserved",
+          "status": "pass",
+          "expected_code": null,
+          "metadata_origin": null,
+          "alteration": null,
+          "dependency_present": null,
+          "owned_absent": null,
+          "raw_absent": null
+        },
+        {
+          "case_id": "C14",
+          "subcase_id": "ci-backed-accounted",
+          "status": "pass",
+          "expected_code": null,
+          "metadata_origin": null,
+          "alteration": null,
+          "dependency_present": null,
+          "owned_absent": null,
+          "raw_absent": null
+        },
+        {
+          "case_id": "C14",
+          "subcase_id": "residue-retained-blocked",
+          "status": "pass",
+          "expected_code": "UNSUPPORTED_IR_RESIDUE",
+          "metadata_origin": "altered_in_memory",
+          "alteration": {
+            "appended_name": "s4e6174",
+            "family": "ir",
+            "field": "extra_const_names",
+            "old_length": 1,
+            "operation": "append",
+            "part_index": 1
+          },
+          "dependency_present": true,
+          "owned_absent": true,
+          "raw_absent": true
+        }
+      ],
+      "public_replay_cli": {
+        "status": "pass",
+        "exit_code": 0,
+        "stdout_bytes": 1199,
+        "stderr_bytes": 0,
+        "receipt_fields": 12,
+        "owned_count": 15,
+        "replayed_count": 15,
+        "skipped_count": 0
+      },
+      "cleanup_only": {
+        "status": "pass",
+        "signals": [
+          "SIGTERM",
+          "SIGKILL"
+        ],
+        "confirmed": true
+      },
+      "bootstrap_errors": [],
+      "source_drift": []
+    },
+    {
+      "mode": "optimized",
+      "source_ids": {
+        ".github/workflows/sdga-component-contract.yml": "1df4e0338cebac30b3c049be9768bd7c66006e9d",
+        "tests/fixtures/sdga_component/Controls.lean": "9e14a94302f3c5988f0af51bc9fc1f74836a9fae",
+        "tests/fixtures/sdga_component/Fixture/AxiomUse.lean": "9fd2e71b4025d53b05ee3caeb1c26f7066f6ddce",
+        "tests/fixtures/sdga_component/Fixture/BadDependency.lean": "aa7b27902b38fe805f49e11b71df7cc3c48ff5da",
+        "tests/fixtures/sdga_component/Fixture/OwnedAxiom.lean": "c08550a94286998dd88c29a7f77794e0acfcdf0b",
+        "tests/fixtures/sdga_component/Fixture/Safe.lean": "35c407e867b19e60a22a3cca39edf49c4a07b088",
+        "tests/fixtures/sdga_component/Fixture/Skipped.lean": "e68e3203646d082a04afd242f17821e61587892a",
+        "tests/fixtures/sdga_component/lake-manifest.json": "59b0d1e913a238009b1daeb383128996146f493d",
+        "tests/fixtures/sdga_component/lakefile.toml": "6f8645db9422a25732aa7848b1e942616f909656",
+        "tests/fixtures/sdga_component/lean-toolchain": "ba8ebf2dbaf6a668cd2a0e086186d6d569b69ff5",
+        "tests/fixtures/sdga_scope/scope-f532.json": "4c6b4ea59eb07a17ebfed536b07688c53c01eb64",
+        "tests/sdga_component_contract.py": "c45b685f21f05232dad1e84898cac06f354e336c",
+        "tests/sdga_ir_evidence_contract.py": "d233aac6538d7afc8a97ec602d62a9a50d687a24",
+        "tests/sdga_object_custody_contract.py": "a9e147e246abfacf9561d286aef65086dedd2c66",
+        "tools/sdga/Component.lean": "ccf340774887d612ef5956405fb53f925eb1f424",
+        "tools/sdga_component.py": "372dab47ade30bc2202ebf554ab1def9b1900211",
+        "tools/sdga_ir_evidence.py": "b29702b941d03f1db34464a6bd9db2cf65de5632",
+        "tools/sdga_scope.py": "14d4617b523c29007da4bdb95ee6ee4dc588a86c"
+      },
+      "source_before_after_sha256_match": true,
+      "lean_githash": "5045d0056413266e57c625dcd7c365b10e377c52",
+      "main_methods": {
+        "run": 15,
+        "declared_ids": 67,
+        "observed_ids": 67,
+        "unique_case_subcase_pairs": 67,
+        "pass": 67,
+        "fail": 0,
+        "not_run": 0,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "executors": {
+          "Lean": 61,
+          "Python_controller": 6
+        }
+      },
+      "pure_dependency": {
+        "methods": 12,
+        "status": "pass",
+        "evidence": "Original job log: actual Ran 12 tests ... OK from fixed normal/optimized steps."
+      },
+      "separate_custody": {
+        "classification_status": "BLOCKED",
+        "declared_routes": 6,
+        "errors": 0,
+        "execution_authenticated": false,
+        "failures": 0,
+        "methods_run": 3,
+        "outside_lean_method_and_subcase_census": true,
+        "qualification": "BLOCKED",
+        "record": "python-object-custody-result",
+        "route_fail": 0,
+        "route_not_run": 0,
+        "route_pass": 6,
+        "scientific_effect": "NONE",
+        "skipped": 0,
+        "source_drift": [],
+        "sources_after": {
+          ".github/workflows/sdga-component-contract.yml": {
+            "bytes": 10679,
+            "git_blob": "1df4e0338cebac30b3c049be9768bd7c66006e9d",
+            "sha256": "f8f9ad9c2fa0635beb989b1de7367556705b368ff3d35967fff3c78291cc56df"
+          },
+          "tests/sdga_component_contract.py": {
+            "bytes": 106412,
+            "git_blob": "c45b685f21f05232dad1e84898cac06f354e336c",
+            "sha256": "211aaa8875ea9ba746080424f3fb54b2e1183917a93bd53ece786206127a5af6"
+          },
+          "tests/sdga_object_custody_contract.py": {
+            "bytes": 14709,
+            "git_blob": "a9e147e246abfacf9561d286aef65086dedd2c66",
+            "sha256": "86875253431e310bb704e8db116bbdb1e2ada44af333a142a08bf6ba2dd5efe6"
+          }
+        }
+      },
+      "separate_admission": {
+        "methods": 2,
+        "route_count": 6,
+        "pass": 6,
+        "routes": [
+          {
+            "route": "new-external-accept",
+            "status": "pass",
+            "expected": "accept",
+            "observed_error": null,
+            "source_unchanged": true
+          },
+          {
+            "route": "existing-dir-reject",
+            "status": "pass",
+            "expected": "OUTPUT_NOT_FRESH",
+            "observed_error": "ValueError: OUTPUT_NOT_FRESH: /home/runner/work/_temp/sdga-ir-admission-optimized/existing-dir-reject/new-output",
+            "source_unchanged": true
+          },
+          {
+            "route": "existing-file-reject",
+            "status": "pass",
+            "expected": "OUTPUT_NOT_FRESH",
+            "observed_error": "ValueError: OUTPUT_NOT_FRESH: /home/runner/work/_temp/sdga-ir-admission-optimized/existing-file-reject/new-output",
+            "source_unchanged": true
+          },
+          {
+            "route": "dangling-root-symlink-reject",
+            "status": "pass",
+            "expected": "OUTPUT_NOT_FRESH",
+            "observed_error": "ValueError: OUTPUT_NOT_FRESH: /home/runner/work/_temp/sdga-ir-admission-optimized/dangling-root-symlink-reject/new-output",
+            "source_unchanged": true
+          },
+          {
+            "route": "source-descendant-reject",
+            "status": "pass",
+            "expected": "OUTPUT_IN_SOURCE",
+            "observed_error": "ValueError: OUTPUT_IN_SOURCE: /home/runner/work/_temp/sdga-ir-admission-optimized/source-descendant-reject/source/absent-child",
+            "source_unchanged": true
+          },
+          {
+            "route": "parent-alias-into-source-reject",
+            "status": "pass",
+            "expected": "OUTPUT_IN_SOURCE",
+            "observed_error": "ValueError: OUTPUT_IN_SOURCE: /home/runner/work/_temp/sdga-ir-admission-optimized/parent-alias-into-source-reject/source/absent-child",
+            "source_unchanged": true
+          }
+        ]
+      },
+      "input_custody": {
+        "observations": 28,
+        "request_bindings": 10,
+        "paths": 55,
+        "all_before_equal_expected_equal_after": true,
+        "failures": [],
+        "final": {
+          "drift": [],
+          "expected_observation_count": 28,
+          "expected_path_count": 55,
+          "expected_request_count": 10,
+          "measurement_error": null,
+          "observation_count": 28,
+          "path_count": 55,
+          "request_count": 10,
+          "status": "pass"
+        }
+      },
+      "ir_evidence": {
+        "contexts": 7,
+        "complete_manifests": 5,
+        "envelopes": [
+          {
+            "file": "ir-evidence/01-inventory.json",
+            "label": "inventory",
+            "exit": 0,
+            "validation": "valid",
+            "completeness": "complete",
+            "registration": "new",
+            "producer": "inventory",
+            "errors": [],
+            "manifestBefore": false,
+            "manifestAfter": true,
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            }
+          },
+          {
+            "file": "ir-evidence/05-task-b-AxiomUse-inventory.json",
+            "label": "task-b-AxiomUse-inventory",
+            "exit": 0,
+            "validation": "valid",
+            "completeness": "complete",
+            "registration": "new",
+            "producer": "task-b-AxiomUse-inventory",
+            "errors": [],
+            "manifestBefore": false,
+            "manifestAfter": true,
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            }
+          },
+          {
+            "file": "ir-evidence/08-task-b-OwnedAxiom-inventory.json",
+            "label": "task-b-OwnedAxiom-inventory",
+            "exit": 0,
+            "validation": "valid",
+            "completeness": "complete",
+            "registration": "new",
+            "producer": "task-b-OwnedAxiom-inventory",
+            "errors": [],
+            "manifestBefore": false,
+            "manifestAfter": true,
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            }
+          },
+          {
+            "file": "ir-evidence/10-task-b-Skipped-inventory.json",
+            "label": "task-b-Skipped-inventory",
+            "exit": 0,
+            "validation": "valid",
+            "completeness": "complete",
+            "registration": "new",
+            "producer": "task-b-Skipped-inventory",
+            "errors": [],
+            "manifestBefore": false,
+            "manifestAfter": true,
+            "policy": {
+              "combined": "blocked",
+              "ir_residue": "blocked",
+              "olean_extras": "blocked"
+            }
+          },
+          {
+            "file": "ir-evidence/16-cli-safe-replay.json",
+            "label": "cli-safe-replay",
+            "exit": 0,
+            "validation": "valid",
+            "completeness": "complete",
+            "registration": "new",
+            "producer": "cli-safe-replay",
+            "errors": [],
+            "manifestBefore": false,
+            "manifestAfter": true,
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            }
+          },
+          {
+            "file": "ir-evidence/25-cli-ir-sidecar-collision.json",
+            "label": "cli-ir-sidecar-collision",
+            "exit": 1,
+            "validation": "valid",
+            "completeness": "complete",
+            "registration": "preexisting",
+            "producer": "inventory",
+            "errors": [
+              {
+                "code": "SIDECAR_COLLISION",
+                "message": "SDGA_ERROR SIDECAR_COLLISION: /home/runner/work/_temp/sdga-task-a-optimized/request.json.inventory.ir-manifest.json: evidence path already exists",
+                "stage": "native"
+              }
+            ],
+            "manifestBefore": true,
+            "manifestAfter": true,
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            }
+          },
+          {
+            "file": "ir-evidence/28-cli-unknown-field.json",
+            "label": "cli-unknown-field",
+            "exit": 1,
+            "validation": "valid",
+            "completeness": "missing",
+            "registration": "none",
+            "producer": null,
+            "errors": [
+              {
+                "code": "REQUEST_SCHEMA",
+                "message": "SDGA_ERROR REQUEST_SCHEMA: request record fields differ",
+                "stage": "native"
+              }
+            ],
+            "manifestBefore": false,
+            "manifestAfter": false,
+            "policy": null
+          }
+        ],
+        "immutable_generated_registry_entries": 12,
+        "all_printed_outputs_equal_registry_and_final_measurements": true,
+        "all_source_stream_request_and_custody_bindings_match": true,
+        "final": {
+          "contexts": 7,
+          "expected_contexts": 7,
+          "finalization_error": null,
+          "missing_envelopes": [],
+          "missing_required_manifests": [],
+          "registry_entries": 12,
+          "status": "pass"
+        },
+        "manifests": [
+          {
+            "path": "request.json.inventory.ir-manifest.json",
+            "bytes": 13597,
+            "sha256": "01f2ff08f9bdbedb7278e0fcc49affb0e5d665718feef6ce227c8eadc6b33c99",
+            "mode": "inventory",
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            },
+            "olean_extra_union": [],
+            "ci_backed_names": [
+              "s46697874757265/s53616665/s6e617456616c7565"
+            ],
+            "unexplained_residue": []
+          },
+          {
+            "path": "request.json.replay.ir-manifest.json",
+            "bytes": 13594,
+            "sha256": "6ca28ca5b0439f0d41bba18acc68a2b92411819d9e874ca4c005d65f0ed4ecdd",
+            "mode": "replay",
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            },
+            "olean_extra_union": [],
+            "ci_backed_names": [
+              "s46697874757265/s53616665/s6e617456616c7565"
+            ],
+            "unexplained_residue": []
+          },
+          {
+            "path": "task-b-AxiomUse-request.json.inventory.ir-manifest.json",
+            "bytes": 6152,
+            "sha256": "b3ea2fb53b206e64b854a1306ee2ad4d9fcf340a21a18a7d578567082f77235d",
+            "mode": "inventory",
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            },
+            "olean_extra_union": [],
+            "ci_backed_names": [],
+            "unexplained_residue": []
+          },
+          {
+            "path": "task-b-OwnedAxiom-request.json.inventory.ir-manifest.json",
+            "bytes": 4002,
+            "sha256": "512bd949aff73e86bcf7c5a5bd5246438da904d439637bb3e96281165d72cb4a",
+            "mode": "inventory",
+            "policy": {
+              "combined": "clear",
+              "ir_residue": "clear",
+              "olean_extras": "clear"
+            },
+            "olean_extra_union": [],
+            "ci_backed_names": [],
+            "unexplained_residue": []
+          },
+          {
+            "path": "task-b-Skipped-request.json.inventory.ir-manifest.json",
+            "bytes": 8658,
+            "sha256": "5c586e0f3a1f7e3199350f9e6ff017b5908c309e33cdc2ec55b336cdbcef7048",
+            "mode": "inventory",
+            "policy": {
+              "combined": "blocked",
+              "ir_residue": "blocked",
+              "olean_extras": "blocked"
+            },
+            "olean_extra_union": [
+              "s46697874757265/s536b6970706564/s7061727469616c56616c7565/s5f626f786564",
+              "s46697874757265/s536b6970706564/s756e7361666556616c7565/s5f626f786564"
+            ],
+            "ci_backed_names": [
+              "s46697874757265/s536b6970706564/s7061727469616c56616c7565",
+              "s46697874757265/s536b6970706564/s756e7361666556616c7565"
+            ],
+            "unexplained_residue": [
+              "s46697874757265/s536b6970706564/s7061727469616c56616c7565/s5f626f786564",
+              "s46697874757265/s536b6970706564/s756e7361666556616c7565/s5f626f786564"
+            ]
+          }
+        ]
+      },
+      "d_cells": [
+        {
+          "case_id": "C11",
+          "subcase_id": "raw-union-preserved",
+          "status": "pass",
+          "expected_code": null,
+          "metadata_origin": "altered_in_memory",
+          "alteration": {
+            "appended_name": "s53444741436f6e74726f6c44496e6a65637465644578747261",
+            "family": "olean",
+            "field": "extra_const_names",
+            "old_length": 0,
+            "operation": "append",
+            "part_index": 2
+          },
+          "dependency_present": null,
+          "owned_absent": null,
+          "raw_absent": null
+        },
+        {
+          "case_id": "C11",
+          "subcase_id": "raw-extra-block",
+          "status": "pass",
+          "expected_code": "UNSUPPORTED_EXTRAS",
+          "metadata_origin": "altered_in_memory",
+          "alteration": {
+            "appended_name": "s53444741436f6e74726f6c44496e6a65637465644578747261",
+            "family": "olean",
+            "field": "extra_const_names",
+            "old_length": 0,
+            "operation": "append",
+            "part_index": 2
+          },
+          "dependency_present": null,
+          "owned_absent": null,
+          "raw_absent": null
+        },
+        {
+          "case_id": "C14",
+          "subcase_id": "actual-ir-binding",
+          "status": "pass",
+          "expected_code": null,
+          "metadata_origin": "actual_loaded_objects",
+          "alteration": null,
+          "dependency_present": null,
+          "owned_absent": null,
+          "raw_absent": null
+        },
+        {
+          "case_id": "C14",
+          "subcase_id": "raw-names-preserved",
+          "status": "pass",
+          "expected_code": null,
+          "metadata_origin": null,
+          "alteration": null,
+          "dependency_present": null,
+          "owned_absent": null,
+          "raw_absent": null
+        },
+        {
+          "case_id": "C14",
+          "subcase_id": "ci-backed-accounted",
+          "status": "pass",
+          "expected_code": null,
+          "metadata_origin": null,
+          "alteration": null,
+          "dependency_present": null,
+          "owned_absent": null,
+          "raw_absent": null
+        },
+        {
+          "case_id": "C14",
+          "subcase_id": "residue-retained-blocked",
+          "status": "pass",
+          "expected_code": "UNSUPPORTED_IR_RESIDUE",
+          "metadata_origin": "altered_in_memory",
+          "alteration": {
+            "appended_name": "s4e6174",
+            "family": "ir",
+            "field": "extra_const_names",
+            "old_length": 1,
+            "operation": "append",
+            "part_index": 1
+          },
+          "dependency_present": true,
+          "owned_absent": true,
+          "raw_absent": true
+        }
+      ],
+      "public_replay_cli": {
+        "status": "pass",
+        "exit_code": 0,
+        "stdout_bytes": 1199,
+        "stderr_bytes": 0,
+        "receipt_fields": 12,
+        "owned_count": 15,
+        "replayed_count": 15,
+        "skipped_count": 0
+      },
+      "cleanup_only": {
+        "status": "pass",
+        "signals": [
+          "SIGTERM",
+          "SIGKILL"
+        ],
+        "confirmed": true
+      },
+      "bootstrap_errors": [],
+      "source_drift": []
+    }
+  ],
+  "limits": [
+    "C11 and C14 adverse metadata are precisely labelled in-memory append/refusal tests based on actual hash-bound loaded tables; not source-generated altered object credit.",
+    "Safe full.ir witnesses actual owned-CI-backed natValue extra; no guessed compiler-generated roles or empty-residue assumption.",
+    "Skipped fixture inventory is complete while its raw OLean extras and unexplained IR residue remain blocked; global status remains BLOCKED/NONE/authfalse.",
+    "REQUEST_SCHEMA absence is the proved precollection invalid-request path only; the exact native nonzero and empty stdout are retained.",
+    "No runtime fault-injection credit for writer/flush/readback failure, arbitrary missing/changed generated output after final observation, simultaneous pending body exception plus retention failure, or post-load replay policy refusal sidecar path; these remain source-reviewed.",
+    "This CI qualification is tied only to native tree f327 with Main d181; later Main b285dd7a31ad7b297abc9f2aa93267300111a4e9 is not qualified by this run.",
+    "No Task E/full-corruption/IR-kernel/CBZ or mathematical/scientific/global credit."
+  ]
+}

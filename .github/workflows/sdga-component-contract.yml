@@ -82,6 +82,20 @@ jobs:
           python3 -B -O -S tests/sdga_object_custody_contract.py \
             --output "$RUNNER_TEMP/sdga-object-custody-optimized" -v \
             2>&1 | tee "$RUNNER_TEMP/sdga-object-custody-optimized.log"
+      - name: Observe Task D output admission normally
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          python3 -B -S tests/sdga_ir_evidence_contract.py \
+            --output "$RUNNER_TEMP/sdga-ir-admission-normal" -v \
+            2>&1 | tee "$RUNNER_TEMP/sdga-ir-admission-normal.log"
+      - name: Observe Task D output admission with optimized Python
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          python3 -B -O -S tests/sdga_ir_evidence_contract.py \
+            --output "$RUNNER_TEMP/sdga-ir-admission-optimized" -v \
+            2>&1 | tee "$RUNNER_TEMP/sdga-ir-admission-optimized.log"
       - name: Print original Python-only object-custody records
         if: always()
         run: |
@@ -122,6 +136,7 @@ jobs:
               "source-identities.json", "result.json", "census.json",
               "subcases.jsonl", "inventory.jsonl",
               "fixture-classification.json", "commands.json",
+              "task-d-sidecar-observation.json",
           )
           for mode in ("normal", "optimized"):
               root = Path(os.environ["RUNNER_TEMP"]) / ("sdga-task-a-" + mode)
@@ -162,6 +177,34 @@ jobs:
                       if not raw.endswith(b"\n"):
                           sys.stdout.write("\n")
                       sys.stdout.flush()
+              generated = sorted(root.glob("*.ir-manifest.json"))
+              envelope_root = root / "ir-evidence"
+              if envelope_root.is_dir():
+                  generated.extend(sorted(envelope_root.glob("*.json")))
+              for path in generated:
+                  raw = path.read_bytes()
+                  print("ORIGINAL_IR_ARTIFACT", mode, str(path.relative_to(root)),
+                        "bytes=" + str(len(raw)),
+                        "sha256=" + hashlib.sha256(raw).hexdigest(), flush=True)
+                  sys.stdout.write(raw.decode("utf-8"))
+                  if not raw.endswith(b"\n"):
+                      sys.stdout.write("\n")
+                  sys.stdout.flush()
+          for mode in ("normal", "optimized"):
+              root = Path(os.environ["RUNNER_TEMP"]) / ("sdga-ir-admission-" + mode)
+              for name in ("source-identities.json", "result.json", "routes.jsonl"):
+                  path = root / name
+                  if not path.is_file():
+                      print("IR_ADMISSION_NOT_PRODUCED", mode, name, flush=True)
+                      continue
+                  raw = path.read_bytes()
+                  print("ORIGINAL_IR_ADMISSION_RECORD", mode, name,
+                        "bytes=" + str(len(raw)),
+                        "sha256=" + hashlib.sha256(raw).hexdigest(), flush=True)
+                  sys.stdout.write(raw.decode("utf-8"))
+                  if not raw.endswith(b"\n"):
+                      sys.stdout.write("\n")
+                  sys.stdout.flush()
           print("Evidence printed from runner files before upload; no ZIP read is claimed.",
                 flush=True)
           PY
@@ -181,6 +224,10 @@ jobs:
             ${{ runner.temp }}/sdga-object-custody-optimized/
             ${{ runner.temp }}/sdga-object-custody-normal.log
             ${{ runner.temp }}/sdga-object-custody-optimized.log
+            ${{ runner.temp }}/sdga-ir-admission-normal/
+            ${{ runner.temp }}/sdga-ir-admission-optimized/
+            ${{ runner.temp }}/sdga-ir-admission-normal.log
+            ${{ runner.temp }}/sdga-ir-admission-optimized.log
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 30

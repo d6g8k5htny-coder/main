@@ -1,0 +1,955 @@
+{
+  "schema": 1,
+  "record": "sdga-task-d-test-first-R0-observation",
+  "observation_status": "ACTUAL_IMPLEMENTATION_ABSENCE_RED_ONLY",
+  "run": 42768169192,
+  "attempt": 1,
+  "job": 129669478108,
+  "run_status": "completed",
+  "run_conclusion": "failure",
+  "head": "abf423eabc0eecbb09ff73641b35014ac4afd44d",
+  "head_branch": "codex/cbz-sdga-extras-ir-task-d-20261110",
+  "native": "ccb536b7f6232b3598587c29ed222404dcd0383d",
+  "tree": "1e10cf692ef4981a05437543595e2fee955c6c71",
+  "ordered_native_parents": [
+    "5fffd15c04a24a91d6d140be26d9784e852cf66f",
+    "abf423eabc0eecbb09ff73641b35014ac4afd44d"
+  ],
+  "native_API_signature": {
+    "verified": true,
+    "reason": "valid"
+  },
+  "proposed_source_manifest": "dc05658e1cf1c2cf12f2050135e3f0c99a5e3ba5",
+  "root_accepted_test_source": "4fe7f171233cdc09e1a76edb0b50908d5689d394",
+  "job_log_blob": "49a2f8982e728a219bda0555aeeb923811dbc34c",
+  "job_log_utf8_bytes": 1613485,
+  "job_log_sha256": "39996e768598c8017eba4b1e4eb1ea66e8855dc94d61bd4558bfd788561b9f2f",
+  "originals_blob": "0a68bb27348e39438dec377409727c7fcb619fda",
+  "printed_originals": 228,
+  "all_printed_original_declared_utf8_extents_and_SHA256_matched": true,
+  "modes": {
+    "normal": {
+      "main": {
+        "methods_run": 15,
+        "failures": 2,
+        "errors": 0,
+        "skipped": 0,
+        "subcase_pass": 61,
+        "subcase_fail": 0,
+        "subcase_not_run": 6,
+        "executor_status_census": {
+          "Lean/pass": 55,
+          "Python_controller/pass": 6,
+          "Lean/not_run": 6
+        },
+        "failed_methods": [
+          {
+            "method": "__main__.TaskAContracts.test_C11_actual_raw_olean_extra_refusal",
+            "status": "failure"
+          },
+          {
+            "method": "__main__.TaskAContracts.test_C14_actual_ir_provenance_and_residue",
+            "status": "failure"
+          }
+        ],
+        "not_run_ids": [
+          "C11/raw-union-preserved",
+          "C11/raw-extra-block",
+          "C14/actual-ir-binding",
+          "C14/raw-names-preserved",
+          "C14/ci-backed-accounted",
+          "C14/residue-retained-blocked"
+        ],
+        "fixed67_ID_set_reconciled": true
+      },
+      "source": {
+        "native": "ccb536b7f6232b3598587c29ed222404dcd0383d",
+        "tree": "1e10cf692ef4981a05437543595e2fee955c6c71",
+        "actual_Lean": "5045d0056413266e57c625dcd7c365b10e377c52",
+        "lean_subcases_declared": 61,
+        "source_drift": [],
+        "all_captured_sources_match_tree": true,
+        "source_bindings": [
+          {
+            "path": ".github/workflows/sdga-component-contract.yml",
+            "git_blob": "1df4e0338cebac30b3c049be9768bd7c66006e9d",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/Controls.lean",
+            "git_blob": "9e14a94302f3c5988f0af51bc9fc1f74836a9fae",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/Fixture/AxiomUse.lean",
+            "git_blob": "9fd2e71b4025d53b05ee3caeb1c26f7066f6ddce",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/Fixture/BadDependency.lean",
+            "git_blob": "aa7b27902b38fe805f49e11b71df7cc3c48ff5da",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/Fixture/OwnedAxiom.lean",
+            "git_blob": "c08550a94286998dd88c29a7f77794e0acfcdf0b",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/Fixture/Safe.lean",
+            "git_blob": "35c407e867b19e60a22a3cca39edf49c4a07b088",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/Fixture/Skipped.lean",
+            "git_blob": "e68e3203646d082a04afd242f17821e61587892a",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/lake-manifest.json",
+            "git_blob": "59b0d1e913a238009b1daeb383128996146f493d",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/lakefile.toml",
+            "git_blob": "6f8645db9422a25732aa7848b1e942616f909656",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/lean-toolchain",
+            "git_blob": "ba8ebf2dbaf6a668cd2a0e086186d6d569b69ff5",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_scope/scope-f532.json",
+            "git_blob": "4c6b4ea59eb07a17ebfed536b07688c53c01eb64",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/sdga_component_contract.py",
+            "git_blob": "77b2165eccd3c5a506ff8a61bd85fd7faaa291fe",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/sdga_ir_evidence_contract.py",
+            "git_blob": "d233aac6538d7afc8a97ec602d62a9a50d687a24",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/sdga_object_custody_contract.py",
+            "git_blob": "a9e147e246abfacf9561d286aef65086dedd2c66",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tools/sdga/Component.lean",
+            "git_blob": "ca46b1ae1031aa0740a9d4366d649e156181aac4",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tools/sdga_component.py",
+            "git_blob": "372dab47ade30bc2202ebf554ab1def9b1900211",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tools/sdga_ir_evidence.py",
+            "git_blob": null,
+            "exists": false,
+            "tree_match": true
+          },
+          {
+            "path": "tools/sdga_scope.py",
+            "git_blob": "14d4617b523c29007da4bdb95ee6ee4dc588a86c",
+            "exists": true,
+            "tree_match": true
+          }
+        ],
+        "helper": {
+          "exists": false
+        }
+      },
+      "mandatory_CLI": {
+        "status": "pass",
+        "receipt": {
+          "classification_status": "BLOCKED",
+          "execution_authenticated": false,
+          "helper": "SDGA.replayOwned",
+          "module": "s46697874757265/s53616665",
+          "owned_count": 15,
+          "profile_sha256": "ca1d5665def8c58244d13d500a551b84ad659ff6c63793747a8d836dae213767",
+          "qualification": "BLOCKED",
+          "replayed_names": [
+            "s46697874757265/s53616665/s70726f7056616c7565",
+            "s46697874757265/s53616665/s537769746368/s6f6666",
+            "s46697874757265/s53616665/s537769746368/s63617365734f6e",
+            "s46697874757265/s53616665/s756e6578706f72746564",
+            "s46697874757265/s53616665/s537769746368",
+            "s46697874757265/s53616665/s70726f6f66",
+            "s46697874757265/s53616665/s537769746368/s7265634f6e",
+            "s46697874757265/s53616665/s6e617456616c7565",
+            "s46697874757265/s53616665/s676f6f64",
+            "s46697874757265/s53616665/s537769746368/s6f6e",
+            "s46697874757265/s53616665/s537769746368/s726563",
+            "s5f70726976617465/s46697874757265/s53616665/n0/s46697874757265/s53616665/s68696464656e",
+            "s46697874757265/s53616665/s666c6970",
+            "s5f70726976617465/s46697874757265/s53616665/n0/s46697874757265/s53616665/s666c6970/s6d617463685f31",
+            "s466f726569676e4e616d657370616365/s76697369626c65"
+          ],
+          "schema": "cbz.sdga.kernel-replay.v1",
+          "scientific_effect": "NONE",
+          "scope_id": "sdga-task-a-fixture",
+          "skipped_names": []
+        },
+        "receipt_field_count": 12,
+        "original_stdout_bytes": 1199,
+        "original_stdout_sha256": "820ca3b7405aaad6cff12052788f5b341a4f21c3ed10df8269420b97d0864959",
+        "original_stderr_bytes": 0
+      },
+      "input_custody": {
+        "observation_count": 27,
+        "expected_observation_count": 28,
+        "request_count": 10,
+        "path_count": 55,
+        "individual_records_all_pass_before_expected_after": true,
+        "aggregate_status": "fail",
+        "aggregate_failure_cause": "27 observations instead of28; collision body not reached",
+        "object_failures": [],
+        "drift": [],
+        "measurement_error": null,
+        "intentional_missing_paths": [
+          "/home/runner/work/_temp/sdga-task-a-normal/case-missing-server/Fixture/Safe.olean.server"
+        ]
+      },
+      "raw_IR_setup": {
+        "origin": "actual_loaded_objects before missing-helper failure; no D semantic subcase credit",
+        "base_files": [
+          {
+            "declared_sha256": "f6afd75a94c8250e42ab548dd28a9577b6b42b5d3f44e298582cc096595492b5",
+            "family": "olean",
+            "level": "exported",
+            "part_index": 0,
+            "path": "/home/runner/work/_temp/sdga-task-a-normal/owned/Fixture/Safe.olean"
+          },
+          {
+            "declared_sha256": "4f75b6052dc9177f3b003a5759b68515cc6e268a2a521acbb0a08790bd70d62c",
+            "family": "olean",
+            "level": "server",
+            "part_index": 1,
+            "path": "/home/runner/work/_temp/sdga-task-a-normal/owned/Fixture/Safe.olean.server"
+          },
+          {
+            "declared_sha256": "36566d03bc4b2094e1181045ddc7aaad236a58c6fa89d9d19e642852c19b4ce0",
+            "family": "olean",
+            "level": "private",
+            "part_index": 2,
+            "path": "/home/runner/work/_temp/sdga-task-a-normal/owned/Fixture/Safe.olean.private"
+          },
+          {
+            "declared_sha256": "2a5ad94f046af5e8426ef5317c3cb5ce5810734f37b8818501037527b8b22f53",
+            "family": "ir",
+            "level": "ir.sig",
+            "part_index": 0,
+            "path": "/home/runner/work/_temp/sdga-task-a-normal/owned/Fixture/Safe.ir.sig"
+          },
+          {
+            "declared_sha256": "70b4ed7ed8bc100834e854e934f4aaf36a11462d720ee2128c6f5539565b5969",
+            "family": "ir",
+            "level": "ir",
+            "part_index": 1,
+            "path": "/home/runner/work/_temp/sdga-task-a-normal/owned/Fixture/Safe.ir"
+          }
+        ],
+        "ir_parts": [
+          {
+            "const_names": [],
+            "constant_names": [],
+            "declared_sha256": "2a5ad94f046af5e8426ef5317c3cb5ce5810734f37b8818501037527b8b22f53",
+            "extension_entries": [],
+            "extra_const_names": [],
+            "is_module": false,
+            "level": "ir.sig",
+            "path": "/home/runner/work/_temp/sdga-task-a-normal/owned/Fixture/Safe.ir.sig"
+          },
+          {
+            "const_names": [],
+            "constant_names": [],
+            "declared_sha256": "70b4ed7ed8bc100834e854e934f4aaf36a11462d720ee2128c6f5539565b5969",
+            "extension_entries": [
+              {
+                "entry_count": 1,
+                "name": "s4c65616e/s4952/s6465636c4d6170457874"
+              },
+              {
+                "entry_count": 0,
+                "name": "s4c65616e/s726567756c6172496e697441747472"
+              },
+              {
+                "entry_count": 1,
+                "name": "s5f70726976617465/s4c65616e/s436f6d70696c6572/s4d6f64506b67457874/n0/s4c65616e/s6d6f64506b67457874"
+              }
+            ],
+            "extra_const_names": [
+              "s46697874757265/s53616665/s6e617456616c7565"
+            ],
+            "is_module": true,
+            "level": "ir",
+            "path": "/home/runner/work/_temp/sdga-task-a-normal/owned/Fixture/Safe.ir"
+          }
+        ],
+        "full_ir_CI_backed_extra_names": [
+          "s46697874757265/s53616665/s6e617456616c7565"
+        ],
+        "all_raw_unexplained_names": [],
+        "C11_and_C14_missing_helper_cause": "IMPLEMENTATION_ABSENCE"
+      },
+      "separate_admission": {
+        "methods_run": 2,
+        "failures": 2,
+        "errors": 0,
+        "skipped": 0,
+        "route_pass": 0,
+        "route_fail": 0,
+        "route_not_run": 6,
+        "source_drift": false,
+        "source_before": {
+          "exists": false,
+          "path": "/home/runner/work/main/main/main/tools/sdga_ir_evidence.py"
+        },
+        "source_after": {
+          "exists": false,
+          "path": "/home/runner/work/main/main/main/tools/sdga_ir_evidence.py"
+        },
+        "no_route_executed": true
+      },
+      "pure_dependency": {
+        "tests": 12,
+        "API_step_success": true,
+        "observed_Ran12_footers": [
+          "Ran 12 tests in 0.016s",
+          "Ran 12 tests in 0.015s"
+        ],
+        "source_git_blob": "8809f1974998f9094a0f1239ecca56ddcf272a88"
+      },
+      "separate_custody_regression": {
+        "classification_status": "BLOCKED",
+        "declared_routes": 6,
+        "errors": 0,
+        "execution_authenticated": false,
+        "failures": 0,
+        "methods_run": 3,
+        "outside_lean_method_and_subcase_census": true,
+        "qualification": "BLOCKED",
+        "record": "python-object-custody-result",
+        "route_fail": 0,
+        "route_not_run": 0,
+        "route_pass": 6,
+        "scientific_effect": "NONE",
+        "skipped": 0,
+        "source_drift": [],
+        "sources_after": {
+          ".github/workflows/sdga-component-contract.yml": {
+            "bytes": 10679,
+            "git_blob": "1df4e0338cebac30b3c049be9768bd7c66006e9d",
+            "sha256": "f8f9ad9c2fa0635beb989b1de7367556705b368ff3d35967fff3c78291cc56df"
+          },
+          "tests/sdga_component_contract.py": {
+            "bytes": 92315,
+            "git_blob": "77b2165eccd3c5a506ff8a61bd85fd7faaa291fe",
+            "sha256": "1494fb35c3ea4b14fe3d6731ee8ba468cc198758100ba41f6f9996b4c0dd32bb"
+          },
+          "tests/sdga_object_custody_contract.py": {
+            "bytes": 14709,
+            "git_blob": "a9e147e246abfacf9561d286aef65086dedd2c66",
+            "sha256": "86875253431e310bb704e8db116bbdb1e2ada44af333a142a08bf6ba2dd5efe6"
+          }
+        }
+      },
+      "cleanup_preflight": {
+        "classification_status": "BLOCKED",
+        "cleanup": {
+          "confirmed": true,
+          "errors": [],
+          "group_absent": true,
+          "leader_reaped": true,
+          "pgid": 2493,
+          "reaped_descendants": [
+            {
+              "pid": 2494,
+              "wait_status": 9
+            }
+          ],
+          "signals": [
+            "SIGTERM",
+            "SIGKILL"
+          ]
+        },
+        "execution_authenticated": false,
+        "executor": "Python_process_cleanup_only",
+        "leader_exit_code": -9,
+        "native_label": "cleanup-only-preflight",
+        "outside_lean_method_and_subcase_census": true,
+        "qualification": "BLOCKED",
+        "ready": {
+          "descendant_pgid": 2493,
+          "descendant_pid": 2494,
+          "parent_pgid": 2493,
+          "parent_pid": 2493,
+          "record": "cleanup-ready"
+        },
+        "record": "cleanup-only-preflight",
+        "scientific_effect": "NONE",
+        "status": "pass",
+        "timed_out": true
+      },
+      "process_scheduling_blocked": false
+    },
+    "optimized": {
+      "main": {
+        "methods_run": 15,
+        "failures": 2,
+        "errors": 0,
+        "skipped": 0,
+        "subcase_pass": 61,
+        "subcase_fail": 0,
+        "subcase_not_run": 6,
+        "executor_status_census": {
+          "Lean/pass": 55,
+          "Python_controller/pass": 6,
+          "Lean/not_run": 6
+        },
+        "failed_methods": [
+          {
+            "method": "__main__.TaskAContracts.test_C11_actual_raw_olean_extra_refusal",
+            "status": "failure"
+          },
+          {
+            "method": "__main__.TaskAContracts.test_C14_actual_ir_provenance_and_residue",
+            "status": "failure"
+          }
+        ],
+        "not_run_ids": [
+          "C11/raw-union-preserved",
+          "C11/raw-extra-block",
+          "C14/actual-ir-binding",
+          "C14/raw-names-preserved",
+          "C14/ci-backed-accounted",
+          "C14/residue-retained-blocked"
+        ],
+        "fixed67_ID_set_reconciled": true
+      },
+      "source": {
+        "native": "ccb536b7f6232b3598587c29ed222404dcd0383d",
+        "tree": "1e10cf692ef4981a05437543595e2fee955c6c71",
+        "actual_Lean": "5045d0056413266e57c625dcd7c365b10e377c52",
+        "lean_subcases_declared": 61,
+        "source_drift": [],
+        "all_captured_sources_match_tree": true,
+        "source_bindings": [
+          {
+            "path": ".github/workflows/sdga-component-contract.yml",
+            "git_blob": "1df4e0338cebac30b3c049be9768bd7c66006e9d",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/Controls.lean",
+            "git_blob": "9e14a94302f3c5988f0af51bc9fc1f74836a9fae",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/Fixture/AxiomUse.lean",
+            "git_blob": "9fd2e71b4025d53b05ee3caeb1c26f7066f6ddce",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/Fixture/BadDependency.lean",
+            "git_blob": "aa7b27902b38fe805f49e11b71df7cc3c48ff5da",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/Fixture/OwnedAxiom.lean",
+            "git_blob": "c08550a94286998dd88c29a7f77794e0acfcdf0b",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/Fixture/Safe.lean",
+            "git_blob": "35c407e867b19e60a22a3cca39edf49c4a07b088",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/Fixture/Skipped.lean",
+            "git_blob": "e68e3203646d082a04afd242f17821e61587892a",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/lake-manifest.json",
+            "git_blob": "59b0d1e913a238009b1daeb383128996146f493d",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/lakefile.toml",
+            "git_blob": "6f8645db9422a25732aa7848b1e942616f909656",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_component/lean-toolchain",
+            "git_blob": "ba8ebf2dbaf6a668cd2a0e086186d6d569b69ff5",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/fixtures/sdga_scope/scope-f532.json",
+            "git_blob": "4c6b4ea59eb07a17ebfed536b07688c53c01eb64",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/sdga_component_contract.py",
+            "git_blob": "77b2165eccd3c5a506ff8a61bd85fd7faaa291fe",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/sdga_ir_evidence_contract.py",
+            "git_blob": "d233aac6538d7afc8a97ec602d62a9a50d687a24",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tests/sdga_object_custody_contract.py",
+            "git_blob": "a9e147e246abfacf9561d286aef65086dedd2c66",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tools/sdga/Component.lean",
+            "git_blob": "ca46b1ae1031aa0740a9d4366d649e156181aac4",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tools/sdga_component.py",
+            "git_blob": "372dab47ade30bc2202ebf554ab1def9b1900211",
+            "exists": true,
+            "tree_match": true
+          },
+          {
+            "path": "tools/sdga_ir_evidence.py",
+            "git_blob": null,
+            "exists": false,
+            "tree_match": true
+          },
+          {
+            "path": "tools/sdga_scope.py",
+            "git_blob": "14d4617b523c29007da4bdb95ee6ee4dc588a86c",
+            "exists": true,
+            "tree_match": true
+          }
+        ],
+        "helper": {
+          "exists": false
+        }
+      },
+      "mandatory_CLI": {
+        "status": "pass",
+        "receipt": {
+          "classification_status": "BLOCKED",
+          "execution_authenticated": false,
+          "helper": "SDGA.replayOwned",
+          "module": "s46697874757265/s53616665",
+          "owned_count": 15,
+          "profile_sha256": "ca1d5665def8c58244d13d500a551b84ad659ff6c63793747a8d836dae213767",
+          "qualification": "BLOCKED",
+          "replayed_names": [
+            "s46697874757265/s53616665/s70726f7056616c7565",
+            "s46697874757265/s53616665/s537769746368/s6f6666",
+            "s46697874757265/s53616665/s537769746368/s63617365734f6e",
+            "s46697874757265/s53616665/s756e6578706f72746564",
+            "s46697874757265/s53616665/s537769746368",
+            "s46697874757265/s53616665/s70726f6f66",
+            "s46697874757265/s53616665/s537769746368/s7265634f6e",
+            "s46697874757265/s53616665/s6e617456616c7565",
+            "s46697874757265/s53616665/s676f6f64",
+            "s46697874757265/s53616665/s537769746368/s6f6e",
+            "s46697874757265/s53616665/s537769746368/s726563",
+            "s5f70726976617465/s46697874757265/s53616665/n0/s46697874757265/s53616665/s68696464656e",
+            "s46697874757265/s53616665/s666c6970",
+            "s5f70726976617465/s46697874757265/s53616665/n0/s46697874757265/s53616665/s666c6970/s6d617463685f31",
+            "s466f726569676e4e616d657370616365/s76697369626c65"
+          ],
+          "schema": "cbz.sdga.kernel-replay.v1",
+          "scientific_effect": "NONE",
+          "scope_id": "sdga-task-a-fixture",
+          "skipped_names": []
+        },
+        "receipt_field_count": 12,
+        "original_stdout_bytes": 1199,
+        "original_stdout_sha256": "820ca3b7405aaad6cff12052788f5b341a4f21c3ed10df8269420b97d0864959",
+        "original_stderr_bytes": 0
+      },
+      "input_custody": {
+        "observation_count": 27,
+        "expected_observation_count": 28,
+        "request_count": 10,
+        "path_count": 55,
+        "individual_records_all_pass_before_expected_after": true,
+        "aggregate_status": "fail",
+        "aggregate_failure_cause": "27 observations instead of28; collision body not reached",
+        "object_failures": [],
+        "drift": [],
+        "measurement_error": null,
+        "intentional_missing_paths": [
+          "/home/runner/work/_temp/sdga-task-a-optimized/case-missing-server/Fixture/Safe.olean.server"
+        ]
+      },
+      "raw_IR_setup": {
+        "origin": "actual_loaded_objects before missing-helper failure; no D semantic subcase credit",
+        "base_files": [
+          {
+            "declared_sha256": "f6afd75a94c8250e42ab548dd28a9577b6b42b5d3f44e298582cc096595492b5",
+            "family": "olean",
+            "level": "exported",
+            "part_index": 0,
+            "path": "/home/runner/work/_temp/sdga-task-a-optimized/owned/Fixture/Safe.olean"
+          },
+          {
+            "declared_sha256": "4f75b6052dc9177f3b003a5759b68515cc6e268a2a521acbb0a08790bd70d62c",
+            "family": "olean",
+            "level": "server",
+            "part_index": 1,
+            "path": "/home/runner/work/_temp/sdga-task-a-optimized/owned/Fixture/Safe.olean.server"
+          },
+          {
+            "declared_sha256": "36566d03bc4b2094e1181045ddc7aaad236a58c6fa89d9d19e642852c19b4ce0",
+            "family": "olean",
+            "level": "private",
+            "part_index": 2,
+            "path": "/home/runner/work/_temp/sdga-task-a-optimized/owned/Fixture/Safe.olean.private"
+          },
+          {
+            "declared_sha256": "2a5ad94f046af5e8426ef5317c3cb5ce5810734f37b8818501037527b8b22f53",
+            "family": "ir",
+            "level": "ir.sig",
+            "part_index": 0,
+            "path": "/home/runner/work/_temp/sdga-task-a-optimized/owned/Fixture/Safe.ir.sig"
+          },
+          {
+            "declared_sha256": "70b4ed7ed8bc100834e854e934f4aaf36a11462d720ee2128c6f5539565b5969",
+            "family": "ir",
+            "level": "ir",
+            "part_index": 1,
+            "path": "/home/runner/work/_temp/sdga-task-a-optimized/owned/Fixture/Safe.ir"
+          }
+        ],
+        "ir_parts": [
+          {
+            "const_names": [],
+            "constant_names": [],
+            "declared_sha256": "2a5ad94f046af5e8426ef5317c3cb5ce5810734f37b8818501037527b8b22f53",
+            "extension_entries": [],
+            "extra_const_names": [],
+            "is_module": false,
+            "level": "ir.sig",
+            "path": "/home/runner/work/_temp/sdga-task-a-optimized/owned/Fixture/Safe.ir.sig"
+          },
+          {
+            "const_names": [],
+            "constant_names": [],
+            "declared_sha256": "70b4ed7ed8bc100834e854e934f4aaf36a11462d720ee2128c6f5539565b5969",
+            "extension_entries": [
+              {
+                "entry_count": 1,
+                "name": "s4c65616e/s4952/s6465636c4d6170457874"
+              },
+              {
+                "entry_count": 0,
+                "name": "s4c65616e/s726567756c6172496e697441747472"
+              },
+              {
+                "entry_count": 1,
+                "name": "s5f70726976617465/s4c65616e/s436f6d70696c6572/s4d6f64506b67457874/n0/s4c65616e/s6d6f64506b67457874"
+              }
+            ],
+            "extra_const_names": [
+              "s46697874757265/s53616665/s6e617456616c7565"
+            ],
+            "is_module": true,
+            "level": "ir",
+            "path": "/home/runner/work/_temp/sdga-task-a-optimized/owned/Fixture/Safe.ir"
+          }
+        ],
+        "full_ir_CI_backed_extra_names": [
+          "s46697874757265/s53616665/s6e617456616c7565"
+        ],
+        "all_raw_unexplained_names": [],
+        "C11_and_C14_missing_helper_cause": "IMPLEMENTATION_ABSENCE"
+      },
+      "separate_admission": {
+        "methods_run": 2,
+        "failures": 2,
+        "errors": 0,
+        "skipped": 0,
+        "route_pass": 0,
+        "route_fail": 0,
+        "route_not_run": 6,
+        "source_drift": false,
+        "source_before": {
+          "exists": false,
+          "path": "/home/runner/work/main/main/main/tools/sdga_ir_evidence.py"
+        },
+        "source_after": {
+          "exists": false,
+          "path": "/home/runner/work/main/main/main/tools/sdga_ir_evidence.py"
+        },
+        "no_route_executed": true
+      },
+      "pure_dependency": {
+        "tests": 12,
+        "API_step_success": true,
+        "observed_Ran12_footers": [
+          "Ran 12 tests in 0.016s",
+          "Ran 12 tests in 0.015s"
+        ],
+        "source_git_blob": "8809f1974998f9094a0f1239ecca56ddcf272a88"
+      },
+      "separate_custody_regression": {
+        "classification_status": "BLOCKED",
+        "declared_routes": 6,
+        "errors": 0,
+        "execution_authenticated": false,
+        "failures": 0,
+        "methods_run": 3,
+        "outside_lean_method_and_subcase_census": true,
+        "qualification": "BLOCKED",
+        "record": "python-object-custody-result",
+        "route_fail": 0,
+        "route_not_run": 0,
+        "route_pass": 6,
+        "scientific_effect": "NONE",
+        "skipped": 0,
+        "source_drift": [],
+        "sources_after": {
+          ".github/workflows/sdga-component-contract.yml": {
+            "bytes": 10679,
+            "git_blob": "1df4e0338cebac30b3c049be9768bd7c66006e9d",
+            "sha256": "f8f9ad9c2fa0635beb989b1de7367556705b368ff3d35967fff3c78291cc56df"
+          },
+          "tests/sdga_component_contract.py": {
+            "bytes": 92315,
+            "git_blob": "77b2165eccd3c5a506ff8a61bd85fd7faaa291fe",
+            "sha256": "1494fb35c3ea4b14fe3d6731ee8ba468cc198758100ba41f6f9996b4c0dd32bb"
+          },
+          "tests/sdga_object_custody_contract.py": {
+            "bytes": 14709,
+            "git_blob": "a9e147e246abfacf9561d286aef65086dedd2c66",
+            "sha256": "86875253431e310bb704e8db116bbdb1e2ada44af333a142a08bf6ba2dd5efe6"
+          }
+        }
+      },
+      "cleanup_preflight": {
+        "classification_status": "BLOCKED",
+        "cleanup": {
+          "confirmed": true,
+          "errors": [],
+          "group_absent": true,
+          "leader_reaped": true,
+          "pgid": 2922,
+          "reaped_descendants": [
+            {
+              "pid": 2923,
+              "wait_status": 9
+            }
+          ],
+          "signals": [
+            "SIGTERM",
+            "SIGKILL"
+          ]
+        },
+        "execution_authenticated": false,
+        "executor": "Python_process_cleanup_only",
+        "leader_exit_code": -9,
+        "native_label": "cleanup-only-preflight",
+        "outside_lean_method_and_subcase_census": true,
+        "qualification": "BLOCKED",
+        "ready": {
+          "descendant_pgid": 2922,
+          "descendant_pid": 2923,
+          "parent_pgid": 2922,
+          "parent_pid": 2922,
+          "record": "cleanup-ready"
+        },
+        "record": "cleanup-only-preflight",
+        "scientific_effect": "NONE",
+        "status": "pass",
+        "timed_out": true
+      },
+      "process_scheduling_blocked": false
+    }
+  },
+  "job_steps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 1
+    },
+    {
+      "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 2
+    },
+    {
+      "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 3
+    },
+    {
+      "name": "Install only the pinned core Lean toolchain",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 4
+    },
+    {
+      "name": "Observe Task A contracts normally",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 5
+    },
+    {
+      "name": "Observe Task A contracts with optimized Python",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 6
+    },
+    {
+      "name": "Observe pure dependency contracts normally",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 7
+    },
+    {
+      "name": "Observe pure dependency contracts with optimized Python",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 8
+    },
+    {
+      "name": "Observe Python-only object custody normally",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 9
+    },
+    {
+      "name": "Observe Python-only object custody with optimized Python",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 10
+    },
+    {
+      "name": "Observe Task D output admission normally",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 11
+    },
+    {
+      "name": "Observe Task D output admission with optimized Python",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 12
+    },
+    {
+      "name": "Print original Python-only object-custody records",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 13
+    },
+    {
+      "name": "Print original critical records and native stream identities",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 14
+    },
+    {
+      "name": "Retain original source, cases, objects and failures",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 15
+    },
+    {
+      "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+      "status": "completed",
+      "conclusion": "skipped",
+      "number": 29
+    },
+    {
+      "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 30
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 31
+    }
+  ],
+  "artifact_API_metadata_only": {
+    "artifacts": [
+      {
+        "id": 13740718216,
+        "name": "sdga-task-a-42768169192-1",
+        "size_in_bytes": 8251358,
+        "url": "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13740718216",
+        "archive_download_url": "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13740718216/zip",
+        "expired": false,
+        "created_at": "2026-11-10T06:27:54Z",
+        "expires_at": "2026-12-10T06:27:52Z",
+        "updated_at": "2026-11-10T06:27:54Z",
+        "digest": "sha256:25215ebc80871d7aea54c0ff5416b1e5e34314864e284e88782b1a0bcc71ba5b",
+        "workflow_run": {
+          "id": 42768169192,
+          "repository_id": 1117225690,
+          "head_repository_id": 1117225690,
+          "head_branch": "codex/cbz-sdga-extras-ir-task-d-20261110",
+          "head_sha": "abf423eabc0eecbb09ff73641b35014ac4afd44d"
+        }
+      }
+    ]
+  },
+  "no_ZIP_download_or_read": true,
+  "exact_limit": "No new D semantic case or admission route executed. Existing C61, pure12 and custody3/6 remain healthy. D6 IDs/admission6 routes not_run and27/28 input-custody completion remain blocking. This is runtime helper/module absence evidence, not a policy rejection, mutation kill, successful D qualification or sidecar production.",
+  "source_binding_limit": "This run is bound only to nativeccb536/tree1e10 with parents[oldC5fff,Dabf]. It is not rebound to later Main804 or any future C/D composition.",
+  "production_code_unchanged": true,
+  "production_ir_helper_absent": true,
+  "production_implementation_requires_root_actual_RED_read": true,
+  "scientific_effect": "NONE",
+  "qualification": "BLOCKED",
+  "classification_status": "BLOCKED",
+  "execution_authenticated": false
+}
