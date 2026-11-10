@@ -38,9 +38,14 @@ Run: python -B -S -m unittest tests.test_living_project_validation
 from __future__ import annotations
 
 import copy
+import hashlib
 import importlib.util
 import json
+import os
 import re
+import stat
+import subprocess
+import sys
 import tempfile
 import unittest
 from datetime import datetime
@@ -452,15 +457,207 @@ class RealRecordTests(unittest.TestCase):
 
     def test_real_records_fresh_against_live_source_head(self):
         records = _require_real_records()
-        fresh = [record["node_id"] for _, record in records if record.get("status") == "fresh"]
-        if not fresh:
-            self.skipTest("no real record is marked fresh; live-head freshness is not exercised")
-        self.skipTest(
-            "fresh records "
-            + ", ".join(fresh)
-            + " are not compared to a live source head; tools/validate_node_status.py performs "
-            "no network fetch, so this check is skipped instead of passed"
-        )
+
+        def prepared(environment):
+            flag = environment.get("NODE_STATUS_LIVE_REQUIRED")
+            if flag is None:
+                self.skipTest("native authenticated live shard prerequisites are absent; "
+                              "set NODE_STATUS_LIVE_REQUIRED=1 with native context, token "
+                              "and a new external NODE_STATUS_LIVE_OUTPUT")
+            self.assertEqual(flag, "1", "invalid mandatory live-shard flag")
+            self.assertEqual(environment.get("GITHUB_ACTIONS"), "true",
+                             "native GitHub Actions context required")
+            self.assertEqual(environment.get("GITHUB_REPOSITORY"),
+                             "d6g8k5htny-coder/main")
+            identity = {"repository": environment["GITHUB_REPOSITORY"],
+                        "checked_commit": environment.get("GITHUB_SHA"),
+                        "run_id": environment.get("GITHUB_RUN_ID"),
+                        "run_attempt": environment.get("GITHUB_RUN_ATTEMPT"),
+                        "python_optimize": sys.flags.optimize}
+            self.assertIn(sys.flags.optimize, (0, 1))
+            for field, pattern in (("checked_commit", r"[0-9a-f]{40}"),
+                                   ("run_id", r"[1-9][0-9]*"),
+                                   ("run_attempt", r"[1-9][0-9]*")):
+                self.assertTrue(isinstance(identity[field], str)
+                                and re.fullmatch(pattern, identity[field]) is not None,
+                                "invalid native " + field)
+            self.assertTrue(isinstance(environment.get("GITHUB_TOKEN"), str)
+                            and bool(environment["GITHUB_TOKEN"].strip()),
+                            "inherited authentication prerequisite missing")
+            selected = environment.get("NODE_STATUS_LIVE_OUTPUT")
+            self.assertTrue(isinstance(selected, str) and bool(selected),
+                            "new external live output required")
+            output = Path(selected)
+            self.assertTrue(output.is_absolute(), "absolute live output required")
+            self.assertTrue(output.parent.is_dir(), "existing output parent required")
+            self.assertEqual(output.parent.resolve(), output.parent,
+                             "symlink output parent refused")
+            self.assertFalse(output.is_relative_to(REPO), "live output must be external")
+            for path in (output, output.with_suffix(".stdout.log"),
+                         output.with_suffix(".stderr.log"), output.with_suffix(".exit.json")):
+                self.assertFalse(os.path.lexists(path), "new evidence files required")
+            return identity, output
+
+        identity, output = prepared(os.environ)
+        fresh = [record for _, record in records if record.get("status") == "fresh"]
+        self.assertTrue(fresh, "mandatory live shard has no declared-fresh candidates")
+        selected = ("tools/node_status_live_check.py", "tools/node_status_refresh.py",
+                    "tools/validate_node_status.py", "architecture/node-status.schema.json",
+                    "docs/site/current.json",
+                    *("records/node_status/" + path.name for path, _ in records))
+        self.assertEqual(len(selected), 9, "production live CLI requires its exact nine inputs")
+
+        def source_bindings():
+            bindings = {}
+            for relative in selected:
+                path = REPO
+                for part in Path(relative).parts:
+                    path = path / part
+                    self.assertFalse(path.is_symlink(), "selected source symlink refused")
+                before = path.stat()
+                self.assertTrue(stat.S_ISREG(before.st_mode))
+                self.assertLessEqual(before.st_size, 2_000_000)
+                raw = path.read_bytes()
+                after = path.stat()
+                fields = ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_ctime_ns")
+                self.assertEqual(tuple(getattr(before, field) for field in fields),
+                                 tuple(getattr(after, field) for field in fields))
+                self.assertEqual(len(raw), before.st_size)
+                bindings[relative] = {
+                    "git_blob": hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest(),
+                    "git_mode": "100755" if before.st_mode & stat.S_IXUSR else "100644",
+                    "sha256": hashlib.sha256(raw).hexdigest()}
+            return bindings
+
+        before = source_bindings()
+        command = [sys.executable, "-B", *(["-O"] if sys.flags.optimize else []), "-S",
+                   str(REPO / "tools/node_status_live_check.py"),
+                   "--root", str(REPO), "--output", str(output)]
+        stdout_path, stderr_path = output.with_suffix(".stdout.log"), output.with_suffix(".stderr.log")
+        exit_path = output.with_suffix(".exit.json")
+        outcome = {"command": command, "identity": identity, "executed": False,
+                   "returncode": None, "timed_out": False, "exception_type": None,
+                   "source_bindings_before": before, "source_bindings_after": None,
+                   "source_recheck_error": None, "prerequisite_controls": [],
+                   "prerequisite_controls_scope": "ADMISSION_ONLY_NO_LIVE_CREDIT"}
+        stdout_raw = stderr_raw = None
+        try:
+            controls = [("offline_absent_flag", {}, unittest.SkipTest)]
+            for label, key in (("missing_native_context", "GITHUB_ACTIONS"),
+                               ("missing_token", "GITHUB_TOKEN"),
+                               ("missing_output", "NODE_STATUS_LIVE_OUTPUT")):
+                environment = dict(os.environ)
+                environment.pop(key, None)
+                controls.append((label, environment, AssertionError))
+            invalid = dict(os.environ)
+            invalid["NODE_STATUS_LIVE_REQUIRED"] = "invalid"
+            controls.append(("invalid_mandatory_flag", invalid, AssertionError))
+            for label, environment, expected in controls:
+                observed = None
+                try:
+                    prepared(environment)
+                except Exception as error:
+                    observed = type(error)
+                outcome["prerequisite_controls"].append({
+                    "id": label, "expected_exception": expected.__name__,
+                    "observed_exception": observed.__name__ if observed else None,
+                    "status": "PASS" if observed is expected else "FAIL"})
+            if any(row["status"] != "PASS" for row in outcome["prerequisite_controls"]):
+                raise AssertionError("live-shard prerequisite control failed")
+            with os.fdopen(os.open(stdout_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL |
+                                   os.O_NOFOLLOW, 0o600), "wb") as stdout, \
+                    os.fdopen(os.open(stderr_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL |
+                                      os.O_NOFOLLOW, 0o600), "wb") as stderr:
+                outcome["executed"] = True
+                try:
+                    child = subprocess.run(command, cwd=REPO, stdout=stdout, stderr=stderr,
+                                           timeout=420, check=False)
+                    outcome["returncode"] = child.returncode
+                except subprocess.TimeoutExpired:
+                    outcome["timed_out"] = True
+        except Exception as error:
+            outcome["exception_type"] = type(error).__name__
+        finally:
+            try:
+                outcome["source_bindings_after"] = source_bindings()
+            except Exception as error:
+                outcome["source_recheck_error"] = type(error).__name__
+            for label, path in (("stdout", stdout_path), ("stderr", stderr_path)):
+                if path.is_file():
+                    raw = path.read_bytes()
+                    outcome[label + "_bytes"] = len(raw)
+                    outcome[label + "_sha256"] = hashlib.sha256(raw).hexdigest()
+                    if label == "stdout":
+                        stdout_raw = raw
+                    else:
+                        stderr_raw = raw
+            with os.fdopen(os.open(exit_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL |
+                                   os.O_NOFOLLOW, 0o600), "w", encoding="utf-8",
+                           newline="\n") as stream:
+                stream.write(json.dumps(outcome, sort_keys=True, indent=2) + "\n")
+
+        self.assertIsNone(outcome["exception_type"], outcome["exception_type"])
+        self.assertTrue(outcome["executed"])
+        self.assertFalse(outcome["timed_out"], "actual live CLI timed out")
+        self.assertEqual(outcome["returncode"], 0, "actual live CLI refused; see retained originals")
+        self.assertIsNone(outcome["source_recheck_error"])
+        self.assertEqual(outcome["source_bindings_after"], before)
+        self.assertEqual(stderr_raw, b"")
+        self.assertIsInstance(stdout_raw, bytes)
+        self.assertLessEqual(len(stdout_raw), 4 * 1024 * 1024)
+        self.assertFalse(output.is_symlink())
+        self.assertTrue(output.is_file(), "actual CLI report missing")
+        self.assertLessEqual(output.stat().st_size, 4 * 1024 * 1024)
+        self.assertEqual(output.read_bytes(), stdout_raw, "CLI file/stdout bytes differ")
+        report = json.loads(stdout_raw)
+        self.assertEqual(set(report), {
+            "schema", "status", "scope", "scientific_effect", "cbz_green", "identity",
+            "checked_commit_before", "checked_commit_after", "checked_tree_before",
+            "checked_tree_after", "source_bindings", "source_bindings_after",
+            "started_at", "source_bound_at", "observation_started_at",
+            "observation_finished_at", "source_rechecked_at", "finished_at",
+            "elapsed_seconds", "freshness"})
+        self.assertEqual(report["schema"], "cbz.node-status-live-cli.v1")
+        self.assertEqual(report["status"], "FRESH")
+        self.assertEqual(report["scope"], "NODE_RECORD_FRESHNESS_ONLY")
+        self.assertEqual(report["scientific_effect"], "NONE")
+        self.assertIs(report["cbz_green"], False)
+        self.assertEqual(report["identity"], identity)
+        self.assertEqual(report["checked_commit_before"], identity["checked_commit"])
+        self.assertEqual(report["checked_commit_after"], identity["checked_commit"])
+        self.assertTrue(isinstance(report["checked_tree_before"], str)
+                        and re.fullmatch(r"[0-9a-f]{40}", report["checked_tree_before"]) is not None)
+        self.assertEqual(report["checked_tree_after"], report["checked_tree_before"])
+        self.assertEqual(report["source_bindings"], before)
+        self.assertEqual(report["source_bindings_after"], before)
+        freshness = report["freshness"]
+        self.assertEqual(freshness["schema"], "cbz.node-status-live-check.v1")
+        self.assertEqual(freshness["scope"], "NODE_RECORD_FRESHNESS_ONLY")
+        self.assertEqual(freshness["scientific_effect"], "NONE")
+        self.assertIs(freshness["cbz_green"], False)
+        self.assertEqual(freshness["identity"], identity)
+        self.assertEqual(freshness["records_total"], len(records))
+        self.assertEqual(freshness["fresh_candidates"], len(fresh))
+        self.assertEqual(freshness["fresh_checked"], len(fresh))
+        self.assertEqual(freshness["fresh_nodes"], sorted(record["node_id"] for record in fresh))
+        self.assertEqual(freshness["nonfresh_records"], sorted(
+            ({"node_id": record["node_id"], "declared_status": record["status"]}
+             for _, record in records if record.get("status") != "fresh"),
+            key=lambda row: row["node_id"]))
+        self.assertEqual(freshness["input_sha256"], {
+            path.name: before["records/node_status/" + path.name]["sha256"] for path, _ in records})
+        self.assertEqual(freshness["schema_sha256"],
+                         before["architecture/node-status.schema.json"]["sha256"])
+        self.assertEqual(freshness["graph_sha256"], before["docs/site/current.json"]["sha256"])
+        observations = freshness["source_observations"]
+        self.assertIsInstance(observations, list)
+        self.assertTrue(all(isinstance(row, dict) and isinstance(row.get("url"), str)
+                            for row in observations))
+        requested = [source["url"] for record in fresh for source in record["sources"]]
+        self.assertTrue(requested)
+        self.assertEqual(freshness["source_observation_count"], len(requested))
+        self.assertEqual(len(observations), len(requested))
+        self.assertEqual(sorted(row["url"] for row in observations), sorted(requested))
 
 
 class MandatoryInputTests(unittest.TestCase):
