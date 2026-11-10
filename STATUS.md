@@ -1,5 +1,20 @@
 # CBZ-0 execution status
 
+## Additional retained observations — 10 November 2026
+
+An earlier #801 tested merge `8943bd095d8e99c27318b71c317957cccad700b6`
+ran 2,720 navigation tests with 23 explicit skips. Its exact test log and
+bounded artifact readback are preserved in
+`cbz/evidence/navigation-regression-observation-20261110/`. Separately
+passing components do not erase those skips or establish full G5.
+
+Main `3f05f8493afac71c6f4aac5c1db5aeb46194d98a` site run
+`42750383527` failed public-history readback in build job
+`129614321716`; its deployment was skipped. The decoded failure log is in
+`cbz/evidence/live-site-failure-20261110-0353/`. No subsequent publication
+or receipt recovery is inferred.
+
+
 ## Engineering hard-gate source refresh candidate — 10 November 2026
 
 A draft updates only the `eng.hard-gate` engineering record and its published
@@ -18,8 +33,13 @@ retained. The initial Main tested merge `d1e2d717522b65359a6c94569c35e110585b611
 failed two live-contract tests in each mode because those tests expected three
 fresh records rather than this candidate's four; the live job was skipped.
 The original source and failure log are retained. The candidate updates the
-explicit cohort and adds refusal controls for both hard-gate sources; actual
-fresh checks and normal required checks remain pending. The following read-only checks make live source
+explicit cohort and adds refusal controls for both hard-gate sources. On the
+later tested merge `d06f5a0fcd00d2ae9a12b0c470c1254ac4c5c126`, hosted
+contract job `129622521449` passed 23 helper and 20 CLI tests per mode; live
+job `129622838982` observed all four fresh records and 12 sources in both
+modes at Math `9bdfc54b`. Their decoded logs are retained under
+`cbz/evidence/hard-gate-live-observation-20261110/`. This is not final G7;
+the new whole composition and normal required checks need fresh qualification. The following read-only checks make live source
 observations and fail unless all records are fresh; they are not final G7:
 
 ```sh
@@ -28,8 +48,8 @@ python3 -B -O -S tools/node_status_refresh.py --check records/node_status
 ```
 
 The existing node-status live workflow separately tests declared-fresh
-records in both modes. Its output must be observed on the new tested tree;
-prior runs do not qualify this composition.
+records in both modes. The cited result belongs to the exact earlier tested
+merge; after this evidence-only composition, fresh required checks are needed.
 
 
 ## Normal Pages publisher atomic-head candidate — observed 10 November 2026

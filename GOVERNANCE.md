@@ -1106,8 +1106,10 @@ contracts. No source proof, bound, scientific status or gate threshold changes.
 
 `tools/node_status_live_check.py` uses the existing validator, refresh contract
 and default authenticated HTTPS observer. It validates four current records
-and the complete declared-fresh cohort, while reporting eng.hard-gate as stale.
-It changes no record, source pin, graph, schema, owner or scientific status.
+and the complete declared-fresh cohort. An earlier observation reported
+`eng.hard-gate` stale; the later source-refresh candidate preserves that
+record and a scoped hosted observation checked all four fresh records. The
+observer changes no record, source pin, graph, schema, owner or scientific status.
 
 Offline self-verification:
 
@@ -1145,8 +1147,12 @@ See [the design](docs/plans/2026-11-09-node-status-live-check-design.md) and
 Predecessor dff06396 completed41offline methods and actual live reads per
 mode. Source-specific evidence is retained. A fresh review found an unbound
 package/bytecode import gap. Its actual RED is retained; the captured-source
-repair requires fresh43controls and actual live qualification before integration. The
-trusted runtime/bootstrap is explicit; this is not hostile-host certification.
+repair required fresh43controls and actual live qualification before integration.
+On the later tested merge `d06f5a0fcd00d2ae9a12b0c470c1254ac4c5c126`,
+hosted job `129622521449` ran 23 helper and 20 CLI tests per mode, and job
+`129622838982` observed the four-record cohort in both modes. This is a
+source-bound historical observation; fresh checks are required after changes.
+The trusted runtime/bootstrap is explicit; this is not hostile-host certification.
 Existing dormant history, Q-9002--Q-9005, fullG5 and CBZ remain unawarded.
 Maintenance owner: none; standard library plus existing project validators.
 

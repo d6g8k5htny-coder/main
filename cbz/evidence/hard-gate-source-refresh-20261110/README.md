@@ -22,3 +22,13 @@ The correction retains the explicit cohort check, updates it to four named
 fresh records and twelve source observations, and extends existing
 changed-object and unavailable-source refusal tests to both hard-gate source
 URLs. Fresh hosted results for the corrected source are required.
+
+## Later scoped successful observation
+
+At tested merge `d06f5a0fcd00d2ae9a12b0c470c1254ac4c5c126`, the
+corrected 23 live-contract and 20 CLI tests passed in both modes, and the
+separate live observer checked the four declared-fresh records and 12 sources
+per mode at Math `9bdfc54b76173b57912503bfcf901a5f9d43b09c`. The original
+decoded logs and exact limits are retained under
+`cbz/evidence/hard-gate-live-observation-20261110/`. This observation is
+time-bound and does not qualify a later changed tree or the final federation.

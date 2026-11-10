@@ -889,3 +889,19 @@ README, SHA256SUMS and retained verification history.
   cases, and add changed-object and unavailable-source subcases for both new
   hard-gate URLs. No live check, mathematical claim or regression is waived;
   new hosted outcomes must be observed.
+
+## 2026-11-10 — Retain scoped live and regression observations
+
+- Preserve the corrected hard-gate candidate's actual normal/optimized
+  contract, node-status and live-observation logs under
+  `cbz/evidence/hard-gate-live-observation-20261110/`. On tested merge
+  `d06f5a0fcd00d2ae9a12b0c470c1254ac4c5c126`, the live job observed four
+  fresh records and twelve source observations in each mode at Math
+  `9bdfc54b`; no scientific or final-gate credit follows.
+- Preserve the exact earlier 2,720-test navigation log with its 23 explicit
+  skips and the separate Main `3f05f849` site readback failure. Their
+  artifacts, source commits and limits are recorded in the corresponding
+  evidence directories; neither failure nor skip is reclassified.
+- Keep the diagnostic source and ancestry recoverable while omitting temporary
+  diagnostic workflows from this candidate tree. Re-run appropriate required
+  checks for the new composition and use fresh source/ref guards.
