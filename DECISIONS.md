@@ -550,3 +550,19 @@ proof, ownership, scientific disposition, gate threshold, fullG5 or CBZ award ch
   conflicted. This composition retains the complete published peer suffix and
   then the complete custody suffix; it requires new source-specific checks and
   an expected-head guard. No proof or scientific status changes.
+
+
+## 2026-11-10 — retain selected public branch objects without disposition
+
+- Preserve the captured seven-public-repository head commits, Git trees and
+  the 301 selected changed head-side blobs under
+  `cbz/evidence/public-branch-custody-20261110/`. Exclude private repository
+  refs from this public delivery. The records are historical non-atomic source
+  observations, not a complete branch snapshot or mathematical disposition.
+- The documented temporary-copy verification completed, including both-mode
+  cold restores and specified hostile-input and verifier-mutant controls.
+  Record the exact commands and limitations on STATUS, GOVERNANCE and TOOLING;
+  preserve original logs and failures in the evidence package.
+- Leave all source branches and tags in place. No ref deletion, proof status,
+  quarantine admission, scientific acceptance or gate threshold changes.
+  The additive delivery is recoverable through Git history.

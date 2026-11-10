@@ -1,5 +1,22 @@
 # CBZ baseline ledger
 
+## Public branch custody candidate — 10 November 2026
+
+This candidate preserves selected public Git objects from 58 captured refs in
+seven repositories, including 301 distinct head-side blobs counted per
+repository. The source/default reads were separate and historical; Workspace
+head `d486c55d` has since merged. The packages do not preserve deleted
+default-side blobs, all unchanged branch files or Gitlink target contents.
+Object and path differences do not establish unique work, proof or quarantine
+disposition, ownership, logical isolation or permission to delete a ref. No
+branch or tag is removed. The complete scoped identities, original outcomes and
+limits are in the [custody record](cbz/evidence/public-branch-custody-20261110/README.md).
+The exact temporary-copy commands and specified adverse results are in
+[STATUS](STATUS.md#public-branch-custody-candidate--observed-10-november-2026-0219-utc)
+and [TOOLING](TOOLING.md#public-branch-custody-readbacks--10-november-2026).
+No proof or final gate is awarded. Main #796 advanced after Workspace #67's
+pin; Workspace #68 is a proposed refresh whose actual result remains separate.
+
 ## Later Main and pin observation - 10 November 2026, 02:02 UTC
 
 Main #788 `ad64930cbdc0d27bd896fc6231649e211ebf1562` adds the source-bound

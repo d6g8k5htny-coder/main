@@ -1,5 +1,20 @@
 # CBZ proof and quarantine index
 
+## Public branch custody boundary — 10 November 2026
+
+This candidate preserves selected public Git objects from 58 captured refs in
+seven repositories, including 301 distinct head-side blobs counted per
+repository. The source/default reads were separate and historical; Workspace
+head `d486c55d` has since merged. The packages do not preserve deleted
+default-side blobs, all unchanged branch files or Gitlink target contents.
+Object and path differences do not establish unique work, proof or quarantine
+disposition, ownership, logical isolation or permission to delete a ref. No
+branch or tag is removed. The complete scoped identities, original outcomes and
+limits are in the [custody record](cbz/evidence/public-branch-custody-20261110/README.md).
+The retained Git bytes and path identities are evidence custody, not theorem
+enumeration or a new CLOSED or dormant-quarantine classification. Historical
+statements, authorship, outcomes and failures retain their prior status.
+
 ## Historical non-ancestor tag manuscripts — 10 November 2026
 
 The [custody inventory](cbz/evidence/tag-custody-20261110/historical-math-document-inventory.json)

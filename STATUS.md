@@ -1,5 +1,43 @@
 # CBZ-0 execution status
 
+## Public branch custody candidate — observed 10 November 2026, 02:19 UTC
+
+This candidate preserves selected public Git objects from 58 captured refs in
+seven repositories, including 301 distinct head-side blobs counted per
+repository. The source/default reads were separate and historical; Workspace
+head `d486c55d` has since merged. The packages do not preserve deleted
+default-side blobs, all unchanged branch files or Gitlink target contents.
+Object and path differences do not establish unique work, proof or quarantine
+disposition, ownership, logical isolation or permission to delete a ref. No
+branch or tag is removed. The complete scoped identities, original outcomes and
+limits are in the [custody record](cbz/evidence/public-branch-custody-20261110/README.md).
+Main #796 merged as `812a799f4cf4cee730efa0177a9101af4cf259ef`, preserving
+its tested tree. Its navigation artifact recorded 2,686 tests and 24 explicit
+skips, so full no-skip regression remains open. Workspace #67 pinned its prior
+Main `ad64930c`; after #796 that pin is stale. Workspace #68 proposes a guarded
+refresh to `812a799f`; its integration and any later Main movement must be
+observed separately. Main #797 remains a separate active SDGA test-first draft.
+
+A fresh temporary-copy run checked all 62 packaged checksums, restored the
+six-repository tree and selected-blob packs in both Python modes (24 passes),
+and ran the four specified adverse drivers. Each Workspace and query pair
+observed six clean controls, 28 malformed-report/manifest rejections, four
+detected verifier-mutant executions and four damaged-pack rejections. These
+bounded controls are not a full auditor, final G0/G10 or scientific review.
+From the Main checkout, run the exact bounded custody checks as follows:
+
+```sh
+CBZ_BRANCH_CHECK_DIR=$(mktemp -d) || exit 1
+cp -a cbz/evidence/public-branch-custody-20261110 "$CBZ_BRANCH_CHECK_DIR/branch-custody" || exit 1
+cd "$CBZ_BRANCH_CHECK_DIR/branch-custody" || exit 1
+sha256sum -c SHA256SUMS || exit 1
+python3 -B -S cold_restore_small_repository_packs.py || exit 1
+python3 -B -S test_workspace_branch_tree_adverse.py || exit 1
+python3 -B -S test_workspace_changed_blob_adverse.py || exit 1
+python3 -B -S test_small_repository_tree_adverse.py || exit 1
+python3 -B -S test_small_repository_blob_adverse.py || exit 1
+```
+
 ## Later Main and pin observation - 10 November 2026, 02:02 UTC
 
 Main #788 merged as `ad64930cbdc0d27bd896fc6231649e211ebf1562`, adding
