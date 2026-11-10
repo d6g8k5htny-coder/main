@@ -1,6 +1,24 @@
 # CBZ proof and quarantine index
 
-## Publication atomic-head candidate — 10 November 2026
+## Interpreter-option tooling boundary
+
+The G11 interpreter-option findings, repairs and retained failures concern tool-reference attribution only; they do not close, refute or rebind mathematical statements or establish scientific review.
+
+
+## Current G11 parser and origin repair boundary
+
+The G11 env/JSON parser and assertion-origin work changes tooling evidence only. Its preserved failures and source-bound component checks neither close nor refute any mathematical proof or scientific claim.
+
+## Current tooling-evidence boundary
+
+The G11 grader's historical mutation totals are subject to the actual assertion-origin failure recorded in [STATUS](STATUS.md#current-g11-origin-boundary--10-november-2026). This limits tooling evidence only: it does not refute or rebind any historical mathematical statement or kernel outcome, nor establish scientific review or proof closure.
+
+## SDGA Task A inventory boundary — 10 November 2026
+
+Main #797 integrated a bounded compiled-object inventory and fixture controls. Its classification and qualification remain BLOCKED; the observed component checks do not close, refute, or rebind any mathematical proof or quarantine and do not establish scientific acceptance. See STATUS for exact commands and observed execution.
+
+
+## Publication atomic-head boundary — 10 November 2026
 
 Receipt ref safety and hosted control results are operational provenance, not
 mathematical proof or quarantine disposition. The original publisher failure
@@ -17,7 +35,7 @@ and TOOLING for commands and verification limits. This entry closes no proof.
 
 ## Selected historical text custody boundary — 10 November 2026
 
-This candidate preserves exact Git head/tree objects and selected changed
+The integrated custody record preserves exact Git head/tree objects and selected changed
 head-side text blobs from 430 historical public Main and Math refs: 588 Main
 `.lean` blobs and 608 Math `.lean`/`.md` blobs, with 6,867 head/path bindings.
 The case-sensitive suffix selection, separately observed defaults, exact

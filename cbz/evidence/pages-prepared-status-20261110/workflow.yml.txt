@@ -1,0 +1,44 @@
+name: CBZ read prepared Pages status
+on:
+  push:
+    branches: [codex/cbz-architecture-observation-20261110]
+permissions:
+  contents: read
+  actions: read
+  pages: read
+jobs:
+  observe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Read exact prepared publication platform state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - <<'PY'
+          import json, os, urllib.error, urllib.request
+          base = 'https://api.github.com/repos/d6g8k5htny-coder/main'
+          targets = {
+              'deployment': '/pages/deployments/6d928a3216233fb75dc717ee0b2d2e4bb08db266',
+              'source_run': '/actions/runs/42737966287',
+              'receipt': '/git/ref/heads/codex/site-publication-receipts',
+              'main': '/git/ref/heads/main',
+          }
+          allowed = {'deployment': ('status',), 'source_run': ('id','status','conclusion','run_attempt','head_sha','head_branch','event'), 'receipt': ('ref','object'), 'main': ('ref','object')}
+          result = {}
+          for name, path in targets.items():
+              request = urllib.request.Request(base + path, headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'], 'Accept':'application/vnd.github+json', 'User-Agent':'cbz-read-only-observation'})
+              try:
+                  with urllib.request.urlopen(request, timeout=30) as response:
+                      data = response.read(1024 * 1024 + 1)
+                      if len(data)>1024*1024: raise ValueError('response too large')
+                      body = json.loads(data)
+                      row = {key: body.get(key) for key in allowed[name]}
+                      if 'object' in row and isinstance(row['object'],dict):
+                          row['object'] = {key:row['object'].get(key) for key in ('sha','type')}
+                      result[name] = {'http_status':response.status, 'fields':row}
+              except urllib.error.HTTPError as error:
+                  result[name] = {'http_status':error.code}
+          print(json.dumps(result, sort_keys=True))
+          PY

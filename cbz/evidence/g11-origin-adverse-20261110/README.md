@@ -1,0 +1,7 @@
+# G11 assertion-origin adverse result
+
+Observed on 2026-11-10 in hosted Actions run 42760114483, job 129643558161. The actual selected test and parent grader ran six children in each Python 3.11.18 mode at source 991ecf42c248d293aa3eda45828f815f5d71e25d; the harness, subject and selected test blobs are identical to Main b6be588c82d2256c917b7d26d901085bc90319fb. Source SHA-256 before and after is recorded in observation.json.
+
+The baseline passed, the selected-oracle mutation was accepted, and an ordinary RuntimeError was rejected in each mode. Three injected AssertionErrors in the subject, nested helper and nested callback were wrongly accepted as oracle kills in each mode. The traceback evidence shows a deeper non-test frame, but the parser retained the last frame matching the test filename. Six false acceptances were observed; no claim is made about how many of the earlier 328 outcomes were affected.
+
+The job intentionally failed both probes when false kills were found. Artifact 13737331554 was reported by GitHub as SHA-256 587ecbffd69abd84ec6ed0eba005eac2626636a82e21fc192dc1b22225a8a361; its ZIP was not independently read here. Full original job log and exact diagnostic sources are retained. Scripts were removed from active workflow paths after the run. Existing G11 mutation totals retain their original history and do not establish sound mutation attribution or final G11 qualification. This finding does not refute mathematical statements or alter historical kernel outcomes.

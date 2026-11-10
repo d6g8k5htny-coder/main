@@ -1,0 +1,48 @@
+name: CBZ read observed Pages predecessor
+on:
+  push:
+    branches: [codex/cbz-architecture-observation-20261110]
+permissions:
+  contents: read
+jobs:
+  observe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: 2f878f8eb5c621dcf9231e4a1bf582b685321130
+          persist-credentials: false
+      - name: Read exact observed predecessor from public Pages
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = 2f878f8eb5c621dcf9231e4a1bf582b685321130
+          test "$(git hash-object tools/current_site_publication.py)" = d147a3a39fe17147fa4f9c3dda4b34db5b2573a3
+          python3 -I -B -S - <<'PY'
+          import json, os, sys
+          sys.path.insert(0, os.getcwd())
+          from tools import current_site_publication as p
+          api = p.GitHubAPI()
+          head = p.read_ref_head(api)
+          if head != '6e01d1f5f83d320172e29391eea336e3256aeea2':
+              raise ValueError('receipt head changed before observation')
+          current = p.read_anchor_at(api, head)['receipt']
+          if current['phase'] != 'prepared' or current['previous_receipt_commit'] != '81b3998534827e2c2e45188a1a52672aa6666001':
+              raise ValueError('prepared receipt differs')
+          previous = p.read_anchor_at(api, current['previous_receipt_commit'])['receipt']
+          if previous['phase'] != 'observed':
+              raise ValueError('previous receipt is not observed')
+          try:
+              raw = p.public_readback(previous, attempts=2)
+          except (ValueError, OSError) as error:
+              print(json.dumps({'result':'READBACK_FAILED','error':str(error),'receipt_head_before':head}, sort_keys=True), flush=True)
+              raise
+          after = p.read_ref_head(api)
+          if after != head:
+              raise ValueError('receipt head changed during observation')
+          print(json.dumps({'result':'READBACK_MATCH','receipt_head_before':head,'receipt_head_after':after,
+                            'previous':'81b3998534827e2c2e45188a1a52672aa6666001',
+                            'files':{path:{'bytes':len(value),'sha256':p.sha256(value)} for path,value in raw.items()}}, sort_keys=True), flush=True)
+          PY

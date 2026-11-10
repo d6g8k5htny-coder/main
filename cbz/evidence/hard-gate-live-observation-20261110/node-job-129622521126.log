@@ -1,0 +1,368 @@
+﻿2026-11-10T04:05:08.2332862Z Current runner version: '2.338.2'
+2026-11-10T04:05:08.2350003Z ##[group]Runner Image Provisioner
+2026-11-10T04:05:08.2350605Z Hosted Compute Agent
+2026-11-10T04:05:08.2350970Z Version: 20261028.624
+2026-11-10T04:05:08.2351374Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T04:05:08.2351827Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T04:05:08.2352413Z Worker ID: {4d29c9c2-3fc5-49c9-96d1-3a67a58ef9bc}
+2026-11-10T04:05:08.2352809Z Region: westus3
+2026-11-10T04:05:08.2353183Z Cloud: Azure
+2026-11-10T04:05:08.2353568Z ##[endgroup]
+2026-11-10T04:05:08.2354358Z ##[group]Operating System
+2026-11-10T04:05:08.2354712Z Ubuntu
+2026-11-10T04:05:08.2355015Z 24.04.5
+2026-11-10T04:05:08.2355369Z LTS
+2026-11-10T04:05:08.2355710Z ##[endgroup]
+2026-11-10T04:05:08.2356055Z ##[group]Runner Image
+2026-11-10T04:05:08.2356411Z Image: ubuntu-24.04
+2026-11-10T04:05:08.2356749Z Version: 20261101.360.1
+2026-11-10T04:05:08.2357568Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T04:05:08.2358434Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T04:05:08.2358985Z ##[endgroup]
+2026-11-10T04:05:08.2359663Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T04:05:08.2360856Z Contents: read
+2026-11-10T04:05:08.2361207Z Metadata: read
+2026-11-10T04:05:08.2361602Z ##[endgroup]
+2026-11-10T04:05:08.2363037Z Secret source: Actions
+2026-11-10T04:05:08.2363627Z Cache mode: write
+2026-11-10T04:05:08.2364078Z Prepare workflow directory
+2026-11-10T04:05:08.2570442Z Prepare all required actions
+2026-11-10T04:05:08.2601722Z Getting action download info
+2026-11-10T04:05:08.5125642Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-10T04:05:08.6871234Z Complete job name: node-status
+2026-11-10T04:05:08.7429768Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-11-10T04:05:08.7430255Z with:
+2026-11-10T04:05:08.7430519Z   persist-credentials: false
+2026-11-10T04:05:08.7430803Z   repository: d6g8k5htny-coder/main
+2026-11-10T04:05:08.7433048Z   token: ***
+2026-11-10T04:05:08.7433282Z   ssh-strict: true
+2026-11-10T04:05:08.7433522Z   ssh-user: git
+2026-11-10T04:05:08.7433755Z   clean: true
+2026-11-10T04:05:08.7434000Z   sparse-checkout-cone-mode: true
+2026-11-10T04:05:08.7434282Z   fetch-depth: 1
+2026-11-10T04:05:08.7434517Z   fetch-tags: false
+2026-11-10T04:05:08.7434761Z   show-progress: true
+2026-11-10T04:05:08.7435002Z   lfs: false
+2026-11-10T04:05:08.7435231Z   submodules: false
+2026-11-10T04:05:08.7435475Z   set-safe-directory: true
+2026-11-10T04:05:08.7435751Z   allow-unsafe-pr-checkout: false
+2026-11-10T04:05:08.7436108Z ##[endgroup]
+2026-11-10T04:05:08.9475629Z Syncing repository: d6g8k5htny-coder/main
+2026-11-10T04:05:08.9476854Z ##[group]Getting Git version info
+2026-11-10T04:05:08.9477188Z Working directory is '/home/runner/work/main/main'
+2026-11-10T04:05:08.9477907Z [command]/usr/bin/git version
+2026-11-10T04:05:08.9533216Z git version 2.56.0
+2026-11-10T04:05:08.9545315Z ##[endgroup]
+2026-11-10T04:05:08.9555283Z Temporarily overriding HOME='/home/runner/work/_temp/b3130450-11f3-4b3c-8ad6-63a383623bc8' before making global git config changes
+2026-11-10T04:05:08.9556522Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T04:05:08.9557773Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T04:05:08.9602080Z Deleting the contents of '/home/runner/work/main/main'
+2026-11-10T04:05:08.9604504Z ##[group]Determining repository object format
+2026-11-10T04:05:08.9605490Z ##[endgroup]
+2026-11-10T04:05:08.9606057Z ##[group]Initializing the repository
+2026-11-10T04:05:08.9608005Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-11-10T04:05:08.9681042Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T04:05:08.9681920Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T04:05:08.9683340Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T04:05:08.9683982Z hint: call:
+2026-11-10T04:05:08.9684319Z hint:
+2026-11-10T04:05:08.9684761Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T04:05:08.9685270Z hint:
+2026-11-10T04:05:08.9685742Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T04:05:08.9686552Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T04:05:08.9687185Z hint:
+2026-11-10T04:05:08.9687527Z hint: 	git branch -m <name>
+2026-11-10T04:05:08.9687910Z hint:
+2026-11-10T04:05:08.9688443Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T04:05:08.9689269Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-11-10T04:05:08.9694358Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-11-10T04:05:08.9739600Z ##[endgroup]
+2026-11-10T04:05:08.9740034Z ##[group]Disabling automatic garbage collection
+2026-11-10T04:05:08.9743081Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T04:05:08.9773297Z ##[endgroup]
+2026-11-10T04:05:08.9773869Z ##[group]Setting up auth
+2026-11-10T04:05:08.9776342Z Removing SSH command configuration
+2026-11-10T04:05:08.9783446Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T04:05:08.9807770Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T04:05:09.0088341Z Removing HTTP extra header
+2026-11-10T04:05:09.0093513Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T04:05:09.0129810Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T04:05:09.0313375Z Removing includeIf entries pointing to credentials config files
+2026-11-10T04:05:09.0317198Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T04:05:09.0354224Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T04:05:09.0538085Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-a3d50a29-1c02-444e-a1fd-66871d7269dd.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T04:05:09.0577321Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git.path /home/runner/work/_temp/git-credentials-a3d50a29-1c02-444e-a1fd-66871d7269dd.config
+2026-11-10T04:05:09.0612173Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-a3d50a29-1c02-444e-a1fd-66871d7269dd.config
+2026-11-10T04:05:09.0647796Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-a3d50a29-1c02-444e-a1fd-66871d7269dd.config
+2026-11-10T04:05:09.0683164Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-a3d50a29-1c02-444e-a1fd-66871d7269dd.config
+2026-11-10T04:05:09.0716365Z ##[endgroup]
+2026-11-10T04:05:09.0716760Z ##[group]Fetching the repository
+2026-11-10T04:05:09.0720235Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +d06f5a0fcd00d2ae9a12b0c470c1254ac4c5c126:refs/remotes/pull/804/merge
+2026-11-10T04:05:12.0370774Z From https://github.com/d6g8k5htny-coder/main
+2026-11-10T04:05:12.0372555Z  * [new ref]         d06f5a0fcd00d2ae9a12b0c470c1254ac4c5c126 -> pull/804/merge
+2026-11-10T04:05:12.0376021Z ##[endgroup]
+2026-11-10T04:05:12.0377157Z ##[group]Determining the checkout info
+2026-11-10T04:05:12.0378866Z ##[endgroup]
+2026-11-10T04:05:12.0379695Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T04:05:12.0429931Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T04:05:12.0468075Z ##[group]Checking out the ref
+2026-11-10T04:05:12.0469340Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/804/merge
+2026-11-10T04:05:12.4526355Z Note: switching to 'refs/remotes/pull/804/merge'.
+2026-11-10T04:05:12.4527604Z 
+2026-11-10T04:05:12.4527848Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-10T04:05:12.4528335Z changes and commit them, and you can discard any commits you make in this
+2026-11-10T04:05:12.4528806Z state without impacting any branches by switching back to a branch.
+2026-11-10T04:05:12.4529084Z 
+2026-11-10T04:05:12.4529376Z If you want to create a new branch to retain commits you create, you may
+2026-11-10T04:05:12.4529821Z do so (now or later) by using -c with the switch command. Example:
+2026-11-10T04:05:12.4530078Z 
+2026-11-10T04:05:12.4530195Z   git switch -c <new-branch-name>
+2026-11-10T04:05:12.4530372Z 
+2026-11-10T04:05:12.4530511Z Or undo this operation with:
+2026-11-10T04:05:12.4530667Z 
+2026-11-10T04:05:12.4530783Z   git switch -
+2026-11-10T04:05:12.4530904Z 
+2026-11-10T04:05:12.4531507Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-10T04:05:12.4531763Z 
+2026-11-10T04:05:12.4532033Z HEAD is now at d06f5a0 Merge c1e50f5b30a9c435b1db9faeaf74d93cb4a39050 into b5019e3fe65fef7657cf69326e8ca496e34a94d4
+2026-11-10T04:05:12.4557142Z ##[endgroup]
+2026-11-10T04:05:12.4607070Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T04:05:12.4640467Z d06f5a0fcd00d2ae9a12b0c470c1254ac4c5c126
+2026-11-10T04:05:12.4647469Z ##[group]Removing auth
+2026-11-10T04:05:12.4647691Z Removing SSH command configuration
+2026-11-10T04:05:12.4649978Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T04:05:12.4685492Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T04:05:12.4882912Z Removing HTTP extra header
+2026-11-10T04:05:12.4885262Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T04:05:12.4921177Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T04:05:12.5114238Z Removing includeIf entries pointing to credentials config files
+2026-11-10T04:05:12.5114783Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T04:05:12.5146539Z includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T04:05:12.5147002Z includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T04:05:12.5147393Z includeif.gitdir:/github/workspace/.git.path
+2026-11-10T04:05:12.5147731Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T04:05:12.5152457Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-11-10T04:05:12.5182668Z /home/runner/work/_temp/git-credentials-a3d50a29-1c02-444e-a1fd-66871d7269dd.config
+2026-11-10T04:05:12.5190152Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-a3d50a29\-1c02\-444e\-a1fd\-66871d7269dd\.config
+2026-11-10T04:05:12.5232982Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-11-10T04:05:12.5263615Z /home/runner/work/_temp/git-credentials-a3d50a29-1c02-444e-a1fd-66871d7269dd.config
+2026-11-10T04:05:12.5268964Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-a3d50a29\-1c02\-444e\-a1fd\-66871d7269dd\.config
+2026-11-10T04:05:12.5307567Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-10T04:05:12.5338405Z /github/runner_temp/git-credentials-a3d50a29-1c02-444e-a1fd-66871d7269dd.config
+2026-11-10T04:05:12.5344157Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-a3d50a29\-1c02\-444e\-a1fd\-66871d7269dd\.config
+2026-11-10T04:05:12.5449956Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-10T04:05:12.5484645Z /github/runner_temp/git-credentials-a3d50a29-1c02-444e-a1fd-66871d7269dd.config
+2026-11-10T04:05:12.5488760Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-a3d50a29\-1c02\-444e\-a1fd\-66871d7269dd\.config
+2026-11-10T04:05:12.5526992Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T04:05:12.5728042Z Removing credentials config '/home/runner/work/_temp/git-credentials-a3d50a29-1c02-444e-a1fd-66871d7269dd.config'
+2026-11-10T04:05:12.5728722Z ##[endgroup]
+2026-11-10T04:05:12.5882598Z ##[group]Run node --test tests/test_node_status_atlas.mjs
+2026-11-10T04:05:12.5882950Z [36;1mnode --test tests/test_node_status_atlas.mjs[0m
+2026-11-10T04:05:12.5883206Z [36;1mpython3 -B -S tools/validate_node_status.py records/node_status[0m
+2026-11-10T04:05:12.5901445Z shell: /usr/bin/bash -e {0}
+2026-11-10T04:05:12.5901622Z ##[endgroup]
+2026-11-10T04:05:15.1380460Z TAP version 13
+2026-11-10T04:05:15.3775158Z # Subtest: published node-status records are real graph nodes with a valid owner and no mathematical flags
+2026-11-10T04:05:15.3779489Z ok 1 - published node-status records are real graph nodes with a valid owner and no mathematical flags
+2026-11-10T04:05:15.3780181Z   ---
+2026-11-10T04:05:15.3780481Z   duration_ms: 109.577074
+2026-11-10T04:05:15.3780610Z   type: 'test'
+2026-11-10T04:05:15.3780718Z   ...
+2026-11-10T04:05:15.6475939Z # Subtest: a record with an owner but no evidence_url fails validation
+2026-11-10T04:05:15.6476933Z ok 2 - a record with an owner but no evidence_url fails validation
+2026-11-10T04:05:15.6478114Z   ---
+2026-11-10T04:05:15.6478298Z   duration_ms: 270.126646
+2026-11-10T04:05:15.6478486Z   type: 'test'
+2026-11-10T04:05:15.6478645Z   ...
+2026-11-10T04:05:16.2707635Z # Subtest: closed schema, evidence pattern, and primary source_rev are enforced
+2026-11-10T04:05:16.2710530Z ok 3 - closed schema, evidence pattern, and primary source_rev are enforced
+2026-11-10T04:05:16.2711036Z   ---
+2026-11-10T04:05:16.2711257Z   duration_ms: 622.957726
+2026-11-10T04:05:16.2711527Z   type: 'test'
+2026-11-10T04:05:16.2711707Z   ...
+2026-11-10T04:05:16.4656431Z # Subtest: pinned rev equals the blob or tree commit segment
+2026-11-10T04:05:16.4657227Z ok 4 - pinned rev equals the blob or tree commit segment
+2026-11-10T04:05:16.4720031Z   ---
+2026-11-10T04:05:16.4720349Z   duration_ms: 194.625511
+2026-11-10T04:05:16.4720541Z   type: 'test'
+2026-11-10T04:05:16.4720701Z   ...
+2026-11-10T04:05:16.7344570Z # Subtest: carried_forward resolution_url uses the shared comment pattern
+2026-11-10T04:05:16.7345411Z ok 5 - carried_forward resolution_url uses the shared comment pattern
+2026-11-10T04:05:16.7345950Z   ---
+2026-11-10T04:05:16.7346454Z   duration_ms: 268.499221
+2026-11-10T04:05:16.7351594Z   type: 'test'
+2026-11-10T04:05:16.7352563Z   ...
+2026-11-10T04:05:16.8359009Z # Subtest: released_url keeps the owner object and the atlas says released
+2026-11-10T04:05:16.8361344Z ok 6 - released_url keeps the owner object and the atlas says released
+2026-11-10T04:05:16.8361624Z   ---
+2026-11-10T04:05:16.8361794Z   duration_ms: 101.891589
+2026-11-10T04:05:16.8361985Z   type: 'test'
+2026-11-10T04:05:16.8362147Z   ...
+2026-11-10T04:05:17.2142779Z # Subtest: resume projection shows a node-status view and refuses an owner without evidence
+2026-11-10T04:05:17.2143880Z ok 7 - resume projection shows a node-status view and refuses an owner without evidence
+2026-11-10T04:05:17.2144095Z   ---
+2026-11-10T04:05:17.2144209Z   duration_ms: 378.250878
+2026-11-10T04:05:17.2144334Z   type: 'test'
+2026-11-10T04:05:17.2144474Z   ...
+2026-11-10T04:05:17.3339683Z # Subtest: a valid observed_at and source_rev refresh still validates and renders
+2026-11-10T04:05:17.3340417Z ok 8 - a valid observed_at and source_rev refresh still validates and renders
+2026-11-10T04:05:17.3340810Z   ---
+2026-11-10T04:05:17.3341000Z   duration_ms: 119.593142
+2026-11-10T04:05:17.3341185Z   type: 'test'
+2026-11-10T04:05:17.3341348Z   ...
+2026-11-10T04:05:17.3348723Z # Subtest: the atlas resume section passes the published node-status view into resumeProjection
+2026-11-10T04:05:17.3349375Z ok 9 - the atlas resume section passes the published node-status view into resumeProjection
+2026-11-10T04:05:17.3349834Z   ---
+2026-11-10T04:05:17.3349945Z   duration_ms: 0.845294
+2026-11-10T04:05:17.3350088Z   type: 'test'
+2026-11-10T04:05:17.3350235Z   ...
+2026-11-10T04:05:17.4358892Z # Subtest: lifetime continuation exposes conditional R1 evidence without promoting the general graph claim
+2026-11-10T04:05:17.4360198Z ok 10 - lifetime continuation exposes conditional R1 evidence without promoting the general graph claim
+2026-11-10T04:05:17.4360682Z   ---
+2026-11-10T04:05:17.4361094Z   duration_ms: 101.00416
+2026-11-10T04:05:17.4361325Z   type: 'test'
+2026-11-10T04:05:17.4361495Z   ...
+2026-11-10T04:05:17.4468488Z 1..10
+2026-11-10T04:05:17.4468766Z # tests 10
+2026-11-10T04:05:17.4468919Z # suites 0
+2026-11-10T04:05:17.4469109Z # pass 10
+2026-11-10T04:05:17.4469277Z # fail 0
+2026-11-10T04:05:17.4469432Z # cancelled 0
+2026-11-10T04:05:17.4469600Z # skipped 0
+2026-11-10T04:05:17.4469807Z # todo 0
+2026-11-10T04:05:17.4469963Z # duration_ms 2351.694882
+2026-11-10T04:05:17.4779043Z node-status records valid: records/node_status
+2026-11-10T04:05:17.4849794Z ##[group]Run set -euo pipefail
+2026-11-10T04:05:17.4850015Z [36;1mset -euo pipefail[0m
+2026-11-10T04:05:17.4850189Z [36;1mlog="$RUNNER_TEMP/node-status-real-record-normal.log"[0m
+2026-11-10T04:05:17.4850370Z [36;1m{[0m
+2026-11-10T04:05:17.4850481Z [36;1m  printf 'mode=normal\n'[0m
+2026-11-10T04:05:17.4850844Z [36;1m  python3 -B -S -c 'import sys; print("executable=" + sys.executable); print("python=" + sys.version.replace("\n", " ")); print("optimize=" + str(sys.flags.optimize))'[0m
+2026-11-10T04:05:17.4851197Z [36;1m  printf 'checked_commit='[0m
+2026-11-10T04:05:17.4851340Z [36;1m  git rev-parse HEAD[0m
+2026-11-10T04:05:17.4851473Z [36;1m  printf 'checked_tree='[0m
+2026-11-10T04:05:17.4851614Z [36;1m  git rev-parse 'HEAD^{tree}'[0m
+2026-11-10T04:05:17.4851774Z [36;1m  python3 -B -S -u - <<'Q9002_METHODS_PY'[0m
+2026-11-10T04:05:17.4851928Z [36;1mimport unittest[0m
+2026-11-10T04:05:17.4852048Z [36;1m[0m
+2026-11-10T04:05:17.4852171Z [36;1midentifiers = ([0m
+2026-11-10T04:05:17.4852610Z [36;1m    "tests.test_living_project_validation.RealRecordTests.test_adoption_on_merged_records",[0m
+2026-11-10T04:05:17.4852957Z [36;1m    "tests.test_living_project_validation.RealRecordTests.test_real_records_required_fields",[0m
+2026-11-10T04:05:17.4853316Z [36;1m    "tests.test_living_project_validation.RealRecordTests.test_real_records_source_rev_equals_first_source",[0m
+2026-11-10T04:05:17.4853681Z [36;1m    "tests.test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern",[0m
+2026-11-10T04:05:17.4854037Z [36;1m    "tests.test_living_project_validation.RealRecordTests.test_real_records_match_published_projection",[0m
+2026-11-10T04:05:17.4854281Z [36;1m)[0m
+2026-11-10T04:05:17.4854392Z [36;1msuite = unittest.TestSuite([0m
+2026-11-10T04:05:17.4854610Z [36;1m    unittest.defaultTestLoader.loadTestsFromName(name) for name in identifiers[0m
+2026-11-10T04:05:17.4854822Z [36;1m)[0m
+2026-11-10T04:05:17.4854999Z [36;1mresult = unittest.TextTestRunner(verbosity=2, descriptions=False).run(suite)[0m
+2026-11-10T04:05:17.4855370Z [36;1mraise SystemExit(0 if result.wasSuccessful() else 1)[0m
+2026-11-10T04:05:17.4855540Z [36;1mQ9002_METHODS_PY[0m
+2026-11-10T04:05:17.4855665Z [36;1m} 2>&1 | tee "$log"[0m
+2026-11-10T04:05:17.4855943Z [36;1mgrep -Ec '^Ran 5 tests in [0-9.]+s$' "$log" | grep -Fxq '1' || { echo '::error::Expected exactly one five-method unittest summary'; exit 1; }[0m
+2026-11-10T04:05:17.4856377Z [36;1mtail -n 1 "$log" | grep -Fxq 'OK' || { echo '::error::Required real-record methods did not finish without failures, errors or skips'; exit 1; }[0m
+2026-11-10T04:05:17.4856773Z [36;1mif grep -Fq ' ... skipped ' "$log"; then echo '::error::Required real-record method skipped'; exit 1; fi[0m
+2026-11-10T04:05:17.4857138Z [36;1mtest "$(grep -Ec '^[^[:space:]]+ \(.*\) \.\.\. ' "$log")" -eq 5 || { echo '::error::Expected exactly five unittest method outcomes'; exit 1; }[0m
+2026-11-10T04:05:17.4857403Z [36;1mfor method in \[0m
+2026-11-10T04:05:17.4857538Z [36;1m  test_adoption_on_merged_records \[0m
+2026-11-10T04:05:17.4857700Z [36;1m  test_real_records_required_fields \[0m
+2026-11-10T04:05:17.4857878Z [36;1m  test_real_records_source_rev_equals_first_source \[0m
+2026-11-10T04:05:17.4858062Z [36;1m  test_real_records_evidence_id_pattern \[0m
+2026-11-10T04:05:17.4858235Z [36;1m  test_real_records_match_published_projection[0m
+2026-11-10T04:05:17.4858399Z [36;1mdo[0m
+2026-11-10T04:05:17.4858618Z [36;1m  expected="$method (tests.test_living_project_validation.RealRecordTests.$method) ... ok"[0m
+2026-11-10T04:05:17.4858973Z [36;1m  test "$(grep -Fxc "$expected" "$log")" -eq 1 || { echo "::error::Required method did not pass exactly once: $method"; exit 1; }[0m
+2026-11-10T04:05:17.4859229Z [36;1mdone[0m
+2026-11-10T04:05:17.4876221Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T04:05:17.4876402Z ##[endgroup]
+2026-11-10T04:05:17.4914775Z mode=normal
+2026-11-10T04:05:17.4955994Z executable=/usr/bin/python3
+2026-11-10T04:05:17.4956245Z python=3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]
+2026-11-10T04:05:17.4956494Z optimize=0
+2026-11-10T04:05:17.4979036Z checked_commit=d06f5a0fcd00d2ae9a12b0c470c1254ac4c5c126
+2026-11-10T04:05:17.4991595Z checked_tree=aad84801ccfa652a672233ed60a1c2d11163fc08
+2026-11-10T04:05:17.5575656Z test_adoption_on_merged_records (tests.test_living_project_validation.RealRecordTests.test_adoption_on_merged_records) ... ok
+2026-11-10T04:05:17.5578653Z test_real_records_required_fields (tests.test_living_project_validation.RealRecordTests.test_real_records_required_fields) ... ok
+2026-11-10T04:05:17.5602142Z test_real_records_source_rev_equals_first_source (tests.test_living_project_validation.RealRecordTests.test_real_records_source_rev_equals_first_source) ... ok
+2026-11-10T04:05:17.5622872Z test_real_records_evidence_id_pattern (tests.test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern) ... ok
+2026-11-10T04:05:17.5625357Z test_real_records_match_published_projection (tests.test_living_project_validation.RealRecordTests.test_real_records_match_published_projection) ... ok
+2026-11-10T04:05:17.5625812Z 
+2026-11-10T04:05:17.5625941Z ----------------------------------------------------------------------
+2026-11-10T04:05:17.5626154Z Ran 5 tests in 0.014s
+2026-11-10T04:05:17.5626233Z 
+2026-11-10T04:05:17.5626272Z OK
+2026-11-10T04:05:17.5804814Z ##[group]Run set -euo pipefail
+2026-11-10T04:05:17.5805011Z [36;1mset -euo pipefail[0m
+2026-11-10T04:05:17.5805188Z [36;1mlog="$RUNNER_TEMP/node-status-real-record-optimized.log"[0m
+2026-11-10T04:05:17.5805374Z [36;1m{[0m
+2026-11-10T04:05:17.5805483Z [36;1m  printf 'mode=optimized\n'[0m
+2026-11-10T04:05:17.5805833Z [36;1m  python3 -B -O -S -c 'import sys; print("executable=" + sys.executable); print("python=" + sys.version.replace("\n", " ")); print("optimize=" + str(sys.flags.optimize))'[0m
+2026-11-10T04:05:17.5806185Z [36;1m  printf 'checked_commit='[0m
+2026-11-10T04:05:17.5806324Z [36;1m  git rev-parse HEAD[0m
+2026-11-10T04:05:17.5806455Z [36;1m  printf 'checked_tree='[0m
+2026-11-10T04:05:17.5806703Z [36;1m  git rev-parse 'HEAD^{tree}'[0m
+2026-11-10T04:05:17.5806866Z [36;1m  python3 -B -O -S -u - <<'Q9002_METHODS_PY'[0m
+2026-11-10T04:05:17.5807027Z [36;1mimport unittest[0m
+2026-11-10T04:05:17.5807143Z [36;1m[0m
+2026-11-10T04:05:17.5807265Z [36;1midentifiers = ([0m
+2026-11-10T04:05:17.5807484Z [36;1m    "tests.test_living_project_validation.RealRecordTests.test_adoption_on_merged_records",[0m
+2026-11-10T04:05:17.5807818Z [36;1m    "tests.test_living_project_validation.RealRecordTests.test_real_records_required_fields",[0m
+2026-11-10T04:05:17.5808174Z [36;1m    "tests.test_living_project_validation.RealRecordTests.test_real_records_source_rev_equals_first_source",[0m
+2026-11-10T04:05:17.5808544Z [36;1m    "tests.test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern",[0m
+2026-11-10T04:05:17.5808904Z [36;1m    "tests.test_living_project_validation.RealRecordTests.test_real_records_match_published_projection",[0m
+2026-11-10T04:05:17.5809156Z [36;1m)[0m
+2026-11-10T04:05:17.5809268Z [36;1msuite = unittest.TestSuite([0m
+2026-11-10T04:05:17.5809489Z [36;1m    unittest.defaultTestLoader.loadTestsFromName(name) for name in identifiers[0m
+2026-11-10T04:05:17.5809703Z [36;1m)[0m
+2026-11-10T04:05:17.5809881Z [36;1mresult = unittest.TextTestRunner(verbosity=2, descriptions=False).run(suite)[0m
+2026-11-10T04:05:17.5810130Z [36;1mraise SystemExit(0 if result.wasSuccessful() else 1)[0m
+2026-11-10T04:05:17.5810304Z [36;1mQ9002_METHODS_PY[0m
+2026-11-10T04:05:17.5810428Z [36;1m} 2>&1 | tee "$log"[0m
+2026-11-10T04:05:17.5810704Z [36;1mgrep -Ec '^Ran 5 tests in [0-9.]+s$' "$log" | grep -Fxq '1' || { echo '::error::Expected exactly one five-method unittest summary'; exit 1; }[0m
+2026-11-10T04:05:17.5811145Z [36;1mtail -n 1 "$log" | grep -Fxq 'OK' || { echo '::error::Required real-record methods did not finish without failures, errors or skips'; exit 1; }[0m
+2026-11-10T04:05:17.5811537Z [36;1mif grep -Fq ' ... skipped ' "$log"; then echo '::error::Required real-record method skipped'; exit 1; fi[0m
+2026-11-10T04:05:17.5811908Z [36;1mtest "$(grep -Ec '^[^[:space:]]+ \(.*\) \.\.\. ' "$log")" -eq 5 || { echo '::error::Expected exactly five unittest method outcomes'; exit 1; }[0m
+2026-11-10T04:05:17.5812176Z [36;1mfor method in \[0m
+2026-11-10T04:05:17.5812473Z [36;1m  test_adoption_on_merged_records \[0m
+2026-11-10T04:05:17.5812637Z [36;1m  test_real_records_required_fields \[0m
+2026-11-10T04:05:17.5812817Z [36;1m  test_real_records_source_rev_equals_first_source \[0m
+2026-11-10T04:05:17.5813001Z [36;1m  test_real_records_evidence_id_pattern \[0m
+2026-11-10T04:05:17.5813178Z [36;1m  test_real_records_match_published_projection[0m
+2026-11-10T04:05:17.5813327Z [36;1mdo[0m
+2026-11-10T04:05:17.5813527Z [36;1m  expected="$method (tests.test_living_project_validation.RealRecordTests.$method) ... ok"[0m
+2026-11-10T04:05:17.5813887Z [36;1m  test "$(grep -Fxc "$expected" "$log")" -eq 1 || { echo "::error::Required method did not pass exactly once: $method"; exit 1; }[0m
+2026-11-10T04:05:17.5814153Z [36;1mdone[0m
+2026-11-10T04:05:17.5829629Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-10T04:05:17.5829802Z ##[endgroup]
+2026-11-10T04:05:17.5864779Z mode=optimized
+2026-11-10T04:05:17.5933947Z executable=/usr/bin/python3
+2026-11-10T04:05:17.5934204Z python=3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]
+2026-11-10T04:05:17.5934446Z optimize=1
+2026-11-10T04:05:17.5958784Z checked_commit=d06f5a0fcd00d2ae9a12b0c470c1254ac4c5c126
+2026-11-10T04:05:17.5971106Z checked_tree=aad84801ccfa652a672233ed60a1c2d11163fc08
+2026-11-10T04:05:17.9318327Z test_adoption_on_merged_records (tests.test_living_project_validation.RealRecordTests.test_adoption_on_merged_records) ... ok
+2026-11-10T04:05:17.9320148Z test_real_records_required_fields (tests.test_living_project_validation.RealRecordTests.test_real_records_required_fields) ... ok
+2026-11-10T04:05:17.9341598Z test_real_records_source_rev_equals_first_source (tests.test_living_project_validation.RealRecordTests.test_real_records_source_rev_equals_first_source) ... ok
+2026-11-10T04:05:17.9362604Z test_real_records_evidence_id_pattern (tests.test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern) ... ok
+2026-11-10T04:05:17.9365180Z test_real_records_match_published_projection (tests.test_living_project_validation.RealRecordTests.test_real_records_match_published_projection) ... ok
+2026-11-10T04:05:17.9365555Z 
+2026-11-10T04:05:17.9365751Z ----------------------------------------------------------------------
+2026-11-10T04:05:17.9365964Z Ran 5 tests in 0.025s
+2026-11-10T04:05:17.9366044Z 
+2026-11-10T04:05:17.9366095Z OK
+2026-11-10T04:05:17.9617995Z Post job cleanup.
+2026-11-10T04:05:18.0153696Z [command]/usr/bin/git version
+2026-11-10T04:05:18.0216657Z git version 2.56.0
+2026-11-10T04:05:18.0238515Z Temporarily overriding HOME='/home/runner/work/_temp/9cbdb15c-e358-4b7e-ba17-e920d3ce276d' before making global git config changes
+2026-11-10T04:05:18.0239392Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T04:05:18.0241354Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-11-10T04:05:18.0278650Z Removing SSH command configuration
+2026-11-10T04:05:18.0283707Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T04:05:18.0316299Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T04:05:18.0521263Z Removing HTTP extra header
+2026-11-10T04:05:18.0526262Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T04:05:18.0563837Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T04:05:18.0765639Z Removing includeIf entries pointing to credentials config files
+2026-11-10T04:05:18.0770778Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T04:05:18.0809430Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T04:05:18.1106493Z Cleaning up orphan processes

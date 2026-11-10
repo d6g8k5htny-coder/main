@@ -1,0 +1,66 @@
+﻿2026-11-10T04:48:13.5462658Z Current runner version: '2.338.2'
+2026-11-10T04:48:13.5488333Z ##[group]Runner Image Provisioner
+2026-11-10T04:48:13.5489279Z Hosted Compute Agent
+2026-11-10T04:48:13.5490374Z Version: 20261028.624
+2026-11-10T04:48:13.5491039Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T04:48:13.5491875Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T04:48:13.5492594Z Worker ID: {fd2757d5-07d3-4042-8d10-f2c7f01e7615}
+2026-11-10T04:48:13.5493367Z Region: northcentralus
+2026-11-10T04:48:13.5494014Z Cloud: Azure
+2026-11-10T04:48:13.5494567Z ##[endgroup]
+2026-11-10T04:48:13.5496165Z ##[group]Operating System
+2026-11-10T04:48:13.5496844Z Ubuntu
+2026-11-10T04:48:13.5497367Z 24.04.5
+2026-11-10T04:48:13.5498082Z LTS
+2026-11-10T04:48:13.5498614Z ##[endgroup]
+2026-11-10T04:48:13.5499237Z ##[group]Runner Image
+2026-11-10T04:48:13.5500070Z Image: ubuntu-24.04
+2026-11-10T04:48:13.5500654Z Version: 20261101.360.1
+2026-11-10T04:48:13.5502104Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T04:48:13.5503756Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T04:48:13.5504747Z ##[endgroup]
+2026-11-10T04:48:13.5506086Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T04:48:13.5508165Z Actions: read
+2026-11-10T04:48:13.5509157Z Contents: read
+2026-11-10T04:48:13.5510284Z Metadata: read
+2026-11-10T04:48:13.5510893Z Pages: read
+2026-11-10T04:48:13.5511541Z ##[endgroup]
+2026-11-10T04:48:13.5513849Z Secret source: Actions
+2026-11-10T04:48:13.5514874Z Cache mode: write
+2026-11-10T04:48:13.5515844Z Prepare workflow directory
+2026-11-10T04:48:13.5862366Z Prepare all required actions
+2026-11-10T04:48:13.5976078Z Complete job name: observe
+2026-11-10T04:48:13.7068017Z ##[group]Run set -euo pipefail
+2026-11-10T04:48:13.7069061Z [36;1mset -euo pipefail[0m
+2026-11-10T04:48:13.7070019Z [36;1mpython3 -I -B -S - <<'PY'[0m
+2026-11-10T04:48:13.7070796Z [36;1mimport json, os, urllib.error, urllib.request[0m
+2026-11-10T04:48:13.7071868Z [36;1mbase = 'https://api.github.com/repos/d6g8k5htny-coder/main'[0m
+2026-11-10T04:48:13.7072732Z [36;1mtargets = {[0m
+2026-11-10T04:48:13.7073630Z [36;1m    'deployment': '/pages/deployments/6d928a3216233fb75dc717ee0b2d2e4bb08db266',[0m
+2026-11-10T04:48:13.7074626Z [36;1m    'source_run': '/actions/runs/42737966287',[0m
+2026-11-10T04:48:13.7075493Z [36;1m    'receipt': '/git/ref/heads/codex/site-publication-receipts',[0m
+2026-11-10T04:48:13.7076444Z [36;1m    'main': '/git/ref/heads/main',[0m
+2026-11-10T04:48:13.7077120Z [36;1m}[0m
+2026-11-10T04:48:13.7078513Z [36;1mallowed = {'deployment': ('status',), 'source_run': ('id','status','conclusion','run_attempt','head_sha','head_branch','event'), 'receipt': ('ref','object'), 'main': ('ref','object')}[0m
+2026-11-10T04:48:13.7080105Z [36;1mresult = {}[0m
+2026-11-10T04:48:13.7080864Z [36;1mfor name, path in targets.items():[0m
+2026-11-10T04:48:13.7082435Z [36;1m    request = urllib.request.Request(base + path, headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'], 'Accept':'application/vnd.github+json', 'User-Agent':'cbz-read-only-observation'})[0m
+2026-11-10T04:48:13.7084008Z [36;1m    try:[0m
+2026-11-10T04:48:13.7084766Z [36;1m        with urllib.request.urlopen(request, timeout=30) as response:[0m
+2026-11-10T04:48:13.7085682Z [36;1m            data = response.read(1024 * 1024 + 1)[0m
+2026-11-10T04:48:13.7086680Z [36;1m            if len(data)>1024*1024: raise ValueError('response too large')[0m
+2026-11-10T04:48:13.7087572Z [36;1m            body = json.loads(data)[0m
+2026-11-10T04:48:13.7088436Z [36;1m            row = {key: body.get(key) for key in allowed[name]}[0m
+2026-11-10T04:48:13.7089367Z [36;1m            if 'object' in row and isinstance(row['object'],dict):[0m
+2026-11-10T04:48:13.7090600Z [36;1m                row['object'] = {key:row['object'].get(key) for key in ('sha','type')}[0m
+2026-11-10T04:48:13.7091922Z [36;1m            result[name] = {'http_status':response.status, 'fields':row}[0m
+2026-11-10T04:48:13.7094033Z [36;1m    except urllib.error.HTTPError as error:[0m
+2026-11-10T04:48:13.7097132Z [36;1m        result[name] = {'http_status':error.code}[0m
+2026-11-10T04:48:13.7099858Z [36;1mprint(json.dumps(result, sort_keys=True))[0m
+2026-11-10T04:48:13.7100950Z [36;1mPY[0m
+2026-11-10T04:48:13.7520362Z shell: /usr/bin/bash -e {0}
+2026-11-10T04:48:13.7522562Z env:
+2026-11-10T04:48:13.7531712Z   GH_TOKEN: ***
+2026-11-10T04:48:13.7533046Z ##[endgroup]
+2026-11-10T04:48:14.7709378Z {"deployment": {"fields": {"status": ""}, "http_status": 200}, "main": {"fields": {"object": {"sha": "2f878f8eb5c621dcf9231e4a1bf582b685321130", "type": "commit"}, "ref": "refs/heads/main"}, "http_status": 200}, "receipt": {"fields": {"object": {"sha": "6e01d1f5f83d320172e29391eea336e3256aeea2", "type": "commit"}, "ref": "refs/heads/codex/site-publication-receipts"}, "http_status": 200}, "source_run": {"fields": {"conclusion": "failure", "event": "push", "head_branch": "main", "head_sha": "6d928a3216233fb75dc717ee0b2d2e4bb08db266", "id": 42737966287, "run_attempt": 2, "status": "completed"}, "http_status": 200}}
+2026-11-10T04:48:14.7930623Z Cleaning up orphan processes

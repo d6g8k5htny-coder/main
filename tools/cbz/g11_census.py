@@ -626,7 +626,7 @@ def _workflow_commands(text):
 
 def noop_steps(text):
     found = []
-    for number, commands in _workflow_commands(text):
+    for number, commands in _workflow_reference_commands(text):
         if not commands:
             found.append({"line": number, "run": "<empty>"})
         if commands and all(c in NOOP_RUN for c in commands):
@@ -4522,9 +4522,111 @@ def _heredoc_opener(command):
     return delimiter, match.group("strip") == "-"
 
 
+WORKFLOW_JSON_INVALID = "unparseable"
+
+
+def _unique_workflow_json_object(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("duplicate JSON workflow key")
+        result[key] = value
+    return result
+
+
+def _reject_workflow_json_constant(_value):
+    raise ValueError("nonstandard JSON workflow constant")
+
+
+def _strict_workflow_json(text):
+    workflow = json.loads(text, object_pairs_hook=_unique_workflow_json_object,
+                          parse_constant=_reject_workflow_json_constant)
+    if not isinstance(workflow, dict) or not isinstance(workflow.get("jobs"), dict):
+        raise ValueError("JSON workflow must have a jobs object")
+    for job in workflow["jobs"].values():
+        if not isinstance(job, dict):
+            raise ValueError("JSON workflow job must be an object")
+        if "steps" in job:
+            if not isinstance(job["steps"], list):
+                raise ValueError("JSON workflow steps must be a list")
+            for step in job["steps"]:
+                if not isinstance(step, dict):
+                    raise ValueError("JSON workflow step must be an object")
+                if "run" in step and not isinstance(step["run"], str):
+                    raise ValueError("JSON workflow run must be a string")
+    return workflow
+
+
+def _workflow_reference_commands(text):
+    """Extract only job step run strings from strict JSON or supported YAML."""
+    if text.lstrip().startswith(("{", "[")):
+        try:
+            workflow = _strict_workflow_json(text)
+        except (ValueError, TypeError):
+            return []
+        blocks = []
+        for job in workflow["jobs"].values():
+            if not isinstance(job, dict) or not isinstance(job.get("steps"), list):
+                continue
+            for step in job["steps"]:
+                if isinstance(step, dict) and isinstance(step.get("run"), str):
+                    commands = [_strip_shell_comment(line.strip()).strip()
+                                for line in step["run"].splitlines()]
+                    blocks.append((0, [command for command in commands if command]))
+        return blocks
+    return _workflow_commands(text)
+
+
+def _workflow_unwrap_env(tokens):
+    """Recognize only env with explicit unset options before a command."""
+    if not tokens or tokens[0] != "env":
+        return tokens
+    index = 1
+    while index < len(tokens):
+        token = tokens[index]
+        if token == "--":
+            return tokens[index + 1:]
+        if token in ("-u", "--unset"):
+            if index + 1 >= len(tokens) or not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", tokens[index + 1]):
+                return []
+            index += 2
+            continue
+        if token.startswith("--unset="):
+            if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", token[len("--unset="):]):
+                return []
+            index += 1
+            continue
+        if token.startswith("-") or "=" in token:
+            return []
+        return tokens[index:]
+    return []
+
+
+def _workflow_interpreter_options_bounded(tokens):
+    """Refuse interpreter options whose operands are not validated here."""
+    interpreter = tokens[0]
+    if interpreter in {"python", "python3", "python3.11"}:
+        operand_options = {"-W", "-X", "--check-hash-based-pycs"}
+        attached_options = ("-W", "-X")
+    elif interpreter in {"bash", "sh"}:
+        operand_options = {"-O", "+O", "-o", "+o", "--init-file", "--rcfile"}
+        attached_options = ()
+    else:
+        return True
+    for token in tokens[1:]:
+        if token in ("--", "-m"):
+            return True
+        if token in operand_options or any(token.startswith(option) for option in attached_options):
+            return False
+        if token.startswith(("-", "+")):
+            continue
+        return True
+    return True
+
+
 def workflow_tool_references(text, tools):
     references = set()
-    for _number, commands in _workflow_commands(text):
+    for _number, commands in _workflow_reference_commands(text):
         heredoc = None
         for command in commands:
             if heredoc:
@@ -4537,25 +4639,22 @@ def workflow_tool_references(text, tools):
                 tokens = shlex.split(command)
             except ValueError:
                 tokens = []
+            if tokens and tokens[0] == "env":
+                tokens = _workflow_unwrap_env(tokens)
+            if tokens and not _workflow_interpreter_options_bounded(tokens):
+                tokens = []
             if tokens:
-                if tokens[0] in {"python", "python3", "python3.11", "bash", "sh"}:
-                    if "-c" not in tokens[1:]:
-                        for index, token in enumerate(tokens[1:], 1):
-                            if token == "-m" and index + 1 < len(tokens):
-                                module_path = tokens[index + 1].replace(".", "/") + ".py"
-                                if module_path in tools:
-                                    references.add(module_path)
-                                break
-                            if token.startswith("-"):
-                                continue
-                            path = _tool_for_token(token, tools)
-                            if path:
-                                references.add(path)
+                references.update(_command_tool_values(tokens, tools))
+                if tokens[0] in {"python", "python3", "python3.11"}:
+                    for index, token in enumerate(tokens[1:], 1):
+                        if token == "--":
                             break
-                else:
-                    path = _tool_for_token(tokens[0], tools)
-                    if path:
-                        references.add(path)
+                        if token == "-m":
+                            if index + 1 < len(tokens):
+                                module_path = tokens[index + 1].replace(".", "/") + ".py"
+                                if module_path in tools and _command_tool_values(tokens[:index] + [module_path], tools) == {module_path}:
+                                    references.add(module_path)
+                            break
             opener = _heredoc_opener(command)
             if opener:
                 heredoc = opener
@@ -4649,6 +4748,12 @@ def census(files, all_paths=None):
             markers, mentions = text_words(text, path)
         elif path.endswith((".yml", ".yaml")):
             markers, mentions = yaml_words(text)
+            if path.startswith(".github/workflows/") and text.lstrip().startswith(("{", "[")):
+                try:
+                    _strict_workflow_json(text)
+                except (ValueError, TypeError):
+                    findings.append({"path": path, "area": kind, "class": WORKFLOW_JSON_INVALID,
+                                     "line": 0, "detail": "invalid or unsupported JSON workflow"})
         else:
             markers, mentions = [], []
         findings.extend({"path": path, "area": kind, "class": "marker", "line": m["line"], "detail": m["word"]} for m in markers)

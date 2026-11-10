@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "97820c30570ab5dd2d72842d94495e1b0d695bd1307f43124a25db7535d09691"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "d5a22f00dd281026ec6535d6dd8aa81695f3e2968d050bb15ac2c553fa743cdd"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -4860,7 +4860,7 @@ class MutationAttribution(unittest.TestCase):
         good = {"parsed": True, "status": "FAILED", "exit": 1, "ran": 1, "failures": 1,
                 "errors": 0, "skipped": 0, "test_id": expected,
                 "traceback_method": "test_mutation_kill_requires_exact_target_assertion",
-                "traceback_line": 17, "exception_type": "AssertionError"}
+                "traceback_line": 17, "exception_type": "AssertionError", "origin_authorized": True, "origin_provenance": {"authorized": True}}
         self.assertTrue(g11m.qualifies_kill(good, expected, 17))
         wrong_line = dict(good, traceback_line=18)
         self.assertFalse(g11m.qualifies_kill(wrong_line, expected, 17))
@@ -4885,6 +4885,9 @@ class MutationAttribution(unittest.TestCase):
         proc = subprocess.CompletedProcess(["python"], 1, output, "")
         parsed = g11m._parse_run(proc)
         self.assertEqual(parsed["test_id"], expected_parser)
+        self.assertFalse(g11m.qualifies_kill(parsed, expected_parser, 123))
+        parsed["origin_authorized"] = True  # Explicit synthetic origin for parser-only control.
+        parsed["origin_provenance"] = {"authorized": True}
         self.assertTrue(g11m.qualifies_kill(parsed, expected_parser, 123))
         current = output.replace("(tests.test_g11_census.MutationAttribution)", "(%s)" % expected_parser)
         parsed_current = g11m._parse_run(subprocess.CompletedProcess(["python"], 1, current, ""))

@@ -1,0 +1,3 @@
+# G11 provenance retention regression: observed red
+
+Hosted run 42762103077, job 129649967624, ran ten origin methods in each Python 3.11.18 mode on debug commit ca2bb66d4783ec0c91e14414e559d1f477fa1bdb. The new live-origin-frame retention method failed once per mode because the provisional parent outcome discarded the collected provenance. The other nine methods passed in each mode. Full original log and exact test/workflow are preserved. GitHub reported artifact 13738247032 SHA-256 378b25da4f592dbadb4abc08c3fbed534a4f85f92ae3d2bd1b013fe7153de196; ZIP bytes were not independently read here. This is a component evidence failure, not a theorem refutation or final G11 result.
