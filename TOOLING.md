@@ -1,5 +1,10 @@
 # CBZ mission-tool registry
 
+## SDGA Task A integration — 10 November 2026
+
+Main #797 integrated the bounded compiled-object inventory and custody controls at `b6be588c82d2256c917b7d26d901085bc90319fb`. The later dated STATUS entry records its source-bound hosted execution, exact normal and optimized commands and limits. The earlier candidate description below is historical. Classification and qualification remain BLOCKED, replay is NOT_IMPLEMENTED, and this tool does not establish scientific acceptance or a final federation gate.
+
+
 ## Empty Pages status adverse control — 10 November 2026
 
 Purpose: refuse the observed empty deployment status without changing the receipt, and detect a mutant that would treat it as canceled. The recovery tool remains limited to its explicit authenticated cancellation contract. Source, local controls, origin records, actual outputs and their boundaries are in `cbz/evidence/empty-pages-status-adverse-20261110/`. Python 3.12.14 ran 34 controls and 38 clean-baseline/selected-oracle mutation pairs per mode, with three unauthorized origins rejected per mode. Fresh hosted checks are required; this is not a live recovery or final G0. Run:

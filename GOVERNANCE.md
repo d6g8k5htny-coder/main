@@ -1,5 +1,10 @@
 # CBZ-0 governance
 
+## SDGA Task A integration — 10 November 2026
+
+Main #797 integrated the bounded compiled-object inventory and custody controls at `b6be588c82d2256c917b7d26d901085bc90319fb`. The later dated STATUS entry records its source-bound hosted execution, exact normal and optimized commands and limits. The earlier candidate description below is historical. Classification and qualification remain BLOCKED, replay is NOT_IMPLEMENTED, and this tool does not establish scientific acceptance or a final federation gate.
+
+
 ## Observed empty Pages status and recovery controls — 10 November 2026
 
 An authenticated read-only Pages response for the prepared publication had an empty status. It is not evidence of cancellation; the recovery guard must refuse it. The candidate adds a real empty-status refusal case and a selected-oracle mutation that admits that value. Python 3.12.14 passed 34 controls and 38 paired mutations per mode, rejecting three unauthorized assertion origins per mode. This is bounded local engineering evidence; fresh hosted checks are required and no live recovery or final gate follows. Exact commands:
