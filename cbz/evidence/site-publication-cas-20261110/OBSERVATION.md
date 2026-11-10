@@ -90,3 +90,14 @@ recovery job's redirected internal output was not independently read at this
 observation; its exact cause is not inferred. A later draft adds failure-log
 printing and corrects the token fixture. New head tests and mutations must run
 before any passing or integration claim.
+
+## Stacked correction and hosted diagnostics
+
+The publisher draft was retargeted to the #801 recovery branch at
+`84f53afa766853b749e0ed127043d1954e70f7c3` to test the two related
+interfaces together. Its first proposed repair is not qualified by the
+failed jobs above. A following source revision supplies the missing
+synthetic token and prints redirected recovery-control failures on error.
+New hosted tests are required; changing the branch base or source is not
+itself evidence of success. If #801 merges, retarget this draft to the new
+Main tip and recheck its actual composition and required checks.
