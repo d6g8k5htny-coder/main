@@ -1,0 +1,51 @@
+{
+  "date": "2026-11-10",
+  "kind": "source-bound continuation; not CBZ or terminal partial",
+  "main_default": "964390a94c08f00f119dc3b2e0be16180c1544e2",
+  "workspace_default": "47221adf89749dc226e8e3578af2f8fd7c16ea20",
+  "workspace_main_pin": "964390a94c08f00f119dc3b2e0be16180c1544e2",
+  "draft": {
+    "pr": 804,
+    "head": "ef2903b4028ca369223ff2128cc5f81ca6749ee0",
+    "tree": "8a26d14e12f20ea82c6cec1f134b18de5d55505b",
+    "state": "draft; do not integrate this head due to adverse interpreter findings"
+  },
+  "component": {
+    "source_commit": "a3e6d7de5dbb9f2c62e4115d45b0870b266e73ed",
+    "census_blob": "c0d87a8101a8f68c0ab7b4da4c7ce9eeb8540d2c",
+    "format_test_blob": "9e6e6bb982f871035e3d3122ee1a3190716f40f6",
+    "format_mutation_blob": "df258e58cf8cdcd4cdd2231849b94f699a48a358",
+    "quick_run": 42764566610,
+    "quick_result": "17 format tests passed in each mode",
+    "full_run": 42764566342,
+    "full_result_at_observation": "in progress; do not count completion until observed"
+  },
+  "preserved_adverse_runs": [
+    42764251621,
+    42764317867,
+    42764419760,
+    42764251561,
+    42764317723,
+    42764419811
+  ],
+  "historical_composed_census": {
+    "run": 42764099456,
+    "result": "PASS normal and optimized on ef290; subsequently exposed interpreter attribution defect limits result",
+    "artifact": 13739226619,
+    "artifact_sha256_reported_by_github": "d62c42e871159133e789f7693f1f04dcf0cfc787e8284cad21b334208ef542ae",
+    "independently_unpacked": false
+  },
+  "prior_format_component": {
+    "run": 42763520074,
+    "source": "d061ac0967fd35c311defd5f228502420755aa31",
+    "results": "265 census controls,12 origin tests,7 origin mutations,13 format tests,13 format mutations,328 original mutations in each mode; full log independently parsed",
+    "limitation": "interpreter flaw was subsequently demonstrated"
+  },
+  "next": [
+    "Observe and parse full 17-case component run on exact a3 source and preserve any failures.",
+    "Compose only verified source into existing #804 with fresh-head CAS and append truthful canonical records.",
+    "Run new exact-candidate census in both modes and normal required checks; preserve originals.",
+    "After normal integration, refresh Workspace pin against current Main; no final G7 or G11 from these scoped observations."
+  ],
+  "math": "No historical mathematical statement or kernel result was rebound. Scientific review and acceptance are not inferred."
+}
