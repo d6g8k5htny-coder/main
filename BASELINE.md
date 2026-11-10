@@ -1,5 +1,16 @@
 # CBZ baseline ledger
 
+## Pages failure and guarded recovery boundary — 10 November 2026
+
+The two attempts of site run `42737966287` failed during deployment and did
+not run public observation. The prepared receipt and previous observed receipt
+remain distinct; later three-file public reads matched the previous receipt.
+The guarded recovery candidate can re-observe those old bytes only under the
+live checks in [STATUS](STATUS.md#guarded-pages-receipt-recovery--observed-10-november-2026).
+Neither a successful recovery nor a successful new publication is inferred.
+The source-bound local tests and mutation campaign are scoped in TOOLING;
+no proof, scientific or final baseline status changes.
+
 ## Public branch custody candidate — 10 November 2026
 
 This candidate preserves selected public Git objects from 58 captured refs in

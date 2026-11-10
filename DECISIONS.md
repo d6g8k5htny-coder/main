@@ -566,3 +566,24 @@ proof, ownership, scientific disposition, gate threshold, fullG5 or CBZ award ch
 - Leave all source branches and tags in place. No ref deletion, proof status,
   quarantine admission, scientific acceptance or gate threshold changes.
   The additive delivery is recoverable through Git history.
+
+## 2026-11-10 — Preserve canceled Pages candidate and guard recovery
+
+- Retain both failed `42737966287` deployment attempts, skipped public
+  observation, prepared head `6e01d1f5f83d320172e29391eea336e3256aeea2` and
+  previous observed head `81b3998534827e2c2e45188a1a52672aa6666001`. Record
+  the later three matching old public bytes as sequential observations, not a
+  claim that the failed candidate deployed. The unauthenticated status 404 is
+  not an authenticated cancellation result.
+- Add a guarded, append-only recovery for this narrow state. The workflow
+  requires a real authenticated canceled deployment and reruns its controls;
+  it preserves both candidates in ancestry, refuses disagreement and records
+  actual observer identity. Normal and recovery workflows share a concurrency
+  group, while external actors remain outside that lock. A successful dispatch
+  is not presumed. The local source-bound 28-test and 28-mutation campaigns
+  per mode, plus three origin refusals per mode, cover the registered domain
+  only. See STATUS and TOOLING for exact commands and limits.
+- This reversible source addition does not alter mathematical statements,
+  adjudicate proofs, delete historical work, or establish a final gate. The
+  receipt append, if its live guards all pass, is an externally visible action
+  and its actual result and predecessor must be retained.
