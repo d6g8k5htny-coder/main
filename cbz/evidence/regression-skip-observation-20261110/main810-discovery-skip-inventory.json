@@ -1,0 +1,157 @@
+{
+  "source_commit": "d1819f0aa4d914c770687606ccd9f131e6b7634f",
+  "source_tree": "079d00619890da57b438b223b6be42732b044998",
+  "run": 42773535968,
+  "artifact": 13743362701,
+  "artifact_sha256": "976665ded62682787fa3d522ccc798df7377f0db46cf9fc99a1bf38293b6f08f",
+  "normal_discovery_tests": 2774,
+  "skips": [
+    {
+      "method": "test_kernel_enforces_cpu_memory_and_process_limits",
+      "class": "test_architecture_sandbox.ArchitectureSandbox.test_kernel_enforces_cpu_memory_and_process_limits",
+      "reason": "requires hosted restricted container",
+      "category": "restricted-container"
+    },
+    {
+      "method": "test_network_namespace_has_no_external_interface_or_route",
+      "class": "test_architecture_sandbox.ArchitectureSandbox.test_network_namespace_has_no_external_interface_or_route",
+      "reason": "requires hosted restricted container",
+      "category": "restricted-container"
+    },
+    {
+      "method": "test_nonroot_and_no_new_privileges",
+      "class": "test_architecture_sandbox.ArchitectureSandbox.test_nonroot_and_no_new_privileges",
+      "reason": "requires hosted restricted container",
+      "category": "restricted-container"
+    },
+    {
+      "method": "test_output_quota_stops_disk_exhaustion_and_cleanup_recovers_space",
+      "class": "test_architecture_sandbox.ArchitectureSandbox.test_output_quota_stops_disk_exhaustion_and_cleanup_recovers_space",
+      "reason": "requires hosted restricted container",
+      "category": "restricted-container"
+    },
+    {
+      "method": "test_source_mount_is_read_only_and_environment_has_no_publishing_secret",
+      "class": "test_architecture_sandbox.ArchitectureSandbox.test_source_mount_is_read_only_and_environment_has_no_publishing_secret",
+      "reason": "requires hosted restricted container",
+      "category": "restricted-container"
+    },
+    {
+      "method": "test_keyboard_focus_ring_fits_inside_the_list_scroll_boundary",
+      "class": "test_atlas_focus_geometry.AtlasListFocusGeometry.test_keyboard_focus_ring_fits_inside_the_list_scroll_boundary",
+      "reason": "Optional Playwright and local Chromium are required",
+      "category": "browser-runtime"
+    },
+    {
+      "method": "test_new_selection_after_a_long_read_keeps_its_heading_visible",
+      "class": "test_atlas_reader_scroll.AtlasReaderScroll.test_new_selection_after_a_long_read_keeps_its_heading_visible",
+      "reason": "Optional Playwright and a local Chromium browser are required",
+      "category": "browser-runtime"
+    },
+    {
+      "method": "test_actual_clean_and_omitted_constants",
+      "class": "test_formal_compiled_inventory.PinnedLeanInventoryTests.test_actual_clean_and_omitted_constants",
+      "reason": "pinned Lean unavailable",
+      "category": "lean-runtime"
+    },
+    {
+      "method": "test_real_package_executes_with_receipt",
+      "class": "test_formal_gate.RepositoryControls.test_real_package_executes_with_receipt",
+      "reason": "Lean toolchain not installed",
+      "category": "lean-runtime"
+    },
+    {
+      "method": "test_real_records_cited_artifacts_when_present",
+      "class": "test_living_project_validation.RealRecordTests.test_real_records_cited_artifacts_when_present",
+      "reason": "no real record cites repo artifact paths; missing-artifact checks are not exercised",
+      "category": "absent-real-record-population"
+    },
+    {
+      "method": "test_real_records_dependencies_when_present",
+      "class": "test_living_project_validation.RealRecordTests.test_real_records_dependencies_when_present",
+      "reason": "no real record carries depends_on; dependency checks are not exercised. depends_on is not interface v0. Dependency validation is not proof verification.",
+      "category": "absent-real-record-population"
+    },
+    {
+      "method": "test_real_records_fresh_against_live_source_head",
+      "class": "test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head",
+      "reason": "native authenticated live shard prerequisites are absent; set NODE_STATUS_LIVE_REQUIRED=1 with native context, token and a new external NODE_STATUS_LIVE_OUTPUT",
+      "category": "authenticated-live-context"
+    },
+    {
+      "method": "test_real_records_owner_released_url_consistency",
+      "class": "test_living_project_validation.RealRecordTests.test_real_records_owner_released_url_consistency",
+      "reason": "every real record has owner null; owner/released_url consistency is not exercised (released_url must stay on the owner object and must not clear it)",
+      "category": "absent-real-record-population"
+    },
+    {
+      "method": "test_changed_byte_is_not_hidden",
+      "class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_changed_byte_is_not_hidden",
+      "reason": "installed pytest required",
+      "category": "pytest-runtime"
+    },
+    {
+      "method": "test_clean_root_run_prevents_package_bytecode",
+      "class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_clean_root_run_prevents_package_bytecode",
+      "reason": "installed pytest required",
+      "category": "pytest-runtime"
+    },
+    {
+      "method": "test_dirty_bytecode_is_preserved_and_rejected",
+      "class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_dirty_bytecode_is_preserved_and_rejected",
+      "reason": "installed pytest required",
+      "category": "pytest-runtime"
+    },
+    {
+      "method": "test_discovery_keeps_neighbours_and_same_basename",
+      "class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_discovery_keeps_neighbours_and_same_basename",
+      "reason": "installed pytest required",
+      "category": "pytest-runtime"
+    },
+    {
+      "method": "test_empty_cache_directory_is_accepted",
+      "class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_empty_cache_directory_is_accepted",
+      "reason": "installed pytest required",
+      "category": "pytest-runtime"
+    },
+    {
+      "method": "test_exclusion_is_exact",
+      "class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_exclusion_is_exact",
+      "reason": "installed pytest required",
+      "category": "pytest-runtime"
+    },
+    {
+      "method": "test_explicit_B_baseline_works",
+      "class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_explicit_B_baseline_works",
+      "reason": "installed pytest required",
+      "category": "pytest-runtime"
+    },
+    {
+      "method": "test_extra_file_is_not_hidden",
+      "class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_extra_file_is_not_hidden",
+      "reason": "installed pytest required",
+      "category": "pytest-runtime"
+    },
+    {
+      "method": "test_missing_file_is_not_hidden",
+      "class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_missing_file_is_not_hidden",
+      "reason": "installed pytest required",
+      "category": "pytest-runtime"
+    },
+    {
+      "method": "test_neighbour_failures_are_not_suppressed",
+      "class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_neighbour_failures_are_not_suppressed",
+      "reason": "installed pytest required",
+      "category": "pytest-runtime"
+    }
+  ],
+  "category_counts": {
+    "restricted-container": 5,
+    "browser-runtime": 2,
+    "lean-runtime": 2,
+    "absent-real-record-population": 3,
+    "authenticated-live-context": 1,
+    "pytest-runtime": 10
+  },
+  "scope": "Exact skips in this historical discovery run; separate targeted runs do not erase them."
+}

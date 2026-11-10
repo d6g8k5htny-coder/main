@@ -1,0 +1,49 @@
+import hashlib
+import json
+import pathlib
+import zipfile
+
+path = pathlib.Path(__file__).with_name('main811-live-13744935103.zip')
+raw = path.read_bytes()
+digest = hashlib.sha256(raw).hexdigest()
+if len(raw) != 30082 or digest != '237f584be5ae6cb42798013dd8cc25492ec38699059d811623d4e35a8b8e89a5':
+    raise ValueError('archive identity')
+results = []
+with zipfile.ZipFile(path) as z:
+    names = z.namelist()
+    if len(names) != len(set(names)) or len(names) != 25 or z.testzip() is not None:
+        raise ValueError('archive members or CRC')
+    for mode, optimized in (('normal', 0), ('optimized', 1)):
+        prefix = 'q9006-original-' + mode + '-'
+        before = json.loads(z.read(prefix + 'source-before.json'))
+        after = json.loads(z.read(prefix + 'source-after.json'))
+        guard = json.loads(z.read(prefix + 'strict-guard.json'))
+        parent = json.loads(z.read(prefix + 'parent-exit.json'))
+        log = z.read(prefix + 'unittest.log').decode()
+        record = json.loads(z.read('q9006-real-record-' + mode + '.json'))
+        if (before != after or before['checked_commit'] != 'ec3eb3479d654643cb93b4c9dcc074b6ba71cc7b'
+                or before['checked_tree'] != '4325c6a77c1de42f19413ae80e8d63eb04f75409'
+                or before['identity']['python_optimize'] != optimized or before['source_count'] != 10):
+            raise ValueError('source identity or drift')
+        if (guard['status'] != 'PASS' or guard['failures'] or guard['parent_exit'] != 0
+                or not guard['source_bindings_equal'] or guard['expected_test_count'] != 1
+                or not parent['executed'] or parent['returncode'] != 0 or parent['timed_out']):
+            raise ValueError('guard or parent')
+        lines = [line for line in log.splitlines() if line]
+        if (len(lines) != 4 or lines[0].count(' ... ok') != 1 or 'skipped' in log
+                or not lines[2].startswith('Ran 1 test in ') or lines[3] != 'OK'):
+            raise ValueError('test log')
+        if (record['status'] != 'FRESH' or record['cbz_green'] is not False
+                or record['identity']['checked_commit'] != 'ec3eb3479d654643cb93b4c9dcc074b6ba71cc7b'
+                or record['source_bindings'] != record['source_bindings_after']):
+            raise ValueError('live result')
+        results.append({'mode': mode, 'source_bindings': before['source_count'],
+                        'original_test_count': 1, 'status': 'PASS',
+                        'source_before_after': 'equal', 'live_status': record['status']})
+out = {'run': 42777106427, 'job': 129698336985, 'artifact': 13744935103,
+       'sha256': digest, 'bytes': len(raw), 'entries': 25, 'crc': 'valid',
+       'tested_merge': 'ec3eb3479d654643cb93b4c9dcc074b6ba71cc7b',
+       'tree': '4325c6a77c1de42f19413ae80e8d63eb04f75409', 'results': results,
+       'scope': 'one selected live-source freshness test per mode; not full regression or final gate'}
+path.with_name('main811-live-verification.json').write_text(json.dumps(out, indent=2) + '\n')
+print(json.dumps(out))
