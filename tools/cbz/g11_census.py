@@ -626,7 +626,7 @@ def _workflow_commands(text):
 
 def noop_steps(text):
     found = []
-    for number, commands in _workflow_commands(text):
+    for number, commands in _workflow_reference_commands(text):
         if not commands:
             found.append({"line": number, "run": "<empty>"})
         if commands and all(c in NOOP_RUN for c in commands):
@@ -4535,15 +4535,20 @@ def _reject_workflow_json_constant(_value):
     raise ValueError("nonstandard JSON workflow constant")
 
 
+def _strict_workflow_json(text):
+    workflow = json.loads(text, object_pairs_hook=_unique_workflow_json_object,
+                          parse_constant=_reject_workflow_json_constant)
+    if not isinstance(workflow, dict) or not isinstance(workflow.get("jobs"), dict):
+        raise ValueError("JSON workflow must have a jobs object")
+    return workflow
+
+
 def _workflow_reference_commands(text):
     """Extract only job step run strings from strict JSON or supported YAML."""
-    if text.lstrip().startswith("{"):
+    if text.lstrip().startswith(("{", "[")):
         try:
-            workflow = json.loads(text, object_pairs_hook=_unique_workflow_json_object,
-                                  parse_constant=_reject_workflow_json_constant)
+            workflow = _strict_workflow_json(text)
         except (ValueError, TypeError):
-            return []
-        if not isinstance(workflow, dict) or not isinstance(workflow.get("jobs"), dict):
             return []
         blocks = []
         for job in workflow["jobs"].values():
@@ -4712,6 +4717,12 @@ def census(files, all_paths=None):
             markers, mentions = text_words(text, path)
         elif path.endswith((".yml", ".yaml")):
             markers, mentions = yaml_words(text)
+            if path.startswith(".github/workflows/") and text.lstrip().startswith(("{", "[")):
+                try:
+                    _strict_workflow_json(text)
+                except (ValueError, TypeError):
+                    findings.append({"path": path, "area": kind, "class": "unparseable",
+                                     "line": 0, "detail": "invalid or unsupported JSON workflow"})
         else:
             markers, mentions = [], []
         findings.extend({"path": path, "area": kind, "class": "marker", "line": m["line"], "detail": m["word"]} for m in markers)

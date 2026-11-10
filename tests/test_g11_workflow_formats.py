@@ -69,5 +69,22 @@ class WorkflowFormats(unittest.TestCase):
         self.assertEqual(report["status"], "FAIL")
         self.assertEqual([finding["class"] for finding in report["failing"]], ["unparseable"])
 
+
+    def test_json_array_workflow_is_unparseable(self):
+        report = g11.census({".github/workflows/array.yml": b"[]"})
+        self.assertEqual(report["status"], "FAIL")
+        self.assertEqual([finding["class"] for finding in report["failing"]], ["unparseable"])
+
+    def test_nonstandard_json_constant_is_unparseable(self):
+        text = '{"jobs":{},"unsupported":NaN}'
+        report = g11.census({".github/workflows/nonstandard.yml": text.encode()})
+        self.assertEqual(report["status"], "FAIL")
+        self.assertEqual([finding["class"] for finding in report["failing"]], ["unparseable"])
+
+    def test_non_noop_json_run_is_not_a_noop(self):
+        text = json.dumps({"jobs": {"a": {"steps": [{"run": "python3 -V"}]}}})
+        report = g11.census({".github/workflows/normal.yml": text.encode()})
+        self.assertEqual(report["failing"], [])
+
 if __name__ == "__main__":
     unittest.main()

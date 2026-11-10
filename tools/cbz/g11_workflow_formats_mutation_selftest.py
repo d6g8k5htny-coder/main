@@ -23,7 +23,7 @@ CASES = (
      PREFIX + "test_env_unsupported_or_nonexecution_is_not_credited",
      "self.assertEqual(g11.workflow_tool_references(yaml_run(command), TOOLS), set())"),
     ("JSON job runs ignored",
-     '    if text.lstrip().startswith("{"):',
+     '    if text.lstrip().startswith(("{", "[")):',
      '    if False:',
      PREFIX + "test_json_workflow_recognizes_only_job_step_runs",
      "self.assertEqual(g11.workflow_tool_references(text, TOOLS), {PUBLISHER})"),
@@ -37,6 +37,16 @@ CASES = (
      '        if False:\n            raise ValueError("duplicate JSON workflow key")',
      PREFIX + "test_json_duplicate_keys_and_non_run_paths_are_refused",
      "self.assertEqual(g11.workflow_tool_references(duplicate, TOOLS), set())"),
+    ("JSON no-op scan ignored",
+     '    for number, commands in _workflow_reference_commands(text):\n        if not commands:',
+     '    for number, commands in _workflow_commands(text):\n        if not commands:',
+     PREFIX + "test_json_noop_step_is_failing",
+     'self.assertEqual(report["status"], "FAIL")'),
+    ("invalid JSON workflow ignored",
+     '                    findings.append({"path": path, "area": kind, "class": "unparseable",\n                                     "line": 0, "detail": "invalid or unsupported JSON workflow"})',
+     '                    pass',
+     PREFIX + "test_duplicate_json_workflow_is_unparseable",
+     'self.assertEqual(report["status"], "FAIL")'),
 )
 
 def run(root):
