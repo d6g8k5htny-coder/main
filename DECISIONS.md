@@ -1454,3 +1454,14 @@ dated validation/composition append. No intermediate base-only push or manual
 rerun. Earlier GREEN is not rebound: fresh composed native/protected
 qualification remains pending before Ready/merge. Q806 precedes C integration.
 Scientific NONE; qualification/classification BLOCKED; authfalse.
+
+
+## 2026-11-10 — SDGA Task D test-source stage, no execution
+
+Root approved design b03b5e5221f37493a5538799f2a4ed264b5f5d7b for staging tests only. Immutable staged Controls 9e14a94302f3c5988f0af51bc9fc1f74836a9fae, launcher 77b2165eccd3c5a506ff8a61bd85fd7faaa291fe, separate output-admission2/6 d233aac6538d7afc8a97ec602d62a9a50d687a24 and workflow 1df4e0338cebac30b3c049be9768bd7c66006e9d preserve all original C13/61 assertions and public CLI receipt under exact inverse transfer e5905a3a2293c7dbd09411c51d7475c2f2c26858. Plan 8e65e982355686cfd944f093d2319e086c1b7924; source-stage report f6cf7495484075f42efd26d12fdc84bf5c5a4fd7. GitHub preimage/readback checks are text/Git-object evidence only; no compiler/test/RED/GREEN result is claimed.
+
+No production IR helper/origin/writer/retention code was added; pure dependency functions remain unchanged. Two D methods add six Lean IDs, with planned15/67 and28/10/55 plus future generated-output registry; separate admission2/6 remains outside67. Lazy missing-helper failures are scoped to the new tests and cannot earn semantic/mutant credit. Actual C production qualification and root exact-source GO precede publication; actual hosted RED must be read before implementation. Any genuine unexplained Safe IR residue remains BLOCKED, including a failed C08 positive, without role guesses or fixture erasure.
+
+Scientific effect NONE; qualification/classification BLOCKED; execution_authenticated false. No full SDGA/IR/kernel/CBZ credit or upload/host-state certificate follows. This is a source-stage record of its preparation, not a later execution receipt.
+
+Scoped source review corrections are source-only: D-wide Lean count61 and truthful15/67 opening description; collision envelope errors capped at zero/one before row validation. Tiny diff 7c2e3aeba5877a73371c56b677cb513d4d270550 preserves original C method bodies; no publication or production implementation GO and no execution is implied.

@@ -781,6 +781,223 @@ private def c10 (loaded : LoadedModule) : IO Unit := do
     | none => failure "shared replay accepted contaminated singleton; duplicateBase guard absent"
 
 
+
+/- Task D tests only: raw oracles never replace production policy helpers. -/
+private def dUnion (parts : Array (String × ModuleData)) : Array Name := Id.run do
+  let mut names := #[]
+  for (_, part) in parts do
+    for name in part.extraConstNames do
+      if !names.contains name then names := names.push name
+  return names
+
+private def dPart (requested : SDGA.PartRequest) (part : ModuleData) : Json :=
+  .mkObj [("level", .str requested.level), ("path", .str requested.path.toString),
+    ("declared_sha256", .str requested.sha256), ("is_module", .bool part.isModule),
+    ("const_names", wires part.constNames),
+    ("constant_names", wires (part.constants.map (·.name))),
+    ("extra_const_names", wires part.extraConstNames),
+    ("extension_entries", .arr (part.entries.map fun (name, entries) =>
+      .mkObj [("name", .str (SDGA.encodeName name)), ("entry_count", toJson entries.size)]))]
+
+private def dRaw (loaded : LoadedModule) : Json :=
+  .mkObj [
+    ("olean_parts", .arr (loaded.parts.mapIdx fun i part =>
+      dPart loaded.request.oleanParts[i]! part.2)),
+    ("ir_parts", .arr (loaded.irParts.mapIdx fun i part =>
+      dPart loaded.request.irParts[i]! part.2))]
+
+private def dOracle (loaded : LoadedModule) : Json := Id.run do
+  let mut occurrences : Array Json := #[]
+  let mut backed : Array Name := #[]
+  let mut residue : Array Name := #[]
+  for h : p in [:loaded.irParts.size] do
+    let part := loaded.irParts[p].2
+    for (field, names) in #[("const_names", part.constNames),
+        ("constant_names", part.constants.map (·.name)),
+        ("extra_const_names", part.extraConstNames)] do
+      for h' : i in [:names.size] do
+        let name := names[i]
+        let owned := loaded.owned.contains name
+        occurrences := occurrences.push <| .mkObj [
+          ("part_index", toJson p), ("field", .str field), ("index", toJson i),
+          ("name", .str (SDGA.encodeName name)), ("ci_backed", .bool owned)]
+        if owned then
+          if !backed.contains name then backed := backed.push name
+        else
+          if !residue.contains name then residue := residue.push name
+  let extra := dUnion loaded.parts
+  let status := fun (blocked : Bool) => Json.str (if blocked then "blocked" else "clear")
+  return .mkObj [
+    ("olean_parts", .arr (loaded.parts.mapIdx fun i part =>
+      dPart loaded.request.oleanParts[i]! part.2)),
+    ("olean_extra_union", wires extra),
+    ("ir_parts", .arr (loaded.irParts.mapIdx fun i part =>
+      dPart loaded.request.irParts[i]! part.2)),
+    ("ir_occurrences", .arr occurrences), ("ci_backed_names", wires backed),
+    ("unexplained_residue", wires residue),
+    ("policy", .mkObj [("olean_extras", status (!extra.isEmpty)),
+      ("ir_residue", status (!residue.isEmpty)),
+      ("combined", status (!extra.isEmpty || !residue.isEmpty))])]
+
+private def dBaseFiles (loaded : LoadedModule) : Json := Id.run do
+  let mut rows := #[]
+  for (family, parts) in #[("olean", loaded.request.oleanParts), ("ir", loaded.request.irParts)] do
+    for h : i in [:parts.size] do
+      let part := parts[i]
+      rows := rows.push <| .mkObj [("family", .str family), ("part_index", toJson i),
+        ("level", .str part.level), ("path", .str part.path.toString),
+        ("declared_sha256", .str part.sha256)]
+  return .arr rows
+
+elab "sdgaDPresent%" : term => do
+  let names := #[`SDGA.oleanExtraNames, `SDGA.irEvidence, `SDGA.guardObjectExtras]
+  let env ← Lean.getEnv
+  let present := names.all fun n => (env.find? n).isSome
+  if present then Lean.Elab.Term.elabTerm (← `(true)) none
+  else Lean.Elab.Term.elabTerm (← `(false)) none
+
+elab "sdgaDUnion%" : term => do
+  let name := `SDGA.oleanExtraNames
+  if ((← Lean.getEnv).find? name).isSome then
+    let helper := Lean.mkIdent name
+    Lean.Elab.Term.elabTerm (← `(fun (parts : Array (String × Lean.ModuleData)) =>
+      (pure (($helper : Array (String × Lean.ModuleData) →
+        Except SDGA.AuditError (Array Lean.Name)) parts) :
+        IO (Except SDGA.AuditError (Array Lean.Name))))) none
+  else
+    Lean.Elab.Term.elabTerm (← `(fun (_ : Array (String × Lean.ModuleData)) =>
+      (SDGA.Control.setupFailure "IMPLEMENTATION_ABSENCE: SDGA.oleanExtraNames" :
+        IO (Except SDGA.AuditError (Array Lean.Name))))) none
+
+elab "sdgaDIR%" : term => do
+  let name := `SDGA.irEvidence
+  if ((← Lean.getEnv).find? name).isSome then
+    let helper := Lean.mkIdent name
+    Lean.Elab.Term.elabTerm (← `(fun (loaded : SDGA.LoadedModule) =>
+      (pure (($helper : SDGA.LoadedModule → Except SDGA.AuditError Lean.Json) loaded) :
+        IO (Except SDGA.AuditError Lean.Json)))) none
+  else
+    Lean.Elab.Term.elabTerm (← `(fun (_ : SDGA.LoadedModule) =>
+      (SDGA.Control.setupFailure "IMPLEMENTATION_ABSENCE: SDGA.irEvidence" :
+        IO (Except SDGA.AuditError Lean.Json)))) none
+
+elab "sdgaDGuard%" : term => do
+  let name := `SDGA.guardObjectExtras
+  if ((← Lean.getEnv).find? name).isSome then
+    let helper := Lean.mkIdent name
+    Lean.Elab.Term.elabTerm (← `(fun (loaded : SDGA.LoadedModule) =>
+      (pure (($helper : SDGA.LoadedModule → Except SDGA.AuditError Unit) loaded) :
+        IO (Except SDGA.AuditError Unit)))) none
+  else
+    Lean.Elab.Term.elabTerm (← `(fun (_ : SDGA.LoadedModule) =>
+      (SDGA.Control.setupFailure "IMPLEMENTATION_ABSENCE: SDGA.guardObjectExtras" :
+        IO (Except SDGA.AuditError Unit)))) none
+
+private def dRequire (caseId : String) (loaded : LoadedModule) : IO Unit := do
+  unless sdgaDPresent% do
+    emit [("record", .str "setup_error"), ("executor", .str "Lean"),
+      ("status", .str "fail"), ("case_id", .str caseId),
+      ("detail", .mkObj [("cause", .str "IMPLEMENTATION_ABSENCE"),
+        ("helpers", wires #[`SDGA.oleanExtraNames, `SDGA.irEvidence, `SDGA.guardObjectExtras]),
+        ("metadata_origin", .str "actual_loaded_objects"),
+        ("base_files", dBaseFiles loaded), ("raw_setup", dRaw loaded),
+        ("credit", .str "raw setup only; no Task D semantic credit")])]
+    throw <| IO.userError "CONTROL_ASSERT: IMPLEMENTATION_ABSENCE: Task D shared helpers"
+
+private def dEvidence (loaded : LoadedModule) : IO Json := do
+  match ← sdgaDIR% loaded with
+  | .ok core =>
+    check (core == dOracle loaded) "shared IR evidence differs from independent raw/owned oracle"
+    return core
+  | .error error => failure s!"shared IR collector failed: {error.code}: {error.message}"
+
+private def dAlteration (loaded : LoadedModule) (family : String) (index : Nat)
+    (before after : Array Name) (name : Name) : IO Json := do
+  let request ← envRequired "SDGA_CONTROL_REQUEST"
+  check (after == before.push name) "alteration is not the exact recorded append"
+  return .mkObj [("metadata_origin", .str "altered_in_memory"),
+    ("base_request_path", .str request), ("base_files", dBaseFiles loaded),
+    ("alteration", .mkObj [("family", .str family), ("part_index", toJson index),
+      ("field", .str "extra_const_names"), ("operation", .str "append"),
+      ("old_length", toJson before.size), ("appended_name", .str (SDGA.encodeName name))]),
+    ("before", wires before), ("after", wires after),
+    ("claim", .str "base hashes bind unaltered files; append was not read from those files")]
+
+private def c11 (loaded : LoadedModule) : IO Unit := do
+  dRequire "C11" loaded
+  let name : Name := `SDGAControlDInjectedExtra
+  check (!(loaded.owned.contains name) && !(dUnion loaded.parts).contains name)
+    "fixed alteration Name collides with actual loaded metadata"
+  check ((dUnion loaded.parts).isEmpty) "Safe has genuine OLean extras; preserve blocking setup"
+  let part := loaded.parts[2]!.2
+  let changed := { part with extraConstNames := part.extraConstNames.push name }
+  let altered := { loaded with parts := loaded.parts.set! 2 ("private", changed) }
+  let mutation ← dAlteration loaded "olean" 2 part.extraConstNames changed.extraConstNames name
+  run "C11" "raw-union-preserved" do
+    match ← sdgaDUnion% loaded.parts, ← sdgaDUnion% altered.parts with
+    | .ok original, .ok actual =>
+      check (original == dUnion loaded.parts && actual == dUnion altered.parts)
+        "shared raw OLean union lost actual ordered members"
+      check (actual.contains name) "shared union erased the altered metadata Name"
+      return .mkObj [("raw_setup", dRaw loaded), ("original_union", wires original),
+        ("altered_union", wires actual), ("mutation", mutation)]
+    | _, _ => failure "shared raw union rejected valid exact identities"
+  run "C11" "raw-extra-block" do
+    match ← sdgaDGuard% altered with
+    | .error (.unsupportedExtras actual) =>
+      check (actual == name) "shared OLean guard lost exact appended Name"
+      check ((dUnion altered.parts)[0]! == actual) "guard did not report first raw union Name"
+      return .mkObj [("expected_code", .str "UNSUPPORTED_EXTRAS"),
+        ("reported_name", .str (SDGA.encodeName actual)), ("mutation", mutation)]
+    | .error error => failure s!"wrong altered OLean refusal: {error.code}"
+    | .ok _ => failure "shared guard accepted nonempty raw OLean extras"
+
+private def c14 (loaded : LoadedModule) : IO Unit := do
+  dRequire "C14" loaded
+  check (loaded.irParts.map (·.1) == #["ir.sig", "ir"])
+    "actual fixture did not load both ordered IR parts"
+  let full := loaded.irParts[1]!.2
+  let core ← dEvidence loaded
+  run "C14" "actual-ir-binding" do
+    return .mkObj [("core", core), ("base_files", dBaseFiles loaded),
+      ("metadata_origin", .str "actual_loaded_objects")]
+  run "C14" "raw-names-preserved" do
+    check (core == dOracle loaded) "shared IR evidence omitted/reordered raw arrays or occurrences"
+    return .mkObj [("raw_setup", dRaw loaded), ("core", core)]
+  run "C14" "ci-backed-accounted" do
+    let mut witness : Option Nat := none
+    for h : i in [:full.extraConstNames.size] do
+      if witness.isNone && loaded.owned.contains full.extraConstNames[i] then witness := some i
+    let some index := witness |
+      setupFailure "full .ir extraConstNames has no actual final-owned CI-backed witness"
+    let name := full.extraConstNames[index]!
+    check ((loaded.owned[name]?).isSome) "IR extra witness has no actual final CI"
+    return .mkObj [("part_index", toJson (1 : Nat)), ("field", .str "extra_const_names"),
+      ("index", toJson index), ("name", .str (SDGA.encodeName name)),
+      ("ci_backed", .bool true), ("core", core)]
+  run "C14" "residue-retained-blocked" do
+    let dependency : Name := `Nat
+    check ((loaded.env.find? dependency).isSome) "Nat is not a verified actual dependency CI"
+    check (!loaded.owned.contains dependency) "Nat unexpectedly belongs to final owned map"
+    for (_, data) in loaded.irParts do
+      check (!(data.constNames.contains dependency) &&
+        !((data.constants.map (·.name)).contains dependency) &&
+        !(data.extraConstNames.contains dependency)) "Nat already occurs in actual raw IR arrays"
+    let changed := { full with extraConstNames := full.extraConstNames.push dependency }
+    let altered := { loaded with irParts := loaded.irParts.set! 1 ("ir", changed) }
+    let alteredCore ← dEvidence altered
+    let mutation ← dAlteration loaded "ir" 1 full.extraConstNames changed.extraConstNames dependency
+    match ← sdgaDGuard% altered with
+    | .error (.unsupportedIRResidue actual) =>
+      check (actual == dependency) "guard did not retain exact dependency-name residue"
+      return .mkObj [("expected_code", .str "UNSUPPORTED_IR_RESIDUE"),
+        ("name", .str (SDGA.encodeName dependency)), ("core", alteredCore),
+        ("mutation", mutation), ("dependency_present", .bool true), ("owned_absent", .bool true),
+        ("raw_absent", .bool true), ("qualification", .str "BLOCKED")]
+    | .error error => failure s!"wrong altered IR refusal: {error.code}"
+    | .ok _ => failure "shared guard accepted unexplained dependency-name IR residue"
+
+
 end Control
 
 /-- One fixed native control case per compiler invocation; no root main or generic runner. -/
@@ -798,6 +1015,8 @@ def runControls : IO Unit := do
     | "C08" => Control.c08 (← Control.baseline)
     | "C09" => Control.c09 (← Control.baseline)
     | "C10" => Control.c10 (← Control.baseline)
+    | "C11" => Control.c11 (← Control.baseline)
+    | "C14" => Control.c14 (← Control.baseline)
     | "C12" => Control.c12 (← Control.baseline)
     | "C13" => Control.c13
     | "C15" =>
