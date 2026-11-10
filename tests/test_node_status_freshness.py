@@ -63,7 +63,7 @@ class ContentTests(unittest.TestCase):
     def test_strict_empty_non_green(self):
         with tempfile.TemporaryDirectory() as tmp:
             with patch('sys.stdout'):
-                self.assertNotEqual(n.main([tmp,'--check']),0)
+                self.assertNotEqual(n.legacy_main([tmp,'--check']),0)
 
     def test_directory_changed_even_unchanged_child(self):
         other='5'*40
@@ -99,7 +99,7 @@ class ContentTests(unittest.TestCase):
                 source=Path(__file__).resolve().parents[1]/'records/node_status/eng.hard-gate.json'
                 path=Path(tmp)/source.name;path.write_bytes(source.read_bytes());before=path.read_bytes()
                 with patch.object(n,'ContentObserver',return_value=self.observer()), patch.object(n,'refresh_dir',return_value=[{'status':status}]),patch('sys.stdout'):
-                    self.assertEqual(n.main([tmp,'--check']),0 if status=='fresh' else 1)
+                    self.assertEqual(n.legacy_main([tmp,'--check']),0 if status=='fresh' else 1)
                 self.assertEqual(path.read_bytes(),before)
     def test_same_repo_head_failure_stays_unknown(self):
         self.responses['/repos/d6g8k5htny-coder/main/commits/HEAD']['sha']='invalid'
@@ -114,7 +114,7 @@ class ContentTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             (Path(tmp)/'x.json').write_text(json.dumps(record()))
             with patch.object(n,'ContentObserver',return_value=self.observer()),patch('sys.stdout'):
-                self.assertEqual(n.main([tmp,'--check']),1)
+                self.assertEqual(n.legacy_main([tmp,'--check']),1)
 
     def test_strict_real_refresh_end_to_end(self):
         source=Path(__file__).resolve().parents[1]/'records/node_status/eng.hard-gate.json'
@@ -129,7 +129,7 @@ class ContentTests(unittest.TestCase):
                 if status=='unknown':
                     self.responses.clear()
                 with patch.object(n,'ContentObserver',return_value=self.observer()),patch('sys.stdout'):
-                    self.assertEqual(n.main([tmp,'--check']),0 if status=='fresh' else 1)
+                    self.assertEqual(n.legacy_main([tmp,'--check']),0 if status=='fresh' else 1)
                 self.assertEqual(path.read_bytes(),before)
 
     def test_strict_rejects_input_drift_during_observation(self):
@@ -142,7 +142,7 @@ class ContentTests(unittest.TestCase):
                 return self.api(endpoint)
             obs=n.ContentObserver(drift)
             with patch.object(n,'ContentObserver',return_value=obs),patch('sys.stdout'):
-                self.assertEqual(n.main([tmp,'--check']),1)
+                self.assertEqual(n.legacy_main([tmp,'--check']),1)
 
     def test_comment_parent_binding(self):
         stamp = '2026-10-22T00:00:00Z'

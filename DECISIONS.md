@@ -1728,3 +1728,103 @@ Phase: source-bound qualification reconciliation and fresh composition preparati
 Evidence: original E run42812650934/1/job129817709245 at signed3888/tree23b, fixed inventory42819110073/1 and readback42823904522/1. Root and author separately checked954 whole originals/981 fragments and21 bounded logs; accepted old-source D15/67+E3/19,52commands,33/15/60, all8 causal mutation families/57commands, pure12/custody3-6/admission2-6 with source, stream, producer and final custody joins. Retain [index](cbz/evidence/sdga-task-e-20261110/green-initial/readback-retention-index.json) and [causal receipt](cbz/evidence/sdga-task-e-20261110/green-initial/causal-read-receipt.json), original blobs54608ee33070719c859bb7752e0b014a0e1ed954 and1c4da16222a4c073f3652facb0d10b355ee57c8d. Preserve earlier API-absence and first-production-failure originals and every old scope limit; M8 remains a guard-cause mismatch with downstream MALFORMED_CONSTANT refusal.
 
 Reversible: abandon this unreferenced candidate, or restore its owned paths through an ordinary guarded update while keeping the evidence/history. No new composed-tree native result, ref, E rerun/rebase publication, Ready or merge is claimed here; Root candidate guard precedes any ordinary expected-head feature update. Fresh original qualification remains mandatory. Scientific effect NONE; classification/qualification BLOCKED; execution_authenticated=false; no full99/catalog/G5/CBZ or scientific award.
+
+
+## 2026-11-10 — Node-status v2 test-first historical-fixture source candidate
+
+Date/source observation: 2026-11-10 13:57:15 UTC. Phase: T1 test-first source staging;
+Layer B. Prepare an unreferenced sole-fresh-Main-parent candidate containing
+only twelve new v2 contract parents, the targeted offline workflow, a frozen
+eleven-payload legacy harness, the existing 23/20 test-entry loaders, one review
+document and this append. Preserve the complete prior decision prefix and every
+other Main leaf at 8aaaa387d11dc21a0867b9cc41cc81743ca59975, tree
+542e6ee34af4c99ba80c8b4d6acd2c6d5bc22f7c (6,246 leaves, nontruncated).
+
+Rationale: freeze actual current-input and provenance contracts before v2
+implementation while executing all 43 original legacy assertions unchanged
+against their byte-exact historical bundle. The unconditional line31 import
+must later produce actual missing evaluate_fresh_records_v2 ImportError, one
+loader FailedTest and zero of twelve bodies; R0 has not run. Historical local
+Git fixture receipts and synthetic observer inputs confer no native HTTP,
+current-default freshness, proof or scientific authority.
+
+Evidence: [review scope, exact final pins and source diffs](docs/plans/2026-11-10-node-status-v2-test-first-source.md);
+[complete 12+43 oracle and payload trace](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/e943ac4b76d000ba2f83737bf1dd63e3b19f0bf8).
+Root whole17 and final4 forward/inverse source gates are CLEAR; independent
+technical closure is C0/I0/M0. Final31delta b9a4486fc70580cd7f6e67b35f3034e015222562
+admits the literal /tmp or exact RUNNER_TEMP before creation, preserving all
+other code, bootstrap and payload bytes. Organizational-independence credit0.
+No Python/YAML compilation, test/native R0, runtime or complete-material-size
+observation is claimed. Root's candidate guard remains required before any
+branch, PR or run; the reserved branch is codex/node-status-v2-test-first-r0-20261110.
+
+Reversibility: ordinary guarded removal of the additions and restoration of
+the two entry modules from c5d578ddb9b7699f24966784ebfcb518d2d7284a and
+14d0c84b1236fdc0d01083c62b791117b663c682, retaining this historical entry.
+Production tools/schemas/input manifest, canonical records/history/projection,
+Graph cut, all Acq/V1/G5/native sources and owners remain unchanged. This source
+candidate awards no v2 execution, full-Main, G5, CBZ or science; scientific_effect NONE.
+
+
+## 2026-11-10 — Node-status v2 zero-job failure and source packaging correction
+
+Date: 2026-11-10 14:12:17 UTC. Phase: test-first workflow repair source review; Layer B.
+Action: factor the exact existing controller SOURCE into one non-test utility
+and shorten preparation; move only the two runner.temp evidence values from
+job env to the four invocation step envs. Preserve all controller/oracle bytes,
+37 protected pins, tests/legacy originals, cap, conditions and artifact scope.
+
+Rationale: actual automatic run42830214749/1 at 0e81116c failed with zero jobs;
+its public native annotation identifies invalid runner.temp contexts at55/56.
+Separately measured original run length27799 exceeds GitHub's21000 limit; that
+is not the native reported error. Prior pytest PR803 source correctiondb3066b
+had already recorded this context lesson, which this review missed.
+Evidence: [retained exact public error and bounded source correction](docs/plans/2026-11-10-node-status-v2-test-first-source.md);
+[native-error receipt](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/3d26680d2f2e1afc3758d59be1d8d0b136cfb271).
+New source pins: controller70146dc623661ad6275881c6fc564bcb7e0864fc,
+workflowe7ca903c6df0d8eea44cb3d3f19526dcde2ca2eb. Source review and candidate
+gates remain pending here; no ref movement, dispatch, rerun or new run follows.
+
+Reversibility: restore workflowf77c11f9 and remove only the new utility by an
+ordinary guarded change while retaining this failure history and prior ledger.
+Existing old-workflow outer23+20 successes in both modes do not supply missing
+43-inner/program readback or the new12 missing-import R0. No production/data,
+owner, current HTTP, full-Main, G5, CBZ or science credit; scientific_effect NONE.
+
+
+## 2026-11-10 — Current-input v2 source and deliberate default-observer regression
+
+Date/source observation: 2026-11-10 15:15:44 UTC. Phase: test-first implementation and
+bounded regression source review; Layer B. Action: stage the three existing
+node-status tools, the initial closed legacy-four-v0 manifest, an explicit
+historical CLI helper with five test call-site migrations, and the authorized
+Parent12 constructor witness with its three necessary literal pins.
+
+Rationale: actual dedicated run42834372722/1 at signed native879c8e35/tree1dfee
+closed missing-name R0 in both modes with zero12 bodies. All337 original frames,
+43 historical one-method cases and37 program capture chains per mode were read
+and retained. This authorizes source preparation, not behavioral green or data
+adoption. Records, schemas, pure-v1, projection, Graph cut and owners stay exact.
+
+Whole-source review C0/I1/M0 deliberately retains I1: run_live_v2 still uses
+the ambient observer factory. Root requires the strengthened Parent12 to show
+actual native regression RED before the one-line captured-constructor fix.
+The new witness admits no real network, capture/provider override or mock
+success. All12 IDs, other11 complete bodies and remaining assertions stay exact.
+The old refresh main body is retained by name-only legacy_main; all20 historical
+freshness test methods/assertions persist with only5 explicit call-site changes.
+Current main has no legacy fallback. No skip, ExpectedFailure or cap increase.
+
+Evidence: [source plan, exact pins, actual R0 archives and limitations](docs/plans/2026-11-10-node-status-v2-test-first-source.md);
+[whole eight-path forward/inverse source diff](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/34626d410eb05dc5667929992ae42320b0e9fc67);
+[accepted-plan continuation](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/541561fe1da8c7bc0eb84cbbe516625652e438a3).
+Root and independent source gates permit only the intentional regression stage;
+document/candidate gates and fresh Main composition remain required. No current
+proposal was compiled or run, and no candidate/ref/dispatch/rerun follows here.
+
+Reversibility: restore the exact pre-stage tool/test/controller/workflow blobs
+and remove only the new manifest through an ordinary guarded change, retaining
+all failure history and this ledger. Any candidate must preserve fresh Main's
+entire canonical prefix plus compatible feature history. No Ready, merge,
+actual HTTP refresh, nine-record adoption, owner change, Graph11-body source-cut
+advance, full-Main, G5, CBZ or science award; scientific_effect NONE.
