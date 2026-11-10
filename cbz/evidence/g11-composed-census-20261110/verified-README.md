@@ -1,0 +1,3 @@
+# Independent verification of original composed G11 census ZIP
+
+Run 42763405348, job 129654161139, independently downloaded artifact 13737684031 without forwarding the GitHub token to its signed redirect. It verified the original ZIP's 10,188 bytes and SHA-256 99ab43607660da2132055acd3ee1f8694c0184bce10444722397a49f90a31cdf, two unique members and CRCs. Both 48,104-byte reports had SHA-256 6a48e545d508299a158a99a5826e7ecda5d45e7ac4e54102b9c4a9f33106d3ce, commit 0f7412c5933a97dfa15d84667d176bcc60a130e6, status FAIL, zero production findings and exactly the three recorded unexercised tools. The original ZIP bytes are retained as a native Git blob. The source, workflow and full log are retained. This verifies the old failure, not the subsequent scanner repair or final G11.

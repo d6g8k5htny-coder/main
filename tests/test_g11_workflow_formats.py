@@ -101,5 +101,10 @@ class WorkflowFormats(unittest.TestCase):
                 report = g11.census({".github/workflows/invalid-shape.yml": json.dumps(workflow).encode()})
                 self.assertEqual(report["status"], "FAIL")
 
+
+    def test_env_unset_equals_preserves_direct_reference(self):
+        text = yaml_run("env --unset=PYTHONPATH python3 -B -S " + TOOL)
+        self.assertEqual(g11.workflow_tool_references(text, TOOLS), {TOOL})
+
 if __name__ == "__main__":
     unittest.main()
