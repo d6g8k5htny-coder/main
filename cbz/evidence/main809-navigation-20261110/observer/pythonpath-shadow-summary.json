@@ -1,0 +1,112 @@
+{
+  "unfixed_blob": "95628e4b1cf895ca905fef32b46228ac2d76f6d8",
+  "fixed_blob": "868772303875e148f61d2981cbf840b2eff1ad78",
+  "scope": "Local fresh temporary copies. Ordinary inherited PYTHONPATH can shadow a namespace package; no hostile code or scientific inference. These checks do not prove hosted qualification or a full regression.",
+  "initial_run_note": "Initial 3.12 and 3.13 probes ran concurrently and shared raw-log filenames; their versioned JSON records are retained but those unsuffixed logs are not independently attributable. Versioned reruns below use distinct output paths. Initial prefix helper exited 1 after cases due to an output-path TypeError; the helper, transcribed traceback and per-case stderr are preserved, followed by corrected reruns.",
+  "matrix": [
+    {
+      "python_minor": "12",
+      "fixture": "unfixed",
+      "environment": "PYTHONPATH regular tools package",
+      "baseline_exits": [
+        0,
+        0
+      ],
+      "mutant_exits": [
+        0,
+        0
+      ]
+    },
+    {
+      "python_minor": "12",
+      "fixture": "fixed",
+      "environment": "PYTHONPATH regular tools package",
+      "baseline_exits": [
+        0,
+        0
+      ],
+      "mutant_exits": [
+        1,
+        1
+      ]
+    },
+    {
+      "python_minor": "12",
+      "fixture": "fixed",
+      "environment": "PYTHONPATH plus prefix",
+      "baseline_exits": [
+        0,
+        0
+      ],
+      "mutant_exits": [
+        1,
+        1
+      ]
+    },
+    {
+      "python_minor": "12",
+      "fixture": "fixed",
+      "environment": "prefix only",
+      "baseline_exits": [
+        0,
+        0
+      ],
+      "mutant_exits": [
+        1,
+        1
+      ]
+    },
+    {
+      "python_minor": "13",
+      "fixture": "unfixed",
+      "environment": "PYTHONPATH regular tools package",
+      "baseline_exits": [
+        0,
+        0
+      ],
+      "mutant_exits": [
+        0,
+        0
+      ]
+    },
+    {
+      "python_minor": "13",
+      "fixture": "fixed",
+      "environment": "PYTHONPATH regular tools package",
+      "baseline_exits": [
+        0,
+        0
+      ],
+      "mutant_exits": [
+        1,
+        1
+      ]
+    },
+    {
+      "python_minor": "13",
+      "fixture": "fixed",
+      "environment": "PYTHONPATH plus prefix",
+      "baseline_exits": [
+        0,
+        0
+      ],
+      "mutant_exits": [
+        1,
+        1
+      ]
+    },
+    {
+      "python_minor": "13",
+      "fixture": "fixed",
+      "environment": "prefix only",
+      "baseline_exits": [
+        0,
+        0
+      ],
+      "mutant_exits": [
+        1,
+        1
+      ]
+    }
+  ]
+}
