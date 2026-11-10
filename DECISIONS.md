@@ -875,3 +875,17 @@ README, SHA256SUMS and retained verification history.
 - The freshness label is a time-bound source observation, not a guarantee of
   future tips. Require actual current-tree live observations and normal
   protected checks before serial integration; preserve any failures.
+
+## 2026-11-10 — Preserve and correct hard-gate cohort contract failure
+
+- Hosted job `129621544420` on tested merge
+  `d1e2d717522b65359a6c94569c35e110585b611a` ran 23 live-contract tests
+  in each mode and failed two in each: the former explicit three-fresh-node
+  expectation conflicts with this candidate's four. The dependent live job
+  `129621764656` was skipped. Preserve the original test source and full
+  decoded failure log under the hard-gate evidence directory.
+- Update those exact contract expectations to the four named fresh nodes and
+  twelve observed sources. Retain the existing side24 and discussion refusal
+  cases, and add changed-object and unavailable-source subcases for both new
+  hard-gate URLs. No live check, mathematical claim or regression is waived;
+  new hosted outcomes must be observed.

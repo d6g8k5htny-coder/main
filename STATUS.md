@@ -14,8 +14,12 @@ freshness observation, not mathematical or scientific acceptance.
 
 Math downstream run `42714668178`, job `129492972799`, completed on the
 current Math source; its actual log and the exact two source variants are
-retained. The new Main candidate has not yet passed its live observation or
-normal required checks. The following report-only commands make live source
+retained. The initial Main tested merge `d1e2d717522b65359a6c94569c35e110585b611a`
+failed two live-contract tests in each mode because those tests expected three
+fresh records rather than this candidate's four; the live job was skipped.
+The original source and failure log are retained. The candidate updates the
+explicit cohort and adds refusal controls for both hard-gate sources; actual
+fresh checks and normal required checks remain pending. The following read-only checks make live source
 observations and fail unless all records are fresh; they are not final G7:
 
 ```sh
