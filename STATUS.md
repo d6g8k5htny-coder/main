@@ -1,5 +1,197 @@
 # CBZ-0 execution status
 
+## Current handoff and gate limits — observed 10 November 2026, 00:57 UTC
+
+**Active intermediate baseline. CBZ-0 and terminal Partial are not established.**
+The observations in this section are time-stamped, not promises that refs stay
+fixed. The dated sections below retain earlier observations, including headings
+that used “current” or “candidate” at the time; they do not override newer
+observations. Before integrating anything, re-read actual refs, open PRs and
+required checks. A Main commit containing this handoff advances Main, so the
+Workspace pin must be compared with the resulting default tip again.
+
+The non-atomic source observation at 00:56–00:57 UTC was Main
+`da92c8290d99b7ab1db686ce9294e20c915f01a7`, Math-
+`9bdfc54b76173b57912503bfcf901a5f9d43b09c`, and Workspace
+`a89cf416ce1741af4153c8ce389ae864a0a7245f`, whose Main pin was `da92c829`.
+The other nine observed defaults were:
+
+| Repository | Observed default commit |
+|---|---|
+| `meta-framework` | `0f5894f81a5462c10ee5ec8f8109f466e712e47e` |
+| `query-` | `fb4c457b5861dc49696fd0a8e11c7c405056c05f` |
+| `google-drive` | `ad08584b3ea9d533af10113e85169f471fa8ec93` |
+| `trial` | `3738c859d519d2dbf1e388fe48fe0ae60c9487a3` |
+| `governance-` | `1b62ca2f64b3012c2fdbbf7f55ced236c3042891` |
+| `sandbox` | `dce04a4174835107126ab4f36c199a2dc320f964` |
+| `d6g8k5htny-coder` | `d59de18e5fb4d087ed7a2a1c1b68536a4b8b5f15` |
+| `openclaw-custodian-validation` | `83e0ba034aa3999d12554c1583732573ec09e8da` |
+| `research-hosted-qualification` | `a6b1e6a6039f9cac596ef130719f6104b4c5ecf1` |
+
+The twelve reads were not an atomic federation snapshot. Main #787 and #788
+were separate open drafts at this observation. A clone or successful component
+check is not a complete repository, ref, PR, CI, administration or proof inventory.
+
+Further observation at 01:09 UTC: Main `da92c829` current-site build succeeded,
+but its automatic Pages deployment job `129553245949` timed out while syncing
+files and cancelled the deployment. The public-byte readback was skipped, so
+that run does not establish current public bytes. Its prepared receipt commit
+`443fe72d76d05671de5dd9079ee8a17c0582eeab` and state artifact `13725767427`
+were retained; the failure remains part of the record.
+
+The 66 determinant companions remain closed only for their exact conditional
+Lean statements and original kernel/custody evidence. Their parent continuum,
+Palm, lifetime and scientific applications are not thereby closed. At Main
+`da92c829`, the formal component reported 59 named targets with empty axiom
+lists and 18 rejection controls; this is not whole-federation qualification or
+scientific alignment. The preserved, closed-unmerged #695 catalog is historical,
+not an admitted set of current quarantines. Its 184 rows include six coverage
+records without an explicit quarantine status; the remaining rows have not
+been fully reconciled with current mathematical dispositions and logical-isolation
+evidence. The three cusp archive
+tags and their original source bytes are preserved in the custody record below.
+
+Layer A remains binding: do not present placeholders as closed; admit no
+unchecked axioms; certify bounds by exact rational or justified real/interval
+arguments, not floating point; do not weaken bounds or silently disable
+failures; mark vacuous regimes; report actual sources, executions and limits;
+and test certification tools against adverse inputs without silent skips.
+Kernel evidence establishes its exact statements and axioms, not scientific
+alignment or independent review.
+
+### What can be run now
+
+The observed source cut includes twelve repositories: `main`, `Math-`,
+`Universal-Law-Workspace`, `meta-framework`, `query-`, `google-drive`, `trial`,
+`governance-`, `sandbox`, `d6g8k5htny-coder`, `openclaw-custodian-validation`
+and `research-hosted-qualification`. This list is not proof that no other
+associated infrastructure exists. For a fresh source observation, choose new
+absolute paths outside existing work and use complete, authorized clones:
+
+```sh
+export CBZ_ROOT=/absolute/new/federation
+export CBZ_EVIDENCE=/absolute/new/evidence
+export GIT_TERMINAL_PROMPT=0
+mkdir "$CBZ_ROOT" "$CBZ_EVIDENCE" || exit 1
+for repo in main Math- Universal-Law-Workspace meta-framework query- google-drive trial governance- sandbox d6g8k5htny-coder openclaw-custodian-validation research-hosted-qualification; do
+  git clone "https://github.com/d6g8k5htny-coder/$repo.git" "$CBZ_ROOT/$repo" || exit 1
+done
+```
+
+Some repositories may require existing credentials. A denied or missing source
+is a failure to obtain evidence, never a skip. Record each actual commit and
+recheck remote defaults; independently sampled refs are not atomic.
+
+The commands below are **component checks**, not a complete or final G0–G11
+runner. They require the installed project dependencies and pinned Lean toolchain.
+Set `CBZ_ROOT` to the absolute parent of the twelve checkouts and `CBZ_EVIDENCE`
+to a new absolute directory, then create that directory. At this observed cut,
+both formal packages pin `leanprover/lean4:v4.34.1`; Math's formal package also
+pins Mathlib. With an installed `elan`, prepare the pinned toolchain and Math
+cache using:
+
+```sh
+elan toolchain install leanprover/lean4:v4.34.1
+(cd "$CBZ_ROOT/Math-/formal" && lake exe cache get)
+```
+
+A fetched dependency cache is not proof that owned declarations were freshly
+built or kernel-rechecked. From the Main root, run each line independently and
+retain its actual exit status and output; the exit status of the last line is
+not an aggregate result:
+
+```sh
+python3 -B -S tools/cbz_inventory.py generate --root "$CBZ_ROOT" --repositories main Math- Universal-Law-Workspace meta-framework query- google-drive trial governance- sandbox d6g8k5htny-coder openclaw-custodian-validation research-hosted-qualification --output "$CBZ_EVIDENCE/inventory.json"
+python3 -B -S tools/cbz_inventory.py verify --root "$CBZ_ROOT" --manifest "$CBZ_EVIDENCE/inventory.json"
+python3 -B -S tools/cbz/layer_a_scan.py --git "$CBZ_ROOT/main" --rev HEAD --fail-on all --json "$CBZ_EVIDENCE/lean-main.json"
+python3 -B -S tools/cbz/layer_a_scan.py --git "$CBZ_ROOT/Math-" --rev HEAD --fail-on all --json "$CBZ_EVIDENCE/lean-math.json"
+python3 -B -S tools/cbz/a3_float_census.py --git "$CBZ_ROOT/main" --rev HEAD --json "$CBZ_EVIDENCE/a3-main.json"
+python3 -B -S tools/formal_gate_check.py --run-lean
+python3 -B -S -m unittest discover -s tests -v
+python3 -B -O -S -m unittest discover -s tests -v
+python3 -B -S -m unittest tests.test_reader_links -v
+python3 -B -O -S -m unittest tests.test_reader_links -v
+python3 -B -S tools/cbz/g11_mutation_selftest.py --json > "$CBZ_EVIDENCE/g11-mutations-normal.json"
+python3 -B -O -S tools/cbz/g11_mutation_selftest.py --json > "$CBZ_EVIDENCE/g11-mutations-optimized.json"
+python3 -B -S tools/cbz/g11_census.py --rev HEAD --json "$CBZ_EVIDENCE/g11-census.json"
+```
+
+For the scoped auditor-origin and census mutation controls, still from Main,
+create four separate empty directories and run both groups in both modes:
+
+```sh
+mkdir "$CBZ_EVIDENCE/adapter-normal" "$CBZ_EVIDENCE/adapter-optimized" "$CBZ_EVIDENCE/census-normal" "$CBZ_EVIDENCE/census-optimized"
+CBZ_AUDITOR_ORIGIN_MUTATION_EVIDENCE_DIR="$CBZ_EVIDENCE/adapter-normal" python3 -B -S -m unittest tests.test_cbz_auditor_origin tests.test_cbz_inventory_origin tests.test_cbz_auditor_origin_mutations tests.test_cbz_auditor_origin_workflow -v
+CBZ_AUDITOR_ORIGIN_MUTATION_EVIDENCE_DIR="$CBZ_EVIDENCE/adapter-optimized" python3 -B -O -S -m unittest tests.test_cbz_auditor_origin tests.test_cbz_inventory_origin tests.test_cbz_auditor_origin_mutations tests.test_cbz_auditor_origin_workflow -v
+CBZ_AUDITOR_EVIDENCE_DIR="$CBZ_EVIDENCE/census-normal" python3 -B -S -m unittest tests.test_cbz_layer_a_scan tests.test_cbz_auditor_hardening tests.test_cbz_layer_a_scan_mutants tests.test_cbz_a3_float_census -v
+CBZ_AUDITOR_EVIDENCE_DIR="$CBZ_EVIDENCE/census-optimized" python3 -B -O -S -m unittest tests.test_cbz_layer_a_scan tests.test_cbz_auditor_hardening tests.test_cbz_layer_a_scan_mutants tests.test_cbz_a3_float_census -v
+```
+
+The inventory reports only supplied obligation classifications; an empty list
+does not mean no obligations. The Lean scanner is lexical and reports retained
+negative fixtures under `--fail-on all`; that output needs precise fixture
+isolation and cannot by itself clear Layer A. The Python census is also scoped.
+The Main formal command requires the pinned toolchain and performs its own build,
+kernel, axiom and rejection controls; it does not qualify other packages. Run
+Math-'s formal component from its repository root with
+`python3 -B -S formal/gate.py --execute` after installing its pinned dependencies.
+
+From the Workspace root, run:
+
+```sh
+python3 -B -S tools/verify_pins.py --require-current
+python3 -B -S tools/verify_canonical_inputs.py
+python3 -B -S - "$CBZ_ROOT" "$CBZ_EVIDENCE/vector.json" <<'PYVECTOR' || exit 1
+import json, pathlib, re, subprocess, sys
+root, output = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
+names = ('main', 'Math-', 'Universal-Law-Workspace', 'meta-framework',
+         'query-', 'google-drive', 'trial', 'governance-', 'sandbox',
+         'd6g8k5htny-coder', 'openclaw-custodian-validation',
+         'research-hosted-qualification')
+heads = {}
+for name in names:
+    head = subprocess.check_output(['git', '-C', str(root / name),
+                                    'rev-parse', '--verify', 'HEAD^{commit}'],
+                                   text=True).strip()
+    if re.fullmatch(r'[0-9a-f]{40}', head) is None:
+        raise ValueError('invalid commit for ' + name)
+    heads[name] = head
+with output.open('x', encoding='utf-8') as stream:
+    stream.write(json.dumps({'schema': 'cbz.federation-vector.v1',
+                             'repositories': heads}, indent=2) + '\n')
+PYVECTOR
+python3 -B -S tools/verify_federation_vector.py --root "$CBZ_ROOT" --vector "$CBZ_EVIDENCE/vector.json" --network --output "$CBZ_EVIDENCE/vector-receipt.json"
+```
+
+The generated vector records the twelve local HEADs; it is not a published
+baseline or an atomic remote observation. Network verification must actually
+complete and report its own scope. The first two commands check eight public
+pins and four canonical input identities;
+they do not establish all twelve source tips, complete Git hygiene or G7. For
+each of the twelve clones, `git status --porcelain=v1 --untracked-files=all`,
+`git stash list`, `git worktree list --porcelain` and `git for-each-ref` are
+starting observations, not semantic dispositions of all remote refs, tags or
+other hosts. Preserve the outputs and any failure.
+
+| Gate | Observed boundary and remaining work |
+|---|---|
+| G0 | Auditor-origin controls and mutation workflows exist; the complete federation auditor and its adverse qualification are not established. |
+| G1 | The lexical and Python censuses above are scoped; a verified full Layer A audit is not established. |
+| G2, G3, G4 | The Main and Math formal components have bounded commands above; a fresh current-composition axiom, Lean and kernel pass across every admitted proof remains open. |
+| G5 | Main navigation ran 2,620 tests with 24 explicit skips at #794's tested merge. Separate component passes do not make that run no-skip; a complete federation regression remains open. |
+| G6 | Recorded designated mutation campaigns are source-specific. The declared federation-wide threshold has not been established in a final pass. |
+| G7 | Workspace pin and canonical-input checks are available above; a current twelve-repository vector and dependency qualification must be observed together. |
+| G8 | Reader-link tests are available above; complete consistency and current disposition checks for the five canonical surfaces remain open. |
+| G9 | No STATUS-only fresh-clone exercise has yet established the boundaries and rerun every gate. There is no admitted command that runs the complete matrix. |
+| G10 | Local Git commands above are starting observations only; complete ref, worktree, stash, tag, PR, CI and administration dispositions remain open. |
+| G11 | The census and its designated mutations above are bounded tooling checks, not a final federation-wide tooling qualification. |
+
+The final run must execute all applicable gates together on the same observed
+source vector, retain actual logs and failures, and satisfy all twelve CBZ-0
+criteria at once. Older receipts, conditional checks, skipped tests and this
+handoff do not substitute for that run.
+
+
 ## Historical foundation custody — 10 November 2026
 
 Workspace #64 merged as `a3ac03329c6c54f0e3df4f159d894b2a8e70de44`, pinning
