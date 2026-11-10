@@ -86,5 +86,20 @@ class WorkflowFormats(unittest.TestCase):
         report = g11.census({".github/workflows/normal.yml": text.encode()})
         self.assertEqual(report["failing"], [])
 
+
+    def test_nonstring_json_run_is_unparseable(self):
+        text = json.dumps({"jobs": {"a": {"steps": [{"run": False}]}}})
+        report = g11.census({".github/workflows/invalid-run.yml": text.encode()})
+        self.assertEqual(report["status"], "FAIL")
+        self.assertEqual([finding["class"] for finding in report["failing"]], ["unparseable"])
+
+    def test_invalid_json_job_step_shapes_are_unparseable(self):
+        cases = ({"jobs": {"a": None}}, {"jobs": {"a": {"steps": "not a list"}}},
+                 {"jobs": {"a": {"steps": ["not an object"]}}})
+        for workflow in cases:
+            with self.subTest(workflow=workflow):
+                report = g11.census({".github/workflows/invalid-shape.yml": json.dumps(workflow).encode()})
+                self.assertEqual(report["status"], "FAIL")
+
 if __name__ == "__main__":
     unittest.main()
