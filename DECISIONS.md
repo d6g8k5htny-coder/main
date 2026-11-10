@@ -607,3 +607,38 @@ returns the actual wasSuccessful outcome in each Python mode. It does not
 change a test body or weaken any inventory/no-skip guard. Its own hosted
 baseline remains required; the initial outcome is not rebound to corrected
 source. Production record and projection data remain excluded.
+
+### Q-9002 corrected baseline observed and historical data candidate
+
+Prepared at 02:57:51 UTC on 10 November 2026 following root's independent
+reading of the corrected Node status baseline and authorization of the concrete
+historical record/projection pair. Run `42743968795`, attempt 1, job `129591516283`, at head
+`e68c679455a190999fd775346987695abfecb86c`, checked merge
+`2068bb143a3c9f7b85faf3920dcf21a5b254c557`, tree
+`94773c535d110536efdd11b14e568a6bbd69fc58`. Original decoded logs show
+/usr/bin/python3 3.12.3, optimization 0 and 1, five methods per mode with four
+passes and the exact missing evidence/release/resolution URL skip, no unittest
+failures or errors, and OK (skipped=1). Normal duration was 0.014s and optimized
+0.022s; both terminal-OK guards rejected with exit 1. The unchanged atlas and
+validator step succeeded. descriptions=False now produced the expected
+one-line adoption outcome. This is observed coverage-absence RED, not a semantic
+negative control. The initial deficient guard and its separate run remain above.
+
+Apply only record blob `a6f82a36e4f9a31abf656661f7c8ee5201874522` and matching
+projection blob `9e27b1105fd1c8aa961a22b8df3d1394ee348cc0`. One existing-v0
+carried_forward item records resolution of the historical four-file operational
+integration through Math- PR495 and only-own release6351719961. All old record
+values, null owners, source pins, timestamps, freshness and scientific holds
+remain unchanged; the other three projected records remain equal. The original
+projection bytes match the existing two-space JSON serialization, and the staged
+projection matches that serialization with only this record value changed.
+This is a checked staged serialization, not a claim that the native Python
+projection generator ran in the failed local environment.
+
+No test, schema, production tool, current graph or corrected workflow body is
+changed by this data step. Its own current hosted qualification is pending:
+require the five unchanged methods to pass in each mode without skips, the
+existing atlas/validator step, the source-bound live contract and all applicable
+broader checks. Keep Draft #799; no merge is performed here. This records no
+whole-node owner, source/review/successor transfer, R81/R83 adoption, scientific
+acceptance, full G5 or CBZ award. Q-9003–Q-9005 remain open; scientific effect NONE.
