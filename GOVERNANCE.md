@@ -1,5 +1,15 @@
 # CBZ-0 governance
 
+## Lean kernel-option spelling boundary — 10 November 2026
+
+The Lean lexical scanner reports `skipKernelTC` as an A2 violation even when
+it is a nonfinal dotted identifier component, including an escaped component.
+This deliberately conservative rule also reports read-only member names and
+does not resolve aliases, evaluate settings, or certify kernel safety. Run and
+verify it using the registered [auditor commands](TOOLING.md#auditor-origin-controls);
+retain negative fixtures and actual errors. The pre-correction false negatives
+are recorded in [the evidence](cbz/evidence/lean-option-member-20261110/README.md).
+
 ## Auditor assertion-origin boundary — 9 November 2026
 
 A mutation kill requires a clean designated baseline and an actual failure

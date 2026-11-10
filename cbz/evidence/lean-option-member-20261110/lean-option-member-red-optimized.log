@@ -1,0 +1,96 @@
+test_kernel_bypass_option_members_are_not_lost_in_dotted_names (tests.test_cbz_layer_a_scan.ViolationTokens.test_kernel_bypass_option_members_are_not_lost_in_dotted_names) ... 
+  test_kernel_bypass_option_members_are_not_lost_in_dotted_names (tests.test_cbz_layer_a_scan.ViolationTokens.test_kernel_bypass_option_members_are_not_lost_in_dotted_names) (src='def x := debug.skipKernelTC.set opts true') ... FAIL
+  test_kernel_bypass_option_members_are_not_lost_in_dotted_names (tests.test_cbz_layer_a_scan.ViolationTokens.test_kernel_bypass_option_members_are_not_lost_in_dotted_names) (src='def x := debug.«skipKernelTC».set opts true') ... FAIL
+  test_kernel_bypass_option_members_are_not_lost_in_dotted_names (tests.test_cbz_layer_a_scan.ViolationTokens.test_kernel_bypass_option_members_are_not_lost_in_dotted_names) (src='def x := debug.skipKernelTC.get opts') ... FAIL
+test_real_kernel_replay_negative_fixtures_fail_cli_scan (tests.test_cbz_layer_a_scan.ViolationTokens.test_real_kernel_replay_negative_fixtures_fail_cli_scan) ... 
+  test_real_kernel_replay_negative_fixtures_fail_cli_scan (tests.test_cbz_layer_a_scan.ViolationTokens.test_real_kernel_replay_negative_fixtures_fail_cli_scan) (path='/workspace/scratch/7abea556a9be/cbz-main-g1-origin/cbz/contributions/math514/kernel_replay/tests/fixtures/BadPublic.lean') ... FAIL
+  test_real_kernel_replay_negative_fixtures_fail_cli_scan (tests.test_cbz_layer_a_scan.ViolationTokens.test_real_kernel_replay_negative_fixtures_fail_cli_scan) (path='/workspace/scratch/7abea556a9be/cbz-main-g1-origin/cbz/contributions/math514/kernel_replay/tests/fixtures/BadPrivate.lean') ... FAIL
+test_real_kernel_replay_negative_fixtures_fail_cli_scan (tests.test_cbz_layer_a_scan.ViolationTokens.test_real_kernel_replay_negative_fixtures_fail_cli_scan) ... FAIL
+
+======================================================================
+FAIL: test_kernel_bypass_option_members_are_not_lost_in_dotted_names (tests.test_cbz_layer_a_scan.ViolationTokens.test_kernel_bypass_option_members_are_not_lost_in_dotted_names) (src='def x := debug.skipKernelTC.set opts true')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz-main-g1-origin/tests/test_cbz_layer_a_scan.py", line 71, in test_kernel_bypass_option_members_are_not_lost_in_dotted_names
+    self.assertEqual(hits(src), [(1, 10, 'skipKernelTC', 'violation')])
+AssertionError: Lists differ: [] != [(1, 10, 'skipKernelTC', 'violation')]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(1, 10, 'skipKernelTC', 'violation')
+
+- []
++ [(1, 10, 'skipKernelTC', 'violation')]
+
+======================================================================
+FAIL: test_kernel_bypass_option_members_are_not_lost_in_dotted_names (tests.test_cbz_layer_a_scan.ViolationTokens.test_kernel_bypass_option_members_are_not_lost_in_dotted_names) (src='def x := debug.«skipKernelTC».set opts true')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz-main-g1-origin/tests/test_cbz_layer_a_scan.py", line 71, in test_kernel_bypass_option_members_are_not_lost_in_dotted_names
+    self.assertEqual(hits(src), [(1, 10, 'skipKernelTC', 'violation')])
+AssertionError: Lists differ: [] != [(1, 10, 'skipKernelTC', 'violation')]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(1, 10, 'skipKernelTC', 'violation')
+
+- []
++ [(1, 10, 'skipKernelTC', 'violation')]
+
+======================================================================
+FAIL: test_kernel_bypass_option_members_are_not_lost_in_dotted_names (tests.test_cbz_layer_a_scan.ViolationTokens.test_kernel_bypass_option_members_are_not_lost_in_dotted_names) (src='def x := debug.skipKernelTC.get opts')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz-main-g1-origin/tests/test_cbz_layer_a_scan.py", line 71, in test_kernel_bypass_option_members_are_not_lost_in_dotted_names
+    self.assertEqual(hits(src), [(1, 10, 'skipKernelTC', 'violation')])
+AssertionError: Lists differ: [] != [(1, 10, 'skipKernelTC', 'violation')]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(1, 10, 'skipKernelTC', 'violation')
+
+- []
++ [(1, 10, 'skipKernelTC', 'violation')]
+
+======================================================================
+FAIL: test_real_kernel_replay_negative_fixtures_fail_cli_scan (tests.test_cbz_layer_a_scan.ViolationTokens.test_real_kernel_replay_negative_fixtures_fail_cli_scan) (path='/workspace/scratch/7abea556a9be/cbz-main-g1-origin/cbz/contributions/math514/kernel_replay/tests/fixtures/BadPublic.lean')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz-main-g1-origin/tests/test_cbz_layer_a_scan.py", line 88, in test_real_kernel_replay_negative_fixtures_fail_cli_scan
+    self.assertEqual(hits(stream.read()), [(13, 41, 'skipKernelTC', 'violation')])
+AssertionError: Lists differ: [] != [(13, 41, 'skipKernelTC', 'violation')]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(13, 41, 'skipKernelTC', 'violation')
+
+- []
++ [(13, 41, 'skipKernelTC', 'violation')]
+
+======================================================================
+FAIL: test_real_kernel_replay_negative_fixtures_fail_cli_scan (tests.test_cbz_layer_a_scan.ViolationTokens.test_real_kernel_replay_negative_fixtures_fail_cli_scan) (path='/workspace/scratch/7abea556a9be/cbz-main-g1-origin/cbz/contributions/math514/kernel_replay/tests/fixtures/BadPrivate.lean')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz-main-g1-origin/tests/test_cbz_layer_a_scan.py", line 88, in test_real_kernel_replay_negative_fixtures_fail_cli_scan
+    self.assertEqual(hits(stream.read()), [(13, 41, 'skipKernelTC', 'violation')])
+AssertionError: Lists differ: [] != [(13, 41, 'skipKernelTC', 'violation')]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(13, 41, 'skipKernelTC', 'violation')
+
+- []
++ [(13, 41, 'skipKernelTC', 'violation')]
+
+======================================================================
+FAIL: test_real_kernel_replay_negative_fixtures_fail_cli_scan (tests.test_cbz_layer_a_scan.ViolationTokens.test_real_kernel_replay_negative_fixtures_fail_cli_scan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz-main-g1-origin/tests/test_cbz_layer_a_scan.py", line 90, in test_real_kernel_replay_negative_fixtures_fail_cli_scan
+    self.assertEqual(result.returncode, 1, (result.stdout, result.stderr))
+AssertionError: 0 != 1 : ('{"files": 2, "findings": 0, "violations": 0, "errors": 0, "failing": 0, "undecodable": []}\n', '')
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.055s
+
+FAILED (failures=6)

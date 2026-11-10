@@ -1,0 +1,60 @@
+{
+ "summary": {
+  "files": 18,
+  "findings": 4,
+  "violations": 3,
+  "errors": 0,
+  "failing": 3,
+  "undecodable": []
+ },
+ "findings": [
+  {
+   "path": "cbz/contributions/math514/kernel_replay/ExactReplay.lean",
+   "line": 13,
+   "col": 1,
+   "token": "unsafe",
+   "kind": "unsafe",
+   "layer": "A2",
+   "severity": "review",
+   "context": "production",
+   "context_path": "cbz/contributions/math514/kernel_replay/ExactReplay.lean",
+   "blob": "400f3853d50df7ea2a9b4bb2fc1de302626f2efa"
+  },
+  {
+   "path": "cbz/contributions/math514/kernel_replay/tests/fixtures/BadPrivate.lean",
+   "line": 13,
+   "col": 41,
+   "token": "debug.skipKernelTC.set",
+   "kind": "skipKernelTC",
+   "layer": "A2",
+   "severity": "violation",
+   "context": "production",
+   "context_path": "cbz/contributions/math514/kernel_replay/tests/fixtures/BadPrivate.lean",
+   "blob": "e95ddfc5f30419716fe522eeeb5736332153135f"
+  },
+  {
+   "path": "cbz/contributions/math514/kernel_replay/tests/fixtures/BadPublic.lean",
+   "line": 13,
+   "col": 41,
+   "token": "debug.skipKernelTC.set",
+   "kind": "skipKernelTC",
+   "layer": "A2",
+   "severity": "violation",
+   "context": "production",
+   "context_path": "cbz/contributions/math514/kernel_replay/tests/fixtures/BadPublic.lean",
+   "blob": "8d9ecce862381b023bcce3743cb4b705d3a74dee"
+  },
+  {
+   "path": "cbz/contributions/math514/kernel_replay/tests/fixtures/UnapprovedAxiom.lean",
+   "line": 5,
+   "col": 8,
+   "token": "axiom",
+   "kind": "axiom",
+   "layer": "A2",
+   "severity": "violation",
+   "context": "production",
+   "context_path": "cbz/contributions/math514/kernel_replay/tests/fixtures/UnapprovedAxiom.lean",
+   "blob": "f802bd6affa61400830372158434e56cc1ae64b6"
+  }
+ ]
+}

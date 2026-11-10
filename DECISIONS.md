@@ -196,3 +196,23 @@ Append-only. Historical source outcomes remain in their original records.
   Preserve the red output in the evidence record and fail the job on either
   metadata-write error; test both guard removals in each Python mode. This
   controls evidence completeness, not mathematical truth or scientific status.
+
+## 2026-11-10 — retain Lean option-member false negatives
+
+- Preserve the real `BadPublic.lean` and `BadPrivate.lean` fixture results at
+  Main `c32e6f27d318e25708939105285366a7a0daf971`: the scoped scanner returned
+  zero findings despite `debug.skipKernelTC.set` in each. Record their native
+  paths, original scanner blob and red outcomes in
+  `cbz/evidence/lean-option-member-20261110/`. This finding changes no
+  mathematical statement, bound, attribution, or historical kernel result.
+- Conservatively report `skipKernelTC` in nonfinal dotted identifier components
+  as well as terminal ones. Keep alias resolution and semantic option state
+  outside the scanner's claimed scope. Retain the initial failed post-fix test
+  parser and the workflow-population red results. The source-specific local
+  campaign ran 85 tests and 102 selected baseline/mutant pairs per mode, with
+  the documented full-child inner skips preserved; hosted exact-head
+  qualification remains required. Do not award full Layer A or final G0/G1.
+- Workspace #63 integrated the earlier Main pointer after fresh sequential
+  default-ref comparisons and normal required checks. Any later Main merge
+  requires a new Workspace pin comparison; no atomic cross-repository snapshot
+  or scientific acceptance is inferred.

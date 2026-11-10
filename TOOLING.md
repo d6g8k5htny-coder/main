@@ -28,11 +28,18 @@ exercise clean subjects, actual selected-body failures, direct and nested
 subject failures, changed source, missing provenance, forged text and
 failed evidence writes. Five adapter source mutations have designated
 clean-baseline and actual-failure controls; the two existing source campaigns
-contain 74 Lean and 27 A3 mutations. The dedicated workflow preserves original
+contain 75 Lean and 27 A3 mutations. The dedicated workflow preserves original
 child reports and source snapshots in both modes. Its actual shell guards are
 also exercised with synthetic child outcomes and seven guard-removal controls. Actual exact-head hosted
 execution and independent readback are required before qualification; historical
 pilot observations do not establish final G0, G1 or scientific acceptance.
+
+The Lean scanner also treats a `skipKernelTC` component with a following dotted
+member as an A2 signal, including escaped components. This is conservative
+spelling detection, not alias resolution or a determination that a setting was
+enabled. Two actual negative fixtures exposed the earlier miss; the original
+and repaired outcomes are preserved in
+[the evidence record](cbz/evidence/lean-option-member-20261110/README.md).
 
 
 **State: component registry; the final federation toolchain is incomplete.**

@@ -1,0 +1,24 @@
+test_kernel_bypass_option_members_are_not_lost_in_dotted_names (tests.test_cbz_layer_a_scan.ViolationTokens.test_kernel_bypass_option_members_are_not_lost_in_dotted_names) ... ok
+test_real_kernel_replay_negative_fixtures_fail_cli_scan (tests.test_cbz_layer_a_scan.ViolationTokens.test_real_kernel_replay_negative_fixtures_fail_cli_scan) ... ERROR
+
+======================================================================
+ERROR: test_real_kernel_replay_negative_fixtures_fail_cli_scan (tests.test_cbz_layer_a_scan.ViolationTokens.test_real_kernel_replay_negative_fixtures_fail_cli_scan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz-main-g1-origin/tests/test_cbz_layer_a_scan.py", line 91, in test_real_kernel_replay_negative_fixtures_fail_cli_scan
+    summary = json.loads(result.stdout)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.053s
+
+FAILED (errors=1)

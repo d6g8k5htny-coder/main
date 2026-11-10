@@ -22,8 +22,11 @@ What it certifies, exactly:
   violation tokens also match as the last component of a dotted name
   (``Lean.ofReduceBool``, ``debug.skipKernelTC``), including an escaped
   component (``Lean.«ofReduceBool»`` and ``«sorryAx»`` name the same
-  constants). An escaped keyword such as ``«sorry»`` is an ordinary
-  identifier, not the keyword, and is not flagged.
+  constants). ``skipKernelTC`` also matches a nonfinal dotted component,
+  as in ``debug.skipKernelTC.set``; this conservative spelling check does not
+  resolve aliases or establish the semantic value of an option. An escaped
+  keyword such as ``«sorry»`` is an ordinary identifier, not the keyword,
+  and is not flagged.
 
 Fail-closed: a string, block comment, raw string, interpolated string or
 ``«`` name or character literal left unterminated is reported as an ``error``
@@ -477,6 +480,8 @@ def classify_token(name: str, line_start: bool, plus_before: bool = False, follo
     """Return (kind, layer, severity) or None."""
     if name == '\x00native':
         name = 'native'
+    if any(part in ('skipKernelTC', '\x00skipKernelTC') for part in name.split('.')[:-1]):
+        return 'skipKernelTC', 'A2', 'violation'
     last = name.split(".")[-1]
     if last.startswith("\x00"):
         # escaped component: the same constant name, never a keyword

@@ -60,12 +60,12 @@ jobs:
             if CBZ_AUDITOR_EVIDENCE_DIR="$evidence/$mode/census" python "${flags[@]}" -m unittest tests.test_cbz_layer_a_scan tests.test_cbz_auditor_hardening tests.test_cbz_layer_a_scan_mutants tests.test_cbz_a3_float_census -v > "$evidence/$mode/census.log" 2>&1; then status=0; else status=$?; failed=1; fi
             printf '%s\n' "$status" > "$evidence/$mode/census.exit" || failed=1
             grep -Eq '^Ran 22 tests in ' "$evidence/$mode/origin.log" || failed=1
-            grep -Eq '^Ran 83 tests in ' "$evidence/$mode/census.log" || failed=1
+            grep -Eq '^Ran 85 tests in ' "$evidence/$mode/census.log" || failed=1
             grep -Fxq 'OK' "$evidence/$mode/origin.log" || failed=1
             grep -Fxq 'OK' "$evidence/$mode/census.log" || failed=1
             if grep -Fq ' ... skipped ' "$evidence/$mode/origin.log" "$evidence/$mode/census.log"; then failed=1; fi
             [ "$(find "$evidence/$mode/adapter" -name '*.json' -type f | wc -l)" -eq 10 ] || failed=1
-            [ "$(find "$evidence/$mode/census" -maxdepth 1 -name '*.json' -type f | wc -l)" -eq 202 ] || failed=1
+            [ "$(find "$evidence/$mode/census" -maxdepth 1 -name '*.json' -type f | wc -l)" -eq 204 ] || failed=1
           done
           sha256sum -c "$evidence/source-sha256.txt" > "$evidence/source-readback.log" 2>&1 || failed=1
           exit "$failed"
