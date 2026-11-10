@@ -1692,3 +1692,14 @@ or ref update. Later normal/optimized qualification remains unobserved.
 The change is reversible by ordinary guarded removal of the two new production
 paths; retain this entry and historical R0 originals. No data/dispatcher/V2,
 owner assignment, science, full Main, G5 or CBZ award follows.
+
+
+## 2026-11-10 14:33 UTC — Fresh SDGA E complete-original fragment source candidate
+
+Phase: bounded original-evidence readback source preparation; Layer B. Writer: OpenAI/Codex task sdga_task_b_contract. Action: prepare four sealed fresh PhaseB additions and this append on actual Main8aaaa387d11dc21a0867b9cc41cc81743ca59975 as sole parent. Preserve its complete canonical prefix and every Acq/V1/G5/peer leaf; carry no unmerged E or prior diagnostic branch code.
+
+Rationale: recover complete fresh originals for E run42827932735/1/job129870032991, featureb92e/checked6ec/treeD944, after Root independently read the complete actual inventory from42832273853/1/job129885135485. Fresh inventory575398B/SHA2565ce930916444646300f9ae3288bd2758129a9d20c8d8ebc7cd547552e1be6fd5 contains1602 members/113751904B. Exact source packet [b91ca2d276307e4fc309222760c34836f3f31b88](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/b91ca2d276307e4fc309222760c34836f3f31b88), inventory97d0f822 and receiptc739b9a7 bind the new target. Root and assigned independent reviewer report C0/I0/M0, exact source forward/inverse, full fresh inventory/table joins and encoded budgets.
+
+The fresh closed table independently derives954 selected originals/648 exclusions,981 exact fragments/268 empty members/21 jobs, retaining all460 streams,16 intermediate reports and16 source.diff files without status filtering. Fresh ordinals, sizes, hashes and partitions are rederived. Controlled encoded bounds max1559204B<1.5MiB, total30190946B; each complete actual decoded job must later measure below2MiB. Preserve complete originals with explicit extents and whole hashes; a part cannot qualify a member before complete ordered rejoin. Fresh E member bodies and semantic qualification remain unread.
+
+Reversible: abandon this unreferenced candidate or remove its four additions through an ordinary guarded change while retaining the decision and earlier evidence. This entry grants no ref/run, original test/Lean/mutator replay, E rebase, Ready or merge; Root candidate guard remains separate. Scientific effect NONE; classification/qualification BLOCKED; execution_authenticated=false; no full99/catalog/G5/CBZ or scientific award.
