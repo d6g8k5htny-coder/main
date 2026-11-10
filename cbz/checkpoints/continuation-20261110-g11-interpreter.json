@@ -67,7 +67,8 @@
     "limitation": "interpreter flaw was subsequently demonstrated"
   },
   "next": [
-    "Observe normal required checks on Main #804 and Workspace #72; recheck fresh refs and synthetic merge trees before normal integration.",
+    "Independently verify the exact-head component ZIP.",
+    "Observe remaining required PR checks on Main #804 and Workspace #72, then recheck fresh refs and synthetic merge trees before normal integration.",
     "After any subsequent Main integration, refresh Workspace pin again as needed.",
     "Do not claim final federation G7, G11 or CBZ from scoped observations."
   ],
@@ -123,6 +124,20 @@
     "tree": "c8bfa765f5cd564e894397390c4abf1588731d38",
     "base": "47221adf89749dc226e8e3578af2f8fd7c16ea20",
     "proposed_main": "d291b42801a26252a046d8ca78a6bd62abc448ae",
-    "state": "draft; required checks in progress; recheck Main before integration"
+    "state": "draft; required checks in progress; recheck Main before integration",
+    "pin_checks": "two hosted pin jobs passed 8 strict-current pins, four canonical inputs and 254 controls each; contract workflow remains in progress"
+  },
+  "recomposed_component": {
+    "run": 42766509309,
+    "job": 129664151935,
+    "event": "push",
+    "head": "16b4e198a5799e0e1a40b7032e6b6d4d1e981c2f",
+    "tree": "0653510713b14da67c0d3746aee854d47c4ed869",
+    "status": "success; 265/12 controls, 7 origin mutations, 18 format tests, 19 format mutations and 328 named original mutations in each mode; 708 mutation records parsed",
+    "artifact": {
+      "id": 13740146241,
+      "sha256_reported_by_github": "c7af3a9fc11a23c9e8c61aea50211259327c200999bc8b63d7233d3b0a8f5480",
+      "independently_verified": false
+    }
   }
 }
