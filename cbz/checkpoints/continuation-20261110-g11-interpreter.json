@@ -67,7 +67,8 @@
     "limitation": "interpreter flaw was subsequently demonstrated"
   },
   "next": [
-    "Observe remaining required PR checks on Main #804 and Workspace #72; recheck current refs and tested merge trees before normal integration.",
+    "Normal integrate Workspace #72 with fresh refs and expected head; capture postmerge checks.",
+    "Observe remaining required PR checks on Main #804 and recheck current refs and tested merge tree before normal integration.",
     "After subsequent Main integration, refresh Workspace pin again as needed.",
     "Do not claim final federation G7, G11 or CBZ from scoped observations."
   ],
@@ -123,8 +124,20 @@
     "tree": "c8bfa765f5cd564e894397390c4abf1588731d38",
     "base": "47221adf89749dc226e8e3578af2f8fd7c16ea20",
     "proposed_main": "d291b42801a26252a046d8ca78a6bd62abc448ae",
-    "state": "draft; required checks in progress; recheck Main before integration",
-    "pin_checks": "two hosted pin jobs passed 8 strict-current pins, four canonical inputs and 254 controls each; contract workflow remains in progress"
+    "state": "all three exact-head checks passed; fresh 06:16 UTC refs and tested merge tree match; normal integration pending",
+    "pin_checks": "two hosted pin jobs passed 8 strict-current pins, four canonical inputs and 254 controls each; contract workflow remains in progress",
+    "contract": {
+      "run": 42766721593,
+      "job": 129664826414,
+      "tests_per_mode": 254,
+      "mutation_events": 52,
+      "unique_nonces": 52,
+      "bad_events": 0,
+      "artifact": 13740351635,
+      "artifact_digest_reported_by_github": "dc9fe3b6403426fa322d35d7c5734ffe838cd672da0903d98e78bdd66877a812",
+      "artifact_independently_unpacked": false
+    },
+    "premerge": "cbz/evidence/integration-guards-20261110/workspace-72-premerge.json"
   },
   "recomposed_component": {
     "run": 42766509309,
