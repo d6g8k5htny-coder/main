@@ -1,5 +1,17 @@
 # CBZ-0 execution status
 
+## Later Main and pin observation — 10 November 2026, 01:48 UTC
+
+Main #787 merged as `6d928a3216233fb75dc717ee0b2d2e4bb08db266`, adding a
+bounded SDGA source and declared-protocol library. Its classifications remain
+BLOCKED; it does not authenticate Lean execution, establish a kernel result or
+change scientific status. Workspace #66 had pinned the preceding Main
+`ae8de850475f6924aef0abe0fa3670f5e4360751`; the later Main merge makes that
+pin stale and requires another guarded refresh. Main `ae8de850` Pages run
+`42736437394` subsequently observed public bytes and appended receipt
+`81b3998534827e2c2e45188a1a52672aa6666001`; this is a publication observation,
+not a complete cold-start or scientific acceptance.
+
 ## Historical tag custody and Pages retry — observed 10 November 2026, 01:25 UTC
 
 A candidate custody record preserves selected Git objects and source files from

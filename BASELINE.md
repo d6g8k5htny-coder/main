@@ -1,5 +1,14 @@
 # CBZ baseline ledger
 
+## Later Main and pin observation — 10 November 2026
+
+Main #787 `6d928a3216233fb75dc717ee0b2d2e4bb08db266` adds the bounded SDGA
+source/protocol library; its classifications remain BLOCKED and do not
+authenticate Lean execution. Workspace #66 pins the preceding Main `ae8de850`,
+so that pin requires a guarded refresh after #787. The separately observed
+Pages receipt and source are recorded in [STATUS](STATUS.md#later-main-and-pin-observation--10-november-2026-0148-utc).
+No final gate or CBZ criterion is awarded.
+
 ## Historical tag custody candidate — 10 November 2026
 
 The candidate preserves exact selected objects and source bytes from seven
