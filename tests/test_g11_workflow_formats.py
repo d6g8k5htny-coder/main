@@ -55,5 +55,19 @@ class WorkflowFormats(unittest.TestCase):
                 text = (ROOT / path).read_text(encoding="utf-8")
                 self.assertIn(expected, g11.workflow_tool_references(text, TOOLS))
 
+
+    def test_json_noop_step_is_failing(self):
+        text = json.dumps({"jobs": {"a": {"steps": [{"run": "true"}]}}})
+        report = g11.census({".github/workflows/noop.yml": text.encode()})
+        self.assertEqual(report["status"], "FAIL")
+        self.assertEqual([(finding["class"], finding["line"]) for finding in report["failing"]],
+                         [("noop", 0)])
+
+    def test_duplicate_json_workflow_is_unparseable(self):
+        text = '{"jobs":{"one":{"steps":[]}},"jobs":{"two":{"steps":[]}}}'
+        report = g11.census({".github/workflows/duplicate.yml": text.encode()})
+        self.assertEqual(report["status"], "FAIL")
+        self.assertEqual([finding["class"] for finding in report["failing"]], ["unparseable"])
+
 if __name__ == "__main__":
     unittest.main()
