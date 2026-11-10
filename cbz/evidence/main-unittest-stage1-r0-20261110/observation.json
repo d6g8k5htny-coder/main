@@ -1,0 +1,288 @@
+{
+  "schema": "main-unittest.stage1.r0-observation.v1",
+  "status": "OBSERVED_MISSING_HELPER_R0_BOTH_MODES",
+  "scope": "TEST_FIRST_FIXTURE_CONTRACT_WORK_ONLY",
+  "repository": "d6g8k5htny-coder/main",
+  "pull_request": 809,
+  "pr_url": "https://github.com/d6g8k5htny-coder/main/pull/809",
+  "draft": true,
+  "branch": "codex/g5-stage1-tests-r0-20261110-56b792f3",
+  "head_commit": "56b792f38ee6b2d24067a91029bbd981f90a5d74",
+  "head_tree": "81283f035a27fd414a37671291ee783084ea82a6",
+  "head_parents": [
+    "1a6acb192f0946900c4d445ee36febec27540da0"
+  ],
+  "base_commit": "1a6acb192f0946900c4d445ee36febec27540da0",
+  "base_tree": "0653510713b14da67c0d3746aee854d47c4ed869",
+  "native_checked_commit": "8d5c0a87487dcbd3dbbd91152fbf5c6b4ba4a8e2",
+  "native_checked_tree": "81283f035a27fd414a37671291ee783084ea82a6",
+  "native_checked_parents": [
+    "1a6acb192f0946900c4d445ee36febec27540da0",
+    "56b792f38ee6b2d24067a91029bbd981f90a5d74"
+  ],
+  "run_id": 42768787257,
+  "run_attempt": 1,
+  "event": "pull_request",
+  "workflow_path": ".github/workflows/full-unittest-qualification.yml",
+  "run_url": "https://github.com/d6g8k5htny-coder/main/actions/runs/42768787257",
+  "run_status": "completed",
+  "run_conclusion": "failure",
+  "native_API_head_sha": "56b792f38ee6b2d24067a91029bbd981f90a5d74",
+  "native_API_response_blobs": {
+    "attempt": "704834756f551b977bc5cc6e6e681611fc4138aa",
+    "jobs": "b62b15ae42232cb59f0f2222c301203013e9749a",
+    "artifacts": "7b60fa2ae79f1381e5357b1fdffe90ae46a34872"
+  },
+  "publication_tree_proof_blob": "988361449f1c471eaaa1a5e79e1137b2ab558030",
+  "modes": [
+    {
+      "mode": "normal",
+      "job_id": 129671469035,
+      "job_url": "https://github.com/d6g8k5htny-coder/main/actions/runs/42768787257/job/129671469035",
+      "job_conclusion": "failure",
+      "decoded_job_log_blob": "513dd4608a3df5e977d4508005575c89b59e013f",
+      "observed": {
+        "architecture_run": false,
+        "bad_result_lines": [
+          "test_unittest_full_qualification (unittest.loader._FailedTest.test_unittest_full_qualification) ... ERROR"
+        ],
+        "cbz_claim": false,
+        "command": [
+          "/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3",
+          "-B",
+          "-S",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_unittest_full_qualification.py",
+          "-v"
+        ],
+        "cwd": "/home/runner/work/main/main",
+        "exact_parent_results": false,
+        "expected_parent_ids": [
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_all_actual_parent_fixture_and_subtest_non_successes_cannot_qualify",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_fresh_pattern_dependent_load_tests_disagreement_refuses_before_body",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_interrupted_incomplete_nonzero_and_damaged_journals_cannot_qualify",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_native_pattern_censuses_select_actual_membership_not_id_prefix",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_omitted_duplicate_extra_zero_and_import_failed_inventories_refuse",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_original_zip_member_bytes_and_inert_api_bindings_are_both_checked",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_pilot_success_can_never_produce_main_discovery_qualification",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_real_unchanged_reader_accepts_only_labelled_test_archive_then_exact_join_membership",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_safe_original_cases_preserve_fixture_lifecycle_and_unsafe_suites_refuse",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_source_runtime_closed_records_stale_context_and_missing_producers_refuse"
+        ],
+        "full_discovery_run": false,
+        "g5_claim": false,
+        "malformed_result_lines": [],
+        "mode": "normal",
+        "native_exit_code": 1,
+        "observed_parent_ids": [
+          "unittest.loader._FailedTest.test_unittest_full_qualification"
+        ],
+        "outcome": "FAIL",
+        "reported_test_count": 1,
+        "scope": "STAGE1_TARGETED_BEHAVIORAL_CONTRACTS_ONLY",
+        "source_unchanged": true,
+        "stderr.bin": {
+          "bytes": 1177,
+          "sha256": "09c2b85d3fc9bdfe75bd6bb2201fde182cf6bcb216391a593232dd12e3d9048c"
+        },
+        "stdout.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "terminal_ok": false,
+        "timed_out": false
+      },
+      "actual_import_error": "ImportError: cannot import name 'unittest_full_qualification' from 'tools' (unknown location)",
+      "successful_contract_parent_bodies": 0,
+      "original_stream_prefixes": [
+        {
+          "stream": "stdout.bin",
+          "original_bytes_reported": 0,
+          "original_sha256_reported": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "printed_prefix_bytes": 0
+        },
+        {
+          "stream": "stderr.bin",
+          "original_bytes_reported": 1177,
+          "original_sha256_reported": "09c2b85d3fc9bdfe75bd6bb2201fde182cf6bcb216391a593232dd12e3d9048c",
+          "printed_prefix_bytes": 1177
+        }
+      ],
+      "stream_prefix_truncated": false,
+      "retention_step": "success",
+      "uploaded_file_count_reported": 5,
+      "workflow_named_originals": [
+        "source-before.json",
+        "source-after.json",
+        "stdout.bin",
+        "stderr.bin",
+        "observation.json"
+      ],
+      "source_before_after": {
+        "retained_in_native_artifact": true,
+        "controller_observed_source_unchanged": true,
+        "independent_archive_content_read": false
+      },
+      "native_artifact": {
+        "id": 13739924367,
+        "node_id": "MDg6QXJ0aWZhY3QxMzczOTkyNDM2Nw==",
+        "name": "main-unittest-stage1-normal-42768787257-1",
+        "size_in_bytes": 847368,
+        "url": "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13739924367",
+        "archive_download_url": "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13739924367/zip",
+        "expired": false,
+        "digest": "sha256:982bb39b69c31a967f53556eb0f318c90a0d6a1a33bceafbee8c3c110a760492",
+        "created_at": "2026-11-10T06:29:18Z",
+        "updated_at": "2026-11-10T06:29:18Z",
+        "expires_at": "2026-12-10T06:29:17Z",
+        "workflow_run": {
+          "id": 42768787257,
+          "repository_id": 1117225690,
+          "head_repository_id": 1117225690,
+          "head_branch": "codex/g5-stage1-tests-r0-20261110-56b792f3",
+          "head_sha": "56b792f38ee6b2d24067a91029bbd981f90a5d74"
+        }
+      },
+      "native_upload_digest_matches_API_metadata": true,
+      "raw_zip_downloaded_or_verified": false
+    },
+    {
+      "mode": "optimized",
+      "job_id": 129671469363,
+      "job_url": "https://github.com/d6g8k5htny-coder/main/actions/runs/42768787257/job/129671469363",
+      "job_conclusion": "failure",
+      "decoded_job_log_blob": "7854d82c6c9c9dc740c24c5a4bc7d9201e66b93a",
+      "observed": {
+        "architecture_run": false,
+        "bad_result_lines": [
+          "test_unittest_full_qualification (unittest.loader._FailedTest.test_unittest_full_qualification) ... ERROR"
+        ],
+        "cbz_claim": false,
+        "command": [
+          "/opt/hostedtoolcache/Python/3.11.18/x64/bin/python3",
+          "-B",
+          "-O",
+          "-S",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_unittest_full_qualification.py",
+          "-v"
+        ],
+        "cwd": "/home/runner/work/main/main",
+        "exact_parent_results": false,
+        "expected_parent_ids": [
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_all_actual_parent_fixture_and_subtest_non_successes_cannot_qualify",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_fresh_pattern_dependent_load_tests_disagreement_refuses_before_body",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_interrupted_incomplete_nonzero_and_damaged_journals_cannot_qualify",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_native_pattern_censuses_select_actual_membership_not_id_prefix",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_omitted_duplicate_extra_zero_and_import_failed_inventories_refuse",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_original_zip_member_bytes_and_inert_api_bindings_are_both_checked",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_pilot_success_can_never_produce_main_discovery_qualification",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_real_unchanged_reader_accepts_only_labelled_test_archive_then_exact_join_membership",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_safe_original_cases_preserve_fixture_lifecycle_and_unsafe_suites_refuse",
+          "test_unittest_full_qualification.MainUnittestQualificationContract.test_source_runtime_closed_records_stale_context_and_missing_producers_refuse"
+        ],
+        "full_discovery_run": false,
+        "g5_claim": false,
+        "malformed_result_lines": [],
+        "mode": "optimized",
+        "native_exit_code": 1,
+        "observed_parent_ids": [
+          "unittest.loader._FailedTest.test_unittest_full_qualification"
+        ],
+        "outcome": "FAIL",
+        "reported_test_count": 1,
+        "scope": "STAGE1_TARGETED_BEHAVIORAL_CONTRACTS_ONLY",
+        "source_unchanged": true,
+        "stderr.bin": {
+          "bytes": 1177,
+          "sha256": "09c2b85d3fc9bdfe75bd6bb2201fde182cf6bcb216391a593232dd12e3d9048c"
+        },
+        "stdout.bin": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "terminal_ok": false,
+        "timed_out": false
+      },
+      "actual_import_error": "ImportError: cannot import name 'unittest_full_qualification' from 'tools' (unknown location)",
+      "successful_contract_parent_bodies": 0,
+      "original_stream_prefixes": [
+        {
+          "stream": "stdout.bin",
+          "original_bytes_reported": 0,
+          "original_sha256_reported": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "printed_prefix_bytes": 0
+        },
+        {
+          "stream": "stderr.bin",
+          "original_bytes_reported": 1177,
+          "original_sha256_reported": "09c2b85d3fc9bdfe75bd6bb2201fde182cf6bcb216391a593232dd12e3d9048c",
+          "printed_prefix_bytes": 1177
+        }
+      ],
+      "stream_prefix_truncated": false,
+      "retention_step": "success",
+      "uploaded_file_count_reported": 5,
+      "workflow_named_originals": [
+        "source-before.json",
+        "source-after.json",
+        "stdout.bin",
+        "stderr.bin",
+        "observation.json"
+      ],
+      "source_before_after": {
+        "retained_in_native_artifact": true,
+        "controller_observed_source_unchanged": true,
+        "independent_archive_content_read": false
+      },
+      "native_artifact": {
+        "id": 13740184618,
+        "node_id": "MDg6QXJ0aWZhY3QxMzc0MDE4NDYxOA==",
+        "name": "main-unittest-stage1-optimized-42768787257-1",
+        "size_in_bytes": 847372,
+        "url": "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13740184618",
+        "archive_download_url": "https://api.github.com/repos/d6g8k5htny-coder/main/actions/artifacts/13740184618/zip",
+        "expired": false,
+        "digest": "sha256:d40a0ae69474f56f810b6b965a7a19846c7f65603fefa939cefffad1763f7977",
+        "created_at": "2026-11-10T06:29:17Z",
+        "updated_at": "2026-11-10T06:29:17Z",
+        "expires_at": "2026-12-10T06:29:16Z",
+        "workflow_run": {
+          "id": 42768787257,
+          "repository_id": 1117225690,
+          "head_repository_id": 1117225690,
+          "head_branch": "codex/g5-stage1-tests-r0-20261110-56b792f3",
+          "head_sha": "56b792f38ee6b2d24067a91029bbd981f90a5d74"
+        }
+      },
+      "native_upload_digest_matches_API_metadata": true,
+      "raw_zip_downloaded_or_verified": false
+    }
+  ],
+  "helper_absent": true,
+  "ten_case_GREEN_credit": false,
+  "G5_credit": false,
+  "CBZ_credit": false,
+  "scientific_effect": "NONE",
+  "raw_ZIP_read_claim": false,
+  "limitations": [
+    "GitHub connector supplied decoded job-log text; these retained text blobs are not raw ZIP archives.",
+    "Full source-before/source-after and original stream files are retained in successful native artifacts; their archive contents were not independently extracted or read.",
+    "Artifact digests are native uploader/API declarations that agree; no locally recomputed raw archive digest is claimed.",
+    "The only reported testcase is unittest's failed-import holder; none of the ten behavioral contract parent bodies executed.",
+    "Existing repository PR automations also started automatically; no manual dispatch or rerun was called and their results supply no qualification credit."
+  ],
+  "next_boundary": "Production helper implementation remains unstarted until ROOT independently reads actual R0 evidence. Draft remains unready and unmerged.",
+  "manual_dispatch_or_rerun": false,
+  "comments_or_reviews_written": false
+}

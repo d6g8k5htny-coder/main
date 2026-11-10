@@ -58,9 +58,11 @@ class NavigationHistoryTests(unittest.TestCase):
         return "\n".join(line[10:] if line else "" for line in lines) + "\n"
 
     def run_block(self, output=GOOD, exit_status=0):
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory() as directory, tempfile.TemporaryDirectory() as runner_directory:
             root = Path(directory)
-            (root / "navigation-evidence").mkdir()
+            runner = Path(runner_directory)
+            self.assertFalse(runner.is_relative_to(root))
+            (runner / "navigation-evidence").mkdir()
             binary = root / "bin"
             binary.mkdir()
             driver = root / "fixture.py"
@@ -75,13 +77,17 @@ class NavigationHistoryTests(unittest.TestCase):
             env = {key: value for key, value in os.environ.items()
                    if not key.startswith("PYTHON") and key not in ("BASH_ENV", "ENV", "SHELLOPTS", "BASHOPTS")}
             env.update(PATH=str(binary) + os.pathsep + os.defpath,
+                       RUNNER_TEMP=str(runner),
                        FIXTURE_PYTHON=sys.executable, FIXTURE_DRIVER=str(driver),
                        FIXTURE_RESULT=str(result), FIXTURE_TRACE=str(root / "trace.jsonl"))
             run = subprocess.run([self.bash, "--noprofile", "--norc", "-e", str(script)],
                                  cwd=root, env=env, stdin=subprocess.DEVNULL,
                                  capture_output=True, text=True, timeout=15)
             trace = [json.loads(line) for line in (root / "trace.jsonl").read_text().splitlines()]
-            log = (root / "navigation-evidence/history-reader.log").read_text(encoding="utf-8")
+            self.assertFalse((root / "navigation-evidence").exists())
+            path = runner / "navigation-evidence/history-reader.log"
+            self.assertEqual(path.read_bytes(), output.encode("utf-8"))
+            log = path.read_text(encoding="utf-8")
             return run, trace, log
 
     def test_checkout_requests_full_history(self):
