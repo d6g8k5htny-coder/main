@@ -593,3 +593,15 @@ and source custody later. Duplicate Init import occurrences remain legitimate.
 The two pure APIs may accept empty inputs; the fixed99-module observation may
 never infer empty success. Actual missing-component failure must be observed
 before their minimal implementation. Existing six/39native contracts stay exact.
+
+## 2026-11-10 — retain malformed pure-test workflow and correct serialization
+
+The first pure-test addition atfb7dbd7652466acecb499d6d7afe179d632acfd4
+produced workflow00a7b4cf with duplicated suffixes: JavaScript replacement-string
+handling interpreted the literal dollar-apostrophe in the OK regex as a suffix
+substitution. Run42742367716/attempt1 failed before creating any jobs. No native
+or pure method ran; no setup or assertion result is inferred from this attempt.
+Rebuild from unchanged original613a7840 using callback replacements, verify the
+original workflow reconstructs byte-exact after removing only the two new steps
+and two log paths, and require actual12-method results in both modes before
+Python implementation. Prior c8 native absence evidence remains source-bound.
