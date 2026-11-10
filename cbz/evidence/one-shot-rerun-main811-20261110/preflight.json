@@ -1,0 +1,83 @@
+{
+  "purpose": "Request one full same-run rerun of the exact observed failed Main workflow after a failed-jobs-only retry reused previous-attempt formal output.",
+  "target_repository": "d6g8k5htny-coder/main",
+  "target_run": 42778804824,
+  "target_attempt_observed": 2,
+  "target_head": "b285dd7a31ad7b297abc9f2aa93267300111a4e9",
+  "expected_debug_parent": "29503284823bafa35b365cf5e93708a7ad6867dd",
+  "commands": [
+    "python3 -B -S cbz/ops/test_rerun_all_main811.py",
+    "python3 -B -O -S cbz/ops/test_rerun_all_main811.py",
+    "python3 -B -S cbz/ops/rerun_all_main811.py"
+  ],
+  "observed_local_verification": "Four tests per mode passed; intentionally permissive run-identity mutant failed seven subcases in each mode. Original red normal and optimized failures are retained. These controls exercise a synthetic sender, not the GitHub API or platform permissions.",
+  "scope": "One request only; fixed same-repository run; no default-ref write, data transmission outside GitHub, approval bypass, scientific or CBZ qualification. The request outcome must be observed separately.",
+  "files": [
+    {
+      "path": ".github/workflows/cbz-rerun-main811-20261110.yml",
+      "bytes": 805,
+      "sha256": "269a616cce2d5857c6b17bde1c9c994a448101be6bc447cc3234ea917f5592ec",
+      "git_blob": "33e6a12b4eb8a4ead60b4ef33bbeef38fdcebfe7"
+    },
+    {
+      "path": "cbz/evidence/one-shot-rerun-main811-20261110/mutant.py.txt",
+      "bytes": 2889,
+      "sha256": "f2007decc23c9f3f4725f5d8401a9ff4de93c76d3673bb27bbeacc758c66563f",
+      "git_blob": "4c4125dc21a6828941ca9bf64c79731d2f226c21"
+    },
+    {
+      "path": "cbz/evidence/one-shot-rerun-main811-20261110/red-stub.py.txt",
+      "bytes": 112,
+      "sha256": "cd265b57583df60974ee990746c0d4eeec61aa15a6be6610df0bca457bfe8ca5",
+      "git_blob": "98123512ec22b9f45e64d91882acbb9b04fa02ea"
+    },
+    {
+      "path": "cbz/evidence/one-shot-rerun-main811-20261110/rerun-helper-green-normal.log",
+      "bytes": 586,
+      "sha256": "d1aa65f4aeb62b7ebafa2f5987ff26c089b7f1dbae9053069ec9b3ffd84500ee",
+      "git_blob": "7c0d356ce6d1f5f152da13177a4fca23e5d2b833"
+    },
+    {
+      "path": "cbz/evidence/one-shot-rerun-main811-20261110/rerun-helper-green-optimized.log",
+      "bytes": 586,
+      "sha256": "d1aa65f4aeb62b7ebafa2f5987ff26c089b7f1dbae9053069ec9b3ffd84500ee",
+      "git_blob": "7c0d356ce6d1f5f152da13177a4fca23e5d2b833"
+    },
+    {
+      "path": "cbz/evidence/one-shot-rerun-main811-20261110/rerun-helper-mutant-normal.log",
+      "bytes": 7032,
+      "sha256": "4958f297d9fb73d1abaef8d19c273355bee3892e16a6cc4ef4fae3c00ee8d31a",
+      "git_blob": "9ead3b478079dc58dd13479e405b91fbe26ac643"
+    },
+    {
+      "path": "cbz/evidence/one-shot-rerun-main811-20261110/rerun-helper-mutant-optimized.log",
+      "bytes": 7032,
+      "sha256": "4958f297d9fb73d1abaef8d19c273355bee3892e16a6cc4ef4fae3c00ee8d31a",
+      "git_blob": "9ead3b478079dc58dd13479e405b91fbe26ac643"
+    },
+    {
+      "path": "cbz/evidence/one-shot-rerun-main811-20261110/rerun-helper-red-normal.log",
+      "bytes": 13045,
+      "sha256": "56ca66ee96175378df2b12b6625141d7fd1cd44822384dbeb9638abcd0a6986a",
+      "git_blob": "d1eb67ded13210e038ac9ff4c635dfe5c4f24a4a"
+    },
+    {
+      "path": "cbz/evidence/one-shot-rerun-main811-20261110/rerun-helper-red-optimized.log",
+      "bytes": 17147,
+      "sha256": "17bdd5390470d639788905c24b089cb962edf5a53faa3ab7e4272ff628ef0f23",
+      "git_blob": "00a3227f758362035265a7195511ab49fb4216f8"
+    },
+    {
+      "path": "cbz/ops/rerun_all_main811.py",
+      "bytes": 2903,
+      "sha256": "bbb88ecdb0789cada27cb7ee9a7fac4fc350c7e55815d800d1f87df2fd81f621",
+      "git_blob": "f02d3213d40ce1ac39fe95a0c978318b01fb353b"
+    },
+    {
+      "path": "cbz/ops/test_rerun_all_main811.py",
+      "bytes": 2849,
+      "sha256": "9f031e306af39f0dd80620db6c4d217babcd4e1bf845820ed16423fb07d88dcf",
+      "git_blob": "7ad3e7c39c5d8c3311b51719259450f50843f4bd"
+    }
+  ]
+}

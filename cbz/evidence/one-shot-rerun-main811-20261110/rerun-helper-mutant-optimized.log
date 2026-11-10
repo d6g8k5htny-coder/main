@@ -1,0 +1,79 @@
+test_exact_failed_run_sends_once (__main__.ExactRunGuardTests.test_exact_failed_run_sends_once) ... ok
+test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) ... 
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='id', changed=1) ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='head_sha', changed='0000000000000000000000000000000000000000') ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='run_attempt', changed=1) ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='status', changed='in_progress') ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='conclusion', changed='success') ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='event', changed='workflow_dispatch') ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='path', changed='.github/workflows/other.yml') ... FAIL
+test_only_expected_runner_context_is_admitted (__main__.ExactRunGuardTests.test_only_expected_runner_context_is_admitted) ... ok
+test_sender_error_is_not_success (__main__.ExactRunGuardTests.test_sender_error_is_not_success) ... ok
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='id', changed=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/private/rerun-mutant/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='head_sha', changed='0000000000000000000000000000000000000000')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/private/rerun-mutant/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='run_attempt', changed=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/private/rerun-mutant/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='status', changed='in_progress')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/private/rerun-mutant/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='conclusion', changed='success')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/private/rerun-mutant/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='event', changed='workflow_dispatch')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/private/rerun-mutant/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='path', changed='.github/workflows/other.yml')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/private/rerun-mutant/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+FAILED (failures=7)

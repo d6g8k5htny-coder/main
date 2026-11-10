@@ -1,0 +1,5 @@
+def guarded_rerun(run, send):
+    return send()
+
+def guard_environment(env):
+    return env.get('GITHUB_TOKEN')

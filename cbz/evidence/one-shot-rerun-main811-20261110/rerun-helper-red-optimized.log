@@ -1,0 +1,199 @@
+test_exact_failed_run_sends_once (__main__.ExactRunGuardTests.test_exact_failed_run_sends_once) ... ok
+test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) ... 
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='id', changed=1) ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='head_sha', changed='0000000000000000000000000000000000000000') ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='run_attempt', changed=1) ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='run_attempt', changed=True) ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='status', changed='in_progress') ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='conclusion', changed='success') ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='event', changed='workflow_dispatch') ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='path', changed='.github/workflows/other.yml') ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='repository', changed={'full_name': 'someone/else'}) ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='repository', changed=None) ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (run={}) ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (run=None) ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (run=[]) ... FAIL
+  test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (run={'id': 42778804824}) ... FAIL
+test_only_expected_runner_context_is_admitted (__main__.ExactRunGuardTests.test_only_expected_runner_context_is_admitted) ... 
+  test_only_expected_runner_context_is_admitted (__main__.ExactRunGuardTests.test_only_expected_runner_context_is_admitted) (name='GITHUB_REPOSITORY') ... FAIL
+  test_only_expected_runner_context_is_admitted (__main__.ExactRunGuardTests.test_only_expected_runner_context_is_admitted) (name='GITHUB_REF') ... FAIL
+  test_only_expected_runner_context_is_admitted (__main__.ExactRunGuardTests.test_only_expected_runner_context_is_admitted) (name='GITHUB_EVENT_NAME') ... FAIL
+  test_only_expected_runner_context_is_admitted (__main__.ExactRunGuardTests.test_only_expected_runner_context_is_admitted) (name='GITHUB_API_URL') ... FAIL
+  test_only_expected_runner_context_is_admitted (__main__.ExactRunGuardTests.test_only_expected_runner_context_is_admitted) (name='GITHUB_TOKEN') ... FAIL
+test_sender_error_is_not_success (__main__.ExactRunGuardTests.test_sender_error_is_not_success) ... ok
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='id', changed=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='head_sha', changed='0000000000000000000000000000000000000000')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='run_attempt', changed=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='run_attempt', changed=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='status', changed='in_progress')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='conclusion', changed='success')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='event', changed='workflow_dispatch')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='path', changed='.github/workflows/other.yml')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='repository', changed={'full_name': 'someone/else'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (name='repository', changed=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 27, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (run={})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 32, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (run=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 32, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (run=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 32, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_mismatches_and_missing_fields_refuse_without_sending (__main__.ExactRunGuardTests.test_mismatches_and_missing_fields_refuse_without_sending) (run={'id': 42778804824})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 32, in test_mismatches_and_missing_fields_refuse_without_sending
+    with self.assertRaises(ValueError): target.guarded_rerun(run, lambda: calls.append('sent'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_only_expected_runner_context_is_admitted (__main__.ExactRunGuardTests.test_only_expected_runner_context_is_admitted) (name='GITHUB_REPOSITORY')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 46, in test_only_expected_runner_context_is_admitted
+    with self.assertRaises(ValueError): target.guard_environment(changed)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_only_expected_runner_context_is_admitted (__main__.ExactRunGuardTests.test_only_expected_runner_context_is_admitted) (name='GITHUB_REF')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 46, in test_only_expected_runner_context_is_admitted
+    with self.assertRaises(ValueError): target.guard_environment(changed)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_only_expected_runner_context_is_admitted (__main__.ExactRunGuardTests.test_only_expected_runner_context_is_admitted) (name='GITHUB_EVENT_NAME')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 46, in test_only_expected_runner_context_is_admitted
+    with self.assertRaises(ValueError): target.guard_environment(changed)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_only_expected_runner_context_is_admitted (__main__.ExactRunGuardTests.test_only_expected_runner_context_is_admitted) (name='GITHUB_API_URL')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 46, in test_only_expected_runner_context_is_admitted
+    with self.assertRaises(ValueError): target.guard_environment(changed)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_only_expected_runner_context_is_admitted (__main__.ExactRunGuardTests.test_only_expected_runner_context_is_admitted) (name='GITHUB_TOKEN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7abea556a9be/cbz_v50_build/one_shot/cbz/ops/test_rerun_all_main811.py", line 46, in test_only_expected_runner_context_is_admitted
+    with self.assertRaises(ValueError): target.guard_environment(changed)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.002s
+
+FAILED (failures=19)
