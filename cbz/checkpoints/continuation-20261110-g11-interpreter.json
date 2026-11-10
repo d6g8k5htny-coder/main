@@ -2,8 +2,8 @@
   "date": "2026-11-10",
   "kind": "source-bound continuation; not CBZ or terminal partial",
   "main_default": "d291b42801a26252a046d8ca78a6bd62abc448ae",
-  "workspace_default": "47221adf89749dc226e8e3578af2f8fd7c16ea20",
-  "workspace_main_pin": "964390a94c08f00f119dc3b2e0be16180c1544e2",
+  "workspace_default": "bb4a3f9c15f69e0f574f948e9f84ab55f6693a69",
+  "workspace_main_pin": "d291b42801a26252a046d8ca78a6bd62abc448ae",
   "draft": {
     "pr": 804,
     "head": "16b4e198a5799e0e1a40b7032e6b6d4d1e981c2f",
@@ -67,9 +67,9 @@
     "limitation": "interpreter flaw was subsequently demonstrated"
   },
   "next": [
-    "Normal integrate Workspace #72 with fresh refs and expected head; capture postmerge checks.",
-    "Observe remaining required PR checks on Main #804 and recheck current refs and tested merge tree before normal integration.",
-    "After subsequent Main integration, refresh Workspace pin again as needed.",
+    "Independently verify original #804 PR component artifact and retain it with source-bound log.",
+    "Observe Workspace #72 postmerge checks and remaining Main #804 required checks.",
+    "Recheck fresh refs and tested merge tree before normal Main integration; then refresh Workspace pin again as needed.",
     "Do not claim final federation G7, G11 or CBZ from scoped observations."
   ],
   "math": "No historical mathematical statement or kernel result was rebound. Scientific review and acceptance are not inferred.",
@@ -124,7 +124,7 @@
     "tree": "c8bfa765f5cd564e894397390c4abf1588731d38",
     "base": "47221adf89749dc226e8e3578af2f8fd7c16ea20",
     "proposed_main": "d291b42801a26252a046d8ca78a6bd62abc448ae",
-    "state": "all three exact-head checks passed; fresh 06:16 UTC refs and tested merge tree match; normal integration pending",
+    "state": "merged normally as bb4a3f9c15f69e0f574f948e9f84ab55f6693a69; tested/merged tree c8bfa765f5cd564e894397390c4abf1588731d38; postmerge runs 42767475297 and 42767475199 in progress",
     "pin_checks": "two hosted pin jobs passed 8 strict-current pins, four canonical inputs and 254 controls each; contract workflow remains in progress",
     "contract": {
       "run": 42766721593,
@@ -153,6 +153,19 @@
       "verification_run": 42767262173,
       "git_blob": "1d5ec14542261b28130ecd8a2d9e5038b6e0a617",
       "git_readback": "byte-identical"
+    }
+  },
+  "recomposed_pr_component": {
+    "run": 42766516590,
+    "job": 129664175739,
+    "head": "16b4e198a5799e0e1a40b7032e6b6d4d1e981c2f",
+    "tested_merge": "20976340dc0514e64d7c444c234c05ee8c654921",
+    "tree": "0653510713b14da67c0d3746aee854d47c4ed869",
+    "status": "success, 708 original mutation records parsed, per-mode 265/12/18 controls, 7/19/328 mutations",
+    "artifact": {
+      "id": 13739941974,
+      "sha256_reported_by_github": "b1e4ce1293477d5a1f1329fbf0f6eebdd3d1d97bf887f492337c8b0f072f438f",
+      "independently_verified": false
     }
   }
 }
