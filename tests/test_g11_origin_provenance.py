@@ -137,7 +137,7 @@ class ActualG11Origin(unittest.TestCase):
         frame = {"selected": True, "oracle": False, "name": "test_body",
                  "lineno": 7, "firstlineno": 4, "filename": "/tmp/test_g11_census.py"}
         subject = {"selected": False, "oracle": False, "name": "subject", "lineno": 9}
-        event = {"test": "test_body", "kind": "failure", "authorized": True,
+        event = {"test": "test_body", "kind": "failure", "authorized": True, "entered": 1, "phase": "body-exited",
                  "exception": "AssertionError", "frames": [frame, subject],
                  "selected": {"name": "test_body", "firstlineno": 4,
                               "filename": "/tmp/test_g11_census.py"}}
@@ -161,7 +161,7 @@ class Probe(unittest.TestCase):
         target = "tests.test_g11_census.Probe.test_body"
         selected = {"name": "test_body", "firstlineno": type(self).test_body.__code__.co_firstlineno, "filename": __file__}
         frame = dict(selected, selected=True, oracle=False, lineno=123)
-        event = {"test": "test_body", "kind": "failure", "authorized": True, "exception": "AssertionError", "frames": [frame], "selected": selected}
+        event = {"test": "test_body", "kind": "failure", "authorized": True, "entered": 1, "phase": "body-exited", "exception": "AssertionError", "frames": [frame], "selected": selected}
         report = {"schema": "reference-crawler-origin-v3", "tests_run": 1, "failure_count": 1, "error_count": 0, "skip_count": 0, "expected_failure_count": 0, "unexpected_success_count": 0, "optimize": sys.flags.optimize, "ids": [target], "names": ["test_body"], "started": [target], "stopped": [target], "events": [event], "authorized_failures": ["test_body"], "unauthorized_failures": [], "errors": []}
         with open(sys.argv[2], "w", encoding="utf-8") as output:
             json.dump(report, output)
@@ -176,7 +176,7 @@ class Probe(unittest.TestCase):
         target = "tests.test_g11_census.Probe.test_body"
         selected = {"name": "test_body", "firstlineno": type(self).test_body.__code__.co_firstlineno, "filename": __file__}
         frame = dict(selected, selected=True, oracle=False, lineno=123)
-        event = {"test": "test_body", "kind": "failure", "authorized": True, "exception": "AssertionError", "frames": [frame], "selected": selected}
+        event = {"test": "test_body", "kind": "failure", "authorized": True, "entered": 1, "phase": "body-exited", "exception": "AssertionError", "frames": [frame], "selected": selected}
         report = {"schema": "reference-crawler-origin-v3", "tests_run": 1, "failure_count": 1, "error_count": 0, "skip_count": 0, "expected_failure_count": 0, "unexpected_success_count": 0, "optimize": sys.flags.optimize, "ids": [target], "names": ["test_body"], "started": [target], "stopped": [target], "events": [event], "authorized_failures": ["test_body"], "unauthorized_failures": [], "errors": []}
         with open(__import__("__main__")._g11_report_path, "w", encoding="utf-8") as output:
             json.dump(report, output)
@@ -200,6 +200,25 @@ class Probe(unittest.TestCase):
         self.assertTrue(all(frame["oracle"] for frame in frames[selected[0] + 1:]))
         line = g11m._assertion_line(source, target, "self.assertEqual(1, 2)")
         self.assertTrue(g11m.qualifies_kill(outcome, target, line))
+
+
+    def test_false_origin_authorization_is_not_a_kill(self):
+        target = "tests.test_g11_census.Probe.test_body"
+        outcome = {"parsed": True, "status": "FAILED", "exit": 1, "ran": 1,
+                   "failures": 1, "errors": 0, "skipped": 0, "test_id": target,
+                   "traceback_method": "test_body", "traceback_line": 7,
+                   "exception_type": "AssertionError", "origin_authorized": False,
+                   "origin_provenance": {"authorized": True}}
+        self.assertFalse(g11m.qualifies_kill(outcome, target, 7))
+
+    def test_unapproved_origin_provenance_is_not_a_kill(self):
+        target = "tests.test_g11_census.Probe.test_body"
+        outcome = {"parsed": True, "status": "FAILED", "exit": 1, "ran": 1,
+                   "failures": 1, "errors": 0, "skipped": 0, "test_id": target,
+                   "traceback_method": "test_body", "traceback_line": 7,
+                   "exception_type": "AssertionError", "origin_authorized": True,
+                   "origin_provenance": {"authorized": False}}
+        self.assertFalse(g11m.qualifies_kill(outcome, target, 7))
 
 if __name__ == "__main__":
     unittest.main()

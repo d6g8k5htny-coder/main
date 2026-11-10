@@ -31,6 +31,21 @@ jobs:
       - name: Run origin guard mutations with optimization
         run: env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_origin_mutation_selftest.py
       - name: Run mutation self-test normally
-        run: env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_mutation_selftest.py
+        shell: bash
+        run: |
+          set -o pipefail
+          env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_mutation_selftest.py --json | tee "$RUNNER_TEMP/g11-mutations-normal.json"
       - name: Run mutation self-test with optimization
-        run: env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_mutation_selftest.py
+        shell: bash
+        run: |
+          set -o pipefail
+          env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_mutation_selftest.py --json | tee "$RUNNER_TEMP/g11-mutations-optimized.json"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: cbz-g11-provenance-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/g11-mutations-normal.json
+            ${{ runner.temp }}/g11-mutations-optimized.json
+          if-no-files-found: error
+          retention-days: 90
