@@ -39,8 +39,9 @@ Palm, lifetime and scientific applications are not thereby closed. At Main
 lists and 18 rejection controls; this is not whole-federation qualification or
 scientific alignment. The preserved, closed-unmerged #695 catalog is historical,
 not an admitted set of current quarantines. Its 184 rows include six coverage
-records without an explicit quarantine status; the other rows still need exact
-mathematical dispositions and verified logical isolation. The three cusp archive
+records without an explicit quarantine status; the remaining rows have not
+been fully reconciled with current mathematical dispositions and logical-isolation
+evidence. The three cusp archive
 tags and their original source bytes are preserved in the custody record below.
 
 Layer A remains binding: do not present placeholders as closed; admit no
