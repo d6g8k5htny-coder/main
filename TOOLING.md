@@ -1300,7 +1300,8 @@ Python owned-process cleanup preflight earns only resource-cleanup evidence.
 The read-only sdga-component workflow runs both suites and retains originals.
 
 Root observed initial implementation absence before authorizing these sources;
-native compilation and current contract qualification remain pending. Task1
+fresh native compilation and complete current contracts are required for each
+source-specific qualification. Task1
 classification/qualification stayBLOCKED, scientific_effectNONE and declared
 execution_authenticatedfalse. Mathematical roles, kernel replay, completeIR
 coverage and scientific admission remain unresolved. Maintenance owner:none;

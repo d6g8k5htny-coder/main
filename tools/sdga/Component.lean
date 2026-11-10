@@ -397,17 +397,17 @@ private def preflightParts (parts : Array PartRequest) : IO Unit := do
   let mut frames : Array ObjectFrame := #[]
   for part in parts do
     let byteSize := (← part.path.metadata).byteSize.toNat
-    let prefix ← IO.FS.withFile part.path .read fun handle =>
+    let headerBytes ← IO.FS.withFile part.path .read fun handle =>
       readExactBytes handle (headerSize + wordSize) part.path.toString
     let marker := "olean".toUTF8
     for i in [:marker.size] do
-      if prefix.get! i != marker.get! i then framingError s!"{part.path}: invalid magic"
-    if prefix.get! 5 != 2 then
+      if headerBytes.get! i != marker.get! i then framingError s!"{part.path}: invalid magic"
+    if headerBytes.get! 5 != 2 then
       framingError s!"{part.path}: unsupported compacted format; expected ordinary OLean v2"
     if byteSize % wordSize != 0 then
       framingError s!"{part.path}: partial machine word at physical end"
-    let base := littleNat prefix 80 wordSize
-    let root := littleNat prefix headerSize wordSize
+    let base := littleNat headerBytes 80 wordSize
+    let root := littleNat headerBytes headerSize wordSize
     let frame : ObjectFrame := { path := part.path, base, byteSize }
     if base % 65536 != 0 || base + byteSize > 2 ^ 64 then
       framingError s!"{part.path}: invalid logical address range"

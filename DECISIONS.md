@@ -744,3 +744,27 @@ Preserve freshMain31bc4c1f/PR798, all69peerpaths and entire current canonical
 prefixes plus full feature ancestry. Also retain the original Q9002 node jobs
 and live reports as source-bound evidence snapshots at their declared heads;
 these copies do not rebind that separate data feature to this integration tree.
+
+## 2026-11-10 — retain native framing compiler failure and repair one identifier
+
+Run42749115104/attempt1/job129608245848 atb18a3590 rejected Component
+a46ec372 before native controls in both modes. The reserved local token
+prefix at400:7 caused dependent parser errors at400:14/409:32/410:32.
+Each mode had6bootstrap method failures and all39subcases not_run; no new
+inventory, typed OBJECT_READ refusal, runtime-guard or mutation credit.
+Pure12methods per mode and Safe compilation succeeded independently.
+
+Retain exact original477-byte compiler stdout SHA256
+7753377c06b853292d82387f5a220fa9ad79ce4c4c75cf513ab23d0c7cb0037c
+under cbz/evidence/sdga-task-a-20261110/framing-round1-compiler.stdout.
+Rename only five local identifier tokens prefix to headerBytes; inverse
+replacement reconstructs a46ec372 byte-exact. New Component336a35a3 and
+the identifier-repair report change no guard behavior, test, fixture,
+assertion, profile, workflow or loading model. Reword only this feature's
+GOVERNANCE/TOOLING qualification condition as evergreen; preserve peer bytes.
+
+Publish as one child ofb18a3590 without rebasing or composing new Main.
+Fresh native compile and complete6methods/39subcases plus12pure methods
+per mode remain required; original C13 must actually emit OBJECT_READ.
+Prior failed observations remain source-bound. Scientific effect NONE;
+classification/qualification BLOCKED and execution_authenticatedfalse.
