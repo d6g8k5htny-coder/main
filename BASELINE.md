@@ -1,5 +1,14 @@
 # CBZ baseline ledger
 
+## Historical foundation custody candidate — 10 November 2026
+
+The unmerged #695 catalog and three named source archives are now preserved
+as exact bytes and indexed with their source identities. Their historical
+statuses have not been adopted as current proof or quarantine dispositions.
+The object comparisons, unresolved locations and scoped verification are in
+[STATUS](STATUS.md#historical-foundation-custody--10-november-2026). No CBZ
+criterion or final gate is awarded by this custody record.
+
 ## Lean option-member candidate — 10 November 2026
 
 The previous Main scanner missed `debug.skipKernelTC.set` in both retained

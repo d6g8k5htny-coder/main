@@ -216,3 +216,24 @@ Append-only. Historical source outcomes remain in their original records.
   default-ref comparisons and normal required checks. Any later Main merge
   requires a new Workspace pin comparison; no atomic cross-repository snapshot
   or scientific acceptance is inferred.
+
+## 2026-11-10 — recover unmerged foundation archive custody
+
+- Preserve the exact #695 catalog blob and three explicitly named unmerged
+  cusp source trees as compressed data, with their annotated tag identities,
+  source paths, byte hashes, historical reviews and known failed fetch. The
+  archive contains 87 source files across 72 Git blobs. Two historical
+  README-row descriptions lack an exact path and remain unresolved. No tag,
+  branch, historical result or mathematical statement is deleted or rewritten.
+- The 184 historical records are not adopted as current dispositions. A
+  bounded comparison of 359 parseable old locations found 354 identical and
+  five changed source entries; nine other forms were examined separately, with
+  five record globs and live states still unassessed. The eleven named fields
+  are present in all rows, but their semantic accuracy, mathematical blockers,
+  current isolation and proof completeness are not certified. Preserve the
+  earlier leaf-only comparison, the two changed exact source files, and the
+  documented newer 66-companion boundary without rebinding old kernel receipts.
+- Referencing the three source archives makes their custody legible; it does
+  not authorize deletion of other tags, admit current quarantines, award an
+  independent review, or satisfy any final G0–G11 or CBZ criterion. This
+  ordinary Git addition is recoverable and has no scientific effect.

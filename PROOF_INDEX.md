@@ -1,5 +1,23 @@
 # CBZ proof and quarantine index
 
+## Historical cusp archive custody — 10 November 2026
+
+These three named source archives were unmerged at the observed Main cut.
+Their tags and original source bytes are retained for recovery, not promoted
+to current CLOSED or accepted mathematical claims. Historical authorship,
+reviews and outcomes remain in the source; no new independence is inferred.
+
+| Historical record | Archived source commit | Annotated tag |
+|---|---|---|
+| Q-8336, quartic cusp field | [`3ab12c6542c88554ad0d42e0e19aff2461dc3c0d`](https://github.com/d6g8k5htny-coder/main/tree/3ab12c6542c88554ad0d42e0e19aff2461dc3c0d/experiments/universality/quartic_cusp_field) | `cbz-quarantine-q-8336` |
+| Q-8340, two-parameter cusp population | [`f02758555b4bce4554e34e8913947f69578d0816`](https://github.com/d6g8k5htny-coder/main/tree/f02758555b4bce4554e34e8913947f69578d0816/experiments/universality/two_parameter_cusp_population) | `cbz-quarantine-q-8340` |
+| Q-8429, fold isolation and diagonal counts | [`16764aab8ce7b74327276ac4be619f2d3e4ed4af`](https://github.com/d6g8k5htny-coder/main/tree/16764aab8ce7b74327276ac4be619f2d3e4ed4af/experiments/universality/fold_isolation_diagonal) | `cbz-quarantine-q-8429` |
+
+The 87 named source files, original #695 catalog and observed Git identities
+are recoverable from [the custody record](cbz/evidence/foundation-custody-20261110/README.md).
+Current mathematical blockers, isolation and all other proof dispositions
+remain to be reconciled; source preservation is not a quarantine admission.
+
 ## Lean option-member finding — 10 November 2026
 
 The retained `BadPublic.lean` and `BadPrivate.lean` fixtures deliberately
