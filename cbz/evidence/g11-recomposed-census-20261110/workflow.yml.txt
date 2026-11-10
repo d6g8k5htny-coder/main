@@ -1,0 +1,77 @@
+name: CBZ exact composed G11 census observation
+on:
+  push:
+    branches: [codex/cbz-architecture-observation-20261110]
+permissions:
+  contents: read
+jobs:
+  census:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: 16b4e198a5799e0e1a40b7032e6b6d4d1e981c2f
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify exact source
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = 16b4e198a5799e0e1a40b7032e6b6d4d1e981c2f
+          test "$(git rev-parse 'HEAD^{tree}')" = 0653510713b14da67c0d3746aee854d47c4ed869
+          test "$(git hash-object tools/cbz/g11_census.py)" = 904a4e417a7565918412c599bfcbdbdd420c9515
+          test "$(git hash-object tools/cbz/g11_mutation_selftest.py)" = 6d6d8fd951c5386626caed81a43d377b19a036f6
+          test "$(git hash-object tests/test_g11_census.py)" = d29f90b5d783297867cd078668ae9dc9b512801e
+          test "$(git hash-object tests/test_g11_workflow_formats.py)" = 516e0c00b7d484d5dfe7802fa9b5f7d41f4cae57
+          test "$(git hash-object tools/cbz/g11_workflow_formats_mutation_selftest.py)" = 1dce19dc61ccbdedfc34a6fb5ec5afeb8bc034f4
+      - name: Observe normal census
+        id: normal
+        continue-on-error: true
+        shell: bash
+        run: |
+          env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S tools/cbz/g11_census.py --rev 16b4e198a5799e0e1a40b7032e6b6d4d1e981c2f --json "$RUNNER_TEMP/g11-census-normal.json"
+      - name: Observe optimized census
+        id: optimized
+        continue-on-error: true
+        shell: bash
+        run: |
+          env -u PYTHONPATH -u PYTHONHOME -u PYTHONPYCACHEPREFIX -u PYTHONSTARTUP -u PYTHONUSERBASE python3 -B -S -O tools/cbz/g11_census.py --rev 16b4e198a5799e0e1a40b7032e6b6d4d1e981c2f --json "$RUNNER_TEMP/g11-census-optimized.json"
+      - name: Describe original reports
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib
+          root = pathlib.Path(os.environ["RUNNER_TEMP"])
+          for mode in ("normal", "optimized"):
+              path = root / ("g11-census-" + mode + ".json")
+              if not path.is_file():
+                  print("CENSUS_REPORT_MISSING", mode)
+                  continue
+              raw = path.read_bytes()
+              data = json.loads(raw)
+              print("CENSUS_REPORT", json.dumps({"mode":mode,"sha256":hashlib.sha256(raw).hexdigest(),
+                  "bytes":len(raw),"commit":data["commit"],"status":data["status"],
+                  "files":data["files"],"tracked":data["tracked"],"skipped":data["skipped"],
+                  "failing":data["failing"],"failing_tools":data["failing_tools"]}, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: cbz-composed-g11-census-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/g11-census-normal.json
+            ${{ runner.temp }}/g11-census-optimized.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Report original census outcomes
+        if: always()
+        shell: bash
+        env:
+          NORMAL: ${{ steps.normal.outcome }}
+          OPTIMIZED: ${{ steps.optimized.outcome }}
+        run: |
+          printf 'normal=%s optimized=%s\n' "$NORMAL" "$OPTIMIZED"
+          test "$NORMAL" = success && test "$OPTIMIZED" = success

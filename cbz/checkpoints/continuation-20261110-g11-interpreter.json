@@ -1,14 +1,18 @@
 {
   "date": "2026-11-10",
   "kind": "source-bound continuation; not CBZ or terminal partial",
-  "main_default": "964390a94c08f00f119dc3b2e0be16180c1544e2",
+  "main_default": "d291b42801a26252a046d8ca78a6bd62abc448ae",
   "workspace_default": "47221adf89749dc226e8e3578af2f8fd7c16ea20",
   "workspace_main_pin": "964390a94c08f00f119dc3b2e0be16180c1544e2",
   "draft": {
     "pr": 804,
-    "head": "709975c6ff42f0bca020abd4164a45479e29a0df",
-    "tree": "b5aea45ffcc05cb51b0b088b8f96b7a24478c240",
-    "state": "draft; exact candidate census and required checks in progress"
+    "head": "16b4e198a5799e0e1a40b7032e6b6d4d1e981c2f",
+    "tree": "0653510713b14da67c0d3746aee854d47c4ed869",
+    "parents": [
+      "d291b42801a26252a046d8ca78a6bd62abc448ae",
+      "709975c6ff42f0bca020abd4164a45479e29a0df"
+    ],
+    "state": "draft; exact recomposed census and required checks not yet observed"
   },
   "component": {
     "source_commit": "764d20556eafbf61b373fbf10be859c0ed4c8475",
@@ -63,8 +67,10 @@
     "limitation": "interpreter flaw was subsequently demonstrated"
   },
   "next": [
-    "Observe normal required checks on #804 and recheck current refs before normal integration.",
-    "After integration, refresh Workspace pin against current Main; no final G7 or G11 from scoped observations."
+    "Run exact recomposed #804 census and observe required checks; prior 709 census is source-bound and not final qualification.",
+    "Fresh-head compare and normal integration only after checks; recheck peer #807 and current refs.",
+    "Refresh Workspace pin after Main integration; current Workspace pin predates #806 and is stale.",
+    "Do not claim final federation G7, G11 or CBZ from component observations."
   ],
   "math": "No historical mathematical statement or kernel result was rebound. Scientific review and acceptance are not inferred.",
   "sealed_inventory": {
@@ -74,7 +80,15 @@
     "old_definition": "cbz/evidence/g11-interpreter-target-missing-20261110/original-harness.py.txt",
     "note": "328 mutation names retained; one target and replacement explicitly adapted, prior bytes preserved; do not claim all original definitions unchanged."
   },
-  "candidate_census": {
+  "pin_snapshot": {
+    "at": "2026-11-10T06:04:00.821Z--06:04:01.796Z",
+    "non_atomic": true,
+    "workspace": "47221adf89749dc226e8e3578af2f8fd7c16ea20",
+    "result": "eight gitlinks match manifest and observed default refs; eight pinned commits resolved; three Main PRs open",
+    "evidence": "cbz/evidence/integration-guards-20261110/workspace-pin-observation-0604.json",
+    "final_g7": false
+  },
+  "prior_candidate_census": {
     "run": 42765914053,
     "debug_head": "37988420c8f53a77aabc9571d198495caa4c115c",
     "status_at_observation": "completed SUCCESS, normal and optimized; 1505 scanned files, 6026 tracked leaves, zero findings, failing tools and skips",
@@ -87,13 +101,5 @@
       "git_blob": "854bd833b6bb07699829ce2ad0533b26d43019a8",
       "git_readback": "byte-identical"
     }
-  },
-  "pin_snapshot": {
-    "at": "2026-11-10T06:04:00.821Z--06:04:01.796Z",
-    "non_atomic": true,
-    "workspace": "47221adf89749dc226e8e3578af2f8fd7c16ea20",
-    "result": "eight gitlinks match manifest and observed default refs; eight pinned commits resolved; three Main PRs open",
-    "evidence": "cbz/evidence/integration-guards-20261110/workspace-pin-observation-0604.json",
-    "final_g7": false
   }
 }
