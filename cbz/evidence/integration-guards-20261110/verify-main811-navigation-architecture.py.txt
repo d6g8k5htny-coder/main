@@ -1,0 +1,94 @@
+import hashlib
+import json
+import pathlib
+import zipfile
+
+root = pathlib.Path('/workspace/scratch/7abea556a9be/cbz_browser_observation')
+commit = 'ec3eb3479d654643cb93b4c9dcc074b6ba71cc7b'
+tree = '4325c6a77c1de42f19413ae80e8d63eb04f75409'
+sandbox = (
+    'test_kernel_enforces_cpu_memory_and_process_limits',
+    'test_network_namespace_has_no_external_interface_or_route',
+    'test_nonroot_and_no_new_privileges',
+    'test_output_quota_stops_disk_exhaustion_and_cleanup_recovers_space',
+    'test_source_mount_is_read_only_and_environment_has_no_publishing_secret',
+)
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def check_zip(path, expected_size, expected_sha, count):
+    raw = path.read_bytes()
+    if len(raw) != expected_size or sha(raw) != expected_sha:
+        raise ValueError('archive identity: ' + path.name)
+    z = zipfile.ZipFile(path)
+    names = z.namelist()
+    if len(names) != count or len(set(names)) != count or z.testzip() is not None:
+        raise ValueError('archive members or CRC: ' + path.name)
+    return z
+
+
+nav_path = root / 'main811-navigation-13745131152.zip'
+with check_zip(nav_path, 72378, '89d11af457865d82886198f12e2f684534167deae65d3c07e3de24371ab39272', 7) as z:
+    if z.read('commit.txt').decode().strip() != commit:
+        raise ValueError('navigation source')
+    log = z.read('tests-normal.log').decode()
+    if ('Ran 2774 tests in ' not in log or 'OK (skipped=23)' not in log
+            or sum(' ... skipped ' in x for x in log.splitlines()) != 23):
+        raise ValueError('normal discovery population')
+    history = z.read('history-reader.log').decode()
+    graph = z.read('graph525-optimized.log').decode()
+    if ('Ran 20 tests in ' not in history or not history.rstrip().endswith('OK')
+            or 'Ran 1 test in ' not in graph or not graph.rstrip().endswith('OK')
+            or ' ... skipped ' in history or ' ... skipped ' in graph):
+        raise ValueError('targeted navigation populations')
+    nav = json.loads(z.read('navigation.json'))
+    if nav['problems']:
+        raise ValueError('navigation problems')
+
+arch_path = root / 'main811-architecture-13744299574.zip'
+with check_zip(arch_path, 49480, '881f337abda47710f9e5781ab148553dcc434a50d004b8157de3ae3d8d2dd095', 13) as z:
+    if (z.read('checked-commit.txt').decode().strip() != commit
+            or z.read('run-id.txt').decode().strip() != '42777106338'
+            or z.read('run-attempt.txt').decode().strip() != '1'
+            or z.read('container-exit-status.txt').decode().strip() != '0'):
+        raise ValueError('architecture execution identity')
+    receipt = json.loads(z.read('architecture-run-receipt.json'))
+    if receipt['checked_commit'] != commit or receipt['run_id'] != '42777106338':
+        raise ValueError('architecture receipt identity')
+    for name, expected in receipt['evidence_file_sha256'].items():
+        if sha(z.read(name)) != expected:
+            raise ValueError('receipt hash: ' + name)
+    listed = {}
+    for line in z.read('ARTIFACT_SHA256SUMS').decode().splitlines():
+        digest, name = line.split('  ', 1)
+        if name in listed or sha(z.read(name)) != digest:
+            raise ValueError('artifact hash: ' + name)
+        listed[name] = digest
+    if set(listed) != set(z.namelist()) - {'ARTIFACT_SHA256SUMS'}:
+        raise ValueError('artifact hash coverage')
+    for mode in ('normal', 'optimized'):
+        text = z.read('tests-' + mode + '.log').decode()
+        if ('Ran 363 tests in ' not in text or not text.rstrip().endswith('OK')
+                or ' ... skipped ' in text or 'skipped=' in text):
+            raise ValueError('architecture test population')
+        for name in sandbox:
+            if not any(line.startswith(name + ' (') and line.endswith(' ... ok')
+                       for line in text.splitlines()):
+                raise ValueError('sandbox case absent: ' + name)
+
+out = {
+    'tested_merge': commit, 'tested_tree': tree,
+    'navigation': {'run': 42777106470, 'job': 129698079942, 'artifact': 13745131152,
+                   'sha256': '89d11af457865d82886198f12e2f684534167deae65d3c07e3de24371ab39272',
+                   'tests': 2774, 'skips': 23, 'history_reader': 20, 'optimized_graph': 1},
+    'architecture': {'run': 42777106338, 'job': 129698076892, 'artifact': 13744299574,
+                     'sha256': '881f337abda47710f9e5781ab148553dcc434a50d004b8157de3ae3d8d2dd095',
+                     'tests_per_mode': 363, 'skips': 0, 'selected_sandbox_cases_per_mode': 5,
+                     'artifact_hashes': 12},
+    'scope': 'source-bound component observations; selected executions do not erase discovery skips or establish final G5',
+}
+(root / 'main811-navigation-architecture-verification.json').write_text(json.dumps(out, indent=2) + '\n')
+print(json.dumps(out))
