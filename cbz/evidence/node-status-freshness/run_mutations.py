@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Bounded, non-destructive assertion-only mutation experiment; no math certification."""
+import ast
 import json
 import os
 from pathlib import Path
@@ -201,6 +202,24 @@ def baseline_ok(result, test_id):
     return (_common(result, test_id) and result.get('child_exit') == 0
             and result.get('failure_count') == 0 and not result['events'])
 
+def legacy_main_parts(source):
+    """Select the one historical function span without changing other source."""
+    functions = [node for node in ast.parse(source).body
+                 if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+                 and node.name == "legacy_main"]
+    if (len(functions) != 1 or type(functions[0]) is not ast.FunctionDef
+            or functions[0].decorator_list or functions[0].col_offset != 0):
+        raise RuntimeError("expected one undecorated top-level legacy_main")
+    function = functions[0]
+    body = ast.get_source_segment(source, function)
+    start = sum(len(line) for line in source.splitlines(keepends=True)[:function.lineno - 1])
+    if type(body) is not str or source[start:start + len(body)] != body:
+        raise RuntimeError("legacy_main AST source span differs")
+    if body.count("if problems:") != 1:
+        raise RuntimeError("nonunique legacy_main schema-preflight anchor")
+    return source[:start], body, source[start + len(body):]
+
+
 def main():
     rows=[]
     with tempfile.TemporaryDirectory() as tmp:
@@ -216,12 +235,17 @@ def main():
         module=dest/'tools/node_status_refresh.py'; original=module.read_text()
         for optimized in (False,True):
             for name,old,new,method in CASES:
-                if original.count(old)!=1: raise RuntimeError('nonunique mutation: '+name)
+                if name == 'schema-preflight':
+                    prefix, body, suffix = legacy_main_parts(original)
+                    mutated = prefix + body.replace(old, new, 1) + suffix
+                else:
+                    if original.count(old)!=1: raise RuntimeError('nonunique mutation: '+name)
+                    mutated = original.replace(old,new)
                 module.write_text(original)
                 test_id='tests.test_node_status_freshness.ContentTests.'+method
                 baseline=run_selected(dest,test_id,optimized)
                 if not baseline_ok(baseline,test_id): raise RuntimeError('baseline failed or vacuous: '+json.dumps(baseline))
-                module.write_text(original.replace(old,new))
+                module.write_text(mutated)
                 result=run_selected(dest,test_id,optimized)
                 killed=qualified_kill(result,test_id)
                 rows.append(dict(name=name,optimized=optimized,killed=killed,

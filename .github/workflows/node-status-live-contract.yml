@@ -55,6 +55,24 @@ jobs:
           set -euo pipefail
           python3 -B -O -S -m unittest tests.test_node_status_live_cli -v 2>&1 | tee "$RUNNER_TEMP/node-status-live-cli-optimized.log"
           grep -Eq '^Ran 20 tests in ' "$RUNNER_TEMP/node-status-live-cli-optimized.log"
+      - name: Run independent Q9006 v2 receipt oracles normally
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B -S -m unittest tests.test_living_project_validation.Q9006V2OracleTests -v 2>&1 | tee "$RUNNER_TEMP/q9006-v2-oracles-normal.log"
+          grep -Eq '^Ran 7 tests in ' "$RUNNER_TEMP/q9006-v2-oracles-normal.log"
+          grep -Eq '^OK$' "$RUNNER_TEMP/q9006-v2-oracles-normal.log"
+          if grep -Eiq 'skipped|expected failure|unexpected success' "$RUNNER_TEMP/q9006-v2-oracles-normal.log"; then exit 1; fi
+      - name: Run independent Q9006 v2 receipt oracles optimized
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B -O -S -m unittest tests.test_living_project_validation.Q9006V2OracleTests -v 2>&1 | tee "$RUNNER_TEMP/q9006-v2-oracles-optimized.log"
+          grep -Eq '^Ran 7 tests in ' "$RUNNER_TEMP/q9006-v2-oracles-optimized.log"
+          grep -Eq '^OK$' "$RUNNER_TEMP/q9006-v2-oracles-optimized.log"
+          if grep -Eiq 'skipped|expected failure|unexpected success' "$RUNNER_TEMP/q9006-v2-oracles-optimized.log"; then exit 1; fi
       - name: Retain original contract logs
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -65,6 +83,8 @@ jobs:
             ${{ runner.temp }}/node-status-live-contract-optimized.log
             ${{ runner.temp }}/node-status-live-cli-normal.log
             ${{ runner.temp }}/node-status-live-cli-optimized.log
+            ${{ runner.temp }}/q9006-v2-oracles-normal.log
+            ${{ runner.temp }}/q9006-v2-oracles-optimized.log
           if-no-files-found: warn
 
   live-freshness:
@@ -121,18 +141,14 @@ jobs:
           MODE = "normal"
           OPTIMIZE = 0
           TEST_ID = "tests.test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head"
-          SOURCES = (
-              "tools/node_status_live_check.py",
-              "tools/node_status_refresh.py",
-              "tools/validate_node_status.py",
-              "architecture/node-status.schema.json",
-              "docs/site/current.json",
-              "records/node_status/eng.d0-packet-allowlist-fix.json",
-              "records/node_status/eng.hard-gate.json",
-              "records/node_status/math.lifetime-remainder.json",
-              "records/node_status/math.side24-coefficient.json",
-              "tests/test_living_project_validation.py",
+          BOOTSTRAP = (
+              "tools/node_status_live_check.py", "tools/node_status_refresh.py",
+              "tools/node_status_v1.py", "tools/validate_node_status.py",
+              "architecture/node-status.schema.json", "architecture/node-status-v1.schema.json",
+              "architecture/node-status-inputs.json", "docs/site/current.json",
+              "docs/site/dependency-source/GRAPH.json",
           )
+          TEST_SOURCE = "tests/test_living_project_validation.py"
           root = pathlib.Path(os.environ["GITHUB_WORKSPACE"])
           temporary = pathlib.Path(os.environ["RUNNER_TEMP"])
           prefix = "q9006-original-" + MODE
@@ -168,7 +184,7 @@ jobs:
               require(result.returncode == 0, "native source Git read failed")
               return result.stdout
           
-          def capture():
+          def capture_paths(paths):
               require(root.is_absolute() and root.resolve() == root and root.is_dir(),
                       "canonical checked source root required")
               require(os.environ.get("GITHUB_ACTIONS") == "true"
@@ -194,8 +210,8 @@ jobs:
               tree = git("rev-parse", "--verify", "HEAD^{tree}").decode().strip()
               require(commit == native["checked_commit"]
                       and re.fullmatch(r"[0-9a-f]{40}", tree), "checked native HEAD/tree differ")
-              bindings = {}
-              for relative in SOURCES:
+              bindings, originals = {}, {}
+              for relative in paths:
                   path = root
                   for part in pathlib.PurePosixPath(relative).parts:
                       path = path / part
@@ -218,7 +234,7 @@ jobs:
                           and mode in ("100644", "100755")
                           and re.fullmatch(r"[0-9a-f]{40}", identity),
                           "selected committed source identity differs")
-                  working_mode = "100755" if before.st_mode & stat.S_IXUSR else "100644"
+                  working_mode = "100755" if before.st_mode & 0o111 else "100644"
                   require(working_mode == mode and raw == git("cat-file", "blob", identity),
                           "working source bytes or mode differ from committed source")
                   require(hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
@@ -226,10 +242,40 @@ jobs:
                   bindings[relative] = {"git_blob": identity, "git_mode": mode,
                                         "working_mode": working_mode, "bytes": len(raw),
                                         "sha256": hashlib.sha256(raw).hexdigest()}
-              require(git("rev-parse", "--verify", "HEAD^{commit}").decode().strip() == commit,
-                      "checked HEAD changed during capture")
-              return {"identity": native, "checked_commit": commit, "checked_tree": tree,
-                      "source_count": len(bindings), "source_bindings": bindings}
+                  originals[relative] = raw
+              require(git("rev-parse", "--verify", "HEAD^{commit}").decode().strip() == commit
+                      and git("rev-parse", "--verify", "HEAD^{tree}").decode().strip() == tree,
+                      "checked HEAD/tree changed during capture")
+              return ({"identity": native, "checked_commit": commit, "checked_tree": tree,
+                       "source_count": len(bindings), "source_bindings": bindings}, originals)
+
+          def capture():
+              # Bind all reviewed bootstrap originals BEFORE executing the test helper.
+              bootstrap, originals = capture_paths((*BOOTSTRAP, TEST_SOURCE))
+              namespace = {"__name__": "_q9006_bound_expectations",
+                           "__file__": str(root / TEST_SOURCE), "__package__": ""}
+              exec(compile(originals[TEST_SOURCE], str(root / TEST_SOURCE), "exec",
+                           dont_inherit=True), namespace)
+              require(tuple(namespace["_Q9006_BOOTSTRAP"]) == BOOTSTRAP,
+                      "bound helper cannot extend bootstrap/import policy")
+              expected = namespace["_q9006_capture_current"](root, bootstrap["identity"])
+              complete, final_originals = capture_paths((*sorted(expected["files"]), TEST_SOURCE))
+              require(complete["identity"] == bootstrap["identity"]
+                      and complete["checked_tree"] == bootstrap["checked_tree"]
+                      and all(final_originals[path] == originals[path]
+                              for path in (*BOOTSTRAP, TEST_SOURCE)),
+                      "bootstrap/test originals changed before complete capture")
+              compact = {path: {key: complete["source_bindings"][path][key]
+                                 for key in ("git_blob", "git_mode", "sha256")}
+                         for path in complete["source_bindings"] if path != TEST_SOURCE}
+              require(namespace["_q9006_same"](compact, expected["files"]),
+                      "complete independently derived CLI source set/values differ")
+              complete["profile"] = expected["manifest"]["profile"]
+              complete["record_versions"] = {node: row["schema_version"]
+                                              for node, row in expected["records"].items()}
+              complete["declared_statuses"] = {node: row["status"]
+                                                for node, row in expected["records"].items()}
+              return complete
           
           before = after = None
           failures = []
@@ -278,7 +324,7 @@ jobs:
               require(log_path.stat().st_size <= 4 * 1024 * 1024, "bounded original unittest log required")
               raw = log_path.read_bytes()
               text = raw.decode("utf-8")
-              print("Q9006_ORIGINAL_UNITTEST_LOG " + json.dumps(text), flush=True)
+              # Full original bytes are emitted once, after aggregate readback preflight.
               nonempty = [line for line in text.splitlines() if line.strip()]
               expected = TEST_ID.rsplit(".", 1)[1] + " (" + TEST_ID + ") ... ok"
               if (len(nonempty) != 4 or nonempty[0] != expected
@@ -313,18 +359,14 @@ jobs:
           MODE = "optimized"
           OPTIMIZE = 1
           TEST_ID = "tests.test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head"
-          SOURCES = (
-              "tools/node_status_live_check.py",
-              "tools/node_status_refresh.py",
-              "tools/validate_node_status.py",
-              "architecture/node-status.schema.json",
-              "docs/site/current.json",
-              "records/node_status/eng.d0-packet-allowlist-fix.json",
-              "records/node_status/eng.hard-gate.json",
-              "records/node_status/math.lifetime-remainder.json",
-              "records/node_status/math.side24-coefficient.json",
-              "tests/test_living_project_validation.py",
+          BOOTSTRAP = (
+              "tools/node_status_live_check.py", "tools/node_status_refresh.py",
+              "tools/node_status_v1.py", "tools/validate_node_status.py",
+              "architecture/node-status.schema.json", "architecture/node-status-v1.schema.json",
+              "architecture/node-status-inputs.json", "docs/site/current.json",
+              "docs/site/dependency-source/GRAPH.json",
           )
+          TEST_SOURCE = "tests/test_living_project_validation.py"
           root = pathlib.Path(os.environ["GITHUB_WORKSPACE"])
           temporary = pathlib.Path(os.environ["RUNNER_TEMP"])
           prefix = "q9006-original-" + MODE
@@ -360,7 +402,7 @@ jobs:
               require(result.returncode == 0, "native source Git read failed")
               return result.stdout
           
-          def capture():
+          def capture_paths(paths):
               require(root.is_absolute() and root.resolve() == root and root.is_dir(),
                       "canonical checked source root required")
               require(os.environ.get("GITHUB_ACTIONS") == "true"
@@ -386,8 +428,8 @@ jobs:
               tree = git("rev-parse", "--verify", "HEAD^{tree}").decode().strip()
               require(commit == native["checked_commit"]
                       and re.fullmatch(r"[0-9a-f]{40}", tree), "checked native HEAD/tree differ")
-              bindings = {}
-              for relative in SOURCES:
+              bindings, originals = {}, {}
+              for relative in paths:
                   path = root
                   for part in pathlib.PurePosixPath(relative).parts:
                       path = path / part
@@ -410,7 +452,7 @@ jobs:
                           and mode in ("100644", "100755")
                           and re.fullmatch(r"[0-9a-f]{40}", identity),
                           "selected committed source identity differs")
-                  working_mode = "100755" if before.st_mode & stat.S_IXUSR else "100644"
+                  working_mode = "100755" if before.st_mode & 0o111 else "100644"
                   require(working_mode == mode and raw == git("cat-file", "blob", identity),
                           "working source bytes or mode differ from committed source")
                   require(hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
@@ -418,10 +460,40 @@ jobs:
                   bindings[relative] = {"git_blob": identity, "git_mode": mode,
                                         "working_mode": working_mode, "bytes": len(raw),
                                         "sha256": hashlib.sha256(raw).hexdigest()}
-              require(git("rev-parse", "--verify", "HEAD^{commit}").decode().strip() == commit,
-                      "checked HEAD changed during capture")
-              return {"identity": native, "checked_commit": commit, "checked_tree": tree,
-                      "source_count": len(bindings), "source_bindings": bindings}
+                  originals[relative] = raw
+              require(git("rev-parse", "--verify", "HEAD^{commit}").decode().strip() == commit
+                      and git("rev-parse", "--verify", "HEAD^{tree}").decode().strip() == tree,
+                      "checked HEAD/tree changed during capture")
+              return ({"identity": native, "checked_commit": commit, "checked_tree": tree,
+                       "source_count": len(bindings), "source_bindings": bindings}, originals)
+
+          def capture():
+              # Bind all reviewed bootstrap originals BEFORE executing the test helper.
+              bootstrap, originals = capture_paths((*BOOTSTRAP, TEST_SOURCE))
+              namespace = {"__name__": "_q9006_bound_expectations",
+                           "__file__": str(root / TEST_SOURCE), "__package__": ""}
+              exec(compile(originals[TEST_SOURCE], str(root / TEST_SOURCE), "exec",
+                           dont_inherit=True), namespace)
+              require(tuple(namespace["_Q9006_BOOTSTRAP"]) == BOOTSTRAP,
+                      "bound helper cannot extend bootstrap/import policy")
+              expected = namespace["_q9006_capture_current"](root, bootstrap["identity"])
+              complete, final_originals = capture_paths((*sorted(expected["files"]), TEST_SOURCE))
+              require(complete["identity"] == bootstrap["identity"]
+                      and complete["checked_tree"] == bootstrap["checked_tree"]
+                      and all(final_originals[path] == originals[path]
+                              for path in (*BOOTSTRAP, TEST_SOURCE)),
+                      "bootstrap/test originals changed before complete capture")
+              compact = {path: {key: complete["source_bindings"][path][key]
+                                 for key in ("git_blob", "git_mode", "sha256")}
+                         for path in complete["source_bindings"] if path != TEST_SOURCE}
+              require(namespace["_q9006_same"](compact, expected["files"]),
+                      "complete independently derived CLI source set/values differ")
+              complete["profile"] = expected["manifest"]["profile"]
+              complete["record_versions"] = {node: row["schema_version"]
+                                              for node, row in expected["records"].items()}
+              complete["declared_statuses"] = {node: row["status"]
+                                                for node, row in expected["records"].items()}
+              return complete
           
           before = after = None
           failures = []
@@ -470,7 +542,7 @@ jobs:
               require(log_path.stat().st_size <= 4 * 1024 * 1024, "bounded original unittest log required")
               raw = log_path.read_bytes()
               text = raw.decode("utf-8")
-              print("Q9006_ORIGINAL_UNITTEST_LOG " + json.dumps(text), flush=True)
+              # Full original bytes are emitted once, after aggregate readback preflight.
               nonempty = [line for line in text.splitlines() if line.strip()]
               expected = TEST_ID.rsplit(".", 1)[1] + " (" + TEST_ID + ") ... ok"
               if (len(nonempty) != 4 or nonempty[0] != expected
@@ -497,18 +569,34 @@ jobs:
           set -euo pipefail
           python3 -I -B -S - <<'PY'
           import hashlib, json, os, pathlib, re, secrets, stat, subprocess, sys
-          LIMIT = 4 * 1024 * 1024
+          LIMIT = 2 * 1024 * 1024
           workspace = pathlib.Path(os.environ["GITHUB_WORKSPACE"])
           temporary = pathlib.Path(os.environ["RUNNER_TEMP"])
           errors = []
           context = None
           directory = None
-          command_marker = None
-          
+          helpers = None
+          bound = None
+
           def require(value, message):
               if not value:
                   raise ValueError(message)
-          
+
+          def source_git(*arguments):
+              environment = {key: value for key, value in os.environ.items()
+                             if not key.startswith("GIT_")}
+              environment.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
+                                 GIT_NO_REPLACE_OBJECTS="1", GIT_OPTIONAL_LOCKS="0",
+                                 GIT_NO_LAZY_FETCH="1", GIT_TERMINAL_PROMPT="0")
+              result = subprocess.run(
+                  ["git", "--no-replace-objects", "--literal-pathspecs",
+                   "-c", "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null",
+                   "-C", str(workspace), *arguments],
+                  env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                  timeout=30, check=False)
+              require(result.returncode == 0, "native Git read failed")
+              return result.stdout
+
           def source_context():
               require(os.environ.get("GITHUB_ACTIONS") == "true"
                       and os.environ.get("GITHUB_REPOSITORY") == "d6g8k5htny-coder/main",
@@ -524,51 +612,118 @@ jobs:
                               for name in ("run_id", "run_attempt")),
                       "native commit/run identities required")
               require(workspace.is_absolute() and workspace.resolve() == workspace
-                      and not temporary.is_relative_to(workspace), "canonical source/external evidence required")
-              environment = {key: value for key, value in os.environ.items()
-                             if not key.startswith("GIT_")}
-              environment.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
-                                 GIT_NO_REPLACE_OBJECTS="1", GIT_OPTIONAL_LOCKS="0",
-                                 GIT_NO_LAZY_FETCH="1", GIT_TERMINAL_PROMPT="0")
-              def git(argument):
-                  result = subprocess.run(
-                      ["git", "--no-replace-objects", "-c", "core.fsmonitor=false",
-                       "-c", "core.hooksPath=/dev/null", "-C", str(workspace),
-                       "rev-parse", "--verify", argument],
-                      env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                      timeout=30, check=False)
-                  require(result.returncode == 0, "native Git read failed")
-                  return result.stdout.decode("ascii").strip()
-              require(git("HEAD^{commit}") == native["checked_commit"], "native checked HEAD differs")
-              native["checked_tree"] = git("HEAD^{tree}")
-              require(re.fullmatch(r"[0-9a-f]{40}", native["checked_tree"]), "native checked tree required")
+                      and not temporary.is_relative_to(workspace),
+                      "canonical source/external evidence required")
+              require(source_git("rev-parse", "--show-toplevel").decode().strip() == str(workspace)
+                      and source_git("rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+                      == native["checked_commit"], "native source HEAD/top-level differs")
+              native["checked_tree"] = source_git(
+                  "rev-parse", "--verify", "HEAD^{tree}").decode("ascii").strip()
+              require(re.fullmatch(r"[0-9a-f]{40}", native["checked_tree"]),
+                      "native checked tree required")
               return native
-          
-          def read_original(name):
+
+          def source_original(relative, native):
+              row = source_git("ls-tree", "--full-tree", "-z",
+                               native["checked_commit"], "--", relative)
+              require(row.count(b"\0") == 1 and row.endswith(b"\0"), "one source object required")
+              metadata, name = row[:-1].split(b"\t", 1)
+              mode, kind, blob = metadata.decode("ascii").split(" ")
+              require(name == relative.encode("ascii") and kind == "blob"
+                      and mode in ("100644", "100755")
+                      and re.fullmatch(r"[0-9a-f]{40}", blob), "source bootstrap path/mode differs")
+              size = source_git("cat-file", "-s", blob).decode("ascii").strip()
+              require(size.isdecimal() and int(size) <= 2_000_000, "bounded bootstrap object required")
+              selected = os.open(workspace, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              descriptor = None
+              try:
+                  parts = relative.split("/")
+                  for part in parts[:-1]:
+                      following = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                                          dir_fd=selected)
+                      os.close(selected)
+                      selected = following
+                  descriptor = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                                       dir_fd=selected)
+                  with os.fdopen(descriptor, "rb") as stream:
+                      descriptor = None
+                      before = os.fstat(stream.fileno())
+                      require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
+                              and before.st_size <= 2_000_000
+                              and bool(before.st_mode & 0o111) == (mode == "100755"),
+                              "physical bootstrap original differs")
+                      raw = stream.read(2_000_001)
+                      after = os.fstat(stream.fileno())
+                  current = os.stat(parts[-1], dir_fd=selected, follow_symlinks=False)
+                  fields = ("st_dev", "st_ino", "st_mode", "st_nlink",
+                            "st_size", "st_mtime_ns", "st_ctime_ns")
+                  require(all(getattr(before, field) == getattr(observed, field)
+                              for observed in (after, current) for field in fields)
+                          and len(raw) == before.st_size <= 2_000_000,
+                          "bootstrap original changed during read")
+              finally:
+                  if descriptor is not None:
+                      os.close(descriptor)
+                  os.close(selected)
+              require(raw == source_git("cat-file", "blob", blob)
+                      and hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+                      == blob, "bootstrap native/working bytes differ")
+              return raw
+
+          def load_bound_helpers(native):
+              # Independent fixed bootstrap; no manifest-selected executable/helper path.
+              bootstrap = (
+                  "tools/node_status_live_check.py", "tools/node_status_refresh.py",
+                  "tools/node_status_v1.py", "tools/validate_node_status.py",
+                  "architecture/node-status.schema.json", "architecture/node-status-v1.schema.json",
+                  "architecture/node-status-inputs.json", "docs/site/current.json",
+                  "docs/site/dependency-source/GRAPH.json",
+              )
+              test_path = "tests/test_living_project_validation.py"
+              originals = {relative: source_original(relative, native)
+                           for relative in (*bootstrap, test_path)}
+              require(source_context() == native, "source changed before helper execution")
+              namespace = {"__name__": "_q9006_bound_readback",
+                           "__file__": str(workspace / test_path), "__package__": ""}
+              exec(compile(originals[test_path], str(workspace / test_path), "exec",
+                           dont_inherit=True), namespace)
+              require(tuple(namespace["_Q9006_BOOTSTRAP"]) == bootstrap
+                      and namespace["_Q9006_READBACK_LIMIT"] == LIMIT,
+                      "bound helper cannot extend bootstrap or evidence budget")
+              identity = {key: native[key] for key in
+                          ("repository", "checked_commit", "run_id", "run_attempt")}
+              identity["python_optimize"] = sys.flags.optimize
+              captured = namespace["_q9006_capture_current"](workspace, identity)
+              require(all(captured["raw"][path] == originals[path] for path in bootstrap)
+                      and source_context() == native, "complete native source capture differs")
+              return namespace, captured, identity, originals[test_path]
+
+          def read_original(name, remaining):
               descriptor = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
                                    dir_fd=directory)
               try:
                   before = os.fstat(descriptor)
                   require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
-                          and before.st_size <= LIMIT, "bounded original regular file required")
+                          and before.st_size <= remaining, "aggregate bounded original required")
                   raw = bytearray()
-                  while len(raw) <= LIMIT:
-                      part = os.read(descriptor, min(65536, LIMIT + 1 - len(raw)))
+                  while len(raw) <= remaining:
+                      part = os.read(descriptor, min(65536, remaining + 1 - len(raw)))
                       if not part:
                           break
                       raw.extend(part)
                   after = os.fstat(descriptor)
+                  current = os.stat(name, dir_fd=directory, follow_symlinks=False)
                   fields = ("st_dev", "st_ino", "st_mode", "st_nlink",
                             "st_size", "st_mtime_ns", "st_ctime_ns")
-                  require(tuple(getattr(before, field) for field in fields)
-                          == tuple(getattr(after, field) for field in fields)
-                          and len(raw) == before.st_size <= LIMIT, "original changed during read")
+                  require(all(getattr(before, field) == getattr(observed, field)
+                              for observed in (after, current) for field in fields)
+                          and len(raw) == before.st_size <= remaining, "original changed during read")
                   raw = bytes(raw)
                   raw.decode("utf-8")
                   return raw
               finally:
                   os.close(descriptor)
-          
+
           try:
               require(temporary.is_absolute() and temporary.resolve() == temporary,
                       "absolute canonical evidence directory required")
@@ -584,38 +739,36 @@ jobs:
                   raise
               directory = selected_directory
               context = source_context()
-              command_marker = secrets.token_hex(24)
-              print("::stop-commands::" + command_marker, flush=True)
-              for mode in ("normal", "optimized"):
-                  for suffix in (".json", ".stdout.log", ".stderr.log", ".exit.json"):
-                      name = "q9006-real-record-" + mode + suffix
-                      try:
-                          raw = read_original(name)
-                          separator = b"" if raw.endswith(b"\n") else b"\n"
-                          marker = {"file": name, "mode": mode, "context": context,
-                                    "encoding": "utf-8", "bytes": len(raw),
-                                    "sha256": hashlib.sha256(raw).hexdigest(),
-                                    "boundary_separator_bytes": len(separator)}
-                          print("Q9006_ORIGINAL_BYTES_BEGIN " + json.dumps(marker, sort_keys=True),
-                                flush=True)
-                          sys.stdout.buffer.write(raw)
-                          sys.stdout.buffer.write(separator)
-                          sys.stdout.buffer.flush()
-                          print("Q9006_ORIGINAL_BYTES_END " + json.dumps(marker, sort_keys=True),
-                                flush=True)
-                      except Exception as error:
-                          record = {"file": name, "exception_type": type(error).__name__}
-                          errors.append(record)
-                          print("Q9006_ORIGINAL_BYTES_ERROR " + json.dumps(record, sort_keys=True),
-                                flush=True)
-              require(source_context() == context, "native source context changed during printing")
+              helpers, bound, identity, test_original = load_bound_helpers(context)
+              originals, used = {}, 0
+              for name, mode in helpers["_q9006_readback_names"]():
+                  try:
+                      raw = read_original(name, LIMIT - used)
+                      used += len(raw)
+                      originals[name] = raw
+                  except Exception as error:
+                      errors.append({"file": name, "exception_type": type(error).__name__})
+              require(not errors, "complete original readback preflight refused")
+              # All 24 originals AND complete markers/separators share this one budget.
+              payload = helpers["_q9006_readback_payload"](originals, context, secrets.token_hex(24))
+              require(len(payload) <= LIMIT and source_context() == context,
+                      "aggregate readback/source preflight differs")
+              again = helpers["_q9006_capture_current"](workspace, identity)
+              require(again["files"] == bound["files"]
+                      and source_original("tests/test_living_project_validation.py", context) == test_original,
+                      "source/test original changed before original visibility")
+              sys.stdout.buffer.write(payload)
+              sys.stdout.buffer.flush()
+              require(source_context() == context, "native source changed during printing")
+              final = helpers["_q9006_capture_current"](workspace, identity)
+              require(final["files"] == bound["files"]
+                      and source_original("tests/test_living_project_validation.py", context) == test_original,
+                      "source/test original changed during original visibility")
           except Exception as error:
-              record = {"file": None, "exception_type": type(error).__name__}
-              errors.append(record)
-              print("Q9006_ORIGINAL_BYTES_ERROR " + json.dumps(record, sort_keys=True), flush=True)
+              errors.append({"file": None, "exception_type": type(error).__name__})
+              print("Q9006_ORIGINAL_BYTES_ERROR " + json.dumps(
+                  {"context": context, "errors": errors}, sort_keys=True), flush=True)
           finally:
-              if command_marker is not None:
-                  print("::" + command_marker + "::", flush=True)
               if directory is not None:
                   try:
                       descriptor = os.open("q9006-original-normal-receipt-visibility-errors.json",

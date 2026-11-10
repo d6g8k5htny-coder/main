@@ -52,7 +52,18 @@ async function validate(record) {
   const name = `${record.node_id}.json`;
   const path = join(directory, name);
   await writeFile(path, JSON.stringify(record));
-  const result = python(['tools/validate_node_status.py', directory]);
+  const result = python(['-c', [
+    'from pathlib import Path',
+    'import sys',
+    'sys.path.insert(0, "tools")',
+    'from validate_node_status import validate_directory',
+    'problems = validate_directory(Path.cwd(), Path(sys.argv[1]))',
+    'for problem in problems:',
+    '    print(problem, file=sys.stderr)',
+    'if problems:',
+    '    raise SystemExit(1)',
+    'print(f"node-status records valid: {sys.argv[1]}")',
+  ].join('\n'), directory]);
   const saved = JSON.parse(await readFile(path, 'utf8'));
   await rm(directory, {recursive: true, force: true});
   return {...result, saved};
