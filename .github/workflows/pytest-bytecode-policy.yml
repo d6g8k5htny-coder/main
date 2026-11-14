@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
         with:
           python-version: '3.11'
       - name: Bind native sources and prepare genuine hashlocked pytest
@@ -291,7 +291,7 @@ jobs:
           python -I -B -S "$POLICY_EVIDENCE/driver.py" qualify
       - name: Retain original setup, runtime, child evidence, logs and exits
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: pytest-bytecode-policy-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/pytest-policy-${{ github.run_id }}-${{ github.run_attempt }}/
