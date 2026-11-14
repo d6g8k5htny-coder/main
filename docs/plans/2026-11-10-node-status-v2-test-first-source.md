@@ -451,3 +451,16 @@ data adoption, current HTTP freshness, science, G5 or CBZ credit follows.
 
 Linked source-plan continuation: https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/e111e594746ecad185349cfe0a7d8285d2c6e5cb
 Continuation-only text: https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/96698e831f6542e67d6b45e932946066f72d2b69
+
+
+## Task4 Stage4A: original dependency and artifact RED
+
+This source proposal starts from merged Main 5819d5536b300436792c56dc3ad247006c97f170, tree c1a5ee039e641ce9a3125ab7b2747ce9621d6051. It replaces only the two original dependency/artifact skip blocks with ordinary nonempty assertions. IDs, canonical loaders, following dependency/path checks and every other module byte remain exact. The four canonical records, projection, production tools, schemas and Graph are unchanged.
+
+Root's retained [local receipt](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/281cc2d5f0a2e2c7bab7957780afcbde754a491f) records both actual modes: the original baseline had five OK and two skips; the proposed bodies had five OK and two ordinary FAIL, native exit 1, no errors/skips. Failures occur at the original bodies' new assertions, lines 832/839. This local Python 3.12.14 evidence does not qualify the unexecuted hosted observer.
+
+The existing workflow preserves Atlas/current-validator commands and selects exactly seven original IDs in fresh same-Python normal/optimized children. Its fixed nineteen native source/data originals, complete four-record directory, absent namespace initializer and selected bytecode-cache absence are bound before/after. Large source bodies and the two fixed workflow-literal helpers stay in the artifact; all seventeen printed originals plus framing share one 2 MiB limit. Ordinary failure exits stay failures. Upload explicitly includes the fixed .github source original. Fetch depth zero supports the separate later historical-ancestor check.
+
+The [complete source ledger](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/32b1ad2790d3ce7803bb4a1928598157b40af592) contains both full forward/inverse diffs, source map and syntax checks; [workflow source](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/601d9df5cbde35a236973fa993a46070a86c6624) and living module 276902524c812e3a625dcd3c8a7c84fdc691157a are unreferenced proposals. This narrow workflow establishes checked-byte custody and a reviewed static import/read boundary, not a runtime census of every open/import. No new tracked utility, profile/audit-hook framework or expected-RED green wrapper is added.
+
+Stage4B six-edge/three-artifact/reader strengthening (73480f24243ab128a2c8f51b446028a8199dfed1) and actual-nine adoption remain separate. The Stage4A guard deliberately freezes four records/nineteen inputs; later data requires an explicit reviewed nine-record/twenty-four-input update. Hosted ordinary-body RED must be retained and reviewed before data adoption. No current remote freshness, owner, scientific, G5 or CBZ-0 qualification follows. Candidate/ref/PR/run actions remain outside this source proposal.

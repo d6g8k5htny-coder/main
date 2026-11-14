@@ -1916,3 +1916,25 @@ Root and independent source/document gates precede one fresh guarded candidate;
 actual fixed controls, mutation drivers, V1, Q9006 and fresh V2 remain unobserved.
 Reader9088 stays separate. No production/data/owner/schema/Graph/projection
 change, Ready/merge, current HTTP, G5, CBZ or scientific award. Scientific_effect NONE.
+
+
+## B-002 — Task4 Stage4A original dependency/artifact RED source proposal
+
+- Date: 2026-11-10 UTC.
+- Phase: Task4 Stage4A source preparation; hosted RED pending.
+- Layer: B, operational tests and workflow retention; scientific_effect NONE.
+- Action: Propose only the original two skip-to-assertion blocks and existing node-status workflow changes, plus this append and the owned plan append. Preserve Atlas/current-validator commands; retain seven ordinary original methods in both modes with native nineteen-input before/after bindings, separate full streams/exits and one 2 MiB framed readback. No production/data/schema/Graph/projection/site-asset change.
+- Rationale: Missing actual dependency/artifact declarations must fail inside their original test bodies. Use the narrow existing workflow and reviewed static read map; avoid a new profile/audit-hook framework. Its fixed four-record boundary requires an explicit reviewed nine-record/twenty-four-input migration before later adoption.
+- Evidence: [Root local actual baseline/RED receipt](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/281cc2d5f0a2e2c7bab7957780afcbde754a491f) records five OK/two ordinary FAIL/native 1 without errors/skips in normal/O after the two changes. [Whole source/diff/map ledger](https://api.github.com/repos/d6g8k5htny-coder/main/git/blobs/32b1ad2790d3ce7803bb4a1928598157b40af592) binds module 27690252 and workflow 601d9df5, exact forward/inverse and syntax-only checks. Accepted requirements 17a2de0b / plan 557e3d17 govern; later Stage4B 73480f24 is not integrated. Hosted observer results, data adoption, current-source freshness and final gates are unobserved here.
+- Reversibility: Both exact source inverses are retained; remove only these owned append suffixes to restore the complete Main prefixes. No candidate/ref/PR/run or owner/status action is authorized by this source record.
+
+
+## B-002 — Publish the isolated current-adoption test-first draft
+
+- Date: 2026-11-10 19:25:23 UTC.
+- Phase: reversible Stage4A candidate publication; actual hosted RED pending.
+- Layer: C, engineering integration decision; scientific_effect NONE.
+- Action: Root selects the reviewed two-assertion module27690252 and existing-workflow601d9df5 at Main5819d553 for an ordinary isolated draft PR. The complete6274 other Main leaves and canonical document prefixes are preserved. This is a source-bound judgment under current AGENTS; peer review is reported with its actual status and does not substitute for native execution.
+- Rationale: local exact-seven commands in normal/optimized Python3.12.14 changed five passes/two skips into five passes/two ordinary failures, exit1, at missing dependency/artifact declarations. The unchanged Atlas suite ran10/10 without skips and current validator exited0. Workflow shell/Python syntax and complete source/diff/mode/hash bindings were checked; nine whitespace-only lines were normalized with identical parsed workflow scalars and helper bytes.
+- Evidence: source packet175be874e14b37bcba174365c294cd019448cf6b; source ledger32b1ad2790d3ce7803bb4a1928598157b40af592; local RED receipt281cc2d5f0a2e2c7bab7957780afcbde754a491f. Native hosted original outcomes must be retained and read before the separate data/reader composition. No new Main, owner, freshness, G5, CBZ or scientific qualification is asserted.
+- Reversibility: preserve this candidate and original streams; update only the isolated feature with fresh expected-head guards. Ready and ordinary strict merge require the completed data/reader changes and applicable current checks. No force or rule bypass.
