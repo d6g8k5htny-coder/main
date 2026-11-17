@@ -2,7 +2,7 @@
 
 Use [AGENTS.md](AGENTS.md), [CBZ-0 governance](GOVERNANCE.md) (the current
 authority) and the active coordination board,
-[main #738](https://github.com/d6g8k5htny-coder/main/issues/738). The
+[main #819](https://github.com/d6g8k5htny-coder/main/issues/819) (predecessor [#738](https://github.com/d6g8k5htny-coder/main/issues/738); its leases and claims remain valid). The
 [prior workflow](governance/OP-WORKFLOW-20260930.md) is historical where it
 conflicts.
 The same owner delegation and scope coordination apply to every participating
